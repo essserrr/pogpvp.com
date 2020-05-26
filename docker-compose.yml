@@ -1,0 +1,112 @@
+version: "3"
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+    bolt_data: {}
+    log_data: {}
+    letsencrypt: {}
+
+services:
+  simulator:
+    container_name: simulator
+    volumes:
+        - bolt_data:/app/boltDB
+        - log_data:/app/logs/
+    build: .
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.simulator.rule=Host(`pogpvp.com`)"
+      - "traefik.http.routers.simulator.tls=true"
+      - "traefik.http.routers.simulator.entrypoints=websecure"
+      - "traefik.http.routers.simulator.tls.certresolver=myresolver"
+      - "traefik.port=8080"
+    ports:
+      - 8181:8181
+
+
+  prometheus:
+    image: "prom/prometheus"
+    container_name: prometheus
+    volumes:
+     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+     - prometheus_data:/prometheus
+    command: "--config.file=/etc/prometheus/prometheus.yml --web.enable-admin-api --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries --storage.tsdb.path=/prometheus --storage.tsdb.retention=168h --storage.tsdb.retention.size=2GB"
+    restart: always
+    deploy:
+        resources:
+          limits:
+            cpus: '0.10'
+            memory: 45M
+    expose:
+      - 9090
+    ports:
+     - "9090:9090"
+    depends_on:
+      - simulator
+
+
+
+  grafana:
+    image: "grafana/grafana"
+    container_name: grafana
+    #environment:
+      #- GF_INSTALL_PLUGINS=https://github.com/raintank/crate-datasource/archive/master.zip;crate-datasource,grafana-clock-panel,grafana-worldmap-panel,natel-plotly-panel
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`graph.pogpvp.com`)"
+      - "traefik.http.routers.grafana.tls=true"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls.certresolver=myresolver"
+      - "traefik.port=3000"
+    restart: always
+    volumes:
+        - grafana_data:/var/lib/grafana
+        - ./grafana/datasources:/etc/grafana/datasources
+        - ./grafana/dashboards:/etc/grafana/dashboards
+        - ./grafana/setup.sh:/setup.sh
+    deploy:
+        resources:
+          limits:
+            cpus: '0.10'
+            memory: 50M
+    depends_on:
+      - prometheus
+
+  traefik:
+        image: "traefik:v2.2"
+        container_name: "traefik"
+        command:
+          #- "--log.level=DEBUG"
+          - "--providers.docker=true"
+          - "--entrypoints.web.address=:80"
+          - "--entrypoints.websecure.address=:443"
+          - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+          #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+          - "--certificatesresolvers.myresolver.acme.email=blizzz93@gmail.com"
+          - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+        ports:
+          - "80:80"
+          - "443:443"
+        labels:
+          #middleware compressor
+         - "traefik.http.middlewares.test-compress.compress=true"
+         # middleware redirect  
+         - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"  
+         # global redirect to https  
+         - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"  
+         - "traefik.http.routers.redirs.entrypoints=web"  
+         - "traefik.http.routers.redirs.middlewares=redirect-to-https"  
+        volumes:
+          - "letsencrypt:/letsencrypt/"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
+        logging:
+          options:
+                # It generates quite a lot of logs when traefik.toml's log level is set to debug, so let's not keep it all
+              max-size: '25m'
+              max-file: '3'
+        depends_on:
+            - prometheus
+            - simulator
+            - grafana

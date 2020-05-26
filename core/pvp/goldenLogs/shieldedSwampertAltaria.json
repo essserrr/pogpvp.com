@@ -1,0 +1,477 @@
+[
+ {
+  "Round": 0,
+  "Attacker": {
+   "HP": 107,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 63,
+   "Energy": 3,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 1,
+  "Attacker": {
+   "HP": 104,
+   "Energy": 3,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 61,
+   "Energy": 6,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 2,
+  "Attacker": {
+   "HP": 101,
+   "Energy": 6,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 59,
+   "Energy": 9,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 3,
+  "Attacker": {
+   "HP": 98,
+   "Energy": 9,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 57,
+   "Energy": 12,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 4,
+  "Attacker": {
+   "HP": 95,
+   "Energy": 12,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 55,
+   "Energy": 15,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 5,
+  "Attacker": {
+   "HP": 92,
+   "Energy": 15,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 53,
+   "Energy": 18,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 6,
+  "Attacker": {
+   "HP": 89,
+   "Energy": 18,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 51,
+   "Energy": 21,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 7,
+  "Attacker": {
+   "HP": 86,
+   "Energy": 21,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 49,
+   "Energy": 24,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 8,
+  "Attacker": {
+   "HP": 83,
+   "Energy": 24,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 47,
+   "Energy": 27,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 9,
+  "Attacker": {
+   "HP": 80,
+   "Energy": 27,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 45,
+   "Energy": 30,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 10,
+  "Attacker": {
+   "HP": 77,
+   "Energy": 30,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 43,
+   "Energy": 33,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 11,
+  "Attacker": {
+   "HP": 74,
+   "Energy": 33,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 41,
+   "Energy": 36,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 12,
+  "Attacker": {
+   "HP": 71,
+   "Energy": 36,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 39,
+   "Energy": 39,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 13,
+  "Attacker": {
+   "HP": 68,
+   "Energy": 39,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 37,
+   "Energy": 42,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 14,
+  "Attacker": {
+   "HP": 65,
+   "Energy": 42,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 35,
+   "Energy": 45,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 15,
+  "Attacker": {
+   "HP": 7,
+   "Energy": 2,
+   "ActionName": "Hydro Cannon",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": true,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 4,
+   "Energy": 0,
+   "ActionName": "Sky Attack",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 16,
+  "Attacker": {
+   "HP": 4,
+   "Energy": 5,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 2,
+   "Energy": 3,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 17,
+  "Attacker": {
+   "HP": 1,
+   "Energy": 8,
+   "ActionName": "Water Gun",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 0,
+   "Energy": 6,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 18,
+  "Attacker": {
+   "HP": 1,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 0,
+   "Energy": 6,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ }
+]

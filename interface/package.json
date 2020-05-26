@@ -1,0 +1,60 @@
+{
+  "name": "interface",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.5.4",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/react-transition-group": "^4.2.4",
+    "bootstrap": "^4.4.1",
+    "mdbreact": "^4.25.3",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.0",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-collapse": "^5.0.1",
+    "react-dom": "^16.13.0",
+    "react-helmet": "^6.0.0",
+    "react-localization": "^1.0.15",
+    "react-router-dom": "^5.1.2",
+    "react-router-sitemap": "^1.2.0",
+    "react-scripts": "3.4.0",
+    "react-select": "^3.0.8",
+    "react-spinners": "^0.8.1",
+    "react-tooltip": "^4.1.0",
+    "react-transition-group": "1.x"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "predeploy": "npm run sitemap",
+    "build": "react-scripts build",
+    "postbuild": "rimraf build/**/*.map",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "sitemap": "babel-node src/sitemap/generator.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0"
+  }
+}

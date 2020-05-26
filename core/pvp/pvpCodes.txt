@@ -1,0 +1,46 @@
+log codes
+0 - idle between quick moves
+1 - quick move
+11 - charge move used
+
+//deprecated
+2 - hp before a hit
+3 - damage
+4 - hp after a hit
+5 - energy after a hit
+7 - got a free hit
+
+12 - trigger effect didn`t triggered
+13 - attack trigger effect
+14 - defence trigger effect
+15 - shields remained after a shield is used
+100 - win
+101 - tie
+
+treeVal codes 
+0 - skip a move
+1 - use a move
+10 - skip a shield
+11 - use a shield
+100 - win
+101 - tie 
+
+types data codes
+bug - 0
+dark - 1
+dragon - 2
+electric - 3
+fairy - 4
+fighting - 5
+fire - 6
+flying - 7
+ghost - 8
+grass - 9
+ground - 10
+ice - 11
+normal - 12
+poison - 13
+psyhic - 14
+rock - 15
+steel - 16
+water - 17
