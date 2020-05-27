@@ -45,14 +45,14 @@ class RaidsList extends React.Component {
         var reason = ""
 
         let fetches = [
-            fetch(((process.env.REACT_APP_LOCALHOST) ? process.env.REACT_APP_LOCALHOST : "") + "/db/pokemons", {
+            fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip',
                 },
             }),
-            fetch(((process.env.REACT_APP_LOCALHOST) ? process.env.REACT_APP_LOCALHOST : "") + "/db/raids", {
+            fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/raids", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

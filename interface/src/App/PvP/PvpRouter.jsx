@@ -10,7 +10,6 @@ const PvpRouter = () => (
         <Route path='/pvp/:type/:league/:pok1/:pok2' component={PvpPage} />
         <Route path='/pvp/:type/' component={PvpPage} />
         <Route path='/pvp/:type/*' component={PvpPage} />
-        <Route path='/pvp' component={PvpPage} />
     </Switch>
 
 )

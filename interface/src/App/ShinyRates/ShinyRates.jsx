@@ -40,7 +40,7 @@ class ShinyRates extends React.Component {
             loading: true,
         })
         var reason = ""
-        var response = await fetch(((process.env.REACT_APP_LOCALHOST) ? process.env.REACT_APP_LOCALHOST : "") + "/db/shiny", {
+        var response = await fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/shiny", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -116,14 +116,14 @@ class PvpPage extends React.Component {
         var extractedData = extractData(league, pok1, pok2)
         var reason = ""
         let fetches = [
-            fetch(((process.env.REACT_APP_LOCALHOST) ? process.env.REACT_APP_LOCALHOST : "") + "/db/pokemons", {
+            fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip',
                 },
             }),
-            fetch(((process.env.REACT_APP_LOCALHOST) ? process.env.REACT_APP_LOCALHOST : "") + "/db/moves", {
+            fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ class PvpPage extends React.Component {
             //after opening the page get pokemonBase
         ];
         if (extractedData.attacker !== undefined && extractedData.defender !== undefined) {
-            fetches.push(fetch(((process.env.REACT_APP_LOCALHOST) ? process.env.REACT_APP_LOCALHOST : "") + window.location.pathname.replace("pvp", "request").replace("/pvpoke", ""), {
+            fetches.push(fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + window.location.pathname.replace("pvp", "request").replace("/pvpoke", ""), {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
