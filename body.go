@@ -43,6 +43,7 @@ type App struct {
 	pvpSrv     *http.Server
 
 	semistaticBuckets []string
+	botsList          []string
 }
 
 type pageMetrics struct {
@@ -72,6 +73,10 @@ func createApp(withLog *os.File) (*App, error) {
 		app App
 		err error
 	)
+	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot",
+		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
+		"telegrambot"}
+
 	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING"}
 	//create/open bases
 	err = app.semistaticDatabase.createDatabase("./semistatic.db", "BOLTDB", app.semistaticBuckets)
@@ -324,17 +329,72 @@ func checkLimits(RemoteAddr, limiterType string, ipLocations *prometheus.Counter
 	return nil
 }
 
+func (a *App) checkBot(str string) bool {
+	for _, sub := range a.botsList {
+		if strings.Contains(str, sub) {
+			return true
+		}
+	}
+	return false
+}
+
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check if method is allowed
-	if r.Method != http.MethodGet {
-		return errors.NewHTTPError(nil, 405, "Method not allowed")
+	if r.Method != http.MethodGet && r.Method != http.MethodPost {
+		return errors.NewHTTPError(nil, 405, "Method not allowed: "+r.Method)
 	}
 	//Check visitor's requests limit
 	err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations)
 	if err != nil {
 		return err
 	}
-	http.ServeFile(*w, r, "./interface/build/index.html")
+	agent := r.Header.Get("User-Agent")
+	isBot := app.checkBot(strings.ToLower(agent))
+
+	if !isBot {
+		http.ServeFile(*w, r, "./interface/build/200.html")
+		return nil
+	}
+
+	s := strings.Split(r.RequestURI, "/")
+	switch s[1] {
+	case "":
+		http.ServeFile(*w, r, "./interface/build/index.html")
+	case "news":
+		if len(s) < 3 {
+			http.ServeFile(*w, r, "./interface/build/index.html")
+			return nil
+		}
+		switch s[2] {
+		case "id":
+			http.ServeFile(*w, r, "./interface/build/news/id/index.html")
+		default:
+			http.ServeFile(*w, r, "./interface/build/index.html")
+		}
+	case "pvp":
+		if len(s) < 3 {
+			http.ServeFile(*w, r, "./interface/build/404.html")
+			return nil
+		}
+		switch s[2] {
+		case "matrix":
+			http.ServeFile(*w, r, "./interface/build/pvp/matrix/index.html")
+		default:
+			http.ServeFile(*w, r, "./interface/build/pvp/single/index.html")
+		}
+	case "pvprating":
+		http.ServeFile(*w, r, "./interface/build/pvprating/index.html")
+	case "shinyrates":
+		http.ServeFile(*w, r, "./interface/build/shinyrates/index.html")
+	case "evolution":
+		http.ServeFile(*w, r, "./interface/build/evolution/index.html")
+	case "raids":
+		http.ServeFile(*w, r, "./interface/build/raids/index.html")
+	case "eggs":
+		http.ServeFile(*w, r, "./interface/build/eggs/index.html")
+	default:
+		http.ServeFile(*w, r, "./interface/build/404.html")
+	}
 	return nil
 }
 
