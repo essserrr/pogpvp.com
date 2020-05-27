@@ -3,7 +3,7 @@ import React from "react";
 
 const Checkbox = React.memo(function Pokemon(props) {
     return (
-        <div className="form-check form-check-inline m-0 p-0">
+        <div className={props.class ? props.class : "form-check form-check-inline m-0 p-0"}>
             <input
                 onChange={props.onChange}
                 checked={props.checked}

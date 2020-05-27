@@ -37,6 +37,7 @@ class URL extends React.PureComponent {
 
                 <div className="url input-group input-group-sm">
                     <LabelPrepend
+                        tipClass="infoTip"
                         label={this.props.label}
 
                         for={this.props.for}

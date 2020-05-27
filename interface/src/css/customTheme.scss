@@ -385,7 +385,8 @@
 //tips styles
 
 .strategyTips {
-        width: 13rem !important;
+    font-size: 12pt !important;
+        max-width: 13rem !important;
         text-align: justify !important;
         text-justify: inter-word !important;
         color: #ffffff !important;
@@ -401,6 +402,7 @@
    }
 
 .logItems {
+    font-size: 12pt !important;
     text-align: justify !important;
     text-justify: inter-word !important;
     color: #ffffff !important;
@@ -417,6 +419,10 @@
 }
 
 .infoTip {
+    max-width: 15rem !important;
+    font-size: 12pt !important;
+    text-align: justify !important;
+        text-justify: inter-word !important;
     color: #ffffff !important;
     padding: 0.2rem !important;
     font-weight: normal !important;
@@ -439,6 +445,7 @@
     padding-left: 0.2em;
     padding-right: 0.2em;
 
+    font-size: 12pt !important;
     font-weight: 400;
 
     background-color: rgba(0, 0, 0, 0.836);
@@ -799,7 +806,7 @@ body {
     padding-top: 0.2rem !important;
     padding-bottom: 0.2rem !important;
 
-    font-size: 0.5rem !important;
+    font-size: 0.6rem !important;
 }
 
 .langButton {
@@ -1312,4 +1319,8 @@ body {
         0px 0px 4px rgba(0, 187, 255, 0.774),
         0px 0px 8px rgba(0, 187, 255, 0.705),
         0px 0px 16px rgba(0, 187, 255, 0.11);
+}
+
+.padding325 {
+    padding-top: 0.75rem !important;
 }

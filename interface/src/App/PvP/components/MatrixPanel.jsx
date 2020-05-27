@@ -45,12 +45,12 @@ class MatrixPanel extends React.PureComponent {
                 <option value="false" key="Shieldsaving">{strings.options.strategy.shieldSaving}</option>,
             ],
             strategyTip: [
-                <small key="strategyTip">
+                <div key="strategyTip">
                     {strings.tips.strategy.greedy}
                     <br />
                     <br />
                     {strings.tips.strategy.shieldSaving}
-                </small>
+                </div>
             ],
             pokemon: pokemon(strings.tips.nameSearch),
         };
@@ -445,10 +445,10 @@ class MatrixPanel extends React.PureComponent {
                     label={strings.title.savedparties}
                     for=''
                 />
-                <div className="row  justify-content-around mx-0 px-0 pt-2 pb-0" >
+                <div className="row  justify-content-around mx-0 px-0 pb-0 padding325" >
 
                     <SubmitButton
-                        class="saveinterface btn btn-primary btn-sm  mx-0 col-5"
+                        class="saveinterface btn btn-primary btn-sm mx-0 col-5"
                         attr={this.props.attr}
                         stat={"showSavePanel"}
                         action="Save"

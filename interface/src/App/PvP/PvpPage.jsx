@@ -305,8 +305,8 @@ class PvpPage extends React.Component {
                     <meta property="twitter:description" content={this.state.description} />
                 </Helmet>
                 <div className=" container-fluid pt-2 pt-md-2 mb-5">
-                    <div className="row justify-content-center">
-                        <div className="col-auto results p-2">
+                    <div className="row justify-content-center m-0 p-0">
+                        <div className="col-auto results  p-2  ">
                             <div className="row d-flex p-0 m-0">
                                 <div className="col-6 m-0 p-0">
                                     <SelectGroup
@@ -319,8 +319,9 @@ class PvpPage extends React.Component {
                                         for=""
                                     />
                                 </div>
-                                <div className="col-6 m-0 p-0 pl-3 align-self-center">
+                                <div className="col-6 m-0 p-0 align-self-center">
                                     <Checkbox
+                                        class={"form-check form-check-inline m-0 p-0 ml-4"}
                                         checked={this.state.pvppoke ? "checked" : false}
                                         name={"pvppoke"}
                                         label={
@@ -328,7 +329,7 @@ class PvpPage extends React.Component {
                                                 {strings.title.pvpoke}
                                                 <i data-tip data-for={"pvppoke"} className="fas fa-info-circle ml-1">
                                                     <ReactTooltip
-                                                        className={"strategyTips"}
+                                                        className={"infoTip"}
                                                         id={"pvppoke"} effect='solid'
                                                         place={"top"}
                                                         multiline={true}
