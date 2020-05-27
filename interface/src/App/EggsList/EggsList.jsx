@@ -56,14 +56,14 @@ class EggsList extends React.Component {
         var reason = ""
 
         let fetches = [
-            fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip',
                 },
             }),
-            fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/eggs", {
+            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/eggs", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -199,7 +199,7 @@ class EggsList extends React.Component {
                                     label="5 km (25 km)"
                                 />
                             </div>}
-                            {this.state.eggsList && <div className="row mx-1 justify-content-center font-weight-bolder">
+                            {this.state.eggsList && <div className="row mt-1 mx-1 justify-content-center font-weight-bolder">
                                 <Checkbox
                                     onChange={this.onShowRegionals}
                                     value={this.state.regionals}
@@ -275,9 +275,8 @@ function returnRaidsList(tierList, pokTable, showReg) {
                 <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-2"}>
                     <PokemonCard
                         class={"pokEggCard  m-0 p-0"}
-
                         name={
-                            <div className=" text-center">
+                            <div className="text-center">
                                 <>{name}</>
                                 {regionals[name] &&
                                     <i data-tip data-for={name} className="fas fa-info-circle ml-1">

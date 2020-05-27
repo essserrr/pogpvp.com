@@ -368,7 +368,7 @@ class SinglePvp extends React.PureComponent {
             loading: true,
         });
         var reason = ""
-        const response = await fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/single/" + url, {
+        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/single/" + url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -579,7 +579,7 @@ class SinglePvp extends React.PureComponent {
             this.state.result.Log[this.state.constructor.isSelected - 1].Defender);
 
         var reason = ""
-        const response = await fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/constructor", {
+        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/constructor", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

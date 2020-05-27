@@ -22,9 +22,11 @@ export const locale = {
         shinyrates: {
             searchplaceholder: "Search name",
             pokname: "Name",
-            rate: "Statistics",
+            rate1: "Statis",
+            rate2: "tics",
             rateest: "Rate",
-            checks: "Sample"
+            checks: "Sample",
+            tip: "Estimated shiny rate based on the current sample size",
         },
 
         options: {
@@ -243,9 +245,12 @@ export const locale = {
         shinyrates: {
             searchplaceholder: "Поиск по имени",
             pokname: "Имя",
-            rate: "Статистика",
+            rate1: "Статис",
+            rate2: "тика",
             rateest: "Шанс",
-            checks: "Выборка"
+            checks: "Выборка",
+            tip: "Оценочный шанс на шайни исходя из текущей выборки",
+
         },
 
         options: {
@@ -414,7 +419,7 @@ export const locale = {
 
         tierlist: {
             raidtier: "Уровень",
-            boosted: "CP с бустом:\xa0",
+            boosted: "Погодное:\xa0",
             eggs: "Яйца",
             regionals: "Показать регионалок",
         },

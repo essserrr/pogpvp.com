@@ -380,7 +380,7 @@ class MatrixPvp extends React.PureComponent {
             loading: true,
         })
         var reason = ""
-        const response = await fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/matrix", {
+        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/matrix", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

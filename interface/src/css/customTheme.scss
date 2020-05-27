@@ -652,7 +652,9 @@ div :focus {
 .font100 {
     font-size: 100% !important;
 }
-
+.font12 {
+    font-size: 12px !important;
+}
 
 //background
 body { 
@@ -702,8 +704,8 @@ body {
 }
 
 .type {
-    padding: 0.15rem;
-    font-size: 80%;
+    padding: 0.15rem 0.15rem 0.15rem 0.15rem;
+    font-size: 85%;
     @include backgrounds;
 }
 
@@ -971,6 +973,9 @@ body {
 
 .fixFirstRow {  position: sticky; left: 0; background-color: #e9ecef; z-index: 1;}
 
+
+
+
 //footer
 body {
     min-height: 100vh;
@@ -990,8 +995,31 @@ body {
     color: black;
     text-align: center;
     width: 100%;
-    font-size: 45%;
+    font-size: 12px !important;
   }
+
+  @media (max-width: 1200px) { 
+    body {
+        padding-bottom: 30px;
+    }
+ }
+ @media (max-width: 992px) { 
+    body {
+        padding-bottom: 40px;
+    }
+ }
+ @media (max-width: 768px) { 
+    body {
+        padding-bottom: 50px;
+    }
+ }
+
+ @media (max-width: 576px) { 
+    body {
+        padding-bottom: 85px;
+    }
+ }
+
 
 //icons sizes
 .icon24 {
@@ -1027,13 +1055,13 @@ body {
 }
 .cardHeader {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.295) ;
-    font-size: 70%;
+    font-size: 12px !important;
     font-weight: 400;
 }
 
 .cardBody {
     max-width: 143px !important;
-    font-size: 70%;
+    font-size: 12px;
     font-weight: 400;
 }
 
@@ -1052,7 +1080,7 @@ body {
 
 .eggCardBody {
     max-width: 93px !important;
-    font-size: 70%;
+    font-size: 12px;
     font-weight: 400;
 }
 

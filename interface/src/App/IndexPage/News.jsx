@@ -47,7 +47,7 @@ class News extends React.Component {
             loading: true,
         })
         var reason = ""
-        let response = await fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/id/" + this.props.match.params.id, {
+        let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/id/" + this.props.match.params.id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

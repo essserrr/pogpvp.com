@@ -55,7 +55,7 @@ class MainPage extends React.Component {
         if (this.props.match.params.number) {
             pageNumber = this.props.match.params.number
         }
-        let response = await fetch(((navigator.userAgent != "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/page/" + pageNumber, {
+        let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/page/" + pageNumber, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
