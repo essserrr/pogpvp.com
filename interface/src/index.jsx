@@ -8,9 +8,14 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
 
+const rootElement = document.getElementById("root");
 
-ReactDom.render((
-    <BrowserRouter>
+if (rootElement.hasChildNodes()) {
+    ReactDom.hydrate(<BrowserRouter>
         <App />
-    </BrowserRouter >
-), document.getElementById('root'))
+    </BrowserRouter >, rootElement);
+} else {
+    ReactDom.render(<BrowserRouter>
+        <App />
+    </BrowserRouter >, rootElement);
+}

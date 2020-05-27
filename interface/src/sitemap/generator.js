@@ -9,7 +9,7 @@ const Sitemap = require("react-router-sitemap").default;
 function generateSitemap() {
     return (
         new Sitemap(router)
-            .build(((process.env.REACT_APP_LOCALHOST) ? process.env.REACT_APP_LOCALHOST : "https://pogpvp.com"))
+            .build("https://pogpvp.com")
             .save("./public/sitemap/sitemap.xml")
     );
 }
