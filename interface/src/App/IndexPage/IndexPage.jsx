@@ -124,14 +124,17 @@ class MainPage extends React.Component {
         return (
             <>
                 <Helmet>
+                    <link rel="canonical" href="https://pogpvp.com/" />
+
                     <title>{strings.pageheaders.main}</title>
-                    <meta name="title" content={strings.pageheaders.main} />
                     <meta name="description" content={strings.pagedescriptions.main} />
 
                     <meta property="og:title" content={strings.pageheaders.main} />
+                    <meta property="og:url" content="https://pogpvp.com/"></meta>
                     <meta property="og:description" content={strings.pagedescriptions.main} />
 
                     <meta property="twitter:title" content={strings.pageheaders.main} />
+                    <meta property="twitter:url" content="https://pogpvp.com/"></meta>
                     <meta property="twitter:description" content={strings.pagedescriptions.main} />
                 </Helmet>
                 <div className=" container-fluid mt-3 mb-5">

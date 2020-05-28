@@ -129,14 +129,17 @@ class EggsList extends React.Component {
         return (
             <>
                 <Helmet>
+                    <link rel="canonical" href="https://pogpvp.com/eggs" />
+
                     <title>{strings.pageheaders.eggs}</title>
-                    <meta name="title" content={strings.pageheaders.eggs} />
                     <meta name="description" content={strings.pagedescriptions.eggs} />
 
                     <meta property="og:title" content={strings.pageheaders.eggs} />
+                    <meta property="og:url" content="https://pogpvp.com/eggs"></meta>
                     <meta property="og:description" content={strings.pagedescriptions.eggs} />
 
                     <meta property="twitter:title" content={strings.pageheaders.eggs} />
+                    <meta property="twitter:url" content="https://pogpvp.com/eggs"></meta>
                     <meta property="twitter:description" content={strings.pagedescriptions.eggs} />
                 </Helmet>
                 <div className=" container-fluid mt-3 mb-5">

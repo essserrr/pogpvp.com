@@ -62,7 +62,7 @@ export function calculateMaximizedStats(name, lvlCap, data, options) {
     var legendaries = ["Articuno", "Zapdos", "Moltres", "Mewtwo", "Raikou", "Entei", "Suicune", "Lugia", "Ho-Oh", "Regirock",
         "Regice", "Registeel", "Latias", "Latios", "Kyogre", "Groudon", "Rayquaza", "Dialga", "Palkia", "Heatran", "Regigigas",
         "Uxie", "Mesprit", "Azelf", "Giratina (Altered Forme)", "Giratina (Origin Forme)", "Cresselia", "Cobalion", "Terrakion",
-        "Virizion", "Thundurus  (Incarnate Forme)", "Thundurus (Therian Forme)", "Tornadus (Incarnate Forme)",
+        "Virizion", "Thundurus (Incarnate Forme)", "Thundurus (Therian Forme)", "Tornadus (Incarnate Forme)",
         "Tornadus (Therian Forme)", "Landorus (Incarnate Forme)", "Landorus (Therian Forme)", "Reshiram", "Zekrom", "Kyurem",
         "Black Kyurem", "White Kyurem", "Armored Mewtwo"
     ]

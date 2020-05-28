@@ -112,14 +112,17 @@ class RaidsList extends React.Component {
         return (
             <>
                 <Helmet>
+                    <link rel="canonical" href="https://pogpvp.com/raids" />
+
                     <title>{strings.pageheaders.raids}</title>
-                    <meta name="title" content={strings.pageheaders.raids} />
                     <meta name="description" content={strings.pagedescriptions.raids} />
 
                     <meta property="og:title" content={strings.pageheaders.raids} />
+                    <meta property="og:url" content="https://pogpvp.com/raids"></meta>
                     <meta property="og:description" content={strings.pagedescriptions.raids} />
 
                     <meta property="twitter:title" content={strings.pageheaders.raids} />
+                    <meta property="twitter:url" content="https://pogpvp.com/raids"></meta>
                     <meta property="twitter:description" content={strings.pagedescriptions.raids} />
                 </Helmet>
                 <div className=" container-fluid mt-3 mb-5">

@@ -97,14 +97,17 @@ class PvpPage extends React.Component {
             case "single":
                 var title = strings.pageheaders.single;
                 var description = strings.pagedescriptions.single;
+                var urlSEO = "https://pogpvp.com/pvp/single";
                 break
             case "matrix":
                 title = strings.pageheaders.matrix;
                 description = strings.pagedescriptions.matrix;
+                urlSEO = "https://pogpvp.com/pvp/matrix";
                 break
             default:
                 title = strings.pageheaders.single;
                 description = strings.pagedescriptions.single;
+                urlSEO = "https://pogpvp.com/pvp/single";
                 break
         }
         this.setState({
@@ -112,6 +115,7 @@ class PvpPage extends React.Component {
             title: title,
             pvppoke: simtype === "pvpoke" ? true : false,
             description: description,
+            urlSEO: urlSEO,
         })
         var extractedData = extractData(league, pok1, pok2)
         var reason = ""
@@ -294,20 +298,24 @@ class PvpPage extends React.Component {
         return (
             <>
                 <Helmet>
+                    <link rel="canonical" href={this.state.urlSEO} />
+
                     <title>{this.state.title}</title>
-                    <meta name="title" content={this.state.title} />
-                    <meta name="description" content={this.state.description} />
+                    <meta name="description" content={this.state.description} ></meta>
 
-                    <meta property="og:title" content={this.state.title} />
-                    <meta property="og:description" content={this.state.description} />
+                    <meta property="og:title" content={this.state.title}  ></meta>
+                    <meta property="og:url" content={this.state.urlSEO}></meta>
+                    <meta property="og:description" content={this.state.description} ></meta>
 
-                    <meta property="twitter:title" content={this.state.title} />
-                    <meta property="twitter:description" content={this.state.description} />
+
+                    <meta property="twitter:title" content={this.state.title} ></meta>
+                    <meta property="twitter:url" content={this.state.urlSEO}></meta>
+                    <meta property="twitter:description" content={this.state.description} ></meta>
                 </Helmet>
                 <div className=" container-fluid pt-2 pt-md-2 mb-5">
-                    <div className="row justify-content-center m-0 p-0">
-                        <div className="col-auto results  p-2  ">
-                            <div className="row d-flex p-0 m-0">
+                    <div className="row justify-content-center px-1">
+                        <div className="col-12 results mediumWidth p-2  m-0">
+                            <div className="row d-flex m-0 p-0">
                                 <div className="col-6 m-0 p-0">
                                     <SelectGroup
                                         name="league"

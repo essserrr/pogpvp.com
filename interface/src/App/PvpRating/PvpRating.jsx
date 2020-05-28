@@ -322,14 +322,17 @@ class PvpRating extends React.Component {
         return (
             <>
                 <Helmet>
+                    <link rel="canonical" href="https://pogpvp.com/pvprating" />
+
                     <title>{strings.pageheaders.pvprating}</title>
-                    <meta name="title" content={strings.pageheaders.pvprating} />
                     <meta name="description" content={strings.pagedescriptions.pvprating} />
 
                     <meta property="og:title" content={strings.pageheaders.pvprating} />
+                    <meta property="og:url" content="https://pogpvp.com/pvprating"></meta>
                     <meta property="og:description" content={strings.pagedescriptions.pvprating} />
 
                     <meta property="twitter:title" content={strings.pageheaders.pvprating} />
+                    <meta property="twitter:url" content="https://pogpvp.com/pvprating"></meta>
                     <meta property="twitter:description" content={strings.pagedescriptions.pvprating} />
                 </Helmet>
                 <div className=" container-fluid mt-3 mb-5">

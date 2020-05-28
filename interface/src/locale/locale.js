@@ -55,13 +55,13 @@ export const locale = {
         },
 
         pageheaders: {
-            pvprating: "PvP Rating",
-            single: "Single PvP",
-            matrix: "Matrix PvP",
-            shiny: "Shiny Rates",
-            evolution: "Evolution calc",
-            raids: "Raids list",
-            eggs: "Eggs list",
+            pvprating: "PvP Rating  |  PogPvP.com",
+            single: "Single PvP  |  PogPvP.com",
+            matrix: "Matrix PvP  |  PogPvP.com",
+            shiny: "Shiny Rates  |  PogPvP.com",
+            evolution: "Evolution calc  |  PogPvP.com",
+            raids: "Raids list  |  PogPvP.com",
+            eggs: "Eggs list  |  PogPvP.com",
             main: "PogPvP.com | Pokemon GO PvP simulator, ratings, shiny rates and more",
         },
 
@@ -279,13 +279,13 @@ export const locale = {
         },
 
         pageheaders: {
-            pvprating: "PvP рейтинг",
-            single: "Одиночное PvP",
-            matrix: "Групповое PvP",
-            shiny: "Шансы на шайни",
-            evolution: "Калькулятор эволюций",
-            raids: "Список текущих рейдов",
-            eggs: "Список покемонов из яиц",
+            pvprating: "PvP рейтинг  |  PogPvP.com",
+            single: "Одиночное PvP  |  PogPvP.com",
+            matrix: "Групповое PvP  |  PogPvP.com",
+            shiny: "Шансы на шайни  |  PogPvP.com",
+            evolution: "Калькулятор эволюций  |  PogPvP.com",
+            raids: "Список текущих рейдов  |  PogPvP.com",
+            eggs: "Список покемонов из яиц  |  PogPvP.com",
             main: "PogPvP.com | Pokemon GO PvP симулятор, рейтинг, шансы на шайни и многое другое",
         },
 

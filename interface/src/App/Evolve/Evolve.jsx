@@ -143,14 +143,17 @@ class Evolve extends React.Component {
         return (
             <>
                 <Helmet>
+                    <link rel="canonical" href="https://pogpvp.com/evolution" />
+
                     <title>{strings.pageheaders.evolution}</title>
-                    <meta name="title" content={strings.pageheaders.evolution} />
                     <meta name="description" content={strings.pagedescriptions.evolution} />
 
                     <meta property="og:title" content={strings.pageheaders.evolution} />
+                    <meta property="og:url" content="https://pogpvp.com/evolution"></meta>
                     <meta property="og:description" content={strings.pagedescriptions.evolution} />
 
                     <meta property="twitter:title" content={strings.pageheaders.evolution} />
+                    <meta property="twitter:url" content="https://pogpvp.com/evolution"></meta>
                     <meta property="twitter:description" content={strings.pagedescriptions.evolution} />
                 </Helmet>
                 <div className=" container-fluid mt-3 mb-5">

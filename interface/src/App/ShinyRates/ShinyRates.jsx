@@ -133,14 +133,17 @@ class ShinyRates extends React.Component {
         return (
             <>
                 <Helmet>
+                    <link rel="canonical" href="https://pogpvp.com/shinyrates" />
+
                     <title>{strings.pageheaders.shiny}</title>
-                    <meta name="title" content={strings.pageheaders.shiny} />
                     <meta name="description" content={strings.pagedescriptions.shiny} />
 
                     <meta property="og:title" content={strings.pageheaders.shiny} />
+                    <meta property="og:url" content="https://pogpvp.com/shinyrates"></meta>
                     <meta property="og:description" content={strings.pagedescriptions.shiny} />
 
                     <meta property="twitter:title" content={strings.pageheaders.shiny} />
+                    <meta property="twitter:url" content="https://pogpvp.com/shinyrates"></meta>
                     <meta property="twitter:description" content={strings.pagedescriptions.shiny} />
                 </Helmet>
                 <div className="container-fluid mt-3 mb-5">
