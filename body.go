@@ -339,10 +339,6 @@ func (a *App) checkBot(str string) bool {
 }
 
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
-	//Check if method is allowed
-	if r.Method != http.MethodGet && r.Method != http.MethodPost {
-		return errors.NewHTTPError(nil, 405, "Method not allowed: "+r.Method)
-	}
 	//Check visitor's requests limit
 	err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations)
 	if err != nil {

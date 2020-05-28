@@ -212,7 +212,7 @@ func dbUpdateAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error
 	case "POKEMONS":
 		switch authForm.Body {
 		case nil:
-			err = app.semistaticDatabase.updateBase(bucketKey, "value", getbase.UpdatePokemonBase)
+			err = app.semistaticDatabase.updateBase(bucketKey, "value", getbase.UpdatePokemons)
 			if err != nil {
 				return errors.NewHTTPError(err, 400, "Error while updating bucket: "+bucketKey)
 			}
@@ -233,7 +233,7 @@ func dbUpdateAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error
 	case "MOVES":
 		switch authForm.Body {
 		case nil:
-			err = app.semistaticDatabase.updateBase(bucketKey, "value", getbase.UpdateMovesBase)
+			err = app.semistaticDatabase.updateBase(bucketKey, "value", getbase.UpdateMoves)
 			if err != nil {
 				return errors.NewHTTPError(err, 400, "Error while updating bucket: "+bucketKey)
 			}
