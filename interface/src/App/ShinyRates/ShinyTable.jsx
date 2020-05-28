@@ -37,7 +37,7 @@ const ShinyTable = React.memo(function Pokemon(props) {
                                     {strings.shinyrates.rateest}
                                     <i data-tip data-for={"shinyrate"} className="align-self-center fas fa-info-circle ml-1">
                                         {<ReactTooltip
-                                            className={"strategyTips"}
+                                            className={"infoTip"}
                                             id={"shinyrate"} effect='solid'
                                             place={"top"}
                                             multiline={true}
