@@ -343,7 +343,7 @@ func (rs *ratingStruct) matrixForRate(rowA, rowB []pvpsim.InitialData) pvpsim.Er
 }
 
 func writeJSON(dest string, value interface{}) {
-	res, err := json.Marshal(value)
+	res, err := json.MarshalIndent(value, "", " ")
 	if err != nil {
 		log.Fatalln(err)
 	}
