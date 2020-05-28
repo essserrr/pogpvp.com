@@ -74,8 +74,8 @@ func createApp(withLog *os.File) (*App, error) {
 		err error
 	)
 	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot",
-		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
-		"telegrambot"}
+		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
+		"telegrambot", "twitterbot"}
 
 	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING"}
 	//create/open bases
@@ -345,6 +345,7 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return err
 	}
 	agent := r.Header.Get("User-Agent")
+	log.WithFields(log.Fields{"location": "index"}).Println("User-agent: " + agent)
 	isBot := app.checkBot(strings.ToLower(agent))
 
 	if !isBot {
