@@ -17,12 +17,14 @@ const CpAndTyping = React.memo(function Pokemon(props) {
             />
 
             {(props.pokemonTable[props.name]["Type"][0] !== undefined) && <Type
-                class={"d-inline border-0 rounded mx-1 p-1 type color" + props.pokemonTable[props.name]["Type"][0] + " text"}
+                class={"icon18"}
+                code={props.pokemonTable[props.name]["Type"][0]}
                 value={typeDecoder[props.pokemonTable[props.name]["Type"][0]]}
             />}
 
             {(props.pokemonTable[props.name]["Type"][1] !== undefined) && <Type
-                class={"d-inline border-0 rounded mx-1 p-1 type color" + props.pokemonTable[props.name]["Type"][1] + " text"}
+                class={"ml-2 icon18"}
+                code={props.pokemonTable[props.name]["Type"][1]}
                 value={typeDecoder[props.pokemonTable[props.name]["Type"][1]]}
             />}
 

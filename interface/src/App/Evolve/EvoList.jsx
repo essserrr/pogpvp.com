@@ -28,7 +28,7 @@ class EvoList extends PureComponent {
 
         //push original pokemon
         var firstEvo = []
-        this.pushPokecard(state.name, state, firstEvo)
+        this.pushPokecard(state.name, state, firstEvo, state.pokemonTable)
         this.pushPokecardWrapper(result, firstEvo, <div key={"firstEvo"} className="separator" >{strings.tips.evolveTool}</div>, "firstEvo1")
 
         //for range of original pokemon evolutions
@@ -36,7 +36,7 @@ class EvoList extends PureComponent {
         var thirdEvo = []
         for (var i = 0; i < state.pokemonTable[state.name].Evolutions.length; i++) {
             var secondName = state.pokemonTable[state.name].Evolutions[i]
-            this.pushPokecard(secondName, state, secondEvo)
+            this.pushPokecard(secondName, state, secondEvo, state.pokemonTable)
 
             //for range of an evolution evolutions
             for (var j = 0; j < state.pokemonTable[secondName].Evolutions.length; j++) {
@@ -44,7 +44,7 @@ class EvoList extends PureComponent {
                 if (thirdName === "") {
                     continue
                 }
-                this.pushPokecard(thirdName, state, thirdEvo)
+                this.pushPokecard(thirdName, state, thirdEvo, state.pokemonTable)
             }
         }
         //push the second evolution list
@@ -60,11 +60,13 @@ class EvoList extends PureComponent {
         return <>
             <div className="col-12 text-center  m-0 p-0 align-self-start">
                 {(state.pokemonTable[name]["Type"][0] !== undefined) && <Type
-                    class={"cardType d-inline rounded type color" + state.pokemonTable[name]["Type"][0] + " text"}
+                    class={"icon18"}
+                    code={state.pokemonTable[name]["Type"][0]}
                     value={typeDecoder[state.pokemonTable[name]["Type"][0]]}
                 />}
                 {(state.pokemonTable[name]["Type"][1] !== undefined) && <Type
-                    class={"cardType ml-1 d-inline rounded type color" + state.pokemonTable[name]["Type"][1] + " text"}
+                    class={"ml-2 icon18"}
+                    code={state.pokemonTable[name]["Type"][1]}
                     value={typeDecoder[state.pokemonTable[name]["Type"][1]]}
                 />}
             </div>
@@ -81,18 +83,22 @@ class EvoList extends PureComponent {
         </>
     }
 
-    pushPokecard(name, state, array) {
+    pushPokecard(name, state, array, pokTable) {
+
+        console.log(pokTable[name])
         array.push(
             <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-1"}>
                 <PokemonCard
                     class={"pokEggCard animShiny m-0 p-0"}
 
                     name={name}
-                    icon={<PokemonIconer src={name} class={"icon48"} />}
+                    icon={<PokemonIconer
+                        src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                        class={"icon48"} />}
                     body={this.generateBody(name, state)}
 
                     classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
-                    classIcon={"icon48 m-1 p-0 align-self-center"}
+                    classIcon={"icon48 m-0 p-0 align-self-center"}
                     classBody={"eggCardBody row  m-0 p-1 justify-content-center"}
                 />
             </div>)

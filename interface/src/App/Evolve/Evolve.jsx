@@ -82,7 +82,9 @@ class Evolve extends React.Component {
                 list.push({
                     value: key,
                     label: <div style={{ textAlign: "left" }}>
-                        <PokemonIconer src={key} class={"icon24 mr-1"} />{key}
+                        <PokemonIconer
+                            src={result[key].Number + (result[key].Forme !== "" ? "-" + result[key].Forme : "")}
+                            class={"icon24 mr-1"} />{key}
                     </div>,
                 });
             }

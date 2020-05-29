@@ -1,11 +1,16 @@
 import React from "react";
+import PokemonIconer from "../PokemonIconer/PokemonIconer"
 
 const Type = React.memo(function Pokemon(props) {
 
     return (
-        props.value && <div className={props.class} style={props.style}>
-            {props.value}
-        </div>
+        props.value && <abbr title={props.value} className="initialism">
+            <PokemonIconer
+                folder="/type/"
+                src={props.code}
+                class={props.class}
+            />
+        </abbr>
     )
 
 });

@@ -296,11 +296,13 @@ function returnRaidsList(tierList, pokTable, showReg) {
 
                             </div>
                         }
-                        icon={<PokemonIconer src={name} class={"icon48"} />}
+                        icon={<PokemonIconer
+                            src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                            class={"icon48"} />}
                         body={generateBody(name, pokTable)}
 
                         classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
-                        classIcon={"icon48 m-1 p-0 align-self-center"}
+                        classIcon={"icon48 m-0 p-0 align-self-center"}
                         classBody={"eggCardBody  row  m-0 py-1 justify-content-center"}
                     />
                 </div>)
@@ -323,11 +325,13 @@ function generateBody(name, pokemonTable) {
     return <>
         <div className="col-12 text-center  m-0 p-0 align-self-start">
             {(pokemonTable[name]["Type"][0] !== undefined) && <Type
-                class={"cardType d-inline rounded type color" + pokemonTable[name]["Type"][0] + " text"}
+                class={"icon18"}
+                code={pokemonTable[name]["Type"][0]}
                 value={typeDecoder[pokemonTable[name]["Type"][0]]}
             />}
             {(pokemonTable[name]["Type"][1] !== undefined) && <Type
-                class={"cardType ml-1 d-inline rounded type color" + pokemonTable[name]["Type"][1] + " text"}
+                class={"ml-2 icon18"}
+                code={pokemonTable[name]["Type"][1]}
                 value={typeDecoder[pokemonTable[name]["Type"][1]]}
             />}
         </div>

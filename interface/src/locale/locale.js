@@ -199,7 +199,6 @@ export const locale = {
         },
         tierlist: {
             raidtier: "Level",
-            boosted: "Boosted CP:\xa0",
             eggs: "Eggs",
             regionals: "Show regionals",
         },
@@ -422,7 +421,6 @@ export const locale = {
 
         tierlist: {
             raidtier: "Уровень",
-            boosted: "Погодное:\xa0",
             eggs: "Яйца",
             regionals: "Показать регионалок",
         },

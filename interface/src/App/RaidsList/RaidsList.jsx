@@ -13,7 +13,7 @@ import Range from "./Range"
 import Checkbox from "./Checkbox"
 
 import { locale } from "../../locale/locale"
-import { getCookie, typeDecoder, culculateCP, capitalize } from "../../js/indexFunctions"
+import { getCookie, typeDecoder, culculateCP, capitalize, weatherDecoder } from "../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
@@ -225,12 +225,14 @@ function returnRaidsList(tierList, pokTable) {
                         class={"pokCard animShiny m-0 p-0"}
 
                         name={name}
-                        icon={<PokemonIconer src={name} class={"icon48"} />}
+                        icon={<PokemonIconer
+                            src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                            class={"icon48"} />}
                         body={generateBody(name, pokTable)}
 
                         classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
-                        classIcon={"icon48 m-1 p-0 align-self-center"}
-                        classBody={"cardBody row m-0 p-1 justify-content-sm-start justify-content-center"}
+                        classIcon={"icon48 m-0 p-0 align-self-center"}
+                        classBody={"cardBody row m-0 p-1 justify-content-center"}
                     />
                 </div>)
 
@@ -249,11 +251,13 @@ function generateBody(name, pokemonTable) {
     return <>
         <div className="col-12 text-center  m-0 p-0 align-self-start">
             {(pokemonTable[name]["Type"][0] !== undefined) && <Type
-                class={"cardType d-inline mb-1 rounded type color" + pokemonTable[name]["Type"][0] + " text"}
+                class={"icon18"}
+                code={pokemonTable[name]["Type"][0]}
                 value={typeDecoder[pokemonTable[name]["Type"][0]]}
             />}
             {(pokemonTable[name]["Type"][1] !== undefined) && <Type
-                class={"cardType ml-1 d-inline rounded type color" + pokemonTable[name]["Type"][1] + " text"}
+                class={"ml-2 icon18"}
+                code={pokemonTable[name]["Type"][1]}
                 value={typeDecoder[pokemonTable[name]["Type"][1]]}
             />}
         </div>
@@ -264,7 +268,17 @@ function generateBody(name, pokemonTable) {
             right={culculateCP(name, 20, 15, 15, 15, pokemonTable)}
         />
         <Range
-            title={strings.tierlist.boosted}
+            title={<>
+                {(pokemonTable[name]["Type"][0] !== undefined) && <PokemonIconer
+                    folder="/weather/"
+                    src={weatherDecoder[pokemonTable[name]["Type"][0]]}
+                    class={"icon18"} />}
+                {(pokemonTable[name]["Type"][1] !== undefined) && weatherDecoder[pokemonTable[name]["Type"][1]] !== weatherDecoder[pokemonTable[name]["Type"][0]] && <PokemonIconer
+                    folder="/weather/"
+                    src={weatherDecoder[pokemonTable[name]["Type"][1]]}
+                    class={"icon18"} />}
+                {": "}
+            </>}
             left={culculateCP(name, 25, 10, 10, 10, pokemonTable)}
             right={culculateCP(name, 25, 15, 15, 15, pokemonTable)}
         />

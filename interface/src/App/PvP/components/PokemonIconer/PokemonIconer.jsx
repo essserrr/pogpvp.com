@@ -2,17 +2,10 @@ import React from "react";
 
 const PokemonIconer = React.memo(function (props) {
     try {
-        // a path we KNOW is totally bogus and not a module
-        var value = require("../../../../icons/pokemons/" + props.src + props.withSuffix + ".svg")
+        var value = require("../../../../icons" + (props.folder ? props.folder : "/pokemons/") + props.src + ".png")
     }
     catch (e) {
-        try {
-            // a path we KNOW is totally bogus and not a module
-            value = require("../../../../icons/pokemons/" + props.src + ".svg")
-        }
-        catch (e) {
-            console.log(props.src + " icon with suffix " + props.withSuffix + " not found")
-        }
+        console.log("Icon " + props.src + " not found")
     }
     return (
         value && <img

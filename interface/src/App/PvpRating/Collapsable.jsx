@@ -126,7 +126,10 @@ class Collapsable extends React.PureComponent {
                     onClick={this.onClickRedirect}
                     className="row collapseList clickable animRating justify-content-between px-2 mb-1 mx-2 mx-md-3">
                     <div >
-                        <PokemonIconer src={pokName} class={"icon24 py-1 mr-1"} />
+                        <PokemonIconer
+                            src={this.props.pokemonTable[pokName].Number + (this.props.pokemonTable[pokName].Forme !== "" ? "-" + this.props.pokemonTable[pokName].Forme : "")}
+
+                            class={"icon24 mr-1"} />
                         {pokName}
                         {(pokName !== array[i].Name) &&
                             <abbr title={strings.options.type.shadow} className="initialism">

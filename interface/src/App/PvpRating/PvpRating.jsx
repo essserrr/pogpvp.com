@@ -447,7 +447,9 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
                         </div>
                         <div></div>
                     </div>}
-                    icon={<PokemonIconer src={pokName} class={"icon64"} />}
+                    icon={<PokemonIconer
+                        src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
+                        class={"icon64"} />}
                     body={generateBody(pokName, ratingList[i], pokemonTable, maxWeighted)}
                     footer={<Collapsable
                         pokemonTable={pokemonTable}
@@ -479,11 +481,13 @@ function generateBody(name, entry, pokemonTable, maxWeighted) {
                         {strings.rating.type}
                     </div>
                     {(pokemonTable[name]["Type"][0] !== undefined) && <Type
-                        class={"d-inline mb-1 rounded font100 type color" + pokemonTable[name]["Type"][0] + " text"}
+                        class={"icon18"}
+                        code={pokemonTable[name]["Type"][0]}
                         value={typeDecoder[pokemonTable[name]["Type"][0]]}
                     />}
                     {(pokemonTable[name]["Type"][1] !== undefined) && <Type
-                        class={"ml-1 d-inline rounded font100 type color" + pokemonTable[name]["Type"][1] + " text"}
+                        class={"ml-2 icon18"}
+                        code={pokemonTable[name]["Type"][1]}
                         value={typeDecoder[pokemonTable[name]["Type"][1]]}
                     />}
                 </div>

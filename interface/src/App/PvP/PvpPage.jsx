@@ -186,7 +186,10 @@ class PvpPage extends React.Component {
                     pokList.push({
                         value: key,
                         label: <div style={{ textAlign: "left" }}>
-                            <PokemonIconer src={key} class={"icon24 mr-1"} />{key}
+                            <PokemonIconer
+                                src={results[0][key].Number + (results[0][key].Forme !== "" ? "-" + results[0][key].Forme : "")}
+                                class={"icon24 mr-1"}
+                            />{key}
                         </div>,
                     });
                 }

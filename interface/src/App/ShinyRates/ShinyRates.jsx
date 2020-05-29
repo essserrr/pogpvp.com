@@ -40,13 +40,24 @@ class ShinyRates extends React.Component {
             loading: true,
         })
         var reason = ""
-        var response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/shiny", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
-            },
-        }).catch(function (r) {
+        let fetches = [
+            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept-Encoding': 'gzip',
+                },
+            }),
+            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/shiny", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept-Encoding': 'gzip',
+                },
+            }),
+            //after opening the page get pokemonBase
+        ];
+        var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -60,22 +71,30 @@ class ShinyRates extends React.Component {
             return
         }
 
-        var result = await response.json()
-        if (!response.ok) {
-            this.setState({
-                error: result.detail,
-                showResult: false,
-                loading: false,
-                isError: true,
-            });
-            return;
+        let parses = [
+            responses[0].json(),
+            responses[1].json(),
+        ]
+        var results = await Promise.all(parses)
+
+        for (let i = 0; i < responses.length; i++) {
+            if (!responses[i].ok) {
+                this.setState({
+                    error: results[i].detail,
+                    showResult: false,
+                    loading: false,
+                    isError: true,
+                });
+                return;
+            }
         }
 
-        let list = parseShinyRates(result)
+        let list = parseShinyRates(results[1], results[0])
         this.setState({
             showResult: true,
             isError: false,
             loading: false,
+            pokTable: results[0],
             shinyRates: list,
             pokList: list,
         });
@@ -181,7 +200,7 @@ class ShinyRates extends React.Component {
 export default ShinyRates
 
 //generator functions
-function parseShinyRates(list) {
+function parseShinyRates(list, pokTable) {
     let result = []
     const values = Object.values(list)
 
@@ -189,7 +208,9 @@ function parseShinyRates(list) {
         result.push(
             <tr className="animShiny" key={values[i].Name}>
                 <th className="text-center text-sm-left px-0" key={values[i].Name} scope="row">
-                    <PokemonIconer withSuffix={"-shiny"} src={values[i].Name} class={"icon24 p-0 m-0 mr-1 "} />{values[i].Name}
+                    <PokemonIconer
+                        src={pokTable[values[i].Name].Number + (pokTable[values[i].Name].Forme !== "" ? "-" + pokTable[values[i].Name].Forme : "")}
+                        class={"icon24 p-0 m-0 mr-1 "} />{values[i].Name}
                 </th>
                 <td className="px-0" key={values[i].Odds}>{"1/" + values[i].Odds + " (" + (1 / values[i].Odds * 100).toFixed(2) + "%)"}</td>
                 <td className="px-0" key={values[i].Odds + "est"}>{"1/" + processRate(values[i].Odds)}</td>
