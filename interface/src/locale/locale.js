@@ -38,6 +38,8 @@ export const locale = {
                 great: "Great (CP 1500)",
                 ultra: "Ultra (CP 2500)",
                 master: "Master (Unlimited)",
+                premier: "Premier (Unlimited)",
+
             },
             strategy: {
                 greedy: "Greedy",
@@ -262,6 +264,7 @@ export const locale = {
                 great: "Грейт (CP 1500)",
                 ultra: "Ультра (CP 2500)",
                 master: "Мастер (Не ограничена)",
+                premier: "Премьер (Не ограничена)",
             },
             strategy: {
                 greedy: "Жадная",

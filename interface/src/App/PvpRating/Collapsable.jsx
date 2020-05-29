@@ -34,8 +34,10 @@ class Collapsable extends React.PureComponent {
     onClickRedirect(event) {
         var defenderOriginalName = event.currentTarget.getAttribute('name')
         var defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
+        var league = (this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())
 
-        var maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[this.props.league.toLowerCase()].Overall
+
+        var maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall
 
 
         switch (this.props.combination) {
@@ -84,7 +86,7 @@ class Collapsable extends React.PureComponent {
         var attackerOriginalName = this.props.container.Name
         var attackerName = checkShadow(attackerOriginalName, this.props.pokemonTable)
 
-        var maxStatsA = calculateMaximizedStats(attackerName, 40, this.props.pokemonTable)[this.props.league.toLowerCase()].Overall
+        var maxStatsA = calculateMaximizedStats(attackerName, 40, this.props.pokemonTable)[league].Overall
 
         var attackerString = encodeQueryData({
             name: attackerName,

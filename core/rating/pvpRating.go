@@ -19,6 +19,13 @@ import (
 
 /*
 	//getbase.GenerateRatingInitialData(80)
+
+	rating.WriteRating(0, 0, false, 999999999, 2, 150, "premier")
+	rating.WriteRating(0, 1, false, 999999999, 2, 150, "premier")
+	rating.WriteRating(1, 1, false, 999999999, 5, 120, "premier")
+	rating.WriteRating(1, 2, false, 999999999, 8, 100, "premier")
+	rating.WriteRating(2, 2, false, 999999999, 15, 80, "premier")
+
 	rating.WriteRating(0, 0, false, 999999999, 2, 150, "master")
 	rating.WriteRating(0, 1, false, 999999999, 2, 150, "master")
 	rating.WriteRating(1, 1, false, 999999999, 5, 120, "master")
@@ -115,6 +122,10 @@ func (rs *ratingStruct) writeRatingByShieldsNumber() {
 	case "master":
 		rs.dest = "./bases/rating/rateMaster" + strconv.FormatInt(int64(rs.shieldsA), 10) + strconv.FormatInt(int64(rs.shieldsB), 10) + ".json"
 		rs.calculateLeagueRating(maxIV.Master, "./bases/rating/generated/moveSetListMaster.json")
+	case "premier":
+		rs.dest = "./bases/rating/ratePremier" + strconv.FormatInt(int64(rs.shieldsA), 10) + strconv.FormatInt(int64(rs.shieldsB), 10) + ".json"
+		rs.calculateLeagueRating(maxIV.Master, "./bases/rating/generated/moveSetListPremier.json")
+
 	}
 
 }
@@ -416,6 +427,9 @@ func ProcessRating() {
 	setUpProcessing("./bases/rating/generated/moveSetListMaster.json",
 		"./bases/rating/overallMaster.json", "./API/ratingAPI/avgOverallMaster.json",
 		"Master", weights.Master)
+	setUpProcessing("./bases/rating/generated/moveSetListPremier.json",
+		"./bases/rating/overallPremier.json", "./API/ratingAPI/avgOverallPremier.json",
+		"Premier", weights.Master)
 
 }
 
@@ -446,7 +460,7 @@ func setUpProcessing(movesetAdr, overallAdr, overallDest, league string, weights
 
 //WriteOverall generates overall raw rating from generated data
 func WriteOverall() {
-	template := []string{"Great", "Ultra", "Master"}
+	template := []string{"Great", "Ultra", "Master", "Premier"}
 	for _, value := range template {
 		generateOverall(value)
 	}

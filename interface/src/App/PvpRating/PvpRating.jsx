@@ -44,6 +44,7 @@ class PvpRating extends React.Component {
                 <option value="Great" key="Great">{strings.options.league.great}</option>,
                 <option value="Ultra" key="ultra">{strings.options.league.ultra}</option>,
                 <option value="Master" key="master">{strings.options.league.master}</option>,
+                <option value="Premier" key="premier">{strings.options.league.premier}</option>,
             ],
             combinationList: [
                 <option value="overall" key="overall">{strings.maximizer.overall}</option>,
@@ -55,7 +56,7 @@ class PvpRating extends React.Component {
             ],
 
             ratingTip: [
-                <small key="кфештпTip">
+                <small key="ratingTip">
                     {strings.rating.firstsent}
                     <br />
                     <br />
@@ -490,7 +491,7 @@ function generateBody(name, entry, pokemonTable, maxWeighted) {
                     {strings.rating.avgRate} {entry.AvgRate}
                 </div>
                 <div className="col-12 text-start bigText m-0 p-0">
-                    {strings.rating.avgWin} {(entry.AvgWinrate * 100)}
+                    {strings.rating.avgWin} {(entry.AvgWinrate * 100).toFixed(0)}
                 </div>
             </div>
         </div>
