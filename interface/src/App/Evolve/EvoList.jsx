@@ -84,8 +84,6 @@ class EvoList extends PureComponent {
     }
 
     pushPokecard(name, state, array, pokTable) {
-
-        console.log(pokTable[name])
         array.push(
             <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-1"}>
                 <PokemonCard
