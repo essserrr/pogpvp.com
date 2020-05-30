@@ -139,7 +139,8 @@ type SinglePvpInitialData struct {
 	AttackerData InitialData
 	DefenderData InitialData
 
-	Constr Constructor
+	Constr  Constructor
+	Logging bool
 }
 
 //NewPvpBetween starts pvp between two charcters defined by initial data, returns pvp log
@@ -183,7 +184,7 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 	*pvpData.key = pvpData.branchPointer.battleRaiting.ID
 
 	pvpData.isTree = false
-	pvpData.logging = true
+	pvpData.logging = inData.Logging
 	pvpData.log = make([]logValue, 0, 32)
 
 	//PrintTreeVal(os.Stdout, tree, 0, 'M')
@@ -1111,6 +1112,7 @@ func RatingPvp(attackerData, defenderData *InitialData) (RatingResult, error) {
 			AttackerData: *attackerData,
 			DefenderData: *defenderData,
 			Constr:       Constructor{},
+			Logging:      false,
 		})
 
 		if err != nil {

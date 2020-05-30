@@ -160,7 +160,8 @@ func checkMatrixes(attacker, defender []InitialData, checkName string) error {
 			singleBattleResult, err := NewPvpBetween(SinglePvpInitialData{
 				AttackerData: pokA,
 				DefenderData: pokB,
-				Constr:       Constructor{}})
+				Constr:       Constructor{},
+				Logging:      false})
 
 			if err != nil {
 				errChan <- err
@@ -365,7 +366,9 @@ func BenchmarkMatrixPvp(b *testing.B) {
 				singleBattleResult, err := NewPvpBetween(SinglePvpInitialData{
 					AttackerData: pokA,
 					DefenderData: pokB,
-					Constr:       Constructor{}})
+					Constr:       Constructor{},
+					Logging:      false,
+				})
 
 				if err != nil {
 					errChan <- err

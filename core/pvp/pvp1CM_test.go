@@ -154,7 +154,7 @@ func TestUnshielded1CM(t *testing.T) {
 }
 
 func checkPVP(atatcker, defender InitialData, checkName string) error {
-	currentRes, err := NewPvpBetween(SinglePvpInitialData{atatcker, defender, Constructor{}})
+	currentRes, err := NewPvpBetween(SinglePvpInitialData{atatcker, defender, Constructor{}, true})
 	if err != nil {
 		return err
 	}
@@ -207,7 +207,7 @@ func BenchmarkMakePvp(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(SinglePvpInitialData{Medicham, Kingdra, Constructor{}})
+		NewPvpBetween(SinglePvpInitialData{Medicham, Kingdra, Constructor{}, true})
 	}
 }
 
@@ -233,6 +233,6 @@ func BenchmarkMakePvpLong(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(SinglePvpInitialData{GiratinaA, Snorlax, Constructor{}})
+		NewPvpBetween(SinglePvpInitialData{GiratinaA, Snorlax, Constructor{}, true})
 	}
 }

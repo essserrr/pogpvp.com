@@ -13,7 +13,7 @@ func NewPvpBetweenPvppoke(inData SinglePvpInitialData) (PvpResults, error) {
 	*pvpData = PvpObject{}
 
 	pvpData.isTree = false
-	pvpData.logging = true
+	pvpData.logging = inData.Logging
 	pvpData.log = make([]logValue, 0, 32)
 
 	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData)

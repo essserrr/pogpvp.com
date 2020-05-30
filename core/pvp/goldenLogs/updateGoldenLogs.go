@@ -465,7 +465,7 @@ func updateShielded2CM() error {
 func writeGoldenLog(atatcker, defender pvpsim.InitialData, logName string) error {
 	result, err := pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{AttackerData: atatcker,
 		DefenderData: defender,
-		Constr:       pvpsim.Constructor{}})
+		Constr:       pvpsim.Constructor{}, Logging: true})
 	if err != nil {
 		return err
 	}
