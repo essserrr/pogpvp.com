@@ -7,6 +7,8 @@ import { encodeQueryData, getCookie, calculateMaximizedStats } from "../../js/in
 import { great, ultra, master } from "./matrixPresets"
 import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
+import PokemonIconer from "./components/PokemonIconer/PokemonIconer"
+import ReactTooltip from "react-tooltip";
 
 
 import LocalizedStrings from 'react-localization';
@@ -14,80 +16,6 @@ import { locale } from "../../locale/locale"
 import BarLoader from "react-spinners/BarLoader";
 
 let strings = new LocalizedStrings(locale);
-
-function readParties() {
-    var partiesList = [
-        <option value="" key=""></option>,
-        <option value="Preset1" key="Preset1">{strings.options.matrixpreset.great}</option>,
-        <option value="Preset2" key="Preset2">{strings.options.matrixpreset.ultra}</option>,
-        <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
-    ]
-    for (var i = 0; i < localStorage.length; i++) {
-        partiesList.push(<option value={localStorage.key(i)} key={localStorage.key(i)}>{localStorage.key(i)}</option>)
-    }
-    return partiesList
-}
-
-function makeTableBody(arr) {
-    var tableBody = []
-    //create table body
-    tableBody.push(
-        <thead key={"thead0"} className="thead thead-light" >
-            <tr >
-                {arr[0]}
-            </tr>
-        </thead>
-    )
-    var arrWithTr = []
-    for (let i = 1; i < arr.length; i++) {
-        arrWithTr.push(
-            <tr key={"tableline" + i}>
-                {arr[i]}
-            </tr>
-        )
-    }
-    tableBody.push(
-        <tbody key={"tablebody"} className="modifiedBorderTable">
-            {arrWithTr}
-        </tbody>
-    )
-    return tableBody
-}
-
-function makeTableLines(rightList, leftList, data, league, pvppoke) {
-    var arr = []
-    //add thead
-    arr.push([])
-    arr[0].push(<th key={"zero"} className="modifiedBorderTable theadT" scope="col" ></th>)
-    for (let j = 0; j < rightList.length; j++) {
-        arr[0].push(<th key={j + "thead"} className="modifiedBorderTable theadT" scope="col" >
-            {rightList[j].name}
-        </th>
-        )
-    }
-
-    //add table lines
-    for (let i = 0; i < leftList.length; i++) {
-        arr.push([])
-        arr[i + 1].push(<td key={i + "line"} className="modifiedBorderTable defaultFont fixFirstRow m-0 px-1 py-0" >
-            {leftList[i].name}
-        </td>)
-        for (let j = 0; j < rightList.length; j++) {
-            arr[i + 1].push([])
-        }
-    }
-    //fill cells
-    for (let i = 0; i < data.length; i++) {
-        var line = data[i].I + 1
-        var row = data[i].K + 1
-        arr[line][row] = <td key={line + row} className="modifiedBorderTable defaultFont m-0 p-0" >
-            <a href={window.location.origin + "/pvp/single/" + league + "/" + encodeQueryData(leftList[data[i].I]) + "/" + encodeQueryData(rightList[data[i].K]) + (pvppoke ? "/pvpoke" : "")}>
-                <div className={"rate " + ((data[i].Attacker.Rate > 500) ? "win" : "lose")}>{data[i].Attacker.Rate}</div>
-            </a>
-        </td >
-    }
-    return arr
-}
 
 
 class MatrixPvp extends React.PureComponent {
@@ -133,12 +61,12 @@ class MatrixPvp extends React.PureComponent {
 
                 selectedParty: "",
             },
-            savedParties: readParties(),
+            savedParties: this.readParties(),
 
             redact: {
                 showMenu: false,
             },
-
+            triple: false,
 
             loading: false,
             error: this.props.parentState.error,
@@ -156,6 +84,7 @@ class MatrixPvp extends React.PureComponent {
         this.onPokRedact = this.onPokRedact.bind(this);
         this.onPokRedactOff = this.onPokRedactOff.bind(this);
         this.onRedactSubmit = this.onRedactSubmit.bind(this);
+        this.makeTableLines = this.makeTableLines.bind(this);
 
     }
 
@@ -273,13 +202,21 @@ class MatrixPvp extends React.PureComponent {
                 attr={attr}
                 onClick={this.onPokRedact}
 
-                className={"color" + this.props.parentState.pokemonTable[newListForBattle[i].name].Type[0] + " text"}
+                className={""}
                 key={key}
                 index={key}
-                thead={newListForBattle[i].name}
-                body={newListForBattle[i].QuickMove +
-                    (newListForBattle[i].ChargeMove1 ? ", " + newListForBattle[i].ChargeMove1 : "") +
-                    (newListForBattle[i].ChargeMove2 ? ", " + newListForBattle[i].ChargeMove2 : "")
+                thead={<><PokemonIconer
+                    src={this.props.parentState.pokemonTable[newListForBattle[i].name].Number +
+                        (this.props.parentState.pokemonTable[newListForBattle[i].name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[newListForBattle[i].name].Forme : "")}
+                    class={"icon24 mr-1"}
+                    for={""}
+                />
+                    {newListForBattle[i].name}
+                </>}
+                body={
+                    newListForBattle[i].QuickMove +
+                    (newListForBattle[i].ChargeMove1 ? " + " + newListForBattle[i].ChargeMove1 : "") +
+                    (newListForBattle[i].ChargeMove2 ? "/" + newListForBattle[i].ChargeMove2 : "")
                 }
             />)
         }
@@ -313,6 +250,11 @@ class MatrixPvp extends React.PureComponent {
             this.onPartySelect(event)
             return
         }
+        if (event.target.name === "triple") {
+            this.setState({ triple: !this.state.triple });
+            return
+        }
+
         let role = event.target.getAttribute('attr')
         let newBattleList = this.state[role].listForBattle.map(pok => Object.assign({}, pok, { [event.target.name]: event.target.value }));
 
@@ -386,6 +328,7 @@ class MatrixPvp extends React.PureComponent {
                 'Content-Type': 'application/json',
                 'Accept-Encoding': 'gzip',
                 'Pvp-Type': this.props.parentState.pvppoke ? "pvppoke" : "normal",
+                'Pvp-Shields': this.state.triple ? "triple" : "normal",
             },
             body: JSON.stringify({ Party1: this.state.leftPanel.listForBattle, Party2: this.state.rightPanel.listForBattle, })
         }).catch(function (r) {
@@ -421,9 +364,10 @@ class MatrixPvp extends React.PureComponent {
             });
             return;
         }
+        console.log(data)
 
-        var arr = makeTableLines(this.state.rightPanel.listForBattle, this.state.leftPanel.listForBattle, data, this.props.parentState.league, this.props.parentState.pvppoke)
-        var tableBody = makeTableBody(arr)
+        var arr = this.makeTableLines(data[0])
+        var tableBody = this.makeTableBody(arr)
 
 
         this.setState({
@@ -434,6 +378,131 @@ class MatrixPvp extends React.PureComponent {
         });
     };
 
+
+
+    readParties() {
+        var partiesList = [
+            <option value="" key=""></option>,
+            <option value="Preset1" key="Preset1">{strings.options.matrixpreset.great}</option>,
+            <option value="Preset2" key="Preset2">{strings.options.matrixpreset.ultra}</option>,
+            <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
+        ]
+        for (var i = 0; i < localStorage.length; i++) {
+            partiesList.push(<option value={localStorage.key(i)} key={localStorage.key(i)}>{localStorage.key(i)}</option>)
+        }
+        return partiesList
+    }
+
+    makeTableBody(arr) {
+        var tableBody = []
+        //create table body
+        tableBody.push(
+            <thead key={"thead0"} className="thead thead-light" >
+                <tr >
+                    {arr[0]}
+                </tr>
+            </thead>
+        )
+        var arrWithTr = []
+        for (let i = 1; i < arr.length; i++) {
+            arrWithTr.push(
+                <tr key={"tableline" + i}>
+                    {arr[i]}
+                </tr>
+            )
+        }
+        tableBody.push(
+            <tbody key={"tablebody"} className="modifiedBorderTable">
+                {arrWithTr}
+            </tbody>
+        )
+        return tableBody
+    }
+
+
+
+    makeTableLines(data) {
+        var arr = []
+        //add thead
+        arr.push([])
+        arr[0].push(<th key={"zero"} className="modifiedBorderTable theadT p-0 px-1" scope="col" >        </th>)
+        for (let j = 0; j < this.state.rightPanel.listForBattle.length; j++) {
+            let name = this.state.rightPanel.listForBattle[j].name
+            arr[0].push(<th key={j + "thead"} className="modifiedBorderTable text-center theadT p-0 px-1" scope="col" >
+                <PokemonIconer
+                    src={this.props.parentState.pokemonTable[name].Number +
+                        (this.props.parentState.pokemonTable[name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[name].Forme : "")}
+                    class={"icon36"}
+                    for={name + j + "T"}
+                />
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={name + j + "T"} effect='solid'
+                    place={"top"}
+                    multiline={true}
+                >
+                    {name}
+                </ReactTooltip>
+                <div className="row m-0 p-0 justify-content-center">
+                    {this.state.rightPanel.listForBattle[j].QuickMove.replace(/[a-z -]/g, '')}
+                    {(this.state.rightPanel.listForBattle[j].ChargeMove1 || this.state.rightPanel.listForBattle[j].ChargeMove2) ? "+" : ""}
+                    {this.state.rightPanel.listForBattle[j].ChargeMove1 ? this.state.rightPanel.listForBattle[j].ChargeMove1.replace(/[a-z -]/g, '') : ""}
+                    {(this.state.rightPanel.listForBattle[j].ChargeMove1 && this.state.rightPanel.listForBattle[j].ChargeMove2) ? "/" : ""}
+                    {this.state.rightPanel.listForBattle[j].ChargeMove2 ? this.state.rightPanel.listForBattle[j].ChargeMove2.replace(/[a-z -]/g, '') : ""}
+
+                </div>
+            </th>
+            )
+        }
+
+        //add table lines
+        for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
+            arr.push([])
+            let name = this.state.leftPanel.listForBattle[i].name
+            arr[i + 1].push(<td key={i + "line"} className="modifiedBorderTable text-center theadT fixFirstRow m-0 px-1 py-0" >
+
+                <PokemonIconer
+                    src={this.props.parentState.pokemonTable[name].Number +
+                        (this.props.parentState.pokemonTable[name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[name].Forme : "")}
+                    class={"icon36"}
+                    for={name + i + "R"}
+                />
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={name + i + "R"} effect='solid'
+                    place={"right"}
+                    multiline={true}
+                >
+                    {name}
+                </ReactTooltip>
+                <div className="row m-0 p-0 justify-content-center">
+                    {this.state.leftPanel.listForBattle[i].QuickMove.replace(/[a-z -]/g, '')}
+                    {(this.state.leftPanel.listForBattle[i].ChargeMove1 || this.state.leftPanel.listForBattle[i].ChargeMove2) ? "+" : ""}
+                    {this.state.leftPanel.listForBattle[i].ChargeMove1 ? this.state.leftPanel.listForBattle[i].ChargeMove1.replace(/[a-z -]/g, '') : ""}
+                    {(this.state.leftPanel.listForBattle[i].ChargeMove1 && this.state.leftPanel.listForBattle[i].ChargeMove2) ? "/" : ""}
+                    {this.state.leftPanel.listForBattle[i].ChargeMove2 ? this.state.leftPanel.listForBattle[i].ChargeMove2.replace(/[a-z -]/g, '') : ""}
+
+                </div>
+            </td>)
+            for (let j = 0; j < this.state.rightPanel.listForBattle.length; j++) {
+                arr[i + 1].push([])
+            }
+        }
+        //fill cells
+        for (let i = 0; i < data.length; i++) {
+            var line = data[i].I + 1
+            var row = data[i].K + 1
+            arr[line][row] = <td key={line + row} className="modifiedBorderTable defaultFont m-0 p-0 align-middle" >
+                <a
+                    href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
+                        encodeQueryData(this.state.leftPanel.listForBattle[data[i].I]) + "/" + encodeQueryData(this.state.rightPanel.listForBattle[data[i].K]) +
+                        (this.props.parentState.pvppoke ? "/pvpoke" : "")}>
+                    <div className={"rate " + ((data[i].Attacker.Rate > 500) ? "win" : "lose")}>{data[i].Attacker.Rate}</div>
+                </a>
+            </td >
+        }
+        return arr
+    }
 
 
     onPokemonAdd(event) {
@@ -477,13 +546,23 @@ class MatrixPvp extends React.PureComponent {
                 attr={event.attr}
                 onClick={this.onPokRedact}
 
-                className={"color" + this.props.parentState.pokemonTable[event.pokemon.name].Type[0] + " text"}
+                className={""}
                 key={key}
                 index={key}
-                thead={event.pokemon.name}
+                thead={<><PokemonIconer
+                    src={this.props.parentState.pokemonTable[event.pokemon.name].Number +
+                        (this.props.parentState.pokemonTable[event.pokemon.name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[event.pokemon.name].Forme : "")}
+                    class={"icon24 mr-1"}
+                    for={""}
+                />
+                    {event.pokemon.name}
+                </>}
+
+
+
                 body={event.pokemon.QuickMove +
-                    (event.pokemon.ChargeMove1 ? ", " + event.pokemon.ChargeMove1 : "") +
-                    (event.pokemon.ChargeMove2 ? ", " + event.pokemon.ChargeMove2 : "")
+                    (event.pokemon.ChargeMove1 ? " + " + event.pokemon.ChargeMove1 : "") +
+                    (event.pokemon.ChargeMove2 ? "/" + event.pokemon.ChargeMove2 : "")
                 }
             />
         );
@@ -594,13 +673,23 @@ class MatrixPvp extends React.PureComponent {
             attr={this.state.redact.attr}
             onClick={this.onPokRedact}
 
-            className={"color" + this.props.parentState.pokemonTable[pokCopy.name].Type[0] + " text"}
+            className={""}
             key={pokCopy.key}
             index={pokCopy.key}
-            thead={pokCopy.name}
+            thead={<><PokemonIconer
+                src={this.props.parentState.pokemonTable[pokCopy.name].Number +
+                    (this.props.parentState.pokemonTable[pokCopy.name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[pokCopy.name].Forme : "")}
+                class={"icon24 mr-1"}
+                for={""}
+            />
+                {pokCopy.name}
+            </>}
+
+
+
             body={pokCopy.QuickMove +
-                (pokCopy.ChargeMove1 ? ", " + pokCopy.ChargeMove1 : "") +
-                (pokCopy.ChargeMove2 ? ", " + pokCopy.ChargeMove2 : "")
+                (pokCopy.ChargeMove1 ? " + " + pokCopy.ChargeMove1 : "") +
+                (pokCopy.ChargeMove2 ? "/" + pokCopy.ChargeMove2 : "")
             }
         />
 
@@ -653,6 +742,8 @@ class MatrixPvp extends React.PureComponent {
 
                             league={this.props.parentState.league}
 
+                            enableCheckbox={true}
+                            triple={this.state.triple}
 
                             value={this.state.leftPanel}
 
