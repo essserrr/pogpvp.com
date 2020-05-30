@@ -11,7 +11,8 @@ const PokemonIconer = React.memo(function (props) {
         value && <img
             src={value}
             className={props.class}
-            alt="" />
+            alt=""
+            data-tip data-for={props.for} />
     )
 });
 
