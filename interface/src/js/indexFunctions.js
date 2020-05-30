@@ -387,12 +387,13 @@ export function calculateMultiplier(aTypes, dTypes, mType) {
 export function encodeQueryData(data) {
     var res = [];
 
-    res.push(data.name);
+    res.push(data.Shields);
+
     res.push(data.Lvl);
     res.push(data.Atk);
     res.push(data.Def);
     res.push(data.Sta);
-    res.push(data.Shields);
+    res.push(data.name);
 
     res.push(data.AtkStage);
     res.push(data.DefStage);
@@ -423,12 +424,12 @@ export function extractData(league, pok1, pok2) {
 
 export function extractPokemon(array) {
     return {
-        name: array[0],
+        name: array[5],
         Lvl: array[1],
         Atk: array[2],
         Def: array[3],
         Sta: array[4],
-        Shields: array[5],
+        Shields: array[0],
 
         AtkStage: array[6],
         DefStage: array[7],
