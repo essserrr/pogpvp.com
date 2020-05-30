@@ -261,7 +261,7 @@ func byteToUint(byteArray []byte) uint64 {
 func setupCors(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Pvp-Type")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Pvp-Type, Pvp-Shields")
 }
 
 type rootHandler struct {
@@ -620,12 +620,14 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 			pvpResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
-				Constr:       pvpsim.Constructor{}})
+				Constr:       pvpsim.Constructor{},
+				Logging:      true})
 		default:
 			pvpResult, err = pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
-				Constr:       pvpsim.Constructor{}})
+				Constr:       pvpsim.Constructor{},
+				Logging:      true})
 		}
 
 		if err != nil {
@@ -690,122 +692,185 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(err, 400, "Error while reading request body")
 	}
 	//Parse request
-	rowA, rowB, err := parser.ParseMatrixRequest(body)
+	matrixObj := matrixPvP{}
+	matrixObj.rowA, matrixObj.rowB, err = parser.ParseMatrixRequest(body)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
 		return err
 	}
-
+	if len(matrixObj.rowA) > 50 || len(matrixObj.rowB) > 50 {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		return errors.NewHTTPError(err, 400, "Parties with length more than 50 ae not allowed")
+	}
 	//Start new PvP
-	errChan := make(pvpsim.ErrorChan, len(rowA)*len(rowB))
-	isPvppoke := r.Header.Get("Pvp-Type")
-
-	matrixResults := make([]pvpsim.MatrixResult, 0, len(rowA)*len(rowB))
-	for i, pokA := range rowA {
-		for k, pokB := range rowB {
-			//if pokemons are the same, it should be tie without any calculations
-			if pokA.Query == pokB.Query {
-				matrixResults = append(matrixResults, pvpsim.MatrixResult{
-					I:        i,
-					K:        k,
-					Attacker: pvpsim.SingleMatrixResult{Rate: 500},
-					Defender: pvpsim.SingleMatrixResult{Rate: 500},
-				})
-				continue
-			}
-
-			matrixBattleResult := pvpsim.MatrixResult{}
-			//otherwise check pvp results in base
-			pvpBaseKey := pokA.Query + pokB.Query
-
-			var baseEntry []byte
-			switch isPvppoke {
-			case "pvppoke":
-				baseEntry = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvppoke")
-				log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
-			default:
-				baseEntry = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey)
-			}
-
-			switch baseEntry {
-			case nil: //if result doesn't exist
-				var singleBattleResult pvpsim.PvpResults
-				switch isPvppoke {
-				case "pvppoke":
-					singleBattleResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
-						AttackerData: pokA,
-						DefenderData: pokB,
-						Constr:       pvpsim.Constructor{}})
-				default:
-					singleBattleResult, err = pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
-						AttackerData: pokA,
-						DefenderData: pokB,
-						Constr:       pvpsim.Constructor{}})
-				}
-
-				if err != nil {
-					errChan <- err
-					continue
-				}
-				matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
-				matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
-
-				//if results are not random
-				if !singleBattleResult.IsRandom {
-					go func(battleRes pvpsim.PvpResults, key string) {
-						//Create json from singleBattleResult
-						newBaseEntry, err := json.Marshal(battleRes)
-						if err != nil {
-							app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-							log.WithFields(log.Fields{"location": "putMatrixRwsult"}).Error(fmt.Errorf("Matrix PvP result marshal error: %v", err))
-							return
-						}
-						switch isPvppoke {
-						case "pvppoke":
-							app.writePvp(newBaseEntry, pvpBaseKey+"pvppoke")
-						default:
-							app.writePvp(newBaseEntry, pvpBaseKey)
-						}
-					}(singleBattleResult, pvpBaseKey)
-				}
-
-			default: //if result exists
-				var singleBattleResult pvpsim.PvpResults
-				err = json.Unmarshal(baseEntry, &singleBattleResult)
-				if err != nil {
-					go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-					errChan <- fmt.Errorf("Matrix PvP result unmarshal error: %v", err)
-					continue
-				}
-				matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
-				matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
-			}
-
-			matrixBattleResult.I = i
-			matrixBattleResult.K = k
-			matrixResults = append(matrixResults, matrixBattleResult)
+	shieldsNumber := r.Header.Get("Pvp-Shields")
+	matrixObj.isPvpoke = r.Header.Get("Pvp-Type")
+	matrixObj.app = app
+	matrixObj.result = make([][]pvpsim.MatrixResult, 0, 1)
+	start := time.Now()
+	switch shieldsNumber {
+	case "triple":
+		err = matrixObj.calculateMatrix(0)
+		if err != nil {
+			return err
+		}
+		err = matrixObj.calculateMatrix(1)
+		if err != nil {
+			return err
+		}
+		err = matrixObj.calculateMatrix(2)
+		if err != nil {
+			return err
+		}
+	default:
+		err = matrixObj.calculateMatrix(5)
+		if err != nil {
+			return err
 		}
 	}
-	close(errChan)
-
-	errStr := errChan.Flush()
-	if errStr != "" {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf(errStr), 400, "PvP error")
-	}
+	fmt.Println(time.Since(start))
 
 	log.WithFields(log.Fields{"location": "matrixPvpHandler"}).Println("Calculated")
 	//Create json answer from pvpResult
-	answer, err := json.Marshal(matrixResults)
+	answer, err := json.Marshal(matrixObj.result)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
 		return fmt.Errorf("PvP result marshal error: %v", err)
 	}
-
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
 	_, err = (*w).Write([]byte(answer))
 	return nil
+}
+
+type matrixPvP struct {
+	rowA []pvpsim.InitialData
+	rowB []pvpsim.InitialData
+
+	pokA pvpsim.InitialData
+	pokB pvpsim.InitialData
+
+	errChan pvpsim.ErrorChan
+
+	result [][]pvpsim.MatrixResult
+	app    *App
+
+	isPvpoke string
+	i        int
+	k        int
+}
+
+func (mp *matrixPvP) calculateMatrix(shields uint8) error {
+	mp.errChan = make(pvpsim.ErrorChan, len(mp.rowA)*len(mp.rowB))
+	singleMatrixResults := make([]pvpsim.MatrixResult, 0, len(mp.rowA)*len(mp.rowB))
+	for mp.i, mp.pokA = range mp.rowA {
+		for mp.k, mp.pokB = range mp.rowB {
+			if shields != 5 {
+				mp.pokA.Shields = shields
+				mp.pokA.Query = strconv.FormatUint(uint64(shields), 10) + mp.pokA.Query[1:]
+
+				mp.pokB.Shields = shields
+				mp.pokB.Query = strconv.FormatUint(uint64(shields), 10) + mp.pokB.Query[1:]
+			}
+			mp.runMatrixPvP(&singleMatrixResults)
+		}
+	}
+	close(mp.errChan)
+	errStr := mp.errChan.Flush()
+	if errStr != "" {
+		go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf(errStr), 400, "PvP error")
+	}
+	mp.result = append(mp.result, singleMatrixResults)
+	return nil
+}
+
+func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
+	//if pokemons are the same, it should be tie without any calculations
+	if mp.pokA.Query == mp.pokB.Query {
+		*singleMatrixResults = append(*singleMatrixResults, pvpsim.MatrixResult{
+			I:        mp.i,
+			K:        mp.k,
+			Attacker: pvpsim.SingleMatrixResult{Rate: 500},
+			Defender: pvpsim.SingleMatrixResult{Rate: 500},
+		})
+		return
+	}
+
+	matrixBattleResult := pvpsim.MatrixResult{}
+	//otherwise check pvp results in base
+	pvpBaseKey := mp.pokA.Query + mp.pokB.Query
+
+	var (
+		baseEntry []byte
+		err       error
+	)
+	switch mp.isPvpoke {
+	case "pvppoke":
+		baseEntry = mp.app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvppoke")
+	default:
+		baseEntry = mp.app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey)
+	}
+
+	switch baseEntry {
+	case nil: //if result doesn't exist
+		var singleBattleResult pvpsim.PvpResults
+		switch mp.isPvpoke {
+		case "pvppoke":
+			singleBattleResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
+				AttackerData: mp.pokA,
+				DefenderData: mp.pokB,
+				Constr:       pvpsim.Constructor{},
+				Logging:      true})
+		default:
+			singleBattleResult, err = pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
+				AttackerData: mp.pokA,
+				DefenderData: mp.pokB,
+				Constr:       pvpsim.Constructor{},
+				Logging:      true})
+		}
+
+		if err != nil {
+			mp.errChan <- err
+			return
+		}
+		matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
+		matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
+
+		//if results are not random
+		if !singleBattleResult.IsRandom {
+			go func(battleRes pvpsim.PvpResults, key string) {
+				//Create json from singleBattleResult
+				newBaseEntry, err := json.Marshal(battleRes)
+				if err != nil {
+					mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+					log.WithFields(log.Fields{"location": "putMatrixRwsult"}).Error(fmt.Errorf("Matrix PvP result marshal error: %v", err))
+					return
+				}
+				switch mp.isPvpoke {
+				case "pvppoke":
+					mp.app.writePvp(newBaseEntry, pvpBaseKey+"pvppoke")
+				default:
+					mp.app.writePvp(newBaseEntry, pvpBaseKey)
+				}
+			}(singleBattleResult, pvpBaseKey)
+		}
+
+	default: //if result exists
+		var singleBattleResult pvpsim.PvpResults
+		err = json.Unmarshal(baseEntry, &singleBattleResult)
+		if err != nil {
+			go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+			mp.errChan <- fmt.Errorf("Matrix PvP result unmarshal error: %v", err)
+			return
+		}
+		matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
+		matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
+	}
+
+	matrixBattleResult.I = mp.i
+	matrixBattleResult.K = mp.k
+	*singleMatrixResults = append(*singleMatrixResults, matrixBattleResult)
 }
 
 func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
@@ -847,12 +912,14 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 			AttackerData: pokA,
 			DefenderData: pokB,
 			Constr:       constructor,
+			Logging:      true,
 		})
 	default:
 		pvpResult, err = pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
 			AttackerData: pokA,
 			DefenderData: pokB,
 			Constr:       constructor,
+			Logging:      true,
 		})
 	}
 
