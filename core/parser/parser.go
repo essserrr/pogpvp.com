@@ -60,7 +60,7 @@ func parseSinglePok(pokData []string) (pvpsim.InitialData, error) {
 		return pvpsim.InitialData{}, errors.NewHTTPError(err, 400, "Invalid level value")
 	}
 
-	shields, err := strconv.ParseUint(pokData[5], 10, 64)
+	shields, err := strconv.ParseUint(pokData[0], 10, 64)
 	if err != nil {
 		return pvpsim.InitialData{}, errors.NewHTTPError(err, 400, "Invalid shields value")
 	}
@@ -101,7 +101,7 @@ func parseSinglePok(pokData []string) (pvpsim.InitialData, error) {
 	}
 
 	return pvpsim.InitialData{
-		Name:      pokData[0],
+		Name:      pokData[5],
 		Level:     float32(level),
 		Shields:   uint8(shields),
 		AttackIV:  uint8(attackIV),
