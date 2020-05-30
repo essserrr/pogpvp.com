@@ -531,7 +531,6 @@
     background-color:rgba(252, 252, 252, 0.93);
 }
 
-
 //status bar styles
 
 .hpBar{
@@ -951,6 +950,7 @@ body {
     border-color: rgba(0, 0, 0, 0.4);
     border-style: solid;
     border-width: 0.5px;
+    background-color: rgba(228, 228, 228, 0.95);
     
     text-align: left;
 
@@ -958,12 +958,16 @@ body {
 
     .thead {
         font-weight: bold;
+        font-size:95% !important;
     }
     .body {
-        font-size: 70% !important;
+        font-weight: bolder;
+        font-size: 75% !important;
     }
 
 }
+
+
 
 .matrixResult {
     background-color:#e9ecef;
@@ -976,11 +980,13 @@ body {
 }
 
 .tableFixHead          {  overflow-y: auto; height: 100px;  }
-.tableFixHead thead th { position: sticky; top: 0; z-index: 2;}
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
 
-.fixFirstRow {  position: sticky; left: 0; background-color: #e9ecef; z-index: 1;}
+.fixFirstRow {  position: sticky; left: 0; background-color: #e9ecef}
 
-
+.zindex {
+    z-index: 5 !important;
+}
 
 
 //footer
@@ -1030,19 +1036,21 @@ body {
 
 //icons sizes
 .icon18 {
-    pointer-events: none;
     width: 18px;
     height: 18px;
 }
 
 .icon24 {
-    pointer-events: none;
     width: 24px;
     height: 24px;
 }
 
+.icon36 {
+    width: 36px;
+    height: 36px;
+}
+
 .icon48 {
-    pointer-events: none;
     width: 48px;
     height: 48px;
 }
