@@ -18,20 +18,20 @@ const ShinyTable = React.memo(function Pokemon(props) {
             <table className="table  table-sm text-center">
                 <thead>
                     <tr>
-                        <th colType="string" className="text-left  clickable align-text-top mx-0 mx-sm-2" name="0" onClick={props.onClick} scope="col">
+                        <th coltype="string" className="text-left  clickable align-text-top mx-0 mx-sm-2" name="0" onClick={props.onClick} scope="col">
                             <div className="row  m-0 p-0 justify-content-center justify-content-sm-start">
                                 {strings.shinyrates.pokname}
                                 <div className={"ml-2 align-self-center " + (props.firstColumn ? "fas fa-angle-down fa-md" : "fas fa-angle-up fa-md")} />
                             </div>
                         </th>
-                        <th colType="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} scope="col">
+                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} scope="col">
                             <div className="row m-0 p-0 justify-content-center">
                                 {strings.shinyrates.rate1}<wbr />{strings.shinyrates.rate2}
                                 <div className={"ml-2 align-self-center " + (props.secondColumn ? "fas fa-angle-up fa-md" : "fas fa-angle-down fa-md")} />
 
                             </div>
                         </th>
-                        <th colType="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} id="estimated" scope="col">
+                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} id="estimated" scope="col">
                             <div className="row m-0 p-0 justify-content-center">
                                 <div className="d-flex">
                                     {strings.shinyrates.rateest}
@@ -50,7 +50,7 @@ const ShinyTable = React.memo(function Pokemon(props) {
 
                             </div>
                         </th>
-                        <th colType="number" className="clickable align-text-top mx-0 mx-sm-2" name="3" onClick={props.onClick} scope="col">
+                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="3" onClick={props.onClick} scope="col">
                             <div className="row m-0 p-0 justify-content-center">
                                 {strings.shinyrates.checks}
                                 <div className={"ml-2 align-self-center " + (props.fourthColumn ? "fas fa-angle-up fa-md" : "fas fa-angle-down fa-md")} />
