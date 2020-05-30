@@ -1,14 +1,35 @@
 import React from "react";
 import ResultsTable from "./ResultsTable/ResultsTable"
 
-const Result = React.memo(function (props) {
-    return (
-        <ResultsTable
-            value={props.value}
-            table={props.table}
-            class={props.class}
-        />
-    );
-});
+class Result extends React.PureComponent {
+
+    constructor(props) {
+        super(props);
+        this.focusDiv = this.focusDiv.bind(this);
+    }
+
+    componentDidMount() {
+        this.focusDiv();
+    };
+    componentDidUpdate() {
+        this.focusDiv();
+    };
+
+    focusDiv() {
+        this.refs.matrixres.focus();
+    };
+
+    render() {
+        return (
+            <div tabIndex="0" ref="matrixres">
+                <ResultsTable
+                    value={this.props.value}
+                    table={this.props.table}
+                    class={this.props.class}
+                />
+            </div>
+        );
+    }
+};
 
 export default Result;

@@ -4,7 +4,7 @@ import CloseButton from "../MagicBox/CloseButton"
 
 const ListEntry = React.memo(function (props) {
     return (
-        <div onClick={props.onClick} attr={props.attr} index={props.index} className={"matrixListEntry px-1 " + props.className}>
+        <div onClick={props.onClick} attr={props.attr} index={props.index} className={"matrixListEntry animShiny clickable px-1 " + props.className}>
             <CloseButton
                 onClick={props.onPokemonDelete}
                 attr={props.attr}
@@ -12,7 +12,7 @@ const ListEntry = React.memo(function (props) {
 
                 className="close mx-0"
             />
-            <div className="thead">
+            <div className="thead ">
                 {props.thead}
             </div>
             <div className="body">
