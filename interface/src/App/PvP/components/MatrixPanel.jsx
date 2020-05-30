@@ -12,7 +12,9 @@ import Stages from "./Stages/Stages";
 import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
 import InputAndSubmit from "./InputAndSubmit/InputAndSubmit"
 import Counter from "./Counter/Counter"
+import Checkbox from "../../RaidsList/Checkbox"
 
+import ReactTooltip from "react-tooltip";
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../../locale/locale"
 
@@ -509,6 +511,28 @@ class MatrixPanel extends React.PureComponent {
                     tip={this.state.strategyTip}
                     tipClass='strategyTips'
                 />
+
+                {this.props.enableCheckbox && <Checkbox
+                    class={"form-check form-check-inline m-0 p-0 ml-4"}
+                    checked={this.props.triple ? "checked" : false}
+                    name={"triple"}
+                    label={
+                        <div className=" text-center">
+                            {"Triple battle"}
+                            <i data-tip data-for={"triple"} className="fas fa-info-circle ml-1">
+                                <ReactTooltip
+                                    className={"infoTip"}
+                                    id={"triple"} effect='solid'
+                                    place={"top"}
+                                    multiline={true}
+                                >
+                                    {strings.tips.pvpoke}
+                                </ReactTooltip>
+                            </i>
+                        </div>
+                    }
+                    onChange={this.props.onChange}
+                />}
             </div>
         )
     }
