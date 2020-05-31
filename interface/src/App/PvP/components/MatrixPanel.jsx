@@ -512,13 +512,13 @@ class MatrixPanel extends React.PureComponent {
                     tipClass='strategyTips'
                 />
 
-                {this.props.enableCheckbox && <Checkbox
-                    class={"form-check form-check-inline m-0 p-0 ml-4"}
+                {this.props.enableCheckbox && <div className="row m-0 p-0"><Checkbox
+                    class={"form-check form-check-inline m-0 p-0 ml-1 mt-1"}
                     checked={this.props.triple ? "checked" : false}
                     name={"triple"}
                     label={
                         <div className=" text-center">
-                            {"Triple battle"}
+                            {strings.tips.triple}
                             <i data-tip data-for={"triple"} className="fas fa-info-circle ml-1">
                                 <ReactTooltip
                                     className={"infoTip"}
@@ -526,13 +526,13 @@ class MatrixPanel extends React.PureComponent {
                                     place={"top"}
                                     multiline={true}
                                 >
-                                    {strings.tips.pvpoke}
+                                    {strings.tips.tripletip}
                                 </ReactTooltip>
                             </i>
                         </div>
                     }
                     onChange={this.props.onChange}
-                />}
+                /></div>}
             </div>
         )
     }
