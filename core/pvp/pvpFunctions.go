@@ -1068,14 +1068,11 @@ func (eCh *ErrorChan) Flush() string {
 }
 
 type MatrixResult struct {
-	I        int
-	K        int
-	Attacker SingleMatrixResult
-	Defender SingleMatrixResult
-}
-
-type SingleMatrixResult struct {
-	Rate uint16
+	Rate   uint16
+	I      int
+	K      int
+	QueryA string
+	QueryB string
 }
 
 type RatingResult struct {

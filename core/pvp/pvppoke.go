@@ -337,14 +337,14 @@ func (pok *pokemon) pvppokeConstructor() {
 		}
 		pok.results.chargeName = int8(moveNumb + 1)
 		//and check if the other move is ready
-		continue
+		return
 	}
 	//if no moves available, use nothing
 	pok.results.chargeName = 0
 }
 
 func (pok *pokemon) checkAvalabilityOfChargeMovesPvppoke(obj *PvpObject) {
-	//if there are no charge charge moves - ato skip
+	//if there are no charge charge moves - auto skip
 	if len(pok.chargeMove) < 1 {
 		pok.results.chargeName = 0
 		return

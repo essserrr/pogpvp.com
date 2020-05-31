@@ -49,7 +49,7 @@ class PvpPage extends React.Component {
             chargeMoveList: "",
             quickMoveList: "",
             league: "",
-            pvppoke: false,
+            pvpoke: false,
 
 
             isLoaded: false,
@@ -113,7 +113,7 @@ class PvpPage extends React.Component {
         this.setState({
             loading: true,
             title: title,
-            pvppoke: simtype === "pvpoke" ? true : false,
+            pvpoke: simtype === "pvpoke" ? true : false,
             description: description,
             urlSEO: urlSEO,
         })
@@ -142,7 +142,7 @@ class PvpPage extends React.Component {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip',
-                    'Pvp-Type': simtype === "pvpoke" ? "pvppoke" : "normal",
+                    'Pvp-Type': simtype === "pvpoke" ? "pvpoke" : "normal",
                 },
             }))
         }
@@ -333,15 +333,15 @@ class PvpPage extends React.Component {
                                 <div className="col-6 m-0 p-0 align-self-center">
                                     <Checkbox
                                         class={"form-check form-check-inline m-0 p-0 ml-4"}
-                                        checked={this.state.pvppoke ? "checked" : false}
-                                        name={"pvppoke"}
+                                        checked={this.state.pvpoke ? "checked" : false}
+                                        name={"pvpoke"}
                                         label={
                                             <div className=" text-center">
                                                 {strings.title.pvpoke}
-                                                <i data-tip data-for={"pvppoke"} className="fas fa-info-circle ml-1">
+                                                <i data-tip data-for={"pvpoke"} className="fas fa-info-circle ml-1">
                                                     <ReactTooltip
                                                         className={"infoTip"}
-                                                        id={"pvppoke"} effect='solid'
+                                                        id={"pvpoke"} effect='solid'
                                                         place={"top"}
                                                         multiline={true}
                                                     >

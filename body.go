@@ -44,6 +44,8 @@ type App struct {
 
 	semistaticBuckets []string
 	botsList          []string
+
+	corsEnabled bool
 }
 
 type pageMetrics struct {
@@ -73,6 +75,11 @@ func createApp(withLog *os.File) (*App, error) {
 		app App
 		err error
 	)
+
+	if os.Getenv("APP_CORS") == "true" {
+		app.corsEnabled = true
+	}
+
 	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot",
 		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
 		"telegrambot", "twitterbot"}
@@ -274,7 +281,7 @@ func (rh rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//close request body
 	defer r.Body.Close()
 	//set up CORS
-	if os.Getenv("APP_CORS") == "true" {
+	if rh.app.corsEnabled {
 		setupCors(&w, r)
 	}
 	//handle options method
@@ -597,8 +604,8 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 	var answer []byte
 	switch isPvppoke {
-	case "pvppoke":
-		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvppoke")
+	case "pvpoke":
+		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvpoke")
 		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
 	default:
 		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey)
@@ -616,7 +623,7 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		//Start new PvP
 		var pvpResult pvpsim.PvpResults
 		switch isPvppoke {
-		case "pvppoke":
+		case "pvpoke":
 			pvpResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
@@ -643,8 +650,8 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		}
 		if !pvpResult.IsRandom {
 			switch isPvppoke {
-			case "pvppoke":
-				go app.writePvp(answer, pvpBaseKey+"pvppoke")
+			case "pvpoke":
+				go app.writePvp(answer, pvpBaseKey+"pvpoke")
 			default:
 				go app.writePvp(answer, pvpBaseKey)
 			}
@@ -707,7 +714,6 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	matrixObj.isPvpoke = r.Header.Get("Pvp-Type")
 	matrixObj.app = app
 	matrixObj.result = make([][]pvpsim.MatrixResult, 0, 1)
-	start := time.Now()
 	switch shieldsNumber {
 	case "triple":
 		err = matrixObj.calculateMatrix(0)
@@ -728,7 +734,6 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 			return err
 		}
 	}
-	fmt.Println(time.Since(start))
 
 	log.WithFields(log.Fields{"location": "matrixPvpHandler"}).Println("Calculated")
 	//Create json answer from pvpResult
@@ -789,10 +794,11 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 	//if pokemons are the same, it should be tie without any calculations
 	if mp.pokA.Query == mp.pokB.Query {
 		*singleMatrixResults = append(*singleMatrixResults, pvpsim.MatrixResult{
-			I:        mp.i,
-			K:        mp.k,
-			Attacker: pvpsim.SingleMatrixResult{Rate: 500},
-			Defender: pvpsim.SingleMatrixResult{Rate: 500},
+			I:      mp.i,
+			K:      mp.k,
+			Rate:   500,
+			QueryA: mp.pokA.Query,
+			QueryB: mp.pokB.Query,
 		})
 		return
 	}
@@ -806,8 +812,8 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 		err       error
 	)
 	switch mp.isPvpoke {
-	case "pvppoke":
-		baseEntry = mp.app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvppoke")
+	case "pvpoke":
+		baseEntry = mp.app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvpoke")
 	default:
 		baseEntry = mp.app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey)
 	}
@@ -816,7 +822,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 	case nil: //if result doesn't exist
 		var singleBattleResult pvpsim.PvpResults
 		switch mp.isPvpoke {
-		case "pvppoke":
+		case "pvpoke":
 			singleBattleResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
@@ -834,9 +840,9 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 			mp.errChan <- err
 			return
 		}
-		matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
-		matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
-
+		matrixBattleResult.Rate = singleBattleResult.Attacker.Rate
+		matrixBattleResult.QueryA = mp.pokA.Query
+		matrixBattleResult.QueryB = mp.pokB.Query
 		//if results are not random
 		if !singleBattleResult.IsRandom {
 			go func(battleRes pvpsim.PvpResults, key string) {
@@ -848,8 +854,8 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 					return
 				}
 				switch mp.isPvpoke {
-				case "pvppoke":
-					mp.app.writePvp(newBaseEntry, pvpBaseKey+"pvppoke")
+				case "pvpoke":
+					mp.app.writePvp(newBaseEntry, pvpBaseKey+"pvpoke")
 				default:
 					mp.app.writePvp(newBaseEntry, pvpBaseKey)
 				}
@@ -864,8 +870,9 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 			mp.errChan <- fmt.Errorf("Matrix PvP result unmarshal error: %v", err)
 			return
 		}
-		matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
-		matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
+		matrixBattleResult.Rate = singleBattleResult.Attacker.Rate
+		matrixBattleResult.QueryA = mp.pokA.Query
+		matrixBattleResult.QueryB = mp.pokB.Query
 	}
 
 	matrixBattleResult.I = mp.i
@@ -906,7 +913,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	var pvpResult pvpsim.PvpResults
 
 	switch isPvppoke {
-	case "pvppoke":
+	case "pvpoke":
 		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
 		pvpResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
 			AttackerData: pokA,
@@ -1074,8 +1081,8 @@ func (a *App) initPvpSrv() *http.Server {
 	srv := &http.Server{
 		Handler:      router,
 		Addr:         os.Getenv("APP_LISTEN_ADDR"),
-		WriteTimeout: 30 * time.Second,
-		ReadTimeout:  30 * time.Second,
+		WriteTimeout: 120 * time.Second,
+		ReadTimeout:  120 * time.Second,
 	}
 	return srv
 }
