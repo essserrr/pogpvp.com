@@ -125,6 +125,9 @@ export const locale = {
             shadow: "Shadow pokemons have \n x1.2 Atk and x0.881 Def",
             constructor: "Allows to chage actions in the timeline",
             pvpoke: "Enables Pvpoke-like PvP rules; after enabling strategies don't affect PvP results",
+            triple: "Overall rating",
+            tripletip: "Calculates PvP between every single pokemon of the right column and every single  pokemon of the left column. Calculation is performed with following shield combinations: 0x0, 1x1, 2x2. After that estimates overall rating of every fight.\n When the option is active, changing the number of shields does not affect the result.",
+
         },
         move: {
             damage: "Damage: ",
@@ -347,6 +350,8 @@ export const locale = {
             shadow: "У теневых покемонов \n x1.2 Атк и x0.881 Защ",
             constructor: "Позволяет менять дейсвия на графике",
             pvpoke: "Включает правила PvP подобные Pvpoke. Когда режим активен, стратегии перестают работать",
+            triple: "Общий рейтинг",
+            tripletip: "Проводит PvP между каждым покемоном левого столбца и каждым покемоном правого столбца. Расчет проводится для 3 комбинаций щитов: 0х0, 1х1, 2х2, после чего определяется общий рейтинг.\n Когда опция активна, изменение количества щитов в опцих не влияет на результат.",
         },
         move: {
             damage: "Урон: ",
