@@ -382,6 +382,32 @@
     }
    }
 
+
+
+@mixin matrColor {
+    &.res0 {
+        background-color: rgb(181, 182, 182);
+        color: rgba(24, 23, 23, 1);
+    }
+    &.res3 {
+        background-color: rgb(139, 219, 195);
+        color: rgba(24, 23, 23, 1);
+    }
+    &.res4 {
+        background-color: rgb(68, 202, 157);
+        color: v
+    }
+    &.res1 {
+        background-color: rgb(230, 141, 82);
+        color: rgba(24, 23, 23, 1);
+    }
+    &.res2 {
+        background-color: rgb(224, 86, 32);
+        color:whitesmoke;
+    }
+}
+
+
 //tips styles
 
 .strategyTips {
@@ -719,6 +745,8 @@ body {
     @include stages;
 }
 
+
+
 .rate {
     padding-left: 3px;
     padding-right: 3px;
@@ -734,14 +762,85 @@ body {
 
     color: white;
     font-weight: bold;
-    &.win {
-        background-color: rgb(46, 185, 139);
-    }
-    &.lose {
-        background-color: rgb(221, 83, 28);
-    }
+    @include matrColor;
 }
 
+.rateMatrix {
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+
+    display: inline-block;
+    width: fit-content;
+    border-style: solid;
+    border-radius: 4px 4px 4px 4px;
+    border-color: black;
+    border-width: 1px;
+
+    color: white;
+    font-weight: bold;
+    font-size: 110% !important;
+    @include matrColor;
+    &.hover:hover{
+        background-color: white;
+      }
+
+}
+
+.matrixCardThead{
+    min-width: 22px !important;
+    height: 20px;
+    font-weight: bolder;
+    &.borx{
+        border-left: 1.5px solid;
+        border-right: 1.5px solid;
+        border-color: #42434E;
+    }
+    @include matrColor;
+    &.hover:hover{
+        background-color: white;
+      }
+}
+
+.matrixCardBody {
+    width: 100%;
+    font-weight: 500;
+    &.bort{
+        border-top: 1.5px solid;
+        border-color: #42434E;
+    }
+    @include matrColor;
+    &.hover:hover{
+        background-color: white;
+      }
+}
+
+
+.matrixCellWidth{
+    min-width: 70px !important;
+}
+
+.matrixCard {
+    min-width: 70px !important;
+
+    &.bor {
+        border-radius: 3px 3px 3px 3px;
+        border: 1.5px solid;
+        border-color: #42434E;
+    } 
+}
+
+.cupl{
+    border-radius: 2px 0px 0px 0px;
+}
+.cupr{
+    border-radius: 0px 2px 0px 0px;
+
+}
+.cbotlr{
+    border-radius: 0px 0px 2px 2px;
+}
 
 //border styles
 .modifiedBorder {
@@ -980,13 +1079,9 @@ body {
 }
 
 .tableFixHead          {  overflow-y: auto; height: 100px;  }
-.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 2; }
 
-.fixFirstRow {  position: sticky; left: 0; background-color: #e9ecef}
-
-.zindex {
-    z-index: 5 !important;
-}
+.fixFirstRow {  position: sticky; left: 0; background-color: #e9ecef; z-index: 1;}
 
 
 //footer
