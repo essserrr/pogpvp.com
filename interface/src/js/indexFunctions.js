@@ -626,6 +626,23 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
     return { primaryName, secodaryName }
 }
 
+export function encodeMatrixThead(rate) {
+
+    if (rate >= 630) {
+        return ["+2", "res4"]
+    }
+    if (rate > 500) {
+        return ["+1", "res3"]
+    }
+    if (rate === 500) {
+        return ["0", "res0"]
+    }
+    if (rate >= 370) {
+        return ["-1", "res1"]
+    }
+    return ["-2", "res2"]
+}
+
 var levelData = [
     0,
     0,
