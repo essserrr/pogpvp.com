@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { UnmountClosed } from 'react-collapse';
 import LocalizedStrings from 'react-localization';
 import BarLoader from "react-spinners/BarLoader";
 import ReactTooltip from "react-tooltip";
@@ -9,6 +10,8 @@ import MatrixPvp from "./MatrixPvp"
 import SelectGroup from "./components/SelectGroup/SelectGroup";
 import PokemonIconer from "./components/PokemonIconer/PokemonIconer"
 import Checkbox from "../RaidsList/Checkbox"
+import MatrixDescr from "./components/Description/MatrixDescr"
+import SingleDescr from "./components/Description/SingleDescr"
 
 
 import { getCookie, extractPokemon, extractData, returnMovePool, calculateMaximizedStats, calculateEffStat } from "../../js/indexFunctions"
@@ -59,10 +62,12 @@ class PvpPage extends React.Component {
                 <option value="master" key="master">{strings.options.league.master}</option>,
             ],
             loading: false,
+            showCollapse: false,
         };
         this.onChange = this.onChange.bind(this);
         this.updateState = this.updateState.bind(this);
         this.onPvppokeEnable = this.onPvppokeEnable.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
 
@@ -295,6 +300,11 @@ class PvpPage extends React.Component {
             [event.target.name]: !Boolean(this.state[event.target.name]),
         })
     }
+    onClick() {
+        this.setState({
+            showCollapse: !this.state.showCollapse
+        })
+    }
 
 
     render() {
@@ -381,8 +391,20 @@ class PvpPage extends React.Component {
                             }
                         </div>
                     </div>
-
-
+                    <div className="row justify-content-center px-1 ">
+                        <div className="col-12 superBig-1 results m-0 p-0 px-3 py-2" >
+                            <div onClick={this.onClick} className="row justify-content-between m-0 p-0 pb-1 clickable">
+                                <div className="font-weight-bold ml-1">{strings.title.about}</div>
+                                <i className={this.state.showCollapse ? "align-self-center fas fa-angle-up fa-lg " : "align-self-center fas fa-angle-down fa-lg"}></i>
+                            </div>
+                            <UnmountClosed isOpened={this.state.showCollapse}>
+                                <div className="row justify-content-center m-0 p-0">
+                                    {(this.state.isLoaded && (this.props.match.params.type === "matrix")) && <MatrixDescr />}
+                                    {(this.state.isLoaded && (this.props.match.params.type === "single")) && <SingleDescr />}
+                                </div>
+                            </UnmountClosed>
+                        </div>
+                    </div>
                 </div >
             </>
         );

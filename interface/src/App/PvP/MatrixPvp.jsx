@@ -3,7 +3,7 @@ import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
 import Errors from "./components/Errors/Errors"
 import ListEntry from "./components/MatrixPokemonList/ListEntry"
-import { encodeQueryData, getCookie, calculateMaximizedStats, encodeMatrixThead } from "../../js/indexFunctions.js"
+import { encodeQueryData, getCookie, calculateMaximizedStats, returnRateStyle } from "../../js/indexFunctions.js"
 import { great, ultra, master } from "./matrixPresets"
 import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
@@ -436,7 +436,7 @@ class MatrixPvp extends React.PureComponent {
 
         //fill cells
         for (let i = 0; i < data.length; i++) {
-            let rateStyle = encodeMatrixThead(data[i].Rate)
+            let rateStyle = returnRateStyle(data[i].Rate)
             let line = data[i].I + 1
             let row = data[i].K + 1
             arr[line][row] = <td key={line + row} className="modifiedBorderTable defaultFont m-0 p-0 align-middle" >
@@ -529,10 +529,10 @@ class MatrixPvp extends React.PureComponent {
             let line = data[0][i].I + 1
             let row = data[0][i].K + 1
             let rating = Math.round((data[0][i].Rate + data[1][i].Rate + data[2][i].Rate) / 3)
-            let rate00 = encodeMatrixThead(data[0][i].Rate)
-            let rate11 = encodeMatrixThead(data[1][i].Rate)
-            let rate22 = encodeMatrixThead(data[2][i].Rate)
-            let rateOverall = encodeMatrixThead(rating)
+            let rate00 = returnRateStyle(data[0][i].Rate)
+            let rate11 = returnRateStyle(data[1][i].Rate)
+            let rate22 = returnRateStyle(data[2][i].Rate)
+            let rateOverall = returnRateStyle(rating)
 
             arr[line][row] = <td key={line + row} className="matrixCellWidth modifiedBorderTable defaultFont p-0 m-0 px-1 align-middle" >
                 <div className="matrixCard bor row justify-content-center m-0 p-0 mr-auto ml-auto">
@@ -893,117 +893,3 @@ export default MatrixPvp
 
 
 
-
-
-/*
-<div className="col-12 m-0 p-0">
-                        <div key={"ex1"} className="matrixCellWidth modifiedBorderTable defaultFont p-0 m-0 px-1 align-middle" >
-                            <div className="matrixCard  bor row justify-content-center m-0 p-0 mr-auto ml-auto">
-                                <div data-tip data-for={"0vs0"} className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead res3"} >
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"0vs0"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 0 vs 0"}
-                                    </ReactTooltip>
-                                    {"+1"}
-                                </div>
-                                <div data-tip data-for={"1vs1"} className={"col-4 m-0 p-0 text-center  hover matrixCardThead borx res0"}>
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"1vs1"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 1 vs 1"}
-                                    </ReactTooltip>
-                                    {"0"}
-                                </div>
-                                <div data-tip data-for={"2vs2"} className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead res1"} >
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"2vs2"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 2 vs 2"}
-                                    </ReactTooltip>
-                                    {"-1"}
-                                </div>
-
-                                <div data-tip data-for={"over"} className={"matrixCardBody text-center bort cbotlr hover col-12 m-0 p-0  res4"}>
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"over"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Overall rating"}
-                                    </ReactTooltip>
-                                    {1000}
-                                </div>
-
-                            </div>
-                            <div className="matrixCard bor row justify-content-center m-0 p-0 mr-auto ml-auto">
-                                <div data-tip data-for={"0vs0"} className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead res4"} >
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"0vs0"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 0 vs 0"}
-                                    </ReactTooltip>
-                                    {"+2"}
-                                </div>
-                                <div data-tip data-for={"1vs1"} className={"col-4 m-0 p-0 text-center  hover matrixCardThead borx res3"}>
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"1vs1"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 1 vs 1"}
-                                    </ReactTooltip>
-                                    {"+3"}
-                                </div>
-                                <div data-tip data-for={"2vs2"} className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead res0"} >
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"2vs2"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 2 vs 2"}
-                                    </ReactTooltip>
-                                    {"0"}
-                                </div>
-                                <div data-tip data-for={"2vs2"} className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead res1"} >
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"2vs2"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 2 vs 2"}
-                                    </ReactTooltip>
-                                    {"-1"}
-                                </div>
-                                <div data-tip data-for={"2vs2"} className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead res2"} >
-                                    <ReactTooltip
-                                        className={"infoTip"}
-                                        id={"2vs2"} effect='solid'
-                                        place={"top"}
-                                        multiline={true}
-                                    >
-                                        {"Number of shields: 2 vs 2"}
-                                    </ReactTooltip>
-                                    {"-2"}
-                                </div>
-                            </div>
-                        </div>
-
-                    </div >
-*/
