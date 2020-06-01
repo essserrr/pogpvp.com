@@ -430,7 +430,10 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
 
     for (var i = 0; i < ratingList.length; i++) {
         var pokName = checkShadow(ratingList[i].Name, pokemonTable)
-
+        if (!pokemonTable[pokName]) {
+            console.log(pokName + " not found")
+            continue
+        }
         result.push(
             <div key={ratingList[i].Name} className={"col-12 px-1 pt-1"}>
                 <PokemonCard
@@ -464,7 +467,7 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
                     classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
                     classIcon={"icon64  col-auto mx-2 mt-2 p-0 align-self-center"}
                     classBody={"bigCardBody bigWidth  col-8 col-md-10 align-self-center m-0 p-1 p-0 "}
-                    classFooter="row m-0 p-0 mb-2"
+                    classFooter="col-12 m-0  mb-2"
                 />
             </div>)
     }

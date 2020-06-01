@@ -687,10 +687,16 @@ div :focus {
 .font12 {
     font-size: 12px !important;
 }
+.tipfont {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+
+    font-weight: bolder;
+}
+
 
 //background
 body { 
-
     background: url('./background.jpg') no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -797,6 +803,11 @@ body {
         border-right: 1.5px solid;
         border-color: #42434E;
     }
+    &.bor{
+        border-radius: 3px 3px 3px 3px;
+        border: 1.5px solid;
+        border-color: #42434E;
+    }
     @include matrColor;
     &.hover:hover{
         background-color: white;
@@ -823,7 +834,7 @@ body {
 
 .matrixCard {
     min-width: 70px !important;
-
+    max-width: 80px !important;
     &.bor {
         border-radius: 3px 3px 3px 3px;
         border: 1.5px solid;
@@ -1089,7 +1100,7 @@ body {
     min-height: 100vh;
     position: relative;
     margin: 0;
-    padding-bottom: 20px; //height of the footer
+    padding-bottom: 30px; //height of the footer
   }
   
   .footer {
@@ -1108,7 +1119,7 @@ body {
 
   @media (max-width: 1200px) { 
     body {
-        padding-bottom: 30px;
+        padding-bottom: 40px;
     }
  }
  @media (max-width: 992px) { 
@@ -1124,7 +1135,7 @@ body {
 
  @media (max-width: 576px) { 
     body {
-        padding-bottom: 85px;
+        padding-bottom: 95px;
     }
  }
 
@@ -1221,7 +1232,9 @@ body {
 .superBig {
     max-width: 1200px !important;
 }
-
+.superBig-1 {
+    max-width: 1230px !important;
+}
 .mediumWidth {
     max-width: 650px !important;
 }

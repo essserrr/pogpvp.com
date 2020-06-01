@@ -120,6 +120,10 @@ class Collapsable extends React.PureComponent {
         }
         for (var i = 0; i < array.length; i++) {
             var pokName = checkShadow(array[i].Name, this.props.pokemonTable)
+            if (!this.props.pokemonTable[pokName]) {
+                console.log(pokName + " not found")
+                continue
+            }
             sublist.push(
                 <div key={array[i].Name}
                     name={pokName}
@@ -159,15 +163,15 @@ class Collapsable extends React.PureComponent {
                     <div className="row justify-content-between  m-0 p-0">
                         <div className="col-10 m-0 p-0">
                             <div className="row justify-content-md-left m-0 p-0">
-                                <div className={"mx-1 moveStyle color" + this.props.moveTable[array[i].Quick].MoveType + " text"}>
+                                {this.props.moveTable[array[i].Quick] && <div className={"mx-1 moveStyle color" + this.props.moveTable[array[i].Quick].MoveType + " text"}>
                                     {array[i].Quick}
-                                </div>
-                                <div className={"mx-1  moveStyle color" + this.props.moveTable[array[i].Charge[0]].MoveType + " text"}>
+                                </div>}
+                                {this.props.moveTable[array[i].Charge[0]] && <div className={"mx-1  moveStyle color" + this.props.moveTable[array[i].Charge[0]].MoveType + " text"}>
                                     {array[i].Charge[0]}
-                                </div>
-                                <div className={"mx-1 moveStyle  color" + this.props.moveTable[array[i].Charge[1]].MoveType + " text"}>
+                                </div>}
+                                {this.props.moveTable[array[i].Charge[1]] && <div className={"mx-1 moveStyle  color" + this.props.moveTable[array[i].Charge[1]].MoveType + " text"}>
                                     {array[i].Charge[1]}
-                                </div>
+                                </div>}
                             </div>
                         </div>
                         <div className="col-2 text-right align-self-center m-0 p-0 pr-2">
@@ -221,19 +225,14 @@ class Collapsable extends React.PureComponent {
     render() {
         return (
             <>
-                <div className="col-12 m-0 p-0  " >
-                    <div className="row justify-content-end m-0 p-0 px-3 pb-1">
-                        <i onClick={this.onClick} className={this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
+                <div onClick={this.onClick} className="row clickable justify-content-end m-0 p-0 px-3 pb-1">
+                    <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
+                </div>
+                <UnmountClosed isOpened={this.state.showCollapse}>
+                    <div className="row justify-content-center m-0 p-0 px-2">
+                        {this.generateBody()}
                     </div>
-                </div>
-                <div className="col-12 m-0 p-0">
-                    <UnmountClosed isOpened={this.state.showCollapse}>
-                        <div className="row justify-content-center m-0 p-0 px-2">
-                            {this.generateBody()}
-                        </div>
-                    </UnmountClosed>
-                </div>
-
+                </UnmountClosed>
             </>
 
         )

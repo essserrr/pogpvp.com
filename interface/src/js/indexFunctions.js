@@ -626,7 +626,7 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
     return { primaryName, secodaryName }
 }
 
-export function encodeMatrixThead(rate) {
+export function returnRateStyle(rate) {
 
     if (rate >= 630) {
         return ["+2", "res4"]
