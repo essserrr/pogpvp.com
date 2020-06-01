@@ -17,6 +17,7 @@ export const locale = {
             type: "\xa0Pokemon Type\xa0",
             evolveTool: "Select pokemon you want to evolve",
             pvpoke: "Pvpoke-like rules",
+            about: "About simulator",
         },
 
         shinyrates: {
@@ -244,6 +245,7 @@ export const locale = {
             type: "\xa0\xa0Тип покемона\xa0",
             evolveTool: "Выберите покемона для эволюции",
             pvpoke: "Правила боев Pvpoke",
+            about: "О симуляторе",
         },
 
         shinyrates: {
