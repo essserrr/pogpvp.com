@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { UnmountClosed } from 'react-collapse';
 import BarLoader from "react-spinners/BarLoader";
 import LocalizedStrings from 'react-localization';
 
@@ -10,6 +11,7 @@ import Errors from "../PvP/components/Errors/Errors"
 import Type from "../PvP/components/CpAndTypes/Type"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup";
 import PokemonCard from "../Evolve/PokemonCard"
+import RatingDescr from "./RatingDescr"
 
 import { ReactComponent as Shadow } from "../../icons/shadow.svg";
 import { typeDecoder, checkShadow, getCookie, capitalize } from "../../js/indexFunctions"
@@ -66,10 +68,12 @@ class PvpRating extends React.Component {
                     {strings.rating.thirdsent}
                 </small>
             ],
+            showDescription: false,
         };
         this.onLoadMore = this.onLoadMore.bind(this);
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onShowDescr = this.onShowDescr.bind(this);
     }
 
 
@@ -318,6 +322,11 @@ class PvpRating extends React.Component {
         });
     }
 
+    onShowDescr() {
+        this.setState({
+            showDescription: !this.state.showDescription,
+        })
+    }
 
     render() {
         return (
@@ -337,9 +346,9 @@ class PvpRating extends React.Component {
                     <meta property="twitter:description" content={strings.pagedescriptions.pvprating} />
                 </Helmet>
                 <div className=" container-fluid mt-3 mb-5">
-                    <div className=" row  justify-content-center px-2 pb-5">
-                        <div className="singleNews bigWidth col-12 px-2 p-2">
-                            <div className="row m-0 p-0">
+                    <div className="row justify-content-center px-1 px-sm-2 mx-md-3 pb-5">
+                        <div className="col-12 bigWidth m-0 p-0">
+                            <div className="row m-0 p-0 singleNews mb-2 p-2">
                                 <div className="col-12 col-sm-6 m-0 p-1">
                                     <SelectGroup
                                         class="input-group input-group-sm p-0 m-0"
@@ -367,10 +376,18 @@ class PvpRating extends React.Component {
                                     />
                                 </div>
                             </div>
+                            <div className="row singleNews m-0 p-0 px-3 py-2 mb-3" >
+                                <div onClick={this.onShowDescr} className="col-12 d-flex justify-content-between m-0 p-0 pb-1 clickable">
+                                    <div className="font-weight-bold ml-1">{strings.title.aboutrate}</div>
+                                    <i className={this.state.showDescription ? "align-self-center fas fa-angle-up fa-lg " : "align-self-center fas fa-angle-down fa-lg"}></i>
+                                </div>
+                                <UnmountClosed isOpened={this.state.showDescription}>
+                                    <div className="row justify-content-center m-0 p-0">
+                                        <RatingDescr />
+                                    </div>
+                                </UnmountClosed>
+                            </div>
 
-
-                        </div>
-                        <div className="col-12 m-0 p-0">
                             <div className="row justify-content-center m-0 p-0">
                                 <div className="singleNews bigWidth col-md-10 col-lg-8 p-2 m-0">
                                     {this.state.loading && <div className="row  justify-content-center"  >
@@ -409,8 +426,6 @@ class PvpRating extends React.Component {
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div >
             </>

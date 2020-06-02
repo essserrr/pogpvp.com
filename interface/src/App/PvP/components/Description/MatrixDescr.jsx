@@ -20,7 +20,7 @@ const MatrixDecr = React.memo(function (props) {
             <p className="col-12 tipfont m-0 p-0 my-2">
                 {tips.par2}
             </p>
-            <h6 className="col-12 tipfont font-weight-bold m-0 p-0 mb-1 text-center">
+            <h6 className="col-12 font-weight-bold m-0 p-0 mb-1 text-center">
                 {tips.overall}
             </h6>
             <div className="col-12 d-flex justify-content-center m-0 p-0 ">

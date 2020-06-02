@@ -18,6 +18,7 @@ export const locale = {
             evolveTool: "Select pokemon you want to evolve",
             pvpoke: "Pvpoke-like rules",
             about: "About simulator",
+            aboutrate: "About rating",
         },
 
         shinyrates: {
@@ -208,6 +209,7 @@ export const locale = {
         },
 
         rating: {
+            rate: "Rating",
             sheilds: "Shields",
             ratingType: "Rating type",
             type: "Type:",
@@ -244,8 +246,9 @@ export const locale = {
             latestnews: "Последние новости",
             type: "\xa0\xa0Тип покемона\xa0",
             evolveTool: "Выберите покемона для эволюции",
-            pvpoke: "Правила боев Pvpoke",
+            pvpoke: "Правила Pvpoke",
             about: "О симуляторе",
+            aboutrate: "О рейтинге",
         },
 
         shinyrates: {
@@ -433,6 +436,7 @@ export const locale = {
         },
 
         rating: {
+            rate: "Рейтинг",
             sheilds: "Щиты",
             ratingType: "Тип рейтинга",
             type: "Тип:",
@@ -440,7 +444,7 @@ export const locale = {
             avgWin: "Средний процент побед:",
             score: "Счет:",
             bestMatchups: "Лучшие бои в мете",
-            bestCounter: "Лучшие контры в мете",
+            bestCounter: "Метовые контры",
             movesets: "Лучшие наборы умений",
             firstsent: "PvP рейтинг отвечает на вопрос: кто будет лучшим против текущей меты.",
             secondsent: "Рейтинг разделен по сценариям в зависимости от количества щитов скаждой стороны.",

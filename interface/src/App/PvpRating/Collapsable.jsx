@@ -190,8 +190,9 @@ class Collapsable extends React.PureComponent {
         var best = this.createSublist(this.props.container.BestMetaMatchups)
         body.push(
             <div key={"Best meta matchups"} className="col-12 col-sm-6 p-0 m-0">
-                <div className="row bigCardHeader justify-content-center p-0 mb-1 mx-2 mx-md-3">
-                    {strings.rating.bestMatchups}
+                <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
+                    <div className="col-8 m-0 p-0 text-left">{strings.rating.bestMatchups}</div>
+                    <div className="col-4 m-0 p-0 text-right">{strings.rating.rate}</div>
                 </div>
                 {best}
             </div>
@@ -200,8 +201,9 @@ class Collapsable extends React.PureComponent {
         var counters = this.createSublist(this.props.container.Counters)
         body.push(
             <div key={"Meta counters"} className="col-12 col-sm-6 p-0 m-0">
-                <div className="row bigCardHeader justify-content-center p-0 mb-1 mx-2 mx-md-3">
-                    {strings.rating.bestCounter}
+                <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
+                    <div className="col-8 m-0 p-0 text-left">{strings.rating.bestCounter}</div>
+                    <div className="col-4 m-0 p-0 text-right">{strings.rating.rate}</div>
                 </div>
                 {counters}
             </div>
@@ -210,8 +212,9 @@ class Collapsable extends React.PureComponent {
         var movesets = this.createMovesetList(this.props.container.Movesets)
         body.push(
             <div key={"Best movesets"} className="col-12 col-sm-11 col-md-8 p-0 m-0 text-center">
-                <div className="row bigCardHeader justify-content-center p-0 mb-1 mx-2 mx-md-3">
-                    {strings.rating.movesets}
+                <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
+                    <div className="col-8 m-0 p-0 text-left">{strings.rating.movesets}</div>
+                    <div className="col-4 m-0 p-0 text-right">{strings.rating.rate}</div>
                 </div>
                 <div className="row p-0 mx-2 mx-md-3">
                     {movesets}

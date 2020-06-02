@@ -513,26 +513,27 @@ class MatrixPanel extends React.PureComponent {
                 />
 
                 {this.props.enableCheckbox && <div className="row m-0 p-0"><Checkbox
-                    class={"form-check form-check-inline m-0 p-0 ml-1 mt-1"}
+                    class={"form-check form-check-inline m-0 p-0 ml-1 mt-2"}
                     checked={this.props.triple ? "checked" : false}
                     name={"triple"}
                     label={
                         <div className=" text-center">
                             {strings.tips.triple}
-                            <i data-tip data-for={"triple"} className="fas fa-info-circle ml-1">
-                                <ReactTooltip
-                                    className={"infoTip"}
-                                    id={"triple"} effect='solid'
-                                    place={"top"}
-                                    multiline={true}
-                                >
-                                    {strings.tips.tripletip}
-                                </ReactTooltip>
-                            </i>
                         </div>
                     }
                     onChange={this.props.onChange}
-                /></div>}
+                />
+                    <i data-tip data-for={"triple"} className="align-self-center fas fa-info-circle fa-lg ml-auto mt-2">
+                        <ReactTooltip
+                            className={"infoTip"}
+                            id={"triple"} effect='solid'
+                            place={"top"}
+                            multiline={true}
+                        >
+                            {strings.tips.tripletip}
+                        </ReactTooltip>
+                    </i>
+                </div>}
             </div>
         )
     }

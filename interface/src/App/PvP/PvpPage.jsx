@@ -329,7 +329,7 @@ class PvpPage extends React.Component {
                     <div className="row justify-content-center px-1">
                         <div className="col-12 results mediumWidth p-2  m-0">
                             <div className="row d-flex m-0 p-0">
-                                <div className="col-6 m-0 p-0">
+                                <div className="col-6 col-sm-7 col-md-8 align-self-center m-0 p-0">
                                     <SelectGroup
                                         name="league"
                                         class="input-group input-group-sm"
@@ -340,7 +340,7 @@ class PvpPage extends React.Component {
                                         for=""
                                     />
                                 </div>
-                                <div className="col-6 m-0 p-0 align-self-center">
+                                <div className="col-6 col-sm-5 col-md-4 d-flex m-0 p-0 align-self-center justify-content-between">
                                     <Checkbox
                                         class={"form-check form-check-inline m-0 p-0 ml-4"}
                                         checked={this.state.pvpoke ? "checked" : false}
@@ -348,20 +348,21 @@ class PvpPage extends React.Component {
                                         label={
                                             <div className=" text-center">
                                                 {strings.title.pvpoke}
-                                                <i data-tip data-for={"pvpoke"} className="fas fa-info-circle ml-1">
-                                                    <ReactTooltip
-                                                        className={"infoTip"}
-                                                        id={"pvpoke"} effect='solid'
-                                                        place={"top"}
-                                                        multiline={true}
-                                                    >
-                                                        {strings.tips.pvpoke}
-                                                    </ReactTooltip>
-                                                </i>
+
                                             </div>
                                         }
                                         onChange={this.onPvppokeEnable}
                                     />
+                                    <i data-tip data-for={"pvpoke"} className="align-self-center fas fa-info-circle fa-lg ml-2">
+                                        <ReactTooltip
+                                            className={"infoTip"}
+                                            id={"pvpoke"} effect='solid'
+                                            place={"top"}
+                                            multiline={true}
+                                        >
+                                            {strings.tips.pvpoke}
+                                        </ReactTooltip>
+                                    </i>
                                 </div>
 
 

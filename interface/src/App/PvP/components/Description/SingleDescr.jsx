@@ -35,7 +35,7 @@ const SingleDescr = React.memo(function (props) {
                 <p className="col-12 tipfont p-0 m-0 px-1 py-1" >
                     {tips.maxp1}
                 </p>
-                <ul className="col-12 tipfont p-0 m-0 px-5">
+                <ul className="col-12 tipfont p-0 m-0 px-3 px-sm-5">
                     <li>
                         {tips.maxul.li1}
                     </li>
@@ -61,7 +61,7 @@ const SingleDescr = React.memo(function (props) {
                 <p className="col-12 tipfont p-0 m-0 px-1 py-1" >
                     {tips.movep3}
                 </p>
-                <ul className="col-12 tipfont p-0 m-0 px-5">
+                <ul className="col-12 tipfont p-0 m-0 px-3 px-sm-5">
                     <li>
                         {tips.moveul.li1}
                     </li>
@@ -78,7 +78,7 @@ const SingleDescr = React.memo(function (props) {
                 <p className="col-12 tipfont p-0 m-0 px-1 py-1" >
                     {tips.algp1}
                 </p>
-                <ul className="col-12 tipfont p-0 m-0 px-5">
+                <ul className="col-12 tipfont p-0 m-0 px-3 px-sm-5">
                     <li>
                         {tips.algul1.li1}
                     </li>
@@ -92,7 +92,7 @@ const SingleDescr = React.memo(function (props) {
                 <p className="col-12 tipfont p-0 m-0 px-1 py-1" >
                     {tips.algp2}
                 </p>
-                <ul className="col-12 tipfont p-0 m-0 px-5">
+                <ul className="col-12 tipfont p-0 m-0 px-3 px-sm-5">
                     <li>
                         {tips.algul2.li1}
                     </li>
