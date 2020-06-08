@@ -3,6 +3,8 @@ import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
 import Errors from "./components/Errors/Errors"
 import ListEntry from "./components/MatrixPokemonList/ListEntry"
+import Advisor from "./components/Advisor/Advisor"
+
 import { encodeQueryData, getCookie, calculateMaximizedStats, returnRateStyle } from "../../js/indexFunctions.js"
 import { great, ultra, master } from "./matrixPresets"
 import Result from "./components/Result"
@@ -67,6 +69,8 @@ class MatrixPvp extends React.PureComponent {
                 showMenu: false,
             },
             triple: false,
+            advDisabled: true,
+            advisorList: undefined,
 
             loading: false,
             error: this.props.parentState.error,
@@ -80,12 +84,12 @@ class MatrixPvp extends React.PureComponent {
         this.onClick = this.onClick.bind(this);
         this.onPokemonAdd = this.onPokemonAdd.bind(this);
         this.onPokemonDelete = this.onPokemonDelete.bind(this);
-        this.onPartyChange = this.onPartyChange.bind(this);
+        this.onPartySave = this.onPartySave.bind(this);
         this.onPokRedact = this.onPokRedact.bind(this);
         this.onPokRedactOff = this.onPokRedactOff.bind(this);
         this.onRedactSubmit = this.onRedactSubmit.bind(this);
         this.makeTableLines = this.makeTableLines.bind(this);
-
+        this.onAdvisorSubmit = this.onAdvisorSubmit.bind(this);
     }
 
 
@@ -221,6 +225,8 @@ class MatrixPvp extends React.PureComponent {
             />)
         }
         this.setState({
+            advisorList: undefined,
+            advDisabled: true,
             [attr]: {
                 ...this.state[attr],
                 [event.target.name]: event.target.value,
@@ -298,6 +304,8 @@ class MatrixPvp extends React.PureComponent {
         );
 
         this.setState({
+            advisorList: undefined,
+            advDisabled: true,
             [role]: {
                 ...this.state[role],
                 listForBattle: newListForBattle,
@@ -312,6 +320,8 @@ class MatrixPvp extends React.PureComponent {
 
     submitForm = async event => {
         event.preventDefault();
+        let advDisabled = this.state.leftPanel.listForBattle.length > 15 || this.state.leftPanel.listForBattle.length < 3 || this.state.rightPanel.listForBattle.length > 50 || this.state.rightPanel.listForBattle.length < 1
+        console.log(advDisabled)
         let triple = this.state.triple
         let pvpoke = this.props.parentState.pvpoke
         for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
@@ -321,6 +331,7 @@ class MatrixPvp extends React.PureComponent {
             this.state.rightPanel.listForBattle[i].Query = decodeURIComponent(encodeQueryData(this.state.rightPanel.listForBattle[i]))
         }
         this.setState({
+            advDisabled: true,
             loading: true,
         })
         let reason = ""
@@ -339,6 +350,7 @@ class MatrixPvp extends React.PureComponent {
         });
         if (reason !== "") {
             this.setState({
+                advDisabled: true,
                 showResult: false,
                 isError: true,
                 loading: false,
@@ -351,6 +363,7 @@ class MatrixPvp extends React.PureComponent {
         if (!response.ok) {
             if (data.detail === "PvP error") {
                 this.setState({
+                    advDisabled: true,
                     showResult: false,
                     isError: true,
                     loading: false,
@@ -359,6 +372,7 @@ class MatrixPvp extends React.PureComponent {
                 return;
             }
             this.setState({
+                advDisabled: true,
                 showResult: false,
                 isError: true,
                 loading: false,
@@ -382,7 +396,10 @@ class MatrixPvp extends React.PureComponent {
             isError: false,
             loading: false,
             result: tableBody,
-            pvpData: data
+            pvpData: data,
+
+            advisorList: undefined,
+            advDisabled: advDisabled,
         });
     };
 
@@ -561,6 +578,8 @@ class MatrixPvp extends React.PureComponent {
 
                 </div>
             </td >
+
+            data[0][i].Rate = rating
         }
         return arr
     }
@@ -628,6 +647,8 @@ class MatrixPvp extends React.PureComponent {
         );
 
         this.setState({
+            advisorList: undefined,
+            advDisabled: true,
             [event.attr]: {
                 ...this.state[event.attr],
                 listForBattle: newListForBattle,
@@ -636,7 +657,7 @@ class MatrixPvp extends React.PureComponent {
         });
     }
 
-    onPartyChange(event) {
+    onPartySave(event) {
         if (localStorage.getItem(event.value) === null) {
             var newList = [...this.state.savedParties]
             newList.push(<option value={event.value} key={event.value}>{event.value}</option>)
@@ -757,6 +778,8 @@ class MatrixPvp extends React.PureComponent {
         newListForBattle[this.state.redact.number] = pokCopy
 
         this.setState({
+            advisorList: undefined,
+            advDisabled: true,
             [this.state.redact.attr]: {
                 ...this.state[this.state.redact.attr],
                 listForBattle: newListForBattle,
@@ -767,6 +790,58 @@ class MatrixPvp extends React.PureComponent {
             },
         })
 
+    }
+
+
+    onAdvisorSubmit() {
+        let rateList = []
+        console.log(this.state.pvpData[0])
+        for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
+            let j = this.state.rightPanel.listForBattle.length * i
+            let maxj = j + this.state.rightPanel.listForBattle.length
+            let singleRate = 0
+            let zeros = {}
+
+            for (; j < maxj; j++) {
+                singleRate += this.state.pvpData[0][j].Rate
+                if (this.state.pvpData[0][j].Rate <= 500) {
+                    zeros[this.state.pvpData[0][j].K] = true
+                }
+            }
+            rateList.push({ rate: singleRate / this.state.rightPanel.listForBattle.length, zeros: zeros })
+        }
+        let parties = []
+        for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
+            for (let j = i + 1; j < this.state.leftPanel.listForBattle.length; j++) {
+                for (let k = j + 1; k < this.state.leftPanel.listForBattle.length; k++) {
+                    parties.push({
+                        first: i, second: j, third: k,
+                        rate: rateList[i].rate + rateList[j].rate + rateList[k].rate,
+                        zeros: this.countWeakSpots(rateList[i].zeros, rateList[j].zeros, rateList[k].zeros)
+                    })
+                }
+            }
+        }
+        parties.sort(function (a, b) {
+            if (a.zeros.length === b.zeros.length) {
+                return b.rate - a.rate
+            }
+            return a.zeros.length - b.zeros.length
+        });
+
+        this.setState({
+            advisorList: parties,
+        })
+    }
+
+    countWeakSpots(objA, objB, objC) {
+        let counter = []
+        for (let field in objA) {
+            if (objA[field] && objB[field] && objC[field]) {
+                counter.push(field)
+            }
+        }
+        return counter
     }
 
     render() {
@@ -804,6 +879,8 @@ class MatrixPvp extends React.PureComponent {
 
                             enableCheckbox={true}
                             triple={this.state.triple}
+                            advDisabled={this.state.advDisabled}
+                            onAdvisorSubmit={this.onAdvisorSubmit}
 
                             value={this.state.leftPanel}
 
@@ -813,7 +890,7 @@ class MatrixPvp extends React.PureComponent {
                             onPokemonAdd={this.onPokemonAdd}
                             onPokemonDelete={this.onPokemonDelete}
 
-                            onPartyChange={this.onPartyChange}
+                            onPartySave={this.onPartySave}
                         />
                     </div>
 
@@ -875,9 +952,39 @@ class MatrixPvp extends React.PureComponent {
                             onClick={this.onClick}
                             onPokemonAdd={this.onPokemonAdd}
                             onPokemonDelete={this.onPokemonDelete}
-                            onPartyChange={this.onPartyChange}
+                            onPartySave={this.onPartySave}
                         />
                     </div>
+
+
+
+
+                    {this.state.advisorList && <div className="order-6 col-12 m-0 p-1 pt-3" >
+                        <div className="row mx-2  justify-content-center"  >
+                            <div className="matrixResult bigWidth px-2 py-3 col-12 ">
+                                <div className="overflowingxy col-12 m-0 p-0">
+
+                                    <Advisor
+                                        list={this.state.advisorList}
+
+                                        pokemonTable={this.props.parentState.pokemonTable}
+                                        moveTable={this.props.parentState.moveTable}
+
+                                        leftPanel={this.state.leftPanel}
+                                        rightPanel={this.state.rightPanel}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>}
+
+
+
+
+
+
+
                 </div>
 
             </ >

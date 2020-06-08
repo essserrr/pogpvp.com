@@ -403,10 +403,9 @@
     }
     &.res2 {
         background-color: rgb(224, 86, 32);
-        color:whitesmoke;
+        color:rgba(24, 23, 23, 1);
     }
 }
-
 
 //tips styles
 
@@ -1221,12 +1220,12 @@ body {
     background-color: #fff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     
-   width: 50rem !important;
+   width: 800px !important;
 
 }
 
 .bigWidth {
-    max-width: 50rem !important;
+    max-width: 800px !important;
 }
 
 .superBig {
@@ -1408,9 +1407,7 @@ body {
     user-select: none;
   }
 
-  .hoverable:hover{
-    filter: brightness(100%);
-  }
+
 
   .moveStyle {
       padding: 0rem 0.2rem 0rem 0.2rem ;

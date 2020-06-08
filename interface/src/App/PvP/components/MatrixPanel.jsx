@@ -414,7 +414,7 @@ class MatrixPanel extends React.PureComponent {
                             placeholder={strings.title.savegroupplaceholder}
                             label={strings.buttons.savegroup}
                             attr={this.props.attr}
-                            onChange={this.props.onPartyChange}
+                            onChange={this.props.onPartySave}
                         />
                     }
                 />}
@@ -512,7 +512,7 @@ class MatrixPanel extends React.PureComponent {
                     tipClass='strategyTips'
                 />
 
-                {this.props.enableCheckbox && <div className="row m-0 p-0"><Checkbox
+                {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1"><Checkbox
                     class={"form-check form-check-inline m-0 p-0 ml-1 mt-2"}
                     checked={this.props.triple ? "checked" : false}
                     name={"triple"}
@@ -534,7 +534,14 @@ class MatrixPanel extends React.PureComponent {
                         </ReactTooltip>
                     </i>
                 </div>}
-            </div>
+                {this.props.enableCheckbox && <SubmitButton
+                    class="customButton btn btn-primary btn-sm m-0"
+                    action="Advisor"
+                    disabled={this.props.advDisabled}
+
+                    label={strings.maximizer.default}
+                    onSubmit={this.props.onAdvisorSubmit} />}
+            </div >
         )
     }
 

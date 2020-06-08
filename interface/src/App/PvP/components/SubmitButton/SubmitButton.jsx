@@ -9,7 +9,7 @@ const SubmitButton = React.memo(function (props) {
             level={props.level}
             attr={props.attr}
             action={props.action}
-
+            disabled={props.disabled}
             onClick={props.onSubmit}
         >
             {props.label}
