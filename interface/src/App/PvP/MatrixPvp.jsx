@@ -396,6 +396,7 @@ class MatrixPvp extends React.PureComponent {
             isError: false,
             loading: false,
             result: tableBody,
+            rawResult: arr,
             pvpData: data,
 
             advisorList: undefined,
@@ -456,7 +457,7 @@ class MatrixPvp extends React.PureComponent {
             let rateStyle = returnRateStyle(data[i].Rate)
             let line = data[i].I + 1
             let row = data[i].K + 1
-            arr[line][row] = <td key={line + row} className="modifiedBorderTable defaultFont m-0 p-0 align-middle" >
+            arr[line][row] = <td key={line + row} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
                 <a className={"rateMatrix hover " + rateStyle[1]}
                     href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                         encodeURIComponent(data[i].QueryA) + "/" + encodeURIComponent(data[i].QueryB) + pvpoke}>
@@ -795,7 +796,6 @@ class MatrixPvp extends React.PureComponent {
 
     onAdvisorSubmit() {
         let rateList = []
-        console.log(this.state.pvpData[0])
         for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
             let j = this.state.rightPanel.listForBattle.length * i
             let maxj = j + this.state.rightPanel.listForBattle.length
@@ -845,6 +845,7 @@ class MatrixPvp extends React.PureComponent {
     }
 
     render() {
+
         return (
             < >
                 <div className="row justify-content-between mb-4"  >
@@ -897,8 +898,8 @@ class MatrixPvp extends React.PureComponent {
 
 
                     <div className="overflowing order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
-                        <div className="row mx-2 h-100"  >
-                            {(this.state.showResult || this.state.isError) && <div className="align-self-start matrixResult col order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
+                        <div className="row mx-1 h-100"  >
+                            {(this.state.showResult || this.state.isError) && <div className="align-self-start matrixResult order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
                                 <div className="row  justify-content-center mx-0"  >
                                     <div className="overflowingxy order-2 p-0 mx-2 order-lg-1 col-12 ">
                                         {this.state.showResult &&
@@ -960,13 +961,23 @@ class MatrixPvp extends React.PureComponent {
 
 
                     {this.state.advisorList && <div className="order-6 col-12 m-0 p-1 pt-3" >
-                        <div className="row mx-2  justify-content-center"  >
-                            <div className="matrixResult bigWidth px-2 py-3 col-12 ">
-                                <div className="overflowingxy col-12 m-0 p-0">
+                        <div className="row mx-1  justify-content-center"  >
+                            <div className="matrixResult smallWidth px-2 py-2 col-12 ">
+                                <div className="col-12 d-flex justify-content-center m-0 p-0">
+                                    <PokemonIconer
+                                        src="willow3"
+                                        folder="/"
+                                        class={"willow p-2"} />
+                                    <div className="bubbleText posAbsB px-2 py-1">
+                                        {"Эй, Тренер, как на счет того, что бы попробовать этих покемонов?"}
+                                    </div>
+                                </div>
+                                <div className="overflowingy col-12 m-0 p-0 ">
 
                                     <Advisor
                                         list={this.state.advisorList}
 
+                                        rawResult={this.state.rawResult}
                                         pokemonTable={this.props.parentState.pokemonTable}
                                         moveTable={this.props.parentState.moveTable}
 
