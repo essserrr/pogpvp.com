@@ -15,6 +15,7 @@ class Collapsable extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showCollapse: false,
+            colElement: null
         };
         this.onClick = this.onClick.bind(this);
         this.generateBody = this.generateBody.bind(this);
@@ -26,7 +27,8 @@ class Collapsable extends React.PureComponent {
 
     async onClick(event) {
         this.setState({
-            showCollapse: !this.state.showCollapse
+            showCollapse: !this.state.showCollapse,
+            colElement: !this.state.showCollapse ? this.generateBody() : null,
         })
 
     }
@@ -135,10 +137,7 @@ class Collapsable extends React.PureComponent {
 
                             class={"icon24 mr-1"} />
                         {pokName}
-                        {(pokName !== array[i].Name) &&
-                            <abbr title={strings.options.type.shadow} className="initialism">
-                                <Shadow className="allign-self-center icon24 py-1 ml-1" />
-                            </abbr>}
+                        {(pokName !== array[i].Name) && <Shadow className="allign-self-center icon24 py-1 ml-1" />}
                     </div>
                     <div >
                         {array[i].Rate}
@@ -233,7 +232,7 @@ class Collapsable extends React.PureComponent {
                 </div>
                 <UnmountClosed isOpened={this.state.showCollapse}>
                     <div className="row justify-content-center m-0 p-0 px-2">
-                        {this.generateBody()}
+                        {this.state.colElement}
                     </div>
                 </UnmountClosed>
             </>
