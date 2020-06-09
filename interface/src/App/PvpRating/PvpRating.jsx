@@ -389,7 +389,7 @@ class PvpRating extends React.Component {
                             </div>
 
                             <div className="row justify-content-center m-0 p-0">
-                                <div className="singleNews bigWidth col-md-10 col-lg-8 p-2 m-0">
+                                <div className="singleNews bigWidth col-md-12 col-lg-12 p-2 m-0">
                                     {this.state.loading && <div className="row  justify-content-center"  >
                                         <div style={{ fontWeight: "500", color: "black" }} >
                                             {strings.tips.loading}
@@ -452,22 +452,23 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
         result.push(
             <div key={ratingList[i].Name} className={"col-12 px-1 pt-1"}>
                 <PokemonCard
-                    class={"cardBig m-0 p-0"}
+                    class={"col-12 cardBig m-0 p-0"}
 
                     name={<div className="d-flex justify-content-between">
                         <div className="pl-2">{"#" + (i + 1)}</div>
                         <div className=" text-center">
-
-                            {(pokName !== ratingList[i].Name) && <abbr title={strings.options.type.shadow} className="initialism">
-                                <Shadow className="allign-self-center icon24 ml-1 pb-1" />
-                            </abbr>}
-                            <>{pokName}</>
+                            <>{pokName + ((pokName !== ratingList[i].Name) ? " (" + strings.options.type.shadow + ")" : "")}</>
                         </div>
                         <div></div>
                     </div>}
-                    icon={<PokemonIconer
-                        src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
-                        class={"icon64"} />}
+                    icon={<>
+                        {(pokName !== ratingList[i].Name) &&
+                            <Shadow className="posAbsR icon24" />}
+                        <PokemonIconer
+                            src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
+                            class={"icon64"} />
+                    </>
+                    }
                     body={generateBody(pokName, ratingList[i], pokemonTable, maxWeighted)}
                     footer={<Collapsable
                         pokemonTable={pokemonTable}
@@ -481,7 +482,7 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
 
                     classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
                     classIcon={"icon64  col-auto mx-2 mt-2 p-0 align-self-center"}
-                    classBody={"bigCardBody bigWidth  col-8 col-md-10 align-self-center m-0 p-1 p-0 "}
+                    classBody={"bigCardBody col-8 col-md-10 align-self-center m-0 p-1 p-0 "}
                     classFooter="col-12 m-0  mb-2"
                 />
             </div>)
