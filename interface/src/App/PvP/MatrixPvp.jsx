@@ -458,13 +458,13 @@ class MatrixPvp extends React.PureComponent {
             let rateStyle = returnRateStyle(data[i].Rate)
             let line = data[i].I + 1
             let row = data[i].K + 1
-            arr[line][row] = <td key={line + row} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
+            arr[line].push(<td key={line + row} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
                 <a className={"rateMatrix hover " + rateStyle[1]}
                     href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                         encodeURIComponent(data[i].QueryA) + "/" + encodeURIComponent(data[i].QueryB) + pvpoke}>
                     {data[i].Rate}
                 </a>
-            </td >
+            </td >)
         }
         return arr
     }
@@ -533,9 +533,6 @@ class MatrixPvp extends React.PureComponent {
 
                 </div>
             </td>)
-            for (let j = 0; j < this.state.rightPanel.listForBattle.length; j++) {
-                arr[i + 1].push([])
-            }
         }
     }
 
@@ -554,7 +551,7 @@ class MatrixPvp extends React.PureComponent {
             let rate22 = returnRateStyle(data[2][i].Rate)
             let rateOverall = returnRateStyle(rating)
 
-            arr[line][row] = <td key={line + row} className="matrixCellWidth modifiedBorderTable defaultFont p-0 m-0 px-1 align-middle" >
+            arr[line].push(<td key={line + row} className="matrixCellWidth modifiedBorderTable defaultFont p-0 m-0 px-1 align-middle" >
                 <div className="matrixCard bor row justify-content-center m-0 p-0 mr-auto ml-auto">
                     <a
                         className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead " + rate00[1]}
@@ -580,7 +577,7 @@ class MatrixPvp extends React.PureComponent {
                     </div>
 
                 </div>
-            </td >
+            </td >)
 
             data[0][i].Rate = rating
         }
@@ -903,7 +900,7 @@ class MatrixPvp extends React.PureComponent {
                         <div className="row mx-1 h-100"  >
                             {(this.state.showResult || this.state.isError) && <div className="align-self-start matrixResult order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
                                 <div className="row  justify-content-center mx-0"  >
-                                    <div className="overflowingxy order-2 p-0 mx-2 order-lg-1 col-12 ">
+                                    <div className="overflowingxy height400resp order-2 p-0 mx-2 order-lg-1 col-12 ">
                                         {this.state.showResult &&
                                             <Result
                                                 class="tableFixHead"
@@ -964,31 +961,16 @@ class MatrixPvp extends React.PureComponent {
 
                     {this.state.advisorList && <div className="order-6 col-12 m-0 p-1 pt-3" >
                         <div className="row mx-1  justify-content-center"  >
-                            <div className="matrixResult smallWidth px-2 py-2 col-12 ">
-                                <div className="col-12 d-flex justify-content-center m-0 p-0">
-                                    <PokemonIconer
-                                        src="willow3"
-                                        folder="/"
-                                        class={"willow p-2"} />
-                                    <div className="bubbleText posAbsB px-2 py-1">
-                                        {"Эй, Тренер, как на счет того, что бы попробовать этих покемонов?"}
-                                    </div>
-                                </div>
-                                <div className="overflowingy col-12 m-0 p-0 ">
+                            <Advisor
+                                list={this.state.advisorList}
 
-                                    <Advisor
-                                        list={this.state.advisorList}
+                                rawResult={this.state.rawResult}
+                                pokemonTable={this.props.parentState.pokemonTable}
+                                moveTable={this.props.parentState.moveTable}
 
-                                        rawResult={this.state.rawResult}
-                                        pokemonTable={this.props.parentState.pokemonTable}
-                                        moveTable={this.props.parentState.moveTable}
-
-                                        leftPanel={this.state.leftPanel}
-                                        rightPanel={this.state.rightPanel}
-                                    />
-                                </div>
-
-                            </div>
+                                leftPanel={this.state.leftPanel}
+                                rightPanel={this.state.rightPanel}
+                            />
                         </div>
                     </div>}
 
