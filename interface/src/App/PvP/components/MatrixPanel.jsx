@@ -512,7 +512,7 @@ class MatrixPanel extends React.PureComponent {
                     tipClass='strategyTips'
                 />
 
-                {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1"><Checkbox
+                {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1"><Checkbox
                     class={"form-check form-check-inline m-0 p-0 ml-1 mt-2"}
                     checked={this.props.triple ? "checked" : false}
                     name={"triple"}
@@ -534,13 +534,28 @@ class MatrixPanel extends React.PureComponent {
                         </ReactTooltip>
                     </i>
                 </div>}
-                {this.props.enableCheckbox && <SubmitButton
-                    class="customButton btn btn-primary btn-sm m-0"
-                    action="Advisor"
-                    disabled={this.props.advDisabled}
+                {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
 
-                    label={strings.maximizer.default}
-                    onSubmit={this.props.onAdvisorSubmit} />}
+                    <SubmitButton
+                        class="saveinterface btn btn-primary btn-sm mx-0 pl-1 col-8"
+                        action="Advisor"
+                        disabled={this.props.advDisabled}
+
+                        label={strings.advisor.adv}
+                        onSubmit={this.props.onAdvisorSubmit} />
+
+                    <i data-tip data-for={"advisor"} className="align-self-center fas fa-info-circle fa-lg ml-auto">
+                        <ReactTooltip
+                            className={"infoTip"}
+                            id={"advisor"} effect='solid'
+                            place={"top"}
+                            multiline={true}
+                        >
+                            {strings.advisor.tip}
+                        </ReactTooltip>
+                    </i>
+                </div>}
+
             </div >
         )
     }
