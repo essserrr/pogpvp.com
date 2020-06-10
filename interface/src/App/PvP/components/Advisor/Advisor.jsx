@@ -1,6 +1,7 @@
 import React from "react";
 import LocalizedStrings from 'react-localization';
 import AdvisorPanel from "./AdvisorPanel"
+import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import { locale } from "../../../..//locale/locale"
 import { getCookie, } from "../../..//../js/indexFunctions"
 
@@ -59,8 +60,20 @@ class Advisor extends React.PureComponent {
 
     render() {
         return (
-            <div tabIndex="0" ref="advisor">
-                {this.returnRatingList()}
+            <div className="matrixResult smallWidth px-2 py-2 col-12 ">
+                <div tabIndex="0" ref="advisor" className="col-12  d-flex justify-content-center m-0 p-0">
+                    <PokemonIconer
+                        src="willow3"
+                        folder="/"
+                        class={"willow p-2"} />
+                    <div className="bubbleText posAbsB px-2 py-1">
+                        {strings.advisor.willow}
+                    </div>
+                </div>
+                <div className="overflowingy height500resp col-12 m-0 p-0 ">
+                    {this.returnRatingList()}
+                </div>
+
             </div>
         );
     }
