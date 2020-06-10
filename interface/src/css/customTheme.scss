@@ -891,12 +891,15 @@ body {
 
 .overflowingx {
     overflow-x: auto !important; 
-    max-height: 400px !important;
     overflow-y: hidden !important; 
+
+   
+    max-height: 400px !important;
 }
 
-
-
+.width90vw{
+    max-width: 90vw   !important;
+}
 
 
 
