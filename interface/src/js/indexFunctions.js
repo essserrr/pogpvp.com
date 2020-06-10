@@ -643,6 +643,22 @@ export function returnRateStyle(rate) {
     return ["-2", "res2"]
 }
 
+export function returnVunStyle(rate) {
+    if (rate > 1.600) {
+        return "res2"
+    }
+    if (rate > 1.000) {
+        return "res1"
+    }
+    if (rate === "1.000") {
+        return "res0"
+    }
+    if (rate > 0.391) {
+        return "res3"
+    }
+    return "res4"
+}
+
 var levelData = [
     0,
     0,
