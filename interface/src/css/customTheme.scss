@@ -395,7 +395,7 @@
     }
     &.res4 {
         background-color: rgb(68, 202, 157);
-        color: v
+        color: rgba(24, 23, 23, 1);
     }
     &.res1 {
         background-color: rgb(230, 141, 82);
@@ -793,6 +793,32 @@ body {
 
 }
 
+.rateTyping {
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+
+    display: inline-block;
+    width: fit-content;
+    border-style: solid;
+    border-radius: 4px 4px 4px 4px;
+    border-color: black;
+    border-width: 1px;
+
+    color: white;
+    font-weight: bold;
+    font-size: 110% !important;
+    @include matrColor;
+    &.hover:hover{
+        cursor: pointer;
+        background-color: white;
+      }
+
+}
+
 .matrixCardThead{
     min-width: 22px !important;
     height: 20px;
@@ -879,23 +905,40 @@ body {
     overflow-x: auto !important; 
     overflow-y: auto !important; 
     width: 100% !important; 
+}
+
+.height400resp {
     max-height: 400px !important;
 }
+
+@media (max-width: 877px) { 
+    .height400resp {
+        max-height: 85vh !important;
+    }
+ }
+
 
 .overflowingy {
     overflow-x: hidden;
     overflow-y: auto !important; 
-    max-height: 400px !important;
+
 }
 
 
 .overflowingx {
     overflow-x: auto !important; 
     overflow-y: hidden !important; 
-
-   
-    max-height: 400px !important;
 }
+
+.height500resp {
+    max-height: 500px !important;
+}
+
+@media (max-width: 1024px) { 
+    .height500resp {
+        max-height: 90vh !important;
+    }
+ }
 
 .width90vw{
     max-width: 90vw   !important;
@@ -1526,4 +1569,10 @@ body {
 
 .padding325 {
     padding-top: 0.75rem !important;
+}
+
+.borderTop {
+    border-top: solid;
+    border-width: 1px;
+    border-color:  rgba(0, 0, 0, 0.295) ;
 }
