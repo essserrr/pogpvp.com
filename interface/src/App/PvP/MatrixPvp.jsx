@@ -7,6 +7,7 @@ import Advisor from "./components/Advisor/Advisor"
 
 import { encodeQueryData, getCookie, calculateMaximizedStats, returnRateStyle } from "../../js/indexFunctions.js"
 import { great, ultra, master } from "./matrixPresets"
+import { ReactComponent as Shadow } from "../../icons/shadow.svg";
 import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
 import PokemonIconer from "./components/PokemonIconer/PokemonIconer"
@@ -475,21 +476,22 @@ class MatrixPvp extends React.PureComponent {
         arr[0].push(<th key={"zero"} className="modifiedBorderTable theadT p-0 px-1" scope="col" />)
         //other elements
         for (let j = 0; j < this.state.rightPanel.listForBattle.length; j++) {
-            let name = this.state.rightPanel.listForBattle[j].name
+            let pok = this.state.rightPanel.listForBattle[j]
             arr[0].push(<th key={j + "thead"} className="modifiedBorderTable  text-center theadT p-0 px-1" scope="col" >
+                {(pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
                 <PokemonIconer
-                    src={this.props.parentState.pokemonTable[name].Number +
-                        (this.props.parentState.pokemonTable[name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[name].Forme : "")}
+                    src={this.props.parentState.pokemonTable[pok.name].Number +
+                        (this.props.parentState.pokemonTable[pok.name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[pok.name].Forme : "")}
                     class={"icon36"}
-                    for={name + j + "T"}
+                    for={pok.name + j + "T"}
                 />
                 <ReactTooltip
                     className={"infoTip"}
-                    id={name + j + "T"} effect='solid'
+                    id={pok.name + j + "T"} effect='solid'
                     place={"top"}
                     multiline={true}
                 >
-                    {name}
+                    {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
                 </ReactTooltip>
                 <div className="row m-0 p-0 justify-content-center">
                     {this.state.rightPanel.listForBattle[j].QuickMove.replace(/[a-z -]/g, '')}
@@ -505,22 +507,22 @@ class MatrixPvp extends React.PureComponent {
         //add table lines
         for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
             arr.push([])
-            let name = this.state.leftPanel.listForBattle[i].name
+            let pok = this.state.leftPanel.listForBattle[i]
             arr[i + 1].push(<td key={i + "line"} className="modifiedBorderTable text-center theadT fixFirstRow m-0 p-0 px-1" >
-
+                {(pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
                 <PokemonIconer
-                    src={this.props.parentState.pokemonTable[name].Number +
-                        (this.props.parentState.pokemonTable[name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[name].Forme : "")}
+                    src={this.props.parentState.pokemonTable[pok.name].Number +
+                        (this.props.parentState.pokemonTable[pok.name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[pok.name].Forme : "")}
                     class={"icon36"}
-                    for={name + i + "R"}
+                    for={pok.name + i + "R"}
                 />
                 <ReactTooltip
                     className={"infoTip"}
-                    id={name + i + "R"} effect='solid'
+                    id={pok.name + i + "R"} effect='solid'
                     place={"right"}
                     multiline={true}
                 >
-                    {name}
+                    {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
                 </ReactTooltip>
                 <div className="row m-0 p-0 justify-content-center">
                     {this.state.leftPanel.listForBattle[i].QuickMove.replace(/[a-z -]/g, '')}

@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(locale);
 const ResultsTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <table className={"table table-sm table-hover text-center " + (props.class ? props.class : "")} >
+        <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
             {props.value && <>
                 <Thead
                     NameA={props.value.Attacker.Name}
