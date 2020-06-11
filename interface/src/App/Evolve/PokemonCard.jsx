@@ -9,7 +9,7 @@ const PokemonCard = React.memo(function Pokemon(props) {
                     {props.name}
                 </div>
                 <div className={"col-12 m-0 p-0 "} >
-                    <div className="row justify-content-center m-0 p-0">
+                    <div className={props.classBodyWrap ? props.classBodyWrap : "row justify-content-center m-0 p-0"}>
                         <div className={props.classIcon}>
                             {props.icon}
                         </div>

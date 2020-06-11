@@ -13,8 +13,16 @@ const InitialStats = React.memo(function Pokemon(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <ReactTooltip effect='solid' />
+
             <div className="input-group input-group-sm mt-2">
+                <ReactTooltip
+                    id={props.attr + "InitialHP"} effect='solid'>
+                    {"HP: 0-" + strings.initialStats.hpTip + " HP"}
+                </ReactTooltip>
+                <ReactTooltip
+                    id={props.attr + "InitialEnergy"} effect='solid'>
+                    {strings.initialStats.energyTip + ": 0-100"}
+                </ReactTooltip>
 
                 <LabelPrepend
                     label={props.label}
@@ -30,7 +38,7 @@ const InitialStats = React.memo(function Pokemon(props) {
                     value={props.InitialHP}
                     onChange={props.onChange}
                     place="HP"
-                    tip={"HP: 0-" + strings.initialStats.hpTip + " HP"}
+                    for={props.attr + "InitialHP"}
                 />
 
                 <Input
@@ -39,7 +47,7 @@ const InitialStats = React.memo(function Pokemon(props) {
                     value={props.InitialEnergy}
                     onChange={props.onChange}
                     place={strings.initialStats.energy}
-                    tip={strings.initialStats.energyTip + ": 0-100"}
+                    for={props.attr + "InitialEnergy"}
                 />
             </div>
         </>

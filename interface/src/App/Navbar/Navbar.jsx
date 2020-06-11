@@ -81,7 +81,6 @@ class Navbar extends React.PureComponent {
 
                 <div className="order-2 order-sm-3 d-flex flex-row" >
                     <ul className="navbar-nav flex-row ml-auto ">
-
                         <a title={"Telegram"} href="https://t.me/pogpvp">
                             <i className="fab fa-telegram fa-2x mr-2 clickable"></i>
                         </a>

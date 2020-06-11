@@ -12,7 +12,7 @@ const Input = React.memo(function (props) {
             value={props.value}
 
 
-            data-tip={props.tip}
+            data-tip data-for={props.for}
             placeholder={props.place}
 
             readOnly={props.readonly}

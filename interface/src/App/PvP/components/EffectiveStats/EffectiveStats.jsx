@@ -11,20 +11,32 @@ const EffectiveStats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <ReactTooltip effect='solid' />
             < div className="defaultFont mt-2" >
+                <ReactTooltip
+                    id={props.attr + "effatk"} effect='solid'>
+                    {strings.effStats.atkTip}
+                </ReactTooltip>
+                <ReactTooltip
+                    id={props.attr + "effdef"} effect='solid'>
+                    {strings.effStats.defTip}
+                </ReactTooltip>
+                <ReactTooltip
+                    id={props.attr + "effsta"} effect='solid'>
+                    {strings.effStats.staTip}
+                </ReactTooltip>
+
                 <div
-                    data-tip={strings.effStats.atkTip}
+                    data-tip data-for={props.attr + "effatk"}
                     className={"d-inline mr-3 stageColor" + (Number(props.AtkStage) + 4)}>
                     {strings.effStats.atk} {props.effAtk}
                 </div>
                 <div
-                    data-tip={strings.effStats.defTip}
+                    data-tip data-for={props.attr + "effdef"}
                     className={"d-inline mr-3 stageColor" + (Number(props.DefStage) + 4)}>
                     {strings.effStats.def} {props.effDef}
                 </div>
                 <div
-                    data-tip={strings.effStats.staTip}
+                    data-tip data-for={props.attr + "effsta"}
                     className="d-inline">
                     {strings.effStats.sta} {props.effSta}
                 </div>

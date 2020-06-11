@@ -96,6 +96,7 @@ class Pokemon extends React.PureComponent {
                             effSta={this.props.value.effSta}
                             AtkStage={this.props.value.AtkStage}
                             DefStage={this.props.value.DefStage}
+                            attr={this.props.attr}
                         />
 
                         <Stats
