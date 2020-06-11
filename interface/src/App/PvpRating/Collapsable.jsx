@@ -162,13 +162,13 @@ class Collapsable extends React.PureComponent {
                     <div className="row justify-content-between  m-0 p-0">
                         <div className="col-10 m-0 p-0">
                             <div className="row justify-content-md-left m-0 p-0">
-                                {this.props.moveTable[array[i].Quick] && <div className={"mx-1 moveStyle color" + this.props.moveTable[array[i].Quick].MoveType + " text"}>
+                                {this.props.moveTable[array[i].Quick] && <div className={"mx-1 moveStyle typeColor color" + this.props.moveTable[array[i].Quick].MoveType + " text"}>
                                     {array[i].Quick}
                                 </div>}
-                                {this.props.moveTable[array[i].Charge[0]] && <div className={"mx-1  moveStyle color" + this.props.moveTable[array[i].Charge[0]].MoveType + " text"}>
+                                {this.props.moveTable[array[i].Charge[0]] && <div className={"mx-1  moveStyle typeColor color" + this.props.moveTable[array[i].Charge[0]].MoveType + " text"}>
                                     {array[i].Charge[0]}
                                 </div>}
-                                {this.props.moveTable[array[i].Charge[1]] && <div className={"mx-1 moveStyle  color" + this.props.moveTable[array[i].Charge[1]].MoveType + " text"}>
+                                {this.props.moveTable[array[i].Charge[1]] && <div className={"mx-1 moveStyle typeColor color" + this.props.moveTable[array[i].Charge[1]].MoveType + " text"}>
                                     {array[i].Charge[1]}
                                 </div>}
                             </div>

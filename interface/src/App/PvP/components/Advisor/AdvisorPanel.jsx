@@ -40,8 +40,6 @@ class AdvisorPanel extends React.PureComponent {
         let vun = this.calculateVunerabilities()
         let off = this.calculateOffensiveStats()
 
-        console.log(off)
-
         return <div className="col-12 m-0 p-0 px-2" key={"coll" + this.props.i}>
             <div className="row m-0 p-0 mx-1 my-2  justify-content-center">
                 <div className="col-12 text-center bigText m-0 p-0">
@@ -239,7 +237,8 @@ class AdvisorPanel extends React.PureComponent {
 
     singleMoveLine(arr, name) {
         let i = arr.push([])
-        arr[i - 1].push(<td key={i + "line"} className="modifiedBorderTable text-center theadT fixFirstRow m-0 p-0 px-1" >
+        arr[i - 1].push(<td key={i + "line"}
+            className={"modifiedBorderTable text-center align-middle theadT fixFirstRow  m-0 p-0 px-1 typeColor color" + this.props.moveTable[name].MoveType + " text"} >
             {name}
         </td>)
 
@@ -249,7 +248,7 @@ class AdvisorPanel extends React.PureComponent {
             let rateStyle = returnVunStyle(multipl === "1.000" ? multipl : (1 / multipl).toFixed(3))
 
             arr[i - 1].push(<td key={i - 1 + "offensive" + j} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                <div className={"rateTyping hover " + rateStyle} >
+                <div className={"rateTyping hover rateColor " + rateStyle} >
                     {multipl}
                 </div>
 
@@ -271,7 +270,7 @@ class AdvisorPanel extends React.PureComponent {
                 let rateStyle = returnVunStyle(vun[j - 1][k - 1])
 
                 arr[j].push(<td key={j + "defensive" + k} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                    <div className={"rateTyping hover " + rateStyle}>
+                    <div className={"rateTyping hover rateColor " + rateStyle}>
                         {vun[j - 1][k - 1]}
                     </div>
                 </td >)

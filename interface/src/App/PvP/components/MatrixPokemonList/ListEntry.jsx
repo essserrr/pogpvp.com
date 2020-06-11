@@ -4,7 +4,7 @@ import CloseButton from "../MagicBox/CloseButton"
 
 const ListEntry = React.memo(function (props) {
     return (
-        <div onClick={props.onClick} attr={props.attr} index={props.index} className={"matrixListEntry hoverable clickable px-1 " + props.className}>
+        <div onClick={props.onClick} attr={props.attr} index={props.index} className={"matrixListEntry hoverable clickable px-1 "}>
             <CloseButton
                 onClick={props.onPokemonDelete}
                 attr={props.attr}

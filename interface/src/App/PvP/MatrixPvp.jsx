@@ -207,7 +207,6 @@ class MatrixPvp extends React.PureComponent {
                 attr={attr}
                 onClick={this.onPokRedact}
 
-                className={""}
                 key={key}
                 index={key}
                 thead={<><PokemonIconer
@@ -322,7 +321,6 @@ class MatrixPvp extends React.PureComponent {
     submitForm = async event => {
         event.preventDefault();
         let advDisabled = this.state.leftPanel.listForBattle.length > 15 || this.state.leftPanel.listForBattle.length < 3 || this.state.rightPanel.listForBattle.length > 50 || this.state.rightPanel.listForBattle.length < 1
-        console.log(advDisabled)
         let triple = this.state.triple
         let pvpoke = this.props.parentState.pvpoke
         for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
@@ -459,7 +457,7 @@ class MatrixPvp extends React.PureComponent {
             let line = data[i].I + 1
             let row = data[i].K + 1
             arr[line].push(<td key={line + row} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                <a className={"rateMatrix hover " + rateStyle[1]}
+                <a className={"rateMatrix hover rateColor " + rateStyle[1]}
                     href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                         encodeURIComponent(data[i].QueryA) + "/" + encodeURIComponent(data[i].QueryB) + pvpoke}>
                     {data[i].Rate}
@@ -554,25 +552,25 @@ class MatrixPvp extends React.PureComponent {
             arr[line].push(<td key={line + row} className="matrixCellWidth modifiedBorderTable defaultFont p-0 m-0 px-1 align-middle" >
                 <div className="matrixCard bor row justify-content-center m-0 p-0 mr-auto ml-auto">
                     <a
-                        className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead " + rate00[1]}
+                        className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead rateColor " + rate00[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(data[0][i].QueryA) + "/" + encodeURIComponent(data[0][i].QueryB) + pvpoke}>
                         {rate00[0]}
                     </a>
                     <a
-                        className={"col-4 m-0 p-0 text-center  hover matrixCardThead borx " + rate11[1]}
+                        className={"col-4 m-0 p-0 text-center  hover matrixCardThead borx rateColor " + rate11[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + pvpoke}>
                         {rate11[0]}
                     </a>
                     <a
-                        className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead " + rate22[1]}
+                        className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead rateColor " + rate22[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + pvpoke}>
                         {rate22[0]}
                     </a>
 
-                    <div className={"matrixCardBody bort cbotlr col-12 m-0 p-0  " + rateOverall[1]}>
+                    <div className={"matrixCardBody bort cbotlr col-12 m-0 p-0 rateColor " + rateOverall[1]}>
                         {rating}
                     </div>
 
@@ -625,7 +623,6 @@ class MatrixPvp extends React.PureComponent {
                 attr={event.attr}
                 onClick={this.onPokRedact}
 
-                className={""}
                 key={key}
                 index={key}
                 thead={<><PokemonIconer

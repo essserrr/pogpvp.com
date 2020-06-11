@@ -143,7 +143,7 @@ class EvoList extends PureComponent {
 
         result.push(this.shortEvent({
             key: thisRound.Round + arg.actor1 + 11,
-            value: <DSword className={"dsword color" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType + " " + glow} />,
+            value: <DSword className={"dsword svgFills color" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType + " " + glow} />,
             tip: <>
                 {strings.reconstruction.turn + thisRound.Round}<br />
                 {thisRound[arg.actor1].ActionName}<br />
@@ -178,7 +178,7 @@ class EvoList extends PureComponent {
         let energy = thisRound[arg.actor1].Energy - this.props.log[arg.i - 1][arg.actor1].Energy
         result.push(this.shortEvent({
             key: thisRound.Round + arg.actor1 + 1,
-            value: <Sword className={"sword color" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType} />,
+            value: <Sword className={"sword svgFills color" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType} />,
             tip: <>
                 {strings.reconstruction.turn + thisRound.Round}<br />
                 {thisRound[arg.actor1].ActionName}<br />

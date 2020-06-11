@@ -20,8 +20,8 @@ const ResultsTable = React.memo(function (props) {
                 <tbody className="modifiedBorderTable">
                     <Line
                         title={strings.resultTable.rate}
-                        valueA={<div className={"rate " + returnRateStyle(props.value.Attacker.Rate)[1]}>{props.value.Attacker.Rate}</div>}
-                        valueD={<div className={"rate " + returnRateStyle(props.value.Defender.Rate)[1]}>{props.value.Defender.Rate}</div>}
+                        valueA={<div className={"rate rateColor " + returnRateStyle(props.value.Attacker.Rate)[1]}>{props.value.Attacker.Rate}</div>}
+                        valueD={<div className={"rate rateColor " + returnRateStyle(props.value.Defender.Rate)[1]}>{props.value.Defender.Rate}</div>}
                     />
                     <Line
                         title={strings.resultTable.hpRes}
