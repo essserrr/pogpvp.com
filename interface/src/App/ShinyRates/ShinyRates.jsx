@@ -134,7 +134,7 @@ class ShinyRates extends React.Component {
     onChange(event) {
         var newArray = []
         for (var i = 0; i < this.state.pokList.length; i++) {
-            if (this.state.pokList[i].key.toLowerCase().indexOf(event.target.value) > -1) {
+            if (this.state.pokList[i].key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
                 newArray.push(this.state.pokList[i])
             }
         }

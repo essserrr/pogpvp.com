@@ -205,7 +205,7 @@ class PvpRating extends React.Component {
             return
         }
         for (var i = 0; i < this.state.ratingList.length; i++) {
-            if (this.state.ratingList[i].key.toLowerCase().indexOf(event.target.value) > -1) {
+            if (this.state.ratingList[i].key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
                 newArray.push(this.state.ratingList[i])
             }
         }
@@ -483,6 +483,7 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
                     classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
                     classIcon={"icon64  col-auto mx-2 mt-2 p-0 align-self-center"}
                     classBody={"bigCardBody col-8 col-md-10 align-self-center m-0 p-1 p-0 "}
+                    classBodyWrap={"row justify-content-between  m-0 p-0"}
                     classFooter="col-12 m-0  mb-2"
                 />
             </div>)
