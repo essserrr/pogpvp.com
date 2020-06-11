@@ -407,8 +407,81 @@
     }
 }
 
-//tips styles
+//global rules
+.btn  {
+    &.btn-primary  {
+        &.btn-sm {
+            margin-top: 0px !important;
+            padding-top: 0.35rem !important;
+            padding-bottom: 0.35rem !important;
+            padding-left: 1.45rem !important;
+            padding-right: 1.45rem !important;
+        }
+    }
+}
 
+.custom-control  {
+    &.custom-radio  {
+        display: grid !important;
+        justify-content: center !important;
+    }
+}
+
+.url {
+    label small{
+        font-size: 100%;
+    }
+}
+
+div :focus {
+    outline: none;
+}
+
+.__react_component_tooltip {
+    padding-left: 0.4em ;
+    padding-right: 0.4em ;
+    padding-top: 0.3em ;
+    padding-bottom: 0.3em ;
+}
+
+.ReactCollapse--collapse {
+    transition: height 200ms;
+  }
+
+//fonts
+.defaultFont {
+    font-size: 80% !important;
+}
+.font90 {
+    font-size: 90% !important;
+}
+.font95 { //stats
+    font-size: 95% !important;
+}
+.font100 {
+    font-size: 100% !important;
+}
+.font12 {
+    font-size: 12px !important;
+}
+.tipfont {
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    font-weight: bolder;
+}
+
+
+//background
+body { 
+    background: url('./background.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+//tips styles
 .strategyTips {
     font-size: 12pt !important;
         max-width: 13rem !important;
@@ -516,11 +589,9 @@
 }
 
 .sword {
-        width: 11px;
-        height: 11px;
-        @include fills;
-
-        -webkit-transition: all 0.1s linear;
+    width: 11px;
+    height: 11px;
+    -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
 }
 
@@ -532,8 +603,6 @@
 .dsword {
     width: 20px;
     height: 20px;
-    @include fills;
-
     -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
 }
@@ -556,8 +625,12 @@
     background-color:rgba(252, 252, 252, 0.93);
 }
 
-//status bar styles
+.svgFills {
+    @include fills;
+}
 
+
+//status bar styles
 .hpBar{
     
     position: relative;
@@ -600,7 +673,6 @@
     margin-top: 100%; 
     transform: rotatex(180deg);
     transform-origin: top;
-    @include backgrounds;
 }
 
 .energyBar {
@@ -624,83 +696,6 @@
 
     transition: all 0.4s linear;
     @include energyGlow;
-
-
-}
-
-
-//global rules
-.btn  {
-    &.btn-primary  {
-        &.btn-sm {
-            margin-top: 0px !important;
-            padding-top: 0.35rem !important;
-            padding-bottom: 0.35rem !important;
-            padding-left: 1.45rem !important;
-            padding-right: 1.45rem !important;
-        }
-    }
-}
-
-.custom-control  {
-    &.custom-radio  {
-        display: grid !important;
-        justify-content: center !important;
-    }
-}
-
-.url {
-    label small{
-        font-size: 100%;
-    }
-}
-
-div :focus {
-    outline: none;
-}
-
-.__react_component_tooltip {
-    padding-left: 0.4em ;
-    padding-right: 0.4em ;
-    padding-top: 0.3em ;
-    padding-bottom: 0.3em ;
-}
-
-.ReactCollapse--collapse {
-    transition: height 200ms;
-  }
-
-//fonts
-.defaultFont {
-    font-size: 80% !important;
-}
-.font90 {
-    font-size: 90% !important;
-}
-.font95 { //stats
-    font-size: 95% !important;
-}
-.font100 {
-    font-size: 100% !important;
-}
-.font12 {
-    font-size: 12px !important;
-}
-.tipfont {
-    text-align: justify !important;
-    text-justify: inter-word !important;
-
-    font-weight: bolder;
-}
-
-
-//background
-body { 
-    background: url('./background.jpg') no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
 //single pvp styles
@@ -737,20 +732,12 @@ body {
     padding-right: 0.5em !important;
     font-size: 80% !important;
     text-align: center !important;
-    @include backgrounds;
 }
 
-.type {
-    padding: 0.15rem 0.15rem 0.15rem 0.15rem;
-    font-size: 85%;
-    @include backgrounds;
-}
 
 .stage {
     @include stages;
 }
-
-
 
 .rate {
     padding-left: 3px;
@@ -767,6 +754,9 @@ body {
 
     color: white;
     font-weight: bold;
+}
+
+.rateColor {
     @include matrColor;
 }
 
@@ -786,7 +776,6 @@ body {
     color: white;
     font-weight: bold;
     font-size: 110% !important;
-    @include matrColor;
     &.hover:hover{
         background-color: white;
       }
@@ -811,7 +800,6 @@ body {
     color: white;
     font-weight: bold;
     font-size: 110% !important;
-    @include matrColor;
     &.hover:hover{
         cursor: pointer;
         background-color: white;
@@ -833,7 +821,6 @@ body {
         border: 1.5px solid;
         border-color: #42434E;
     }
-    @include matrColor;
     &.hover:hover{
         background-color: white;
       }
@@ -846,7 +833,6 @@ body {
         border-top: 1.5px solid;
         border-color: #42434E;
     }
-    @include matrColor;
     &.hover:hover{
         background-color: white;
       }
@@ -1127,8 +1113,6 @@ body {
     background-color: rgba(228, 228, 228, 0.95);
     
     text-align: left;
-
-    @include backgrounds;
 
     .thead {
         font-weight: bold;
@@ -1536,6 +1520,9 @@ body {
       padding: 0rem 0.2rem 0rem 0.2rem ;
       margin: 0.2rem 0rem 0.2rem 0rem ;
       border-radius: 5px;
+  }
+
+  .typeColor {
     @include backgrounds;
   }
 
