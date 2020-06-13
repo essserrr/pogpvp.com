@@ -36,7 +36,15 @@ var links = map[string]string{
 
 	"matrixBattle": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/matrixBattle.json")),
 
-	"pvppoke": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvppoke.json")),
+	"pvpoke":        (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke.json")),
+	"pvpoke14":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke14.json")),
+	"pvpoke34":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke34.json")),
+	"pvpoke24":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke24.json")),
+	"pvpokeConstr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr1.json")),
+	"pvpokeConstr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr2.json")),
+
+	"constr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr1.json")),
+	"constr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr2.json")),
 }
 
 //Update updates base of golden logs
@@ -61,7 +69,7 @@ func Update() error {
 	if err != nil {
 		panic(err)
 	}
-	err = updatePvppoke()
+	err = updatePvpoke()
 	if err != nil {
 		panic(err)
 	}
@@ -103,7 +111,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 0
-	err := writeGoldenLog(Magnezone, Swampert, links["knockQuickQuick"]) //knock down an opponent by a quick move before his quick move deals damage to you
+	err := writeGoldenLog(Magnezone, Swampert, links["knockQuickQuick"], pvpsim.Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -112,7 +120,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 9
-	err = writeGoldenLog(Magnezone, Swampert, links["knockChargeQuick"]) //knock down an opponent by a charge move before his quick move deals damage to you
+	err = writeGoldenLog(Magnezone, Swampert, links["knockChargeQuick"], pvpsim.Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -121,7 +129,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 12
 	Swampert.InitialEnergy = 0
-	err = writeGoldenLog(Magnezone, Swampert, links["simultaneousQuick"]) //simultaneous knock down by a quick move
+	err = writeGoldenLog(Magnezone, Swampert, links["simultaneousQuick"], pvpsim.Constructor{}) //simultaneous knock down by a quick move
 	if err != nil {
 		return nil
 	}
@@ -130,7 +138,7 @@ func updateUnshielded1CM() error {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 4
-	err = writeGoldenLog(Medicham, Swampert, links["knockQuickCharge"]) //knock down an opponent by a quick move before his charge move deals damage to you
+	err = writeGoldenLog(Medicham, Swampert, links["knockQuickCharge"], pvpsim.Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -139,7 +147,7 @@ func updateUnshielded1CM() error {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 10
-	err = writeGoldenLog(Medicham, Swampert, links["simultaneousCharge"]) //simultaneous knock down by a charge move
+	err = writeGoldenLog(Medicham, Swampert, links["simultaneousCharge"], pvpsim.Constructor{}) //simultaneous knock down by a charge move
 	if err != nil {
 		return nil
 	}
@@ -172,21 +180,21 @@ func updateShielded1CM() error {
 		ChargeMove: []string{"Hydro Cannon", ""},
 	}
 
-	err := writeGoldenLog(Medicham, Swampert, links["generalShielded"]) //general shielded PvP 2-2
+	err := writeGoldenLog(Medicham, Swampert, links["generalShielded"], pvpsim.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		return err
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 1
-	err = writeGoldenLog(Medicham, Swampert, links["shielded11"]) //general shielded PvP 2-2
+	err = writeGoldenLog(Medicham, Swampert, links["shielded11"], pvpsim.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		return err
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 0
-	err = writeGoldenLog(Medicham, Swampert, links["shielded10"]) //shielded PvP 1-0
+	err = writeGoldenLog(Medicham, Swampert, links["shielded10"], pvpsim.Constructor{}) //shielded PvP 1-0
 	if err != nil {
 		return err
 	}
@@ -290,31 +298,31 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := writeGoldenLog(Azumarill, Venusaur, links["azumarillVenusaur"])
+	err := writeGoldenLog(Azumarill, Venusaur, links["azumarillVenusaur"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Meganium, links["azumarillMeganium"])
+	err = writeGoldenLog(Azumarill, Meganium, links["azumarillMeganium"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Medicham, links["azumarillMedicham"])
+	err = writeGoldenLog(Azumarill, Medicham, links["azumarillMedicham"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Registeel, links["azumarillRegisteel"])
+	err = writeGoldenLog(Azumarill, Registeel, links["azumarillRegisteel"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Skarmory, Vigoroth, links["skarmoryVigoroth"])
+	err = writeGoldenLog(Skarmory, Vigoroth, links["skarmoryVigoroth"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Skarmory, Altaria, links["skarmoryAltaria"])
+	err = writeGoldenLog(Skarmory, Altaria, links["skarmoryAltaria"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(GiratinaA, Snorlax, links["giratinaASnorlax"])
+	err = writeGoldenLog(GiratinaA, Snorlax, links["giratinaASnorlax"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
@@ -416,7 +424,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := writeGoldenLog(AlolanMuk, AlolanMarowak, links["shieldedAlolanMukAlolanMarowak"])
+	err := writeGoldenLog(AlolanMuk, AlolanMarowak, links["shieldedAlolanMukAlolanMarowak"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
@@ -426,34 +434,115 @@ func updateShielded2CM() error {
 	Altaria.Shields = 1
 	Swampert.InitialHp = 107
 	Swampert.Shields = 1
-	err = writeGoldenLog(Swampert, Altaria, links["shieldedSwampertAltaria"])
+	err = writeGoldenLog(Swampert, Altaria, links["shieldedSwampertAltaria"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur1"])
+	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur1"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
 	Venusaur.ChargeMove = []string{"Frenzy Plant", "Sludge Bomb"}
 
-	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur2"])
+	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur2"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
 
 	Altaria.InitialHp = 56
 	Altaria.Shields = 2
-	err = writeGoldenLog(Skarmory, Altaria, links["shieldedSkarmoryAltaria"])
+	err = writeGoldenLog(Skarmory, Altaria, links["shieldedSkarmoryAltaria"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
 
-	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax1"])
+	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax1"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
 	GiratinaAltered.Shields = 1
-	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax2"])
+	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax2"], pvpsim.Constructor{})
+	if err != nil {
+		return err
+	}
+
+	//constructor
+
+	var GiratinaA = pvpsim.InitialData{
+		Name:      "Giratina (Altered Forme)",
+		AttackIV:  1,
+		DefenceIV: 10,
+		StaminaIV: 8,
+		Level:     17,
+		Shields:   2,
+
+		InitialHp:     68,
+		InitialEnergy: 48,
+
+		QuickMove:  "Shadow Claw",
+		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
+	}
+
+	var Aerodactyl = pvpsim.InitialData{
+		Name:      "Aerodactyl",
+		AttackIV:  2,
+		DefenceIV: 6,
+		StaminaIV: 14,
+		Level:     20.5,
+		Shields:   2,
+
+		InitialHp:     93,
+		InitialEnergy: 30,
+
+		QuickMove:  "Rock Throw",
+		ChargeMove: []string{"Rock Slide", "Earth Power"},
+	}
+
+	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr1"], pvpsim.Constructor{
+		Round: 12,
+		Attacker: pvpsim.Status{
+			IsTriggered:    true,
+			SkipShield:     false,
+			MoveCooldown:   0,
+			RoundsToDamage: 0,
+			WhatToSkip:     1,
+		},
+		Defender: pvpsim.Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   2,
+			RoundsToDamage: 1,
+			WhatToSkip:     0,
+		},
+	})
+	if err != nil {
+		return err
+	}
+	Aerodactyl.InitialHp = 12
+	Aerodactyl.InitialEnergy = 55
+
+	GiratinaA.InitialHp = 43
+	GiratinaA.InitialEnergy = 35
+	GiratinaA.InitialAttackStage = 2
+	GiratinaA.InitialDefenceStage = 2
+
+	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr2"], pvpsim.Constructor{
+		Round: 21,
+		Attacker: pvpsim.Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   2,
+			RoundsToDamage: 1,
+			WhatToSkip:     0,
+		},
+		Defender: pvpsim.Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   0,
+			RoundsToDamage: 0,
+			WhatToSkip:     1,
+		},
+	})
 	if err != nil {
 		return err
 	}
@@ -462,10 +551,10 @@ func updateShielded2CM() error {
 
 }
 
-func writeGoldenLog(atatcker, defender pvpsim.InitialData, logName string) error {
+func writeGoldenLog(atatcker, defender pvpsim.InitialData, logName string, constr pvpsim.Constructor) error {
 	result, err := pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{AttackerData: atatcker,
 		DefenderData: defender,
-		Constr:       pvpsim.Constructor{}, Logging: true})
+		Constr:       constr, Logging: true})
 	if err != nil {
 		return err
 	}
@@ -620,8 +709,7 @@ func writeGoldenMatrix(attacker, defender []pvpsim.InitialData, matrixName strin
 				errChan <- err
 				continue
 			}
-			matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
-			matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
+			matrixBattleResult.Rate = singleBattleResult.Attacker.Rate
 
 			matrixBattleResult.I = i
 			matrixBattleResult.K = k
@@ -646,7 +734,7 @@ func writeGoldenMatrix(attacker, defender []pvpsim.InitialData, matrixName strin
 	return nil
 }
 
-func updatePvppoke() error {
+func updatePvpoke() error {
 	var Dewgong = pvpsim.InitialData{
 		Name:       "Dewgong",
 		AttackIV:   0,
@@ -658,10 +746,160 @@ func updatePvppoke() error {
 		ChargeMove: []string{"Icy Wind", "Water Pulse"},
 	}
 
-	err := writeGoldenLog(Dewgong, Dewgong, links["pvppoke"])
+	var Venusaur = pvpsim.InitialData{
+		Name:       "Venusaur",
+		AttackIV:   1,
+		DefenceIV:  15,
+		StaminaIV:  14,
+		Level:      39,
+		Shields:    2,
+		QuickMove:  "Vine Whip",
+		ChargeMove: []string{"Frenzy Plant", "Sludge Bomb"},
+	}
+
+	var Ampharos = pvpsim.InitialData{
+		Name:       "Ampharos",
+		AttackIV:   0,
+		DefenceIV:  13,
+		StaminaIV:  15,
+		Level:      36,
+		Shields:    2,
+		QuickMove:  "Volt Switch",
+		ChargeMove: []string{"Thunder Punch", "Dragon Pulse"},
+	}
+
+	var AMuk = pvpsim.InitialData{
+		Name:       "Alolan Muk",
+		AttackIV:   0,
+		DefenceIV:  15,
+		StaminaIV:  15,
+		Level:      38.5,
+		Shields:    2,
+		QuickMove:  "Snarl",
+		ChargeMove: []string{"Dark Pulse", "Sludge Wave"},
+	}
+
+	var GiratinaA = pvpsim.InitialData{
+		Name:       "Giratina (Altered Forme)",
+		AttackIV:   1,
+		DefenceIV:  12,
+		StaminaIV:  15,
+		Level:      28,
+		Shields:    2,
+		QuickMove:  "Dragon Breath",
+		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
+	}
+
+	err := writeGoldenLog(Dewgong, Dewgong, links["pvpoke"], pvpsim.Constructor{})
+	if err != nil {
+		return err
+	}
+	err = writeGoldenPvpokeLog(GiratinaA, Ampharos, links["pvpoke14"], pvpsim.Constructor{})
+	if err != nil {
+		return err
+	}
+	err = writeGoldenPvpokeLog(AMuk, Ampharos, links["pvpoke34"], pvpsim.Constructor{})
+	if err != nil {
+		return err
+	}
+	err = writeGoldenPvpokeLog(Venusaur, Ampharos, links["pvpoke24"], pvpsim.Constructor{})
 	if err != nil {
 		return err
 	}
 
+	GiratinaA = pvpsim.InitialData{
+		Name:      "Giratina (Altered Forme)",
+		AttackIV:  1,
+		DefenceIV: 10,
+		StaminaIV: 8,
+		Level:     17,
+		Shields:   2,
+
+		InitialHp:     68,
+		InitialEnergy: 48,
+
+		QuickMove:  "Shadow Claw",
+		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
+	}
+
+	var Aerodactyl = pvpsim.InitialData{
+		Name:      "Aerodactyl",
+		AttackIV:  2,
+		DefenceIV: 6,
+		StaminaIV: 14,
+		Level:     20.5,
+		Shields:   2,
+
+		InitialHp:     93,
+		InitialEnergy: 30,
+
+		QuickMove:  "Rock Throw",
+		ChargeMove: []string{"Rock Slide", "Earth Power"},
+	}
+
+	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr1"], pvpsim.Constructor{
+		Round: 12,
+		Attacker: pvpsim.Status{
+			IsTriggered:    true,
+			SkipShield:     false,
+			MoveCooldown:   0,
+			RoundsToDamage: 0,
+			WhatToSkip:     1,
+		},
+		Defender: pvpsim.Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   2,
+			RoundsToDamage: 1,
+			WhatToSkip:     0,
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	Aerodactyl.InitialHp = 12
+	Aerodactyl.InitialEnergy = 55
+
+	GiratinaA.InitialHp = 43
+	GiratinaA.InitialEnergy = 35
+	GiratinaA.InitialAttackStage = 2
+	GiratinaA.InitialDefenceStage = 2
+
+	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr2"], pvpsim.Constructor{
+		Round: 21,
+		Attacker: pvpsim.Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   2,
+			RoundsToDamage: 1,
+			WhatToSkip:     0,
+		},
+		Defender: pvpsim.Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   0,
+			RoundsToDamage: 0,
+			WhatToSkip:     1,
+		},
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func writeGoldenPvpokeLog(atatcker, defender pvpsim.InitialData, logName string, constr pvpsim.Constructor) error {
+	result, err := pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{AttackerData: atatcker,
+		DefenderData: defender,
+		Constr:       constr, Logging: true})
+	if err != nil {
+		return err
+	}
+	err = result.Log.WriteLog(logName)
+	if err != nil {
+		return err
+	}
 	return nil
 }

@@ -1,0 +1,352 @@
+[
+ {
+  "Round": 12,
+  "Attacker": {
+   "HP": 68,
+   "Energy": 48,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 93,
+   "Energy": 30,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 13,
+  "Attacker": {
+   "HP": 68,
+   "Energy": 3,
+   "ActionName": "Ancient Power",
+   "ActionCode": 11,
+   "StageA": 2,
+   "StageD": 2,
+   "IsSelf": true,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 44,
+   "Energy": 30,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 14,
+  "Attacker": {
+   "HP": 63,
+   "Energy": 3,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 44,
+   "Energy": 35,
+   "ActionName": "Rock Throw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 15,
+  "Attacker": {
+   "HP": 58,
+   "Energy": 11,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 36,
+   "Energy": 40,
+   "ActionName": "Rock Throw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 16,
+  "Attacker": {
+   "HP": 58,
+   "Energy": 11,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 36,
+   "Energy": 40,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 17,
+  "Attacker": {
+   "HP": 53,
+   "Energy": 19,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 28,
+   "Energy": 45,
+   "ActionName": "Rock Throw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 18,
+  "Attacker": {
+   "HP": 52,
+   "Energy": 19,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  },
+  "Defender": {
+   "HP": 28,
+   "Energy": 0,
+   "ActionName": "Rock Slide",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 19,
+  "Attacker": {
+   "HP": 52,
+   "Energy": 27,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 20,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 20,
+  "Attacker": {
+   "HP": 47,
+   "Energy": 35,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 12,
+   "Energy": 5,
+   "ActionName": "Rock Throw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 21,
+  "Attacker": {
+   "HP": 47,
+   "Energy": 35,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 12,
+   "Energy": 5,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 22,
+  "Attacker": {
+   "HP": 42,
+   "Energy": 43,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 4,
+   "Energy": 10,
+   "ActionName": "Rock Throw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 23,
+  "Attacker": {
+   "HP": 42,
+   "Energy": 43,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 4,
+   "Energy": 10,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 24,
+  "Attacker": {
+   "HP": 37,
+   "Energy": 51,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -4,
+   "Energy": 15,
+   "ActionName": "Rock Throw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 25,
+  "Attacker": {
+   "HP": 37,
+   "Energy": 51,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -4,
+   "Energy": 15,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ }
+]

@@ -1,0 +1,127 @@
+[
+ {
+  "Round": 21,
+  "Attacker": {
+   "HP": 43,
+   "Energy": 35,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 12,
+   "Energy": 55,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 22,
+  "Attacker": {
+   "HP": 2,
+   "Energy": 35,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 12,
+   "Energy": 0,
+   "ActionName": "Earth Power",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 23,
+  "Attacker": {
+   "HP": 2,
+   "Energy": 43,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 4,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 24,
+  "Attacker": {
+   "HP": -3,
+   "Energy": 51,
+   "ActionName": "Shadow Claw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -4,
+   "Energy": 5,
+   "ActionName": "Rock Throw",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 25,
+  "Attacker": {
+   "HP": -3,
+   "Energy": 51,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -4,
+   "Energy": 5,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ }
+]

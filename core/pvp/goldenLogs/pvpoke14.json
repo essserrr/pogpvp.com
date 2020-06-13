@@ -1,0 +1,1227 @@
+[
+ {
+  "Round": 0,
+  "Attacker": {
+   "HP": 211,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 170,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 1,
+  "Attacker": {
+   "HP": 211,
+   "Energy": 3,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 167,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 2,
+  "Attacker": {
+   "HP": 211,
+   "Energy": 6,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 164,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 3,
+  "Attacker": {
+   "HP": 211,
+   "Energy": 9,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 161,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 4,
+  "Attacker": {
+   "HP": 205,
+   "Energy": 12,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 158,
+   "Energy": 16,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 5,
+  "Attacker": {
+   "HP": 205,
+   "Energy": 15,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 155,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 6,
+  "Attacker": {
+   "HP": 205,
+   "Energy": 18,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 152,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 7,
+  "Attacker": {
+   "HP": 205,
+   "Energy": 21,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 149,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 8,
+  "Attacker": {
+   "HP": 199,
+   "Energy": 24,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 146,
+   "Energy": 32,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 9,
+  "Attacker": {
+   "HP": 199,
+   "Energy": 27,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 143,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 10,
+  "Attacker": {
+   "HP": 199,
+   "Energy": 30,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 140,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 11,
+  "Attacker": {
+   "HP": 199,
+   "Energy": 33,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 137,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 12,
+  "Attacker": {
+   "HP": 193,
+   "Energy": 36,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 134,
+   "Energy": 48,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 13,
+  "Attacker": {
+   "HP": 192,
+   "Energy": 1,
+   "ActionName": "Dragon Claw",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  },
+  "Defender": {
+   "HP": 133,
+   "Energy": 8,
+   "ActionName": "Thunder Punch",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": true,
+   "ShieldIsUsed": true
+  }
+ },
+ {
+  "Round": 14,
+  "Attacker": {
+   "HP": 192,
+   "Energy": 4,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 130,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 15,
+  "Attacker": {
+   "HP": 192,
+   "Energy": 7,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 127,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 16,
+  "Attacker": {
+   "HP": 192,
+   "Energy": 10,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 124,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 17,
+  "Attacker": {
+   "HP": 186,
+   "Energy": 13,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 121,
+   "Energy": 24,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 18,
+  "Attacker": {
+   "HP": 186,
+   "Energy": 16,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 118,
+   "Energy": 24,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 19,
+  "Attacker": {
+   "HP": 186,
+   "Energy": 19,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 115,
+   "Energy": 24,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 20,
+  "Attacker": {
+   "HP": 186,
+   "Energy": 22,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 112,
+   "Energy": 24,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 21,
+  "Attacker": {
+   "HP": 180,
+   "Energy": 25,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 109,
+   "Energy": 40,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 22,
+  "Attacker": {
+   "HP": 179,
+   "Energy": 28,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  },
+  "Defender": {
+   "HP": 106,
+   "Energy": 0,
+   "ActionName": "Thunder Punch",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 23,
+  "Attacker": {
+   "HP": 179,
+   "Energy": 31,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 103,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 24,
+  "Attacker": {
+   "HP": 179,
+   "Energy": 34,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 100,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 25,
+  "Attacker": {
+   "HP": 179,
+   "Energy": 37,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 97,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 26,
+  "Attacker": {
+   "HP": 173,
+   "Energy": 2,
+   "ActionName": "Dragon Claw",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 96,
+   "Energy": 16,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  }
+ },
+ {
+  "Round": 27,
+  "Attacker": {
+   "HP": 173,
+   "Energy": 5,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 93,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 28,
+  "Attacker": {
+   "HP": 173,
+   "Energy": 8,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 90,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 29,
+  "Attacker": {
+   "HP": 173,
+   "Energy": 11,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 87,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 30,
+  "Attacker": {
+   "HP": 167,
+   "Energy": 14,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 84,
+   "Energy": 32,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 31,
+  "Attacker": {
+   "HP": 167,
+   "Energy": 17,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 81,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 32,
+  "Attacker": {
+   "HP": 167,
+   "Energy": 20,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 78,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 33,
+  "Attacker": {
+   "HP": 167,
+   "Energy": 23,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 75,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 34,
+  "Attacker": {
+   "HP": 161,
+   "Energy": 26,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 72,
+   "Energy": 48,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 35,
+  "Attacker": {
+   "HP": 161,
+   "Energy": 29,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 69,
+   "Energy": 48,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 36,
+  "Attacker": {
+   "HP": 161,
+   "Energy": 32,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 66,
+   "Energy": 48,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 37,
+  "Attacker": {
+   "HP": 161,
+   "Energy": 35,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 63,
+   "Energy": 48,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 38,
+  "Attacker": {
+   "HP": 155,
+   "Energy": 0,
+   "ActionName": "Dragon Claw",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 25,
+   "Energy": 64,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 39,
+  "Attacker": {
+   "HP": 64,
+   "Energy": 3,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 22,
+   "Energy": 4,
+   "ActionName": "Dragon Pulse",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 40,
+  "Attacker": {
+   "HP": 64,
+   "Energy": 6,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 19,
+   "Energy": 4,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 41,
+  "Attacker": {
+   "HP": 64,
+   "Energy": 9,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 16,
+   "Energy": 4,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 42,
+  "Attacker": {
+   "HP": 64,
+   "Energy": 12,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 13,
+   "Energy": 4,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 43,
+  "Attacker": {
+   "HP": 58,
+   "Energy": 15,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 10,
+   "Energy": 20,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 44,
+  "Attacker": {
+   "HP": 58,
+   "Energy": 18,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 7,
+   "Energy": 20,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 45,
+  "Attacker": {
+   "HP": 58,
+   "Energy": 21,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 4,
+   "Energy": 20,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 46,
+  "Attacker": {
+   "HP": 58,
+   "Energy": 24,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 1,
+   "Energy": 20,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 47,
+  "Attacker": {
+   "HP": 52,
+   "Energy": 27,
+   "ActionName": "Dragon Breath",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -2,
+   "Energy": 36,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 48,
+  "Attacker": {
+   "HP": 52,
+   "Energy": 27,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -2,
+   "Energy": 36,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ }
+]

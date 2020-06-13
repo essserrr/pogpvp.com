@@ -1,0 +1,977 @@
+[
+ {
+  "Round": 0,
+  "Attacker": {
+   "HP": 160,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 170,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 1,
+  "Attacker": {
+   "HP": 160,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 170,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 2,
+  "Attacker": {
+   "HP": 160,
+   "Energy": 8,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 165,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 3,
+  "Attacker": {
+   "HP": 160,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 165,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 4,
+  "Attacker": {
+   "HP": 154,
+   "Energy": 16,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 160,
+   "Energy": 16,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 5,
+  "Attacker": {
+   "HP": 154,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 160,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 6,
+  "Attacker": {
+   "HP": 154,
+   "Energy": 24,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 155,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 7,
+  "Attacker": {
+   "HP": 154,
+   "Energy": 24,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 155,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 8,
+  "Attacker": {
+   "HP": 148,
+   "Energy": 32,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 150,
+   "Energy": 32,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 9,
+  "Attacker": {
+   "HP": 148,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 150,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 10,
+  "Attacker": {
+   "HP": 148,
+   "Energy": 40,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 145,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 11,
+  "Attacker": {
+   "HP": 148,
+   "Energy": 40,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 145,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 12,
+  "Attacker": {
+   "HP": 142,
+   "Energy": 48,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 140,
+   "Energy": 48,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 13,
+  "Attacker": {
+   "HP": 141,
+   "Energy": 3,
+   "ActionName": "Frenzy Plant",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  },
+  "Defender": {
+   "HP": 139,
+   "Energy": 8,
+   "ActionName": "Thunder Punch",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": true,
+   "ShieldIsUsed": true
+  }
+ },
+ {
+  "Round": 14,
+  "Attacker": {
+   "HP": 141,
+   "Energy": 3,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 139,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 15,
+  "Attacker": {
+   "HP": 141,
+   "Energy": 11,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 134,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 16,
+  "Attacker": {
+   "HP": 141,
+   "Energy": 11,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 134,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 17,
+  "Attacker": {
+   "HP": 135,
+   "Energy": 19,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 129,
+   "Energy": 24,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 18,
+  "Attacker": {
+   "HP": 135,
+   "Energy": 19,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 129,
+   "Energy": 24,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 19,
+  "Attacker": {
+   "HP": 135,
+   "Energy": 27,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 124,
+   "Energy": 24,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 20,
+  "Attacker": {
+   "HP": 135,
+   "Energy": 27,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 124,
+   "Energy": 24,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 21,
+  "Attacker": {
+   "HP": 129,
+   "Energy": 35,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 119,
+   "Energy": 40,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 22,
+  "Attacker": {
+   "HP": 128,
+   "Energy": 35,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  },
+  "Defender": {
+   "HP": 119,
+   "Energy": 0,
+   "ActionName": "Thunder Punch",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 23,
+  "Attacker": {
+   "HP": 128,
+   "Energy": 43,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 114,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 24,
+  "Attacker": {
+   "HP": 128,
+   "Energy": 51,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 109,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 25,
+  "Attacker": {
+   "HP": 128,
+   "Energy": 6,
+   "ActionName": "Frenzy Plant",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 108,
+   "Energy": 0,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  }
+ },
+ {
+  "Round": 26,
+  "Attacker": {
+   "HP": 122,
+   "Energy": 6,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 108,
+   "Energy": 16,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 27,
+  "Attacker": {
+   "HP": 122,
+   "Energy": 14,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 103,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 28,
+  "Attacker": {
+   "HP": 122,
+   "Energy": 14,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 103,
+   "Energy": 16,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 29,
+  "Attacker": {
+   "HP": 116,
+   "Energy": 22,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 98,
+   "Energy": 32,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 30,
+  "Attacker": {
+   "HP": 116,
+   "Energy": 22,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 98,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 31,
+  "Attacker": {
+   "HP": 116,
+   "Energy": 30,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 93,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 32,
+  "Attacker": {
+   "HP": 116,
+   "Energy": 30,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 93,
+   "Energy": 32,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 33,
+  "Attacker": {
+   "HP": 110,
+   "Energy": 38,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 88,
+   "Energy": 48,
+   "ActionName": "Volt Switch",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 34,
+  "Attacker": {
+   "HP": 82,
+   "Energy": 38,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 88,
+   "Energy": 8,
+   "ActionName": "Thunder Punch",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 35,
+  "Attacker": {
+   "HP": 82,
+   "Energy": 46,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 83,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 36,
+  "Attacker": {
+   "HP": 82,
+   "Energy": 54,
+   "ActionName": "Vine Whip",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 78,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 37,
+  "Attacker": {
+   "HP": 82,
+   "Energy": 9,
+   "ActionName": "Frenzy Plant",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -10,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 38,
+  "Attacker": {
+   "HP": 82,
+   "Energy": 9,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -10,
+   "Energy": 8,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ }
+]
