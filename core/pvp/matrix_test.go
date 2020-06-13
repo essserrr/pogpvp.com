@@ -167,8 +167,7 @@ func checkMatrixes(attacker, defender []InitialData, checkName string) error {
 				errChan <- err
 				continue
 			}
-			matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
-			matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
+			matrixBattleResult.Rate = singleBattleResult.Attacker.Rate
 
 			matrixBattleResult.I = i
 			matrixBattleResult.K = k
@@ -217,12 +216,12 @@ func CheckMatrixesIdent(goldenMatrix, matrix *[]MatrixResult, checkName string) 
 	for _, goldenValue := range *goldenMatrix {
 		for _, value := range *matrix {
 			if goldenValue.I == value.I && goldenValue.K == value.K {
-				if goldenValue.Attacker.Rate != value.Attacker.Rate {
+				if goldenValue.Rate != value.Rate {
 					return &TestErrorMatrix{
 						checkName,
 						(strconv.Itoa(goldenValue.I) + " vs " + strconv.Itoa(goldenValue.K)),
-						goldenValue.Attacker.Rate,
-						value.Attacker.Rate,
+						goldenValue.Rate,
+						value.Rate,
 					}
 				}
 			}
@@ -374,8 +373,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 					errChan <- err
 					continue
 				}
-				matrixBattleResult.Attacker.Rate = singleBattleResult.Attacker.Rate
-				matrixBattleResult.Defender.Rate = singleBattleResult.Defender.Rate
+				matrixBattleResult.Rate = singleBattleResult.Attacker.Rate
 
 				matrixBattleResult.I = i
 				matrixBattleResult.K = k

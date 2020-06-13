@@ -101,31 +101,31 @@ func TestUnshielded2CM(t *testing.T) {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := checkPVP(Azumarill, Venusaur, "azumarillVenusaur")
+	err := checkPVP(Azumarill, Venusaur, "azumarillVenusaur", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Meganium, "azumarillMeganium")
+	err = checkPVP(Azumarill, Meganium, "azumarillMeganium", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Medicham, "azumarillMedicham")
+	err = checkPVP(Azumarill, Medicham, "azumarillMedicham", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Registeel, "azumarillRegisteel")
+	err = checkPVP(Azumarill, Registeel, "azumarillRegisteel", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Skarmory, Vigoroth, "skarmoryVigoroth")
+	err = checkPVP(Skarmory, Vigoroth, "skarmoryVigoroth", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Skarmory, Altaria, "skarmoryAltaria")
+	err = checkPVP(Skarmory, Altaria, "skarmoryAltaria", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(GiratinaA, Snorlax, "giratinaASnorlax")
+	err = checkPVP(GiratinaA, Snorlax, "giratinaASnorlax", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}

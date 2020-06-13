@@ -101,7 +101,7 @@ func TestShielded2CM(t *testing.T) {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := checkPVP(AlolanMuk, AlolanMarowak, "shieldedAlolanMukAlolanMarowak")
+	err := checkPVP(AlolanMuk, AlolanMarowak, "shieldedAlolanMukAlolanMarowak", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
@@ -110,32 +110,32 @@ func TestShielded2CM(t *testing.T) {
 	Altaria.Shields = 1
 	Swampert.InitialHp = 107
 	Swampert.Shields = 1
-	err = checkPVP(Swampert, Altaria, "shieldedSwampertAltaria")
+	err = checkPVP(Swampert, Altaria, "shieldedSwampertAltaria", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur1")
+	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur1", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
 	Venusaur.ChargeMove = []string{"Frenzy Plant", "Sludge Bomb"}
-	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur2")
+	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur2", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
 
 	Altaria.InitialHp = 56
 	Altaria.Shields = 2
-	err = checkPVP(Skarmory, Altaria, "shieldedSkarmoryAltaria")
+	err = checkPVP(Skarmory, Altaria, "shieldedSkarmoryAltaria", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax1")
+	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax1", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
 	GiratinaAltered.Shields = 1
-	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax2")
+	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax2", Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
@@ -166,25 +166,107 @@ func TestShielded1CM(t *testing.T) {
 		ChargeMove: []string{"Hydro Cannon", ""},
 	}
 
-	err := checkPVP(Medicham, Swampert, "generalShielded") //general shielded PvP 2-2
+	err := checkPVP(Medicham, Swampert, "generalShielded", Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		t.Error(err)
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 1
-	err = checkPVP(Medicham, Swampert, "shielded11") //general shielded PvP 2-2
+	err = checkPVP(Medicham, Swampert, "shielded11", Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		t.Error(err)
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 0
-	err = checkPVP(Medicham, Swampert, "shielded10") //shielded PvP 1-0
+	err = checkPVP(Medicham, Swampert, "shielded10", Constructor{}) //shielded PvP 1-0
 	if err != nil {
 		t.Error(err)
 	}
 
+}
+
+func TestConstructor(t *testing.T) {
+	var GiratinaA = InitialData{
+		Name:      "Giratina (Altered Forme)",
+		AttackIV:  1,
+		DefenceIV: 10,
+		StaminaIV: 8,
+		Level:     17,
+		Shields:   2,
+
+		InitialHp:     68,
+		InitialEnergy: 48,
+
+		QuickMove:  "Shadow Claw",
+		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
+	}
+
+	var Aerodactyl = InitialData{
+		Name:      "Aerodactyl",
+		AttackIV:  2,
+		DefenceIV: 6,
+		StaminaIV: 14,
+		Level:     20.5,
+		Shields:   2,
+
+		InitialHp:     93,
+		InitialEnergy: 30,
+
+		QuickMove:  "Rock Throw",
+		ChargeMove: []string{"Rock Slide", "Earth Power"},
+	}
+
+	err := checkPVP(GiratinaA, Aerodactyl, "constr1", Constructor{
+		Round: 12,
+		Attacker: Status{
+			IsTriggered:    true,
+			SkipShield:     false,
+			MoveCooldown:   0,
+			RoundsToDamage: 0,
+			WhatToSkip:     1,
+		},
+		Defender: Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   2,
+			RoundsToDamage: 1,
+			WhatToSkip:     0,
+		},
+	})
+	if err != nil {
+		t.Error(err)
+	}
+
+	Aerodactyl.InitialHp = 12
+	Aerodactyl.InitialEnergy = 55
+
+	GiratinaA.InitialHp = 43
+	GiratinaA.InitialEnergy = 35
+	GiratinaA.InitialAttackStage = 2
+	GiratinaA.InitialDefenceStage = 2
+
+	err = checkPVP(GiratinaA, Aerodactyl, "constr2", Constructor{
+		Round: 21,
+		Attacker: Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   2,
+			RoundsToDamage: 1,
+			WhatToSkip:     0,
+		},
+		Defender: Status{
+			IsTriggered:    false,
+			SkipShield:     true,
+			MoveCooldown:   0,
+			RoundsToDamage: 0,
+			WhatToSkip:     1,
+		},
+	})
+	if err != nil {
+		t.Error(err)
+	}
 }
 
 func BenchmarkShieldedPVP(b *testing.B) {

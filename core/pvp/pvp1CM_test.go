@@ -38,7 +38,15 @@ var links = map[string]string{
 	"shieldedGiratinaAlteredSnorlax1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedGiratinaAlteredSnorlax1.json")),
 	"shieldedGiratinaAlteredSnorlax2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedGiratinaAlteredSnorlax2.json")),
 
-	"pvppoke": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvppoke.json")),
+	"pvpoke":        (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke.json")),
+	"pvpoke14":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke14.json")),
+	"pvpoke34":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke34.json")),
+	"pvpoke24":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke24.json")),
+	"pvpokeConstr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr1.json")),
+	"pvpokeConstr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr2.json")),
+
+	"constr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr1.json")),
+	"constr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr2.json")),
 }
 
 var linksMatrix = map[string]string{
@@ -111,7 +119,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 0
-	err := checkPVP(Magnezone, Swampert, "knockQuickQuick") //knock down an opponent by a quick move before his quick move deals damage to you
+	err := checkPVP(Magnezone, Swampert, "knockQuickQuick", Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
 	if err != nil {
 		t.Error(err)
 	}
@@ -120,7 +128,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 9
-	err = checkPVP(Magnezone, Swampert, "knockChargeQuick") //knock down an opponent by a charge move before his quick move deals damage to you
+	err = checkPVP(Magnezone, Swampert, "knockChargeQuick", Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
 	if err != nil {
 		t.Error(err)
 	}
@@ -129,7 +137,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 12
 	Swampert.InitialEnergy = 0
-	err = checkPVP(Magnezone, Swampert, "simultaneousQuick") //simultaneous knock down by a quick move
+	err = checkPVP(Magnezone, Swampert, "simultaneousQuick", Constructor{}) //simultaneous knock down by a quick move
 	if err != nil {
 		t.Error(err)
 	}
@@ -138,7 +146,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 4
-	err = checkPVP(Medicham, Swampert, "knockQuickCharge") //knock down an opponent by a quick move before his charge move deals damage to you
+	err = checkPVP(Medicham, Swampert, "knockQuickCharge", Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
 	if err != nil {
 		t.Error(err)
 	}
@@ -147,14 +155,14 @@ func TestUnshielded1CM(t *testing.T) {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 10
-	err = checkPVP(Medicham, Swampert, "simultaneousCharge") //carge move priority
+	err = checkPVP(Medicham, Swampert, "simultaneousCharge", Constructor{}) //carge move priority
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-func checkPVP(atatcker, defender InitialData, checkName string) error {
-	currentRes, err := NewPvpBetween(SinglePvpInitialData{atatcker, defender, Constructor{}, true})
+func checkPVP(atatcker, defender InitialData, checkName string, constr Constructor) error {
+	currentRes, err := NewPvpBetween(SinglePvpInitialData{atatcker, defender, constr, true})
 	if err != nil {
 		return err
 	}
