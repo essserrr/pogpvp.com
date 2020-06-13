@@ -1,6 +1,9 @@
 import React from "react";
 import ReactTooltip from "react-tooltip"
 
+import PokemonIconer from "../PokemonIconer/PokemonIconer"
+import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
+
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../../../locale/locale"
 import { matrixTips } from "../../../../locale/matrixTips"
@@ -134,6 +137,109 @@ const MatrixDecr = React.memo(function (props) {
                             </ReactTooltip>
                             {"-2"}
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 className="col-12 font-weight-bold m-0 p-0 px-1 py-1 pt-3 text-center">
+                {tips.adv}
+            </h5>
+            <p className="col-12 tipfont p-0 m-0 px-1 py-1" >
+                {tips.advp1}
+            </p>
+            <p className="col-12 tipfont p-0 m-0 px-1 " >
+                {tips.advp2}
+            </p>
+            <p className="col-12 tipfont p-0 m-0 px-1 py-1" >
+                {tips.advp3}
+            </p>
+            <p className="col-12 tipfont p-0 m-0 px-1 " >
+                {tips.advp4}
+            </p>
+            <p className="col-12 tipfont p-0 m-0 px-1 py-1" >
+                {tips.advp5}
+            </p>
+            <h6 className="col-12 font-weight-bold m-0 p-0 mb-1 text-center">
+                {tips.advTip}
+            </h6>
+
+
+            <div className={"cardBig row m-0 p-0 py-1 mb-3 mt-2 justify-content-between"}>
+                <div className={"row m-0 p-0"}>
+                    <div data-tip data-for={"topnumber"} className="ml-2 mr-2 bigText align-self-center ">{"#1"}</div>
+                    <ReactTooltip
+                        className={"infoTip"}
+                        id={"topnumber"} effect='solid'
+                        place={"top"}
+                        multiline={true} >
+                        {tips.cardTip.n}
+                    </ReactTooltip>
+                    <div data-tip data-for={"iconpok1"} className="posRel">
+                        <PokemonIconer
+                            src={"644"}
+                            class={"icon48 ml-1 ml-sm-3  mr-2"} />
+                        <ReactTooltip
+                            className={"infoTip"}
+                            id={"iconpok1"} effect='solid'
+                            place={"top"}
+                            multiline={true} >
+                            {tips.cardTip.p1}
+                        </ReactTooltip>
+                    </div>
+
+                    <div data-tip data-for={"iconpok2"} className="posRel">
+                        {<Shadow className="posAbs icon16" />}
+                        <PokemonIconer
+                            src={"493-3"}
+                            class={"icon48 ml-1 ml-sm-3  mr-2"} />
+                        <ReactTooltip
+                            className={"infoTip"}
+                            id={"iconpok2"} effect='solid'
+                            place={"top"}
+                            multiline={true} >
+                            {tips.cardTip.p2}
+                        </ReactTooltip>
+                    </div>
+
+                    <div data-tip data-for={"iconpok3"} className="posRel">
+                        <PokemonIconer
+                            src={"132"}
+                            class={"icon48 ml-1 ml-sm-3 mr-2"} />
+                        <ReactTooltip
+                            className={"infoTip"}
+                            id={"iconpok3"} effect='solid'
+                            place={"top"}
+                            multiline={true} >
+                            {tips.cardTip.p3}
+                        </ReactTooltip>
+                    </div>
+                </div>
+                <div className={"row m-0 p-0"}>
+                    <div data-tip data-for={"zerosn"} className="mr-2 mr-sm-4 w64 bigText text-center align-self-center ">99</div>
+                    <ReactTooltip
+                        className={"logItems"}
+                        id={"zerosn"} effect='solid'
+                        place={"top"}
+                        multiline={true} >
+                        {tips.cardTip.zer}
+                    </ReactTooltip>
+                    <div data-tip data-for={"avgratetop"} className="mr-2 mr-sm-4 w64 bigText text-center align-self-center ">1000</div>
+                    <ReactTooltip
+                        className={"infoTip"}
+                        id={"avgratetop"} effect='solid'
+                        place={"top"}
+                        multiline={true} >
+                        {tips.cardTip.rate}
+                    </ReactTooltip>
+                    <div data-tip data-for={"more"} className="clickable align-self-center m-0 p-0  px-3">
+                        <i className={"fas fa-angle-down fa-lg"}></i>
+                        <ReactTooltip
+                            className={"logItems"}
+                            id={"more"} effect='solid'
+                            place={"top"}
+                            multiline={true} >
+                            {tips.cardTip.more}
+                        </ReactTooltip>
                     </div>
                 </div>
             </div>

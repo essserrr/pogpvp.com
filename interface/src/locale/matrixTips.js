@@ -18,6 +18,23 @@ export const matrixTips = {
         },
         par1: `Matrix PvP calculates results of the battle of each pokemon of the left column against each pokemon of the right column. Clicking on the rating in the results table will redirect you to the page of the corresponding single PvP. "Default settings" change the settings for all pokemon in the selected group at once, and also set the default settings for newly added pokemon. You also can save any party you created, for this you need to click on the "save" button and select a name for your party.`,
         par2: `When the "Overall rating" is turned on, the simulator calculates all 3 possible combinations of shields: 0x0, 1x1, 2x2. Based on the results of these 3 combinations, the overall rating is calculated by the formula of arithmetic mean (x1 + x2 + x3) / 3. When this option is enabled, changing of number of shields in the settings does not affect the battle results. Since 3 battle matrices are calculated at once, then the calculations may take a while.`,
+
+        adv: `Advisor`,
+        advp1: `Advisor is a function of a comprehensive analysis of the results of a matrix battle.`,
+        advp2: `To use the advisor, you need to create two groups of pokemon. The group in the left column is your pokemon (from 3 to 15), and the group in the right column is your oppenent’s (for example, a meta list). After that it is necessary to press the button “Let’s battle”. After the battle results are received, the advisor button will become active. Remember that changing the parameters that affect the advisor results (for example, a pokemon of one of the groups) will make the advisor button inactive.`,
+        advp3: `After clicking on the “Advisor” button the performance of all groups that can be assembled from the pokemon of the left column, will be determined. Namely, the number of negative matchups (matchups in which not one of the pokemon of the group is able to win) and the average battle rating of the group will be calculated. Based on these two indicators, the top of all the groups will be shown: from the most effective to the least effective. When sorting, priority is given to the number of bad matchups (i.e. a group with fewer negative matchups will have a higher position in the list regardless of its average battle rating).`,
+        advp4: `Detailed results for the group display a list of negative matchups, a complete list of matchups, as well as a list of the effectiveness and vulnerabilities of this group.`,
+        advp5: `It is worth noting that such an algorithm searches for the most balanced groups and does not take as a goal the finding of meta kings, as sometimes, unusual tactics that are difficult to predict can lead to victory. In general, this function aims to give you ideas about which pokemon are best used to defeat the entire set of opponents.`,
+        advTip: `Symbols in the advisor top (hover over a cell to get a tip)`,
+        cardTip: {
+            n: "Number in the top",
+            p1: "Pokemon #1",
+            p2: "Pokemon #2",
+            p3: "Pokemon #3",
+            zer: "Number of bad matchups",
+            rate: "Average battle rating",
+            more: "Show detailed statistics",
+        },
     },
     ru: {
         overall: "Условные обозначения в общем рейтинге (наведите мышь на ячейку, что бы получить подсказку)",
@@ -38,5 +55,22 @@ export const matrixTips = {
         },
         par1: `Матричное PvP считает результаты боя каждого покемона левого столбца против каждого покемона правого столбца. Клик по рейтингу в таблице результатов перенправит Вас на страницу каждого отдельного PvP. "Настройки по-умолчанию" меняют параметры сразу у всех покемонов в выбранной группе, а так же устанавливают соотвествующие настройки по-умолчанию для вновь добавляемых покемонов. Также имеется возможность сохранить созданную группу, для этого нужно нажать на кнопку "сохранить" и выбрать имя для вышей группы.`,
         par2: `Включение общего рейтинга заставляется симулятор считать сразу 3 возможных комбинации щитов: 0х0, 1х1, 2х2. По результатам этих 3 комбинаций вычисляется общий рейтинг, равный среднему арифметическому (x1+x2+x3)/3. Когда эта опция включена, изменение количества щитов в настройках не влияет на исход боя. Так как за 1 раз считается сразу 3 матрицы, то вычисления могут занять некоторое время.`,
+
+        adv: `Советчик`,
+        advp1: `Советчик представляет собой функцию комплексного анализа результатов групповой битвы.`,
+        advp2: `Что бы воспользоваться советчиком необходимо создать две группы покемонов. Группа в левой колонке представляет собой ваших покемонов (от 3 до 15), а группа в правой колонке - покемонов противника (например мета-список). После этого необходимо нажать кнопку «в бой». После того, как результаты боя будут получены, кнопка советчика станет активной. Изменение параметров, влияющих на результаты советчика (например, состав одной из групп), вновь сделают кнопку советчика неактивной.`,
+        advp3: `При нажатии на кнопку “Советчик” для всех групп, которые возможно собрать из покемонов левой колонки, будет определена их эффективность. А именно будет посчитано число отрицательных матчапов (матчапы, в которых ни один из покемонов группы не способен победить) и средний боевой рейтинг группы. Основываясь на этих двух показателях, будет показан топ всех полученных групп: от самой эффективной к наименее эффективной. При сортировке приоритет отдается числу плохих матчапов (т.е. группа имеющая меньшее число отрицательных матчапов будет иметь более высокую строчку в списке невзирая на ее средний боевой рейтинг).`,
+        advp4: `Подробные результаты по группе отображают список отрицательных матчапов, полный список матчапов, а также список эффективностей и уязвимостей данной группы.`,
+        advp5: `Стоит отметить, что такой алгоритм ищет наиболее сбалансированные группы и не берет своей целью нахождение королей меты, т.к. порой к победе могут приводить необычные тактики, которые достаточно сложно предсказать. В целом данная функция ставит своей целью дать Вам идеи о том, каких покемонов лучше всего использовать, чтобы побеждать весь набор противников.`,
+        advTip: `Условные обозначения в топе советчика (наведите мышь на ячейку, что бы получить подсказку)`,
+        cardTip: {
+            n: "Номер в топе",
+            p1: "Покемон 1",
+            p2: "Покемон 2",
+            p3: "Покемон 3",
+            zer: "Число отрицательных матчапов",
+            rate: "Средний боевой рейтинг",
+            more: "Показать подробную статистику",
+        },
     }
 }
