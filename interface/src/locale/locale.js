@@ -1,5 +1,7 @@
 export const locale = {
     en: {
+        notfound: "Error 404 - Page not found",
+        return: "Return to main page",
         advisor: {
             adv: "Advisor",
             willow: "Hey Trainer, how about trying out these Pokémon?",
@@ -245,6 +247,8 @@ export const locale = {
 
 
     ru: {
+        notfound: "Ошибка 404 - Страница не найдена",
+        return: "Вернуться на главную страницу",
         advisor: {
             adv: "Советчик",
             willow: "Эй, Тренер, как на счет того, что бы попробовать этих покемонов?",

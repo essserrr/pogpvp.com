@@ -1,0 +1,89 @@
+import React from "react";
+import { Helmet } from "react-helmet";
+import LocalizedStrings from 'react-localization';
+
+
+import { locale } from "../../locale/locale"
+import { getCookie } from "../../js/indexFunctions"
+import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
+
+
+let strings = new LocalizedStrings(locale);
+
+
+class NotFound extends React.Component {
+    constructor(props) {
+        super(props);
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        this.state = {
+        };
+        this.focusDiv = this.focusDiv.bind(this);
+
+    }
+
+    componentDidMount() {
+        this.focusDiv();
+    };
+    componentDidUpdate() {
+        this.focusDiv();
+    };
+
+    focusDiv() {
+        this.refs.notfound.focus();
+    };
+
+
+    render() {
+        return (
+            <>
+                <Helmet>
+                    <link rel="canonical" href="https://pogpvp.com/" />
+
+                    <title>{strings.notfound}</title>
+                    <meta name="description" content={strings.notfound} />
+
+                    <meta property="og:title" content={strings.notfound} />
+                    <meta property="og:url" content="https://pogpvp.com/"></meta>
+                    <meta property="og:description" content={strings.notfound} />
+
+                    <meta property="twitter:title" content={strings.notfound} />
+                    <meta property="twitter:url" content="https://pogpvp.com/"></meta>
+                    <meta property="twitter:description" content={strings.notfound} />
+                </Helmet>
+                <div className=" container-fluid mt-3 mb-5">
+                    <div className=" row justify-content-center px-2 pb-2">
+                        <div className="singleNews col-sm-12 col-md-7 col-lg-5 p-0 m-0 pb-4">
+                            <div className="row  justify-content-center p-0 m-0"  >
+                                <div className="text404 align-self-center">
+                                    4
+                                </div>
+
+                                <div className="window404 align-self-center">
+                                    <PokemonIconer
+                                        src={"404"}
+                                        folder="/"
+                                        class={"icon404"} />
+                                </div>
+                                <div className="text404 align-self-center">
+                                    4
+                                </div>
+                                <h5 className="col-12 font-weight-bold align-self-center text-center ">
+                                    {strings.notfound}
+                                </h5>
+                                <div tabIndex="0" ref="notfound"></div>
+                                <a title={strings.buttons.home} className="row ml-2 mr-1 p-0 linkText font-weight-bold text-center" href="/">
+                                    <i className="fas fa-angle-double-left align-self-center  mr-1"></i>
+                                    {strings.return}
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div >
+            </>
+        );
+    }
+}
+
+export default NotFound
+

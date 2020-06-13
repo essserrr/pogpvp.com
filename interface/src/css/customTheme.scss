@@ -1563,3 +1563,47 @@ body {
     border-width: 1px;
     border-color:  rgba(0, 0, 0, 0.295) ;
 }
+
+.window404 {
+    position: relative;
+    width: 85px; 
+    height: 95px; 
+    background-color: rgb(255, 255, 255);
+
+    z-index: 2;
+    
+    overflow: hidden;
+
+    border-width: 3px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 50%;
+}
+
+.icon404{
+    position: absolute;
+    width: 100%; 
+
+    z-index: 1;
+}
+
+.text404 {
+    font-size: 90pt;
+    font-weight: bold;
+
+    color: white;
+    -webkit-text-stroke: 3px black;
+
+}
+
+.linkText {
+    text-decoration: none;
+    color: black;
+}
+
+linkText:hover 
+{
+     color:#00A0C6; 
+     text-decoration:none; 
+     cursor:pointer;  
+}

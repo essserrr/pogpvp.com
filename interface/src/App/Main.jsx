@@ -11,7 +11,7 @@ const Evolve = lazy(() => import('./Evolve/Evolve'));
 const RaidsList = lazy(() => import('./RaidsList/RaidsList'));
 const EggsList = lazy(() => import('./EggsList/EggsList'));
 const PvpRatingRouter = lazy(() => import('./PvpRating/PvpRatingRouter'));
-
+const NotFound = lazy(() => import('./NotFound/NotFound'));
 
 const Main = () => (
     <main>
@@ -34,6 +34,7 @@ const Main = () => (
                 <Route path='/raids' component={RaidsList} />
                 <Route path='/eggs' component={EggsList} />
                 <Route path='/pvprating' component={PvpRatingRouter} />
+                <Route path='*' component={NotFound} />
             </Switch>
         </Suspense>
     </main >

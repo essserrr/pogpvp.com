@@ -1077,6 +1077,11 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/news/{action}", rootHandler{newsAPIHandler, a})
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
+	//rootHandler{serveIndex, a}
+
+	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)
+	})
 
 	srv := &http.Server{
 		Handler:      router,
