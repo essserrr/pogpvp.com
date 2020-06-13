@@ -46,13 +46,19 @@ class InputAndSubmit extends React.PureComponent {
     render() {
         return (
             <>
-                <ReactTooltip effect='solid' />
+                <ReactTooltip
+                    className={"logItems"}
+                    id={"partyNameInput" + this.props.attr} effect='solid'
+                    place={"top"}
+                    multiline={true}
+                >{this.props.tip}</ReactTooltip>
+
                 <div className="row justify-content-center px-2">
                     <Input
                         name="partyName"
                         class="form-control col-11 mb-2"
                         place={this.props.placeholder}
-                        tip={this.props.tip}
+                        for={"partyNameInput" + this.props.attr}
                         value={this.state.value}
                         onChange={this.onChange}
                     />
