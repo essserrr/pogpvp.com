@@ -373,7 +373,7 @@ class SinglePvp extends React.PureComponent {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept-Encoding': 'gzip',
-                'Pvp-Type': this.props.parentState.pvppoke ? "pvppoke" : "normal",
+                'Pvp-Type': this.props.parentState.pvpoke ? "pvpoke" : "normal",
             },
         })
             .catch(function (r) {
@@ -420,7 +420,7 @@ class SinglePvp extends React.PureComponent {
             return;
         }
         //otherwise set state
-        window.history.pushState("object or string", "Title", "/pvp/single/" + url + (this.props.parentState.pvppoke ? "/pvpoke" : ""));
+        window.history.pushState("object or string", "Title", "/pvp/single/" + url + (this.props.parentState.pvpoke ? "/pvpoke" : ""));
         this.setState({
             showResult: true,
             isError: false,
@@ -584,7 +584,7 @@ class SinglePvp extends React.PureComponent {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept-Encoding': 'gzip',
-                'Pvp-Type': this.props.parentState.pvppoke ? "pvppoke" : "normal",
+                'Pvp-Type': this.props.parentState.pvpoke ? "pvpoke" : "normal",
             },
             body: JSON.stringify(requestObj)
         }).catch(function (r) {

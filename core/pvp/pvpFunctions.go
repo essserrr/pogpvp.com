@@ -43,9 +43,9 @@ type PvpObject struct {
 
 	defender pokemon
 
-	logging   bool
-	isTree    bool
-	isPvppoke bool
+	logging  bool
+	isTree   bool
+	isPvpoke bool
 
 	round uint16
 
@@ -163,7 +163,7 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 	if switchTo {
 		log.Println("Switched to PvPoke")
 		runtime.GC()
-		res, err := NewPvpBetweenPvppoke(inData)
+		res, err := NewPvpBetweenPvpoke(inData)
 		if err != nil {
 			return PvpResults{}, err
 		}
@@ -1105,7 +1105,7 @@ func RatingPvp(attackerData, defenderData *InitialData) (RatingResult, error) {
 
 	if switchTo {
 		log.Println("Switched to PvPoke")
-		res, err := NewPvpBetweenPvppoke(SinglePvpInitialData{
+		res, err := NewPvpBetweenPvpoke(SinglePvpInitialData{
 			AttackerData: *attackerData,
 			DefenderData: *defenderData,
 			Constr:       Constructor{},

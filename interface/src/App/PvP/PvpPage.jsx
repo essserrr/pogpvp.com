@@ -66,7 +66,7 @@ class PvpPage extends React.Component {
         };
         this.onChange = this.onChange.bind(this);
         this.updateState = this.updateState.bind(this);
-        this.onPvppokeEnable = this.onPvppokeEnable.bind(this);
+        this.onPvpokeEnable = this.onPvpokeEnable.bind(this);
         this.onClick = this.onClick.bind(this);
     }
 
@@ -295,7 +295,7 @@ class PvpPage extends React.Component {
 
     }
 
-    onPvppokeEnable(event) {
+    onPvpokeEnable(event) {
         this.setState({
             [event.target.name]: !Boolean(this.state[event.target.name]),
         })
@@ -351,7 +351,7 @@ class PvpPage extends React.Component {
 
                                             </div>
                                         }
-                                        onChange={this.onPvppokeEnable}
+                                        onChange={this.onPvpokeEnable}
                                     />
                                     <i data-tip data-for={"pvpoke"} className="align-self-center fas fa-info-circle fa-lg ml-2">
                                         <ReactTooltip

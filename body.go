@@ -598,12 +598,12 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_count"}).Inc()
 	pok1 := chi.URLParam(r, "pok1")
 	pok2 := chi.URLParam(r, "pok2")
-	isPvppoke := r.Header.Get("Pvp-Type")
+	isPvpoke := r.Header.Get("Pvp-Type")
 	//if base aldready exists there is no need to create it again
 	pvpBaseKey := pok1 + pok2
 
 	var answer []byte
-	switch isPvppoke {
+	switch isPvpoke {
 	case "pvpoke":
 		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvpoke")
 		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
@@ -622,9 +622,9 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		}
 		//Start new PvP
 		var pvpResult pvpsim.PvpResults
-		switch isPvppoke {
+		switch isPvpoke {
 		case "pvpoke":
-			pvpResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
+			pvpResult, err = pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
 				Constr:       pvpsim.Constructor{},
@@ -649,7 +649,7 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 			return fmt.Errorf("PvP result marshal error: %v", err)
 		}
 		if !pvpResult.IsRandom {
-			switch isPvppoke {
+			switch isPvpoke {
 			case "pvpoke":
 				go app.writePvp(answer, pvpBaseKey+"pvpoke")
 			default:
@@ -823,7 +823,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 		var singleBattleResult pvpsim.PvpResults
 		switch mp.isPvpoke {
 		case "pvpoke":
-			singleBattleResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
+			singleBattleResult, err = pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
 				Constr:       pvpsim.Constructor{},
@@ -907,15 +907,15 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
 		return err
 	}
-	isPvppoke := r.Header.Get("Pvp-Type")
+	isPvpoke := r.Header.Get("Pvp-Type")
 
 	//Start new PvP
 	var pvpResult pvpsim.PvpResults
 
-	switch isPvppoke {
+	switch isPvpoke {
 	case "pvpoke":
 		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
-		pvpResult, err = pvpsim.NewPvpBetweenPvppoke(pvpsim.SinglePvpInitialData{
+		pvpResult, err = pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{
 			AttackerData: pokA,
 			DefenderData: pokB,
 			Constr:       constructor,

@@ -6,7 +6,7 @@ import (
 )
 
 //NewPvpBetween starts pvp between two charcters defined by initial data, returns pvp log
-func NewPvpBetweenPvppoke(inData SinglePvpInitialData) (PvpResults, error) {
+func NewPvpBetweenPvpoke(inData SinglePvpInitialData) (PvpResults, error) {
 	rand.Seed(time.Now().UnixNano())
 
 	pvpData := globalPvpObjectPool.Get().(*PvpObject)
@@ -39,7 +39,7 @@ func NewPvpBetweenPvppoke(inData SinglePvpInitialData) (PvpResults, error) {
 
 	pvpData.sortmoves()
 
-	letsBattlePvppoke(pvpData)
+	letsBattlePvpoke(pvpData)
 
 	result := PvpResults{
 		Log:       pvpData.log,
@@ -138,12 +138,12 @@ func (pok *pokemon) calculateDPE(defender *pokemon, moveNumb int) float64 {
 	return float64(damage) / float64(-pok.chargeMove[moveNumb].pvpEnergy)
 }
 
-func letsBattlePvppoke(obj *PvpObject) {
+func letsBattlePvpoke(obj *PvpObject) {
 	obj.log.makeNewRound(obj.round)
 	WriteHpEnergy(obj)
 
 	for obj.attacker.hp > 0 && obj.defender.hp > 0 {
-		nextRoundPvppoke(obj)
+		nextRoundPvpoke(obj)
 		if obj.attacker.inConstructorMode || obj.defender.inConstructorMode {
 			obj.attacker.inConstructorMode = false
 			obj.defender.inConstructorMode = false
@@ -152,16 +152,16 @@ func letsBattlePvppoke(obj *PvpObject) {
 	writeRoundResults(obj)
 }
 
-func nextRoundPvppoke(obj *PvpObject) {
+func nextRoundPvpoke(obj *PvpObject) {
 	obj.log.makeNewRound(obj.round + 1)
 
 	switch obj.attacker.effectiveAttack.value >= obj.defender.effectiveAttack.value {
 	case true:
-		obj.attacker.turnPvppoke(obj)
-		obj.defender.turnPvppoke(obj)
+		obj.attacker.turnPvpoke(obj)
+		obj.defender.turnPvpoke(obj)
 	case false:
-		obj.defender.turnPvppoke(obj)
-		obj.attacker.turnPvppoke(obj)
+		obj.defender.turnPvpoke(obj)
+		obj.attacker.turnPvpoke(obj)
 
 	}
 
@@ -283,7 +283,7 @@ func nextRoundPvppoke(obj *PvpObject) {
 	}
 }
 
-func (pok *pokemon) turnPvppoke(obj *PvpObject) {
+func (pok *pokemon) turnPvpoke(obj *PvpObject) {
 	if pok.moveCooldown != 0.0 {
 		pok.hit() //if there is a cooldown (we made a hit last time), check if it`s time to deal a damage
 		pok.moveCooldown--
@@ -294,31 +294,31 @@ func (pok *pokemon) turnPvppoke(obj *PvpObject) {
 		return
 	}
 
-	pok.whatToDoInNextRoundPvppoke(obj)
+	pok.whatToDoInNextRoundPvpoke(obj)
 	if pok.moveCooldown != 0 { //if we strated a new quick move, decrease cooldowns
 		pok.moveCooldown--
 		pok.roundsToDamage--
 	}
 }
 
-func (pok *pokemon) whatToDoInNextRoundPvppoke(obj *PvpObject) {
+func (pok *pokemon) whatToDoInNextRoundPvpoke(obj *PvpObject) {
 	if pok.isFreeHit {
 		pok.freeHit()
 		return
 	}
-	pok.makeChargedHitPvppoke(obj)
+	pok.makeChargedHitPvpoke(obj)
 	if pok.results.chargeName == 0 {
 		pok.makeQuickHit()
 		return
 	}
 }
 
-func (pok *pokemon) makeChargedHitPvppoke(obj *PvpObject) {
+func (pok *pokemon) makeChargedHitPvpoke(obj *PvpObject) {
 	switch pok.inConstructorMode {
 	case true:
-		pok.pvppokeConstructor()
+		pok.PvpokeConstructor()
 	default:
-		pok.checkAvalabilityOfChargeMovesPvppoke(obj)
+		pok.checkAvalabilityOfChargeMovesPvpoke(obj)
 	}
 
 	if pok.results.chargeName == 0 {
@@ -329,7 +329,7 @@ func (pok *pokemon) makeChargedHitPvppoke(obj *PvpObject) {
 	pok.useChargeMove()
 }
 
-func (pok *pokemon) pvppokeConstructor() {
+func (pok *pokemon) PvpokeConstructor() {
 	for moveNumb, stats := range pok.chargeMove {
 		//check if we are able to use any move
 		if pok.whatToSkip == int8(moveNumb+1) || int16(pok.energy) < -stats.pvpEnergy {
@@ -343,7 +343,7 @@ func (pok *pokemon) pvppokeConstructor() {
 	pok.results.chargeName = 0
 }
 
-func (pok *pokemon) checkAvalabilityOfChargeMovesPvppoke(obj *PvpObject) {
+func (pok *pokemon) checkAvalabilityOfChargeMovesPvpoke(obj *PvpObject) {
 	//if there are no charge charge moves - auto skip
 	if len(pok.chargeMove) < 1 {
 		pok.results.chargeName = 0
@@ -411,7 +411,7 @@ func (pok *pokemon) checkAvalabilityOfChargeMovesPvppoke(obj *PvpObject) {
 		return
 	}
 	//mind feint
-	waitPrimary := checkFeint(defender, pok, bonusMove)
+	waitPrimary := checkFaint(defender, pok, bonusMove)
 	if waitPrimary {
 		pok.results.chargeName = 0
 		return
@@ -497,7 +497,7 @@ func checkChargeKnock(defender, pok *pokemon) bool {
 }
 
 //returns true when it ok to wait for primary move and false if we need to use secondary move
-func checkFeint(defender, pok *pokemon, bonus uint8) bool {
+func checkFaint(defender, pok *pokemon, bonus uint8) bool {
 	switch pok.isAttacker {
 	case true:
 
