@@ -20,13 +20,9 @@ type pokemonsBaseEntry struct {
 	Title string
 	Type  []int
 
-	ExclusiveChargeMoves []string
-	LegacyChargeMoves    []string
-	ChargeMoves          []string
+	ChargeMoves []string
 
-	ExclusiveQuickMoves []string
-	LegacyQuickMoves    []string
-	QuickMoves          []string
+	QuickMoves []string
 }
 
 type moveBaseEntry struct {
