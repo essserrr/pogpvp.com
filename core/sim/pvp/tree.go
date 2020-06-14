@@ -1,4 +1,4 @@
-package sim
+package pvp
 
 import (
 	"encoding/json"
@@ -21,7 +21,7 @@ type Tree struct {
 	parent *Tree //w
 
 	battleRaiting rating
-	TreeVal       valueOfTree
+	TreeVal       ValueOfTree
 }
 
 type rating struct {
@@ -40,7 +40,7 @@ type selection struct {
 	isGreedy        bool
 }
 
-type valueOfTree struct {
+type ValueOfTree struct {
 	Action      bool
 	Who         bool
 	isTriggered bool
@@ -107,7 +107,7 @@ func PrintTreeRate(writer io.Writer, tree *Tree, ns int, character rune) {
 }
 
 //MakeTree takes initial data and returns attacker and defender trees
-func MakeTree(inData *TreeInitialData) (bool, error) {
+func MakeTree(inData TreeInitialData) (bool, error) {
 	var idCounter uint32
 	var nodeNumb uint32
 	pvpData := globalPvpObjectPool.Get().(*PvpObject)
@@ -116,6 +116,7 @@ func MakeTree(inData *TreeInitialData) (bool, error) {
 	pvpData.isTree = true
 	pvpData.key = &idCounter
 	pvpData.nodeNumb = &nodeNumb
+	pvpData.app = inData.App
 
 	pvpData.conStruct = &concurrentVars{
 		wg: inData.WG,
@@ -123,11 +124,11 @@ func MakeTree(inData *TreeInitialData) (bool, error) {
 
 	pvpData.branchPointer = inData.Tree
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
 	if err != nil {
 		return false, err
 	}
-	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
 	if err != nil {
 		return false, err
 	}
@@ -147,7 +148,7 @@ func MakeTree(inData *TreeInitialData) (bool, error) {
 	inData.WG.Wait()
 	//println(idCounter)
 
-	if nodeNumb >= app.nodeLimit {
+	if nodeNumb >= inData.App.NodeLimit {
 		return true, nil
 	}
 	return false, nil
@@ -191,7 +192,7 @@ func (pok *pokemon) writeBranchingData(targetData *branchingData) {
 
 //code defines is it tree or charge event, true for charge, false for shield
 func (pok *pokemon) makeFork(obj *PvpObject, code bool) {
-	if *obj.nodeNumb > app.nodeLimit {
+	if *obj.nodeNumb > obj.app.NodeLimit {
 		return
 	}
 	altChoiseObject := globalPvpObjectPool.Get().(*PvpObject)

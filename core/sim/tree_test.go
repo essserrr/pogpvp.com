@@ -1,6 +1,7 @@
 package sim
 
 import (
+	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"fmt"
 	"sync"
 	"testing"
@@ -8,8 +9,8 @@ import (
 
 type TestErrorTree struct {
 	Test     string
-	Expected valueOfTree
-	Got      valueOfTree
+	Expected pvp.ValueOfTree
+	Got      pvp.ValueOfTree
 }
 
 func (e *TestErrorTree) Error() string {
@@ -44,21 +45,22 @@ func TestGeneralTree(t *testing.T) {
 	}
 }
 
-func checkTrees(atatcker, defender InitialData, checkName string) error {
+func checkTrees(attacker, defender InitialData, checkName string) error {
 	var errs error
 	var wg sync.WaitGroup
-	tree := &Tree{}
+	tree := &pvp.Tree{}
 
-	MakeTree(&TreeInitialData{
-		AttackerData: atatcker,
-		DefenderData: defender,
+	pvp.MakeTree(pvp.TreeInitialData{
+		AttackerData: pvp.InitialData(attacker),
+		DefenderData: pvp.InitialData(defender),
 		WG:           &wg,
 		Tree:         tree,
+		App:          simApp,
 	})
 	if errs != nil {
 		return errs
 	}
-	var goldenTree Tree
+	var goldenTree pvp.Tree
 	errs = goldenTree.ReadTree(linksTree[checkName])
 	if errs != nil {
 		return errs
@@ -71,7 +73,7 @@ func checkTrees(atatcker, defender InitialData, checkName string) error {
 	return nil
 }
 
-func CheckTreesIdent(goldenTree, treeB *Tree, checkName string) error {
+func CheckTreesIdent(goldenTree, treeB *pvp.Tree, checkName string) error {
 	if goldenTree == nil && treeB == nil {
 		return nil
 	}
@@ -79,7 +81,7 @@ func CheckTreesIdent(goldenTree, treeB *Tree, checkName string) error {
 		return &TestErrorTree{
 			checkName,
 			goldenTree.TreeVal,
-			valueOfTree{},
+			pvp.ValueOfTree{},
 		}
 	}
 	if goldenTree.TreeVal != treeB.TreeVal {
@@ -125,16 +127,16 @@ func BenchmarkMakeTree(b *testing.B) {
 		ChargeMove: []string{"Octazooka", "Outrage"},
 	}
 	var wg sync.WaitGroup
-	tree := &Tree{}
+	tree := &pvp.Tree{}
 
-	InDat := TreeInitialData{
-		AttackerData: Medicham,
-		DefenderData: Kingdra,
+	InDat := pvp.TreeInitialData{
+		AttackerData: pvp.InitialData(Medicham),
+		DefenderData: pvp.InitialData(Kingdra),
 		WG:           &wg,
 		Tree:         tree,
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		MakeTree(&InDat)
+		pvp.MakeTree(InDat)
 	}
 }

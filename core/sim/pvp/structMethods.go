@@ -1,171 +1,10 @@
-package sim
+package pvp
 
 import (
-	"encoding/json"
+	app "Solutions/pvpSimulator/core/sim/app"
 	"fmt"
 	"math"
-	"os"
-	"path"
-	"strconv"
-	"sync"
-
-	"github.com/boltdb/bolt"
 )
-
-type pokemonsBaseEntry struct {
-	Atk uint16
-	Def uint16
-	Sta uint16
-
-	Title string
-	Type  []int
-
-	ChargeMoves []string
-
-	QuickMoves []string
-}
-
-type moveBaseEntry struct {
-	PvpDurationSeconds float32
-
-	Stat     []string
-	Subject  string
-	Title    string
-	MoveType int
-
-	PvpDamage float32
-
-	PvpEnergy  int16
-	StageDelta int8
-
-	PvpDuration uint8
-
-	Probability float32
-}
-
-var (
-	app pvpApp
-)
-
-type pvpApp struct {
-	boltDB database
-
-	sync.Mutex
-	pokemonStatsBase map[string]pokemonsBaseEntry
-	pokemonMovesBase map[string]moveBaseEntry
-	typesData        [][]float32
-	levelData        []float32
-	nodeLimit        uint32
-}
-
-type database struct {
-	value *bolt.DB
-}
-
-func (dbs *database) Close() error {
-	dbs.value.Sync()
-	err := dbs.value.Close()
-	if err != nil {
-		return err
-	}
-	return nil
-}
-func (dbs *database) createDatabase(pathToDB, envPath string, bucketName []string) error {
-	var err error
-	dbs.value, err = bolt.Open(path.Join(os.Getenv(envPath)+pathToDB), 0600, nil)
-	if err != nil {
-		return err
-	}
-	err = dbs.value.Update(func(tx *bolt.Tx) error {
-		for _, value := range bucketName {
-			_, err := tx.CreateBucketIfNotExists([]byte(value))
-			if err != nil {
-				return fmt.Errorf("Can not create bucket %v: %v", bucketName, err)
-			}
-		}
-		return nil
-	})
-	return err
-}
-
-//reads key in the bucket specified
-func (dbs *database) readBase(bucket, key string) []byte {
-	var base []byte
-	dbs.value.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte(bucket))
-		base = b.Get([]byte(key))
-		return nil
-	})
-	return base
-}
-
-//InitApp starts new pvp simulator
-func InitApp() {
-	err := app.boltDB.createDatabase("./semistatic.db", "BOLTDB", []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS"})
-	if err != nil {
-		return
-	}
-
-	app.Lock()
-	err = app.getData("LEVELS", "value", &app.levelData)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	err = app.getData("MULTIPLIERS", "value", &app.typesData)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	err = app.getData("MOVES", "value", &app.pokemonMovesBase)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	err = app.getData("POKEMONS", "value", &app.pokemonStatsBase)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	err = app.setLimit()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	app.Unlock()
-
-	err = app.boltDB.Close()
-	if err != nil {
-		return
-	}
-}
-
-func init() {
-	InitApp()
-}
-
-func (a *pvpApp) setLimit() error {
-	limitStr := os.Getenv("NODE_LIMIT")
-	if limitStr == "" {
-		return fmt.Errorf("Node limit is not set")
-	}
-	limit, err := strconv.ParseUint(limitStr, 10, 64)
-	if err != nil {
-		return err
-	}
-	a.nodeLimit = uint32(limit)
-	return nil
-}
-
-func (a *pvpApp) getData(bucketName, key string, toTarget interface{}) error {
-	jsonString := a.boltDB.readBase(bucketName, key)
-	err := json.Unmarshal(jsonString, toTarget)
-	if err != nil {
-		return err
-	}
-	return nil
-}
 
 type roundResults struct {
 	actionCode uint8
@@ -282,12 +121,12 @@ type move struct {
 	subjectExists bool
 }
 
-func (pok *pokemon) makeNewCharacter(pokemonData *InitialData) ([]int, error) {
-	err := pok.setLevel(pokemonData)
+func (pok *pokemon) makeNewCharacter(pokemonData *InitialData, obj *PvpObject) ([]int, error) {
+	err := pok.setLevel(pokemonData, obj)
 	if err != nil {
 		return []int{}, err
 	}
-	pokTypes, err := pok.makeNewBody(pokemonData)
+	pokTypes, err := pok.makeNewBody(pokemonData, obj)
 	if err != nil {
 		return []int{}, err
 	}
@@ -296,13 +135,13 @@ func (pok *pokemon) makeNewCharacter(pokemonData *InitialData) ([]int, error) {
 		return []int{}, err
 	}
 
-	err = pok.setQuickMove(pokemonData)
+	err = pok.setQuickMove(pokemonData, obj)
 	if err != nil {
 		return []int{}, err
 	}
 	pok.chargeMove = make([]move, 0, 2)
 	for i := 0; i < len(pokemonData.ChargeMove); i++ {
-		err = pok.setChargeMove(pokemonData.ChargeMove[i])
+		err = pok.setChargeMove(pokemonData.ChargeMove[i], obj)
 		if err != nil {
 			return []int{}, err
 		}
@@ -310,8 +149,8 @@ func (pok *pokemon) makeNewCharacter(pokemonData *InitialData) ([]int, error) {
 	return pokTypes, nil
 }
 
-func (pok *pokemon) makeNewBody(pokemonData *InitialData) ([]int, error) { //sets up base stats
-	speciesType, ok := app.pokemonStatsBase[pokemonData.Name]
+func (pok *pokemon) makeNewBody(pokemonData *InitialData, obj *PvpObject) ([]int, error) { //sets up base stats
+	speciesType, ok := obj.app.PokemonStatsBase[pokemonData.Name]
 	if !ok {
 		return []int{}, &customError{
 			"There is no such pokemon",
@@ -344,7 +183,7 @@ func (pok *pokemon) setIV(pokemonData *InitialData) error { //sets up "individua
 	return nil
 }
 
-func (pok *pokemon) setLevel(pokemonData *InitialData) error { //sets up level and level-IV dependent stats
+func (pok *pokemon) setLevel(pokemonData *InitialData, obj *PvpObject) error { //sets up level and level-IV dependent stats
 	if pokemonData.Level > 45 || pokemonData.Level < 1 {
 		return &customError{
 			"Level must be in range 1-45",
@@ -357,7 +196,7 @@ func (pok *pokemon) setLevel(pokemonData *InitialData) error { //sets up level a
 		}
 	}
 
-	pok.levelMultiplier = app.levelData[int(pokemonData.Level/0.5)]
+	pok.levelMultiplier = obj.app.LevelData[int(pokemonData.Level/0.5)]
 
 	return nil
 }
@@ -366,8 +205,8 @@ func isInteger(floatNumber float32) bool { // sheck if the float is integer
 	return math.Mod(float64(floatNumber), 1.0) == 0
 }
 
-func (pok *pokemon) setQuickMove(pokemonData *InitialData) error { // setst up quick move
-	moveEntry, ok := app.pokemonMovesBase[pokemonData.QuickMove]
+func (pok *pokemon) setQuickMove(pokemonData *InitialData, obj *PvpObject) error { // setst up quick move
+	moveEntry, ok := obj.app.PokemonMovesBase[pokemonData.QuickMove]
 	if !ok {
 		return &customError{
 			"Quick move not found in the database",
@@ -380,11 +219,11 @@ func (pok *pokemon) setQuickMove(pokemonData *InitialData) error { // setst up q
 	return nil
 }
 
-func (pok *pokemon) setChargeMove(chargeMove string) error { // setst up charge move
+func (pok *pokemon) setChargeMove(chargeMove string, obj *PvpObject) error { // setst up charge move
 	if chargeMove == "" {
 		return nil
 	}
-	moveEntry, ok := app.pokemonMovesBase[chargeMove]
+	moveEntry, ok := obj.app.PokemonMovesBase[chargeMove]
 	if !ok {
 		return &customError{
 			"Charge move not found in the database",
@@ -399,14 +238,14 @@ func (pok *pokemon) setChargeMove(chargeMove string) error { // setst up charge 
 	return nil
 }
 
-func (s *move) setMoveBody(moveEntry moveBaseEntry) { // sets up move body (common for both types of moves)
+func (s *move) setMoveBody(moveEntry app.MoveBaseEntry) { // sets up move body (common for both types of moves)
 	s.title = moveEntry.Title
 	s.pvpDamage = moveEntry.PvpDamage
 	s.pvpEnergy = moveEntry.PvpEnergy
 	s.moveType = moveEntry.MoveType
 }
 
-func (s *move) setChargeBody(moveEntry moveBaseEntry) { // sets up charge move body (individual for that type)
+func (s *move) setChargeBody(moveEntry app.MoveBaseEntry) { // sets up charge move body (individual for that type)
 	s.probability = moveEntry.Probability
 	s.stageDelta = moveEntry.StageDelta
 	if moveEntry.Subject == "" {
@@ -415,7 +254,7 @@ func (s *move) setChargeBody(moveEntry moveBaseEntry) { // sets up charge move b
 	s.subjectExists = true
 }
 
-func (s *move) setQuickBody(moveEntry moveBaseEntry) { // sets up quick move body (individual for that type)
+func (s *move) setQuickBody(moveEntry app.MoveBaseEntry) { // sets up quick move body (individual for that type)
 	s.pvpDuration = moveEntry.PvpDuration
 	s.pvpDurationSeconds = uint8(moveEntry.PvpDurationSeconds / 0.5)
 }

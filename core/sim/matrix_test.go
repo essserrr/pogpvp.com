@@ -161,7 +161,8 @@ func checkMatrixes(attacker, defender []InitialData, checkName string) error {
 				AttackerData: pokA,
 				DefenderData: pokB,
 				Constr:       Constructor{},
-				Logging:      false})
+				Logging:      false,
+			})
 
 			if err != nil {
 				errChan <- err

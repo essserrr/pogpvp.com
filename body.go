@@ -3,7 +3,7 @@ package main
 import (
 	getbase "Solutions/pvpSimulator/bases"
 	"Solutions/pvpSimulator/core/limiter"
-	sim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/sim"
 	"bytes"
 	"encoding/binary"
 	"encoding/json"

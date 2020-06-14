@@ -2,7 +2,8 @@ package parser
 
 import (
 	"Solutions/pvpSimulator/core/errors"
-	sim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/sim"
+	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"encoding/json"
 	"net/url"
 	"strconv"
@@ -111,7 +112,7 @@ func parseSinglePok(pokData []string) (sim.InitialData, error) {
 		InitialAttackStage:  int8(AtkStage),
 		InitialDefenceStage: int8(DefStage),
 		InitialHp:           int16(InitialHP),
-		InitialEnergy:       sim.Energy(InitialEnergy),
+		InitialEnergy:       pvp.Energy(InitialEnergy),
 
 		IsGreedy: isGreedy,
 		IsShadow: isShadow,
@@ -275,7 +276,7 @@ func parseSinglePokMatrix(pokData initialDataString) (sim.InitialData, error) {
 		InitialAttackStage:  int8(AtkStage),
 		InitialDefenceStage: int8(DefStage),
 		InitialHp:           int16(InitialHP),
-		InitialEnergy:       sim.Energy(InitialEnergy),
+		InitialEnergy:       pvp.Energy(InitialEnergy),
 
 		IsGreedy: isGreedy,
 		IsShadow: isShadow,
