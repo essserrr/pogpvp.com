@@ -88,7 +88,38 @@ func RatingPvp(attackerData, defenderData InitialData) (RatingResult, error) {
 	return RatingResult(res), err
 }
 
-//
 func DealDamagePve() {
-	pve.InitialData
+	pve.DealDamage(pve.CommonPvpInData{
+		Pok: pve.InitialData{
+			Name: "Rayquaza",
+
+			QuickMove: "Dragon Tail",
+			ChargeMove: []string{
+				"Outrage",
+			},
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 7,
+
+		Boss: pve.BossInfo{
+			Name:       "Reshiram",
+			QuickMove:  "Lick",
+			ChargeMove: "Earthquake",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     18,
+
+		App: simApp,
+	})
 }
