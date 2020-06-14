@@ -1,4 +1,4 @@
-package pvpsim
+package sim
 
 import (
 	"math/rand"

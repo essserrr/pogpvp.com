@@ -3,7 +3,7 @@ package main
 import (
 	getbase "Solutions/pvpSimulator/bases"
 	"Solutions/pvpSimulator/core/errors"
-	pvpsim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/pvp"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -314,7 +314,7 @@ func dbUpdateAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error
 
 func (dbs *database) reinitDB(dbPath string, buckets []string) error {
 	dbs.Close()
-	pvpsim.InitApp()
+	sim.InitApp()
 	err := dbs.createDatabase(dbPath, "BOLTDB", buckets)
 	if err != nil {
 		return err

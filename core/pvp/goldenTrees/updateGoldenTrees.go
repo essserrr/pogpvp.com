@@ -1,7 +1,7 @@
 package goldentrees
 
 import (
-	pvpsim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/pvp"
 	"os"
 	"path"
 	"sync"
@@ -23,7 +23,7 @@ func Update() error {
 // tests for unshielded PvP with 1 charge move
 
 func updateGeneralTree() error {
-	var Azumarill = pvpsim.InitialData{
+	var Azumarill = sim.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -33,7 +33,7 @@ func updateGeneralTree() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = pvpsim.InitialData{
+	var Venusaur = sim.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -50,12 +50,12 @@ func updateGeneralTree() error {
 	return nil
 }
 
-func writeGoldenTree(atatcker, defender pvpsim.InitialData, treePath string) error {
+func writeGoldenTree(atatcker, defender sim.InitialData, treePath string) error {
 	var errs error
 	var wg sync.WaitGroup
-	tree := &pvpsim.Tree{}
+	tree := &sim.Tree{}
 
-	pvpsim.MakeTree(&pvpsim.TreeInitialData{
+	sim.MakeTree(&sim.TreeInitialData{
 		AttackerData: atatcker,
 		DefenderData: defender,
 		WG:           &wg,

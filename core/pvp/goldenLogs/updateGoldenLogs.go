@@ -1,7 +1,7 @@
 package goldenlogs
 
 import (
-	pvpsim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/pvp"
 	"encoding/json"
 	"io/ioutil"
 	"os"
@@ -79,7 +79,7 @@ func Update() error {
 // tests for unshielded PvP with 1 charge move
 
 func updateUnshielded1CM() error {
-	var Magnezone = pvpsim.InitialData{
+	var Magnezone = sim.InitialData{
 		Name:       "Magnezone",
 		AttackIV:   0,
 		DefenceIV:  13,
@@ -88,7 +88,7 @@ func updateUnshielded1CM() error {
 		QuickMove:  "Charge Beam",
 		ChargeMove: []string{"Wild Charge", ""},
 	}
-	var Medicham = pvpsim.InitialData{
+	var Medicham = sim.InitialData{
 		Name:       "Medicham",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -97,7 +97,7 @@ func updateUnshielded1CM() error {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", ""},
 	}
-	var Swampert = pvpsim.InitialData{
+	var Swampert = sim.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -111,7 +111,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 0
-	err := writeGoldenLog(Magnezone, Swampert, links["knockQuickQuick"], pvpsim.Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
+	err := writeGoldenLog(Magnezone, Swampert, links["knockQuickQuick"], sim.Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -120,7 +120,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 9
-	err = writeGoldenLog(Magnezone, Swampert, links["knockChargeQuick"], pvpsim.Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
+	err = writeGoldenLog(Magnezone, Swampert, links["knockChargeQuick"], sim.Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -129,7 +129,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 12
 	Swampert.InitialEnergy = 0
-	err = writeGoldenLog(Magnezone, Swampert, links["simultaneousQuick"], pvpsim.Constructor{}) //simultaneous knock down by a quick move
+	err = writeGoldenLog(Magnezone, Swampert, links["simultaneousQuick"], sim.Constructor{}) //simultaneous knock down by a quick move
 	if err != nil {
 		return nil
 	}
@@ -138,7 +138,7 @@ func updateUnshielded1CM() error {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 4
-	err = writeGoldenLog(Medicham, Swampert, links["knockQuickCharge"], pvpsim.Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
+	err = writeGoldenLog(Medicham, Swampert, links["knockQuickCharge"], sim.Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -147,7 +147,7 @@ func updateUnshielded1CM() error {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 10
-	err = writeGoldenLog(Medicham, Swampert, links["simultaneousCharge"], pvpsim.Constructor{}) //simultaneous knock down by a charge move
+	err = writeGoldenLog(Medicham, Swampert, links["simultaneousCharge"], sim.Constructor{}) //simultaneous knock down by a charge move
 	if err != nil {
 		return nil
 	}
@@ -158,7 +158,7 @@ func updateUnshielded1CM() error {
 //shielded PvP with 1 charge move
 
 func updateShielded1CM() error {
-	var Medicham = pvpsim.InitialData{
+	var Medicham = sim.InitialData{
 		Name:       "Medicham",
 		Shields:    2,
 		AttackIV:   15,
@@ -169,7 +169,7 @@ func updateShielded1CM() error {
 		ChargeMove: []string{"Power-Up Punch", ""},
 	}
 
-	var Swampert = pvpsim.InitialData{
+	var Swampert = sim.InitialData{
 		Name:       "Swampert",
 		Shields:    2,
 		AttackIV:   0,
@@ -180,21 +180,21 @@ func updateShielded1CM() error {
 		ChargeMove: []string{"Hydro Cannon", ""},
 	}
 
-	err := writeGoldenLog(Medicham, Swampert, links["generalShielded"], pvpsim.Constructor{}) //general shielded PvP 2-2
+	err := writeGoldenLog(Medicham, Swampert, links["generalShielded"], sim.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		return err
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 1
-	err = writeGoldenLog(Medicham, Swampert, links["shielded11"], pvpsim.Constructor{}) //general shielded PvP 2-2
+	err = writeGoldenLog(Medicham, Swampert, links["shielded11"], sim.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		return err
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 0
-	err = writeGoldenLog(Medicham, Swampert, links["shielded10"], pvpsim.Constructor{}) //shielded PvP 1-0
+	err = writeGoldenLog(Medicham, Swampert, links["shielded10"], sim.Constructor{}) //shielded PvP 1-0
 	if err != nil {
 		return err
 	}
@@ -203,7 +203,7 @@ func updateShielded1CM() error {
 
 func updateUnshielded2CM() error {
 
-	var Azumarill = pvpsim.InitialData{
+	var Azumarill = sim.InitialData{
 		Name:       "Azumarill",
 		AttackIV:   8,
 		DefenceIV:  15,
@@ -212,7 +212,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = pvpsim.InitialData{
+	var Venusaur = sim.InitialData{
 		Name:       "Venusaur",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -222,7 +222,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Meganium = pvpsim.InitialData{
+	var Meganium = sim.InitialData{
 		Name:       "Meganium",
 		AttackIV:   0,
 		DefenceIV:  10,
@@ -232,7 +232,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Frenzy Plant", "Earthquake"},
 	}
 
-	var Medicham = pvpsim.InitialData{
+	var Medicham = sim.InitialData{
 		Name:       "Medicham",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -241,7 +241,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
-	var Registeel = pvpsim.InitialData{
+	var Registeel = sim.InitialData{
 		Name:       "Registeel",
 		AttackIV:   2,
 		DefenceIV:  13,
@@ -250,7 +250,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Lock-On",
 		ChargeMove: []string{"Flash Cannon", "Focus Blast"},
 	}
-	var Skarmory = pvpsim.InitialData{
+	var Skarmory = sim.InitialData{
 		Name:       "Skarmory",
 		AttackIV:   0,
 		DefenceIV:  15,
@@ -259,7 +259,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Air Slash",
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
-	var Vigoroth = pvpsim.InitialData{
+	var Vigoroth = sim.InitialData{
 		Name:       "Vigoroth",
 		AttackIV:   1,
 		DefenceIV:  15,
@@ -268,7 +268,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Body Slam", "Brick Break"},
 	}
-	var Altaria = pvpsim.InitialData{
+	var Altaria = sim.InitialData{
 		Name:       "Altaria",
 		AttackIV:   2,
 		DefenceIV:  14,
@@ -278,7 +278,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
 
-	var GiratinaA = pvpsim.InitialData{
+	var GiratinaA = sim.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -288,7 +288,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	var Snorlax = pvpsim.InitialData{
+	var Snorlax = sim.InitialData{
 		Name:       "Snorlax",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -298,31 +298,31 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := writeGoldenLog(Azumarill, Venusaur, links["azumarillVenusaur"], pvpsim.Constructor{})
+	err := writeGoldenLog(Azumarill, Venusaur, links["azumarillVenusaur"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Meganium, links["azumarillMeganium"], pvpsim.Constructor{})
+	err = writeGoldenLog(Azumarill, Meganium, links["azumarillMeganium"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Medicham, links["azumarillMedicham"], pvpsim.Constructor{})
+	err = writeGoldenLog(Azumarill, Medicham, links["azumarillMedicham"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Registeel, links["azumarillRegisteel"], pvpsim.Constructor{})
+	err = writeGoldenLog(Azumarill, Registeel, links["azumarillRegisteel"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Skarmory, Vigoroth, links["skarmoryVigoroth"], pvpsim.Constructor{})
+	err = writeGoldenLog(Skarmory, Vigoroth, links["skarmoryVigoroth"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Skarmory, Altaria, links["skarmoryAltaria"], pvpsim.Constructor{})
+	err = writeGoldenLog(Skarmory, Altaria, links["skarmoryAltaria"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(GiratinaA, Snorlax, links["giratinaASnorlax"], pvpsim.Constructor{})
+	err = writeGoldenLog(GiratinaA, Snorlax, links["giratinaASnorlax"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
@@ -331,7 +331,7 @@ func updateUnshielded2CM() error {
 }
 
 func updateShielded2CM() error {
-	var AlolanMuk = pvpsim.InitialData{
+	var AlolanMuk = sim.InitialData{
 		Name:       "Alolan Muk",
 		Shields:    1,
 		AttackIV:   0,
@@ -341,7 +341,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Bite",
 		ChargeMove: []string{"Dark Pulse", "Acid Spray"},
 	}
-	var AlolanMarowak = pvpsim.InitialData{
+	var AlolanMarowak = sim.InitialData{
 		Name:       "Alolan Marowak",
 		Shields:    1,
 		AttackIV:   0,
@@ -351,7 +351,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Hex",
 		ChargeMove: []string{"Bone Club", "Shadow Ball"},
 	}
-	var Swampert = pvpsim.InitialData{
+	var Swampert = sim.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -360,7 +360,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Water Gun",
 		ChargeMove: []string{"Hydro Cannon", "Earthquake"},
 	}
-	var Altaria = pvpsim.InitialData{
+	var Altaria = sim.InitialData{
 		Name:       "Altaria",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -369,7 +369,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Dragon Breath",
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
-	var Azumarill = pvpsim.InitialData{
+	var Azumarill = sim.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -379,7 +379,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = pvpsim.InitialData{
+	var Venusaur = sim.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -390,7 +390,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Skarmory = pvpsim.InitialData{
+	var Skarmory = sim.InitialData{
 		Name:      "Skarmory",
 		InitialHp: 54,
 
@@ -403,7 +403,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
 
-	var GiratinaAltered = pvpsim.InitialData{
+	var GiratinaAltered = sim.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -413,7 +413,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Shadow Claw",
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
-	var Snorlax = pvpsim.InitialData{
+	var Snorlax = sim.InitialData{
 		Name:       "Snorlax",
 		Shields:    2,
 		AttackIV:   15,
@@ -424,7 +424,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := writeGoldenLog(AlolanMuk, AlolanMarowak, links["shieldedAlolanMukAlolanMarowak"], pvpsim.Constructor{})
+	err := writeGoldenLog(AlolanMuk, AlolanMarowak, links["shieldedAlolanMukAlolanMarowak"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
@@ -434,41 +434,41 @@ func updateShielded2CM() error {
 	Altaria.Shields = 1
 	Swampert.InitialHp = 107
 	Swampert.Shields = 1
-	err = writeGoldenLog(Swampert, Altaria, links["shieldedSwampertAltaria"], pvpsim.Constructor{})
+	err = writeGoldenLog(Swampert, Altaria, links["shieldedSwampertAltaria"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur1"], pvpsim.Constructor{})
+	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur1"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
 	Venusaur.ChargeMove = []string{"Frenzy Plant", "Sludge Bomb"}
 
-	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur2"], pvpsim.Constructor{})
+	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur2"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
 
 	Altaria.InitialHp = 56
 	Altaria.Shields = 2
-	err = writeGoldenLog(Skarmory, Altaria, links["shieldedSkarmoryAltaria"], pvpsim.Constructor{})
+	err = writeGoldenLog(Skarmory, Altaria, links["shieldedSkarmoryAltaria"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
 
-	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax1"], pvpsim.Constructor{})
+	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax1"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
 	GiratinaAltered.Shields = 1
-	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax2"], pvpsim.Constructor{})
+	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax2"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
 
 	//constructor
 
-	var GiratinaA = pvpsim.InitialData{
+	var GiratinaA = sim.InitialData{
 		Name:      "Giratina (Altered Forme)",
 		AttackIV:  1,
 		DefenceIV: 10,
@@ -483,7 +483,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
 	}
 
-	var Aerodactyl = pvpsim.InitialData{
+	var Aerodactyl = sim.InitialData{
 		Name:      "Aerodactyl",
 		AttackIV:  2,
 		DefenceIV: 6,
@@ -498,16 +498,16 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Rock Slide", "Earth Power"},
 	}
 
-	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr1"], pvpsim.Constructor{
+	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr1"], sim.Constructor{
 		Round: 12,
-		Attacker: pvpsim.Status{
+		Attacker: sim.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: pvpsim.Status{
+		Defender: sim.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -526,16 +526,16 @@ func updateShielded2CM() error {
 	GiratinaA.InitialAttackStage = 2
 	GiratinaA.InitialDefenceStage = 2
 
-	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr2"], pvpsim.Constructor{
+	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr2"], sim.Constructor{
 		Round: 21,
-		Attacker: pvpsim.Status{
+		Attacker: sim.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: pvpsim.Status{
+		Defender: sim.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,
@@ -551,8 +551,8 @@ func updateShielded2CM() error {
 
 }
 
-func writeGoldenLog(atatcker, defender pvpsim.InitialData, logName string, constr pvpsim.Constructor) error {
-	result, err := pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{AttackerData: atatcker,
+func writeGoldenLog(atatcker, defender sim.InitialData, logName string, constr sim.Constructor) error {
+	result, err := sim.NewPvpBetween(sim.SinglePvpInitialData{AttackerData: atatcker,
 		DefenderData: defender,
 		Constr:       constr, Logging: true})
 	if err != nil {
@@ -566,7 +566,7 @@ func writeGoldenLog(atatcker, defender pvpsim.InitialData, logName string, const
 }
 
 func updateMatrix() error {
-	var AlolanMuk = pvpsim.InitialData{
+	var AlolanMuk = sim.InitialData{
 		Name:       "Alolan Muk",
 		Shields:    1,
 		AttackIV:   0,
@@ -576,7 +576,7 @@ func updateMatrix() error {
 		QuickMove:  "Bite",
 		ChargeMove: []string{"Dark Pulse", "Acid Spray"},
 	}
-	var AlolanMarowak = pvpsim.InitialData{
+	var AlolanMarowak = sim.InitialData{
 		Name:       "Alolan Marowak",
 		Shields:    1,
 		AttackIV:   0,
@@ -586,7 +586,7 @@ func updateMatrix() error {
 		QuickMove:  "Hex",
 		ChargeMove: []string{"Bone Club", "Shadow Ball"},
 	}
-	var Swampert = pvpsim.InitialData{
+	var Swampert = sim.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -595,7 +595,7 @@ func updateMatrix() error {
 		QuickMove:  "Water Gun",
 		ChargeMove: []string{"Hydro Cannon", "Earthquake"},
 	}
-	var Altaria = pvpsim.InitialData{
+	var Altaria = sim.InitialData{
 		Name:       "Altaria",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -604,7 +604,7 @@ func updateMatrix() error {
 		QuickMove:  "Dragon Breath",
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
-	var Azumarill = pvpsim.InitialData{
+	var Azumarill = sim.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -614,7 +614,7 @@ func updateMatrix() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = pvpsim.InitialData{
+	var Venusaur = sim.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -625,7 +625,7 @@ func updateMatrix() error {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Medicham = pvpsim.InitialData{
+	var Medicham = sim.InitialData{
 		Name:       "Medicham",
 		Shields:    1,
 		AttackIV:   15,
@@ -636,7 +636,7 @@ func updateMatrix() error {
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
 
-	var Skarmory = pvpsim.InitialData{
+	var Skarmory = sim.InitialData{
 		Name:      "Skarmory",
 		InitialHp: 54,
 
@@ -649,7 +649,7 @@ func updateMatrix() error {
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
 
-	var GiratinaAltered = pvpsim.InitialData{
+	var GiratinaAltered = sim.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -659,7 +659,7 @@ func updateMatrix() error {
 		QuickMove:  "Shadow Claw",
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
-	var Snorlax = pvpsim.InitialData{
+	var Snorlax = sim.InitialData{
 		IsGreedy:   true,
 		Name:       "Snorlax",
 		Shields:    2,
@@ -670,10 +670,10 @@ func updateMatrix() error {
 		QuickMove:  "Lick",
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
-	err := writeGoldenMatrix([]pvpsim.InitialData{
+	err := writeGoldenMatrix([]sim.InitialData{
 		GiratinaAltered,
 	},
-		[]pvpsim.InitialData{
+		[]sim.InitialData{
 			Snorlax,
 			AlolanMuk,
 			AlolanMarowak,
@@ -691,19 +691,19 @@ func updateMatrix() error {
 	return nil
 }
 
-func writeGoldenMatrix(attacker, defender []pvpsim.InitialData, matrixName string) pvpsim.ErrorChan {
-	errChan := make(pvpsim.ErrorChan, len(attacker)*len(defender))
-	matrixResults := make([]pvpsim.MatrixResult, 0, len(attacker)*len(defender))
+func writeGoldenMatrix(attacker, defender []sim.InitialData, matrixName string) sim.ErrorChan {
+	errChan := make(sim.ErrorChan, len(attacker)*len(defender))
+	matrixResults := make([]sim.MatrixResult, 0, len(attacker)*len(defender))
 
 	for i, pokA := range attacker {
 		for k, pokB := range defender {
-			matrixBattleResult := pvpsim.MatrixResult{}
+			matrixBattleResult := sim.MatrixResult{}
 			//otherwise check pvp results in base
 
-			singleBattleResult, err := pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
+			singleBattleResult, err := sim.NewPvpBetween(sim.SinglePvpInitialData{
 				AttackerData: pokA,
 				DefenderData: pokB,
-				Constr:       pvpsim.Constructor{}})
+				Constr:       sim.Constructor{}})
 
 			if err != nil {
 				errChan <- err
@@ -735,7 +735,7 @@ func writeGoldenMatrix(attacker, defender []pvpsim.InitialData, matrixName strin
 }
 
 func updatePvpoke() error {
-	var Dewgong = pvpsim.InitialData{
+	var Dewgong = sim.InitialData{
 		Name:       "Dewgong",
 		AttackIV:   0,
 		DefenceIV:  12,
@@ -746,7 +746,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Icy Wind", "Water Pulse"},
 	}
 
-	var Venusaur = pvpsim.InitialData{
+	var Venusaur = sim.InitialData{
 		Name:       "Venusaur",
 		AttackIV:   1,
 		DefenceIV:  15,
@@ -757,7 +757,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Frenzy Plant", "Sludge Bomb"},
 	}
 
-	var Ampharos = pvpsim.InitialData{
+	var Ampharos = sim.InitialData{
 		Name:       "Ampharos",
 		AttackIV:   0,
 		DefenceIV:  13,
@@ -768,7 +768,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Thunder Punch", "Dragon Pulse"},
 	}
 
-	var AMuk = pvpsim.InitialData{
+	var AMuk = sim.InitialData{
 		Name:       "Alolan Muk",
 		AttackIV:   0,
 		DefenceIV:  15,
@@ -779,7 +779,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Dark Pulse", "Sludge Wave"},
 	}
 
-	var GiratinaA = pvpsim.InitialData{
+	var GiratinaA = sim.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		AttackIV:   1,
 		DefenceIV:  12,
@@ -790,24 +790,24 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	err := writeGoldenLog(Dewgong, Dewgong, links["pvpoke"], pvpsim.Constructor{})
+	err := writeGoldenLog(Dewgong, Dewgong, links["pvpoke"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenPvpokeLog(GiratinaA, Ampharos, links["pvpoke14"], pvpsim.Constructor{})
+	err = writeGoldenPvpokeLog(GiratinaA, Ampharos, links["pvpoke14"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenPvpokeLog(AMuk, Ampharos, links["pvpoke34"], pvpsim.Constructor{})
+	err = writeGoldenPvpokeLog(AMuk, Ampharos, links["pvpoke34"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenPvpokeLog(Venusaur, Ampharos, links["pvpoke24"], pvpsim.Constructor{})
+	err = writeGoldenPvpokeLog(Venusaur, Ampharos, links["pvpoke24"], sim.Constructor{})
 	if err != nil {
 		return err
 	}
 
-	GiratinaA = pvpsim.InitialData{
+	GiratinaA = sim.InitialData{
 		Name:      "Giratina (Altered Forme)",
 		AttackIV:  1,
 		DefenceIV: 10,
@@ -822,7 +822,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
 	}
 
-	var Aerodactyl = pvpsim.InitialData{
+	var Aerodactyl = sim.InitialData{
 		Name:      "Aerodactyl",
 		AttackIV:  2,
 		DefenceIV: 6,
@@ -837,16 +837,16 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Rock Slide", "Earth Power"},
 	}
 
-	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr1"], pvpsim.Constructor{
+	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr1"], sim.Constructor{
 		Round: 12,
-		Attacker: pvpsim.Status{
+		Attacker: sim.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: pvpsim.Status{
+		Defender: sim.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -866,16 +866,16 @@ func updatePvpoke() error {
 	GiratinaA.InitialAttackStage = 2
 	GiratinaA.InitialDefenceStage = 2
 
-	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr2"], pvpsim.Constructor{
+	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr2"], sim.Constructor{
 		Round: 21,
-		Attacker: pvpsim.Status{
+		Attacker: sim.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: pvpsim.Status{
+		Defender: sim.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,
@@ -890,8 +890,8 @@ func updatePvpoke() error {
 	return nil
 }
 
-func writeGoldenPvpokeLog(atatcker, defender pvpsim.InitialData, logName string, constr pvpsim.Constructor) error {
-	result, err := pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{AttackerData: atatcker,
+func writeGoldenPvpokeLog(atatcker, defender sim.InitialData, logName string, constr sim.Constructor) error {
+	result, err := sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{AttackerData: atatcker,
 		DefenderData: defender,
 		Constr:       constr, Logging: true})
 	if err != nil {

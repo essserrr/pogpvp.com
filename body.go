@@ -3,7 +3,7 @@ package main
 import (
 	getbase "Solutions/pvpSimulator/bases"
 	"Solutions/pvpSimulator/core/limiter"
-	pvpsim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/pvp"
 	"bytes"
 	"encoding/binary"
 	"encoding/json"
@@ -160,7 +160,7 @@ func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
 		app.metrics.appCounters.With(prometheus.Labels{"type": "cleanup_pvp_count"}).Inc()
 
 		err := dbs.value.Update(func(tx *bolt.Tx) error {
-			var obj pvpsim.PvpResults
+			var obj sim.PvpResults
 			b := tx.Bucket([]byte(bucketName))
 
 			b.ForEach(func(k, v []byte) error {
@@ -621,19 +621,19 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 			return err
 		}
 		//Start new PvP
-		var pvpResult pvpsim.PvpResults
+		var pvpResult sim.PvpResults
 		switch isPvpoke {
 		case "pvpoke":
-			pvpResult, err = pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{
+			pvpResult, err = sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
-				Constr:       pvpsim.Constructor{},
+				Constr:       sim.Constructor{},
 				Logging:      true})
 		default:
-			pvpResult, err = pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
+			pvpResult, err = sim.NewPvpBetween(sim.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
-				Constr:       pvpsim.Constructor{},
+				Constr:       sim.Constructor{},
 				Logging:      true})
 		}
 
@@ -713,7 +713,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	shieldsNumber := r.Header.Get("Pvp-Shields")
 	matrixObj.isPvpoke = r.Header.Get("Pvp-Type")
 	matrixObj.app = app
-	matrixObj.result = make([][]pvpsim.MatrixResult, 0, 1)
+	matrixObj.result = make([][]sim.MatrixResult, 0, 1)
 	switch shieldsNumber {
 	case "triple":
 		err = matrixObj.calculateMatrix(0)
@@ -749,15 +749,15 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 }
 
 type matrixPvP struct {
-	rowA []pvpsim.InitialData
-	rowB []pvpsim.InitialData
+	rowA []sim.InitialData
+	rowB []sim.InitialData
 
-	pokA pvpsim.InitialData
-	pokB pvpsim.InitialData
+	pokA sim.InitialData
+	pokB sim.InitialData
 
-	errChan pvpsim.ErrorChan
+	errChan sim.ErrorChan
 
-	result [][]pvpsim.MatrixResult
+	result [][]sim.MatrixResult
 	app    *App
 
 	isPvpoke string
@@ -766,8 +766,8 @@ type matrixPvP struct {
 }
 
 func (mp *matrixPvP) calculateMatrix(shields uint8) error {
-	mp.errChan = make(pvpsim.ErrorChan, len(mp.rowA)*len(mp.rowB))
-	singleMatrixResults := make([]pvpsim.MatrixResult, 0, len(mp.rowA)*len(mp.rowB))
+	mp.errChan = make(sim.ErrorChan, len(mp.rowA)*len(mp.rowB))
+	singleMatrixResults := make([]sim.MatrixResult, 0, len(mp.rowA)*len(mp.rowB))
 	for mp.i, mp.pokA = range mp.rowA {
 		for mp.k, mp.pokB = range mp.rowB {
 			if shields != 5 {
@@ -790,10 +790,10 @@ func (mp *matrixPvP) calculateMatrix(shields uint8) error {
 	return nil
 }
 
-func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
+func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]sim.MatrixResult) {
 	//if pokemons are the same, it should be tie without any calculations
 	if mp.pokA.Query == mp.pokB.Query {
-		*singleMatrixResults = append(*singleMatrixResults, pvpsim.MatrixResult{
+		*singleMatrixResults = append(*singleMatrixResults, sim.MatrixResult{
 			I:      mp.i,
 			K:      mp.k,
 			Rate:   500,
@@ -803,7 +803,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 		return
 	}
 
-	matrixBattleResult := pvpsim.MatrixResult{}
+	matrixBattleResult := sim.MatrixResult{}
 	//otherwise check pvp results in base
 	pvpBaseKey := mp.pokA.Query + mp.pokB.Query
 
@@ -820,19 +820,19 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 
 	switch baseEntry {
 	case nil: //if result doesn't exist
-		var singleBattleResult pvpsim.PvpResults
+		var singleBattleResult sim.PvpResults
 		switch mp.isPvpoke {
 		case "pvpoke":
-			singleBattleResult, err = pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{
+			singleBattleResult, err = sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
-				Constr:       pvpsim.Constructor{},
+				Constr:       sim.Constructor{},
 				Logging:      true})
 		default:
-			singleBattleResult, err = pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
+			singleBattleResult, err = sim.NewPvpBetween(sim.SinglePvpInitialData{
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
-				Constr:       pvpsim.Constructor{},
+				Constr:       sim.Constructor{},
 				Logging:      true})
 		}
 
@@ -845,7 +845,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 		matrixBattleResult.QueryB = mp.pokB.Query
 		//if results are not random
 		if !singleBattleResult.IsRandom {
-			go func(battleRes pvpsim.PvpResults, key string) {
+			go func(battleRes sim.PvpResults, key string) {
 				//Create json from singleBattleResult
 				newBaseEntry, err := json.Marshal(battleRes)
 				if err != nil {
@@ -863,7 +863,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]pvpsim.MatrixResult) {
 		}
 
 	default: //if result exists
-		var singleBattleResult pvpsim.PvpResults
+		var singleBattleResult sim.PvpResults
 		err = json.Unmarshal(baseEntry, &singleBattleResult)
 		if err != nil {
 			go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
@@ -910,19 +910,19 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	isPvpoke := r.Header.Get("Pvp-Type")
 
 	//Start new PvP
-	var pvpResult pvpsim.PvpResults
+	var pvpResult sim.PvpResults
 
 	switch isPvpoke {
 	case "pvpoke":
 		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
-		pvpResult, err = pvpsim.NewPvpBetweenPvpoke(pvpsim.SinglePvpInitialData{
+		pvpResult, err = sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{
 			AttackerData: pokA,
 			DefenderData: pokB,
 			Constr:       constructor,
 			Logging:      true,
 		})
 	default:
-		pvpResult, err = pvpsim.NewPvpBetween(pvpsim.SinglePvpInitialData{
+		pvpResult, err = sim.NewPvpBetween(sim.SinglePvpInitialData{
 			AttackerData: pokA,
 			DefenderData: pokB,
 			Constr:       constructor,
