@@ -218,9 +218,9 @@ class MatrixPvp extends React.PureComponent {
                     {newListForBattle[i].name}
                 </>}
                 body={
-                    newListForBattle[i].QuickMove +
-                    (newListForBattle[i].ChargeMove1 ? " + " + newListForBattle[i].ChargeMove1 : "") +
-                    (newListForBattle[i].ChargeMove2 ? "/" + newListForBattle[i].ChargeMove2 : "")
+                    newListForBattle[i].QuickMove + this.addStar(newListForBattle[i].name, newListForBattle[i].QuickMove) +
+                    (newListForBattle[i].ChargeMove1 ? " + " + newListForBattle[i].ChargeMove1 + this.addStar(newListForBattle[i].name, newListForBattle[i].ChargeMove1) : "") +
+                    (newListForBattle[i].ChargeMove2 ? "/" + newListForBattle[i].ChargeMove2 + this.addStar(newListForBattle[i].name, newListForBattle[i].ChargeMove2) : "")
                 }
             />)
         }
@@ -492,11 +492,11 @@ class MatrixPvp extends React.PureComponent {
                     {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
                 </ReactTooltip>
                 <div className="row m-0 p-0 justify-content-center">
-                    {this.state.rightPanel.listForBattle[j].QuickMove.replace(/[a-z -]/g, '')}
+                    {this.state.rightPanel.listForBattle[j].QuickMove.replace(/[a-z -]/g, '') + this.addStar(pok.name, this.state.rightPanel.listForBattle[j].QuickMove)}
                     {(this.state.rightPanel.listForBattle[j].ChargeMove1 || this.state.rightPanel.listForBattle[j].ChargeMove2) ? "+" : ""}
-                    {this.state.rightPanel.listForBattle[j].ChargeMove1 ? this.state.rightPanel.listForBattle[j].ChargeMove1.replace(/[a-z -]/g, '') : ""}
+                    {this.state.rightPanel.listForBattle[j].ChargeMove1 ? (this.state.rightPanel.listForBattle[j].ChargeMove1.replace(/[a-z -]/g, '') + this.addStar(pok.name, this.state.rightPanel.listForBattle[j].ChargeMove1)) : ""}
                     {(this.state.rightPanel.listForBattle[j].ChargeMove1 && this.state.rightPanel.listForBattle[j].ChargeMove2) ? "/" : ""}
-                    {this.state.rightPanel.listForBattle[j].ChargeMove2 ? this.state.rightPanel.listForBattle[j].ChargeMove2.replace(/[a-z -]/g, '') : ""}
+                    {this.state.rightPanel.listForBattle[j].ChargeMove2 ? (this.state.rightPanel.listForBattle[j].ChargeMove2.replace(/[a-z -]/g, '') + this.addStar(pok.name, this.state.rightPanel.listForBattle[j].ChargeMove2)) : ""}
 
                 </div>
             </th>
@@ -523,15 +523,19 @@ class MatrixPvp extends React.PureComponent {
                     {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
                 </ReactTooltip>
                 <div className="row m-0 p-0 justify-content-center">
-                    {this.state.leftPanel.listForBattle[i].QuickMove.replace(/[a-z -]/g, '')}
+                    {this.state.leftPanel.listForBattle[i].QuickMove.replace(/[a-z -]/g, '') + this.addStar(pok.name, this.state.leftPanel.listForBattle[i].QuickMove)}
                     {(this.state.leftPanel.listForBattle[i].ChargeMove1 || this.state.leftPanel.listForBattle[i].ChargeMove2) ? "+" : ""}
-                    {this.state.leftPanel.listForBattle[i].ChargeMove1 ? this.state.leftPanel.listForBattle[i].ChargeMove1.replace(/[a-z -]/g, '') : ""}
+                    {this.state.leftPanel.listForBattle[i].ChargeMove1 ? (this.state.leftPanel.listForBattle[i].ChargeMove1.replace(/[a-z -]/g, '') + this.addStar(pok.name, this.state.leftPanel.listForBattle[i].ChargeMove1)) : ""}
                     {(this.state.leftPanel.listForBattle[i].ChargeMove1 && this.state.leftPanel.listForBattle[i].ChargeMove2) ? "/" : ""}
-                    {this.state.leftPanel.listForBattle[i].ChargeMove2 ? this.state.leftPanel.listForBattle[i].ChargeMove2.replace(/[a-z -]/g, '') : ""}
+                    {this.state.leftPanel.listForBattle[i].ChargeMove2 ? (this.state.leftPanel.listForBattle[i].ChargeMove2.replace(/[a-z -]/g, '') + this.addStar(pok.name, this.state.leftPanel.listForBattle[i].ChargeMove2)) : ""}
 
                 </div>
             </td>)
         }
+    }
+
+    addStar(pokName, moveName) {
+        return (this.props.parentState.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
     }
 
     pvpTriple(data, pvpoke) {
@@ -636,9 +640,9 @@ class MatrixPvp extends React.PureComponent {
 
 
 
-                body={event.pokemon.QuickMove +
-                    (event.pokemon.ChargeMove1 ? " + " + event.pokemon.ChargeMove1 : "") +
-                    (event.pokemon.ChargeMove2 ? "/" + event.pokemon.ChargeMove2 : "")
+                body={event.pokemon.QuickMove + this.addStar(event.pokemon.name, event.pokemon.QuickMove) +
+                    (event.pokemon.ChargeMove1 ? " + " + event.pokemon.ChargeMove1 + this.addStar(event.pokemon.name, event.pokemon.ChargeMove1) : "") +
+                    (event.pokemon.ChargeMove2 ? "/" + event.pokemon.ChargeMove2 + this.addStar(event.pokemon.name, event.pokemon.ChargeMove2) : "")
                 }
             />
         );
@@ -765,9 +769,9 @@ class MatrixPvp extends React.PureComponent {
 
 
 
-            body={pokCopy.QuickMove +
-                (pokCopy.ChargeMove1 ? " + " + pokCopy.ChargeMove1 : "") +
-                (pokCopy.ChargeMove2 ? "/" + pokCopy.ChargeMove2 : "")
+            body={pokCopy.QuickMove + this.addStar(pokCopy.name, pokCopy.QuickMove) +
+                (pokCopy.ChargeMove1 ? " + " + pokCopy.ChargeMove1 + this.addStar(pokCopy.name, pokCopy.ChargeMove1) : "") +
+                (pokCopy.ChargeMove2 ? "/" + pokCopy.ChargeMove2 + this.addStar(pokCopy.name, pokCopy.ChargeMove2) : "")
             }
         />
 

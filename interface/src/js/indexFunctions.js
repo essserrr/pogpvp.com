@@ -30,8 +30,8 @@ export function returnMovePool(name, data, locale) {
         return ({ quickMovePool: [], chargeMovePool: [] });
     }
     //make array of moves
-    let quickRaw = [...data[name].QuickMoves, ...data[name].ExclusiveQuickMoves, ...data[name].LegacyQuickMoves];
-    let chargeRaw = [...data[name].ChargeMoves, ...data[name].ExclusiveChargeMoves, ...data[name].LegacyChargeMoves];
+    let quickRaw = [...data[name].QuickMoves];
+    let chargeRaw = [...data[name].ChargeMoves];
     //filter empty values
     var quickFiltered = quickRaw.filter(function (e) {
         return e !== "";
@@ -40,12 +40,12 @@ export function returnMovePool(name, data, locale) {
         return e !== "";
     });
     //make options tag array
-    var quickMovePool = quickFiltered.map(function (name) {
-        return <option value={name} key={name}>{name}</option>;
+    var quickMovePool = quickFiltered.map(function (moveName) {
+        return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
     quickMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
-    var chargeMovePool = chargeFiltered.map(function (name) {
-        return <option value={name} key={name}>{name}</option>;
+    var chargeMovePool = chargeFiltered.map(function (moveName) {
+        return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
     chargeMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     chargeMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)

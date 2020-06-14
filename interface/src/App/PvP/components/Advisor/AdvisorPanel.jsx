@@ -28,6 +28,11 @@ class AdvisorPanel extends React.PureComponent {
         this.onClick = this.onClick.bind(this);
 
     }
+
+    addStar(pokName, moveName) {
+        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
+    }
+
     onClick(event) {
         this.setState({
             showCollapse: !this.state.showCollapse,
@@ -225,21 +230,21 @@ class AdvisorPanel extends React.PureComponent {
 
     addMoveLine(arr, pok) {
         if (pok.QuickMove) {
-            this.singleMoveLine(arr, pok.QuickMove)
+            this.singleMoveLine(arr, pok.QuickMove, pok)
         }
         if (pok.ChargeMove1) {
-            this.singleMoveLine(arr, pok.ChargeMove1)
+            this.singleMoveLine(arr, pok.ChargeMove1, pok)
         }
         if (pok.ChargeMove2) {
-            this.singleMoveLine(arr, pok.ChargeMove2)
+            this.singleMoveLine(arr, pok.ChargeMove2, pok)
         }
     }
 
-    singleMoveLine(arr, name) {
+    singleMoveLine(arr, name, pok) {
         let i = arr.push([])
         arr[i - 1].push(<td key={i + "line"}
             className={"modifiedBorderTable text-center align-middle theadT fixFirstRow  m-0 p-0 px-1 typeColor color" + this.props.moveTable[name].MoveType + " text"} >
-            {name}
+            {name + this.addStar(pok.name, name)}
         </td>)
 
         for (let j = 0; j < effectivenessData[this.props.moveTable[name].MoveType].length; j++) {
@@ -299,11 +304,11 @@ class AdvisorPanel extends React.PureComponent {
                 {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
             </ReactTooltip>
             <div className="row m-0 p-0 justify-content-center">
-                {pok.QuickMove.replace(/[a-z -]/g, '')}
+                {pok.QuickMove.replace(/[a-z -]/g, '') + this.addStar(pok.name, pok.QuickMove)}
                 {(pok.ChargeMove1 || pok.ChargeMove2) ? "+" : ""}
-                {pok.ChargeMove1 ? pok.ChargeMove1.replace(/[a-z -]/g, '') : ""}
+                {pok.ChargeMove1 ? (pok.ChargeMove1.replace(/[a-z -]/g, '') + this.addStar(pok.name, pok.ChargeMove1)) : ""}
                 {(pok.ChargeMove1 && pok.ChargeMove2) ? "/" : ""}
-                {pok.ChargeMove2 ? pok.ChargeMove2.replace(/[a-z -]/g, '') : ""}
+                {pok.ChargeMove2 ? (pok.ChargeMove2.replace(/[a-z -]/g, '') + this.addStar(pok.name, pok.ChargeMove2)) : ""}
             </div>
         </td>)
 
