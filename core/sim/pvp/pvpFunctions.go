@@ -1,6 +1,7 @@
-package sim
+package pvp
 
 import (
+	app "Solutions/pvpSimulator/core/sim/app"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -51,6 +52,7 @@ type PvpObject struct {
 
 	key      *uint32
 	nodeNumb *uint32
+	app      *app.SimApp
 }
 
 type setOfInDat struct {
@@ -60,9 +62,9 @@ type setOfInDat struct {
 
 //PvpLog contains pvp log as slice of rounds.
 //Each round contains slice of events, each event is structure of logValue type
-type PvpLog []logValue
+type PvpLog []LogValue
 
-type logValue struct {
+type LogValue struct {
 	Round    uint16
 	Attacker event
 	Defender event
@@ -82,7 +84,7 @@ type event struct {
 }
 
 func (l *PvpLog) makeNewRound(round uint16) {
-	*l = append(*l, logValue{Round: round})
+	*l = append(*l, LogValue{Round: round})
 }
 
 //PrintLog prints log using fmt.Println
@@ -132,6 +134,7 @@ type TreeInitialData struct {
 
 	Tree   *Tree
 	Constr Constructor
+	App    *app.SimApp
 }
 
 //SinglePvpInitialData contains all data is needed to build new singe pvp
@@ -141,6 +144,7 @@ type SinglePvpInitialData struct {
 
 	Constr  Constructor
 	Logging bool
+	App     *app.SimApp
 }
 
 //NewPvpBetween starts pvp between two charcters defined by initial data, returns pvp log
@@ -150,12 +154,13 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 	var wg sync.WaitGroup
 	tree := &Tree{}
 
-	switchTo, err := MakeTree(&TreeInitialData{
+	switchTo, err := MakeTree(TreeInitialData{
 		AttackerData: inData.AttackerData,
 		DefenderData: inData.DefenderData,
 		WG:           &wg,
 		Tree:         tree,
 		Constr:       inData.Constr,
+		App:          inData.App,
 	})
 	if err != nil {
 		return PvpResults{}, err
@@ -178,6 +183,7 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 		}
 	}
 	pvpData.branchPointer = tree
+	pvpData.app = inData.App
 
 	var key uint32
 	pvpData.key = &key
@@ -185,17 +191,17 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 
 	pvpData.isTree = false
 	pvpData.logging = inData.Logging
-	pvpData.log = make([]logValue, 0, 32)
+	pvpData.log = make([]LogValue, 0, 32)
 
 	//PrintTreeVal(os.Stdout, tree, 0, 'M')
 	//PrintTreeRate(os.Stdout, tree, 0, 'M')
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
 	if err != nil {
 		return PvpResults{}, err
 	}
 
-	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
 	if err != nil {
 		return PvpResults{}, err
 	}
@@ -290,32 +296,32 @@ func (obj *PvpObject) initializePvp(attackerData, defenderData *InitialData, att
 	obj.defender.setEffectiveStats(defenderData.InitialAttackStage, defenderData.InitialDefenceStage)
 	obj.defender.isGreedy = defenderData.IsGreedy
 
-	err := obj.attacker.getQuickMultipliersAgainst(attackerTypes, defenderTypes)
+	err := obj.attacker.getQuickMultipliersAgainst(attackerTypes, defenderTypes, obj)
 	if err != nil {
 		return err
 	}
-	err = obj.defender.getQuickMultipliersAgainst(defenderTypes, attackerTypes)
+	err = obj.defender.getQuickMultipliersAgainst(defenderTypes, attackerTypes, obj)
 	if err != nil {
 		return err
 	}
-	err = obj.attacker.getChargeMultipliersAgainst(attackerTypes, defenderTypes)
+	err = obj.attacker.getChargeMultipliersAgainst(attackerTypes, defenderTypes, obj)
 	if err != nil {
 		return err
 	}
-	err = obj.defender.getChargeMultipliersAgainst(defenderTypes, attackerTypes)
+	err = obj.defender.getChargeMultipliersAgainst(defenderTypes, attackerTypes, obj)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (pok *pokemon) getQuickMultipliersAgainst(attackerTypes, defenderTypes []int) error {
-	if len(app.typesData) < pok.quickMove.moveType {
+func (pok *pokemon) getQuickMultipliersAgainst(attackerTypes, defenderTypes []int, obj *PvpObject) error {
+	if len(obj.app.TypesData) < pok.quickMove.moveType {
 		return &customError{
 			"Move type not found in the database",
 		}
 	}
-	moveEfficiency := app.typesData[pok.quickMove.moveType]
+	moveEfficiency := obj.app.TypesData[pok.quickMove.moveType]
 
 	const pvpBaseMultiplier = 1.3
 
@@ -329,7 +335,7 @@ func (pok *pokemon) getQuickMultipliersAgainst(attackerTypes, defenderTypes []in
 
 	var seMultiplier float32 = 1.0
 	for _, trgType := range defenderTypes {
-		if len(app.typesData) < trgType {
+		if len(obj.app.TypesData) < trgType {
 			return &customError{
 				"Pokemon's type not found in the database",
 			}
@@ -345,14 +351,14 @@ func (pok *pokemon) getQuickMultipliersAgainst(attackerTypes, defenderTypes []in
 	return nil
 }
 
-func (pok *pokemon) getChargeMultipliersAgainst(attackerTypes, defenderTypes []int) error {
+func (pok *pokemon) getChargeMultipliersAgainst(attackerTypes, defenderTypes []int, obj *PvpObject) error {
 	for move, moveContent := range pok.chargeMove {
-		if len(app.typesData) < moveContent.moveType {
+		if len(obj.app.TypesData) < moveContent.moveType {
 			return &customError{
 				"Move type not found in the database",
 			}
 		}
-		moveEfficiency := app.typesData[moveContent.moveType]
+		moveEfficiency := obj.app.TypesData[moveContent.moveType]
 
 		const pvpBaseMultiplier = 1.3
 
@@ -366,7 +372,7 @@ func (pok *pokemon) getChargeMultipliersAgainst(attackerTypes, defenderTypes []i
 
 		var seMultiplier float32 = 1.0
 		for _, trgType := range defenderTypes {
-			if len(app.typesData) < trgType {
+			if len(obj.app.TypesData) < trgType {
 				return &customError{
 					"Pokemon's type not found in the database",
 				}
@@ -411,7 +417,7 @@ func letsBattle(obj *PvpObject) {
 	}
 
 	for obj.attacker.hp > 0 && obj.defender.hp > 0 {
-		if obj.isTree && *obj.nodeNumb > app.nodeLimit {
+		if obj.isTree && *obj.nodeNumb > obj.app.NodeLimit {
 			return
 		}
 
@@ -834,15 +840,15 @@ func (pok *pokemon) trigger(obj *PvpObject) {
 	if !pok.isTriggered {
 		return
 	}
-	switch app.pokemonMovesBase[pok.chargeMove[pok.results.chargeName-1].title].Subject {
+	switch obj.app.PokemonMovesBase[pok.chargeMove[pok.results.chargeName-1].title].Subject {
 	case "Opponent":
 		defender := whoIsDfender(pok, obj)
-		aStage, dStage := pok.statsChange(defender, pok.chargeMove[pok.results.chargeName-1].title)
+		aStage, dStage := pok.statsChange(defender, pok.chargeMove[pok.results.chargeName-1].title, obj)
 
 		handleTrigger(obj, aStage, dStage, pok.isAttacker, false)
 
 	case "Self":
-		aStage, dStage := pok.statsChange(pok, pok.chargeMove[pok.results.chargeName-1].title)
+		aStage, dStage := pok.statsChange(pok, pok.chargeMove[pok.results.chargeName-1].title, obj)
 		handleTrigger(obj, aStage, dStage, pok.isAttacker, true)
 	}
 }
@@ -852,7 +858,7 @@ func (pok *pokemon) makeTriggerEvent(obj *PvpObject) {
 		return
 	}
 	if pok.inConstructorMode {
-		if app.pokemonMovesBase[pok.chargeMove[pok.results.chargeName-1].title].Subject == "" {
+		if obj.app.PokemonMovesBase[pok.chargeMove[pok.results.chargeName-1].title].Subject == "" {
 			return
 		}
 		obj.makeASingleBranch(pok.isAttacker, true, true)
@@ -863,7 +869,7 @@ func (pok *pokemon) makeTriggerEvent(obj *PvpObject) {
 		return
 	}
 
-	if app.pokemonMovesBase[pok.chargeMove[pok.results.chargeName-1].title].Subject == "" {
+	if obj.app.PokemonMovesBase[pok.chargeMove[pok.results.chargeName-1].title].Subject == "" {
 		return
 	}
 
@@ -880,18 +886,18 @@ func (pok *pokemon) makeTriggerEvent(obj *PvpObject) {
 
 }
 
-func (pok *pokemon) statsChange(target *pokemon, chargeMove string) (int8, int8) {
+func (pok *pokemon) statsChange(target *pokemon, chargeMove string, obj *PvpObject) (int8, int8) {
 	var (
 		aStage int8
 		dStage int8
 	)
-	for _, value := range app.pokemonMovesBase[chargeMove].Stat {
+	for _, value := range obj.app.PokemonMovesBase[chargeMove].Stat {
 		if value == "Atk" {
-			aStage = app.pokemonMovesBase[chargeMove].StageDelta
+			aStage = obj.app.PokemonMovesBase[chargeMove].StageDelta
 			target.setEffectiveAttack((target.effectiveAttack.stageValue + aStage))
 		}
 		if value == "Def" {
-			dStage = app.pokemonMovesBase[chargeMove].StageDelta
+			dStage = obj.app.PokemonMovesBase[chargeMove].StageDelta
 			target.setEffectiveDefence((target.effectiveDefence.stageValue + dStage))
 		}
 	}
@@ -1087,17 +1093,18 @@ type RatingBattleResult struct {
 	Charge []string
 }
 
-func RatingPvp(attackerData, defenderData *InitialData) (RatingResult, error) {
+func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (RatingResult, error) {
 	rand.Seed(time.Now().UnixNano())
 	var wg sync.WaitGroup
 
 	tree := &Tree{}
 
-	switchTo, err := MakeTree(&TreeInitialData{
+	switchTo, err := MakeTree(TreeInitialData{
 		AttackerData: *attackerData,
 		DefenderData: *defenderData,
 		WG:           &wg,
 		Tree:         tree,
+		App:          app,
 	})
 	if err != nil {
 		return RatingResult{}, err
@@ -1151,6 +1158,7 @@ func RatingPvp(attackerData, defenderData *InitialData) (RatingResult, error) {
 		}
 	}
 	pvpData.branchPointer = tree
+	pvpData.app = app
 
 	var key uint32
 	pvpData.key = &key
@@ -1159,12 +1167,12 @@ func RatingPvp(attackerData, defenderData *InitialData) (RatingResult, error) {
 	pvpData.isTree = false
 	pvpData.logging = false
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(attackerData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(attackerData, pvpData)
 	if err != nil {
 		return RatingResult{}, err
 	}
 
-	defenderTypes, err := pvpData.defender.makeNewCharacter(defenderData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(defenderData, pvpData)
 	if err != nil {
 		return RatingResult{}, err
 	}

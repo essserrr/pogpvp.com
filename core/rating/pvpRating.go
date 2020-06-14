@@ -1,7 +1,8 @@
 package rating
 
 import (
-	sim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/sim"
+	"Solutions/pvpSimulator/core/sim/pvp"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -290,7 +291,7 @@ func (rs *ratingStruct) matrixForRate(rowA, rowB []sim.InitialData) sim.ErrorCha
 
 			outerWG.Add(1)
 			go func(attacker, defender sim.InitialData) {
-				singleBattleResult, err := sim.RatingPvp(&attacker, &defender)
+				singleBattleResult, err := sim.RatingPvp(attacker, defender)
 				if err != nil {
 					errChan <- err
 					outerWG.Done()
@@ -365,7 +366,7 @@ func writeJSON(dest string, value interface{}) {
 	}
 }
 
-func makeMovesetKey(res sim.RatingBattleResult) string {
+func makeMovesetKey(res pvp.RatingBattleResult) string {
 	return res.Quick + res.Charge[0] + res.Charge[1]
 }
 
@@ -833,7 +834,7 @@ func (ps *processingStruct) makeListofBestsAndCounters(first bool) {
 	}
 }
 
-func (rstw *rankingSheetToWrite) addToBestsOrCounters(resBest, resCounter sim.RatingBattleResult, nameBest, nameCounter string) {
+func (rstw *rankingSheetToWrite) addToBestsOrCounters(resBest, resCounter pvp.RatingBattleResult, nameBest, nameCounter string) {
 	if resBest.Rate > 500 && len(rstw.BestMetaMatchups) < 10 {
 		for _, value := range rstw.BestMetaMatchups {
 			if value.Name == nameBest {

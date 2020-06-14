@@ -3,7 +3,7 @@ package main
 import (
 	getbase "Solutions/pvpSimulator/bases"
 	"Solutions/pvpSimulator/core/errors"
-	sim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/sim"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"

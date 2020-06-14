@@ -1,7 +1,7 @@
 package goldenlogs
 
 import (
-	sim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/sim"
 	"encoding/json"
 	"io/ioutil"
 	"os"

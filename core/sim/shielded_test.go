@@ -1,6 +1,7 @@
 package sim
 
 import (
+	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"testing"
 )
 
@@ -220,14 +221,14 @@ func TestConstructor(t *testing.T) {
 
 	err := checkPVP(GiratinaA, Aerodactyl, "constr1", Constructor{
 		Round: 12,
-		Attacker: Status{
+		Attacker: pvp.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: Status{
+		Defender: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -249,14 +250,14 @@ func TestConstructor(t *testing.T) {
 
 	err = checkPVP(GiratinaA, Aerodactyl, "constr2", Constructor{
 		Round: 21,
-		Attacker: Status{
+		Attacker: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: Status{
+		Defender: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,

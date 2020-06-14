@@ -1,7 +1,7 @@
 package goldentrees
 
 import (
-	sim "Solutions/pvpSimulator/core/pvp"
+	sim "Solutions/pvpSimulator/core/sim"
 	"os"
 	"path"
 	"sync"

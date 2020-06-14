@@ -1,4 +1,4 @@
-package sim
+package pvp
 
 import (
 	"math/rand"
@@ -14,14 +14,15 @@ func NewPvpBetweenPvpoke(inData SinglePvpInitialData) (PvpResults, error) {
 
 	pvpData.isTree = false
 	pvpData.logging = inData.Logging
-	pvpData.log = make([]logValue, 0, 32)
+	pvpData.log = make([]LogValue, 0, 32)
+	pvpData.app = inData.App
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
 	if err != nil {
 		return PvpResults{}, err
 	}
 
-	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
 	if err != nil {
 		return PvpResults{}, err
 	}
@@ -72,17 +73,17 @@ func NewPvpBetweenPvpoke(inData SinglePvpInitialData) (PvpResults, error) {
 }
 
 func (o *PvpObject) sortmoves() {
-	o.attacker.sortAgainst(&o.defender)
-	o.defender.sortAgainst(&o.attacker)
+	o.attacker.sortAgainst(&o.defender, o)
+	o.defender.sortAgainst(&o.attacker, o)
 
 }
 
-func (pok *pokemon) sortAgainst(defender *pokemon) {
+func (pok *pokemon) sortAgainst(defender *pokemon, obj *PvpObject) {
 	if len(pok.chargeMove) < 2 {
 		return
 	}
-	selfHarm1st := app.pokemonMovesBase[pok.chargeMove[0].title].Subject == "Self" && app.pokemonMovesBase[pok.chargeMove[0].title].StageDelta < 0
-	selfHarm2nd := app.pokemonMovesBase[pok.chargeMove[1].title].Subject == "Self" && app.pokemonMovesBase[pok.chargeMove[1].title].StageDelta < 0
+	selfHarm1st := obj.app.PokemonMovesBase[pok.chargeMove[0].title].Subject == "Self" && obj.app.PokemonMovesBase[pok.chargeMove[0].title].StageDelta < 0
+	selfHarm2nd := obj.app.PokemonMovesBase[pok.chargeMove[1].title].Subject == "Self" && obj.app.PokemonMovesBase[pok.chargeMove[1].title].StageDelta < 0
 
 	dpe1 := pok.calculateDPE(defender, 0)
 	dpe2 := pok.calculateDPE(defender, 1)
@@ -393,7 +394,7 @@ func (pok *pokemon) checkAvalabilityOfChargeMovesPvpoke(obj *PvpObject) {
 	}
 	//bait shields
 	if defender.shields > 0 {
-		if app.pokemonMovesBase[pok.chargeMove[1].title].Subject == "Self" && app.pokemonMovesBase[pok.chargeMove[1].title].StageDelta < 0 {
+		if obj.app.PokemonMovesBase[pok.chargeMove[1].title].Subject == "Self" && obj.app.PokemonMovesBase[pok.chargeMove[1].title].StageDelta < 0 {
 			pok.results.chargeName = 0
 			return
 		}

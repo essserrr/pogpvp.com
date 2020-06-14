@@ -1,6 +1,7 @@
 package sim
 
 import (
+	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"fmt"
 	"log"
 	"os"
@@ -53,17 +54,17 @@ var linksMatrix = map[string]string{
 	"matrixBattle": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/matrixBattle.json")),
 }
 
-var goldenLogs = map[string]PvpLog{}
+var goldenLogs = map[string]pvp.PvpLog{}
 
 func init() {
 	goldenLogs = getGoldenLogs()
 }
 
-func getGoldenLogs() map[string]PvpLog {
-	mapToReturn := make(map[string]PvpLog)
+func getGoldenLogs() map[string]pvp.PvpLog {
+	mapToReturn := make(map[string]pvp.PvpLog)
 
 	for key, value := range links {
-		var entryOfMapToReturn PvpLog
+		var entryOfMapToReturn pvp.PvpLog
 		err := entryOfMapToReturn.ReadLog(value)
 		if err != nil {
 			log.Fatal(err)
@@ -76,8 +77,8 @@ func getGoldenLogs() map[string]PvpLog {
 type TestErrorLog struct {
 	Test     string
 	Round    int
-	Expected logValue
-	Got      logValue
+	Expected pvp.LogValue
+	Got      pvp.LogValue
 }
 
 func (e *TestErrorLog) Error() string {
@@ -174,7 +175,7 @@ func checkPVP(atatcker, defender InitialData, checkName string, constr Construct
 	return nil
 }
 
-func checkLog(currentLog PvpLog, checkName string) error {
+func checkLog(currentLog pvp.PvpLog, checkName string) error {
 	for keyRound, valueRound := range goldenLogs[checkName] {
 
 		if valueRound != currentLog[keyRound] {
