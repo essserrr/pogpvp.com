@@ -4,6 +4,8 @@ import (
 	app "Solutions/pvpSimulator/core/sim/app"
 	pve "Solutions/pvpSimulator/core/sim/pve"
 	pvp "Solutions/pvpSimulator/core/sim/pvp"
+	"math/rand"
+	"time"
 )
 
 var simApp *app.SimApp
@@ -89,37 +91,40 @@ func RatingPvp(attackerData, defenderData InitialData) (RatingResult, error) {
 }
 
 func DealDamagePve() {
-	pve.DealDamage(pve.CommonPvpInData{
-		Pok: pve.InitialData{
-			Name: "Rayquaza",
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 10; i++ {
+		pve.SimulatorRun(pve.CommonPvpInData{
+			Pok: pve.InitialData{
+				Name: "Rayquaza",
 
-			QuickMove: "Dragon Tail",
-			ChargeMove: []string{
-				"Outrage",
+				QuickMove:  "Dragon Tail",
+				ChargeMove: "Outrage",
+
+				Level: 40,
+
+				AttackIV:  15,
+				DefenceIV: 15,
+				StaminaIV: 15,
+
+				IsShadow: false,
 			},
 
-			Level: 40,
+			Weather: 4,
 
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
+			Boss: pve.BossInfo{
+				Name:       "Reshiram",
+				QuickMove:  "Fire Fang",
+				ChargeMove: "Draco Meteor",
+				Tier:       4,
+			},
 
-			IsShadow: false,
-		},
+			FriendStage:   0,
+			DodgeStrategy: 0,
+			PartySize:     18,
+			PlayersNumber: 2,
 
-		Weather: 7,
+			App: simApp,
+		})
+	}
 
-		Boss: pve.BossInfo{
-			Name:       "Reshiram",
-			QuickMove:  "Lick",
-			ChargeMove: "Earthquake",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-
-		App: simApp,
-	})
 }

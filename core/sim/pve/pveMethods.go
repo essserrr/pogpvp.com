@@ -9,24 +9,12 @@ import (
 //Energy is pokemon energy type, no more than 100
 type Energy int16
 
-func (en *Energy) addEnergy(energyValue Energy) { // energy cap is 100
+//addEnergy energy cap is 100
+func (en *Energy) addEnergy(energyValue int16) {
 	*en = *en + Energy(energyValue)
 	if *en > 100 {
 		*en = 100
 	}
-}
-
-type CommonPvpInData struct {
-	App *app.SimApp
-	Pok InitialData
-
-	PartySize uint8
-
-	Boss BossInfo
-
-	FriendStage   int
-	Weather       int
-	DodgeStrategy uint8
 }
 
 //InitialData contains initial data for pvp
@@ -34,7 +22,7 @@ type InitialData struct {
 	Name string
 
 	QuickMove  string
-	ChargeMove []string
+	ChargeMove string
 
 	Level float32
 
@@ -55,19 +43,24 @@ type BossInfo struct {
 
 type pokemon struct {
 	quickMove  move
-	chargeMove []move
+	chargeMove move
 
-	maxHP int64
-	hp    int64
+	maxHP int32
+	hp    int32
 
 	effectiveAttack  float32
 	effectiveDefence float32
 
 	timeToDamage    float32
+	timeToEnergy    float32
 	moveCooldown    float32
 	levelMultiplier float32
 
 	energy Energy
+	action uint8
+
+	damageRegistered bool
+	energyRegistered bool
 }
 
 type move struct {
@@ -96,12 +89,9 @@ func (obj *PveObject) makeNewCharacter(pokemonData *InitialData, pok *pokemon) e
 	if err != nil {
 		return err
 	}
-	pok.chargeMove = make([]move, 0, 2)
-	for i := 0; i < len(pokemonData.ChargeMove); i++ {
-		err = pok.setChargeMove(pokemonData.ChargeMove[i], obj)
-		if err != nil {
-			return err
-		}
+	err = pok.setChargeMove(pokemonData.ChargeMove, obj)
+	if err != nil {
+		return err
 	}
 	return nil
 }
@@ -141,7 +131,7 @@ func (pok *pokemon) makeNewBody(pokemonData *InitialData, obj *PveObject) error 
 
 	pok.effectiveAttack = (float32(pokemonData.AttackIV) + float32(speciesType.Atk)) * shadowABonus * pok.levelMultiplier
 	pok.effectiveDefence = (float32(pokemonData.DefenceIV) + float32(speciesType.Def)) * shadowDBonus * pok.levelMultiplier
-	pok.maxHP = int64((float32(pokemonData.StaminaIV) + float32(speciesType.Sta)) * pok.levelMultiplier)
+	pok.maxHP = int32((float32(pokemonData.StaminaIV) + float32(speciesType.Sta)) * pok.levelMultiplier)
 	return nil
 }
 
@@ -150,7 +140,7 @@ func (pok *pokemon) setQuickMove(quickMove string, obj *PveObject) error { // se
 	if !ok {
 		return fmt.Errorf("Quick move not found in the database")
 	}
-	pok.quickMove.setMoveBody(moveEntry)
+	pok.quickMove = setMoveBody(moveEntry)
 	return nil
 }
 
@@ -163,20 +153,20 @@ func (pok *pokemon) setChargeMove(chargeMove string, obj *PveObject) error { // 
 		return fmt.Errorf("Charge move not found in the database")
 	}
 
-	var newMove move
-	newMove.setMoveBody(moveEntry)
-	pok.chargeMove = append(pok.chargeMove, newMove)
+	pok.chargeMove = setMoveBody(moveEntry)
 	return nil
 }
 
-func (s *move) setMoveBody(moveEntry app.MoveBaseEntry) { // sets up move body (common for both types of moves)
-	s.title = moveEntry.Title
-	s.cooldown = moveEntry.Cooldown
-	s.damage = moveEntry.Damage
-	s.damageWindow = moveEntry.DamageWindow
-	s.dodgeWindow = moveEntry.DodgeWindow
-	s.energy = moveEntry.Energy
-	s.moveType = moveEntry.MoveType
+func setMoveBody(moveEntry app.MoveBaseEntry) move { // sets up move body (common for both types of moves)
+	newMove := move{}
+	newMove.title = moveEntry.Title
+	newMove.cooldown = moveEntry.Cooldown
+	newMove.damage = moveEntry.Damage
+	newMove.damageWindow = moveEntry.DamageWindow
+	newMove.dodgeWindow = moveEntry.DodgeWindow
+	newMove.energy = moveEntry.Energy
+	newMove.moveType = moveEntry.MoveType
+	return newMove
 }
 
 func (obj *PveObject) makeNewBoss(bossInDat *BossInfo, boss *pokemon) error {
@@ -203,43 +193,54 @@ func (pok *pokemon) makeBossBody(bossInDat *BossInfo, obj *PveObject) error { //
 	}
 	pok.effectiveAttack = (float32(15.0) + float32(speciesType.Atk)) * pok.levelMultiplier
 	pok.effectiveDefence = (float32(15.0) + float32(speciesType.Def)) * pok.levelMultiplier
-	pok.maxHP = tierHP[bossInDat.Tier]
+	pok.hp = tierHP[bossInDat.Tier]
 	return nil
 }
+
+/*
+0 - extreme
+1 - sunny
+2 - rainy
+3 - partly
+4 - cloudy
+5 - windy
+6 - snowy
+7 - foggy
+*/
 
 var weather = []map[int]float32{
 	0: {},
 	1: {
-		11: 1.2,
 		10: 1.2,
-		7:  1.2,
-	},
-	2: {
-		1:  1.2,
-		4:  1.2,
-		18: 1.2,
-	},
-	3: {
-		16: 1.2,
-		13: 1.2,
-	},
-	4: {
-		14: 1.2,
-		5:  1.2,
+		9:  1.2,
 		6:  1.2,
 	},
-	5: {
-		15: 1.2,
-		8:  1.2,
+	2: {
+		0:  1.2,
 		3:  1.2,
-	},
-	6: {
 		17: 1.2,
+	},
+	3: {
+		15: 1.2,
 		12: 1.2,
 	},
+	4: {
+		13: 1.2,
+		4:  1.2,
+		5:  1.2,
+	},
+	5: {
+		14: 1.2,
+		7:  1.2,
+		2:  1.2,
+	},
+	6: {
+		16: 1.2,
+		11: 1.2,
+	},
 	7: {
-		9: 1.2,
-		2: 1.2,
+		8: 1.2,
+		1: 1.2,
 	},
 }
 
@@ -255,7 +256,7 @@ var friendship = []float32{
 	8: 1.25,
 }
 
-var tierHP = []int64{
+var tierHP = []int32{
 	0: 600,
 	1: 1800,
 	2: 3600,
