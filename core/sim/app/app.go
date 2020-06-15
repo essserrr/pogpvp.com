@@ -46,9 +46,9 @@ type MoveBaseEntry struct {
 	PvpDamage   float32
 	Probability float32
 
-	Cooldown     float32
-	DamageWindow float32
-	DodgeWindow  float32
+	Cooldown     int32
+	DamageWindow int32
+	DodgeWindow  int32
 
 	Damage int16
 	Energy int16

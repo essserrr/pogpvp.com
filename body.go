@@ -1094,7 +1094,6 @@ func (a *App) initPvpSrv() *http.Server {
 
 func main() {
 	sim.DealDamagePve()
-
 	logFile, err := initializeLog()
 	if err != nil {
 		fmt.Println(err)

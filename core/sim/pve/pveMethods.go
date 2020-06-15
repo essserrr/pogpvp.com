@@ -51,9 +51,9 @@ type pokemon struct {
 	effectiveAttack  float32
 	effectiveDefence float32
 
-	timeToDamage    float32
-	timeToEnergy    float32
-	moveCooldown    float32
+	timeToDamage    int32
+	timeToEnergy    int32
+	moveCooldown    int32
 	levelMultiplier float32
 
 	energy Energy
@@ -61,15 +61,16 @@ type pokemon struct {
 
 	damageRegistered bool
 	energyRegistered bool
+	isBoss           bool
 }
 
 type move struct {
 	title    string
 	moveType int
 
-	cooldown     float32
-	damageWindow float32
-	dodgeWindow  float32
+	cooldown     int32
+	damageWindow int32
+	dodgeWindow  int32
 	multiplier   float32
 
 	damage int16
@@ -194,6 +195,7 @@ func (pok *pokemon) makeBossBody(bossInDat *BossInfo, obj *PveObject) error { //
 	pok.effectiveAttack = (float32(15.0) + float32(speciesType.Atk)) * pok.levelMultiplier
 	pok.effectiveDefence = (float32(15.0) + float32(speciesType.Def)) * pok.levelMultiplier
 	pok.hp = tierHP[bossInDat.Tier]
+	pok.isBoss = true
 	return nil
 }
 
@@ -265,13 +267,13 @@ var tierHP = []int32{
 	5: 22500,
 }
 
-var tierTimer = []float32{
-	0: 180,
-	1: 180,
-	2: 180,
-	3: 180,
-	4: 360,
-	5: 360,
+var tierTimer = []int32{
+	0: 180000,
+	1: 180000,
+	2: 180000,
+	3: 180000,
+	4: 300000,
+	5: 300000,
 }
 
 var tierMult = []float32{

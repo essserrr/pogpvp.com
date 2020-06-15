@@ -92,39 +92,141 @@ func RatingPvp(attackerData, defenderData InitialData) (RatingResult, error) {
 
 func DealDamagePve() {
 	rand.Seed(time.Now().UnixNano())
-	for i := 0; i < 10; i++ {
-		pve.SimulatorRun(pve.CommonPvpInData{
-			Pok: pve.InitialData{
-				Name: "Rayquaza",
+	pve.CommonSimulator(pve.CommonPvpInData{
+		Pok: pve.InitialData{
+			Name: "Salamence",
 
-				QuickMove:  "Dragon Tail",
-				ChargeMove: "Outrage",
+			QuickMove:  "Dragon Tail",
+			ChargeMove: "Draco Meteor",
 
-				Level: 40,
+			Level: 40,
 
-				AttackIV:  15,
-				DefenceIV: 15,
-				StaminaIV: 15,
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
 
-				IsShadow: false,
-			},
+			IsShadow: false,
+		},
 
-			Weather: 4,
+		Weather: 4,
 
-			Boss: pve.BossInfo{
-				Name:       "Reshiram",
-				QuickMove:  "Fire Fang",
-				ChargeMove: "Draco Meteor",
-				Tier:       4,
-			},
+		Boss: pve.BossInfo{
+			Name:       "Zekrom",
+			QuickMove:  "Charge Beam",
+			ChargeMove: "Outrage",
+			Tier:       4,
+		},
 
-			FriendStage:   0,
-			DodgeStrategy: 0,
-			PartySize:     18,
-			PlayersNumber: 2,
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     18,
+		PlayersNumber: 2,
 
-			App: simApp,
-		})
-	}
-
+		App: simApp,
+	})
 }
+
+/*
+		Pok: pve.InitialData{
+			Name: "Rayquaza",
+
+			QuickMove:  "Dragon Tail",
+			ChargeMove: "Outrage",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 4,
+
+		Boss: pve.BossInfo{
+			Name:       "Reshiram",
+			QuickMove:  "Fire Fang",
+			ChargeMove: "Draco Meteor",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     6,
+		PlayersNumber: 2,
+
+		App: simApp,
+	})
+
+
+
+			Pok: pve.InitialData{
+			Name: "Darkrai",
+
+			QuickMove:  "Snarl",
+			ChargeMove: "Shadow Ball",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 5,
+
+		Boss: pve.BossInfo{
+			Name:       "Alolan Marowak",
+			QuickMove:  "Hex",
+			ChargeMove: "Shadow Ball",
+			Tier:       3,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     6,
+		PlayersNumber: 2,
+
+		App: simApp,
+	})
+
+
+
+
+
+
+	Pok: pve.InitialData{
+			Name: "Mewtwo",
+
+			QuickMove:  "Confusion",
+			ChargeMove: "Psystrike",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 4,
+
+		Boss: pve.BossInfo{
+			Name:       "Terrakion",
+			QuickMove:  "Smack Down",
+			ChargeMove: "Earthquake",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     12,
+		PlayersNumber: 2,
+
+		App: simApp,
+	})
+*/
