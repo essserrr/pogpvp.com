@@ -2,6 +2,7 @@ package goldenlogs
 
 import (
 	sim "Solutions/pvpSimulator/core/sim"
+	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"encoding/json"
 	"io/ioutil"
 	"os"
@@ -9,41 +10,41 @@ import (
 )
 
 var links = map[string]string{
-	"knockQuickQuick":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/knockQuickQuick.json")),
-	"knockChargeQuick":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/knockChargeQuick.json")),
-	"simultaneousQuick":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/simultaneousQuick.json")),
-	"knockQuickCharge":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/knockQuickCharge.json")),
-	"simultaneousCharge": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/simultaneousCharge.json")),
-	"generalShielded":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/generalShielded.json")),
-	"shielded11":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shielded11.json")),
-	"shielded10":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shielded10.json")),
+	"knockQuickQuick":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockQuickQuick.json")),
+	"knockChargeQuick":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockChargeQuick.json")),
+	"simultaneousQuick":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/simultaneousQuick.json")),
+	"knockQuickCharge":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockQuickCharge.json")),
+	"simultaneousCharge": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/simultaneousCharge.json")),
+	"generalShielded":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/generalShielded.json")),
+	"shielded11":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shielded11.json")),
+	"shielded10":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shielded10.json")),
 
-	"azumarillVenusaur":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillVenusaur.json")),
-	"azumarillMeganium":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillMeganium.json")),
-	"azumarillMedicham":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillMedicham.json")),
-	"azumarillRegisteel": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillRegisteel.json")),
-	"skarmoryVigoroth":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/skarmoryVigoroth.json")),
-	"skarmoryAltaria":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/skarmoryAltaria.json")),
-	"giratinaASnorlax":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/giratinaASnorlax.json")),
+	"azumarillVenusaur":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillVenusaur.json")),
+	"azumarillMeganium":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillMeganium.json")),
+	"azumarillMedicham":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillMedicham.json")),
+	"azumarillRegisteel": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillRegisteel.json")),
+	"skarmoryVigoroth":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/skarmoryVigoroth.json")),
+	"skarmoryAltaria":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/skarmoryAltaria.json")),
+	"giratinaASnorlax":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/giratinaASnorlax.json")),
 
-	"shieldedAlolanMukAlolanMarowak":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedAlolanMukAlolanMarowak.json")),
-	"shieldedSwampertAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedSwampertAltaria.json")),
-	"shieldedAzumarillVenusaur1":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedAzumarillVenusaur1.json")),
-	"shieldedAzumarillVenusaur2":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedAzumarillVenusaur2.json")),
-	"shieldedSkarmoryAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedSkarmoryAltaria.json")),
-	"shieldedGiratinaAlteredSnorlax1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedGiratinaAlteredSnorlax1.json")),
-	"shieldedGiratinaAlteredSnorlax2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedGiratinaAlteredSnorlax2.json")),
+	"shieldedAlolanMukAlolanMarowak":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedAlolanMukAlolanMarowak.json")),
+	"shieldedSwampertAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedSwampertAltaria.json")),
+	"shieldedAzumarillVenusaur1":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedAzumarillVenusaur1.json")),
+	"shieldedAzumarillVenusaur2":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedAzumarillVenusaur2.json")),
+	"shieldedSkarmoryAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedSkarmoryAltaria.json")),
+	"shieldedGiratinaAlteredSnorlax1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedGiratinaAlteredSnorlax1.json")),
+	"shieldedGiratinaAlteredSnorlax2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedGiratinaAlteredSnorlax2.json")),
 
-	"matrixBattle": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/matrixBattle.json")),
+	"matrixBattle": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/matrixBattle.json")),
 
-	"pvpoke":        (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke.json")),
-	"pvpoke14":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke14.json")),
-	"pvpoke34":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke34.json")),
-	"pvpoke24":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke24.json")),
-	"pvpokeConstr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr1.json")),
-	"pvpokeConstr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr2.json")),
+	"pvpoke":        (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke.json")),
+	"pvpoke14":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke14.json")),
+	"pvpoke34":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke34.json")),
+	"pvpoke24":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke24.json")),
+	"pvpokeConstr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpokeConstr1.json")),
+	"pvpokeConstr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpokeConstr2.json")),
 
-	"constr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr1.json")),
+	"constr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/constr1.json")),
 	"constr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr2.json")),
 }
 
@@ -500,14 +501,14 @@ func updateShielded2CM() error {
 
 	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr1"], sim.Constructor{
 		Round: 12,
-		Attacker: sim.Status{
+		Attacker: pvp.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: sim.Status{
+		Defender: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -528,14 +529,14 @@ func updateShielded2CM() error {
 
 	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr2"], sim.Constructor{
 		Round: 21,
-		Attacker: sim.Status{
+		Attacker: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: sim.Status{
+		Defender: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,
@@ -839,14 +840,14 @@ func updatePvpoke() error {
 
 	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr1"], sim.Constructor{
 		Round: 12,
-		Attacker: sim.Status{
+		Attacker: pvp.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: sim.Status{
+		Defender: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -868,14 +869,14 @@ func updatePvpoke() error {
 
 	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr2"], sim.Constructor{
 		Round: 21,
-		Attacker: sim.Status{
+		Attacker: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: sim.Status{
+		Defender: pvp.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,

@@ -1,14 +1,14 @@
 package goldentrees
 
 import (
-	sim "Solutions/pvpSimulator/core/sim"
+	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"os"
 	"path"
 	"sync"
 )
 
 var links = map[string]string{
-	"shieldedTree": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenTrees/shieldedTree.json")),
+	"shieldedTree": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenTrees/shieldedTree.json")),
 }
 
 //Update updates golden resulta for tree
@@ -23,7 +23,7 @@ func Update() error {
 // tests for unshielded PvP with 1 charge move
 
 func updateGeneralTree() error {
-	var Azumarill = sim.InitialData{
+	var Azumarill = pvp.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -33,7 +33,7 @@ func updateGeneralTree() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = sim.InitialData{
+	var Venusaur = pvp.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -50,12 +50,12 @@ func updateGeneralTree() error {
 	return nil
 }
 
-func writeGoldenTree(atatcker, defender sim.InitialData, treePath string) error {
+func writeGoldenTree(atatcker, defender pvp.InitialData, treePath string) error {
 	var errs error
 	var wg sync.WaitGroup
-	tree := &sim.Tree{}
+	tree := &pvp.Tree{}
 
-	sim.MakeTree(&sim.TreeInitialData{
+	pvp.MakeTree(pvp.TreeInitialData{
 		AttackerData: atatcker,
 		DefenderData: defender,
 		WG:           &wg,
