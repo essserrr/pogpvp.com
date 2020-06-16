@@ -33,6 +33,8 @@ type PokemonsBaseEntry struct {
 	ChargeMoves []string
 
 	QuickMoves []string
+
+	EliteMoves map[string]int
 }
 
 type MoveBaseEntry struct {

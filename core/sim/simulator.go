@@ -2,7 +2,9 @@ package sim
 
 import (
 	app "Solutions/pvpSimulator/core/sim/app"
+	"Solutions/pvpSimulator/core/sim/pve"
 	pvp "Solutions/pvpSimulator/core/sim/pvp"
+	"fmt"
 )
 
 var Application *app.SimApp
@@ -88,5 +90,40 @@ func RatingPvp(attackerData, defenderData InitialData) (RatingResult, error) {
 }
 
 func DealDamagePve() {
+	err := pve.CommonSimulatorWrapper(pve.IntialDataPve{
+		Pok: pve.PokemonInitialData{
+			Name: "Palkia",
 
+			QuickMove:  "",
+			ChargeMove: "",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 0,
+
+		Boss: pve.BossInfo{
+			Name:       "Zekrom",
+			QuickMove:  "",
+			ChargeMove: "",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		NumberOfRuns: 100,
+		App:          Application,
+	})
+	if err != nil {
+		fmt.Println(err)
+	}
 }

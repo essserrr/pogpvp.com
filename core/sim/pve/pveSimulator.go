@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"sort"
+	"sync"
+	"time"
 )
 
 //PveObject contains single pve data
@@ -54,6 +57,11 @@ type IntialDataPve struct {
 }
 
 func CommonSimulatorWrapper(inDat IntialDataPve) error {
+	rand.Seed(time.Now().UnixNano())
+	_, ok := inDat.App.PokemonStatsBase[inDat.Boss.Name]
+	if !ok {
+		return fmt.Errorf("Unknown boss")
+	}
 	if inDat.Boss.Tier > 5 || inDat.Boss.Tier < 0 {
 		return fmt.Errorf("Unknown raid tier")
 	}
@@ -69,14 +77,275 @@ func CommonSimulatorWrapper(inDat IntialDataPve) error {
 	if inDat.Weather > 7 || inDat.Weather < 0 {
 		return fmt.Errorf("Unknown weather")
 	}
+	attackerRow := generateAttackersRow(&inDat)
+	bossRow := generateBossRow(&inDat)
+	if attackerRow == nil {
+
+	}
+
+	wg := sync.WaitGroup{}
+	count := 0
+	mu := sync.RWMutex{}
+	resArray := [][]CommonResult{}
+
+	switch attackerRow == nil {
+	case true:
+		resArray = make([][]CommonResult, 0, 1000)
+		for number, pok := range createAllMovesets(&inDat) {
+			resArray = append(resArray, make([]CommonResult, 0, len(bossRow)))
+			for _, boss := range bossRow {
+				wg.Add(1)
+				mu.Lock()
+				count++
+				mu.Unlock()
+				for count > 20000 {
+
+				}
+				go func(currBoss BossInfo, p, q, ch string, i int) {
+					defer wg.Done()
+					singleResult, err := CommonSimulator(CommonPvpInData{
+						App: inDat.App,
+						Pok: PokemonInitialData{
+							Name: p,
+
+							QuickMove:  q,
+							ChargeMove: ch,
+
+							Level: inDat.Pok.Level,
+
+							AttackIV:  inDat.Pok.AttackIV,
+							DefenceIV: inDat.Pok.DefenceIV,
+							StaminaIV: inDat.Pok.StaminaIV,
+
+							IsShadow: inDat.Pok.IsShadow,
+						},
+
+						PartySize:     inDat.PartySize,
+						PlayersNumber: inDat.PlayersNumber,
+
+						Boss: currBoss,
+
+						NumberOfRuns:  inDat.NumberOfRuns,
+						FriendStage:   inDat.FriendStage,
+						Weather:       inDat.Weather,
+						DodgeStrategy: inDat.DodgeStrategy,
+					})
+					if err != nil {
+						fmt.Println(err)
+					}
+					mu.Lock()
+					count--
+					resArray[i] = append(resArray[i], singleResult)
+					mu.Unlock()
+				}(boss, pok.Name, pok.Quick, pok.Charge, number)
+			}
+		}
+	default:
+		resArray = make([][]CommonResult, 0, len(attackerRow))
+		for number, singlePok := range attackerRow {
+			resArray = append(resArray, make([]CommonResult, 0, len(bossRow)))
+			for _, boss := range bossRow {
+				wg.Add(1)
+				mu.Lock()
+				count++
+				mu.Unlock()
+				for count > 20000 {
+
+				}
+				go func(currPok PokemonInitialData, currBoss BossInfo, i int) {
+					defer wg.Done()
+					singleResult, err := CommonSimulator(CommonPvpInData{
+						App: inDat.App,
+						Pok: currPok,
+
+						PartySize:     inDat.PartySize,
+						PlayersNumber: inDat.PlayersNumber,
+
+						Boss: currBoss,
+
+						NumberOfRuns:  inDat.NumberOfRuns,
+						FriendStage:   inDat.FriendStage,
+						Weather:       inDat.Weather,
+						DodgeStrategy: inDat.DodgeStrategy,
+					})
+					if err != nil {
+						fmt.Println(err)
+					}
+					mu.Lock()
+					resArray[i] = append(resArray[i], singleResult)
+					count--
+					mu.Unlock()
+				}(singlePok, boss, number)
+			}
+		}
+	}
+	wg.Wait()
+
+	sort.Sort(byAvgDamage(resArray))
 
 	return nil
 }
 
+type byAvgDamage [][]CommonResult
+
+func (a byAvgDamage) Len() int { return len(a) }
+func (a byAvgDamage) Less(i, j int) bool {
+	var (
+		avgDamageLeft  int32
+		avgDamageRight int32
+	)
+	for _, value := range a[i] {
+		avgDamageLeft += value.DAvg
+	}
+	for _, value := range a[j] {
+		avgDamageRight += value.DAvg
+	}
+	return avgDamageLeft > avgDamageRight
+}
+func (a byAvgDamage) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+
+func createAllMovesets(inDat *IntialDataPve) []preRun {
+	pokemonsAll := make([]preRun, 0, 14000)
+
+	bossStat := inDat.App.PokemonStatsBase[inDat.Boss.Name]
+	bossLvl := tierMult[inDat.Boss.Tier]
+	bossEffDef := (float32(15.0) + float32(bossStat.Def)) * bossLvl
+
+	quickMBody := app.MoveBaseEntry{}
+	chargeMBody := app.MoveBaseEntry{}
+
+	for _, pok := range inDat.App.PokemonStatsBase {
+		if (pok.Atk + pok.Def + pok.Sta) < 400 {
+			continue
+		}
+		for _, qm := range pok.QuickMoves {
+			if qm == "" {
+				continue
+			}
+			for _, chm := range pok.ChargeMoves {
+				if chm == "" {
+					continue
+				}
+				effAtk := (float32(inDat.Pok.AttackIV) + float32(pok.Atk)) * inDat.App.LevelData[int(inDat.Pok.Level/0.5)]
+				quickMBody = inDat.App.PokemonMovesBase[qm]
+				chargeMBody = inDat.App.PokemonMovesBase[chm]
+
+				damageCharge := (float32(chargeMBody.Damage)*0.5*(effAtk/bossEffDef)*
+					getMultipliers(&pok, &bossStat, &chargeMBody, inDat) + 1)
+				damageCharge = damageCharge * damageCharge / float32(-chargeMBody.Energy)
+
+				damageQuick := (float32(quickMBody.Damage)*0.5*(effAtk/bossEffDef)*
+					getMultipliers(&pok, &bossStat, &quickMBody, inDat) + 1)
+
+				pokemonsAll = append(pokemonsAll, preRun{
+					Name:   pok.Title,
+					Quick:  qm,
+					Charge: chm,
+					Dps:    damageCharge + damageQuick,
+				})
+			}
+		}
+	}
+	sort.Sort(byDps(pokemonsAll))
+	return pokemonsAll[0:899]
+}
+
+type preRun struct {
+	Name   string
+	Quick  string
+	Charge string
+
+	Dps float32
+}
+
+type byDps []preRun
+
+func (a byDps) Len() int           { return len(a) }
+func (a byDps) Less(i, j int) bool { return a[i].Dps > a[j].Dps }
+func (a byDps) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+
+func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBaseEntry, inDat *IntialDataPve) float32 {
+	moveEfficiency := inDat.App.TypesData[move.MoveType]
+
+	var stabMultiplier float32 = 1.0
+	for _, pokType := range attacker.Type {
+		if pokType == move.MoveType {
+			stabMultiplier = 1.2
+			break
+		}
+	}
+
+	var seMultiplier float32 = 1.0
+	for _, trgType := range defender.Type {
+		if moveEfficiency[trgType] != 0.0 {
+			seMultiplier *= moveEfficiency[trgType]
+		}
+	}
+
+	weatherMultiplier, ok := weather[inDat.Weather][move.MoveType]
+	if !ok {
+		weatherMultiplier = 1.0
+	}
+
+	return stabMultiplier * friendship[inDat.FriendStage] * seMultiplier * weatherMultiplier
+}
+
+func generateBossRow(inDat *IntialDataPve) []BossInfo {
+	pokVal, _ := inDat.App.PokemonStatsBase[inDat.Boss.Name]
+
+	quickM := make([]string, 0, 1)
+	moveVal, ok := inDat.App.PokemonMovesBase[inDat.Boss.QuickMove]
+	switch ok {
+	case true:
+		quickM = append(quickM, moveVal.Title)
+	default:
+		for _, value := range pokVal.QuickMoves {
+			//append not elite moves
+			_, ok := pokVal.EliteMoves[value]
+			if !ok {
+				quickM = append(quickM, value)
+			}
+		}
+	}
+
+	chargeM := make([]string, 0, 1)
+	moveVal, ok = inDat.App.PokemonMovesBase[inDat.Boss.ChargeMove]
+	switch ok {
+	case true:
+		chargeM = append(chargeM, moveVal.Title)
+	default:
+		for _, value := range pokVal.ChargeMoves {
+			//skip return
+			if value == "Return" {
+				continue
+			}
+			_, ok := pokVal.EliteMoves[value]
+			if !ok {
+				chargeM = append(chargeM, value)
+			}
+		}
+	}
+
+	bosses := make([]BossInfo, 0, 1)
+	for _, valueQ := range quickM {
+		for _, valueCH := range chargeM {
+			bosses = append(bosses,
+				BossInfo{
+					Name:       pokVal.Title,
+					QuickMove:  valueQ,
+					ChargeMove: valueCH,
+					Tier:       inDat.Boss.Tier,
+				})
+		}
+	}
+	return bosses
+
+}
+
 func generateAttackersRow(inDat *IntialDataPve) []PokemonInitialData {
 	pokVal, ok := inDat.App.PokemonStatsBase[inDat.Pok.Name]
-	if ok {
-		return []PokemonInitialData{}
+	if !ok {
+		return nil
 	}
 
 	quickM := make([]string, 0, 1)
@@ -128,9 +397,9 @@ func generateAttackersRow(inDat *IntialDataPve) []PokemonInitialData {
 //CommonSimulator start new common pve
 func CommonSimulator(inDat CommonPvpInData) (CommonResult, error) {
 	result := CommonResult{}
-	result.DamageMin = tierHP[inDat.Boss.Tier]
-	result.TimeRemainedMin = tierTimer[inDat.Boss.Tier]
-	result.FaintedMin = uint32(inDat.PartySize)
+	result.DMin = tierHP[inDat.Boss.Tier]
+	result.TMin = tierTimer[inDat.Boss.Tier]
+	result.FMin = uint32(inDat.PartySize)
 
 	for i := 0; i < inDat.NumberOfRuns; i++ {
 		res, err := simulatorRun(inDat)
@@ -140,52 +409,68 @@ func CommonSimulator(inDat CommonPvpInData) (CommonResult, error) {
 		result.collect(&res)
 	}
 
-	result.DamageAvg = int32(float64(result.DamageAvg) / float64(inDat.NumberOfRuns))
-	result.TimeRemainedAvg = int32(float64(result.TimeRemainedAvg) / float64(inDat.NumberOfRuns))
+	result.DAvg = int32(float64(result.DAvg) / float64(inDat.NumberOfRuns))
+	result.TAvg = int32(float64(result.TAvg) / float64(inDat.NumberOfRuns))
+
+	result.AName = inDat.Pok.Name
+	result.AQ = inDat.Pok.QuickMove
+	result.ACh = inDat.Pok.ChargeMove
+
+	result.BName = inDat.Boss.Name
+	result.BQ = inDat.Boss.QuickMove
+	result.BCh = inDat.Boss.ChargeMove
 
 	return result, nil
 }
 
 type CommonResult struct {
-	DamageMin int32
-	DamageMax int32
-	DamageAvg int32
+	AName string
+	AQ    string
+	ACh   string
 
-	TimeRemainedMin int32
-	TimeRemainedMax int32
-	TimeRemainedAvg int32
+	BName string
+	BQ    string
+	BCh   string
 
-	FaintedMin uint32
-	FaintedMax uint32
+	DMin int32
+	DMax int32
+	DAvg int32
 
-	NumberOfWins uint32
+	TMin int32
+	TMax int32
+	TAvg int32
+
+	FMin uint32
+	FMax uint32
+
+	NOfWins uint32
 }
 
 func (cr *CommonResult) collect(run *runResult) {
-	if run.damageDealt > cr.DamageMax {
-		cr.DamageMax = run.damageDealt
+	if run.damageDealt > cr.DMax {
+		cr.DMax = run.damageDealt
 	}
-	if run.damageDealt < cr.DamageMin {
-		cr.DamageMin = run.damageDealt
+	if run.damageDealt < cr.DMin {
+		cr.DMin = run.damageDealt
 	}
-	cr.DamageAvg += run.damageDealt
+	cr.DAvg += run.damageDealt
 
-	if run.timeRemained > cr.TimeRemainedMax {
-		cr.TimeRemainedMax = run.timeRemained
+	if run.timeRemained > cr.TMax {
+		cr.TMax = run.timeRemained
 	}
-	if run.timeRemained < cr.TimeRemainedMin {
-		cr.TimeRemainedMin = run.timeRemained
+	if run.timeRemained < cr.TMin {
+		cr.TMin = run.timeRemained
 	}
-	cr.TimeRemainedAvg += run.timeRemained
+	cr.TAvg += run.timeRemained
 
-	if run.fainted > cr.FaintedMax {
-		cr.FaintedMax = run.fainted
+	if run.fainted > cr.FMax {
+		cr.FMax = run.fainted
 	}
-	if run.fainted < cr.FaintedMin {
-		cr.FaintedMin = run.fainted
+	if run.fainted < cr.FMin {
+		cr.FMin = run.fainted
 	}
 	if run.isWin {
-		cr.NumberOfWins++
+		cr.NOfWins++
 	}
 }
 
@@ -208,6 +493,9 @@ func simulatorRun(inDat CommonPvpInData) (runResult, error) {
 	obj.app = inDat.App
 	obj.Attacker = make([]pokemon, 1, 1)
 	err := obj.makeNewCharacter(&inDat.Pok, &obj.Attacker[obj.ActivePok])
+	if err != nil {
+		return runResult{}, err
+	}
 
 	err = obj.makeNewBoss(&inDat.Boss, &obj.Boss)
 	if err != nil {
@@ -317,8 +605,10 @@ func (obj *PveObject) letsBattle() error {
 			obj.substructPauseBetween(1000)
 			//switch party
 			if obj.PartySize == 12 || obj.PartySize == 6 {
-				obj.substructPauseBetween(9000)
+				obj.substructPauseBetween(10000)
+				continue
 			}
+
 		}
 
 	}
@@ -514,15 +804,15 @@ func (pok *pokemon) whatToDoNext(obj *PveObject) {
 	if int16(pok.energy) < -pok.chargeMove.energy {
 		//make a quick hit
 		pok.action = 2
-		pok.timeToEnergy = 0
+		pok.timeToEnergy = pok.quickMove.damageWindow
 		pok.timeToDamage = pok.quickMove.damageWindow + pok.quickMove.dodgeWindow
 		pok.moveCooldown = pok.quickMove.cooldown
 		return
 	}
 	//make charge hit
 	pok.action = 3
-	pok.timeToEnergy = 0
-	pok.timeToDamage = pok.chargeMove.cooldown
+	pok.timeToEnergy = pok.chargeMove.damageWindow
+	pok.timeToDamage = pok.chargeMove.damageWindow + pok.chargeMove.dodgeWindow
 	pok.moveCooldown = pok.chargeMove.cooldown
 	return
 }

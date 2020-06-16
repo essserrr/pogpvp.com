@@ -17,14 +17,11 @@ type TestErrorLog struct {
 
 	GotPer      float64
 	ExpectedPer float64
-
-	Expected CommonResult
-	Got      CommonResult
 }
 
 func (e *TestErrorLog) Error() string {
-	return fmt.Sprintf("For %v, %v bound not met. Expected damage: %v, got damage %v. Expected obj: %v, got obj: %v",
-		e.Test, e.Bound, e.GotPer, e.ExpectedPer, e.Expected, e.Got)
+	return fmt.Sprintf("For %v, %v bound not met. Expected damage: %v, got damage %v",
+		e.Test, e.Bound, e.ExpectedPer, e.GotPer)
 }
 
 func TestUnshielded1CM(t *testing.T) {
@@ -174,7 +171,7 @@ func TestUnshielded1CM(t *testing.T) {
 			IsShadow: false,
 		},
 
-		Weather: 4,
+		Weather: 0,
 
 		Boss: BossInfo{
 			Name:       "Reshiram",
@@ -216,7 +213,7 @@ func TestUnshielded1CM(t *testing.T) {
 			IsShadow: false,
 		},
 
-		Weather: 4,
+		Weather: 0,
 
 		Boss: BossInfo{
 			Name:       "Reshiram",
@@ -258,7 +255,7 @@ func TestUnshielded1CM(t *testing.T) {
 			IsShadow: false,
 		},
 
-		Weather: 4,
+		Weather: 0,
 
 		Boss: BossInfo{
 			Name:       "Reshiram",
@@ -300,7 +297,7 @@ func TestUnshielded1CM(t *testing.T) {
 			IsShadow: false,
 		},
 
-		Weather: 4,
+		Weather: 0,
 
 		Boss: BossInfo{
 			Name:       "Terrakion",
@@ -342,7 +339,7 @@ func TestUnshielded1CM(t *testing.T) {
 			IsShadow: false,
 		},
 
-		Weather: 4,
+		Weather: 0,
 
 		Boss: BossInfo{
 			Name:       "Terrakion",
@@ -488,7 +485,7 @@ func TestUnshielded1CM(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkRes(&res, "Rayquaza12", 4)
+	err = checkRes(&res, "Rayquaza18+f", 4)
 	if err != nil {
 		t.Error(err)
 	}
@@ -530,7 +527,7 @@ func TestUnshielded1CM(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkRes(&res, "Rayquaza6", 4)
+	err = checkRes(&res, "Rayquaza18+f+w", 4)
 	if err != nil {
 		t.Error(err)
 	}
@@ -539,27 +536,23 @@ func TestUnshielded1CM(t *testing.T) {
 func checkRes(res *CommonResult, checkName string, tier int) error {
 	golResult := checks[checkName]
 
-	avgPer := float64(tierHP[tier]-res.DamageAvg) / float64(tierHP[tier])
-	avgPerGol := float64(tierHP[tier]-golResult.DamageAvg) / float64(tierHP[tier])
+	avgPer := float64(res.DAvg) / float64(tierHP[tier]) * 100
+	avgPerGol := float64(golResult.DAvg) / float64(tierHP[tier]) * 100
 
-	if avgPerGol-1 > avgPer {
+	if avgPerGol-0.5 > avgPer {
 		return &TestErrorLog{
 			checkName,
 			"lower",
 			avgPer,
 			avgPerGol,
-			golResult,
-			*res,
 		}
 	}
-	if avgPerGol+1 < avgPer {
+	if avgPerGol+0.5 < avgPer {
 		return &TestErrorLog{
 			checkName,
 			"upper",
 			avgPer,
 			avgPerGol,
-			golResult,
-			*res,
 		}
 	}
 
@@ -568,153 +561,46 @@ func checkRes(res *CommonResult, checkName string, tier int) error {
 
 var checks = map[string]CommonResult{
 	"Zekrom18": {
-		DamageMin: 3032,
-		DamageMax: 7032,
-		DamageAvg: 4889,
-
-		TimeRemainedMin: 600,
-		TimeRemainedMax: 94600,
-		TimeRemainedAvg: 60983,
-
-		FaintedMin: 18,
-		FaintedMax: 18,
+		DAvg: 4889,
 	},
 	"Zekrom12": {
-		DamageMin: 1978,
-		DamageMax: 5254,
-		DamageAvg: 3258,
-
-		TimeRemainedMin: 84050,
-		TimeRemainedMax: 167000,
-		TimeRemainedAvg: 142324,
-
-		FaintedMin: 12,
-		FaintedMax: 12,
+		DAvg: 3258,
 	},
 	"Zekrom6": {
-		DamageMin: 920,
-		DamageMax: 3357,
-		DamageAvg: 1635,
-
-		TimeRemainedMin: 170150,
-		TimeRemainedMax: 238200,
-		TimeRemainedAvg: 223991,
-
-		FaintedMin: 6,
-		FaintedMax: 6,
+		DAvg: 1635,
 	},
 	"Reshiram18": {
-		DamageMin: 4800,
-		DamageMax: 6340,
-		DamageAvg: 5688,
-
-		TimeRemainedMin: 0,
-		TimeRemainedMax: 51800,
-		TimeRemainedAvg: 9808,
-
-		FaintedMin: 18,
-		FaintedMax: 18,
+		DAvg: 5688,
 	},
 	"Reshiram12": {
-		DamageMin: 3120,
-		DamageMax: 5540,
-		DamageAvg: 3853,
-
-		TimeRemainedMin: 44700,
-		TimeRemainedMax: 140400,
-		TimeRemainedAvg: 105836,
-
-		FaintedMin: 12,
-		FaintedMax: 12,
+		DAvg: 3853,
 	},
 	"Reshiram6": {
-		DamageMin: 1560,
-		DamageMax: 3180,
-		DamageAvg: 1917,
-
-		TimeRemainedMin: 153600,
-		TimeRemainedMax: 223200,
-		TimeRemainedAvg: 206281,
-
-		FaintedMin: 18,
-		FaintedMax: 18,
+		DAvg: 1917,
 	},
 
 	"Terrakion12": {
-		DamageMin: 7422,
-		DamageMax: 9018,
-		DamageAvg: 8407,
-
-		TimeRemainedMin: 0,
-		TimeRemainedMax: 41200,
-		TimeRemainedAvg: 10033,
-
-		FaintedMin: 10,
-		FaintedMax: 12,
+		DAvg: 8407,
 	},
 	"Terrakion6": {
-		DamageMin: 3636,
-		DamageMax: 5310,
-		DamageAvg: 4243,
-
-		TimeRemainedMin: 120400,
-		TimeRemainedMax: 178800,
-		TimeRemainedAvg: 156789,
-
-		FaintedMin: 6,
-		FaintedMax: 6,
+		DAvg: 4243,
 	},
 	"Marowak6": {
-		DamageMin: 4254,
-		DamageMax: 4752,
-		DamageAvg: 4568,
-
-		TimeRemainedMin: 0,
-		TimeRemainedMax: 0,
-		TimeRemainedAvg: 0,
-
-		FaintedMin: 2,
-		FaintedMax: 5,
+		DAvg: 4568,
 	},
 	"Rayquaza18": {
-		DamageMin: 10136,
-		DamageMax: 12152,
-		DamageAvg: 11050,
-
-		TimeRemainedMin: 0,
-		TimeRemainedMax: 0,
-		TimeRemainedAvg: 0,
-
-		FaintedMin: 12,
-		FaintedMax: 16,
+		DAvg: 11550,
 	},
 	"Rayquaza18+f": {
-		DamageMin: 11103,
-		DamageMax: 12987,
-		DamageAvg: 12122,
-
-		TimeRemainedMin: 0,
-		TimeRemainedMax: 0,
-		TimeRemainedAvg: 0,
-
-		FaintedMin: 12,
-		FaintedMax: 16,
+		DAvg: 12675,
 	},
-	"Rayquaza6": {
-		DamageMin: 13369,
-		DamageMax: 15254,
-		DamageAvg: 14671,
-
-		TimeRemainedMin: 0,
-		TimeRemainedMax: 21000,
-		TimeRemainedAvg: 2024,
-
-		FaintedMin: 10,
-		FaintedMax: 13,
+	"Rayquaza18+f+w": {
+		DAvg: 15075,
 	},
 }
 
 func BenchmarkSingleRun2000(b *testing.B) {
+	rand.Seed(time.Now().UnixNano())
 	data := CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
@@ -754,3 +640,95 @@ func BenchmarkSingleRun2000(b *testing.B) {
 		CommonSimulator(data)
 	}
 }
+
+func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
+	rand.Seed(time.Now().UnixNano())
+	data := IntialDataPve{
+		Pok: PokemonInitialData{
+			Name: "Palkia",
+
+			QuickMove:  "",
+			ChargeMove: "",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 0,
+
+		Boss: BossInfo{
+			Name:       "Zekrom",
+			QuickMove:  "",
+			ChargeMove: "",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		NumberOfRuns: 100,
+		App:          testApp,
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		CommonSimulatorWrapper(data)
+	}
+}
+
+func BenchmarkAllVsAllMoveset(b *testing.B) {
+	rand.Seed(time.Now().UnixNano())
+	data := IntialDataPve{
+		Pok: PokemonInitialData{
+			Name: "",
+
+			QuickMove:  "",
+			ChargeMove: "",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 0,
+
+		Boss: BossInfo{
+			Name:       "Mew",
+			QuickMove:  "",
+			ChargeMove: "",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		NumberOfRuns: 10,
+		App:          testApp,
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		CommonSimulatorWrapper(data)
+	}
+}
+
+/*
+2000
+BenchmarkAllVsAllMoveset-8   	       1	1163630600 ns/op	 3053656 B/op	    5478 allocs/op
+
+
+20000
+*/
