@@ -18,7 +18,7 @@ func (en *Energy) addEnergy(energyValue int16) {
 }
 
 //InitialData contains initial data for pvp
-type InitialData struct {
+type PokemonInitialData struct {
 	Name string
 
 	QuickMove  string
@@ -77,7 +77,7 @@ type move struct {
 	energy int16
 }
 
-func (obj *PveObject) makeNewCharacter(pokemonData *InitialData, pok *pokemon) error {
+func (obj *PveObject) makeNewCharacter(pokemonData *PokemonInitialData, pok *pokemon) error {
 	err := pok.setLevel(pokemonData, obj)
 	if err != nil {
 		return err
@@ -97,7 +97,7 @@ func (obj *PveObject) makeNewCharacter(pokemonData *InitialData, pok *pokemon) e
 	return nil
 }
 
-func (pok *pokemon) setLevel(pokemonData *InitialData, obj *PveObject) error { //sets up level and level-IV dependent stats
+func (pok *pokemon) setLevel(pokemonData *PokemonInitialData, obj *PveObject) error { //sets up level and level-IV dependent stats
 	if pokemonData.Level > 45 || pokemonData.Level < 1 {
 		return fmt.Errorf("Level must be in range 1-45")
 	}
@@ -112,7 +112,7 @@ func isInteger(floatNumber float32) bool { // sheck if the float is integer
 	return math.Mod(float64(floatNumber), 1.0) == 0
 }
 
-func (pok *pokemon) makeNewBody(pokemonData *InitialData, obj *PveObject) error { //sets up base stats
+func (pok *pokemon) makeNewBody(pokemonData *PokemonInitialData, obj *PveObject) error { //sets up base stats
 	if pokemonData.AttackIV > 15 || pokemonData.DefenceIV > 15 || pokemonData.StaminaIV > 15 || pokemonData.AttackIV < 0 || pokemonData.DefenceIV < 0 || pokemonData.StaminaIV < 0 {
 		return fmt.Errorf("IV must be in range 0-15")
 	}
