@@ -59,136 +59,180 @@ type IntialDataPve struct {
 	FriendStage   int
 	Weather       int
 	DodgeStrategy uint8
+	AggresiveMode bool
 }
 
-func CommonSimulatorWrapper(inDat IntialDataPve) error {
+type conStruct struct {
+	attackerRow []PokemonInitialData
+	bossRow     []BossInfo
+	resArray    [][]CommonResult
+
+	errChan app.ErrorChan
+	wg      sync.WaitGroup
+	count   int
+	sync.Mutex
+}
+
+func CommonSimulatorWrapper(inDat IntialDataPve) ([][]CommonResult, error) {
 	rand.Seed(time.Now().UnixNano())
 	_, ok := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 	if !ok {
-		return fmt.Errorf("Unknown boss")
+		return [][]CommonResult{}, fmt.Errorf("Unknown boss")
 	}
 	if inDat.Boss.Tier > 5 || inDat.Boss.Tier < 0 {
-		return fmt.Errorf("Unknown raid tier")
+		return [][]CommonResult{}, fmt.Errorf("Unknown raid tier")
 	}
 	if inDat.FriendStage > 8 || inDat.FriendStage < 0 {
-		return fmt.Errorf("Unknown friendship tier")
+		return [][]CommonResult{}, fmt.Errorf("Unknown friendship tier")
 	}
 	if inDat.PlayersNumber > 20 || inDat.PlayersNumber < 1 {
-		return fmt.Errorf("Wrong players number")
+		return [][]CommonResult{}, fmt.Errorf("Wrong players number")
 	}
 	if inDat.PartySize > 18 || inDat.PartySize < 1 {
-		return fmt.Errorf("Wrong party size")
+		return [][]CommonResult{}, fmt.Errorf("Wrong party size")
 	}
 	if inDat.Weather > 7 || inDat.Weather < 0 {
-		return fmt.Errorf("Unknown weather")
+		return [][]CommonResult{}, fmt.Errorf("Unknown weather")
 	}
-	attackerRow := generateAttackersRow(&inDat)
-	bossRow, err := generateBossRow(&inDat)
+
+	var err error
+	conObj := conStruct{
+		attackerRow: generateAttackersRow(&inDat),
+
+		wg:       sync.WaitGroup{},
+		count:    0,
+		resArray: [][]CommonResult{},
+	}
+	conObj.bossRow, err = generateBossRow(&inDat)
 	if err != nil {
-		return err
+		return [][]CommonResult{}, err
 	}
 
-	wg := sync.WaitGroup{}
-	count := 0
-	mu := sync.RWMutex{}
-	resArray := [][]CommonResult{}
-
-	switch attackerRow == nil {
+	switch conObj.attackerRow == nil {
 	case true:
-		resArray = make([][]CommonResult, 0, 1000)
-		for number, pok := range createAllMovesets(&inDat) {
-			resArray = append(resArray, make([]CommonResult, 0, len(bossRow)))
-			for _, boss := range bossRow {
-				wg.Add(1)
-				mu.Lock()
-				count++
-				mu.Unlock()
-				for count > 20000 {
-
-				}
-				go func(currBoss BossInfo, p, q, ch string, i int) {
-					defer wg.Done()
-					singleResult, err := setOfRuns(CommonPvpInData{
-						App: inDat.App,
-						Pok: PokemonInitialData{
-							Name: p,
-
-							QuickMove:  q,
-							ChargeMove: ch,
-
-							Level: inDat.Pok.Level,
-
-							AttackIV:  inDat.Pok.AttackIV,
-							DefenceIV: inDat.Pok.DefenceIV,
-							StaminaIV: inDat.Pok.StaminaIV,
-
-							IsShadow: inDat.Pok.IsShadow,
-						},
-
-						PartySize:     inDat.PartySize,
-						PlayersNumber: inDat.PlayersNumber,
-
-						Boss: currBoss,
-
-						NumberOfRuns:  inDat.NumberOfRuns,
-						FriendStage:   inDat.FriendStage,
-						Weather:       inDat.Weather,
-						DodgeStrategy: inDat.DodgeStrategy,
-					})
-					if err != nil {
-						fmt.Println(err)
-					}
-					mu.Lock()
-					count--
-					resArray[i] = append(resArray[i], singleResult)
-					mu.Unlock()
-				}(boss, pok.Name, pok.Quick, pok.Charge, number)
-			}
-		}
+		conObj.startForAll(&inDat)
 	default:
-		resArray = make([][]CommonResult, 0, len(attackerRow))
-		for number, singlePok := range attackerRow {
-			resArray = append(resArray, make([]CommonResult, 0, len(bossRow)))
-			for _, boss := range bossRow {
-				wg.Add(1)
-				mu.Lock()
-				count++
-				mu.Unlock()
-				for count > 20000 {
+		conObj.startWithAttackerRow(&inDat)
+	}
 
-				}
-				go func(currPok PokemonInitialData, currBoss BossInfo, i int) {
-					defer wg.Done()
-					singleResult, err := setOfRuns(CommonPvpInData{
-						App: inDat.App,
-						Pok: currPok,
+	conObj.wg.Wait()
 
-						PartySize:     inDat.PartySize,
-						PlayersNumber: inDat.PlayersNumber,
+	close(conObj.errChan)
+	errStr := conObj.errChan.Flush()
+	if errStr != "" {
+		return [][]CommonResult{}, fmt.Errorf(errStr)
+	}
 
-						Boss: currBoss,
+	sort.Sort(byAvgDamage(conObj.resArray))
 
-						NumberOfRuns:  inDat.NumberOfRuns,
-						FriendStage:   inDat.FriendStage,
-						Weather:       inDat.Weather,
-						DodgeStrategy: inDat.DodgeStrategy,
-					})
-					if err != nil {
-						fmt.Println(err)
-					}
-					mu.Lock()
-					resArray[i] = append(resArray[i], singleResult)
-					count--
-					mu.Unlock()
-				}(singlePok, boss, number)
+	switch len(conObj.resArray) > 300 {
+	case true:
+		conObj.resArray = conObj.resArray[:300]
+	default:
+	}
+
+	return conObj.resArray, nil
+}
+
+func (co *conStruct) startForAll(inDat *IntialDataPve) {
+	co.resArray = make([][]CommonResult, 0, 1000)
+	preRunArr := createAllMovesets(inDat)
+	co.errChan = make(app.ErrorChan, len(preRunArr)*len(co.bossRow))
+
+	for number, pok := range preRunArr {
+		co.resArray = append(co.resArray, make([]CommonResult, 0, len(co.bossRow)))
+		for _, boss := range co.bossRow {
+			co.wg.Add(1)
+			co.Lock()
+			co.count++
+			co.Unlock()
+			for co.count > 20000 {
+
 			}
+			go func(currBoss BossInfo, p, q, ch string, i int) {
+				defer co.wg.Done()
+				singleResult, err := setOfRuns(CommonPvpInData{
+					App: inDat.App,
+					Pok: PokemonInitialData{
+						Name: p,
+
+						QuickMove:  q,
+						ChargeMove: ch,
+
+						Level: inDat.Pok.Level,
+
+						AttackIV:  inDat.Pok.AttackIV,
+						DefenceIV: inDat.Pok.DefenceIV,
+						StaminaIV: inDat.Pok.StaminaIV,
+
+						IsShadow: inDat.Pok.IsShadow,
+					},
+
+					PartySize:     inDat.PartySize,
+					PlayersNumber: inDat.PlayersNumber,
+
+					Boss: currBoss,
+
+					NumberOfRuns:  inDat.NumberOfRuns,
+					FriendStage:   inDat.FriendStage,
+					Weather:       inDat.Weather,
+					DodgeStrategy: inDat.DodgeStrategy,
+				})
+				if err != nil {
+					co.errChan <- err
+					return
+				}
+				co.Lock()
+				co.count--
+				co.resArray[i] = append(co.resArray[i], singleResult)
+				co.Unlock()
+			}(boss, pok.Name, pok.Quick, pok.Charge, number)
 		}
 	}
-	wg.Wait()
+	co.wg.Wait()
+}
 
-	sort.Sort(byAvgDamage(resArray))
+func (co *conStruct) startWithAttackerRow(inDat *IntialDataPve) {
+	co.resArray = make([][]CommonResult, 0, len(co.attackerRow))
+	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
-	return nil
+	for number, singlePok := range co.attackerRow {
+		co.resArray = append(co.resArray, make([]CommonResult, 0, len(co.bossRow)))
+		for _, boss := range co.bossRow {
+			//number of concurrent routines
+			for co.count > 20000 {
+			}
+			co.wg.Add(1)
+			co.Lock()
+			co.count++
+			co.Unlock()
+			go func(currPok PokemonInitialData, currBoss BossInfo, i int) {
+				defer co.wg.Done()
+				singleResult, err := setOfRuns(CommonPvpInData{
+					App: inDat.App,
+					Pok: currPok,
+
+					PartySize:     inDat.PartySize,
+					PlayersNumber: inDat.PlayersNumber,
+
+					Boss: currBoss,
+
+					NumberOfRuns:  inDat.NumberOfRuns,
+					FriendStage:   inDat.FriendStage,
+					Weather:       inDat.Weather,
+					DodgeStrategy: inDat.DodgeStrategy,
+				})
+				if err != nil {
+					co.errChan <- err
+					return
+				}
+				co.Lock()
+				co.resArray[i] = append(co.resArray[i], singleResult)
+				co.count--
+				co.Unlock()
+			}(singlePok, boss, number)
+		}
+	}
 }
 
 type byAvgDamage [][]CommonResult
@@ -251,8 +295,6 @@ func createAllMovesets(inDat *IntialDataPve) []preRun {
 
 				dpsQuick := (float32(quickMBody.Damage)*0.5*(effAtk/bossEffDef)*
 					getMultipliers(&pok, &bossStat, &quickMBody, inDat) + 1) / (float32(quickMBody.Cooldown) / 1000.0)
-				//dps*eps
-				dpsQuick = dpsQuick * float32(quickMBody.Energy) / (float32(quickMBody.Cooldown) / 1000.0)
 
 				pokemonsAll = append(pokemonsAll, preRun{
 					Name:   pok.Title,

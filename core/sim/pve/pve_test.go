@@ -24,12 +24,12 @@ func (e *TestErrorLog) Error() string {
 		e.Test, e.Bound, e.ExpectedPer, e.GotPer)
 }
 
-func TestUnshielded1CM(t *testing.T) {
+func TestSetOfRuns(t *testing.T) {
 	const tier5 uint8 = 3
 	const tier4 uint8 = 2
 	rand.Seed(time.Now().UnixNano())
 	//Zekrom 18-3
-	res, err := CommonSimulator(CommonPvpInData{
+	res, err := setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -71,7 +71,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Zekrom 12-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -113,7 +113,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Zekrom 6-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -155,7 +155,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Reshiram 18-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -197,7 +197,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Reshiram 12-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -239,7 +239,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Reshiram 6-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -281,7 +281,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Terrakion 12-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mewtwo",
 
@@ -323,7 +323,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Terrakion 6-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mewtwo",
 
@@ -365,7 +365,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Marowak 6-3
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Darkrai",
 
@@ -407,7 +407,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-0
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -449,7 +449,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-4
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -491,7 +491,7 @@ func TestUnshielded1CM(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-4-w
-	res, err = CommonSimulator(CommonPvpInData{
+	res, err = setOfRuns(CommonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -539,7 +539,7 @@ func checkRes(res *CommonResult, checkName string, tier int) error {
 	avgPer := float64(res.DAvg) / float64(tierHP[tier]) * 100
 	avgPerGol := float64(golResult.DAvg) / float64(tierHP[tier]) * 100
 
-	if avgPerGol-0.5 > avgPer {
+	if avgPerGol-0.6 > avgPer {
 		return &TestErrorLog{
 			checkName,
 			"lower",
@@ -547,7 +547,7 @@ func checkRes(res *CommonResult, checkName string, tier int) error {
 			avgPerGol,
 		}
 	}
-	if avgPerGol+0.5 < avgPer {
+	if avgPerGol+0.6 < avgPer {
 		return &TestErrorLog{
 			checkName,
 			"upper",
@@ -557,6 +557,144 @@ func checkRes(res *CommonResult, checkName string, tier int) error {
 	}
 
 	return nil
+}
+
+func TestWrapper(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	res, err := CommonSimulatorWrapper(IntialDataPve{
+		Pok: PokemonInitialData{
+			Name: "Palkia",
+
+			QuickMove:  "",
+			ChargeMove: "Draco Meteor",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 0,
+
+		Boss: BossInfo{
+			Name:       "Zekrom",
+			QuickMove:  "",
+			ChargeMove: "",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		NumberOfRuns: 100,
+		App:          testApp,
+	})
+
+	if err != nil {
+		t.Error(err)
+	}
+	err = checkWrapperRes(res, []string{"PalkiaDragon BreathDracoMeteor", "PalkiaDragon TailDracoMeteor"}, 4)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func checkWrapperRes(res [][]CommonResult, checkName []string, tier int) error {
+
+	for i, value := range res {
+		var sum int32
+		for _, singlePvpRes := range value {
+			sum += singlePvpRes.DAvg
+		}
+		golResult := checks[checkName[i]]
+		avgDamageGold := float64(golResult.DAvg) / float64(tierHP[tier]) * 100
+		avgDamage := float64(sum) / float64(len(value)) / 15000 * 100
+		if avgDamageGold-0.6 > avgDamage {
+			return &TestErrorLog{
+				checkName[i],
+				"lower",
+				avgDamage,
+				avgDamageGold,
+			}
+		}
+		if avgDamageGold+0.6 < avgDamage {
+			return &TestErrorLog{
+				checkName[i],
+				"upper",
+				avgDamage,
+				avgDamageGold,
+			}
+		}
+	}
+	return nil
+}
+
+func TestMoveLimit(t *testing.T) {
+	mewlist, err := generateBossRow(&IntialDataPve{
+		App: testApp,
+		Boss: BossInfo{
+			Name: "Mew",
+			Tier: 4,
+		},
+		Weather: 0,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	if len(mewlist) > 100 {
+		t.Error("Mew has too large movelist")
+	}
+	porygon := testApp.PokemonStatsBase["Porygon"]
+
+	porygonList, err := limitMoves(&porygon, porygon.QuickMoves, &IntialDataPve{
+		App: testApp,
+		Boss: BossInfo{
+			Name: "Porygon",
+			Tier: 4,
+		},
+		Weather: 0,
+	}, false)
+	if err != nil {
+		t.Error(err)
+	}
+	if len(porygonList) > 10 {
+		t.Error("Mew has too large movelist")
+	}
+
+}
+
+func TestAllList(t *testing.T) {
+	allList := createAllMovesets(&IntialDataPve{
+		App: testApp,
+		Pok: PokemonInitialData{
+			AttackIV: 15,
+			Level:    40,
+		},
+
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		Boss: BossInfo{
+			Name: "Mew",
+			Tier: 4,
+		},
+
+		NumberOfRuns:  10,
+		FriendStage:   0,
+		Weather:       0,
+		DodgeStrategy: 0,
+		AggresiveMode: false,
+	})
+
+	if len(allList) > 900 {
+		t.Error("All list is too long")
+	}
+
 }
 
 var checks = map[string]CommonResult{
@@ -596,6 +734,12 @@ var checks = map[string]CommonResult{
 	},
 	"Rayquaza18+f+w": {
 		DAvg: 15075,
+	},
+	"PalkiaDragon BreathDracoMeteor": {
+		DAvg: 6573,
+	},
+	"PalkiaDragon TailDracoMeteor": {
+		DAvg: 6386,
 	},
 }
 
@@ -637,7 +781,7 @@ func BenchmarkSingleRun2000(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		CommonSimulator(data)
+		setOfRuns(data)
 	}
 }
 
