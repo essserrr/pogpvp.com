@@ -13,6 +13,7 @@ import (
 	"github.com/boltdb/bolt"
 )
 
+//SimApp contains databses
 type SimApp struct {
 	BoltDB database
 
@@ -24,6 +25,7 @@ type SimApp struct {
 	NodeLimit        uint32
 }
 
+//PokemonsBaseEntry pokemon base entry
 type PokemonsBaseEntry struct {
 	Atk uint16
 	Def uint16
@@ -39,6 +41,7 @@ type PokemonsBaseEntry struct {
 	EliteMoves map[string]int
 }
 
+//MoveBaseEntry move base entry
 type MoveBaseEntry struct {
 	PvpDurationSeconds float32
 
@@ -278,6 +281,7 @@ type Status struct {
 	WhatToSkip int8
 }
 
+//MatrixResult contains result of matrix battle
 type MatrixResult struct {
 	Rate   uint16
 	I      int
@@ -323,6 +327,7 @@ type PvpResults struct {
 	IsRandom  bool
 }
 
+//SingleResult contains result of a single pvp battle
 type SingleResult struct {
 	Name string
 	Rate uint16
@@ -335,11 +340,13 @@ type SingleResult struct {
 	EnergyUsed Energy
 }
 
+//RatingResult contains set of rating battle data
 type RatingResult struct {
 	Attacker RatingBattleResult
 	Defender RatingBattleResult
 }
 
+//RatingBattleResult contains reting batlle data
 type RatingBattleResult struct {
 	Rate   uint16
 	Name   string
@@ -351,12 +358,14 @@ type RatingBattleResult struct {
 //Each round contains slice of events, each event is structure of logValue type
 type PvpLog []LogValue
 
+//LogValue log event is description of a round
 type LogValue struct {
 	Round    uint16
 	Attacker Event
 	Defender Event
 }
 
+//Event log value elementary part
 type Event struct {
 	HP         int16
 	Energy     Energy
@@ -409,20 +418,24 @@ func (l *PvpLog) ReadLog(fileName string) error {
 	return nil
 }
 
+//WriteShield writes shield event
 func (e *Event) WriteShield(isUsed bool) {
 	e.ShieldIsUsed = isUsed
 }
 
+//WriteTrigger writes trigger event: stages and target
 func (e *Event) WriteTrigger(aStage, dStage int8, isSelf bool) {
 	e.IsSelf = isSelf
 	e.StageA = aStage
 	e.StageD = dStage
 }
 
+//MakeNewRound appends new round
 func (l *PvpLog) MakeNewRound(round uint16) {
 	*l = append(*l, LogValue{Round: round})
 }
 
+//WriteMove writes move name and code
 func (e *Event) WriteMove(name string, code uint8) {
 	if code == 0 {
 		return
@@ -431,6 +444,7 @@ func (e *Event) WriteMove(name string, code uint8) {
 	e.ActionCode = code
 }
 
+//WriteOrder writes pokemons order
 func (e *Event) WriteOrder() {
 	e.Order = true
 }
