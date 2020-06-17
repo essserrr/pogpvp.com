@@ -1,12 +1,13 @@
 package pvp
 
 import (
+	app "Solutions/pvpSimulator/core/sim/app"
 	"math/rand"
 	"time"
 )
 
-//NewPvpBetween starts pvp between two charcters defined by initial data, returns pvp log
-func NewPvpBetweenPvpoke(inData SinglePvpInitialData) (PvpResults, error) {
+//NewPvpBetweenPvpoke starts pvp between two charcters defined by initial data, returns pvp log
+func NewPvpBetweenPvpoke(inData app.SinglePvpInitialData) (app.PvpResults, error) {
 	rand.Seed(time.Now().UnixNano())
 
 	pvpData := globalPvpObjectPool.Get().(*PvpObject)
@@ -14,27 +15,27 @@ func NewPvpBetweenPvpoke(inData SinglePvpInitialData) (PvpResults, error) {
 
 	pvpData.isTree = false
 	pvpData.logging = inData.Logging
-	pvpData.log = make([]LogValue, 0, 32)
+	pvpData.log = make([]app.LogValue, 0, 32)
 	pvpData.app = inData.App
 
 	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
 	if err != nil {
-		return PvpResults{}, err
+		return app.PvpResults{}, err
 	}
 
 	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
 	if err != nil {
-		return PvpResults{}, err
+		return app.PvpResults{}, err
 	}
 
 	err = pvpData.initializePvp(&inData.AttackerData, &inData.DefenderData, attackerTypes, defenderTypes)
 	if err != nil {
-		return PvpResults{}, err
+		return app.PvpResults{}, err
 	}
 
 	pvpData.readInitialConditions(&inData.AttackerData, &inData.DefenderData)
 
-	if (inData.Constr != Constructor{}) {
+	if (inData.Constr != app.Constructor{}) {
 		pvpData.readConstructorData(&inData.Constr)
 	}
 
@@ -42,11 +43,11 @@ func NewPvpBetweenPvpoke(inData SinglePvpInitialData) (PvpResults, error) {
 
 	letsBattlePvpoke(pvpData)
 
-	result := PvpResults{
+	result := app.PvpResults{
 		Log:       pvpData.log,
 		CreatedAt: time.Now(),
 		IsRandom:  checkResultRandomness(pvpData),
-		Attacker: SingleResult{
+		Attacker: app.SingleResult{
 			Name: inData.AttackerData.Name,
 			Rate: uint16((500*(float32(pvpData.defender.maxHP)-processHP(pvpData.defender.hp))/float32(pvpData.defender.maxHP) + 500*processHP(pvpData.attacker.hp)/float32(pvpData.attacker.maxHP))),
 
@@ -57,7 +58,7 @@ func NewPvpBetweenPvpoke(inData SinglePvpInitialData) (PvpResults, error) {
 
 			EnergyUsed: -pvpData.attacker.energySpent,
 		},
-		Defender: SingleResult{
+		Defender: app.SingleResult{
 			Name: inData.DefenderData.Name,
 			Rate: uint16((500*(float32(pvpData.attacker.maxHP)-processHP(pvpData.attacker.hp))/float32(pvpData.attacker.maxHP) + 500*processHP(pvpData.defender.hp)/float32(pvpData.defender.maxHP))),
 
@@ -140,7 +141,7 @@ func (pok *pokemon) calculateDPE(defender *pokemon, moveNumb int) float64 {
 }
 
 func letsBattlePvpoke(obj *PvpObject) {
-	obj.log.makeNewRound(obj.round)
+	obj.log.MakeNewRound(obj.round)
 	WriteHpEnergy(obj)
 
 	for obj.attacker.hp > 0 && obj.defender.hp > 0 {
@@ -154,7 +155,7 @@ func letsBattlePvpoke(obj *PvpObject) {
 }
 
 func nextRoundPvpoke(obj *PvpObject) {
-	obj.log.makeNewRound(obj.round + 1)
+	obj.log.MakeNewRound(obj.round + 1)
 
 	switch obj.attacker.effectiveAttack.value >= obj.defender.effectiveAttack.value {
 	case true:
@@ -238,7 +239,7 @@ func nextRoundPvpoke(obj *PvpObject) {
 			resetSwitchersA(obj)
 			resetSwitchersD(obj)
 			if obj.logging {
-				obj.log[len(obj.log)-1].Attacker.writeOrder()
+				obj.log[len(obj.log)-1].Attacker.WriteOrder()
 			}
 			obj.round++
 			return
@@ -266,7 +267,7 @@ func nextRoundPvpoke(obj *PvpObject) {
 		resetSwitchersA(obj)
 		resetSwitchersD(obj)
 		if obj.logging {
-			obj.log[len(obj.log)-1].Defender.writeOrder()
+			obj.log[len(obj.log)-1].Defender.WriteOrder()
 		}
 
 		obj.round++

@@ -1,12 +1,12 @@
-package sim
+package pvp
 
 import (
-	pvp "Solutions/pvpSimulator/core/sim/pvp"
+	app "Solutions/pvpSimulator/core/sim/app"
 	"testing"
 )
 
 func TestPvpoke(t *testing.T) {
-	var Dewgong = InitialData{
+	var Dewgong = app.InitialData{
 		Name:       "Dewgong",
 		AttackIV:   0,
 		DefenceIV:  12,
@@ -17,7 +17,7 @@ func TestPvpoke(t *testing.T) {
 		ChargeMove: []string{"Icy Wind", "Water Pulse"},
 	}
 
-	var Venusaur = InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		AttackIV:   1,
 		DefenceIV:  15,
@@ -28,7 +28,7 @@ func TestPvpoke(t *testing.T) {
 		ChargeMove: []string{"Frenzy Plant", "Sludge Bomb"},
 	}
 
-	var Ampharos = InitialData{
+	var Ampharos = app.InitialData{
 		Name:       "Ampharos",
 		AttackIV:   0,
 		DefenceIV:  13,
@@ -39,7 +39,7 @@ func TestPvpoke(t *testing.T) {
 		ChargeMove: []string{"Thunder Punch", "Dragon Pulse"},
 	}
 
-	var AMuk = InitialData{
+	var AMuk = app.InitialData{
 		Name:       "Alolan Muk",
 		AttackIV:   0,
 		DefenceIV:  15,
@@ -50,7 +50,7 @@ func TestPvpoke(t *testing.T) {
 		ChargeMove: []string{"Dark Pulse", "Sludge Wave"},
 	}
 
-	var GiratinaA = InitialData{
+	var GiratinaA = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		AttackIV:   1,
 		DefenceIV:  12,
@@ -61,32 +61,32 @@ func TestPvpoke(t *testing.T) {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	err := checkPVP(Dewgong, Dewgong, "pvpoke", Constructor{}) //switch
+	err := checkPVP(Dewgong, Dewgong, "pvpoke", app.Constructor{}) //switch
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPpvpoke(Dewgong, Dewgong, "pvpoke", Constructor{}) //without switch
+	err = checkPpvpoke(Dewgong, Dewgong, "pvpoke", app.Constructor{}) //without switch
 	if err != nil {
 		t.Error(err)
 	}
 
-	err = checkPpvpoke(Venusaur, Ampharos, "pvpoke24", Constructor{})
+	err = checkPpvpoke(Venusaur, Ampharos, "pvpoke24", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPpvpoke(AMuk, Ampharos, "pvpoke34", Constructor{})
+	err = checkPpvpoke(AMuk, Ampharos, "pvpoke34", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPpvpoke(GiratinaA, Ampharos, "pvpoke14", Constructor{})
+	err = checkPpvpoke(GiratinaA, Ampharos, "pvpoke14", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
 
 }
 
-func checkPpvpoke(atatcker, defender InitialData, checkName string, constr Constructor) error {
-	currentRes, err := NewPvpBetweenPvpoke(SinglePvpInitialData{atatcker, defender, constr, true})
+func checkPpvpoke(atatcker, defender app.InitialData, checkName string, constr app.Constructor) error {
+	currentRes, err := NewPvpBetweenPvpoke(app.SinglePvpInitialData{atatcker, defender, constr, true, testApp})
 	if err != nil {
 		return err
 	}
@@ -99,7 +99,7 @@ func checkPpvpoke(atatcker, defender InitialData, checkName string, constr Const
 }
 
 func TestPvpokeConstr(t *testing.T) {
-	var GiratinaA = InitialData{
+	var GiratinaA = app.InitialData{
 		Name:      "Giratina (Altered Forme)",
 		AttackIV:  1,
 		DefenceIV: 10,
@@ -114,7 +114,7 @@ func TestPvpokeConstr(t *testing.T) {
 		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
 	}
 
-	var Aerodactyl = InitialData{
+	var Aerodactyl = app.InitialData{
 		Name:      "Aerodactyl",
 		AttackIV:  2,
 		DefenceIV: 6,
@@ -129,16 +129,16 @@ func TestPvpokeConstr(t *testing.T) {
 		ChargeMove: []string{"Rock Slide", "Earth Power"},
 	}
 
-	err := checkPpvpoke(GiratinaA, Aerodactyl, "pvpokeConstr1", Constructor{
+	err := checkPpvpoke(GiratinaA, Aerodactyl, "pvpokeConstr1", app.Constructor{
 		Round: 12,
-		Attacker: pvp.Status{
+		Attacker: app.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: pvp.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -158,16 +158,16 @@ func TestPvpokeConstr(t *testing.T) {
 	GiratinaA.InitialAttackStage = 2
 	GiratinaA.InitialDefenceStage = 2
 
-	err = checkPpvpoke(GiratinaA, Aerodactyl, "pvpokeConstr2", Constructor{
+	err = checkPpvpoke(GiratinaA, Aerodactyl, "pvpokeConstr2", app.Constructor{
 		Round: 21,
-		Attacker: pvp.Status{
+		Attacker: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: pvp.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,
@@ -181,7 +181,7 @@ func TestPvpokeConstr(t *testing.T) {
 }
 
 func BenchmarkMakepPvpokePVP(b *testing.B) {
-	var Dewgong = InitialData{
+	var Dewgong = app.InitialData{
 		Name:       "Dewgong",
 		AttackIV:   0,
 		DefenceIV:  12,
@@ -193,12 +193,12 @@ func BenchmarkMakepPvpokePVP(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetweenPvpoke(SinglePvpInitialData{Dewgong, Dewgong, Constructor{}, true})
+		NewPvpBetweenPvpoke(app.SinglePvpInitialData{Dewgong, Dewgong, app.Constructor{}, true, testApp})
 	}
 }
 
 func BenchmarkMakepPVPwithSwitch(b *testing.B) {
-	var Dewgong = InitialData{
+	var Dewgong = app.InitialData{
 		Name:       "Dewgong",
 		AttackIV:   0,
 		DefenceIV:  12,
@@ -210,6 +210,6 @@ func BenchmarkMakepPVPwithSwitch(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(SinglePvpInitialData{Dewgong, Dewgong, Constructor{}, true})
+		NewPvpBetween(app.SinglePvpInitialData{Dewgong, Dewgong, app.Constructor{}, true, testApp})
 	}
 }

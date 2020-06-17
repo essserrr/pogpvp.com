@@ -1,13 +1,15 @@
-package sim
+package pvp
 
 import (
-	pvp "Solutions/pvpSimulator/core/sim/pvp"
+	app "Solutions/pvpSimulator/core/sim/app"
 	"fmt"
 	"log"
 	"os"
 	"path"
 	"testing"
 )
+
+var testApp = app.InitApp()
 
 var linksTree = map[string]string{
 	"shieldedTree": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenTrees/shieldedTree.json")),
@@ -54,17 +56,17 @@ var linksMatrix = map[string]string{
 	"matrixBattle": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/matrixBattle.json")),
 }
 
-var goldenLogs = map[string]pvp.PvpLog{}
+var goldenLogs = map[string]app.PvpLog{}
 
 func init() {
 	goldenLogs = getGoldenLogs()
 }
 
-func getGoldenLogs() map[string]pvp.PvpLog {
-	mapToReturn := make(map[string]pvp.PvpLog)
+func getGoldenLogs() map[string]app.PvpLog {
+	mapToReturn := make(map[string]app.PvpLog)
 
 	for key, value := range links {
-		var entryOfMapToReturn pvp.PvpLog
+		var entryOfMapToReturn app.PvpLog
 		err := entryOfMapToReturn.ReadLog(value)
 		if err != nil {
 			log.Fatal(err)
@@ -77,8 +79,8 @@ func getGoldenLogs() map[string]pvp.PvpLog {
 type TestErrorLog struct {
 	Test     string
 	Round    int
-	Expected pvp.LogValue
-	Got      pvp.LogValue
+	Expected app.LogValue
+	Got      app.LogValue
 }
 
 func (e *TestErrorLog) Error() string {
@@ -88,7 +90,7 @@ func (e *TestErrorLog) Error() string {
 //tests for unshielded PvP with 1 charge move
 
 func TestUnshielded1CM(t *testing.T) {
-	var Magnezone = InitialData{
+	var Magnezone = app.InitialData{
 		Name:       "Magnezone",
 		AttackIV:   0,
 		DefenceIV:  13,
@@ -97,7 +99,7 @@ func TestUnshielded1CM(t *testing.T) {
 		QuickMove:  "Charge Beam",
 		ChargeMove: []string{"Wild Charge", ""},
 	}
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -106,7 +108,7 @@ func TestUnshielded1CM(t *testing.T) {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", ""},
 	}
-	var Swampert = InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -120,7 +122,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 0
-	err := checkPVP(Magnezone, Swampert, "knockQuickQuick", Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
+	err := checkPVP(Magnezone, Swampert, "knockQuickQuick", app.Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
 	if err != nil {
 		t.Error(err)
 	}
@@ -129,7 +131,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 9
-	err = checkPVP(Magnezone, Swampert, "knockChargeQuick", Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
+	err = checkPVP(Magnezone, Swampert, "knockChargeQuick", app.Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
 	if err != nil {
 		t.Error(err)
 	}
@@ -138,7 +140,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 12
 	Swampert.InitialEnergy = 0
-	err = checkPVP(Magnezone, Swampert, "simultaneousQuick", Constructor{}) //simultaneous knock down by a quick move
+	err = checkPVP(Magnezone, Swampert, "simultaneousQuick", app.Constructor{}) //simultaneous knock down by a quick move
 	if err != nil {
 		t.Error(err)
 	}
@@ -147,7 +149,7 @@ func TestUnshielded1CM(t *testing.T) {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 4
-	err = checkPVP(Medicham, Swampert, "knockQuickCharge", Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
+	err = checkPVP(Medicham, Swampert, "knockQuickCharge", app.Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
 	if err != nil {
 		t.Error(err)
 	}
@@ -156,14 +158,14 @@ func TestUnshielded1CM(t *testing.T) {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 10
-	err = checkPVP(Medicham, Swampert, "simultaneousCharge", Constructor{}) //carge move priority
+	err = checkPVP(Medicham, Swampert, "simultaneousCharge", app.Constructor{}) //carge move priority
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-func checkPVP(atatcker, defender InitialData, checkName string, constr Constructor) error {
-	currentRes, err := NewPvpBetween(SinglePvpInitialData{atatcker, defender, constr, true})
+func checkPVP(atatcker, defender app.InitialData, checkName string, constr app.Constructor) error {
+	currentRes, err := NewPvpBetween(app.SinglePvpInitialData{atatcker, defender, constr, true, testApp})
 	if err != nil {
 		return err
 	}
@@ -175,7 +177,7 @@ func checkPVP(atatcker, defender InitialData, checkName string, constr Construct
 	return nil
 }
 
-func checkLog(currentLog pvp.PvpLog, checkName string) error {
+func checkLog(currentLog app.PvpLog, checkName string) error {
 	for keyRound, valueRound := range goldenLogs[checkName] {
 
 		if valueRound != currentLog[keyRound] {
@@ -192,7 +194,7 @@ func checkLog(currentLog pvp.PvpLog, checkName string) error {
 }
 
 func BenchmarkMakePvp(b *testing.B) {
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		InitialHp:  0,
 		Shields:    0,
@@ -204,7 +206,7 @@ func BenchmarkMakePvp(b *testing.B) {
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
 
-	var Kingdra = InitialData{
+	var Kingdra = app.InitialData{
 		Name:       "Kingdra",
 		InitialHp:  0,
 		AttackIV:   0,
@@ -216,12 +218,12 @@ func BenchmarkMakePvp(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(SinglePvpInitialData{Medicham, Kingdra, Constructor{}, true})
+		NewPvpBetween(app.SinglePvpInitialData{Medicham, Kingdra, app.Constructor{}, true, testApp})
 	}
 }
 
 func BenchmarkMakePvpLong(b *testing.B) {
-	var GiratinaA = InitialData{
+	var GiratinaA = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -231,7 +233,7 @@ func BenchmarkMakePvpLong(b *testing.B) {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	var Snorlax = InitialData{
+	var Snorlax = app.InitialData{
 		Name:       "Snorlax",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -242,6 +244,6 @@ func BenchmarkMakePvpLong(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(SinglePvpInitialData{GiratinaA, Snorlax, Constructor{}, true})
+		NewPvpBetween(app.SinglePvpInitialData{GiratinaA, Snorlax, app.Constructor{}, true, testApp})
 	}
 }

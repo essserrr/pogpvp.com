@@ -1,6 +1,7 @@
-package sim
+package pvp
 
 import (
+	app "Solutions/pvpSimulator/core/sim/app"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -21,7 +22,7 @@ func (e *TestErrorMatrix) Error() string {
 }
 
 func TestMatrixes(t *testing.T) {
-	var AlolanMuk = InitialData{
+	var AlolanMuk = app.InitialData{
 		Name:       "Alolan Muk",
 		Shields:    1,
 		AttackIV:   0,
@@ -31,7 +32,7 @@ func TestMatrixes(t *testing.T) {
 		QuickMove:  "Bite",
 		ChargeMove: []string{"Dark Pulse", "Acid Spray"},
 	}
-	var AlolanMarowak = InitialData{
+	var AlolanMarowak = app.InitialData{
 		Name:       "Alolan Marowak",
 		Shields:    1,
 		AttackIV:   0,
@@ -41,7 +42,7 @@ func TestMatrixes(t *testing.T) {
 		QuickMove:  "Hex",
 		ChargeMove: []string{"Bone Club", "Shadow Ball"},
 	}
-	var Swampert = InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -50,7 +51,7 @@ func TestMatrixes(t *testing.T) {
 		QuickMove:  "Water Gun",
 		ChargeMove: []string{"Hydro Cannon", "Earthquake"},
 	}
-	var Altaria = InitialData{
+	var Altaria = app.InitialData{
 		Name:       "Altaria",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -59,7 +60,7 @@ func TestMatrixes(t *testing.T) {
 		QuickMove:  "Dragon Breath",
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
-	var Azumarill = InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -69,7 +70,7 @@ func TestMatrixes(t *testing.T) {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -80,7 +81,7 @@ func TestMatrixes(t *testing.T) {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		Shields:    1,
 		AttackIV:   15,
@@ -90,7 +91,7 @@ func TestMatrixes(t *testing.T) {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
-	var Skarmory = InitialData{
+	var Skarmory = app.InitialData{
 		Name:      "Skarmory",
 		InitialHp: 54,
 
@@ -103,7 +104,7 @@ func TestMatrixes(t *testing.T) {
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
 
-	var GiratinaAltered = InitialData{
+	var GiratinaAltered = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -113,7 +114,7 @@ func TestMatrixes(t *testing.T) {
 		QuickMove:  "Shadow Claw",
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
-	var Snorlax = InitialData{
+	var Snorlax = app.InitialData{
 		IsGreedy:   true,
 		Name:       "Snorlax",
 		Shields:    2,
@@ -125,10 +126,10 @@ func TestMatrixes(t *testing.T) {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := checkMatrixes([]InitialData{
+	err := checkMatrixes([]app.InitialData{
 		GiratinaAltered,
 	},
-		[]InitialData{
+		[]app.InitialData{
 			Snorlax,
 			AlolanMuk,
 			AlolanMarowak,
@@ -148,20 +149,21 @@ func TestMatrixes(t *testing.T) {
 
 }
 
-func checkMatrixes(attacker, defender []InitialData, checkName string) error {
-	errChan := make(ErrorChan, len(attacker)*len(defender))
-	matrixResults := make([]MatrixResult, 0, len(attacker)*len(defender))
+func checkMatrixes(attacker, defender []app.InitialData, checkName string) error {
+	errChan := make(app.ErrorChan, len(attacker)*len(defender))
+	matrixResults := make([]app.MatrixResult, 0, len(attacker)*len(defender))
 
 	for i, pokA := range attacker {
 		for k, pokB := range defender {
-			matrixBattleResult := MatrixResult{}
+			matrixBattleResult := app.MatrixResult{}
 			//otherwise check pvp results in base
 
-			singleBattleResult, err := NewPvpBetween(SinglePvpInitialData{
+			singleBattleResult, err := NewPvpBetween(app.SinglePvpInitialData{
 				AttackerData: pokA,
 				DefenderData: pokB,
-				Constr:       Constructor{},
+				Constr:       app.Constructor{},
 				Logging:      false,
+				App:          testApp,
 			})
 
 			if err != nil {
@@ -192,7 +194,7 @@ func checkMatrixes(attacker, defender []InitialData, checkName string) error {
 		return err
 	}
 
-	var goldenMatrix []MatrixResult
+	var goldenMatrix []app.MatrixResult
 	err = json.Unmarshal(byteValue, &goldenMatrix)
 	if err != nil {
 		return err
@@ -204,7 +206,7 @@ func checkMatrixes(attacker, defender []InitialData, checkName string) error {
 	return nil
 }
 
-func CheckMatrixesIdent(goldenMatrix, matrix *[]MatrixResult, checkName string) error {
+func CheckMatrixesIdent(goldenMatrix, matrix *[]app.MatrixResult, checkName string) error {
 	if goldenMatrix == nil || matrix == nil {
 		return &TestErrorMatrix{
 			checkName,
@@ -233,7 +235,7 @@ func CheckMatrixesIdent(goldenMatrix, matrix *[]MatrixResult, checkName string) 
 }
 
 func BenchmarkMatrixPvp(b *testing.B) {
-	var AlolanMuk = InitialData{
+	var AlolanMuk = app.InitialData{
 		Name:       "Alolan Muk",
 		Shields:    1,
 		AttackIV:   0,
@@ -243,7 +245,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		QuickMove:  "Bite",
 		ChargeMove: []string{"Dark Pulse", "Acid Spray"},
 	}
-	var AlolanMarowak = InitialData{
+	var AlolanMarowak = app.InitialData{
 		Name:       "Alolan Marowak",
 		Shields:    1,
 		AttackIV:   0,
@@ -253,7 +255,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		QuickMove:  "Hex",
 		ChargeMove: []string{"Bone Club", "Shadow Ball"},
 	}
-	var Swampert = InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -262,7 +264,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		QuickMove:  "Water Gun",
 		ChargeMove: []string{"Hydro Cannon", "Earthquake"},
 	}
-	var Altaria = InitialData{
+	var Altaria = app.InitialData{
 		Name:       "Altaria",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -271,7 +273,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		QuickMove:  "Dragon Breath",
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
-	var Azumarill = InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -281,7 +283,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -292,7 +294,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		Shields:    1,
 		AttackIV:   15,
@@ -302,7 +304,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
-	var Skarmory = InitialData{
+	var Skarmory = app.InitialData{
 		Name:      "Skarmory",
 		InitialHp: 54,
 
@@ -315,7 +317,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
 
-	var GiratinaAltered = InitialData{
+	var GiratinaAltered = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -325,7 +327,7 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		QuickMove:  "Shadow Claw",
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
-	var Snorlax = InitialData{
+	var Snorlax = app.InitialData{
 		IsGreedy:   true,
 		Name:       "Snorlax",
 		Shields:    2,
@@ -337,11 +339,11 @@ func BenchmarkMatrixPvp(b *testing.B) {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	attacker := []InitialData{
+	attacker := []app.InitialData{
 		GiratinaAltered,
 	}
 
-	defender := []InitialData{
+	defender := []app.InitialData{
 		Snorlax,
 		AlolanMuk,
 		AlolanMarowak,
@@ -355,18 +357,18 @@ func BenchmarkMatrixPvp(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		errChan := make(ErrorChan, len(attacker)*len(defender))
-		matrixResults := make([]MatrixResult, 0, len(attacker)*len(defender))
+		errChan := make(app.ErrorChan, len(attacker)*len(defender))
+		matrixResults := make([]app.MatrixResult, 0, len(attacker)*len(defender))
 
 		for i, pokA := range attacker {
 			for k, pokB := range defender {
-				matrixBattleResult := MatrixResult{}
+				matrixBattleResult := app.MatrixResult{}
 				//otherwise check pvp results in base
 
-				singleBattleResult, err := NewPvpBetween(SinglePvpInitialData{
+				singleBattleResult, err := NewPvpBetween(app.SinglePvpInitialData{
 					AttackerData: pokA,
 					DefenderData: pokB,
-					Constr:       Constructor{},
+					Constr:       app.Constructor{},
 					Logging:      false,
 				})
 

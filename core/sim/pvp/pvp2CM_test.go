@@ -1,13 +1,14 @@
-package sim
+package pvp
 
 import (
+	app "Solutions/pvpSimulator/core/sim/app"
 	"testing"
 )
 
 //tests for unshielded PvP with 2 charge moves
 
 func TestUnshielded2CM(t *testing.T) {
-	var Azumarill = InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		AttackIV:   8,
 		DefenceIV:  15,
@@ -16,7 +17,7 @@ func TestUnshielded2CM(t *testing.T) {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -26,7 +27,7 @@ func TestUnshielded2CM(t *testing.T) {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Meganium = InitialData{
+	var Meganium = app.InitialData{
 		Name:       "Meganium",
 		AttackIV:   0,
 		DefenceIV:  10,
@@ -36,7 +37,7 @@ func TestUnshielded2CM(t *testing.T) {
 		ChargeMove: []string{"Frenzy Plant", "Earthquake"},
 	}
 
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -45,7 +46,7 @@ func TestUnshielded2CM(t *testing.T) {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
-	var Registeel = InitialData{
+	var Registeel = app.InitialData{
 		Name:       "Registeel",
 		AttackIV:   2,
 		DefenceIV:  13,
@@ -54,7 +55,7 @@ func TestUnshielded2CM(t *testing.T) {
 		QuickMove:  "Lock-On",
 		ChargeMove: []string{"Flash Cannon", "Focus Blast"},
 	}
-	var Skarmory = InitialData{
+	var Skarmory = app.InitialData{
 		Name:       "Skarmory",
 		AttackIV:   0,
 		DefenceIV:  15,
@@ -63,7 +64,7 @@ func TestUnshielded2CM(t *testing.T) {
 		QuickMove:  "Air Slash",
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
-	var Vigoroth = InitialData{
+	var Vigoroth = app.InitialData{
 		Name:       "Vigoroth",
 		AttackIV:   1,
 		DefenceIV:  15,
@@ -72,7 +73,7 @@ func TestUnshielded2CM(t *testing.T) {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Body Slam", "Brick Break"},
 	}
-	var Altaria = InitialData{
+	var Altaria = app.InitialData{
 		Name:       "Altaria",
 		AttackIV:   2,
 		DefenceIV:  14,
@@ -81,7 +82,7 @@ func TestUnshielded2CM(t *testing.T) {
 		QuickMove:  "Dragon Breath",
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
-	var GiratinaA = InitialData{
+	var GiratinaA = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -91,7 +92,7 @@ func TestUnshielded2CM(t *testing.T) {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	var Snorlax = InitialData{
+	var Snorlax = app.InitialData{
 		Name:       "Snorlax",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -101,31 +102,31 @@ func TestUnshielded2CM(t *testing.T) {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := checkPVP(Azumarill, Venusaur, "azumarillVenusaur", Constructor{})
+	err := checkPVP(Azumarill, Venusaur, "azumarillVenusaur", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Meganium, "azumarillMeganium", Constructor{})
+	err = checkPVP(Azumarill, Meganium, "azumarillMeganium", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Medicham, "azumarillMedicham", Constructor{})
+	err = checkPVP(Azumarill, Medicham, "azumarillMedicham", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Registeel, "azumarillRegisteel", Constructor{})
+	err = checkPVP(Azumarill, Registeel, "azumarillRegisteel", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Skarmory, Vigoroth, "skarmoryVigoroth", Constructor{})
+	err = checkPVP(Skarmory, Vigoroth, "skarmoryVigoroth", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Skarmory, Altaria, "skarmoryAltaria", Constructor{})
+	err = checkPVP(Skarmory, Altaria, "skarmoryAltaria", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(GiratinaA, Snorlax, "giratinaASnorlax", Constructor{})
+	err = checkPVP(GiratinaA, Snorlax, "giratinaASnorlax", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}

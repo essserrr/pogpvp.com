@@ -2,12 +2,8 @@ package pvp
 
 import (
 	app "Solutions/pvpSimulator/core/sim/app"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"math/rand"
-	"os"
 	"runtime"
 	"sync"
 	"time"
@@ -28,12 +24,12 @@ type branchingData struct {
 
 	MoveCooldown  uint8
 	InitialHp     int16
-	InitialEnergy Energy
+	InitialEnergy app.Energy
 }
 
 //PvpObject contains all data related to  pvp process
 type PvpObject struct {
-	log PvpLog
+	log app.PvpLog
 
 	conStruct     *concurrentVars
 	branchPointer *Tree
@@ -60,95 +56,19 @@ type setOfInDat struct {
 	defender branchingData
 }
 
-//PvpLog contains pvp log as slice of rounds.
-//Each round contains slice of events, each event is structure of logValue type
-type PvpLog []LogValue
-
-type LogValue struct {
-	Round    uint16
-	Attacker event
-	Defender event
-}
-
-type event struct {
-	HP         int16
-	Energy     Energy
-	ActionName string
-	ActionCode uint8
-	StageA     int8
-	StageD     int8
-	IsSelf     bool
-	Order      bool
-
-	ShieldIsUsed bool
-}
-
-func (l *PvpLog) makeNewRound(round uint16) {
-	*l = append(*l, LogValue{Round: round})
-}
-
-//PrintLog prints log using fmt.Println
-func (l *PvpLog) PrintLog() {
-	for _, roundValue := range *l {
-		fmt.Println(roundValue)
-	}
-}
-
-//WriteLog writes log to a file
-func (l *PvpLog) WriteLog(fileName string) error {
-	file, err := json.MarshalIndent(l, "", " ")
-	if err != nil {
-		return err
-	}
-	err = ioutil.WriteFile(fileName, file, 0644)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-//ReadLog reads log from a fila using
-func (l *PvpLog) ReadLog(fileName string) error {
-	file, err := os.Open(fileName)
-	if err != nil {
-		return err
-	}
-
-	byteValue, err := ioutil.ReadAll(file)
-	if err != nil {
-		return err
-	}
-	file.Close()
-	err = json.Unmarshal(byteValue, l)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 //TreeInitialData contains all data is needed to build new pvp tree
 type TreeInitialData struct {
-	AttackerData InitialData
-	DefenderData InitialData
+	AttackerData app.InitialData
+	DefenderData app.InitialData
 	WG           *sync.WaitGroup
 
 	Tree   *Tree
-	Constr Constructor
+	Constr app.Constructor
 	App    *app.SimApp
 }
 
-//SinglePvpInitialData contains all data is needed to build new singe pvp
-type SinglePvpInitialData struct {
-	AttackerData InitialData
-	DefenderData InitialData
-
-	Constr  Constructor
-	Logging bool
-	App     *app.SimApp
-}
-
 //NewPvpBetween starts pvp between two charcters defined by initial data, returns pvp log
-func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
+func NewPvpBetween(inData app.SinglePvpInitialData) (app.PvpResults, error) {
 	rand.Seed(time.Now().UnixNano())
 
 	var wg sync.WaitGroup
@@ -163,14 +83,14 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 		App:          inData.App,
 	})
 	if err != nil {
-		return PvpResults{}, err
+		return app.PvpResults{}, err
 	}
 	if switchTo {
 		log.Println("Switched to PvPoke")
 		runtime.GC()
 		res, err := NewPvpBetweenPvpoke(inData)
 		if err != nil {
-			return PvpResults{}, err
+			return app.PvpResults{}, err
 		}
 		return res, err
 	}
@@ -178,7 +98,7 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 	pvpData := globalPvpObjectPool.Get().(*PvpObject)
 	*pvpData = PvpObject{}
 	if tree == nil {
-		return PvpResults{}, &customError{
+		return app.PvpResults{}, &customError{
 			"Nil tree",
 		}
 	}
@@ -191,39 +111,39 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 
 	pvpData.isTree = false
 	pvpData.logging = inData.Logging
-	pvpData.log = make([]LogValue, 0, 32)
+	pvpData.log = make([]app.LogValue, 0, 32)
 
 	//PrintTreeVal(os.Stdout, tree, 0, 'M')
 	//PrintTreeRate(os.Stdout, tree, 0, 'M')
 
 	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
 	if err != nil {
-		return PvpResults{}, err
+		return app.PvpResults{}, err
 	}
 
 	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
 	if err != nil {
-		return PvpResults{}, err
+		return app.PvpResults{}, err
 	}
 
 	err = pvpData.initializePvp(&inData.AttackerData, &inData.DefenderData, attackerTypes, defenderTypes)
 	if err != nil {
-		return PvpResults{}, err
+		return app.PvpResults{}, err
 	}
 
 	pvpData.readInitialConditions(&inData.AttackerData, &inData.DefenderData)
 
-	if (inData.Constr != Constructor{}) {
+	if (inData.Constr != app.Constructor{}) {
 		pvpData.readConstructorData(&inData.Constr)
 	}
 
 	letsBattle(pvpData)
 
-	result := PvpResults{
+	result := app.PvpResults{
 		Log:       pvpData.log,
 		CreatedAt: time.Now(),
 		IsRandom:  checkResultRandomness(pvpData),
-		Attacker: SingleResult{
+		Attacker: app.SingleResult{
 			Name: inData.AttackerData.Name,
 			Rate: uint16((500*(float32(pvpData.defender.maxHP)-processHP(pvpData.defender.hp))/float32(pvpData.defender.maxHP) + 500*processHP(pvpData.attacker.hp)/float32(pvpData.attacker.maxHP))),
 
@@ -234,7 +154,7 @@ func NewPvpBetween(inData SinglePvpInitialData) (PvpResults, error) {
 
 			EnergyUsed: -pvpData.attacker.energySpent,
 		},
-		Defender: SingleResult{
+		Defender: app.SingleResult{
 			Name: inData.DefenderData.Name,
 			Rate: uint16((500*(float32(pvpData.attacker.maxHP)-processHP(pvpData.attacker.hp))/float32(pvpData.attacker.maxHP) + 500*processHP(pvpData.defender.hp)/float32(pvpData.defender.maxHP))),
 
@@ -264,30 +184,7 @@ func checkResultRandomness(obj *PvpObject) bool {
 	return false
 }
 
-//PvpResults contains results of a single pvp: log, combatants and attackers`s hp rate
-type PvpResults struct {
-	CreatedAt time.Time
-	I         int
-	K         int
-	Log       PvpLog
-	Attacker  SingleResult
-	Defender  SingleResult
-	IsRandom  bool
-}
-
-type SingleResult struct {
-	Name string
-	Rate uint16
-
-	DamageBlocked  int16
-	MaxHP          int16
-	HP             uint16
-	EnergyRemained Energy
-
-	EnergyUsed Energy
-}
-
-func (obj *PvpObject) initializePvp(attackerData, defenderData *InitialData, attackerTypes, defenderTypes []int) error {
+func (obj *PvpObject) initializePvp(attackerData, defenderData *app.InitialData, attackerTypes, defenderTypes []int) error {
 
 	obj.attacker.setEffectiveStats(attackerData.InitialAttackStage, attackerData.InitialDefenceStage)
 	obj.attacker.isAttacker = true
@@ -388,13 +285,13 @@ func (pok *pokemon) getChargeMultipliersAgainst(attackerTypes, defenderTypes []i
 	return nil
 }
 
-func (obj *PvpObject) readInitialConditions(attackerData, defenderData *InitialData) {
+func (obj *PvpObject) readInitialConditions(attackerData, defenderData *app.InitialData) {
 	obj.attacker.setInitialConditions(attackerData)
 
 	obj.defender.setInitialConditions(defenderData)
 }
 
-func (pok *pokemon) setInitialConditions(targetData *InitialData) {
+func (pok *pokemon) setInitialConditions(targetData *app.InitialData) {
 	switch true {
 	case targetData.InitialHp <= 0: //zero indicates that this paramenter shouldn`t be redeclared
 		pok.hp = pok.maxHP
@@ -405,14 +302,14 @@ func (pok *pokemon) setInitialConditions(targetData *InitialData) {
 	}
 	//nullify energy, the set up initial value
 	pok.energy = 0
-	pok.energy.addEnergy(targetData.InitialEnergy)
+	pok.energy.AddEnergy(int16(targetData.InitialEnergy))
 
 	pok.shields = targetData.Shields
 }
 
 func letsBattle(obj *PvpObject) {
 	if obj.logging {
-		obj.log.makeNewRound(obj.round)
+		obj.log.MakeNewRound(obj.round)
 		WriteHpEnergy(obj)
 	}
 
@@ -434,7 +331,7 @@ func letsBattle(obj *PvpObject) {
 func writeRoundResults(obj *PvpObject) {
 	if obj.logging {
 		obj.round++
-		obj.log.makeNewRound(obj.round)
+		obj.log.MakeNewRound(obj.round)
 		WriteHpEnergy(obj)
 	}
 	if obj.isTree {
@@ -460,14 +357,6 @@ func handleWriteMove(obj *PvpObject, name string, code uint8, isAttacker bool) {
 	obj.log[len(obj.log)-1].Defender.WriteMove(name, code)
 }
 
-func (e *event) WriteMove(name string, code uint8) {
-	if code == 0 {
-		return
-	}
-	e.ActionName = name
-	e.ActionCode = code
-}
-
 func handleWriteShield(obj *PvpObject, isUsed bool, isAttacker bool) {
 	if !obj.logging {
 		return
@@ -478,21 +367,19 @@ func handleWriteShield(obj *PvpObject, isUsed bool, isAttacker bool) {
 	}
 	obj.log[len(obj.log)-1].Defender.WriteShield(isUsed)
 }
-func (e *event) WriteShield(isUsed bool) {
-	e.ShieldIsUsed = isUsed
-}
 
 func handleTrigger(obj *PvpObject, aStage, dStage int8, isAttacker, isSelf bool) {
 	if !obj.logging {
 		return
 	}
 	if isAttacker {
-		obj.log[len(obj.log)-1].Attacker.writeTrigger(aStage, dStage, isSelf)
+		obj.log[len(obj.log)-1].Attacker.WriteTrigger(aStage, dStage, isSelf)
 		return
 	}
-	obj.log[len(obj.log)-1].Defender.writeTrigger(aStage, dStage, isSelf)
+	obj.log[len(obj.log)-1].Defender.WriteTrigger(aStage, dStage, isSelf)
 }
 
+//WriteHpEnergy writes hp and energy to pvp log
 func WriteHpEnergy(obj *PvpObject) {
 	if !obj.logging {
 		return
@@ -503,19 +390,13 @@ func WriteHpEnergy(obj *PvpObject) {
 	obj.log[len(obj.log)-1].Defender.Energy = obj.defender.energy
 }
 
-func (e *event) writeTrigger(aStage, dStage int8, isSelf bool) {
-	e.IsSelf = isSelf
-	e.StageA = aStage
-	e.StageD = dStage
-}
-
 func nextRound(obj *PvpObject) {
 	if obj.isTree {
 		//every round update initial data of the branches
 		updateData(obj)
 	}
 	if obj.logging {
-		obj.log.makeNewRound(obj.round + 1)
+		obj.log.MakeNewRound(obj.round + 1)
 	}
 
 	switch obj.attacker.effectiveAttack.value >= obj.defender.effectiveAttack.value {
@@ -615,7 +496,7 @@ func nextRound(obj *PvpObject) {
 			resetSwitchersA(obj)
 			resetSwitchersD(obj)
 			if obj.logging {
-				obj.log[len(obj.log)-1].Attacker.writeOrder()
+				obj.log[len(obj.log)-1].Attacker.WriteOrder()
 			}
 			obj.round++
 			return
@@ -651,7 +532,7 @@ func nextRound(obj *PvpObject) {
 		resetSwitchersA(obj)
 		resetSwitchersD(obj)
 		if obj.logging {
-			obj.log[len(obj.log)-1].Defender.writeOrder()
+			obj.log[len(obj.log)-1].Defender.WriteOrder()
 		}
 
 		obj.round++
@@ -667,10 +548,6 @@ func nextRound(obj *PvpObject) {
 		WriteHpEnergy(obj)
 		obj.round++
 	}
-}
-
-func (e *event) writeOrder() {
-	e.Order = true
 }
 
 func resetSwitchersA(obj *PvpObject) {
@@ -765,17 +642,17 @@ func (pok *pokemon) dealDamgeGetEnergy(obj *PvpObject) {
 	defender := whoIsDfender(pok, obj) //check if pok and dat.attacker are the same guy
 	var (
 		damage int16
-		energy Energy
+		energy app.Energy
 	)
 	switch pok.results.actionCode {
 	case 1:
 		damage = int16(0.5*pok.quickMove.pvpDamage*(pok.effectiveAttack.value/defender.effectiveDefence.value)*pok.quickMove.totalMultiplier) + 1
-		energy = Energy(pok.quickMove.pvpEnergy)
+		energy = app.Energy(pok.quickMove.pvpEnergy)
 	case 2:
 		isUsed := defender.useShield()
 		handleWriteShield(obj, isUsed, defender.isAttacker)
 		damage = int16(0.5*pok.chargeMove[pok.results.chargeName-1].pvpDamage*(pok.effectiveAttack.value/defender.effectiveDefence.value)*pok.chargeMove[pok.results.chargeName-1].totalMultiplier) + 1
-		energy = Energy(pok.chargeMove[pok.results.chargeName-1].pvpEnergy)
+		energy = app.Energy(pok.chargeMove[pok.results.chargeName-1].pvpEnergy)
 		switch isUsed {
 		case true:
 			if !pok.statsRecorded {
@@ -787,10 +664,10 @@ func (pok *pokemon) dealDamgeGetEnergy(obj *PvpObject) {
 		}
 	}
 	defender.hp = defender.hp - damage //then deal damage to the other guy
-	pok.energy.addEnergy(energy)
+	pok.energy.AddEnergy(int16(energy))
 }
 
-func (pok *pokemon) writeUtilizationStats(damage int16, energy Energy) {
+func (pok *pokemon) writeUtilizationStats(damage int16, energy app.Energy) {
 	pok.statsRecorded = true
 	switch true {
 	case damage != 1:
@@ -1060,27 +937,8 @@ func (pok *pokemon) hit() {
 	pok.results.actionCode = 0
 }
 
-type MatrixResult struct {
-	Rate   uint16
-	I      int
-	K      int
-	QueryA string
-	QueryB string
-}
-
-type RatingResult struct {
-	Attacker RatingBattleResult
-	Defender RatingBattleResult
-}
-
-type RatingBattleResult struct {
-	Rate   uint16
-	Name   string
-	Quick  string
-	Charge []string
-}
-
-func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (RatingResult, error) {
+//RatingPvp starts single pvp for rating module
+func RatingPvp(attackerData, defenderData *app.InitialData, application *app.SimApp) (app.RatingResult, error) {
 	rand.Seed(time.Now().UnixNano())
 	var wg sync.WaitGroup
 
@@ -1091,23 +949,23 @@ func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (Rating
 		DefenderData: *defenderData,
 		WG:           &wg,
 		Tree:         tree,
-		App:          app,
+		App:          application,
 	})
 	if err != nil {
-		return RatingResult{}, err
+		return app.RatingResult{}, err
 	}
 
 	if switchTo {
 		log.Println("Switched to PvPoke")
-		res, err := NewPvpBetweenPvpoke(SinglePvpInitialData{
+		res, err := NewPvpBetweenPvpoke(app.SinglePvpInitialData{
 			AttackerData: *attackerData,
 			DefenderData: *defenderData,
-			Constr:       Constructor{},
+			Constr:       app.Constructor{},
 			Logging:      false,
 		})
 
 		if err != nil {
-			return RatingResult{}, err
+			return app.RatingResult{}, err
 		}
 		//generate shaodw names
 		aName := attackerData.Name
@@ -1119,14 +977,14 @@ func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (Rating
 			dName += " (Shadow)"
 		}
 
-		result := RatingResult{
-			Attacker: RatingBattleResult{
+		result := app.RatingResult{
+			Attacker: app.RatingBattleResult{
 				Rate:   res.Attacker.Rate,
 				Name:   aName,
 				Quick:  attackerData.QuickMove,
 				Charge: attackerData.ChargeMove,
 			},
-			Defender: RatingBattleResult{
+			Defender: app.RatingBattleResult{
 				Rate:   res.Defender.Rate,
 				Name:   dName,
 				Quick:  defenderData.QuickMove,
@@ -1140,12 +998,12 @@ func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (Rating
 	pvpData := globalPvpObjectPool.Get().(*PvpObject)
 	*pvpData = PvpObject{}
 	if tree == nil {
-		return RatingResult{}, &customError{
+		return app.RatingResult{}, &customError{
 			"Nil tree",
 		}
 	}
 	pvpData.branchPointer = tree
-	pvpData.app = app
+	pvpData.app = application
 
 	var key uint32
 	pvpData.key = &key
@@ -1156,17 +1014,17 @@ func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (Rating
 
 	attackerTypes, err := pvpData.attacker.makeNewCharacter(attackerData, pvpData)
 	if err != nil {
-		return RatingResult{}, err
+		return app.RatingResult{}, err
 	}
 
 	defenderTypes, err := pvpData.defender.makeNewCharacter(defenderData, pvpData)
 	if err != nil {
-		return RatingResult{}, err
+		return app.RatingResult{}, err
 	}
 
 	err = pvpData.initializePvp(attackerData, defenderData, attackerTypes, defenderTypes)
 	if err != nil {
-		return RatingResult{}, err
+		return app.RatingResult{}, err
 	}
 
 	pvpData.readInitialConditions(attackerData, defenderData)
@@ -1183,14 +1041,14 @@ func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (Rating
 		dName += " (Shadow)"
 	}
 
-	result := RatingResult{
-		Attacker: RatingBattleResult{
+	result := app.RatingResult{
+		Attacker: app.RatingBattleResult{
 			Rate:   uint16((500*(float32(pvpData.defender.maxHP)-processHP(pvpData.defender.hp))/float32(pvpData.defender.maxHP) + 500*processHP(pvpData.attacker.hp)/float32(pvpData.attacker.maxHP))),
 			Name:   aName,
 			Quick:  attackerData.QuickMove,
 			Charge: attackerData.ChargeMove,
 		},
-		Defender: RatingBattleResult{
+		Defender: app.RatingBattleResult{
 			Rate:   uint16((500*(float32(pvpData.attacker.maxHP)-processHP(pvpData.attacker.hp))/float32(pvpData.attacker.maxHP) + 500*processHP(pvpData.defender.hp)/float32(pvpData.defender.maxHP))),
 			Name:   dName,
 			Quick:  defenderData.QuickMove,
@@ -1200,32 +1058,14 @@ func RatingPvp(attackerData, defenderData *InitialData, app *app.SimApp) (Rating
 	return result, nil
 }
 
-//Constructor is an object transformin single PvP into Constructed pvp
-type Constructor struct {
-	Round    uint16
-	Attacker Status
-	Defender Status
-}
-
-//Status contains ech pokemons status for constructed pvp
-type Status struct {
-	IsTriggered bool
-	SkipShield  bool
-
-	MoveCooldown   uint8
-	RoundsToDamage uint8
-
-	WhatToSkip int8
-}
-
-func (obj *PvpObject) readConstructorData(constr *Constructor) {
+func (obj *PvpObject) readConstructorData(constr *app.Constructor) {
 	obj.round = constr.Round
 
 	obj.attacker.setStatusData(&constr.Attacker, obj)
 	obj.defender.setStatusData(&constr.Defender, obj)
 }
 
-func (pok *pokemon) setStatusData(status *Status, obj *PvpObject) {
+func (pok *pokemon) setStatusData(status *app.Status, obj *PvpObject) {
 	pok.isTriggered = status.IsTriggered
 	pok.fixTrigger = true
 

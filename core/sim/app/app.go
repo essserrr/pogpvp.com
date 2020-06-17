@@ -3,10 +3,12 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/boltdb/bolt"
 )
@@ -182,6 +184,58 @@ func (eCh *ErrorChan) Flush() string {
 	return errorString
 }
 
+//Energy is pokemon energy type, no more than 100
+type Energy int16
+
+//AddEnergy energy cap is 100
+func (en *Energy) AddEnergy(energyValue int16) {
+	*en = *en + Energy(energyValue)
+	if *en > 100 {
+		*en = 100
+	}
+}
+
+//IntialDataPve contains data to start common raid
+type IntialDataPve struct {
+	App *SimApp
+
+	NumberOfRuns  int
+	FriendStage   int
+	Weather       int
+	DodgeStrategy int
+
+	Pok           PokemonInitialData
+	AggresiveMode bool
+
+	Boss          BossInfo
+	PartySize     uint8
+	PlayersNumber uint8
+}
+
+//PokemonInitialData contains initial data for pvp
+type PokemonInitialData struct {
+	Name string
+
+	QuickMove  string
+	ChargeMove string
+
+	Level float32
+
+	AttackIV  uint8
+	DefenceIV uint8
+	StaminaIV uint8
+
+	IsShadow bool
+}
+
+//BossInfo contains boss initial data
+type BossInfo struct {
+	Name       string
+	QuickMove  string
+	ChargeMove string
+	Tier       uint8
+}
+
 //CommonResult is antry of common pvp result list
 type CommonResult struct {
 	AName string
@@ -204,4 +258,189 @@ type CommonResult struct {
 	FMax uint32
 
 	NOfWins uint32
+}
+
+//Constructor is an object transformin single PvP into Constructed pvp
+type Constructor struct {
+	Round    uint16
+	Attacker Status
+	Defender Status
+}
+
+//Status contains ech pokemons status for constructed pvp
+type Status struct {
+	IsTriggered bool
+	SkipShield  bool
+
+	MoveCooldown   uint8
+	RoundsToDamage uint8
+
+	WhatToSkip int8
+}
+
+type MatrixResult struct {
+	Rate   uint16
+	I      int
+	K      int
+	QueryA string
+	QueryB string
+}
+
+//InitialData contains initial data for pvp
+type InitialData struct {
+	Name  string
+	Query string
+
+	QuickMove  string
+	ChargeMove []string
+
+	Level float32
+
+	InitialHp     int16
+	InitialEnergy Energy
+
+	InitialAttackStage  int8
+	InitialDefenceStage int8
+
+	AttackIV  uint8
+	DefenceIV uint8
+	StaminaIV uint8
+
+	Shields uint8
+
+	IsGreedy bool
+	IsShadow bool
+}
+
+//PvpResults contains results of a single pvp: log, combatants and attackers`s hp rate
+type PvpResults struct {
+	CreatedAt time.Time
+	I         int
+	K         int
+	Log       PvpLog
+	Attacker  SingleResult
+	Defender  SingleResult
+	IsRandom  bool
+}
+
+type SingleResult struct {
+	Name string
+	Rate uint16
+
+	DamageBlocked  int16
+	MaxHP          int16
+	HP             uint16
+	EnergyRemained Energy
+
+	EnergyUsed Energy
+}
+
+type RatingResult struct {
+	Attacker RatingBattleResult
+	Defender RatingBattleResult
+}
+
+type RatingBattleResult struct {
+	Rate   uint16
+	Name   string
+	Quick  string
+	Charge []string
+}
+
+//PvpLog contains pvp log as slice of rounds.
+//Each round contains slice of events, each event is structure of logValue type
+type PvpLog []LogValue
+
+type LogValue struct {
+	Round    uint16
+	Attacker Event
+	Defender Event
+}
+
+type Event struct {
+	HP         int16
+	Energy     Energy
+	ActionName string
+	ActionCode uint8
+	StageA     int8
+	StageD     int8
+	IsSelf     bool
+	Order      bool
+
+	ShieldIsUsed bool
+}
+
+//PrintLog prints log using fmt.Println
+func (l *PvpLog) PrintLog() {
+	for _, roundValue := range *l {
+		fmt.Println(roundValue)
+	}
+}
+
+//WriteLog writes log to a file
+func (l *PvpLog) WriteLog(fileName string) error {
+	file, err := json.MarshalIndent(l, "", " ")
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile(fileName, file, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+//ReadLog reads log from a fila using
+func (l *PvpLog) ReadLog(fileName string) error {
+	file, err := os.Open(fileName)
+	if err != nil {
+		return err
+	}
+
+	byteValue, err := ioutil.ReadAll(file)
+	if err != nil {
+		return err
+	}
+	file.Close()
+	err = json.Unmarshal(byteValue, l)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (e *Event) WriteShield(isUsed bool) {
+	e.ShieldIsUsed = isUsed
+}
+
+func (e *Event) WriteTrigger(aStage, dStage int8, isSelf bool) {
+	e.IsSelf = isSelf
+	e.StageA = aStage
+	e.StageD = dStage
+}
+
+func (l *PvpLog) MakeNewRound(round uint16) {
+	*l = append(*l, LogValue{Round: round})
+}
+
+func (e *Event) WriteMove(name string, code uint8) {
+	if code == 0 {
+		return
+	}
+	e.ActionName = name
+	e.ActionCode = code
+}
+
+func (e *Event) WriteOrder() {
+	e.Order = true
+}
+
+//SinglePvpInitialData contains all data is needed to build new singe pvp
+type SinglePvpInitialData struct {
+	AttackerData InitialData
+	DefenderData InitialData
+
+	Constr  Constructor
+	Logging bool
+	App     *SimApp
 }

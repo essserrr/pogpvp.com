@@ -6,17 +6,6 @@ import (
 	"math"
 )
 
-//Energy is pokemon energy type, no more than 100
-type Energy int16
-
-//addEnergy energy cap is 100
-func (en *Energy) addEnergy(energyValue int16) {
-	*en = *en + Energy(energyValue)
-	if *en > 100 {
-		*en = 100
-	}
-}
-
 type pokemon struct {
 	quickMove move
 	maxHP     int32
@@ -32,7 +21,7 @@ type pokemon struct {
 	moveCooldown    int32
 	levelMultiplier float32
 
-	energy Energy
+	energy app.Energy
 	action uint8
 
 	damageRegistered bool
@@ -53,7 +42,7 @@ type move struct {
 	energy int16
 }
 
-func (obj *pveObject) makeNewCharacter(pokemonData *PokemonInitialData, pok *pokemon) error {
+func (obj *pveObject) makeNewCharacter(pokemonData *app.PokemonInitialData, pok *pokemon) error {
 	err := pok.setLevel(pokemonData, obj)
 	if err != nil {
 		return err
@@ -73,7 +62,7 @@ func (obj *pveObject) makeNewCharacter(pokemonData *PokemonInitialData, pok *pok
 	return nil
 }
 
-func (pok *pokemon) setLevel(pokemonData *PokemonInitialData, obj *pveObject) error { //sets up level and level-IV dependent stats
+func (pok *pokemon) setLevel(pokemonData *app.PokemonInitialData, obj *pveObject) error { //sets up level and level-IV dependent stats
 	if pokemonData.Level > 45 || pokemonData.Level < 1 {
 		return fmt.Errorf("Level must be in range 1-45")
 	}
@@ -88,7 +77,7 @@ func isInteger(floatNumber float32) bool { // sheck if the float is integer
 	return math.Mod(float64(floatNumber), 1.0) == 0
 }
 
-func (pok *pokemon) makeNewBody(pokemonData *PokemonInitialData, obj *pveObject) error { //sets up base stats
+func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObject) error { //sets up base stats
 	if pokemonData.AttackIV > 15 || pokemonData.DefenceIV > 15 || pokemonData.StaminaIV > 15 || pokemonData.AttackIV < 0 || pokemonData.DefenceIV < 0 || pokemonData.StaminaIV < 0 {
 		return fmt.Errorf("IV must be in range 0-15")
 	}
@@ -146,7 +135,7 @@ func setMoveBody(moveEntry app.MoveBaseEntry) move { // sets up move body (commo
 	return newMove
 }
 
-func (obj *pveObject) makeNewBoss(bossInDat *BossInfo, boss *pokemon) error {
+func (obj *pveObject) makeNewBoss(bossInDat *app.BossInfo, boss *pokemon) error {
 	boss.levelMultiplier = tierMult[bossInDat.Tier]
 	err := boss.makeBossBody(bossInDat, obj)
 	if err != nil {
@@ -163,7 +152,7 @@ func (obj *pveObject) makeNewBoss(bossInDat *BossInfo, boss *pokemon) error {
 	return nil
 }
 
-func (pok *pokemon) makeBossBody(bossInDat *BossInfo, obj *pveObject) error { //sets up base stats
+func (pok *pokemon) makeBossBody(bossInDat *app.BossInfo, obj *pveObject) error { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[bossInDat.Name]
 	if !ok {
 		return fmt.Errorf("Raid boss error: There is no such pokemon")

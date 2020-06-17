@@ -11,42 +11,6 @@ type roundResults struct {
 	chargeName int8
 }
 
-//Energy is pokemon energy type, no more than 100
-type Energy int16
-
-func (en *Energy) addEnergy(energyValue Energy) { // energy cap is 100
-	*en = *en + Energy(energyValue)
-	if *en > 100 {
-		*en = 100
-	}
-}
-
-//InitialData contains initial data for pvp
-type InitialData struct {
-	Name  string
-	Query string
-
-	QuickMove  string
-	ChargeMove []string
-
-	Level float32
-
-	InitialHp     int16
-	InitialEnergy Energy
-
-	InitialAttackStage  int8
-	InitialDefenceStage int8
-
-	AttackIV  uint8
-	DefenceIV uint8
-	StaminaIV uint8
-
-	Shields uint8
-
-	IsGreedy bool
-	IsShadow bool
-}
-
 type customError struct {
 	What string
 }
@@ -75,14 +39,14 @@ type pokemon struct {
 
 	shields uint8
 
-	energySpent     Energy
+	energySpent     app.Energy
 	potentialDamage int16
 
 	//word
 
 	results        roundResults
 	roundsToDamage uint8
-	energy         Energy
+	energy         app.Energy
 	//word
 
 	effectiveDefence  stat
@@ -121,7 +85,7 @@ type move struct {
 	subjectExists bool
 }
 
-func (pok *pokemon) makeNewCharacter(pokemonData *InitialData, obj *PvpObject) ([]int, error) {
+func (pok *pokemon) makeNewCharacter(pokemonData *app.InitialData, obj *PvpObject) ([]int, error) {
 	err := pok.setLevel(pokemonData, obj)
 	if err != nil {
 		return []int{}, err
@@ -149,7 +113,7 @@ func (pok *pokemon) makeNewCharacter(pokemonData *InitialData, obj *PvpObject) (
 	return pokTypes, nil
 }
 
-func (pok *pokemon) makeNewBody(pokemonData *InitialData, obj *PvpObject) ([]int, error) { //sets up base stats
+func (pok *pokemon) makeNewBody(pokemonData *app.InitialData, obj *PvpObject) ([]int, error) { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[pokemonData.Name]
 	if !ok {
 		return []int{}, &customError{
@@ -174,7 +138,7 @@ func (pok *pokemon) makeNewBody(pokemonData *InitialData, obj *PvpObject) ([]int
 	return speciesType.Type, nil
 }
 
-func (pok *pokemon) setIV(pokemonData *InitialData) error { //sets up "individual values"
+func (pok *pokemon) setIV(pokemonData *app.InitialData) error { //sets up "individual values"
 	if pokemonData.AttackIV > 15 || pokemonData.DefenceIV > 15 || pokemonData.StaminaIV > 15 || pokemonData.AttackIV < 0 || pokemonData.DefenceIV < 0 || pokemonData.StaminaIV < 0 {
 		return &customError{
 			"IV must be in range 0-15",
@@ -183,7 +147,7 @@ func (pok *pokemon) setIV(pokemonData *InitialData) error { //sets up "individua
 	return nil
 }
 
-func (pok *pokemon) setLevel(pokemonData *InitialData, obj *PvpObject) error { //sets up level and level-IV dependent stats
+func (pok *pokemon) setLevel(pokemonData *app.InitialData, obj *PvpObject) error { //sets up level and level-IV dependent stats
 	if pokemonData.Level > 45 || pokemonData.Level < 1 {
 		return &customError{
 			"Level must be in range 1-45",
@@ -205,7 +169,7 @@ func isInteger(floatNumber float32) bool { // sheck if the float is integer
 	return math.Mod(float64(floatNumber), 1.0) == 0
 }
 
-func (pok *pokemon) setQuickMove(pokemonData *InitialData, obj *PvpObject) error { // setst up quick move
+func (pok *pokemon) setQuickMove(pokemonData *app.InitialData, obj *PvpObject) error { // setst up quick move
 	moveEntry, ok := obj.app.PokemonMovesBase[pokemonData.QuickMove]
 	if !ok {
 		return &customError{

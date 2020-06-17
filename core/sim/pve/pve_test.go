@@ -30,7 +30,7 @@ func TestSetOfRuns(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	//Zekrom 18-3
 	res, err := setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -47,7 +47,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Zekrom",
 			QuickMove:  "Charge Beam",
 			ChargeMove: "Outrage",
@@ -72,7 +72,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Zekrom 12-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -89,7 +89,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Zekrom",
 			QuickMove:  "Charge Beam",
 			ChargeMove: "Outrage",
@@ -114,7 +114,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Zekrom 6-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -131,7 +131,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Zekrom",
 			QuickMove:  "Charge Beam",
 			ChargeMove: "Outrage",
@@ -156,7 +156,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Reshiram 18-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -173,7 +173,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Reshiram",
 			QuickMove:  "Fire Fang",
 			ChargeMove: "Draco Meteor",
@@ -198,7 +198,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Reshiram 12-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -215,7 +215,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Reshiram",
 			QuickMove:  "Fire Fang",
 			ChargeMove: "Draco Meteor",
@@ -240,7 +240,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Reshiram 6-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -257,7 +257,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Reshiram",
 			QuickMove:  "Fire Fang",
 			ChargeMove: "Draco Meteor",
@@ -282,7 +282,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Terrakion 12-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Mewtwo",
 
 			QuickMove:  "Confusion",
@@ -299,7 +299,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Terrakion",
 			QuickMove:  "Smack Down",
 			ChargeMove: "Earthquake",
@@ -324,7 +324,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Terrakion 6-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Mewtwo",
 
 			QuickMove:  "Confusion",
@@ -341,7 +341,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Terrakion",
 			QuickMove:  "Smack Down",
 			ChargeMove: "Earthquake",
@@ -366,7 +366,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Marowak 6-3
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Darkrai",
 
 			QuickMove:  "Snarl",
@@ -383,7 +383,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Alolan Marowak",
 			QuickMove:  "Hex",
 			ChargeMove: "Shadow Ball",
@@ -408,7 +408,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Rayquaza 12-3-0
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -425,7 +425,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Rayquaza",
 			QuickMove:  "Air Slash",
 			ChargeMove: "Aerial Ace",
@@ -450,7 +450,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Rayquaza 12-3-4
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -467,7 +467,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Rayquaza",
 			QuickMove:  "Air Slash",
 			ChargeMove: "Aerial Ace",
@@ -492,7 +492,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Rayquaza 12-3-4-w
 	res, err = setOfRuns(commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -509,7 +509,7 @@ func TestSetOfRuns(t *testing.T) {
 
 		Weather: 6,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Rayquaza",
 			QuickMove:  "Air Slash",
 			ChargeMove: "Aerial Ace",
@@ -561,8 +561,8 @@ func checkRes(res *app.CommonResult, checkName string, tier int) error {
 
 func TestWrapper(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	res, err := ReturnCommonRaid(IntialDataPve{
-		Pok: PokemonInitialData{
+	res, err := ReturnCommonRaid(&app.IntialDataPve{
+		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "",
@@ -579,7 +579,7 @@ func TestWrapper(t *testing.T) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Zekrom",
 			QuickMove:  "",
 			ChargeMove: "",
@@ -606,8 +606,8 @@ func TestWrapper(t *testing.T) {
 
 func TestAggressive(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	res, err := ReturnCommonRaid(IntialDataPve{
-		Pok: PokemonInitialData{
+	res, err := ReturnCommonRaid(&app.IntialDataPve{
+		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "",
@@ -624,7 +624,7 @@ func TestAggressive(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Zekrom",
 			QuickMove:  "",
 			ChargeMove: "",
@@ -652,8 +652,8 @@ func TestAggressive(t *testing.T) {
 
 func TestDodge(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	res, err := ReturnCommonRaid(IntialDataPve{
-		Pok: PokemonInitialData{
+	res, err := ReturnCommonRaid(&app.IntialDataPve{
+		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -670,7 +670,7 @@ func TestDodge(t *testing.T) {
 
 		Weather: 5,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Zekrom",
 			QuickMove:  "Charge Beam",
 			ChargeMove: "Outrage",
@@ -727,9 +727,9 @@ func checkWrapperRes(res [][]app.CommonResult, checkName []string, tier int) err
 }
 
 func TestMoveLimit(t *testing.T) {
-	mewlist, err := generateBossRow(&IntialDataPve{
+	mewlist, err := generateBossRow(&app.IntialDataPve{
 		App: testApp,
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name: "Mew",
 			Tier: 4,
 		},
@@ -743,9 +743,9 @@ func TestMoveLimit(t *testing.T) {
 	}
 	porygon := testApp.PokemonStatsBase["Porygon"]
 
-	porygonList, err := limitMoves(&porygon, porygon.QuickMoves, &IntialDataPve{
+	porygonList, err := limitMoves(&porygon, porygon.QuickMoves, &app.IntialDataPve{
 		App: testApp,
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name: "Porygon",
 			Tier: 4,
 		},
@@ -761,9 +761,9 @@ func TestMoveLimit(t *testing.T) {
 }
 
 func TestAllList(t *testing.T) {
-	allList := createAllMovesets(&IntialDataPve{
+	allList := createAllMovesets(&app.IntialDataPve{
 		App: testApp,
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			AttackIV: 15,
 			Level:    40,
 		},
@@ -771,7 +771,7 @@ func TestAllList(t *testing.T) {
 		PartySize:     18,
 		PlayersNumber: 3,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name: "Mew",
 			Tier: 4,
 		},
@@ -840,14 +840,14 @@ var checks = map[string]app.CommonResult{
 		DAvg: 6831,
 	},
 	"PalkiaDragon TailDracoMeteorDodge": {
-		DAvg: 5505,
+		DAvg: 5198,
 	},
 }
 
 func BenchmarkSingleRun2000(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
 	data := commonPvpInData{
-		Pok: PokemonInitialData{
+		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -864,7 +864,7 @@ func BenchmarkSingleRun2000(b *testing.B) {
 
 		Weather: 4,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Reshiram",
 			QuickMove:  "Fire Fang",
 			ChargeMove: "Draco Meteor",
@@ -888,8 +888,8 @@ func BenchmarkSingleRun2000(b *testing.B) {
 
 func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
-	data := IntialDataPve{
-		Pok: PokemonInitialData{
+	data := app.IntialDataPve{
+		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "",
@@ -906,7 +906,7 @@ func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Zekrom",
 			QuickMove:  "",
 			ChargeMove: "",
@@ -924,14 +924,14 @@ func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		ReturnCommonRaid(data)
+		ReturnCommonRaid(&data)
 	}
 }
 
 func BenchmarkAllVsAllMoveset(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
-	data := IntialDataPve{
-		Pok: PokemonInitialData{
+	data := app.IntialDataPve{
+		Pok: app.PokemonInitialData{
 			Name: "",
 
 			QuickMove:  "",
@@ -948,7 +948,7 @@ func BenchmarkAllVsAllMoveset(b *testing.B) {
 
 		Weather: 0,
 
-		Boss: BossInfo{
+		Boss: app.BossInfo{
 			Name:       "Mew",
 			QuickMove:  "",
 			ChargeMove: "",
@@ -966,6 +966,6 @@ func BenchmarkAllVsAllMoveset(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		ReturnCommonRaid(data)
+		ReturnCommonRaid(&data)
 	}
 }

@@ -2,7 +2,7 @@ package rating
 
 import (
 	sim "Solutions/pvpSimulator/core/sim"
-	"Solutions/pvpSimulator/core/sim/pvp"
+	"Solutions/pvpSimulator/core/sim/app"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -133,8 +133,8 @@ func (rs *ratingStruct) writeRatingByShieldsNumber() {
 
 func (rs *ratingStruct) calculateLeagueRating(leagueMaxIV map[string]ivListSingleLeague, origin string) {
 
-	rowA := make([]sim.InitialData, 0, 0)
-	rowB := make([]sim.InitialData, 0, 0)
+	rowA := make([]app.InitialData, 0, 0)
+	rowB := make([]app.InitialData, 0, 0)
 
 	//choose continue calculations or start new
 	switch rs.fromFile {
@@ -167,7 +167,7 @@ func (rs *ratingStruct) calculateLeagueRating(leagueMaxIV map[string]ivListSingl
 			rowB = rowA
 			fmt.Printf("Length of row B: %v , row B is non unique \n", len(rowB))
 		case false:
-			rowB = append([]sim.InitialData{}, rowA...)
+			rowB = append([]app.InitialData{}, rowA...)
 
 			for key := range rowB {
 				rowB[key].Shields = rs.shieldsB
@@ -185,8 +185,8 @@ func (rs *ratingStruct) calculateLeagueRating(leagueMaxIV map[string]ivListSingl
 
 }
 
-func generateRow(leagueMaxIV map[string]ivListSingleLeague, leagueTemplate map[string][]moveset, shields uint8) []sim.InitialData {
-	row := make([]sim.InitialData, 0, 5)
+func generateRow(leagueMaxIV map[string]ivListSingleLeague, leagueTemplate map[string][]moveset, shields uint8) []app.InitialData {
+	row := make([]app.InitialData, 0, 5)
 	for pokName, moveSet := range leagueTemplate {
 		for _, singleSet := range moveSet {
 			isShadow := false
@@ -215,8 +215,8 @@ func readJSON(filepath string, toTarget interface{}) error {
 	return nil
 }
 
-func createInitalData(stats ivListSingleLeague, name string, set moveset, shields uint8, shadow bool) sim.InitialData {
-	return sim.InitialData{
+func createInitalData(stats ivListSingleLeague, name string, set moveset, shields uint8, shadow bool) app.InitialData {
+	return app.InitialData{
 		Name:       name,
 		QuickMove:  set.Quick,
 		ChargeMove: set.Charge,
@@ -240,15 +240,15 @@ func sumOf(n int) int {
 }
 
 //MatrixBattleNonUnique returns results of matrix battle between groups of pokemons
-func (rs *ratingStruct) matrixForRate(rowA, rowB []sim.InitialData) sim.ErrorChan {
+func (rs *ratingStruct) matrixForRate(rowA, rowB []app.InitialData) app.ErrorChan {
 	var (
 		outerWG sync.WaitGroup
 		mutex   sync.Mutex
 	)
 
-	errChan := make(sim.ErrorChan, len(rowA))
+	errChan := make(app.ErrorChan, len(rowA))
 	timeVar := time.Duration(rs.sleepTime)
-	leagueResult := map[string]map[string]map[string]map[string]sim.RatingResult{}
+	leagueResult := map[string]map[string]map[string]map[string]app.RatingResult{}
 
 	//if we continue from file, load previous result
 	if rs.fromFile {
@@ -290,7 +290,7 @@ func (rs *ratingStruct) matrixForRate(rowA, rowB []sim.InitialData) sim.ErrorCha
 			}
 
 			outerWG.Add(1)
-			go func(attacker, defender sim.InitialData) {
+			go func(attacker, defender app.InitialData) {
 				singleBattleResult, err := sim.RatingPvp(attacker, defender)
 				if err != nil {
 					errChan <- err
@@ -303,15 +303,15 @@ func (rs *ratingStruct) matrixForRate(rowA, rowB []sim.InitialData) sim.ErrorCha
 				}
 				_, ok = leagueResult[singleBattleResult.Attacker.Name]
 				if !ok {
-					leagueResult[singleBattleResult.Attacker.Name] = make(map[string]map[string]map[string]sim.RatingResult)
+					leagueResult[singleBattleResult.Attacker.Name] = make(map[string]map[string]map[string]app.RatingResult)
 				}
 				_, ok = leagueResult[singleBattleResult.Attacker.Name][makeMovesetKey(singleBattleResult.Attacker)]
 				if !ok {
-					leagueResult[singleBattleResult.Attacker.Name][makeMovesetKey(singleBattleResult.Attacker)] = make(map[string]map[string]sim.RatingResult)
+					leagueResult[singleBattleResult.Attacker.Name][makeMovesetKey(singleBattleResult.Attacker)] = make(map[string]map[string]app.RatingResult)
 				}
 				_, ok = leagueResult[singleBattleResult.Attacker.Name][makeMovesetKey(singleBattleResult.Attacker)][singleBattleResult.Defender.Name]
 				if !ok {
-					leagueResult[singleBattleResult.Attacker.Name][makeMovesetKey(singleBattleResult.Attacker)][singleBattleResult.Defender.Name] = make(map[string]sim.RatingResult)
+					leagueResult[singleBattleResult.Attacker.Name][makeMovesetKey(singleBattleResult.Attacker)][singleBattleResult.Defender.Name] = make(map[string]app.RatingResult)
 				}
 
 				leagueResult[singleBattleResult.Attacker.Name][makeMovesetKey(singleBattleResult.Attacker)][singleBattleResult.Defender.Name][makeMovesetKey(singleBattleResult.Defender)] = singleBattleResult
@@ -366,7 +366,7 @@ func writeJSON(dest string, value interface{}) {
 	}
 }
 
-func makeMovesetKey(res pvp.RatingBattleResult) string {
+func makeMovesetKey(res app.RatingBattleResult) string {
 	return res.Quick + res.Charge[0] + res.Charge[1]
 }
 
@@ -469,17 +469,17 @@ func WriteOverall() {
 }
 
 func generateOverall(league string) {
-	result00 := make(map[string]map[string]map[string]map[string]sim.RatingResult)
+	result00 := make(map[string]map[string]map[string]map[string]app.RatingResult)
 	err := readJSON(path.Join(os.Getenv("PVP_SIMULATOR_ROOT")+"./bases/rating/rate"+league+"00.json"), &result00)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	result11 := make(map[string]map[string]map[string]map[string]sim.RatingResult)
+	result11 := make(map[string]map[string]map[string]map[string]app.RatingResult)
 	err = readJSON(path.Join(os.Getenv("PVP_SIMULATOR_ROOT")+"./bases/rating/rate"+league+"11.json"), &result11)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	result22 := make(map[string]map[string]map[string]map[string]sim.RatingResult)
+	result22 := make(map[string]map[string]map[string]map[string]app.RatingResult)
 	err = readJSON(path.Join(os.Getenv("PVP_SIMULATOR_ROOT")+"./bases/rating/rate"+league+"22.json"), &result22)
 	if err != nil {
 		log.Fatalln(err)
@@ -564,7 +564,7 @@ type processingStruct struct {
 	leagueList map[string][]moveset
 	weights    weightedLeague
 
-	rawRate       map[string]map[string]map[string]map[string]sim.RatingResult
+	rawRate       map[string]map[string]map[string]map[string]app.RatingResult
 	processedRate map[string]*rankingSheetToProcess
 	result        []rankingSheetToWrite
 }
@@ -834,7 +834,7 @@ func (ps *processingStruct) makeListofBestsAndCounters(first bool) {
 	}
 }
 
-func (rstw *rankingSheetToWrite) addToBestsOrCounters(resBest, resCounter pvp.RatingBattleResult, nameBest, nameCounter string) {
+func (rstw *rankingSheetToWrite) addToBestsOrCounters(resBest, resCounter app.RatingBattleResult, nameBest, nameCounter string) {
 	if resBest.Rate > 500 && len(rstw.BestMetaMatchups) < 10 {
 		for _, value := range rstw.BestMetaMatchups {
 			if value.Name == nameBest {

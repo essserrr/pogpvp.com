@@ -11,47 +11,6 @@ import (
 	"time"
 )
 
-//IntialDataPve contains data to start common raid
-type IntialDataPve struct {
-	App *app.SimApp
-
-	NumberOfRuns  int
-	FriendStage   int
-	Weather       int
-	DodgeStrategy int
-
-	Pok           PokemonInitialData
-	AggresiveMode bool
-
-	Boss          BossInfo
-	PartySize     uint8
-	PlayersNumber uint8
-}
-
-//PokemonInitialData contains initial data for pvp
-type PokemonInitialData struct {
-	Name string
-
-	QuickMove  string
-	ChargeMove string
-
-	Level float32
-
-	AttackIV  uint8
-	DefenceIV uint8
-	StaminaIV uint8
-
-	IsShadow bool
-}
-
-//BossInfo contains boss initial data
-type BossInfo struct {
-	Name       string
-	QuickMove  string
-	ChargeMove string
-	Tier       uint8
-}
-
 type pveObject struct {
 	app *app.SimApp
 
@@ -79,10 +38,10 @@ type commonPvpInData struct {
 	Weather       int
 	DodgeStrategy int
 
-	Pok           PokemonInitialData
+	Pok           app.PokemonInitialData
 	AggresiveMode bool
 
-	Boss          BossInfo
+	Boss          app.BossInfo
 	PartySize     uint8
 	PlayersNumber uint8
 }
@@ -93,13 +52,13 @@ type conStruct struct {
 	errChan app.ErrorChan
 	wg      sync.WaitGroup
 
-	attackerRow []PokemonInitialData
-	bossRow     []BossInfo
+	attackerRow []app.PokemonInitialData
+	bossRow     []app.BossInfo
 	resArray    [][]app.CommonResult
 }
 
 //ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
-func ReturnCommonRaid(inDat IntialDataPve) ([][]app.CommonResult, error) {
+func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	rand.Seed(time.Now().UnixNano())
 	_, ok := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 	if !ok {
@@ -126,22 +85,22 @@ func ReturnCommonRaid(inDat IntialDataPve) ([][]app.CommonResult, error) {
 
 	var err error
 	conObj := conStruct{
-		attackerRow: generateAttackersRow(&inDat),
+		attackerRow: generateAttackersRow(inDat),
 
 		wg:       sync.WaitGroup{},
 		count:    0,
 		resArray: [][]app.CommonResult{},
 	}
-	conObj.bossRow, err = generateBossRow(&inDat)
+	conObj.bossRow, err = generateBossRow(inDat)
 	if err != nil {
 		return [][]app.CommonResult{}, err
 	}
 
 	switch conObj.attackerRow == nil {
 	case true:
-		conObj.startForAll(&inDat)
+		conObj.startForAll(inDat)
 	default:
-		conObj.startWithAttackerRow(&inDat)
+		conObj.startWithAttackerRow(inDat)
 	}
 
 	conObj.wg.Wait()
@@ -163,7 +122,7 @@ func ReturnCommonRaid(inDat IntialDataPve) ([][]app.CommonResult, error) {
 	return conObj.resArray, nil
 }
 
-func (co *conStruct) startForAll(inDat *IntialDataPve) {
+func (co *conStruct) startForAll(inDat *app.IntialDataPve) {
 	co.resArray = make([][]app.CommonResult, 0, 1000)
 	preRunArr := createAllMovesets(inDat)
 	co.errChan = make(app.ErrorChan, len(preRunArr)*len(co.bossRow))
@@ -178,11 +137,11 @@ func (co *conStruct) startForAll(inDat *IntialDataPve) {
 			for co.count > 20000 {
 
 			}
-			go func(currBoss BossInfo, p, q, ch string, i int) {
+			go func(currBoss app.BossInfo, p, q, ch string, i int) {
 				defer co.wg.Done()
 				singleResult, err := setOfRuns(commonPvpInData{
 					App: inDat.App,
-					Pok: PokemonInitialData{
+					Pok: app.PokemonInitialData{
 						Name: p,
 
 						QuickMove:  q,
@@ -222,7 +181,7 @@ func (co *conStruct) startForAll(inDat *IntialDataPve) {
 	co.wg.Wait()
 }
 
-func (co *conStruct) startWithAttackerRow(inDat *IntialDataPve) {
+func (co *conStruct) startWithAttackerRow(inDat *app.IntialDataPve) {
 	co.resArray = make([][]app.CommonResult, 0, len(co.attackerRow))
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
@@ -236,7 +195,7 @@ func (co *conStruct) startWithAttackerRow(inDat *IntialDataPve) {
 			co.Lock()
 			co.count++
 			co.Unlock()
-			go func(currPok PokemonInitialData, currBoss BossInfo, i int) {
+			go func(currPok app.PokemonInitialData, currBoss app.BossInfo, i int) {
 				defer co.wg.Done()
 				singleResult, err := setOfRuns(commonPvpInData{
 					App: inDat.App,
@@ -284,7 +243,7 @@ func (a byAvgDamage) Less(i, j int) bool {
 }
 func (a byAvgDamage) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
-func createAllMovesets(inDat *IntialDataPve) []preRun {
+func createAllMovesets(inDat *app.IntialDataPve) []preRun {
 	pokemonsAll := make([]preRun, 0, 14000)
 	// calculate boss params
 	bossStat := inDat.App.PokemonStatsBase[inDat.Boss.Name]
@@ -354,7 +313,7 @@ func (a byDps) Len() int           { return len(a) }
 func (a byDps) Less(i, j int) bool { return a[i].Dps > a[j].Dps }
 func (a byDps) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
-func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBaseEntry, inDat *IntialDataPve) float32 {
+func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBaseEntry, inDat *app.IntialDataPve) float32 {
 	moveEfficiency := inDat.App.TypesData[move.MoveType]
 
 	var stabMultiplier float32 = 1.0
@@ -380,7 +339,7 @@ func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBas
 	return stabMultiplier * friendship[inDat.FriendStage] * seMultiplier * weatherMultiplier
 }
 
-func generateBossRow(inDat *IntialDataPve) ([]BossInfo, error) {
+func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 	pokVal, _ := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 
 	//create quick move list
@@ -402,7 +361,7 @@ func generateBossRow(inDat *IntialDataPve) ([]BossInfo, error) {
 	if len(quickM) > 10 {
 		newQList, err := limitMoves(&pokVal, quickM, inDat, false)
 		if err != nil {
-			return []BossInfo{}, err
+			return []app.BossInfo{}, err
 		}
 		quickM = newQList
 	}
@@ -430,16 +389,16 @@ func generateBossRow(inDat *IntialDataPve) ([]BossInfo, error) {
 	if len(chargeM) > 10 {
 		newChList, err := limitMoves(&pokVal, chargeM, inDat, true)
 		if err != nil {
-			return []BossInfo{}, err
+			return []app.BossInfo{}, err
 		}
 		chargeM = newChList
 	}
 	//create boss list
-	bosses := make([]BossInfo, 0, 1)
+	bosses := make([]app.BossInfo, 0, 1)
 	for _, valueQ := range quickM {
 		for _, valueCH := range chargeM {
 			bosses = append(bosses,
-				BossInfo{
+				app.BossInfo{
 					Name:       pokVal.Title,
 					QuickMove:  valueQ,
 					ChargeMove: valueCH,
@@ -452,7 +411,7 @@ func generateBossRow(inDat *IntialDataPve) ([]BossInfo, error) {
 }
 
 //limitMoves limits boss moves to 10
-func limitMoves(pok *app.PokemonsBaseEntry, moves []string, inDat *IntialDataPve, isCharge bool) ([]string, error) {
+func limitMoves(pok *app.PokemonsBaseEntry, moves []string, inDat *app.IntialDataPve, isCharge bool) ([]string, error) {
 	limiter := make([]moveLimiter, 0, len(moves))
 	hiddenPower := make([]moveLimiter, 0, 0)
 	newList := make([]string, 0, 10)
@@ -547,7 +506,7 @@ func (a byDpsMoves) Less(i, j int) bool { return a[i].Dps > a[j].Dps }
 func (a byDpsMoves) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 //generateAttackersRow generates attacker row for simulations with know attacker name
-func generateAttackersRow(inDat *IntialDataPve) []PokemonInitialData {
+func generateAttackersRow(inDat *app.IntialDataPve) []app.PokemonInitialData {
 	//get pokemon from vase
 	pokVal, ok := inDat.App.PokemonStatsBase[inDat.Pok.Name]
 	if !ok {
@@ -578,11 +537,11 @@ func generateAttackersRow(inDat *IntialDataPve) []PokemonInitialData {
 	}
 
 	//make entry for every moveset
-	pokemons := make([]PokemonInitialData, 0, 1)
+	pokemons := make([]app.PokemonInitialData, 0, 1)
 	for _, valueQ := range quickM {
 		for _, valueCH := range chargeM {
 			pokemons = append(pokemons,
-				PokemonInitialData{
+				app.PokemonInitialData{
 					Name: inDat.Pok.Name,
 
 					QuickMove:  valueQ,
@@ -610,7 +569,7 @@ func setOfRuns(inDat commonPvpInData) (app.CommonResult, error) {
 	result.FMin = uint32(inDat.PartySize)
 
 	for i := 0; i < inDat.NumberOfRuns; i++ {
-		res, err := simulatorRun(inDat)
+		res, err := simulatorRun(&inDat)
 		if err != nil {
 			return app.CommonResult{}, err
 		}
@@ -661,7 +620,7 @@ func collect(cr *app.CommonResult, run *runResult) {
 }
 
 //simulatorRun makes a single raid simulator run (battle)
-func simulatorRun(inDat commonPvpInData) (runResult, error) {
+func simulatorRun(inDat *commonPvpInData) (runResult, error) {
 	obj := pveObject{}
 
 	obj.app = inDat.App
@@ -802,7 +761,7 @@ func (obj *pveObject) letsBattle() error {
 
 func (pok *pokemon) revive() {
 	pok.hp = pok.maxHP
-	pok.energy = Energy(0)
+	pok.energy = app.Energy(0)
 
 	pok.action = 0
 	pok.damageRegistered = true
@@ -939,10 +898,10 @@ func (pok *pokemon) getEnergy() error {
 	switch pok.action {
 	case 2:
 		pok.energyRegistered = true
-		pok.energy.addEnergy(pok.quickMove.energy)
+		pok.energy.AddEnergy(pok.quickMove.energy)
 	case 3:
 		pok.energyRegistered = true
-		pok.energy.addEnergy(pok.chargeMove.energy)
+		pok.energy.AddEnergy(pok.chargeMove.energy)
 	default:
 		return fmt.Errorf("Attempt to get energy with zero action")
 	}
@@ -966,9 +925,9 @@ func (pok *pokemon) dealDamage(defender *pokemon, obj *pveObject) error {
 	//if defender is boss give him additinal number energy
 	switch defender.isBoss {
 	case true:
-		defender.energy.addEnergy(int16(math.Round(float64(int32(obj.PlayersNumber)*damage) * 0.5)))
+		defender.energy.AddEnergy(int16(math.Round(float64(int32(obj.PlayersNumber)*damage) * 0.5)))
 	default:
-		defender.energy.addEnergy(int16(math.Round(float64(damage) * 0.5)))
+		defender.energy.AddEnergy(int16(math.Round(float64(damage) * 0.5)))
 	}
 	return nil
 
@@ -989,10 +948,10 @@ func dodge(attacker, defender *pokemon, obj *pveObject) float32 {
 	switch defender.action {
 	case 2:
 		damage = int32(float32(defender.quickMove.damage)*0.5*(defender.effectiveAttack/attacker.effectiveDefence)*defender.quickMove.multiplier) + 1
-		defender.energy.addEnergy(-defender.quickMove.energy)
+		defender.energy.AddEnergy(-defender.quickMove.energy)
 	case 3:
 		damage = int32(float32(defender.chargeMove.damage)*0.5*(defender.effectiveAttack/attacker.effectiveDefence)*defender.chargeMove.multiplier) + 1
-		defender.energy.addEnergy(-defender.chargeMove.energy)
+		defender.energy.AddEnergy(-defender.chargeMove.energy)
 	default:
 		defender.damageRegistered = true
 		defender.energyRegistered = true
@@ -1002,7 +961,8 @@ func dodge(attacker, defender *pokemon, obj *pveObject) float32 {
 		defender.moveCooldown = 500
 	}
 
-	attacker.energy.addEnergy(-int16(math.Round(float64(damage) * 0.5)))
+	attacker.hp += damage
+	attacker.energy.AddEnergy(-int16(math.Round(float64(damage) * 0.5)))
 
 	return 0.25
 }

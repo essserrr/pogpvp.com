@@ -1,13 +1,13 @@
-package sim
+package pvp
 
 import (
-	pvp "Solutions/pvpSimulator/core/sim/pvp"
+	app "Solutions/pvpSimulator/core/sim/app"
 	"testing"
 )
 
 //shielded PvP with q charge move
 func TestShielded2CM(t *testing.T) {
-	var AlolanMuk = InitialData{
+	var AlolanMuk = app.InitialData{
 		Name:       "Alolan Muk",
 		Shields:    1,
 		AttackIV:   0,
@@ -17,7 +17,7 @@ func TestShielded2CM(t *testing.T) {
 		QuickMove:  "Bite",
 		ChargeMove: []string{"Dark Pulse", "Acid Spray"},
 	}
-	var AlolanMarowak = InitialData{
+	var AlolanMarowak = app.InitialData{
 		Name:       "Alolan Marowak",
 		Shields:    1,
 		AttackIV:   0,
@@ -28,7 +28,7 @@ func TestShielded2CM(t *testing.T) {
 		ChargeMove: []string{"Bone Club", "Shadow Ball"},
 	}
 
-	var Swampert = InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -37,7 +37,7 @@ func TestShielded2CM(t *testing.T) {
 		QuickMove:  "Water Gun",
 		ChargeMove: []string{"Hydro Cannon", "Earthquake"},
 	}
-	var Altaria = InitialData{
+	var Altaria = app.InitialData{
 		Name:       "Altaria",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -47,7 +47,7 @@ func TestShielded2CM(t *testing.T) {
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
 
-	var Azumarill = InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -57,7 +57,7 @@ func TestShielded2CM(t *testing.T) {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -68,7 +68,7 @@ func TestShielded2CM(t *testing.T) {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Skarmory = InitialData{
+	var Skarmory = app.InitialData{
 		Name:      "Skarmory",
 		InitialHp: 54,
 
@@ -81,7 +81,7 @@ func TestShielded2CM(t *testing.T) {
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
 
-	var GiratinaAltered = InitialData{
+	var GiratinaAltered = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -91,7 +91,7 @@ func TestShielded2CM(t *testing.T) {
 		QuickMove:  "Shadow Claw",
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
-	var Snorlax = InitialData{
+	var Snorlax = app.InitialData{
 		Name:       "Snorlax",
 		Shields:    2,
 		AttackIV:   15,
@@ -102,7 +102,7 @@ func TestShielded2CM(t *testing.T) {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := checkPVP(AlolanMuk, AlolanMarowak, "shieldedAlolanMukAlolanMarowak", Constructor{})
+	err := checkPVP(AlolanMuk, AlolanMarowak, "shieldedAlolanMukAlolanMarowak", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
@@ -111,32 +111,32 @@ func TestShielded2CM(t *testing.T) {
 	Altaria.Shields = 1
 	Swampert.InitialHp = 107
 	Swampert.Shields = 1
-	err = checkPVP(Swampert, Altaria, "shieldedSwampertAltaria", Constructor{})
+	err = checkPVP(Swampert, Altaria, "shieldedSwampertAltaria", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur1", Constructor{})
+	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur1", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
 	Venusaur.ChargeMove = []string{"Frenzy Plant", "Sludge Bomb"}
-	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur2", Constructor{})
+	err = checkPVP(Azumarill, Venusaur, "shieldedAzumarillVenusaur2", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
 
 	Altaria.InitialHp = 56
 	Altaria.Shields = 2
-	err = checkPVP(Skarmory, Altaria, "shieldedSkarmoryAltaria", Constructor{})
+	err = checkPVP(Skarmory, Altaria, "shieldedSkarmoryAltaria", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax1", Constructor{})
+	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax1", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
 	GiratinaAltered.Shields = 1
-	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax2", Constructor{})
+	err = checkPVP(GiratinaAltered, Snorlax, "shieldedGiratinaAlteredSnorlax2", app.Constructor{})
 	if err != nil {
 		t.Error(err)
 	}
@@ -145,7 +145,7 @@ func TestShielded2CM(t *testing.T) {
 //shielded PvP with 1 charge move
 
 func TestShielded1CM(t *testing.T) {
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		Shields:    2,
 		AttackIV:   15,
@@ -156,7 +156,7 @@ func TestShielded1CM(t *testing.T) {
 		ChargeMove: []string{"Power-Up Punch", ""},
 	}
 
-	var Swampert = InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		Shields:    2,
 		AttackIV:   0,
@@ -167,21 +167,21 @@ func TestShielded1CM(t *testing.T) {
 		ChargeMove: []string{"Hydro Cannon", ""},
 	}
 
-	err := checkPVP(Medicham, Swampert, "generalShielded", Constructor{}) //general shielded PvP 2-2
+	err := checkPVP(Medicham, Swampert, "generalShielded", app.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		t.Error(err)
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 1
-	err = checkPVP(Medicham, Swampert, "shielded11", Constructor{}) //general shielded PvP 2-2
+	err = checkPVP(Medicham, Swampert, "shielded11", app.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		t.Error(err)
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 0
-	err = checkPVP(Medicham, Swampert, "shielded10", Constructor{}) //shielded PvP 1-0
+	err = checkPVP(Medicham, Swampert, "shielded10", app.Constructor{}) //shielded PvP 1-0
 	if err != nil {
 		t.Error(err)
 	}
@@ -189,7 +189,7 @@ func TestShielded1CM(t *testing.T) {
 }
 
 func TestConstructor(t *testing.T) {
-	var GiratinaA = InitialData{
+	var GiratinaA = app.InitialData{
 		Name:      "Giratina (Altered Forme)",
 		AttackIV:  1,
 		DefenceIV: 10,
@@ -204,7 +204,7 @@ func TestConstructor(t *testing.T) {
 		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
 	}
 
-	var Aerodactyl = InitialData{
+	var Aerodactyl = app.InitialData{
 		Name:      "Aerodactyl",
 		AttackIV:  2,
 		DefenceIV: 6,
@@ -219,16 +219,16 @@ func TestConstructor(t *testing.T) {
 		ChargeMove: []string{"Rock Slide", "Earth Power"},
 	}
 
-	err := checkPVP(GiratinaA, Aerodactyl, "constr1", Constructor{
+	err := checkPVP(GiratinaA, Aerodactyl, "constr1", app.Constructor{
 		Round: 12,
-		Attacker: pvp.Status{
+		Attacker: app.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: pvp.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -248,16 +248,16 @@ func TestConstructor(t *testing.T) {
 	GiratinaA.InitialAttackStage = 2
 	GiratinaA.InitialDefenceStage = 2
 
-	err = checkPVP(GiratinaA, Aerodactyl, "constr2", Constructor{
+	err = checkPVP(GiratinaA, Aerodactyl, "constr2", app.Constructor{
 		Round: 21,
-		Attacker: pvp.Status{
+		Attacker: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: pvp.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,
@@ -271,7 +271,7 @@ func TestConstructor(t *testing.T) {
 }
 
 func BenchmarkShieldedPVP(b *testing.B) {
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		Shields:    2,
 		InitialHp:  0,
@@ -283,7 +283,7 @@ func BenchmarkShieldedPVP(b *testing.B) {
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
 
-	var Kingdra = InitialData{
+	var Kingdra = app.InitialData{
 		Name:       "Kingdra",
 		Shields:    2,
 		InitialHp:  0,
@@ -297,13 +297,13 @@ func BenchmarkShieldedPVP(b *testing.B) {
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(SinglePvpInitialData{Medicham, Kingdra, Constructor{}, true})
+		NewPvpBetween(app.SinglePvpInitialData{Medicham, Kingdra, app.Constructor{}, true, testApp})
 	}
 
 }
 
 func BenchmarkShieldedPvpLong(b *testing.B) {
-	var GiratinaA = InitialData{
+	var GiratinaA = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -314,7 +314,7 @@ func BenchmarkShieldedPvpLong(b *testing.B) {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	var Snorlax = InitialData{
+	var Snorlax = app.InitialData{
 		Name:       "Snorlax",
 		Shields:    2,
 		AttackIV:   15,
@@ -326,6 +326,6 @@ func BenchmarkShieldedPvpLong(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(SinglePvpInitialData{GiratinaA, Snorlax, Constructor{}, true})
+		NewPvpBetween(app.SinglePvpInitialData{GiratinaA, Snorlax, app.Constructor{}, true, testApp})
 	}
 }

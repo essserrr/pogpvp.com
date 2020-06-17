@@ -1,7 +1,7 @@
-package sim
+package pvp
 
 import (
-	pvp "Solutions/pvpSimulator/core/sim/pvp"
+	app "Solutions/pvpSimulator/core/sim/app"
 	"fmt"
 	"sync"
 	"testing"
@@ -9,8 +9,8 @@ import (
 
 type TestErrorTree struct {
 	Test     string
-	Expected pvp.ValueOfTree
-	Got      pvp.ValueOfTree
+	Expected ValueOfTree
+	Got      ValueOfTree
 }
 
 func (e *TestErrorTree) Error() string {
@@ -18,7 +18,7 @@ func (e *TestErrorTree) Error() string {
 }
 
 func TestGeneralTree(t *testing.T) {
-	var Azumarill = InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -28,7 +28,7 @@ func TestGeneralTree(t *testing.T) {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -45,22 +45,22 @@ func TestGeneralTree(t *testing.T) {
 	}
 }
 
-func checkTrees(attacker, defender InitialData, checkName string) error {
+func checkTrees(attacker, defender app.InitialData, checkName string) error {
 	var errs error
 	var wg sync.WaitGroup
-	tree := &pvp.Tree{}
+	tree := &Tree{}
 
-	pvp.MakeTree(pvp.TreeInitialData{
-		AttackerData: pvp.InitialData(attacker),
-		DefenderData: pvp.InitialData(defender),
+	MakeTree(TreeInitialData{
+		AttackerData: app.InitialData(attacker),
+		DefenderData: app.InitialData(defender),
 		WG:           &wg,
 		Tree:         tree,
-		App:          Application,
+		App:          testApp,
 	})
 	if errs != nil {
 		return errs
 	}
-	var goldenTree pvp.Tree
+	var goldenTree Tree
 	errs = goldenTree.ReadTree(linksTree[checkName])
 	if errs != nil {
 		return errs
@@ -73,7 +73,7 @@ func checkTrees(attacker, defender InitialData, checkName string) error {
 	return nil
 }
 
-func CheckTreesIdent(goldenTree, treeB *pvp.Tree, checkName string) error {
+func CheckTreesIdent(goldenTree, treeB *Tree, checkName string) error {
 	if goldenTree == nil && treeB == nil {
 		return nil
 	}
@@ -81,7 +81,7 @@ func CheckTreesIdent(goldenTree, treeB *pvp.Tree, checkName string) error {
 		return &TestErrorTree{
 			checkName,
 			goldenTree.TreeVal,
-			pvp.ValueOfTree{},
+			ValueOfTree{},
 		}
 	}
 	if goldenTree.TreeVal != treeB.TreeVal {
@@ -104,7 +104,7 @@ func CheckTreesIdent(goldenTree, treeB *pvp.Tree, checkName string) error {
 }
 
 func BenchmarkMakeTree(b *testing.B) {
-	var Medicham = InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		InitialHp:  0,
 		Shields:    0,
@@ -116,7 +116,7 @@ func BenchmarkMakeTree(b *testing.B) {
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
 
-	var Kingdra = InitialData{
+	var Kingdra = app.InitialData{
 		Name:       "Kingdra",
 		InitialHp:  0,
 		AttackIV:   0,
@@ -127,16 +127,16 @@ func BenchmarkMakeTree(b *testing.B) {
 		ChargeMove: []string{"Octazooka", "Outrage"},
 	}
 	var wg sync.WaitGroup
-	tree := &pvp.Tree{}
+	tree := &Tree{}
 
-	InDat := pvp.TreeInitialData{
-		AttackerData: pvp.InitialData(Medicham),
-		DefenderData: pvp.InitialData(Kingdra),
+	InDat := TreeInitialData{
+		AttackerData: Medicham,
+		DefenderData: Kingdra,
 		WG:           &wg,
 		Tree:         tree,
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		pvp.MakeTree(InDat)
+		MakeTree(InDat)
 	}
 }
