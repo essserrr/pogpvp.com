@@ -57,6 +57,28 @@ type conStruct struct {
 	resArray    [][]app.CommonResult
 }
 
+func setUpRunsNumber(inDat *app.IntialDataPve) {
+	if inDat.NumberOfRuns > 0 {
+		return
+	}
+	_, ok := inDat.App.PokemonStatsBase[inDat.Pok.Name]
+	if !ok {
+		inDat.NumberOfRuns = 10
+		return
+	}
+	_, ok = inDat.App.PokemonMovesBase[inDat.Pok.QuickMove]
+	if !ok {
+		inDat.NumberOfRuns = 100
+		return
+	}
+	_, ok = inDat.App.PokemonMovesBase[inDat.Pok.ChargeMove]
+	if !ok {
+		inDat.NumberOfRuns = 100
+		return
+	}
+	inDat.NumberOfRuns = 500
+}
+
 //ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
 func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	rand.Seed(time.Now().UnixNano())
@@ -64,24 +86,7 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	if !ok {
 		return [][]app.CommonResult{}, fmt.Errorf("Unknown boss")
 	}
-	if inDat.Boss.Tier > 5 || inDat.Boss.Tier < 0 {
-		return [][]app.CommonResult{}, fmt.Errorf("Unknown raid tier")
-	}
-	if inDat.FriendStage > 8 || inDat.FriendStage < 0 {
-		return [][]app.CommonResult{}, fmt.Errorf("Unknown friendship tier")
-	}
-	if inDat.PlayersNumber > 20 || inDat.PlayersNumber < 1 {
-		return [][]app.CommonResult{}, fmt.Errorf("Wrong players number")
-	}
-	if inDat.PartySize > 18 || inDat.PartySize < 1 {
-		return [][]app.CommonResult{}, fmt.Errorf("Wrong party size")
-	}
-	if inDat.Weather > 7 || inDat.Weather < 0 {
-		return [][]app.CommonResult{}, fmt.Errorf("Unknown weather")
-	}
-	if inDat.DodgeStrategy > 4 || inDat.Weather < 0 {
-		return [][]app.CommonResult{}, fmt.Errorf("Unknown dodge strategy")
-	}
+	setUpRunsNumber(inDat)
 
 	var err error
 	conObj := conStruct{

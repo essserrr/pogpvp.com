@@ -62,10 +62,8 @@ func (obj *pveObject) makeNewCharacter(pokemonData *app.PokemonInitialData, pok 
 	return nil
 }
 
-func (pok *pokemon) setLevel(pokemonData *app.PokemonInitialData, obj *pveObject) error { //sets up level and level-IV dependent stats
-	if pokemonData.Level > 45 || pokemonData.Level < 1 {
-		return fmt.Errorf("Level must be in range 1-45")
-	}
+//setLevel sets up level and level-IV dependent stats
+func (pok *pokemon) setLevel(pokemonData *app.PokemonInitialData, obj *pveObject) error {
 	if !isInteger(pokemonData.Level / 0.5) {
 		return fmt.Errorf("Level must be multiple of 0.5")
 	}
@@ -73,14 +71,12 @@ func (pok *pokemon) setLevel(pokemonData *app.PokemonInitialData, obj *pveObject
 	return nil
 }
 
-func isInteger(floatNumber float32) bool { // sheck if the float is integer
+//isInteger sheck if the float is integer
+func isInteger(floatNumber float32) bool {
 	return math.Mod(float64(floatNumber), 1.0) == 0
 }
 
 func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObject) error { //sets up base stats
-	if pokemonData.AttackIV > 15 || pokemonData.DefenceIV > 15 || pokemonData.StaminaIV > 15 || pokemonData.AttackIV < 0 || pokemonData.DefenceIV < 0 || pokemonData.StaminaIV < 0 {
-		return fmt.Errorf("IV must be in range 0-15")
-	}
 	speciesType, ok := obj.app.PokemonStatsBase[pokemonData.Name]
 	if !ok {
 		return fmt.Errorf("There is no such pokemon")
