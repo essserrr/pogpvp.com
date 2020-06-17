@@ -35,6 +35,7 @@ import (
 type App struct {
 	semistaticDatabase database
 	pvpDatabase        database
+	pveDatabase        database
 	newsDatabse        database
 	users              database
 
@@ -103,10 +104,15 @@ func createApp(withLog *os.File) (*App, error) {
 	if err != nil {
 		return &App{}, err
 	}
+	err = app.pveDatabase.createDatabase("./pve.db", "BOLTDB", []string{"PVERESULTS"})
+	if err != nil {
+		return &App{}, err
+	}
+
 	//init server
 	app.initServer()
 	//start clean up task
-	go app.pvpDatabase.cleanupBucket(168, "PVPRESULTS", &app)
+	go app.pvpDatabase.cleanupPvpBucket(72, "PVPRESULTS", &app)
 	//start update db task
 	go app.semistaticDatabase.startUpdaterService(5, "SHINY", "value", &app, getbase.GetShinyBase)
 	go app.semistaticDatabase.startUpdaterService(24, "RAIDS", "value", &app, getbase.GetRaidsList)
@@ -155,7 +161,7 @@ func (dbs *database) addStaticBase(path, bucketName string) error {
 }
 
 //Clean up pvp bucket
-func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
+func (dbs *database) cleanupPvpBucket(timer uint, bucketName string, app *App) {
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
 		app.metrics.appCounters.With(prometheus.Labels{"type": "cleanup_pvp_count"}).Inc()
@@ -581,6 +587,56 @@ func uintToByte(v uint64) []byte {
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, v)
 	return b
+}
+
+func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
+	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("pve"))
+	defer timer.ObserveDuration().Milliseconds()
+	//Check if method is allowed
+	if r.Method != http.MethodGet {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+		return errors.NewHTTPError(nil, 405, "Method is not allowed")
+	}
+	//Check visitor's requests limit
+	err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations)
+	if err != nil {
+		return err
+	}
+	go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_count"}).Inc()
+
+	attacker := chi.URLParam(r, "attacker")
+	boss := chi.URLParam(r, "boss")
+	obj := chi.URLParam(r, "obj")
+	//if base aldready exists there is no need to create it again
+	var answer []byte
+
+	if answer == nil {
+		//Parse request
+		inDat, err := parser.ParseRaidRequest(attacker, boss, obj)
+		if err != nil {
+			return err
+		}
+		//Start new raid
+		pveResult, err := sim.CalculteCommonPve(inDat)
+
+		if err != nil {
+			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+			return errors.NewHTTPError(err, 400, "PvE error")
+		}
+		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Calculated raid")
+
+		//Create json answer from pvpResult
+		answer, err = json.Marshal(pveResult)
+		if err != nil {
+			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+			return fmt.Errorf("PvE result marshal error: %v", err)
+		}
+	}
+
+	//Write answer
+	(*w).Header().Set("Content-Type", "application/json")
+	_, err = (*w).Write(answer)
+	return nil
 }
 
 func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
@@ -1069,6 +1125,8 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
 	router.Handle("/request/constructor", rootHandler{constructorPvpHandler, a})
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
+
+	router.Handle("/request/raidc/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
 
 	//bd calls
 	router.Handle("/db/{type}", rootHandler{dbCallHandler, a})
