@@ -2,7 +2,7 @@ package sim
 
 import (
 	app "Solutions/pvpSimulator/core/sim/app"
-	"Solutions/pvpSimulator/core/sim/pve"
+	pve "Solutions/pvpSimulator/core/sim/pve"
 	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"fmt"
 )
@@ -28,7 +28,7 @@ type MatrixResult pvp.MatrixResult
 type InitialData pvp.InitialData
 
 //ErrorChan a set of errors returned by matrix battle
-type ErrorChan pvp.ErrorChan
+type ErrorChan app.ErrorChan
 
 //Energy is a representations of pokemon's energy
 type Energy pvp.Energy
@@ -89,41 +89,23 @@ func RatingPvp(attackerData, defenderData InitialData) (RatingResult, error) {
 	return RatingResult(res), err
 }
 
-func DealDamagePve() {
-	err := pve.CommonSimulatorWrapper(pve.IntialDataPve{
-		Pok: pve.PokemonInitialData{
-			Name: "Palkia",
+//IntialDataPve contains data to start common raid
+type IntialDataPve pve.IntialDataPve
 
-			QuickMove:  "",
-			ChargeMove: "",
+//PokemonInitialData contains initial data for pvp
+type PokemonInitialData pve.PokemonInitialData
 
-			Level: 40,
+//BossInfo contains boss initial data
+type BossInfo pve.BossInfo
 
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
-		},
-
-		Weather: 0,
-
-		Boss: pve.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "",
-			ChargeMove: "",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		NumberOfRuns: 100,
-		App:          Application,
-	})
+//CalculteCommonPve return common raid results as an array of format pokemon+moveset:boss:result
+func CalculteCommonPve(data IntialDataPve) ([][]app.CommonResult, error) {
+	res, err := pve.ReturnCommonRaid(pve.IntialDataPve(data))
 	if err != nil {
 		fmt.Println(err)
 	}
+	if err != nil {
+		return [][]app.CommonResult{}, err
+	}
+	return res, nil
 }

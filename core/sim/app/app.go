@@ -181,3 +181,27 @@ func (eCh *ErrorChan) Flush() string {
 	}
 	return errorString
 }
+
+//CommonResult is antry of common pvp result list
+type CommonResult struct {
+	AName string
+	AQ    string
+	ACh   string
+
+	BName string
+	BQ    string
+	BCh   string
+
+	DMin int32
+	DMax int32
+	DAvg int32
+
+	TMin int32
+	TMax int32
+	TAvg int32
+
+	FMin uint32
+	FMax uint32
+
+	NOfWins uint32
+}

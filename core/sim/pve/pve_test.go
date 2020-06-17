@@ -533,7 +533,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 }
 
-func checkRes(res *CommonResult, checkName string, tier int) error {
+func checkRes(res *app.CommonResult, checkName string, tier int) error {
 	golResult := checks[checkName]
 
 	avgPer := float64(res.DAvg) / float64(tierHP[tier]) * 100
@@ -696,7 +696,7 @@ func TestDodge(t *testing.T) {
 	}
 }
 
-func checkWrapperRes(res [][]CommonResult, checkName []string, tier int) error {
+func checkWrapperRes(res [][]app.CommonResult, checkName []string, tier int) error {
 
 	for i, value := range res {
 		var sum int32
@@ -789,7 +789,7 @@ func TestAllList(t *testing.T) {
 
 }
 
-var checks = map[string]CommonResult{
+var checks = map[string]app.CommonResult{
 	"Zekrom18": {
 		DAvg: 4889,
 	},

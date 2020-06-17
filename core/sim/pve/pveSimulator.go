@@ -95,33 +95,33 @@ type conStruct struct {
 
 	attackerRow []PokemonInitialData
 	bossRow     []BossInfo
-	resArray    [][]CommonResult
+	resArray    [][]app.CommonResult
 }
 
 //ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
-func ReturnCommonRaid(inDat IntialDataPve) ([][]CommonResult, error) {
+func ReturnCommonRaid(inDat IntialDataPve) ([][]app.CommonResult, error) {
 	rand.Seed(time.Now().UnixNano())
 	_, ok := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 	if !ok {
-		return [][]CommonResult{}, fmt.Errorf("Unknown boss")
+		return [][]app.CommonResult{}, fmt.Errorf("Unknown boss")
 	}
 	if inDat.Boss.Tier > 5 || inDat.Boss.Tier < 0 {
-		return [][]CommonResult{}, fmt.Errorf("Unknown raid tier")
+		return [][]app.CommonResult{}, fmt.Errorf("Unknown raid tier")
 	}
 	if inDat.FriendStage > 8 || inDat.FriendStage < 0 {
-		return [][]CommonResult{}, fmt.Errorf("Unknown friendship tier")
+		return [][]app.CommonResult{}, fmt.Errorf("Unknown friendship tier")
 	}
 	if inDat.PlayersNumber > 20 || inDat.PlayersNumber < 1 {
-		return [][]CommonResult{}, fmt.Errorf("Wrong players number")
+		return [][]app.CommonResult{}, fmt.Errorf("Wrong players number")
 	}
 	if inDat.PartySize > 18 || inDat.PartySize < 1 {
-		return [][]CommonResult{}, fmt.Errorf("Wrong party size")
+		return [][]app.CommonResult{}, fmt.Errorf("Wrong party size")
 	}
 	if inDat.Weather > 7 || inDat.Weather < 0 {
-		return [][]CommonResult{}, fmt.Errorf("Unknown weather")
+		return [][]app.CommonResult{}, fmt.Errorf("Unknown weather")
 	}
 	if inDat.DodgeStrategy > 4 || inDat.Weather < 0 {
-		return [][]CommonResult{}, fmt.Errorf("Unknown dodge strategy")
+		return [][]app.CommonResult{}, fmt.Errorf("Unknown dodge strategy")
 	}
 
 	var err error
@@ -130,11 +130,11 @@ func ReturnCommonRaid(inDat IntialDataPve) ([][]CommonResult, error) {
 
 		wg:       sync.WaitGroup{},
 		count:    0,
-		resArray: [][]CommonResult{},
+		resArray: [][]app.CommonResult{},
 	}
 	conObj.bossRow, err = generateBossRow(&inDat)
 	if err != nil {
-		return [][]CommonResult{}, err
+		return [][]app.CommonResult{}, err
 	}
 
 	switch conObj.attackerRow == nil {
@@ -149,7 +149,7 @@ func ReturnCommonRaid(inDat IntialDataPve) ([][]CommonResult, error) {
 	close(conObj.errChan)
 	errStr := conObj.errChan.Flush()
 	if errStr != "" {
-		return [][]CommonResult{}, fmt.Errorf(errStr)
+		return [][]app.CommonResult{}, fmt.Errorf(errStr)
 	}
 
 	sort.Sort(byAvgDamage(conObj.resArray))
@@ -164,12 +164,12 @@ func ReturnCommonRaid(inDat IntialDataPve) ([][]CommonResult, error) {
 }
 
 func (co *conStruct) startForAll(inDat *IntialDataPve) {
-	co.resArray = make([][]CommonResult, 0, 1000)
+	co.resArray = make([][]app.CommonResult, 0, 1000)
 	preRunArr := createAllMovesets(inDat)
 	co.errChan = make(app.ErrorChan, len(preRunArr)*len(co.bossRow))
 
 	for number, pok := range preRunArr {
-		co.resArray = append(co.resArray, make([]CommonResult, 0, len(co.bossRow)))
+		co.resArray = append(co.resArray, make([]app.CommonResult, 0, len(co.bossRow)))
 		for _, boss := range co.bossRow {
 			co.wg.Add(1)
 			co.Lock()
@@ -223,11 +223,11 @@ func (co *conStruct) startForAll(inDat *IntialDataPve) {
 }
 
 func (co *conStruct) startWithAttackerRow(inDat *IntialDataPve) {
-	co.resArray = make([][]CommonResult, 0, len(co.attackerRow))
+	co.resArray = make([][]app.CommonResult, 0, len(co.attackerRow))
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
 	for number, singlePok := range co.attackerRow {
-		co.resArray = append(co.resArray, make([]CommonResult, 0, len(co.bossRow)))
+		co.resArray = append(co.resArray, make([]app.CommonResult, 0, len(co.bossRow)))
 		for _, boss := range co.bossRow {
 			//number of concurrent routines
 			for co.count > 20000 {
@@ -266,7 +266,7 @@ func (co *conStruct) startWithAttackerRow(inDat *IntialDataPve) {
 	}
 }
 
-type byAvgDamage [][]CommonResult
+type byAvgDamage [][]app.CommonResult
 
 func (a byAvgDamage) Len() int { return len(a) }
 func (a byAvgDamage) Less(i, j int) bool {
@@ -603,8 +603,8 @@ func generateAttackersRow(inDat *IntialDataPve) []PokemonInitialData {
 }
 
 //setOfRuns starts new set of pve's, returns set result and error
-func setOfRuns(inDat commonPvpInData) (CommonResult, error) {
-	result := CommonResult{}
+func setOfRuns(inDat commonPvpInData) (app.CommonResult, error) {
+	result := app.CommonResult{}
 	result.DMin = tierHP[inDat.Boss.Tier]
 	result.TMin = tierTimer[inDat.Boss.Tier]
 	result.FMin = uint32(inDat.PartySize)
@@ -612,9 +612,9 @@ func setOfRuns(inDat commonPvpInData) (CommonResult, error) {
 	for i := 0; i < inDat.NumberOfRuns; i++ {
 		res, err := simulatorRun(inDat)
 		if err != nil {
-			return CommonResult{}, err
+			return app.CommonResult{}, err
 		}
-		result.collect(&res)
+		collect(&result, &res)
 	}
 
 	result.DAvg = int32(float64(result.DAvg) / float64(inDat.NumberOfRuns))
@@ -631,32 +631,8 @@ func setOfRuns(inDat commonPvpInData) (CommonResult, error) {
 	return result, nil
 }
 
-//CommonResult is antry of common pvp result list
-type CommonResult struct {
-	AName string
-	AQ    string
-	ACh   string
-
-	BName string
-	BQ    string
-	BCh   string
-
-	DMin int32
-	DMax int32
-	DAvg int32
-
-	TMin int32
-	TMax int32
-	TAvg int32
-
-	FMin uint32
-	FMax uint32
-
-	NOfWins uint32
-}
-
 //collect collects run
-func (cr *CommonResult) collect(run *runResult) {
+func collect(cr *app.CommonResult, run *runResult) {
 	if run.damageDealt > cr.DMax {
 		cr.DMax = run.damageDealt
 	}
