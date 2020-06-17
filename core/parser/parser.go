@@ -4,6 +4,7 @@ import (
 	"Solutions/pvpSimulator/core/errors"
 	"Solutions/pvpSimulator/core/sim/app"
 	"encoding/json"
+	"fmt"
 	"net/url"
 	"strconv"
 	"strings"
@@ -310,4 +311,181 @@ func ParseConstructorRequest(body []byte) (app.InitialData, app.InitialData, app
 	}
 
 	return Attacker, Defender, requstedInDat.Constructor, nil
+}
+
+//ParseRaidRequest parses sommon PvE get request
+func ParseRaidRequest(attacker, boss, obj string) (app.IntialDataPve, error) {
+
+	attackerReq, err := url.PathUnescape(attacker)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Error parsing attacker")
+	}
+	bossReq, err := url.PathUnescape(boss)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Error parsing boss")
+	}
+	pveInDatObj, err := url.PathUnescape(obj)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Error parsing pve settings")
+	}
+
+	attackerData := make([]string, 0, 8)
+	bossData := make([]string, 0, 4)
+	objData := make([]string, 0, 5)
+
+	attackerData = strings.Split(attackerReq, "_")
+	if len(attackerData) < 8 {
+		return app.IntialDataPve{}, errors.NewHTTPError(nil, 400, "Attacker error: not enough intial data")
+	}
+	bossData = strings.Split(bossReq, "_")
+	if len(bossData) < 4 {
+		return app.IntialDataPve{}, errors.NewHTTPError(nil, 400, "Boss error: not enough intial data")
+	}
+	objData = strings.Split(pveInDatObj, "_")
+	if len(objData) < 6 {
+		return app.IntialDataPve{}, errors.NewHTTPError(nil, 400, "PvE settings error: not enough intial data")
+	}
+
+	pveObj, err := parsePveInDatObj(objData)
+	if err != nil {
+		return app.IntialDataPve{}, err
+	}
+	pveObj.Pok, err = parsePveAttacker(attackerData)
+	if err != nil {
+		return app.IntialDataPve{}, err
+	}
+	pveObj.Boss, err = parsePveBoss(bossData)
+	if err != nil {
+		return app.IntialDataPve{}, err
+	}
+
+	return pveObj, nil
+}
+
+func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
+	friendStage, err := strconv.ParseInt(pokData[0], 10, 64)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid friendship level value")
+	}
+	if friendStage > 8 || friendStage < 0 {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Unknown friendship level")
+	}
+
+	weather, err := strconv.ParseInt(pokData[0], 10, 64)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid weather value")
+	}
+	if weather > 7 || weather < 0 {
+		return app.IntialDataPve{}, fmt.Errorf("Unknown weather")
+	}
+
+	dodgeStrategy, err := strconv.ParseInt(pokData[0], 10, 64)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid dodge strategy value")
+	}
+	if dodgeStrategy > 4 || dodgeStrategy < 0 {
+		return app.IntialDataPve{}, fmt.Errorf("Unknown dodge strategy")
+	}
+
+	partySize, err := strconv.ParseUint(pokData[4], 10, 64)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid party size value")
+	}
+	if partySize > 18 || partySize < 1 {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Party size must be in range 1-18")
+	}
+
+	playersNumber, err := strconv.ParseUint(pokData[5], 10, 64)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid players number value")
+	}
+	if playersNumber > 20 || playersNumber < 1 {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Players number must be in range 1-20")
+	}
+
+	isAgressive, err := strconv.ParseBool(pokData[7])
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid aggression value")
+	}
+
+	return app.IntialDataPve{
+		FriendStage:   int(friendStage),
+		Weather:       int(weather),
+		DodgeStrategy: int(dodgeStrategy),
+
+		AggresiveMode: isAgressive,
+
+		PartySize:     uint8(partySize),
+		PlayersNumber: uint8(playersNumber),
+	}, nil
+}
+
+func parsePveAttacker(pokData []string) (app.PokemonInitialData, error) {
+	level, err := strconv.ParseFloat(pokData[3], 64)
+	if err != nil {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Invalid level value")
+	}
+	if level > 45 || level < 1 {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Level must be in range 1-45")
+	}
+
+	attackIV, err := strconv.ParseUint(pokData[4], 10, 64)
+	if err != nil {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Invalid Atk IV value")
+	}
+	if attackIV < 0 || attackIV > 15 {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Atk IV must be in range 0-15")
+	}
+
+	defenceIV, err := strconv.ParseUint(pokData[5], 10, 64)
+	if err != nil {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Invalid Def IV value")
+	}
+	if defenceIV < 0 || defenceIV > 15 {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Def IV must be in range 0-15")
+	}
+
+	staminaIV, err := strconv.ParseUint(pokData[6], 10, 64)
+	if err != nil {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Invalid Sta IV value")
+	}
+	if staminaIV < 0 || staminaIV > 15 {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Sta IV must be in range 0-15")
+	}
+
+	isShadow, err := strconv.ParseBool(pokData[7])
+	if err != nil {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, 400, "Parsing: Invalid pokemon type value")
+	}
+
+	return app.PokemonInitialData{
+		Name:       pokData[0],
+		QuickMove:  pokData[1],
+		ChargeMove: pokData[2],
+
+		Level:     float32(level),
+		AttackIV:  uint8(attackIV),
+		DefenceIV: uint8(defenceIV),
+		StaminaIV: uint8(staminaIV),
+
+		IsShadow: isShadow,
+	}, nil
+}
+
+func parsePveBoss(bossData []string) (app.BossInfo, error) {
+	tier, err := strconv.ParseUint(bossData[3], 10, 64)
+	if err != nil {
+		return app.BossInfo{}, errors.NewHTTPError(err, 400, "Parsing: Invalid raid tier value")
+	}
+	if tier > 5 || tier < 0 {
+		return app.BossInfo{}, errors.NewHTTPError(err, 400, "Invalid raid tier")
+	}
+
+	return app.BossInfo{
+		Name:       bossData[0],
+		QuickMove:  bossData[1],
+		ChargeMove: bossData[2],
+
+		Tier: uint8(tier),
+	}, nil
 }
