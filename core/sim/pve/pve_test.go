@@ -591,8 +591,7 @@ func TestWrapper(t *testing.T) {
 		PartySize:     18,
 		PlayersNumber: 3,
 
-		NumberOfRuns: 100,
-		App:          testApp,
+		App: testApp,
 	})
 
 	if err != nil {
@@ -636,7 +635,6 @@ func TestAggressive(t *testing.T) {
 		PartySize:     18,
 		PlayersNumber: 3,
 
-		NumberOfRuns:  100,
 		App:           testApp,
 		AggresiveMode: true,
 	})
@@ -918,8 +916,7 @@ func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 		PartySize:     18,
 		PlayersNumber: 3,
 
-		NumberOfRuns: 100,
-		App:          testApp,
+		App: testApp,
 	}
 
 	b.ResetTimer()
@@ -960,8 +957,7 @@ func BenchmarkAllVsAllMoveset(b *testing.B) {
 		PartySize:     18,
 		PlayersNumber: 3,
 
-		NumberOfRuns: 10,
-		App:          testApp,
+		App: testApp,
 	}
 
 	b.ResetTimer()
