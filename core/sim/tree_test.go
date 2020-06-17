@@ -55,7 +55,7 @@ func checkTrees(attacker, defender InitialData, checkName string) error {
 		DefenderData: pvp.InitialData(defender),
 		WG:           &wg,
 		Tree:         tree,
-		App:          simApp,
+		App:          Application,
 	})
 	if errs != nil {
 		return errs

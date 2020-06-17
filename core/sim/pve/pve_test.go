@@ -604,6 +604,52 @@ func TestWrapper(t *testing.T) {
 	}
 }
 
+func TestAggressive(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	res, err := CommonSimulatorWrapper(IntialDataPve{
+		Pok: PokemonInitialData{
+			Name: "Palkia",
+
+			QuickMove:  "",
+			ChargeMove: "Draco Meteor",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 5,
+
+		Boss: BossInfo{
+			Name:       "Zekrom",
+			QuickMove:  "",
+			ChargeMove: "",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		NumberOfRuns:  100,
+		App:           testApp,
+		AggresiveMode: true,
+	})
+
+	if err != nil {
+		t.Error(err)
+	}
+	err = checkWrapperRes(res, []string{"PalkiaDragon BreathDracoMeteorAgr", "PalkiaDragon TailDracoMeteorAgr"}, 4)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 func checkWrapperRes(res [][]CommonResult, checkName []string, tier int) error {
 
 	for i, value := range res {
@@ -740,6 +786,12 @@ var checks = map[string]CommonResult{
 	},
 	"PalkiaDragon TailDracoMeteor": {
 		DAvg: 6386,
+	},
+	"PalkiaDragon BreathDracoMeteorAgr": {
+		DAvg: 6951,
+	},
+	"PalkiaDragon TailDracoMeteorAgr": {
+		DAvg: 6831,
 	},
 }
 

@@ -1060,19 +1060,6 @@ func (pok *pokemon) hit() {
 	pok.results.actionCode = 0
 }
 
-//ErrorChan a set of errors returned by matrix battle
-type ErrorChan chan error
-
-//Flush prints all errors got from matrix battle
-func (eCh *ErrorChan) Flush() string {
-	var errorString string
-	for value := range *eCh {
-		errorString += value.Error()
-		errorString += ", "
-	}
-	return errorString
-}
-
 type MatrixResult struct {
 	Rate   uint16
 	I      int

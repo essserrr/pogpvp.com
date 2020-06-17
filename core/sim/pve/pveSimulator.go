@@ -177,6 +177,7 @@ func (co *conStruct) startForAll(inDat *IntialDataPve) {
 					FriendStage:   inDat.FriendStage,
 					Weather:       inDat.Weather,
 					DodgeStrategy: inDat.DodgeStrategy,
+					AggresiveMode: inDat.AggresiveMode,
 				})
 				if err != nil {
 					co.errChan <- err
@@ -221,6 +222,7 @@ func (co *conStruct) startWithAttackerRow(inDat *IntialDataPve) {
 					FriendStage:   inDat.FriendStage,
 					Weather:       inDat.Weather,
 					DodgeStrategy: inDat.DodgeStrategy,
+					AggresiveMode: inDat.AggresiveMode,
 				})
 				if err != nil {
 					co.errChan <- err
