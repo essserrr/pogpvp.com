@@ -11,69 +11,95 @@ import (
 	"time"
 )
 
-//PveObject contains single pve data
-type PveObject struct {
+//IntialDataPve contains data to start common raid
+type IntialDataPve struct {
+	App *app.SimApp
+
+	NumberOfRuns  int
+	FriendStage   int
+	Weather       int
+	DodgeStrategy int
+
+	Pok           PokemonInitialData
+	AggresiveMode bool
+
+	Boss          BossInfo
+	PartySize     uint8
+	PlayersNumber uint8
+}
+
+//PokemonInitialData contains initial data for pvp
+type PokemonInitialData struct {
+	Name string
+
+	QuickMove  string
+	ChargeMove string
+
+	Level float32
+
+	AttackIV  uint8
+	DefenceIV uint8
+	StaminaIV uint8
+
+	IsShadow bool
+}
+
+//BossInfo contains boss initial data
+type BossInfo struct {
+	Name       string
+	QuickMove  string
+	ChargeMove string
+	Tier       uint8
+}
+
+type pveObject struct {
+	app *app.SimApp
+
+	DodgeStrategy int
+	ActivePok     int
+
+	Attacker []pokemon
+	Weather  map[int]float32
+
+	Boss          pokemon
+	FriendStage   float32
+	AggresiveMode bool
+
+	Timer         int32
 	Tier          uint8
 	PartySize     uint8
 	PlayersNumber uint8
-	FriendStage   float32
-	Weather       map[int]float32
-
-	Attacker []pokemon
-	Boss     pokemon
-
-	Timer     int32
-	app       *app.SimApp
-	ActivePok int
-
-	AggresiveMode bool
-	DodgeStrategy uint8
 }
 
-type CommonPvpInData struct {
+type commonPvpInData struct {
 	App *app.SimApp
-	Pok PokemonInitialData
-
-	PartySize     uint8
-	PlayersNumber uint8
-
-	Boss BossInfo
 
 	NumberOfRuns  int
 	FriendStage   int
 	Weather       int
-	DodgeStrategy uint8
+	DodgeStrategy int
+
+	Pok           PokemonInitialData
 	AggresiveMode bool
-}
 
-type IntialDataPve struct {
-	App *app.SimApp
-	Pok PokemonInitialData
-
+	Boss          BossInfo
 	PartySize     uint8
 	PlayersNumber uint8
-
-	Boss BossInfo
-
-	NumberOfRuns  int
-	FriendStage   int
-	Weather       int
-	DodgeStrategy uint8
-	AggresiveMode bool
 }
 
 type conStruct struct {
+	count int
+	sync.Mutex
+	errChan app.ErrorChan
+	wg      sync.WaitGroup
+
 	attackerRow []PokemonInitialData
 	bossRow     []BossInfo
 	resArray    [][]CommonResult
-
-	errChan app.ErrorChan
-	wg      sync.WaitGroup
-	count   int
-	sync.Mutex
 }
 
-func CommonSimulatorWrapper(inDat IntialDataPve) ([][]CommonResult, error) {
+//ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
+func ReturnCommonRaid(inDat IntialDataPve) ([][]CommonResult, error) {
 	rand.Seed(time.Now().UnixNano())
 	_, ok := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 	if !ok {
@@ -93,6 +119,9 @@ func CommonSimulatorWrapper(inDat IntialDataPve) ([][]CommonResult, error) {
 	}
 	if inDat.Weather > 7 || inDat.Weather < 0 {
 		return [][]CommonResult{}, fmt.Errorf("Unknown weather")
+	}
+	if inDat.DodgeStrategy > 4 || inDat.Weather < 0 {
+		return [][]CommonResult{}, fmt.Errorf("Unknown dodge strategy")
 	}
 
 	var err error
@@ -151,7 +180,7 @@ func (co *conStruct) startForAll(inDat *IntialDataPve) {
 			}
 			go func(currBoss BossInfo, p, q, ch string, i int) {
 				defer co.wg.Done()
-				singleResult, err := setOfRuns(CommonPvpInData{
+				singleResult, err := setOfRuns(commonPvpInData{
 					App: inDat.App,
 					Pok: PokemonInitialData{
 						Name: p,
@@ -209,7 +238,7 @@ func (co *conStruct) startWithAttackerRow(inDat *IntialDataPve) {
 			co.Unlock()
 			go func(currPok PokemonInitialData, currBoss BossInfo, i int) {
 				defer co.wg.Done()
-				singleResult, err := setOfRuns(CommonPvpInData{
+				singleResult, err := setOfRuns(commonPvpInData{
 					App: inDat.App,
 					Pok: currPok,
 
@@ -574,7 +603,7 @@ func generateAttackersRow(inDat *IntialDataPve) []PokemonInitialData {
 }
 
 //setOfRuns starts new set of pve's, returns set result and error
-func setOfRuns(inDat CommonPvpInData) (CommonResult, error) {
+func setOfRuns(inDat commonPvpInData) (CommonResult, error) {
 	result := CommonResult{}
 	result.DMin = tierHP[inDat.Boss.Tier]
 	result.TMin = tierTimer[inDat.Boss.Tier]
@@ -602,6 +631,7 @@ func setOfRuns(inDat CommonPvpInData) (CommonResult, error) {
 	return result, nil
 }
 
+//CommonResult is antry of common pvp result list
 type CommonResult struct {
 	AName string
 	AQ    string
@@ -655,8 +685,8 @@ func (cr *CommonResult) collect(run *runResult) {
 }
 
 //simulatorRun makes a single raid simulator run (battle)
-func simulatorRun(inDat CommonPvpInData) (runResult, error) {
-	obj := PveObject{}
+func simulatorRun(inDat commonPvpInData) (runResult, error) {
+	obj := pveObject{}
 
 	obj.app = inDat.App
 
@@ -700,13 +730,13 @@ func simulatorRun(inDat CommonPvpInData) (runResult, error) {
 }
 
 type runResult struct {
-	isWin        bool
 	damageDealt  int32
 	timeRemained int32
 	fainted      uint32
+	isWin        bool
 }
 
-func (obj *PveObject) initializePve(attacker, boss string, i int) error {
+func (obj *pveObject) initializePve(attacker, boss string, i int) error {
 	obj.Attacker[i].hp = obj.Attacker[i].maxHP
 
 	obj.Attacker[i].damageRegistered = true
@@ -735,7 +765,7 @@ func (obj *PveObject) initializePve(attacker, boss string, i int) error {
 	return nil
 }
 
-func (m *move) setMultipliers(attacker, defender string, obj *PveObject, isBoss bool) error {
+func (m *move) setMultipliers(attacker, defender string, obj *pveObject, isBoss bool) error {
 	//get move efficiency matrix
 	moveEfficiency := obj.app.TypesData[m.moveType]
 
@@ -768,7 +798,7 @@ func (m *move) setMultipliers(attacker, defender string, obj *PveObject, isBoss 
 	return nil
 }
 
-func (obj *PveObject) letsBattle() error {
+func (obj *pveObject) letsBattle() error {
 	obj.Timer -= 3000
 
 	for obj.PartySize > 0 && obj.Timer > 0 && obj.Boss.hp > 0 {
@@ -794,21 +824,21 @@ func (obj *PveObject) letsBattle() error {
 	return nil
 }
 
-func (p *pokemon) revive() {
-	p.hp = p.maxHP
-	p.energy = Energy(0)
+func (pok *pokemon) revive() {
+	pok.hp = pok.maxHP
+	pok.energy = Energy(0)
 
-	p.action = 0
-	p.damageRegistered = true
-	p.energyRegistered = true
+	pok.action = 0
+	pok.damageRegistered = true
+	pok.energyRegistered = true
 
-	p.timeToDamage = 0
-	p.timeToEnergy = 0
-	p.moveCooldown = 0
+	pok.timeToDamage = 0
+	pok.timeToEnergy = 0
+	pok.moveCooldown = 0
 }
 
 //substructPause substructs oause from raid timer and sets up boss behavior
-func (obj *PveObject) substructPause(pause int32) {
+func (obj *pveObject) substructPause(pause int32) {
 	switch obj.AggresiveMode {
 	case true:
 		//if there is remaining cooldown time (but action is already finished), memorize that time and nullify cooldown
@@ -867,7 +897,7 @@ func (obj *PveObject) substructPause(pause int32) {
 	}
 }
 
-func (obj *PveObject) nextRound() error {
+func (obj *pveObject) nextRound() error {
 	//deal damage, get energy
 	err := obj.Boss.turn(obj, &obj.Attacker[obj.ActivePok])
 	if err != nil {
@@ -902,7 +932,7 @@ func (obj *PveObject) nextRound() error {
 }
 
 //turn makes available actions: get energy, deal damage
-func (pok *pokemon) turn(obj *PveObject, defender *pokemon) error {
+func (pok *pokemon) turn(obj *pveObject, defender *pokemon) error {
 	if pok.timeToEnergy < 0 || pok.timeToDamage < 0 || pok.moveCooldown < 0 {
 		return fmt.Errorf("Negative timer! Time to energy: %v, time to damamge: %v, cooldown: %v", pok.timeToEnergy, pok.timeToDamage, pok.moveCooldown)
 	}
@@ -943,14 +973,14 @@ func (pok *pokemon) getEnergy() error {
 	return nil
 }
 
-func (pok *pokemon) dealDamage(defender *pokemon, obj *PveObject) error {
+func (pok *pokemon) dealDamage(defender *pokemon, obj *pveObject) error {
 	var damage int32
 	//calculate damage
 	switch pok.action {
 	case 2:
 		damage = int32(float32(pok.quickMove.damage)*0.5*(pok.effectiveAttack/defender.effectiveDefence)*pok.quickMove.multiplier) + 1
 	case 3:
-		damage = int32(float32(pok.chargeMove.damage)*0.5*(pok.effectiveAttack/defender.effectiveDefence)*pok.chargeMove.multiplier) + 1
+		damage = int32(float32(pok.chargeMove.damage)*0.5*(pok.effectiveAttack/defender.effectiveDefence)*pok.chargeMove.multiplier*dodge(pok, defender, obj)) + 1
 	default:
 		return fmt.Errorf("Attempt to deal damage with zero action")
 	}
@@ -968,7 +998,40 @@ func (pok *pokemon) dealDamage(defender *pokemon, obj *PveObject) error {
 
 }
 
-func (pok *pokemon) whatToDoNextBoss(obj *PveObject) {
+func dodge(attacker, defender *pokemon, obj *pveObject) float32 {
+	if obj.DodgeStrategy == 0 {
+		return 1
+	}
+	if defender.isBoss {
+		return 1
+	}
+	if rand.Intn(100) > obj.DodgeStrategy {
+		return 1
+	}
+
+	var damage int32
+	switch defender.action {
+	case 2:
+		damage = int32(float32(defender.quickMove.damage)*0.5*(defender.effectiveAttack/attacker.effectiveDefence)*defender.quickMove.multiplier) + 1
+		defender.energy.addEnergy(-defender.quickMove.energy)
+	case 3:
+		damage = int32(float32(defender.chargeMove.damage)*0.5*(defender.effectiveAttack/attacker.effectiveDefence)*defender.chargeMove.multiplier) + 1
+		defender.energy.addEnergy(-defender.chargeMove.energy)
+	default:
+		defender.damageRegistered = true
+		defender.energyRegistered = true
+
+		defender.timeToDamage = 0
+		defender.timeToEnergy = 0
+		defender.moveCooldown = 500
+	}
+
+	attacker.energy.addEnergy(-int16(math.Round(float64(damage) * 0.5)))
+
+	return 0.25
+}
+
+func (pok *pokemon) whatToDoNextBoss(obj *pveObject) {
 	pok.energyRegistered = false
 	pok.damageRegistered = false
 	const pause = 2000.0
@@ -1000,7 +1063,7 @@ func (pok *pokemon) whatToDoNextBoss(obj *PveObject) {
 	return
 }
 
-func (pok *pokemon) whatToDoNext(obj *PveObject) {
+func (pok *pokemon) whatToDoNext(obj *pveObject) {
 	pok.energyRegistered = false
 	pok.damageRegistered = false
 	//check if energy is enogh to make a charge hit
@@ -1020,7 +1083,7 @@ func (pok *pokemon) whatToDoNext(obj *PveObject) {
 	return
 }
 
-func (obj *PveObject) decreaseTimer() error {
+func (obj *pveObject) decreaseTimer() error {
 	if obj.Boss.moveCooldown == 0 {
 		return fmt.Errorf("zero boss cooldown")
 	}
@@ -1061,7 +1124,7 @@ func (pok *pokemon) returnTimer() int32 {
 }
 
 //substructTimer substruct calculated timer delta
-func (obj *PveObject) substructTimer(timerDelta int32) {
+func (obj *pveObject) substructTimer(timerDelta int32) {
 	//for attacker
 	if obj.Attacker[obj.ActivePok].timeToEnergy > 0 {
 		obj.Attacker[obj.ActivePok].timeToEnergy -= timerDelta

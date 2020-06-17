@@ -29,7 +29,7 @@ func TestSetOfRuns(t *testing.T) {
 	const tier4 uint8 = 2
 	rand.Seed(time.Now().UnixNano())
 	//Zekrom 18-3
-	res, err := setOfRuns(CommonPvpInData{
+	res, err := setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -71,7 +71,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Zekrom 12-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -113,7 +113,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Zekrom 6-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -155,7 +155,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Reshiram 18-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -197,7 +197,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Reshiram 12-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -239,7 +239,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Reshiram 6-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -281,7 +281,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Terrakion 12-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mewtwo",
 
@@ -323,7 +323,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Terrakion 6-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mewtwo",
 
@@ -365,7 +365,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Marowak 6-3
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Darkrai",
 
@@ -407,7 +407,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-0
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -449,7 +449,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-4
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -491,7 +491,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-4-w
-	res, err = setOfRuns(CommonPvpInData{
+	res, err = setOfRuns(commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -561,7 +561,7 @@ func checkRes(res *CommonResult, checkName string, tier int) error {
 
 func TestWrapper(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	res, err := CommonSimulatorWrapper(IntialDataPve{
+	res, err := ReturnCommonRaid(IntialDataPve{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -606,7 +606,7 @@ func TestWrapper(t *testing.T) {
 
 func TestAggressive(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
-	res, err := CommonSimulatorWrapper(IntialDataPve{
+	res, err := ReturnCommonRaid(IntialDataPve{
 		Pok: PokemonInitialData{
 			Name: "Palkia",
 
@@ -645,6 +645,52 @@ func TestAggressive(t *testing.T) {
 		t.Error(err)
 	}
 	err = checkWrapperRes(res, []string{"PalkiaDragon BreathDracoMeteorAgr", "PalkiaDragon TailDracoMeteorAgr"}, 4)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestDodge(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	res, err := ReturnCommonRaid(IntialDataPve{
+		Pok: PokemonInitialData{
+			Name: "Palkia",
+
+			QuickMove:  "Dragon Tail",
+			ChargeMove: "Draco Meteor",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 5,
+
+		Boss: BossInfo{
+			Name:       "Zekrom",
+			QuickMove:  "Charge Beam",
+			ChargeMove: "Outrage",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 1,
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		NumberOfRuns:  1000,
+		App:           testApp,
+		AggresiveMode: true,
+	})
+
+	if err != nil {
+		t.Error(err)
+	}
+	err = checkWrapperRes(res, []string{"PalkiaDragon TailDracoMeteorDodge"}, 4)
 	if err != nil {
 		t.Error(err)
 	}
@@ -793,11 +839,14 @@ var checks = map[string]CommonResult{
 	"PalkiaDragon TailDracoMeteorAgr": {
 		DAvg: 6831,
 	},
+	"PalkiaDragon TailDracoMeteorDodge": {
+		DAvg: 5505,
+	},
 }
 
 func BenchmarkSingleRun2000(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
-	data := CommonPvpInData{
+	data := commonPvpInData{
 		Pok: PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -875,7 +924,7 @@ func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		CommonSimulatorWrapper(data)
+		ReturnCommonRaid(data)
 	}
 }
 
@@ -917,14 +966,6 @@ func BenchmarkAllVsAllMoveset(b *testing.B) {
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		CommonSimulatorWrapper(data)
+		ReturnCommonRaid(data)
 	}
 }
-
-/*
-2000
-BenchmarkAllVsAllMoveset-8   	       1	1163630600 ns/op	 3053656 B/op	    5478 allocs/op
-
-
-20000
-*/
