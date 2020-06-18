@@ -10,6 +10,7 @@ import { ReactComponent as Ru } from "../../icons/ru.svg"
 import { ReactComponent as Logo } from "../../icons/logo.svg"
 import { ReactComponent as Battle } from "../../icons/battle.svg"
 import { ReactComponent as Others } from "../../icons/others.svg"
+import { ReactComponent as Redgym } from "../../icons/redgym.svg";
 
 let strings = new LocalizedStrings(locale);
 
@@ -22,6 +23,9 @@ class Navbar extends React.PureComponent {
                 <a key="Single PvP" className="dropdown-item" href="/pvp/single/">{strings.navbar.single}</a>,
                 <a key="Matrix PvP" className="dropdown-item" href="/pvp/matrix/">{strings.navbar.matrix}</a>,
                 <a key="PvP Rating" className="dropdown-item" href="/pvprating/">{strings.navbar.pvprating}</a>,
+            ],
+            dropdownPvE: [
+                <a key="Raid Simulator" className="dropdown-item" href="/pve/common/">{strings.navbar.raidsim}</a>,
             ],
             dropdownOther: [
                 <a key="Sniny Rates" className="dropdown-item" href="/shinyrates/">{strings.navbar.shiny}</a>,
@@ -70,6 +74,11 @@ class Navbar extends React.PureComponent {
                         <DropdownMenu
                             list={this.state.dropdownPvP}
                             label={<><Battle id="battleicon" className={"icon24 mr-1"} />{strings.navbar.pvpTools}</>}
+                        />
+                        <DropdownMenu
+                            list={this.state.dropdownPvE}
+                            label={<><Redgym id="redgym" className={"icon24 mr-1"} />{strings.navbar.pveTools}</>}
+
                         />
                         <DropdownMenu
                             list={this.state.dropdownOther}
