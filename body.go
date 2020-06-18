@@ -393,6 +393,8 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 		default:
 			http.ServeFile(*w, r, "./interface/build/pvp/single/index.html")
 		}
+	case "pve":
+		http.ServeFile(*w, r, "./interface/build/pve/common/index.html")
 	case "pvprating":
 		http.ServeFile(*w, r, "./interface/build/pvprating/index.html")
 	case "shinyrates":
@@ -1120,13 +1122,14 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/raids*", rootHandler{serveIndex, a})
 	router.Handle("/eggs*", rootHandler{serveIndex, a})
 	router.Handle("/pvprating*", rootHandler{serveIndex, a})
+	router.Handle("/pve*", rootHandler{serveIndex, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
 	router.Handle("/request/constructor", rootHandler{constructorPvpHandler, a})
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
 
-	router.Handle("/request/raidc/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
+	router.Handle("/request/common/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
 
 	//bd calls
 	router.Handle("/db/{type}", rootHandler{dbCallHandler, a})
