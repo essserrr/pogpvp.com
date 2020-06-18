@@ -334,15 +334,15 @@ func ParseRaidRequest(attacker, boss, obj string) (app.IntialDataPve, error) {
 	objData := make([]string, 0, 5)
 
 	attackerData = strings.Split(attackerReq, "_")
-	if len(attackerData) < 8 {
+	if len(attackerData) != 8 {
 		return app.IntialDataPve{}, errors.NewHTTPError(nil, 400, "Attacker error: not enough intial data")
 	}
 	bossData = strings.Split(bossReq, "_")
-	if len(bossData) < 4 {
+	if len(bossData) != 4 {
 		return app.IntialDataPve{}, errors.NewHTTPError(nil, 400, "Boss error: not enough intial data")
 	}
 	objData = strings.Split(pveInDatObj, "_")
-	if len(objData) < 6 {
+	if len(objData) != 6 {
 		return app.IntialDataPve{}, errors.NewHTTPError(nil, 400, "PvE settings error: not enough intial data")
 	}
 
