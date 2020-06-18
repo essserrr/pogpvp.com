@@ -17,7 +17,7 @@ class RedactPokemon extends React.PureComponent {
     constructor(props) {
         super(props);
         //get movepool
-        var moves = returnMovePool(this.props.redact.pokemon.name, this.props.pokemonTable, strings.options.moveSelect)
+        var moves = returnMovePool(this.props.redact.pokemon.name, this.props.pokemonTable, strings.options.moveSelect, false, [this.props.redact.pokemon.QuickMove], [this.props.redact.pokemon.ChargeMove1, this.props.redact.pokemon.ChargeMove2])
         //create default iv set
         var ivSet = calculateMaximizedStats(this.props.redact.pokemon.name, this.props.value.maximizer.level, this.props.pokemonTable)
         var whatToMaximize = (this.props.value.maximizer.action === "Default") ? "Default" : this.props.value.maximizer.stat
@@ -194,7 +194,7 @@ class RedactPokemon extends React.PureComponent {
         switch (category.includes("Charge")) {
             case true:
                 var newMovePool = [...this.state[attr].chargeMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value}</option>);
+                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
                 this.setState({
                     [attr]: {
                         ...this.state[attr],
@@ -207,7 +207,7 @@ class RedactPokemon extends React.PureComponent {
                 break
             default:
                 newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value}</option>);
+                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
                 this.setState({
                     [attr]: {
                         ...this.state[attr],

@@ -187,7 +187,7 @@ class MatrixPanel extends React.PureComponent {
         switch (category.includes("Charge")) {
             case true:
                 var newMovePool = [...this.state[attr].chargeMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value}</option>);
+                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
                 this.setState({
                     [attr]: {
                         ...this.state[attr],
@@ -200,7 +200,7 @@ class MatrixPanel extends React.PureComponent {
                 break
             default:
                 newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value}</option>);
+                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
                 this.setState({
                     [attr]: {
                         ...this.state[attr],
