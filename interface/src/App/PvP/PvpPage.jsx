@@ -8,13 +8,15 @@ import ReactTooltip from "react-tooltip";
 import SinglePvp from "./SinglePvp"
 import MatrixPvp from "./MatrixPvp"
 import SelectGroup from "./components/SelectGroup/SelectGroup";
-import PokemonIconer from "./components/PokemonIconer/PokemonIconer"
 import Checkbox from "../RaidsList/Checkbox"
 import MatrixDescr from "./components/Description/MatrixDescr"
 import SingleDescr from "./components/Description/SingleDescr"
 
 
-import { getCookie, extractPokemon, extractData, returnMovePool, calculateMaximizedStats, calculateEffStat } from "../../js/indexFunctions"
+import {
+    getCookie, extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase,
+    calculateEffStat
+} from "../../js/indexFunctions"
 import { locale } from "../../locale/locale"
 
 
@@ -25,7 +27,7 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.HP = hisResult.HP
     pok.Energy = hisResult.EnergyRemained
 
-    var moves = returnMovePool(pok.name, pokemonTable, strings.options.moveSelect)
+    var moves = returnMovePool(pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
     pok.quickMovePool = moves.quickMovePool
     pok.chargeMovePool = moves.chargeMovePool
 
@@ -85,6 +87,7 @@ class PvpPage extends React.Component {
         const update = this.updateState
         window.onpopstate = function (event) {
             let windowPath = window.location.pathname.split('/').slice(2)
+            console.log(windowPath)
             let type = windowPath[0]
             let league = windowPath[1]
             let pok1 = windowPath[2]
@@ -185,42 +188,12 @@ class PvpPage extends React.Component {
 
         let pokList = [];
         if (results[0]) {
-            //create pokemons list
-            for (let key in results[0]) {
-                if (results[0][key].QuickMoves[0] !== "") {
-                    pokList.push({
-                        value: key,
-                        label: <div style={{ textAlign: "left" }}>
-                            <PokemonIconer
-                                src={results[0][key].Number + (results[0][key].Forme !== "" ? "-" + results[0][key].Forme : "")}
-                                class={"icon24 mr-1"}
-                            />{key}
-                        </div>,
-                    });
-                }
-            }
+            pokList = returnPokList(results[0])
         }
-        let chargeMoveList = [];
-        let quickMoveList = [];
+
+        let movebaseSeparated = [];
         if (results[1]) {
-            //create pokemons list
-            for (let key in results[1]) {
-                switch (results[1][key].MoveCategory) {
-                    case "Charge Move":
-                        chargeMoveList.push({
-                            value: key,
-                            label: key,
-                        });
-                        break
-                    case "Fast Move":
-                        quickMoveList.push({
-                            value: key,
-                            label: key,
-                        });
-                        break
-                    default:
-                }
-            }
+            movebaseSeparated = separateMovebase(results[1])
         }
 
         for (let i = 0; i < responses.length; i++) {
@@ -237,8 +210,8 @@ class PvpPage extends React.Component {
                         pokemonTable: (results[0]) ? results[0] : [],
                         moveTable: (results[1]) ? results[1] : [],
                         pokList: (pokList) ? pokList : [],
-                        chargeMoveList: (chargeMoveList) ? chargeMoveList : [],
-                        quickMoveList: (quickMoveList) ? quickMoveList : [],
+                        chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
+                        quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
                     });
                     return;
                 }
@@ -253,8 +226,8 @@ class PvpPage extends React.Component {
                     pokemonTable: (results[0]) ? results[0] : [],
                     moveTable: (results[1]) ? results[1] : [],
                     pokList: (pokList) ? pokList : [],
-                    chargeMoveList: (chargeMoveList) ? chargeMoveList : [],
-                    quickMoveList: (quickMoveList) ? quickMoveList : [],
+                    chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
+                    quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
                 });
                 return;
             }
@@ -277,8 +250,8 @@ class PvpPage extends React.Component {
             pokemonTable: results[0],
             moveTable: results[1],
             pokList: pokList,
-            chargeMoveList: chargeMoveList,
-            quickMoveList: quickMoveList,
+            chargeMoveList: movebaseSeparated.chargeMoveList,
+            quickMoveList: movebaseSeparated.quickMoveList,
             isLoaded: true,
             loading: false,
         });
