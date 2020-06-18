@@ -1,4 +1,5 @@
 import React from 'react';
+import PokemonIconer from "../App/PvP/components/PokemonIconer/PokemonIconer"
 
 export const capitalize = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
@@ -25,7 +26,7 @@ export function checkShadow(name, pokemonTable) {
 }
 
 //returns move pool of select elements. Inputs are: role (string) and data (object with pok data), output: quick and charge move pool <option>
-export function returnMovePool(name, data, locale) {
+export function returnMovePool(name, data, locale, isBoss, additionalQ, addtionalCh) {
     if (data[name] === undefined || name === "") {
         return ({ quickMovePool: [], chargeMovePool: [] });
     }
@@ -34,23 +35,65 @@ export function returnMovePool(name, data, locale) {
     let chargeRaw = [...data[name].ChargeMoves];
     //filter empty values
     var quickFiltered = quickRaw.filter(function (e) {
+        if (isBoss) {
+            switch (data[name].EliteMoves[e]) {
+                case 1:
+                    return false
+                default:
+                    return e !== ""
+            }
+        }
         return e !== "";
     });
     var chargeFiltered = chargeRaw.filter(function (e) {
+        if (isBoss) {
+            switch (data[name].EliteMoves[e]) {
+                case 1:
+                    return false
+                default:
+                    return e !== ""
+            }
+        }
         return e !== "";
     });
     //make options tag array
     var quickMovePool = quickFiltered.map(function (moveName) {
         return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
+    pushAdditional(additionalQ, quickFiltered, quickMovePool)
+    quickMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     quickMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
+
     var chargeMovePool = chargeFiltered.map(function (moveName) {
         return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
+    pushAdditional(addtionalCh, chargeFiltered, chargeMovePool)
     chargeMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     chargeMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
 
     return ({ quickMovePool, chargeMovePool })
+}
+
+function pushAdditional(additional, set, target) {
+    if (!additional || !set || !target) {
+        return
+    }
+    console.log(additional, set, target)
+    for (let i = 0; i < additional.length; i++) {
+        if (!additional[i]) {
+            continue
+        }
+        let isInMovepool = false
+        for (let j = 0; j < set.length; j++) {
+            if (additional[i] === set[j]) {
+                isInMovepool = true
+                break
+            }
+        }
+        if (!isInMovepool) {
+            target.push(<option value={additional[i]} key={additional[i]}>{additional[i] + "*"}</option>)
+        }
+    }
 }
 
 //Takes pok name, lvlCap and database, returns great, ultra and master leagues iv for given pok
@@ -419,6 +462,148 @@ export function extractData(league, pok1, pok2) {
         defender: (defender.length === 15) ? defender : undefined,
         league: (league === "great" || league === "ultra" || league === "master") ? league : undefined
     }
+}
+
+export function extractRaidData(attacker, boss, obj) {
+
+    let attackerObj = decodeURIComponent(attacker).split("_")
+    let bossObj = decodeURIComponent(boss).split("_")
+    let pveObj = decodeURIComponent(obj).split("_")
+
+    return {
+        attackerObj: (attackerObj.length === 8) ? attackerObj : undefined,
+        bossObj: (bossObj.length === 4) ? bossObj : undefined,
+        pveObj: (pveObj.length === 6) ? pveObj : undefined,
+    }
+}
+
+export function extractPveAttacker(array) {
+    return {
+        Name: array[0],
+        QuickMove: array[1],
+        ChargeMove: array[2],
+
+        Lvl: array[3],
+        Atk: array[4],
+        Def: array[5],
+        Sta: array[6],
+
+        IsShadow: array[7],
+
+        quickMovePool: "",
+        chargeMovePool: "",
+
+    }
+}
+
+export function extractPveBoss(array) {
+    return {
+        Name: array[0],
+        QuickMove: array[1],
+        ChargeMove: array[2],
+
+        Tier: array[3],
+
+        quickMovePool: "",
+        chargeMovePool: "",
+    }
+}
+
+
+export function extractPveObj(array) {
+    return {
+        FriendshipStage: array[0],
+        Weather: array[1],
+        DodgeStrategy: array[2],
+
+        PartySize: array[3],
+        PlayersNumber: array[4],
+        IsAggresive: array[5],
+    }
+}
+
+export function pveattacker() {
+    return {
+        Name: "",
+        QuickMove: "",
+        ChargeMove: "",
+
+        Lvl: "35",
+        Atk: "15",
+        Def: "15",
+        Sta: "15",
+
+        IsShadow: "false",
+
+        quickMovePool: "",
+        chargeMovePool: "",
+    }
+}
+
+export function boss(locale) {
+    return {
+        Name: locale,
+        QuickMove: "",
+        ChargeMove: "",
+
+        Tier: "4",
+
+        quickMovePool: "",
+        chargeMovePool: "",
+    }
+}
+
+export function pveobj() {
+    return {
+        FriendshipStage: "0",
+        Weather: "0",
+        DodgeStrategy: "0",
+
+        PartySize: "18",
+        PlayersNumber: "3",
+        IsAggresive: "false",
+    }
+}
+
+export function returnPokList(pokBase) {
+    let pokList = [];
+    //create pokemons list
+    for (let key in pokBase) {
+        pokList.push({
+            value: key,
+            label: <div style={{ textAlign: "left" }}>
+                <PokemonIconer
+                    src={pokBase[key].Number + (pokBase[key].Forme !== "" ? "-" + pokBase[key].Forme : "")}
+                    class={"icon24 mr-1"}
+                />{key}
+            </div>,
+        });
+    }
+    return pokList
+}
+
+export function separateMovebase(movebase) {
+    let chargeMoveList = [];
+    let quickMoveList = [];
+    //create pokemons list
+    for (let key in movebase) {
+        switch (movebase[key].MoveCategory) {
+            case "Charge Move":
+                chargeMoveList.push({
+                    value: key,
+                    label: key,
+                });
+                break
+            case "Fast Move":
+                quickMoveList.push({
+                    value: key,
+                    label: key,
+                });
+                break
+            default:
+        }
+    }
+    return { chargeMoveList: chargeMoveList, quickMoveList: quickMoveList }
 }
 
 
