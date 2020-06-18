@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import BarLoader from "react-spinners/BarLoader";
 
 const PvpRouter = lazy(() => import('./PvP/PvpRouter.jsx'));
+const PveRouter = lazy(() => import('./PvE/PveRouter.jsx'));
 const IndexPageRouter = lazy(() => import('./IndexPage/IndexPageRouter.jsx'));
 const NewsPageRouter = lazy(() => import('./IndexPage/NewsPageRouter.jsx'));
 const NewsRouter = lazy(() => import('./IndexPage/NewsRouter.jsx'));
@@ -29,6 +30,7 @@ const Main = () => (
                 <Route path='/news/id' component={NewsRouter} />
                 <Route path='/news' component={NewsPageRouter} />
                 <Route path='/pvp' component={PvpRouter} />
+                <Route path='/pve' component={PveRouter} />
                 <Route path='/shinyrates' component={ShinyRates} />
                 <Route path='/evolution' component={Evolve} />
                 <Route path='/raids' component={RaidsList} />
