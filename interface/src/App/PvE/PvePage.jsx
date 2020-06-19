@@ -238,7 +238,7 @@ class PvePage extends React.Component {
                     <meta property="twitter:url" content={this.state.urlSEO}></meta>
                     <meta property="twitter:description" content={this.state.description} ></meta>
                 </Helmet>
-                <div className=" container-fluid pt-2 pt-md-2 mb-5">
+                <div className=" container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
                     <div className="row  mx-0 mx-lg-2 justify-content-center">
                         {this.state.loading && <div className="col-12   mb-4"  >
                             <div className="row  m-0 p-0 justify-content-center">
@@ -252,12 +252,10 @@ class PvePage extends React.Component {
                             </div>
 
                         </div>}
-                        <div className="col-12 superBig m-0 p-0">
+                        <div className="col-12 superBig m-0 p-0 px-1">
                             {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonPve
                                 parentState={this.state}
-                            />
-
-                            }
+                            />}
                         </div>
                     </div>
                 </div >

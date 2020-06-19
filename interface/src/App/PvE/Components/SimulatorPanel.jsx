@@ -1,23 +1,23 @@
 import React from "react";
 import Stats from "../../PvP/components/Stats/Stats";
-import SearchableSelect from "../../PvP/components/SearchableSelect/SearchableSelect";
 import SelectGroup from "../../PvP/components/SelectGroup/SelectGroup";
-import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
-import MagicBox from "../../PvP/components/MagicBox/MagicBox"
-
+import PvePokemon from "./PvePokemon"
 
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../../locale/locale"
+import { pveLocale } from "../../../locale/pveLocale"
 import { getCookie } from "../../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
+let pveStrings = new LocalizedStrings(pveLocale);
 
 class SimulatorPanel extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            weather: [
+            Weather: [
                 <option value="0" key="0">Extreme</option>,
                 <option value="1" key="1">Sunny</option>,
                 <option value="2" key="2">Rainy</option>,
@@ -27,19 +27,27 @@ class SimulatorPanel extends React.PureComponent {
                 <option value="6" key="6">Snowy</option>,
                 <option value="7" key="7">Foggy</option>,
             ],
-            dodgeStrategy: [
+            DodgeStrategy: [
                 <option value="0" key="0">No dodge</option>,
                 <option value="1" key="1">25%</option>,
                 <option value="2" key="2">50%</option>,
                 <option value="3" key="3">75%</option>,
                 <option value="4" key="4">100%</option>,
             ],
-            partySize: [
+            Tier: [
+                <option value="0" key="0">{pveStrings.tierlist + " 1"}</option>,
+                <option value="1" key="1">{pveStrings.tierlist + " 2"}</option>,
+                <option value="2" key="2">{pveStrings.tierlist + " 3"}</option>,
+                <option value="3" key="3">{pveStrings.tierlist + " 4"}</option>,
+                <option value="4" key="4">{pveStrings.tierlist + " 5"}</option>,
+                <option value="5" key="6">{pveStrings.tierlist + " 5.5"}</option>,
+            ],
+            PartySize: [
                 <option value="6" key="6">6</option>,
                 <option value="12" key="12">12</option>,
                 <option value="18" key="18">18</option>,
             ],
-            playersNumber: [
+            PlayersNumber: [
                 <option value="1" key="1">1</option>,
                 <option value="2" key="2">2</option>,
                 <option value="3" key="3">3</option>,
@@ -61,13 +69,25 @@ class SimulatorPanel extends React.PureComponent {
                 <option value="19" key="19">19</option>,
                 <option value="20" key="20">20</option>,
             ],
-            isAggresive: [
-                <option value="false" key="Normal">Normal</option>,
-                <option value="true" key="Aggresive">Aggresive</option>,
+            IsAggresive: [
+                <option value="false" key="Normal">{pveStrings.aggrList.norm}</option>,
+                <option value="true" key="Aggresive">{pveStrings.aggrList.aggr}</option>,
             ],
-            typeList: [
+            IsShadow: [
                 <option value="false" key="Normal">{strings.options.type.normal}</option>,
                 <option value="true" key="Shadow">{strings.options.type.shadow}</option>,
+            ],
+            0: 1.0,
+            FriendshipStage: [
+                <option value="0" key="0">No bonus (0%)</option>,
+                <option value="1" key="1">Good (3%)</option>,
+                <option value="2" key="2">Great (5%)</option>,
+                <option value="3" key="3">Ultra (7%)</option>,
+                <option value="4" key="4">Best (10%)</option>,
+                <option value="5" key="5">Good (6%)</option>,
+                <option value="6" key="6">Great (12%)</option>,
+                <option value="7" key="7">Ultra (18%)</option>,
+                <option value="8" key="8">Best (25%)</option>,
             ],
         };
     }
@@ -75,129 +95,171 @@ class SimulatorPanel extends React.PureComponent {
     render() {
         return (
             <div className={this.props.className}>
-                {(this.props.showMenu) && <MagicBox
-                    title={strings.title.selectMove}
-                    onClick={this.props.onClick}
-                    attr={this.props.attr}
-                    element={<SearchableSelect
-                        list={this.props.moveList}
-                        attr={this.props.attr}
-                        category={this.props.category}
-                        onChange={this.props.onChange}
-                    />}
-                />}
+                <div className="col-4 m-0 p-0 text-center px-1">
+                    <PvePokemon
+                        title="Attacker (optional)"
+                        attr="attackerObj"
 
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
+                        pokList={this.props.pokList}
+                        chargeMoveList={this.props.chargeMoveList}
+                        quickMoveList={this.props.quickMoveList}
 
-                <div className="col-4 m-0 p-0">
-                    Attacker (optional)
-                    {this.props.pokList && <SearchableSelect
-                        value={this.props.value.attackerObj.Name}
-                        list={this.props.pokList}
-                        attr={"attackerObj"}
+                        value={this.props.value}
                         onChange={this.props.onChange}
-                    />}
-                    <SelectGroup
-                        name="QuickMove"
-                        value={this.props.value.attackerObj.QuickMove}
-                        attr={"attackerObj"}
-                        onChange={this.props.onChange}
-                        options={this.props.value.attackerObj.quickMovePool}
-                        label={strings.title.quickMove}
-                        labelStyle={(this.props.moveTable[this.props.value.attackerObj.QuickMove] !== undefined) ?
-                            "color" + this.props.moveTable[this.props.value.attackerObj.QuickMove].MoveType + " text" : ""}
 
-                        place={"top"}
-                        for={this.props.value.attackerObj.QuickMove && "QuickMoveattackerObj"}
-                        tip={this.props.value.attackerObj.QuickMove && <small>
-                            {strings.move.damage + (this.props.moveTable[this.props.value.attackerObj.QuickMove].Damage)}<br />
-                            {strings.move.energy + (this.props.moveTable[this.props.value.attackerObj.QuickMove].Energy)}<br />
-                            {"Cooldown: " + (this.props.moveTable[this.props.value.attackerObj.QuickMove].Cooldown / 1000)}<br />
-                            {"DPS: " + (this.props.moveTable[this.props.value.attackerObj.QuickMove].Damage / (this.props.moveTable[this.props.value.attackerObj.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                            {"EPS: " + (this.props.moveTable[this.props.value.attackerObj.QuickMove].Energy / (this.props.moveTable[this.props.value.attackerObj.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                        </small>}
-                        tipClass='logItems'
+                        onClick={this.props.onClick}
                     />
+                    <Stats
+                        class="font95 input-group input-group-sm mt-2 mb-2"
 
-                    <SelectGroup
-                        name="ChargeMove"
-                        value={(this.props.value.attackerObj.ChargeMove && this.props.value.attackerObj.ChargeMove !== "Select...") ?
-                            this.props.value.attackerObj.ChargeMove : ""}
-
+                        Lvl={this.props.value.attackerObj.Lvl}
+                        Atk={this.props.value.attackerObj.Atk}
+                        Def={this.props.value.attackerObj.Def}
+                        Sta={this.props.value.attackerObj.Sta}
                         attr={"attackerObj"}
                         onChange={this.props.onChange}
-                        options={this.props.value.attackerObj.chargeMovePool}
-                        label={strings.title.chargeMove}
-                        labelStyle={(this.props.moveTable[this.props.value.attackerObj.ChargeMove] !== undefined) ?
-                            "color" + this.props.moveTable[this.props.value.attackerObj.ChargeMove].MoveType + " text" : ""}
+                    />
+                    <SelectGroup
+                        name="IsShadow"
+                        value={this.props.value.attackerObj.IsShadow}
+                        attr={"attackerObj"}
+                        onChange={this.props.onChange}
+                        options={this.state.IsShadow}
+                        label={strings.title.type}
 
                         place={"top"}
-                        for={(this.props.value.attackerObj.ChargeMove && this.props.value.attackerObj.ChargeMove !== "Select...") && ("ChargeMove1attackerObj")}
-                        tip={(this.props.value.attackerObj.ChargeMove && this.props.value.attackerObj.ChargeMove !== "Select...") && <small>
-                            {strings.move.damage + (this.props.moveTable[this.props.value.attackerObj.ChargeMove].PvpDamage)}<br />
-                            {strings.move.energy + (-this.props.moveTable[this.props.value.attackerObj.ChargeMove].PvpEnergy)}<br />
-                            {"Cooldown: " + (this.props.moveTable[this.props.value.attackerObj.ChargeMove].Cooldown / 1000)}<br />
-                            {"DPS: " + (this.props.moveTable[this.props.value.attackerObj.ChargeMove].Damage / (this.props.moveTable[this.props.value.attackerObj.ChargeMove].Cooldown / 1000)).toFixed(2)}<br />
-                            {"DPS*DPE: " + (this.props.moveTable[this.props.value.attackerObj.ChargeMove].Damage / (this.props.moveTable[this.props.value.attackerObj.ChargeMove].Cooldown / 1000) * this.props.moveTable[this.props.value.attackerObj.ChargeMove].Damage / -this.props.moveTable[this.props.value.attackerObj.ChargeMove].Energy).toFixed(2)}<br />
+                        for={"attackerIsShadow"}
 
-                        </small>}
-                        tipClass='logItems'
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
+                    />
+                </div>
+                <div className="col-4 m-0 p-0 text-center px-1">
+                    Raid Settings
+                    <SelectGroup
+                        class="input-group input-group-sm mt-2"
+                        name="PlayersNumber"
+                        value={this.props.value.pveObj.PlayersNumber}
+                        attr={"pveObj"}
+                        onChange={this.props.onChange}
+                        options={this.state.PlayersNumber}
+                        label={pveStrings.playernumb}
+
+
+                        place={"top"}
+                        for={"pvePlayersNumber"}
+
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
+                    />
+                    <SelectGroup
+                        name="PartySize"
+                        value={this.props.value.pveObj.PartySize}
+                        attr={"pveObj"}
+                        onChange={this.props.onChange}
+                        options={this.state.PartySize}
+                        label={pveStrings.partysize}
+
+
+                        place={"top"}
+                        for={"pvePartySize"}
+
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
+                    />
+                    <SelectGroup
+                        name="Weather"
+                        value={this.props.value.pveObj.Weather}
+                        attr={"pveObj"}
+                        onChange={this.props.onChange}
+                        options={this.state.Weather}
+                        label={pveStrings.weather}
+
+
+                        place={"top"}
+                        for={"pveWeather"}
+
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
+                    />
+                    <SelectGroup
+                        name="DodgeStrategy"
+                        value={this.props.value.pveObj.DodgeStrategy}
+                        attr={"pveObj"}
+                        onChange={this.props.onChange}
+                        options={this.state.DodgeStrategy}
+                        label={pveStrings.dodge}
+
+
+                        place={"top"}
+                        for={"pveDodgeStrategy"}
+
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
+                    />
+                    <SelectGroup
+                        name="FriendshipStage"
+                        value={this.props.value.pveObj.FriendshipStage}
+                        attr={"pveObj"}
+                        onChange={this.props.onChange}
+                        options={this.state.FriendshipStage}
+                        label={pveStrings.friend}
+
+
+                        place={"top"}
+                        for={"pveFriendshipStage"}
+
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
                     />
                 </div>
 
-                <div className="col-4 m-0 p-0">
-                    Boss (required)
-                    {this.props.pokList && <SearchableSelect
-                        value={this.props.value.bossObj.Name}
-                        list={this.props.pokList}
-                        attr={"bossObj"}
-                        onChange={this.props.onChange}
-                    />}
+                <div className="col-4 m-0 p-0 text-center px-1">
+                    <PvePokemon
+                        title="Boss (required)"
+                        attr="bossObj"
 
-                    <SelectGroup
-                        name="QuickMove"
-                        value={this.props.value.bossObj.QuickMove}
-                        attr={"bossObj"}
-                        onChange={this.props.onChange}
-                        options={this.props.value.bossObj.quickMovePool}
-                        label={strings.title.quickMove}
-                        labelStyle={(this.props.moveTable[this.props.value.bossObj.QuickMove] !== undefined) ?
-                            "color" + this.props.moveTable[this.props.value.bossObj.QuickMove].MoveType + " text" : ""}
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
+                        pokList={this.props.pokList}
+                        chargeMoveList={this.props.chargeMoveList}
+                        quickMoveList={this.props.chargeMoveList}
 
-                        place={"top"}
-                        for={this.props.value.bossObj.QuickMove && "QuickMovebossObj"}
-                        tip={this.props.value.bossObj.QuickMove && <small>
-                            {strings.move.damage + (this.props.moveTable[this.props.value.bossObj.QuickMove].Damage)}<br />
-                            {strings.move.energy + (this.props.moveTable[this.props.value.bossObj.QuickMove].Energy)}<br />
-                            {"Cooldown: " + (this.props.moveTable[this.props.value.bossObj.QuickMove].Cooldown / 1000)}<br />
-                            {"DPS: " + (this.props.moveTable[this.props.value.bossObj.QuickMove].Damage / (this.props.moveTable[this.props.value.bossObj.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                            {"EPS: " + (this.props.moveTable[this.props.value.bossObj.QuickMove].Energy / (this.props.moveTable[this.props.value.bossObj.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                        </small>}
-                        tipClass='logItems'
+                        value={this.props.value}
+                        onChange={this.props.onChange}
+                        onClick={this.props.onClick}
                     />
-
                     <SelectGroup
-                        name="ChargeMove"
-                        value={(this.props.value.bossObj.ChargeMove && this.props.value.bossObj.ChargeMove !== "Select...") ?
-                            this.props.value.bossObj.ChargeMove : ""}
-
+                        name="Tier"
+                        value={this.props.value.bossObj.Tier}
                         attr={"bossObj"}
                         onChange={this.props.onChange}
-                        options={this.props.value.bossObj.chargeMovePool}
-                        label={strings.title.chargeMove}
-                        labelStyle={(this.props.moveTable[this.props.value.bossObj.ChargeMove] !== undefined) ?
-                            "color" + this.props.moveTable[this.props.value.bossObj.ChargeMove].MoveType + " text" : ""}
+                        options={this.state.Tier}
+                        label={pveStrings.tier}
+
 
                         place={"top"}
-                        for={(this.props.value.bossObj.ChargeMove && this.props.value.bossObj.ChargeMove !== "Select...") && ("ChargeMove1bossObj")}
-                        tip={(this.props.value.bossObj.ChargeMove && this.props.value.bossObj.ChargeMove !== "Select...") && <small>
-                            {strings.move.damage + (this.props.moveTable[this.props.value.bossObj.ChargeMove].PvpDamage)}<br />
-                            {strings.move.energy + (-this.props.moveTable[this.props.value.bossObj.ChargeMove].PvpEnergy)}<br />
-                            {"Cooldown: " + (this.props.moveTable[this.props.value.bossObj.ChargeMove].Cooldown / 1000)}<br />
-                            {"DPS: " + (this.props.moveTable[this.props.value.bossObj.ChargeMove].Damage / (this.props.moveTable[this.props.value.bossObj.ChargeMove].Cooldown / 1000)).toFixed(2)}<br />
-                            {"DPS*DPE: " + (this.props.moveTable[this.props.value.bossObj.ChargeMove].Damage / (this.props.moveTable[this.props.value.bossObj.ChargeMove].Cooldown / 1000) * this.props.moveTable[this.props.value.bossObj.ChargeMove].Damage / -this.props.moveTable[this.props.value.bossObj.ChargeMove].Energy).toFixed(2)}<br />
+                        for={"Tier"}
 
-                        </small>}
-                        tipClass='logItems'
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
+                    />
+                    <SelectGroup
+                        name="IsAggresive"
+                        value={this.props.value.pveObj.IsAggresive}
+                        attr={"pveObj"}
+                        onChange={this.props.onChange}
+                        options={this.state.IsAggresive}
+                        label={pveStrings.aggreasive}
+
+
+                        place={"top"}
+                        for={"bossIsAggresive"}
+
+                        tip={strings.tips.shadow}
+                        tipClass='strategyTips'
                     />
                 </div>
 
@@ -206,14 +268,7 @@ class SimulatorPanel extends React.PureComponent {
 
                 {(this.props.pokemonTable[this.props.value.name] && this.props.value.name) &&
                     <>
-                        <CpAndTyping
-                            Lvl={this.props.value.Lvl}
-                            Atk={this.props.value.Atk}
-                            Def={this.props.value.Def}
-                            Sta={this.props.value.Sta}
-                            pokemonTable={this.props.pokemonTable}
-                            name={this.props.value.name}
-                        />
+
 
                         <Stats
                             Lvl={this.props.value.Lvl}
@@ -233,7 +288,7 @@ class SimulatorPanel extends React.PureComponent {
                             value={this.props.value.IsShadow}
                             attr={this.props.attr}
                             onChange={this.props.onChange}
-                            options={this.state.typeList}
+                            options={this.state.IsShadow}
                             label={strings.title.type}
 
 
