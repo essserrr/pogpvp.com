@@ -87,7 +87,6 @@ class PvpPage extends React.Component {
         const update = this.updateState
         window.onpopstate = function (event) {
             let windowPath = window.location.pathname.split('/').slice(2)
-            console.log(windowPath)
             let type = windowPath[0]
             let league = windowPath[1]
             let pok1 = windowPath[2]

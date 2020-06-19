@@ -9,6 +9,9 @@ const CpAndTyping = React.memo(function Pokemon(props) {
             <CP
                 class="d-inline mr-2"
                 name={props.name}
+                tier={props.tier}
+                isBoss={props.isBoss}
+
                 Lvl={props.Lvl}
                 Atk={props.Atk}
                 Def={props.Def}

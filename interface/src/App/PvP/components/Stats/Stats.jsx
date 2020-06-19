@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(locale);
 const Stats = React.memo(function Pokemon(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className="font95 input-group input-group-sm mt-1 mb-2" >
+        <div className={props.class ? props.class : "font95 input-group input-group-sm mt-1 mb-2"} >
             <ReactTooltip
                 id={props.attr + "inlvl"} effect='solid'>
                 {strings.stats.lvl + ": 1-45"}

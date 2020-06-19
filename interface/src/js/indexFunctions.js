@@ -78,7 +78,6 @@ function pushAdditional(additional, set, target) {
     if (!additional || !set || !target) {
         return
     }
-    console.log(additional, set, target)
     for (let i = 0; i < additional.length; i++) {
         if (!additional[i]) {
             continue
@@ -322,6 +321,15 @@ export function culculateCP(name, Lvl, Atk, Def, Sta, base) {
         cpAtLvl = 10
     }
     return cpAtLvl
+}
+
+export function culculateBossCP(name, tier, base) {
+    if (!name || !base[name]) {
+        return 0
+    }
+    var bossCP = Math.trunc((15 + Number(base[name]["Atk"])) * Math.pow(15 + Number(base[name]["Def"]), 0.5) * Math.pow(tierHP[tier], 0.5) / 10);
+
+    return bossCP
 }
 
 export function checkIV(IV) {
@@ -1376,3 +1384,11 @@ export var effectivenessData = [
     ]
 ]
 
+export var tierHP = [
+    600,
+    1800,
+    3600,
+    9000,
+    15000,
+    22500,
+]
