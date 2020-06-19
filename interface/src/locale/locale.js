@@ -160,6 +160,7 @@ export const locale = {
         },
 
         buttons: {
+            calculate: "Calculate",
             letsbattle: "Let's Battle",
             addpokemon: "Add pokemon",
             save: "Save",
@@ -407,6 +408,7 @@ export const locale = {
             stage: "Модификатор: ",
         },
         buttons: {
+            calculate: "Посчитать",
             letsbattle: "В бой!",
             addpokemon: "Добавить покемона",
             save: "Сохранить",
