@@ -34,6 +34,7 @@ class CommonPve extends React.PureComponent {
         };
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -57,7 +58,6 @@ class CommonPve extends React.PureComponent {
     }
 
     onNameChange(event, name) {
-        console.log(event, name)
         //get movepool
         switch (name) {
             case "attackerObj":
@@ -280,26 +280,29 @@ class CommonPve extends React.PureComponent {
           });*/
     };
 
+    onClick(event) {
+        var role = event.target.getAttribute('attr')
 
+        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
+            return
+        }
 
-
-
-
-
-
-
-
-
-
-
+        this.setState({
+            [role]: {
+                ...this.state[role],
+                showMenu: false,
+                isSelected: undefined,
+            }
+        });
+    }
 
 
     render() {
         return (
             < >
-                <div className="row justify-content-center mb-4"  >
+                <div className="row justify-content-center m-0 mb-4 p-0"  >
 
-                    <div className="col-12 superBig results p-1 m-0" >
+                    <div className="col-12 superBig results py-1 py-sm-2 px-0 px-sm-1 m-0" >
                         <SimulatorPanel
                             className="row justify-content-between m-0 p-0"
                             pokemonTable={this.props.parentState.pokemonTable}
@@ -310,14 +313,16 @@ class CommonPve extends React.PureComponent {
 
                             value={this.state}
                             onChange={this.onChange}
+                            onClick={this.onClick}
                         />
-                        <SubmitButton
-                            label={"Calculate"}
-                            action="Calculate"
-                            onSubmit={this.submitForm}
-                            class="btn btn-primary"
-                        />
+
                     </div>
+                    <SubmitButton
+                        label={"Calculate"}
+                        action="Calculate"
+                        onSubmit={this.submitForm}
+                        class="btn btn-primary"
+                    />
                 </div>
             </ >
 
