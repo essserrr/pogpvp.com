@@ -504,6 +504,23 @@ export function extractPveAttacker(array) {
     }
 }
 
+export function encodePveAttacker(data) {
+    var res = [];
+
+    res.push(data.Name);
+
+    res.push(data.QuickMove);
+    res.push(data.ChargeMove);
+
+    res.push(data.Lvl);
+    res.push(data.Atk);
+    res.push(data.Def);
+    res.push(data.Sta);
+
+    res.push(data.IsShadow);
+    return encodeURIComponent(res.join("_"));
+}
+
 export function extractPveBoss(array) {
     return {
         Name: array[0],
@@ -517,6 +534,19 @@ export function extractPveBoss(array) {
     }
 }
 
+export function encodePveBoss(data) {
+    var res = [];
+
+    res.push(data.Name);
+
+    res.push(data.QuickMove);
+    res.push(data.ChargeMove);
+
+    res.push(data.Tier);
+
+    return encodeURIComponent(res.join("_"));
+}
+
 
 export function extractPveObj(array) {
     return {
@@ -528,6 +558,20 @@ export function extractPveObj(array) {
         PlayersNumber: array[4],
         IsAggresive: array[5],
     }
+}
+
+export function encodePveObj(data) {
+    var res = [];
+
+    res.push(data.FriendshipStage);
+    res.push(data.Weather);
+    res.push(data.DodgeStrategy);
+
+    res.push(data.PartySize);
+    res.push(data.PlayersNumber);
+    res.push(data.IsAggresive);
+
+    return encodeURIComponent(res.join("_"));
 }
 
 export function pveattacker() {
@@ -573,8 +617,16 @@ export function pveobj() {
     }
 }
 
-export function returnPokList(pokBase) {
+export function returnPokList(pokBase, addNone, locale) {
     let pokList = [];
+    if (addNone) {
+        pokList.push({
+            value: "None",
+            label: <div style={{ textAlign: "left" }} >
+                {locale}
+            </div>,
+        });
+    }
     //create pokemons list
     for (let key in pokBase) {
         pokList.push({
