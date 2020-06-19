@@ -18,17 +18,17 @@ class SimulatorPanel extends React.PureComponent {
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             Weather: [
-                <option value="0" key="0">Extreme</option>,
-                <option value="1" key="1">Sunny</option>,
-                <option value="2" key="2">Rainy</option>,
-                <option value="3" key="3">Partly cloudy</option>,
-                <option value="4" key="4">Cloudy</option>,
-                <option value="5" key="5">Windy</option>,
-                <option value="6" key="6">Snowy</option>,
-                <option value="7" key="7">Foggy</option>,
+                <option value="0" key="0">{pveStrings.weatherList[0]}</option>,
+                <option value="1" key="1">{pveStrings.weatherList[1]}</option>,
+                <option value="2" key="2">{pveStrings.weatherList[2]}</option>,
+                <option value="3" key="3">{pveStrings.weatherList[3]}</option>,
+                <option value="4" key="4">{pveStrings.weatherList[4]}</option>,
+                <option value="5" key="5">{pveStrings.weatherList[5]}</option>,
+                <option value="6" key="6">{pveStrings.weatherList[6]}</option>,
+                <option value="7" key="7">{pveStrings.weatherList[7]}</option>,
             ],
             DodgeStrategy: [
-                <option value="0" key="0">No dodge</option>,
+                <option value="0" key="0">{pveStrings.dodgeList}</option>,
                 <option value="1" key="1">25%</option>,
                 <option value="2" key="2">50%</option>,
                 <option value="3" key="3">75%</option>,
@@ -43,9 +43,9 @@ class SimulatorPanel extends React.PureComponent {
                 <option value="5" key="6">{pveStrings.tierlist + " 5.5"}</option>,
             ],
             PartySize: [
-                <option value="6" key="6">6</option>,
-                <option value="12" key="12">12</option>,
-                <option value="18" key="18">18</option>,
+                <option value="6" key="6">{"6 (1 " + pveStrings.party + ")"}</option>,
+                <option value="12" key="12">{"12 (2 " + pveStrings.parties + ")"}</option>,
+                <option value="18" key="18">{"18 (3 " + pveStrings.parties + ")"}</option>,
             ],
             PlayersNumber: [
                 <option value="1" key="1">1</option>,
@@ -79,25 +79,36 @@ class SimulatorPanel extends React.PureComponent {
             ],
             0: 1.0,
             FriendshipStage: [
-                <option value="0" key="0">No bonus (0%)</option>,
-                <option value="1" key="1">Good (3%)</option>,
-                <option value="2" key="2">Great (5%)</option>,
-                <option value="3" key="3">Ultra (7%)</option>,
-                <option value="4" key="4">Best (10%)</option>,
-                <option value="5" key="5">Good (6%)</option>,
-                <option value="6" key="6">Great (12%)</option>,
-                <option value="7" key="7">Ultra (18%)</option>,
-                <option value="8" key="8">Best (25%)</option>,
+                <option value="0" key="0">{pveStrings.friendList.no}</option>,
+                <option value="1" key="1">{pveStrings.friendList.good + " (3%)"}</option>,
+                <option value="2" key="2">{pveStrings.friendList.great + " (5%)"}</option>,
+                <option value="3" key="3">{pveStrings.friendList.ultra + " (7%)"}</option>,
+                <option value="4" key="4">{pveStrings.friendList.best + " (10%)"}</option>,
+                <option value="5" key="5">{pveStrings.friendList.good + " (6%)"}</option>,
+                <option value="6" key="6">{pveStrings.friendList.great + " (12%)"}</option>,
+                <option value="7" key="7">{pveStrings.friendList.ultra + " (18%)"}</option>,
+                <option value="8" key="8">{pveStrings.friendList.best + " (25%)"}</option>,
             ],
+            tierTip: [
+                <div key="tiertip">
+                    HP босса:<br />
+                    {pveStrings.tierlist + " 1 - 600 HP"}<br />
+                    {pveStrings.tierlist + " 2 - 1800 HP"}<br />
+                    {pveStrings.tierlist + " 3 - 3600 HP"}<br />
+                    {pveStrings.tierlist + " 4 - 9000 HP"}<br />
+                    {pveStrings.tierlist + " 5 - 15000 HP"}<br />
+                    {pveStrings.tierlist + " 5.5 - 22500 HP"}<br />
+                </div>
+            ]
         };
     }
 
     render() {
         return (
             <div className={this.props.className}>
-                <div className="col-4 m-0 p-0 text-center px-1">
+                <div className="order-1 order-sm-1 col-6 col-sm-4 m-0 p-0 text-center px-1">
                     <PvePokemon
-                        title="Attacker (optional)"
+                        title={pveStrings.attacker}
                         attr="attackerObj"
 
                         pokemonTable={this.props.pokemonTable}
@@ -136,89 +147,80 @@ class SimulatorPanel extends React.PureComponent {
                         tipClass='strategyTips'
                     />
                 </div>
-                <div className="col-4 m-0 p-0 text-center px-1">
-                    Raid Settings
-                    <SelectGroup
-                        class="input-group input-group-sm mt-2"
-                        name="PlayersNumber"
-                        value={this.props.value.pveObj.PlayersNumber}
-                        attr={"pveObj"}
-                        onChange={this.props.onChange}
-                        options={this.state.PlayersNumber}
-                        label={pveStrings.playernumb}
+                <div className="order-3 order-sm-2 col-12 col-sm-4 m-0 p-0 text-center px-1">
+                    {pveStrings.raid}
+                    <div className="row m-0 p-0">
+                        <div className="col-6 col-sm-12 m-0 p-0 pr-1 ml-sm-0">
+                            <SelectGroup
+                                class="input-group input-group-sm mt-2"
+                                name="PlayersNumber"
+                                value={this.props.value.pveObj.PlayersNumber}
+                                attr={"pveObj"}
+                                onChange={this.props.onChange}
+                                options={this.state.PlayersNumber}
+                                label={pveStrings.playernumb}
 
 
-                        place={"top"}
-                        for={"pvePlayersNumber"}
+                                place={"top"}
+                                for={"pvePlayersNumber"}
 
-                        tip={strings.tips.shadow}
-                        tipClass='strategyTips'
-                    />
-                    <SelectGroup
-                        name="PartySize"
-                        value={this.props.value.pveObj.PartySize}
-                        attr={"pveObj"}
-                        onChange={this.props.onChange}
-                        options={this.state.PartySize}
-                        label={pveStrings.partysize}
+                                tip={pveStrings.playernumbTip}
+                                tipClass='strategyTips'
+                            />
+                            <SelectGroup
+                                name="PartySize"
+                                value={this.props.value.pveObj.PartySize}
+                                attr={"pveObj"}
+                                onChange={this.props.onChange}
+                                options={this.state.PartySize}
+                                label={pveStrings.partysize}
 
+                                for={""}
+                            />
+                            <SelectGroup
+                                name="Weather"
+                                value={this.props.value.pveObj.Weather}
+                                attr={"pveObj"}
+                                onChange={this.props.onChange}
+                                options={this.state.Weather}
+                                label={pveStrings.weather}
 
-                        place={"top"}
-                        for={"pvePartySize"}
-
-                        tip={strings.tips.shadow}
-                        tipClass='strategyTips'
-                    />
-                    <SelectGroup
-                        name="Weather"
-                        value={this.props.value.pveObj.Weather}
-                        attr={"pveObj"}
-                        onChange={this.props.onChange}
-                        options={this.state.Weather}
-                        label={pveStrings.weather}
-
-
-                        place={"top"}
-                        for={"pveWeather"}
-
-                        tip={strings.tips.shadow}
-                        tipClass='strategyTips'
-                    />
-                    <SelectGroup
-                        name="DodgeStrategy"
-                        value={this.props.value.pveObj.DodgeStrategy}
-                        attr={"pveObj"}
-                        onChange={this.props.onChange}
-                        options={this.state.DodgeStrategy}
-                        label={pveStrings.dodge}
+                                for={""}
+                            />
+                        </div >
+                        <div className="col-6 col-sm-12 m-0 p-0 pl-1 ml-sm-0">
+                            <SelectGroup
+                                name="DodgeStrategy"
+                                value={this.props.value.pveObj.DodgeStrategy}
+                                attr={"pveObj"}
+                                onChange={this.props.onChange}
+                                options={this.state.DodgeStrategy}
+                                label={pveStrings.dodge}
 
 
-                        place={"top"}
-                        for={"pveDodgeStrategy"}
+                                place={"top"}
+                                for={"pveDodgeStrategy"}
 
-                        tip={strings.tips.shadow}
-                        tipClass='strategyTips'
-                    />
-                    <SelectGroup
-                        name="FriendshipStage"
-                        value={this.props.value.pveObj.FriendshipStage}
-                        attr={"pveObj"}
-                        onChange={this.props.onChange}
-                        options={this.state.FriendshipStage}
-                        label={pveStrings.friend}
+                                tip={pveStrings.dodgetip}
+                                tipClass='strategyTips'
+                            />
+                            <SelectGroup
+                                name="FriendshipStage"
+                                value={this.props.value.pveObj.FriendshipStage}
+                                attr={"pveObj"}
+                                onChange={this.props.onChange}
+                                options={this.state.FriendshipStage}
+                                label={pveStrings.friend}
 
-
-                        place={"top"}
-                        for={"pveFriendshipStage"}
-
-                        tip={strings.tips.shadow}
-                        tipClass='strategyTips'
-                    />
+                                for={""}
+                            />
+                        </div >
+                    </div>
                 </div>
 
-                <div className="col-4 m-0 p-0 text-center px-1">
+                <div className="order-2 order-sm-3 col-6 col-sm-4 m-0 p-0 text-center px-1">
                     <PvePokemon
-                        title="Boss (required)"
+                        title={pveStrings.boss}
                         attr="bossObj"
 
                         pokemonTable={this.props.pokemonTable}
@@ -239,11 +241,10 @@ class SimulatorPanel extends React.PureComponent {
                         options={this.state.Tier}
                         label={pveStrings.tier}
 
-
                         place={"top"}
-                        for={"Tier"}
+                        for={"bossTier"}
 
-                        tip={strings.tips.shadow}
+                        tip={this.state.tierTip}
                         tipClass='strategyTips'
                     />
                     <SelectGroup
@@ -258,7 +259,7 @@ class SimulatorPanel extends React.PureComponent {
                         place={"top"}
                         for={"bossIsAggresive"}
 
-                        tip={strings.tips.shadow}
+                        tip={pveStrings.aggresivetip}
                         tipClass='strategyTips'
                     />
                 </div>

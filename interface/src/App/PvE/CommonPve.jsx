@@ -1,7 +1,6 @@
 import React from "react";
 import {
-    encodeQueryData, returnMovePool, processHP, pveattacker, boss, pveobj,
-    getCookie, checkLvl, checkIV
+    returnMovePool, pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, getCookie, checkLvl, checkIV
 } from '../../js/indexFunctions.js'
 
 import SimulatorPanel from "./Components/SimulatorPanel"
@@ -200,84 +199,63 @@ class CommonPve extends React.PureComponent {
     submitForm = async event => {
         console.log(this.state.attackerObj, this.state.bossObj, this.state.pveObj)
         //make server pvp request
-        /*  var url = this.props.parentState.league + "/" + encodeQueryData(this.state.attacker) + "/" + encodeQueryData(this.state.defender)
-          event.preventDefault();
-          this.setState({
-              loading: true,
-          });
-          var reason = ""
-          const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/single/" + url, {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Accept-Encoding': 'gzip',
-                  'Pvp-Type': this.props.parentState.pvpoke ? "pvpoke" : "normal",
-              },
-          })
-              .catch(function (r) {
-                  reason = r
-                  return
-              });
-          if (reason !== "") {
-              this.setState({
-                  showResult: false,
-                  isError: true,
-                  loading: false,
-                  error: String(reason),
-  
-                  lastChangesAt: 0,
-                  stateModified: false,
-              });
-              return
-          }
-          //parse answer
-          const data = await response.json();
-          //if response is not ok, handle error
-          if (!response.ok) {
-              if (data.detail === "PvP error") {
-                  this.setState({
-                      showResult: false,
-                      isError: true,
-                      loading: false,
-                      error: data.case.What,
-  
-                      lastChangesAt: 0,
-                      stateModified: false,
-                  });
-                  return;
-              }
-              this.setState({
-                  showResult: false,
-                  isError: true,
-                  loading: false,
-                  error: data.detail,
-  
-                  lastChangesAt: 0,
-                  stateModified: false,
-              });
-              return;
-          }
-          //otherwise set state
-          window.history.pushState("object or string", "Title", "/pvp/single/" + url + (this.props.parentState.pvpoke ? "/pvpoke" : ""));
-          this.setState({
-              showResult: true,
-              isError: false,
-              loading: false,
-              result: data,
-              attacker: {
-                  ...this.state.attacker,
-                  HP: processHP(data.Attacker.HP),
-                  Energy: data.Attacker.EnergyRemained,
-              },
-              defender: {
-                  ...this.state.defender,
-                  HP: processHP(data.Defender.HP),
-                  Energy: data.Defender.EnergyRemained,
-              },
-              url: window.location.href,
-              lastChangesAt: 0,
-              stateModified: false,
-          });*/
+        var url = encodePveAttacker(this.state.attackerObj) + "/" + encodePveBoss(this.state.bossObj) + "/" + encodePveObj(this.state.pveObj)
+        event.preventDefault();
+        this.setState({
+            loading: true,
+        });
+        var reason = ""
+        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept-Encoding': 'gzip',
+            },
+        })
+            .catch(function (r) {
+                reason = r
+                return
+            });
+        if (reason !== "") {
+            this.setState({
+                showResult: false,
+                isError: true,
+                loading: false,
+                error: String(reason),
+            });
+            return
+        }
+        //parse answer
+        const data = await response.json();
+        //if response is not ok, handle error
+        if (!response.ok) {
+            if (data.detail === "PvP error") {
+                this.setState({
+                    showResult: false,
+                    isError: true,
+                    loading: false,
+                    error: data.case.What,
+                });
+                return;
+            }
+            this.setState({
+                showResult: false,
+                isError: true,
+                loading: false,
+                error: data.detail,
+            });
+            return;
+        }
+        //otherwise set state
+        window.history.pushState("object or string", "Title", "/pve/common/" + url);
+        this.setState({
+            showResult: true,
+            isError: false,
+            loading: false,
+            result: data,
+
+            url: window.location.href,
+        });
     };
 
     onClick(event) {
@@ -302,7 +280,7 @@ class CommonPve extends React.PureComponent {
             < >
                 <div className="row justify-content-center m-0 mb-4 p-0"  >
 
-                    <div className="col-12 superBig results py-1 py-sm-2 px-0 px-sm-1 m-0" >
+                    <div className="col-12 veryBig results py-1 py-sm-2 px-0 px-sm-1 m-0" >
                         <SimulatorPanel
                             className="row justify-content-between m-0 p-0"
                             pokemonTable={this.props.parentState.pokemonTable}
@@ -317,12 +295,14 @@ class CommonPve extends React.PureComponent {
                         />
 
                     </div>
-                    <SubmitButton
-                        label={"Calculate"}
-                        action="Calculate"
-                        onSubmit={this.submitForm}
-                        class="btn btn-primary"
-                    />
+                    <div className="col-12 d-flex justify-content-center p-0 m-0" >
+                        <SubmitButton
+                            label={strings.buttons.calculate}
+                            action="Calculate"
+                            onSubmit={this.submitForm}
+                            class="btn btn-primary"
+                        />
+                    </div>
                 </div>
             </ >
 

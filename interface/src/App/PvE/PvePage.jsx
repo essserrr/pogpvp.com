@@ -139,7 +139,8 @@ class PvePage extends React.Component {
 
         let pokList = [];
         if (results[0]) {
-            pokList = returnPokList(results[0])
+            pokList = returnPokList(results[0], true, strings.options.moveSelect.none)
+
         }
 
         let movebaseSeparated = [];
