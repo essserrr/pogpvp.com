@@ -371,7 +371,7 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Unknown friendship level")
 	}
 
-	weather, err := strconv.ParseInt(pokData[0], 10, 64)
+	weather, err := strconv.ParseInt(pokData[1], 10, 64)
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid weather value")
 	}
@@ -379,7 +379,7 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 		return app.IntialDataPve{}, fmt.Errorf("Unknown weather")
 	}
 
-	dodgeStrategy, err := strconv.ParseInt(pokData[0], 10, 64)
+	dodgeStrategy, err := strconv.ParseInt(pokData[2], 10, 64)
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid dodge strategy value")
 	}
@@ -387,7 +387,7 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 		return app.IntialDataPve{}, fmt.Errorf("Unknown dodge strategy")
 	}
 
-	partySize, err := strconv.ParseUint(pokData[4], 10, 64)
+	partySize, err := strconv.ParseUint(pokData[3], 10, 64)
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid party size value")
 	}
@@ -395,7 +395,7 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Party size must be in range 1-18")
 	}
 
-	playersNumber, err := strconv.ParseUint(pokData[5], 10, 64)
+	playersNumber, err := strconv.ParseUint(pokData[4], 10, 64)
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid players number value")
 	}
@@ -403,7 +403,7 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Players number must be in range 1-20")
 	}
 
-	isAgressive, err := strconv.ParseBool(pokData[7])
+	isAgressive, err := strconv.ParseBool(pokData[5])
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, 400, "Parsing: Invalid aggression value")
 	}
