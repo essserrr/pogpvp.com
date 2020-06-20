@@ -843,7 +843,7 @@ func (mp *matrixPvP) calculateMatrix(shields uint8) error {
 	errStr := mp.errChan.Flush()
 	if errStr != "" {
 		go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf(errStr), 400, "PvP error")
+		return fmt.Errorf(errStr)
 	}
 	mp.result = append(mp.result, singleMatrixResults)
 	return nil
