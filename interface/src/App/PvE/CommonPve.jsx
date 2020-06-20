@@ -5,7 +5,8 @@ import {
 
 import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-
+import Errors from "../PvP/components/Errors/Errors"
+import PveResult from "./Components/PveResult/PveResult"
 
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../locale/locale"
@@ -30,6 +31,17 @@ class CommonPve extends React.PureComponent {
             isError: this.props.parentState.isError,
 
             loading: false,
+
+            snapshot: {
+                Weather: (this.props.parentState.pveObj) ? this.props.parentState.pveObj.Weather : "0",
+
+                Tier: (this.props.parentState.bossObj) ? this.props.parentState.bossObj.Tier : "4",
+
+                Lvl: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Lvl : "35",
+                Atk: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Atk : "15",
+                Def: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Def : "15",
+                Sta: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Sta : "15",
+            }
         };
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
@@ -197,8 +209,17 @@ class CommonPve extends React.PureComponent {
 
 
     submitForm = async event => {
-        console.log(this.state.attackerObj, this.state.bossObj, this.state.pveObj)
         //make server pvp request
+        let snapshot = {
+            Weather: this.state.pveObj.Weather,
+
+            Tier: this.state.bossObj.Tier,
+
+            Lvl: this.state.attackerObj.Lvl,
+            Atk: this.state.attackerObj.Atk,
+            Def: this.state.attackerObj.Def,
+            Sta: this.state.attackerObj.Sta,
+        }
         var url = encodePveAttacker(this.state.attackerObj) + "/" + encodePveBoss(this.state.bossObj) + "/" + encodePveObj(this.state.pveObj)
         event.preventDefault();
         this.setState({
@@ -229,7 +250,7 @@ class CommonPve extends React.PureComponent {
         const data = await response.json();
         //if response is not ok, handle error
         if (!response.ok) {
-            if (data.detail === "PvP error") {
+            if (data.detail === "PvE error") {
                 this.setState({
                     showResult: false,
                     isError: true,
@@ -252,7 +273,9 @@ class CommonPve extends React.PureComponent {
             showResult: true,
             isError: false,
             loading: false,
+
             result: data,
+            snapshot: snapshot,
 
             url: window.location.href,
         });
@@ -295,6 +318,8 @@ class CommonPve extends React.PureComponent {
                         />
 
                     </div>
+                    {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 m-0 mb-2 mt-3" >
+                        <Errors class="alert alert-danger m-0 p-2" value={this.state.error} /></div>}
                     <div className="col-12 d-flex justify-content-center p-0 m-0" >
                         <SubmitButton
                             label={strings.buttons.calculate}
@@ -303,6 +328,20 @@ class CommonPve extends React.PureComponent {
                             class="btn btn-primary"
                         />
                     </div>
+
+                    {this.state.result && <div className="col-12 col-md-10 col-lg-6 justify-content-center p-0 m-0" >
+                        <PveResult
+                            result={this.state.result}
+                            snapshot={this.state.snapshot}
+                            tables={this.props.parentState.tables}
+
+                            pokemonTable={this.props.parentState.pokemonTable}
+                            moveTable={this.props.parentState.moveTable}
+                            pokList={this.props.parentState.pokList}
+                            chargeMoveList={this.props.parentState.chargeMoveList}
+                            quickMoveList={this.props.parentState.quickMoveList}
+                        />
+                    </div>}
                 </div>
             </ >
 
