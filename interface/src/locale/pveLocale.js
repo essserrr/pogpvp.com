@@ -1,5 +1,6 @@
 export const pveLocale = {
     en: {
+        s: "s",
         boss: "Boss (required)",
         attacker: "Attacker (optional)",
         raid: "Raid settings",
@@ -53,6 +54,7 @@ export const pveLocale = {
     },
 
     ru: {
+        s: "с",
         boss: "Босс (обязательно)",
         attacker: "Атакующий (опционально)",
         raid: "Настройки рейда",
@@ -97,10 +99,10 @@ export const pveLocale = {
         friend: "\xa0Уровень дружбы\xa0",
         friendList: {
             no: "Без бонуса",
-            good: "Хороший",
+            good: "Гуд",
             great: "Грейт",
             ultra: "Ультра",
-            best: "Лучший",
+            best: "Бест",
         },
     }
 }
