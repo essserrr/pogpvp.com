@@ -6,6 +6,14 @@ import (
 	"math"
 )
 
+type customError struct {
+	What string
+}
+
+func (e *customError) Error() string {
+	return fmt.Sprintf("%s", e.What)
+}
+
 type pokemon struct {
 	quickMove move
 	maxHP     int32
@@ -65,7 +73,9 @@ func (obj *pveObject) makeNewCharacter(pokemonData *app.PokemonInitialData, pok 
 //setLevel sets up level and level-IV dependent stats
 func (pok *pokemon) setLevel(pokemonData *app.PokemonInitialData, obj *pveObject) error {
 	if !isInteger(pokemonData.Level / 0.5) {
-		return fmt.Errorf("Level must be multiple of 0.5")
+		return &customError{
+			"Level must be multiple of 0.5",
+		}
 	}
 	pok.levelMultiplier = obj.app.LevelData[int(pokemonData.Level/0.5)]
 	return nil
@@ -79,7 +89,9 @@ func isInteger(floatNumber float32) bool {
 func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObject) error { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[pokemonData.Name]
 	if !ok {
-		return fmt.Errorf("There is no such pokemon")
+		return &customError{
+			"There is no such pokemon",
+		}
 	}
 	var (
 		shadowABonus float32 = 1
@@ -100,7 +112,9 @@ func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObj
 func (pok *pokemon) setQuickMove(quickMove string, obj *pveObject) error { // setst up quick move
 	moveEntry, ok := obj.app.PokemonMovesBase[quickMove]
 	if !ok {
-		return fmt.Errorf("Quick move not found in the database")
+		return &customError{
+			"Quick move not found in the database",
+		}
 	}
 	pok.quickMove = setMoveBody(moveEntry)
 	return nil
@@ -112,7 +126,9 @@ func (pok *pokemon) setChargeMove(chargeMove string, obj *pveObject) error { // 
 	}
 	moveEntry, ok := obj.app.PokemonMovesBase[chargeMove]
 	if !ok {
-		return fmt.Errorf("Charge move not found in the database")
+		return &customError{
+			"Charge move not found in the database",
+		}
 	}
 
 	pok.chargeMove = setMoveBody(moveEntry)
@@ -151,7 +167,9 @@ func (obj *pveObject) makeNewBoss(bossInDat *app.BossInfo, boss *pokemon) error 
 func (pok *pokemon) makeBossBody(bossInDat *app.BossInfo, obj *pveObject) error { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[bossInDat.Name]
 	if !ok {
-		return fmt.Errorf("Raid boss error: There is no such pokemon")
+		return &customError{
+			"Raid boss error: There is no such pokemon",
+		}
 	}
 	pok.effectiveAttack = (float32(15.0) + float32(speciesType.Atk)) * pok.levelMultiplier
 	pok.effectiveDefence = (float32(15.0) + float32(speciesType.Def)) * pok.levelMultiplier

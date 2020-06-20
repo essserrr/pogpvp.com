@@ -84,7 +84,9 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	rand.Seed(time.Now().UnixNano())
 	_, ok := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 	if !ok {
-		return [][]app.CommonResult{}, fmt.Errorf("Unknown boss")
+		return [][]app.CommonResult{}, &customError{
+			fmt.Sprintf("Unknown boss"),
+		}
 	}
 	setUpRunsNumber(inDat)
 
@@ -113,7 +115,9 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	close(conObj.errChan)
 	errStr := conObj.errChan.Flush()
 	if errStr != "" {
-		return [][]app.CommonResult{}, fmt.Errorf(errStr)
+		return [][]app.CommonResult{}, &customError{
+			errStr,
+		}
 	}
 
 	sort.Sort(byAvgDamage(conObj.resArray))
@@ -454,7 +458,9 @@ func limitMoves(pok *app.PokemonsBaseEntry, moves []string, inDat *app.IntialDat
 		}
 
 		if dps == 0.0 {
-			return []string{}, fmt.Errorf("Boss has zero dps")
+			return []string{}, &customError{
+				"Boss has zero dps",
+			}
 		}
 
 		switch index != -1 {
@@ -592,6 +598,8 @@ func setOfRuns(inDat commonPvpInData) (app.CommonResult, error) {
 	result.BQ = inDat.Boss.QuickMove
 	result.BCh = inDat.Boss.ChargeMove
 
+	result.NOfWins = result.NOfWins / float32(inDat.NumberOfRuns) * 100
+
 	return result, nil
 }
 
@@ -660,6 +668,10 @@ func simulatorRun(inDat *commonPvpInData) (runResult, error) {
 	err = obj.letsBattle()
 	if err != nil {
 		return runResult{}, err
+	}
+
+	if obj.Boss.hp < 0 {
+		obj.Boss.hp = 0
 	}
 	return runResult{
 		isWin:        obj.Boss.hp < 1,
@@ -874,7 +886,9 @@ func (obj *pveObject) nextRound() error {
 //turn makes available actions: get energy, deal damage
 func (pok *pokemon) turn(obj *pveObject, defender *pokemon) error {
 	if pok.timeToEnergy < 0 || pok.timeToDamage < 0 || pok.moveCooldown < 0 {
-		return fmt.Errorf("Negative timer! Time to energy: %v, time to damamge: %v, cooldown: %v", pok.timeToEnergy, pok.timeToDamage, pok.moveCooldown)
+		return &customError{
+			fmt.Sprintf("Negative timer! Time to energy: %v, time to damamge: %v, cooldown: %v", pok.timeToEnergy, pok.timeToDamage, pok.moveCooldown),
+		}
 	}
 	if pok.timeToEnergy > 0 {
 		return nil
@@ -908,7 +922,9 @@ func (pok *pokemon) getEnergy() error {
 		pok.energyRegistered = true
 		pok.energy.AddEnergy(pok.chargeMove.energy)
 	default:
-		return fmt.Errorf("Attempt to get energy with zero action")
+		return &customError{
+			fmt.Sprintf("Attempt to get energy with zero action"),
+		}
 	}
 	return nil
 }
@@ -922,7 +938,9 @@ func (pok *pokemon) dealDamage(defender *pokemon, obj *pveObject) error {
 	case 3:
 		damage = int32(float32(pok.chargeMove.damage)*0.5*(pok.effectiveAttack/defender.effectiveDefence)*pok.chargeMove.multiplier*dodge(pok, defender, obj)) + 1
 	default:
-		return fmt.Errorf("Attempt to deal damage with zero action")
+		return &customError{
+			fmt.Sprintf("Attempt to deal damage with zero action"),
+		}
 	}
 	pok.damageRegistered = true
 	defender.hp -= damage
@@ -1026,10 +1044,14 @@ func (pok *pokemon) whatToDoNext(obj *pveObject) {
 
 func (obj *pveObject) decreaseTimer() error {
 	if obj.Boss.moveCooldown == 0 {
-		return fmt.Errorf("zero boss cooldown")
+		return &customError{
+			fmt.Sprintf("Zero boss cooldown"),
+		}
 	}
 	if obj.Attacker[obj.ActivePok].moveCooldown == 0 {
-		return fmt.Errorf("zero cooldown")
+		return &customError{
+			fmt.Sprintf("Zero cooldown"),
+		}
 	}
 
 	//calculate next delta for the both participants
