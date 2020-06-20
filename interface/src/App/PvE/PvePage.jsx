@@ -17,6 +17,84 @@ class PvePage extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
+            tables: {
+                weather: {
+                    0: {},
+                    1: {
+                        10: 1.2,
+                        9: 1.2,
+                        6: 1.2,
+                    },
+                    2: {
+                        0: 1.2,
+                        3: 1.2,
+                        17: 1.2,
+                    },
+                    3: {
+                        15: 1.2,
+                        12: 1.2,
+                    },
+                    4: {
+                        13: 1.2,
+                        4: 1.2,
+                        5: 1.2,
+                    },
+                    5: {
+                        14: 1.2,
+                        7: 1.2,
+                        2: 1.2,
+                    },
+                    6: {
+                        16: 1.2,
+                        11: 1.2,
+                    },
+                    7: {
+                        8: 1.2,
+                        1: 1.2,
+                    },
+                },
+
+                friend: {
+                    0: 1.0,
+                    1: 1.03,
+                    2: 1.05,
+                    3: 1.07,
+                    4: 1.1,
+                    5: 1.06,
+                    6: 1.12,
+                    7: 1.18,
+                    8: 1.25,
+                },
+
+                hp: {
+                    0: 600,
+                    1: 1800,
+                    2: 3600,
+                    3: 9000,
+                    4: 15000,
+                    5: 22500,
+                },
+
+                timer: {
+                    0: 180,
+                    1: 180,
+                    2: 180,
+                    3: 180,
+                    4: 300,
+                    5: 300,
+                },
+
+                mult: {
+                    0: 0.5974,
+                    1: 0.67,
+                    2: 0.73,
+                    3: 0.79,
+                    4: 0.79,
+                    5: 0.79,
+                },
+            },
+
+
             error: "",
             showResult: false,
             isError: false,
@@ -150,7 +228,7 @@ class PvePage extends React.Component {
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
-                if (results[i].detail === "PvP error") {
+                if (results[i].detail === "PvE error") {
                     this.setState({
                         showResult: false,
                         isLoaded: true,
@@ -214,7 +292,7 @@ class PvePage extends React.Component {
     }
 
     setUpPokemon(pok, pokemonTable, isBoss) {
-        var moves = returnMovePool(pok.name, pokemonTable, strings.options.moveSelect,
+        var moves = returnMovePool(pok.Name, pokemonTable, strings.options.moveSelect,
             isBoss, [pok.QuickMove], [pok.ChargeMove])
         pok.quickMovePool = moves.quickMovePool
         pok.chargeMovePool = moves.chargeMovePool
