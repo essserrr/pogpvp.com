@@ -260,7 +260,7 @@ type CommonResult struct {
 	FMin uint32
 	FMax uint32
 
-	NOfWins uint32
+	NOfWins float32
 }
 
 //Constructor is an object transformin single PvP into Constructed pvp
