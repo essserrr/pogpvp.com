@@ -460,6 +460,20 @@ export function encodeQueryData(data) {
     return encodeURIComponent(res.join("_"));
 }
 
+export function extractName(name) {
+    let splitted = name.split(" ")
+    if (splitted.length === 1) {
+        return { Name: name, Additional: "" }
+    }
+
+    if (splitted[0] === "Galarian" || splitted[0] === "Alolan" || splitted[0] === "Black" || splitted[0] === "White" ||
+        splitted[0] === "Armored") {
+        return { Name: splitted[1], Additional: splitted[0] + ((splitted.length > 2) ? ", " + splitted.slice(2).join(" ").replace(/[()]/g, "") : "") }
+    }
+
+    return { Name: splitted[0], Additional: splitted.slice(1).join(" ").replace(/[()]/g, "") }
+}
+
 export function extractData(league, pok1, pok2) {
 
     let attacker = decodeURIComponent(pok1).split("_")
