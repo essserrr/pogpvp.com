@@ -10,6 +10,8 @@ import { locale } from "../../locale/locale"
 import CommonPve from "./CommonPve"
 
 
+
+
 let strings = new LocalizedStrings(locale);
 
 class PvePage extends React.Component {
@@ -271,12 +273,12 @@ class PvePage extends React.Component {
         if (extrData.pveObj !== undefined) {
             var pveObj = extractPveObj(extrData.pveObj)
         }
-
         this.setState({
             attackerObj: attackerObj,
             bossObj: bossObj,
             pveObj: pveObj,
 
+            date: (results[2]) ? Date.now() : 0,
             pveResult: results[2],
             showResult: (results[2]) ? true : false,
             url: (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) ? window.location.href : "",
