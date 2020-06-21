@@ -961,6 +961,7 @@ func RatingPvp(attackerData, defenderData *app.InitialData, application *app.Sim
 			AttackerData: *attackerData,
 			DefenderData: *defenderData,
 			Constr:       app.Constructor{},
+			App:          application,
 			Logging:      false,
 		})
 
