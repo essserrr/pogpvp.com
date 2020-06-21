@@ -7,6 +7,8 @@ import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../PvP/components/Errors/Errors"
 import PveResult from "./Components/PveResult/PveResult"
+import BarLoader from "react-spinners/BarLoader";
+
 
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../locale/locale"
@@ -23,8 +25,9 @@ class CommonPve extends React.PureComponent {
             bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
             pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : pveobj(),
 
-            result: (this.props.parentState.pveResult) ? this.props.parentState.pveResult : {},
-            url: (this.props.parentState.url) ? this.props.parentState.url : "",
+            date: this.props.parentState.date,
+            result: this.props.parentState.pveResult,
+            url: this.props.parentState.url,
 
             error: this.props.parentState.error,
             showResult: this.props.parentState.showResult,
@@ -274,6 +277,7 @@ class CommonPve extends React.PureComponent {
             isError: false,
             loading: false,
 
+            date: (data) ? Date.now() : this.state.date,
             result: data,
             snapshot: snapshot,
 
@@ -329,8 +333,22 @@ class CommonPve extends React.PureComponent {
                         />
                     </div>
 
-                    {this.state.result && <div className="col-12 col-md-10 col-lg-6 justify-content-center p-0 m-0" >
+                    {this.state.loading &&
+                        <div className="col-12 mt-2 mb-3" style={{ fontWeight: "500", color: "white" }} >
+                            <div className="row justify-content-center">
+                                <div>
+                                    {strings.tips.loading}
+                                    <BarLoader
+                                        color={"white"}
+                                        loading={this.state.loading}
+                                    />
+                                </div>
+                            </div>
+                        </div>}
+
+                    {(this.state.showResult) && <div className="col-12 col-md-10 col-lg-6 justify-content-center p-0 m-0" >
                         <PveResult
+                            date={this.state.date}
                             result={this.state.result}
                             snapshot={this.state.snapshot}
                             tables={this.props.parentState.tables}
