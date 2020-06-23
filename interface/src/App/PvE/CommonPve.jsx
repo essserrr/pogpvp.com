@@ -36,14 +36,9 @@ class CommonPve extends React.PureComponent {
             loading: false,
 
             snapshot: {
-                Weather: (this.props.parentState.pveObj) ? this.props.parentState.pveObj.Weather : "0",
-
-                Tier: (this.props.parentState.bossObj) ? this.props.parentState.bossObj.Tier : "4",
-
-                Lvl: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Lvl : "35",
-                Atk: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Atk : "15",
-                Def: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Def : "15",
-                Sta: (this.props.parentState.pveObj) ? this.props.parentState.attackerObj.Sta : "15",
+                attackerObj: (this.props.parentState.attackerObj) ? { ...this.props.parentState.attackerObj } : pveattacker(),
+                bossObj: (this.props.parentState.bossObj) ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
+                pveObj: (this.props.parentState.pveObj) ? { ...this.props.parentState.pveObj } : pveobj(),
             }
         };
         this.onChange = this.onChange.bind(this);
@@ -214,14 +209,9 @@ class CommonPve extends React.PureComponent {
     submitForm = async event => {
         //make server pvp request
         let snapshot = {
-            Weather: this.state.pveObj.Weather,
-
-            Tier: this.state.bossObj.Tier,
-
-            Lvl: this.state.attackerObj.Lvl,
-            Atk: this.state.attackerObj.Atk,
-            Def: this.state.attackerObj.Def,
-            Sta: this.state.attackerObj.Sta,
+            attackerObj: { ...this.state.attackerObj },
+            bossObj: { ...this.state.bossObj },
+            pveObj: { ...this.state.pveObj },
         }
         var url = encodePveAttacker(this.state.attackerObj) + "/" + encodePveBoss(this.state.bossObj) + "/" + encodePveObj(this.state.pveObj)
         event.preventDefault();
