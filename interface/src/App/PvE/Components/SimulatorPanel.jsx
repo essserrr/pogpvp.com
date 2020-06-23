@@ -150,7 +150,7 @@ class SimulatorPanel extends React.PureComponent {
                 <div className="order-3 order-sm-2 col-12 col-sm-4 m-0 p-0 text-center px-1">
                     {pveStrings.raid}
                     <div className="row m-0 p-0">
-                        <div className="col-6 col-sm-12 m-0 p-0 pr-1 ml-sm-0">
+                        <div className="col-6 col-sm-12 m-0 p-0 pr-1 pr-sm-0">
                             <SelectGroup
                                 class="input-group input-group-sm mt-2"
                                 name="PlayersNumber"
@@ -188,7 +188,7 @@ class SimulatorPanel extends React.PureComponent {
                                 for={""}
                             />
                         </div >
-                        <div className="col-6 col-sm-12 m-0 p-0 pl-1 ml-sm-0">
+                        <div className="col-6 col-sm-12 m-0 p-0 pl-1 pl-sm-0">
                             <SelectGroup
                                 name="DodgeStrategy"
                                 value={this.props.value.pveObj.DodgeStrategy}
