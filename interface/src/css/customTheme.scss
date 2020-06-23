@@ -1658,3 +1658,14 @@ linkText:hover
   red 4px
 );
 }
+
+
+.pveResult {
+    background-color: #f2f3f4; 
+    border-radius: 4px 4px 4px 4px;
+    border-color: rgba(0, 0, 0, 0.308);
+    border-style: solid;
+    border-width: 1.5px;
+
+    height: fit-content;
+}
