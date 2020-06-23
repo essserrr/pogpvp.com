@@ -51,6 +51,8 @@ export const pveLocale = {
             best: "Best",
 
         },
+
+        hprem: "Boss remaining HP: ",
     },
 
     ru: {
@@ -92,11 +94,11 @@ export const pveLocale = {
             7: "Туманная",
         },
 
-        dodge: "\xa0Шанс уклонения",
+        dodge: "\xa0Шанс уклонения\xa0",
         dodgeList: "Без уклонений",
         dodgetip: "Шанс на уклонение показывает количество случаев, в которых покемон успешно увернется от заражаемой атаки босса.",
 
-        friend: "\xa0Уровень дружбы",
+        friend: "\xa0Уровень дружбы\xa0",
         friendList: {
             no: "Без бонуса",
             good: "Гуд",
@@ -104,5 +106,7 @@ export const pveLocale = {
             ultra: "Ультра",
             best: "Бест",
         },
+
+        hprem: "Осталось HP у босса: ",
     }
 }
