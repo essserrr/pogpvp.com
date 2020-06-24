@@ -120,6 +120,16 @@ class MainPage extends React.Component {
         window.location = ("/news/page/" + nextPage);
     }
 
+    buttonsConfig() {
+        if (this.state.prevPageExists && this.state.nextPageExists) {
+            return "justify-content-between"
+        }
+        if (this.state.prevPageExists) {
+            return "justify-content-start"
+        }
+        return "justify-content-end"
+    }
+
     render() {
         return (
             <>
@@ -157,23 +167,20 @@ class MainPage extends React.Component {
                                 </div>}
                             {this.state.showResult && <>
                                 {this.state.newsList && this.state.newsList}
-                                <div className="row m-0 p-0">
-                                    <div className="col m-0 p-0 d-flex justify-content-start">
-                                        {this.state.prevPageExists && <SubmitButton
-                                            action="Previous Page"
-                                            label={strings.buttons.prevpage}
-                                            onSubmit={this.onSubmit}
-                                            class="newsButton btn btn-primary btn-sm"
-                                        />}
-                                    </div>
-                                    <div className="col m-0 p-0 d-flex justify-content-end">
-                                        {this.state.nextPageExists && <SubmitButton
-                                            action="Next Page"
-                                            label={strings.buttons.nextpage}
-                                            onSubmit={this.onSubmit}
-                                            class="newsButton btn btn-primary btn-sm"
-                                        />}
-                                    </div>
+                                <div className={"row m-0 p-0 px-3 " + this.buttonsConfig()} >
+                                    {this.state.prevPageExists && <SubmitButton
+                                        action="Previous Page"
+                                        label={strings.buttons.prevpage}
+                                        onSubmit={this.onSubmit}
+                                        class="btn btn-primary btn-sm"
+                                    />}
+
+                                    {this.state.nextPageExists && <SubmitButton
+                                        action="Next Page"
+                                        label={strings.buttons.nextpage}
+                                        onSubmit={this.onSubmit}
+                                        class="btn btn-primary btn-sm"
+                                    />}
                                 </div>
                             </>}
                             {this.state.isError && <Errors class="alert alert-danger m-2 p-2" value={this.state.error} />}

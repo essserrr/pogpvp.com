@@ -79,7 +79,7 @@ class MaximizerRadio extends PureComponent {
                 </form>
                 <div className="d-flex justify-content-around mx-0 px-0" >
                     <SubmitButton
-                        class="customButton btn btn-primary btn-sm  mx-0"
+                        class="maximizerButton btn btn-primary btn-sm  mx-0"
                         stat={this.state.stat}
                         level={this.state.level}
                         attr={this.props.attr}
@@ -88,7 +88,7 @@ class MaximizerRadio extends PureComponent {
                         onSubmit={this.props.maximizerSubmit} />
 
                     <SubmitButton
-                        class="customButton btn btn-primary btn-sm mx-0"
+                        class="maximizerButton btn btn-primary btn-sm mx-0"
                         stat={this.state.stat}
                         level={this.state.level}
                         attr={this.props.attr}

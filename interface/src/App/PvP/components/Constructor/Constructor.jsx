@@ -336,7 +336,7 @@ class Constructor extends React.PureComponent {
                         tipClass='logItems'
                     />
                 </div>
-                <div className="col-12 defaultFont d-flex m-0 p-0 my-1">
+                <div className="col-12 defaultFont d-flex m-0 p-0 my-1 mb-3">
                     <Checkbox
                         onChange={this.onChange}
                         value={this.state.Defender.IsShield}
@@ -358,7 +358,7 @@ class Constructor extends React.PureComponent {
                     />}
                 </div>
                 {<SubmitButton
-                    class="newsButton btn btn-primary btn-sm"
+                    class="matrixButton btn btn-primary btn-sm"
                     label={strings.constructor.submit}
                     action="Let's Battle"
                     onSubmit={this.onSubmit}

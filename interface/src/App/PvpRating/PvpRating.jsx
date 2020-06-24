@@ -413,12 +413,12 @@ class PvpRating extends React.Component {
                                             </div>
 
 
-                                            <div className="col d-flex p-0 m-0 pt-2  justify-content-center">
+                                            <div className="col d-flex p-0 m-0 pt-3  justify-content-center">
                                                 {(this.state.isNextPage && !this.state.searchState) && <SubmitButton
                                                     action="Load more"
                                                     label={strings.buttons.loadmore}
                                                     onSubmit={this.onLoadMore}
-                                                    class="newsButton btn btn-primary btn-sm"
+                                                    class="longButton btn btn-primary btn-sm"
                                                 />}
                                             </div>
                                         </>}
