@@ -54,6 +54,8 @@ export const pveLocale = {
 
         hprem: "Boss remaining HP: ",
         pres: "Recalculate with high precision",
+        break: "Calculate breakpoints",
+
     },
 
     ru: {
@@ -110,5 +112,6 @@ export const pveLocale = {
 
         hprem: "Осталось HP у босса: ",
         pres: "Пересчитать с высокой точностью",
+        break: "Посчитать брейкпоинты",
     }
 }
