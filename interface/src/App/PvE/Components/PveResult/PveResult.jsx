@@ -5,8 +5,8 @@ import { locale } from "../../../../locale/locale"
 import { getCookie } from '../../../../js/indexFunctions'
 import PveResEntry from "./PveResEntry"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
-
-
+import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
+import Breakpoints from "../Breakpoints/Breakpoints"
 
 let strings = new LocalizedStrings(locale);
 
@@ -17,12 +17,16 @@ class PveResult extends React.PureComponent {
 
         this.state = {
             n: 1,
-
-
-            constructor: false,
+            breakpoints: false,
         };
+
+
+        this.onClick = this.onClick.bind(this);
+        this.showBreakpoints = this.showBreakpoints.bind(this);
+
         this.raplace = this.raplace.bind(this);
         this.loadMore = this.loadMore.bind(this);
+
         this.focusDiv = this.focusDiv.bind(this);
         this.focusDiv = this.focusDiv.bind(this);
     }
@@ -90,6 +94,7 @@ class PveResult extends React.PureComponent {
                     quickMoveList={this.props.quickMoveList}
 
                     raplace={this.raplace}
+                    showBreakpoints={this.showBreakpoints}
                 />,
                 ...this.state.listToShow.slice((i + 1)),
             ]
@@ -114,27 +119,54 @@ class PveResult extends React.PureComponent {
                     quickMoveList={this.props.quickMoveList}
 
                     raplace={this.raplace}
+                    showBreakpoints={this.showBreakpoints}
                 />
             )
         }
     }
 
+    showBreakpoints(obj) {
+        this.setState({
+            showBreakpoints: true,
+            breakpObj: obj,
+        })
+    }
 
+    onClick(event) {
+        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
+            return
+        }
+
+        this.setState({
+            showBreakpoints: false,
+        });
+    }
 
     render() {
         return (
-            <div className="row m-0 p-0 justify-content-center matrixResult p-2" tabIndex="0" ref="reconstruction">
-                <div className={"col-12 m-0 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
-                    {this.state.listToShow}
-                </div>
-                {this.state.isNextPage &&
-                    <SubmitButton
-                        action="Load more"
-                        label={strings.buttons.loadmore}
-                        onSubmit={this.loadMore}
-                        class="longButton btn btn-primary btn-sm"
+            <>
+                {(this.state.showBreakpoints) && <MagicBox
+                    onClick={this.onClick}
+                    attr={"breakpoints"}
+                    element={<Breakpoints
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
+                        snapshot={this.state.breakpObj}
                     />}
-            </div>
+                />}
+                <div className="row m-0 p-0 justify-content-center matrixResult p-2" tabIndex="0" ref="reconstruction">
+                    <div className={"col-12 m-0 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
+                        {this.state.listToShow}
+                    </div>
+                    {this.state.isNextPage &&
+                        <SubmitButton
+                            action="Load more"
+                            label={strings.buttons.loadmore}
+                            onSubmit={this.loadMore}
+                            class="longButton btn btn-primary btn-sm"
+                        />}
+                </div>
+            </>
         )
     }
 

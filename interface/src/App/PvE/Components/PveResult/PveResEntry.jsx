@@ -32,6 +32,7 @@ class PveResEntry extends React.PureComponent {
         };
         this.onClick = this.onClick.bind(this);
         this.rerunWithPrecision = this.rerunWithPrecision.bind(this);
+        this.defineBreakpoints = this.defineBreakpoints.bind(this);
     }
 
     addStar(pokName, moveName) {
@@ -93,15 +94,6 @@ class PveResEntry extends React.PureComponent {
             colElement: !this.state.showCollapse ? this.generateCards() : null,
         })
     }
-
-    rerunWithPrec() {
-        /*this.props.precise({
-            AName: this.props.pokemonRes[0].AName,
-            AQ: this.props.pokemonRes[0].AQ,
-            ACh: this.props.pokemonRes[0].ACh,
-        })*/
-    }
-
 
     async rerunWithPrecision() {
         let newPok = { ...this.props.snapshot.attackerObj }
@@ -165,30 +157,37 @@ class PveResEntry extends React.PureComponent {
         this.props.raplace(data, this.props.i)
     }
 
+    defineBreakpoints() {
+        let snap = { ...this.props.snapshot }
+
+        snap.attackerObj.Name = this.props.pokemonRes[0].AName
+        snap.attackerObj.QuickMove = this.props.pokemonRes[0].AQ
+        snap.attackerObj.ChargeMove = this.props.pokemonRes[0].ACh
+        this.props.showBreakpoints(snap)
+    }
 
     generateCards() {
         let arr = []
         arr.push(
-            <>
-                <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"pres"}>
-                    <SubmitButton
-                        label={pveStrings.pres}
-                        action="Precision"
-                        onSubmit={this.rerunWithPrecision}
-                        class="longButton btn btn-primary btn-sm mt-0  mx-0"
-                    />
-                </div>
-                <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"break"}>
-                    <SubmitButton
-                        label={pveStrings.break}
-                        action="Breakpoints"
-                        // onSubmit={this.rerunWithPrecision}
-                        class="longButton btn btn-primary btn-sm mt-0  mx-0"
-                    />
-                </div>
-            </>)
+            <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"pres"}>
+                <SubmitButton
+                    label={pveStrings.pres}
+                    action="Precision"
+                    onSubmit={this.rerunWithPrecision}
+                    class="longButton btn btn-primary btn-sm mt-0  mx-0"
+                />
+            </div>)
+        arr.push(
+            <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"break"}>
+                <SubmitButton
+                    label={pveStrings.break}
+                    action="Breakpoints"
+                    onSubmit={this.defineBreakpoints}
+                    class="longButton btn btn-primary btn-sm mt-0  mx-0"
+                />
+            </div>)
         for (let i = 0; i < this.props.pokemonRes.length; i++) {
-            arr.push(<div className="col-12 pveResult animShiny m-0 p-0 p-2 my-1 " key={this.props.moveTable[this.props.pokemonRes[i].BQ] + this.props.moveTable[this.props.pokemonRes[i].BCh]}>
+            arr.push(<div className="col-12 pveResult animShiny m-0 p-0 p-2 my-1 " key={this.props.pokemonRes[i].BQ + this.props.pokemonRes[i].BCh}>
                 <div className="col-12 d-flex m-0 p-0">
                     <WeatherMoves
                         pokQick={this.props.moveTable[this.props.pokemonRes[i].BQ]}
