@@ -12,11 +12,12 @@ import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
 import PokemonIconer from "./components/PokemonIconer/PokemonIconer"
 import ReactTooltip from "react-tooltip";
+import Loader from "../PvpRating/Loader"
+
 
 
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../locale/locale"
-import BarLoader from "react-spinners/BarLoader";
 
 let strings = new LocalizedStrings(locale);
 
@@ -912,16 +913,13 @@ class MatrixPvp extends React.PureComponent {
                                 </div>
                             </div>}
                             {this.state.loading &&
-                                <div className="col-12 mt-2 order-lg-2" style={{ fontWeight: "500", color: "white" }} >
-                                    <div className="row justify-content-center">
-                                        <div>
-                                            {strings.tips.loading}
-                                            <BarLoader
-                                                color={"white"}
-                                                loading={this.state.loading}
-                                            />
-                                        </div>
-                                    </div>
+                                <div className="col-12 mt-2 order-lg-2" >
+                                    <Loader
+                                        color="white"
+                                        weight="500"
+                                        locale={strings.tips.loading}
+                                        loading={this.state.loading}
+                                    />
                                 </div>}
                             <div className="align-self-end order-1 order-lg-3 col px-0">
                                 <div className="order-2 order-lg-3 d-flex justify-content-center bd-highligh mx-0 px-0 col-12  mt-2 mt-lg-0" >

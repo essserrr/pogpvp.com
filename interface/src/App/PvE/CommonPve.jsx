@@ -7,7 +7,7 @@ import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../PvP/components/Errors/Errors"
 import PveResult from "./Components/PveResult/PveResult"
-import BarLoader from "react-spinners/BarLoader";
+import Loader from "../PvpRating/Loader"
 
 
 import LocalizedStrings from 'react-localization';
@@ -324,16 +324,13 @@ class CommonPve extends React.PureComponent {
                     </div>
 
                     {this.state.loading &&
-                        <div className="col-12 mt-2 mb-3" style={{ fontWeight: "500", color: "white" }} >
-                            <div className="row justify-content-center">
-                                <div>
-                                    {strings.tips.loading}
-                                    <BarLoader
-                                        color={"white"}
-                                        loading={this.state.loading}
-                                    />
-                                </div>
-                            </div>
+                        <div className="col-12 mt-2 mb-3">
+                            <Loader
+                                color="white"
+                                weight="500"
+                                locale={strings.tips.loading}
+                                loading={this.state.loading}
+                            />
                         </div>}
 
                     {(this.state.showResult) && <div className="col-12 col-md-10 col-lg-6 justify-content-center p-0 m-0" >

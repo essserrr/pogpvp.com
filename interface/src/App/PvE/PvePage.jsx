@@ -1,13 +1,13 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import LocalizedStrings from 'react-localization';
-import BarLoader from "react-spinners/BarLoader";
 
 import {
     getCookie, extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker
 } from "../../js/indexFunctions"
 import { locale } from "../../locale/locale"
 import CommonPve from "./CommonPve"
+import Loader from "../PvpRating/Loader"
 
 
 
@@ -321,17 +321,16 @@ class PvePage extends React.Component {
                 </Helmet>
                 <div className=" container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
                     <div className="row  mx-0 mx-lg-2 justify-content-center">
-                        {this.state.loading && <div className="col-12   mb-4"  >
-                            <div className="row  m-0 p-0 justify-content-center">
-                                <div className=" col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2" style={{ fontWeight: "500", color: "white" }} >
-                                    {strings.tips.loading}
-                                    <BarLoader
-                                        color={"white"}
-                                        loading={this.state.loading}
-                                    />
-                                </div>
-                            </div>
+                        {this.state.loading && <div className="col-12 m-0 p-0  mb-4"  >
+                            <Loader
+                                color="white"
+                                weight="500"
+                                locale={strings.tips.loading}
+                                loading={this.state.loading}
 
+                                class={"row m-0 p-0 justify-content-center"}
+                                innerClass={"col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"}
+                            />
                         </div>}
                         <div className="col-12 superBig m-0 p-0 px-1">
                             {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonPve

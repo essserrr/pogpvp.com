@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import BarLoader from "react-spinners/BarLoader";
+import Loader from "./PvpRating/Loader"
+
 
 const PvpRouter = lazy(() => import('./PvP/PvpRouter.jsx'));
 const PveRouter = lazy(() => import('./PvE/PveRouter.jsx'));
@@ -16,15 +17,16 @@ const NotFound = lazy(() => import('./NotFound/NotFound'));
 
 const Main = () => (
     <main>
-        <Suspense fallback={<div className="row justify-content-center text-white">
-            <div className=" col-auto mt-1  mt-md-2" style={{ fontWeight: "500", color: "white" }} >
-                {"Loading..."}
-                <BarLoader
-                    color={"white"}
-                    loading={true}
-                />
-            </div>
-        </div>}>
+        <Suspense fallback={
+            <Loader
+                color="white"
+                weight="500"
+                locale="Loading..."
+                loading={true}
+
+                class="row justify-content-center text-white"
+                innerClass="col-auto mt-1  mt-md-2"
+            />}>
             <Switch>
                 <Route exact path='/' component={IndexPageRouter} />
                 <Route path='/news/id' component={NewsRouter} />

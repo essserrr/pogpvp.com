@@ -1,10 +1,11 @@
 import React from "react";
 import LocalizedStrings from 'react-localization'
-import BarLoader from "react-spinners/BarLoader"
 import { Helmet } from 'react-helmet'
 
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../PvP/components/Errors/Errors"
+import Loader from "../PvpRating/Loader"
+
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
@@ -154,16 +155,13 @@ class MainPage extends React.Component {
                                 {strings.title.latestnews}
                             </div>
                             {this.state.loading &&
-                                <div className="col-12 mt-0 mb-3 order-lg-2" style={{ fontWeight: "500", color: "black" }} >
-                                    <div className="row justify-content-center">
-                                        <div>
-                                            {strings.tips.loading}
-                                            <BarLoader
-                                                color={"black"}
-                                                loading={this.state.loading}
-                                            />
-                                        </div>
-                                    </div>
+                                <div className="col-12 mt-0 mb-3 order-lg-2" >
+                                    <Loader
+                                        color="black"
+                                        weight="500"
+                                        locale={strings.tips.loading}
+                                        loading={this.state.loading}
+                                    />
                                 </div>}
                             {this.state.showResult && <>
                                 {this.state.newsList && this.state.newsList}

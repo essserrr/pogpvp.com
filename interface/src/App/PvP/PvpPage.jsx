@@ -2,7 +2,6 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { UnmountClosed } from 'react-collapse';
 import LocalizedStrings from 'react-localization';
-import BarLoader from "react-spinners/BarLoader";
 import ReactTooltip from "react-tooltip";
 
 import SinglePvp from "./SinglePvp"
@@ -11,6 +10,8 @@ import SelectGroup from "./components/SelectGroup/SelectGroup";
 import Checkbox from "../RaidsList/Checkbox"
 import MatrixDescr from "./components/Description/MatrixDescr"
 import SingleDescr from "./components/Description/SingleDescr"
+import Loader from "../PvpRating/Loader"
+
 
 
 import {
@@ -344,16 +345,15 @@ class PvpPage extends React.Component {
                     </div>
                     <div className="row  mx-0 mx-lg-2 justify-content-center">
                         {this.state.loading && <div className="col-12   mb-4"  >
-                            <div className="row  m-0 p-0 justify-content-center">
-                                <div className=" col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2" style={{ fontWeight: "500", color: "white" }} >
-                                    {strings.tips.loading}
-                                    <BarLoader
-                                        color={"white"}
-                                        loading={this.state.loading}
-                                    />
-                                </div>
-                            </div>
+                            <Loader
+                                color="white"
+                                weight="500"
+                                locale={strings.tips.loading}
+                                loading={this.state.loading}
 
+                                class="row  m-0 p-0 justify-content-center"
+                                innerClass="col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"
+                            />
                         </div>}
                         <div className="col-12 superBig m-0 p-0">
                             {(this.state.isLoaded && (this.props.match.params.type === "single")) &&

@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { UnmountClosed } from 'react-collapse';
-import BarLoader from "react-spinners/BarLoader";
 import LocalizedStrings from 'react-localization';
 
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
@@ -12,6 +11,7 @@ import Type from "../PvP/components/CpAndTypes/Type"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup";
 import PokemonCard from "../Evolve/PokemonCard"
 import RatingDescr from "./RatingDescr"
+import Loader from "./Loader"
 
 import { ReactComponent as Shadow } from "../../icons/shadow.svg";
 import { typeDecoder, checkShadow, getCookie, capitalize } from "../../js/indexFunctions"
@@ -387,18 +387,15 @@ class PvpRating extends React.Component {
                                     </div>
                                 </UnmountClosed>
                             </div>
-
                             <div className="row justify-content-center m-0 p-0">
                                 <div className="singleNews bigWidth col-md-12 col-lg-12 p-2 m-0">
-                                    {this.state.loading && <div className="row  justify-content-center"  >
-                                        <div style={{ fontWeight: "500", color: "black" }} >
-                                            {strings.tips.loading}
-                                            <BarLoader
-                                                color={"black"}
-                                                loading={this.state.loading}
-                                            />
-                                        </div>
-                                    </div>}
+                                    {this.state.loading &&
+                                        <Loader
+                                            color="black"
+                                            weight="500"
+                                            locale={strings.tips.loading}
+                                            loading={this.state.loading}
+                                        />}
                                     {this.state.showResult &&
                                         <>
                                             <div className="col m-0 px-2 py-2">

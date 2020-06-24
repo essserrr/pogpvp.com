@@ -1,11 +1,11 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import BarLoader from "react-spinners/BarLoader";
 import LocalizedStrings from 'react-localization';
 
 import Errors from "../PvP/components/Errors/Errors"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import ShinyTable from "./ShinyTable"
+import Loader from "../PvpRating/Loader"
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
@@ -168,15 +168,13 @@ class ShinyRates extends React.Component {
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
                         <div className="singleNews  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
-                            {this.state.loading && <div className="row  justify-content-center"  >
-                                <div style={{ fontWeight: "500", color: "black" }} >
-                                    {strings.tips.loading}
-                                    <BarLoader
-                                        color={"black"}
-                                        loading={this.state.loading}
-                                    />
-                                </div>
-                            </div>}
+                            {this.state.loading &&
+                                <Loader
+                                    color="black"
+                                    weight="500"
+                                    locale={strings.tips.loading}
+                                    loading={this.state.loading}
+                                />}
                             {this.state.showResult && <ShinyTable
                                 onClick={this.onClick}
                                 onChange={this.onChange}

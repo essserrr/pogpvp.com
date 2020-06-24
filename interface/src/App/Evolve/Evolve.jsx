@@ -2,13 +2,13 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import ReactTooltip from "react-tooltip"
 import LocalizedStrings from 'react-localization';
-import BarLoader from "react-spinners/BarLoader";
 
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SearchableSelect from "../PvP/components/SearchableSelect/SearchableSelect"
 import Stats from "../PvP/components/Stats/Stats"
 import Errors from "../PvP/components/Errors/Errors"
 import EvoList from "./EvoList"
+import Loader from "../PvpRating/Loader"
 
 import { locale } from "../../locale/locale"
 import { getCookie, checkLvl, checkIV, } from "../../js/indexFunctions"
@@ -161,16 +161,12 @@ class Evolve extends React.Component {
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="singleNews col-sm-12 col-md-10 col-lg-6 mx-0 py-4">
-                            {this.state.loading && <div className="row  justify-content-center"  >
-                                <div style={{ fontWeight: "500", color: "black" }} >
-                                    {strings.tips.loading}
-                                    <BarLoader
-                                        attr="name"
-                                        color={"black"}
-                                        loading={this.state.loading}
-                                    />
-                                </div>
-                            </div>}
+                            {this.state.loading && <Loader
+                                color="black"
+                                weight="500"
+                                locale={strings.tips.loading}
+                                loading={this.state.loading}
+                            />}
                             {this.state.showResult &&
                                 <div className="row justify-content-between p-0 m-0">
                                     <div className="col-12 px-2">
