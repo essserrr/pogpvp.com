@@ -422,11 +422,11 @@ export function calculateMultiplier(aTypes, dTypes, mType) {
         return 0
     }
     const pvpMultiplier = 1.3
-    var stabBonus
+    let stabBonus
     (aTypes.includes(mType)) ? stabBonus = 1.2 : stabBonus = 1
 
-    var moveEfficiency = effectivenessData[mType]
-    var seMultiplier = 1
+    let moveEfficiency = effectivenessData[mType]
+    let seMultiplier = 1
     for (let i = 0; i < dTypes.length; i++) {
         if (moveEfficiency[dTypes[i]] !== 0) {
             seMultiplier *= moveEfficiency[dTypes[i]]
@@ -435,6 +435,39 @@ export function calculateMultiplier(aTypes, dTypes, mType) {
 
     return pvpMultiplier * seMultiplier * stabBonus
 }
+
+export function returnEffAtk(AtkIV, Atk, Lvl, isShadow) {
+    return (Number(AtkIV) + Atk) * levelData[checkLvl(Lvl) / 0.5] * (isShadow === "true" ? 1.2 : 1)
+}
+
+export function pveDamage(Damage, effAtk, effDef, mult) {
+    return Math.trunc(Damage * 0.5 * (effAtk / effDef) * mult) + 1
+}
+
+export function getPveMultiplier(aTypes, dTypes, mType, weatherType, friendStage) {
+
+    let stabBonus = (aTypes.includes(mType)) ? 1.2 : 1
+
+    let moveEfficiency = effectivenessData[mType]
+    let seMultiplier = 1
+    for (let i = 0; i < dTypes.length; i++) {
+        if (moveEfficiency[dTypes[i]] !== 0) {
+            seMultiplier *= moveEfficiency[dTypes[i]]
+        }
+    }
+
+    let weatherMul = 1
+    if (weather[weatherType][mType]) {
+        weatherMul = weather[weatherType][mType]
+    }
+
+    return stabBonus * friendship[friendStage] * seMultiplier * weatherMul
+}
+
+
+
+
+
 export function encodeQueryData(data) {
     var res = [];
 
@@ -918,7 +951,7 @@ export function returnVunStyle(rate) {
     return "res4"
 }
 
-var levelData = [
+export var levelData = [
     0,
     0,
     0.094,
@@ -1457,4 +1490,61 @@ export var tierHP = [
     9000,
     15000,
     22500,
+]
+
+export var tierMult = [
+    0.5974,
+    0.67,
+    0.73,
+    0.79,
+    0.79,
+    0.79,
+]
+
+var weather = {
+    0: {},
+    1: {
+        10: 1.2,
+        9: 1.2,
+        6: 1.2,
+    },
+    2: {
+        0: 1.2,
+        3: 1.2,
+        17: 1.2,
+    },
+    3: {
+        15: 1.2,
+        12: 1.2,
+    },
+    4: {
+        13: 1.2,
+        4: 1.2,
+        5: 1.2,
+    },
+    5: {
+        14: 1.2,
+        7: 1.2,
+        2: 1.2,
+    },
+    6: {
+        16: 1.2,
+        11: 1.2,
+    },
+    7: {
+        8: 1.2,
+        1: 1.2,
+    },
+}
+
+var friendship = [
+    1.0,
+    1.03,
+    1.05,
+    1.07,
+    1.1,
+    1.06,
+    1.12,
+    1.18,
+    1.25,
 ]
