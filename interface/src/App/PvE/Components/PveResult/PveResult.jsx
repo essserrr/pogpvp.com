@@ -6,6 +6,8 @@ import { getCookie } from '../../../../js/indexFunctions'
 import PveResEntry from "./PveResEntry"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 
+
+
 let strings = new LocalizedStrings(locale);
 
 class PveResult extends React.PureComponent {
@@ -19,6 +21,7 @@ class PveResult extends React.PureComponent {
 
             constructor: false,
         };
+        this.raplace = this.raplace.bind(this);
         this.loadMore = this.loadMore.bind(this);
         this.focusDiv = this.focusDiv.bind(this);
         this.focusDiv = this.focusDiv.bind(this);
@@ -68,6 +71,31 @@ class PveResult extends React.PureComponent {
         })
     }
 
+    raplace(data, i) {
+        this.setState({
+            listToShow: [
+                ...this.state.listToShow.slice(0, i),
+                <PveResEntry
+                    key={i}
+
+                    i={i}
+                    pokemonRes={data[0]}
+                    snapshot={this.props.snapshot}
+                    tables={this.props.tables}
+
+                    pokemonTable={this.props.pokemonTable}
+                    moveTable={this.props.moveTable}
+                    pokList={this.props.pokList}
+                    chargeMoveList={this.props.chargeMoveList}
+                    quickMoveList={this.props.quickMoveList}
+
+                    raplace={this.raplace}
+                />,
+                ...this.state.listToShow.slice((i + 1)),
+            ]
+        })
+    }
+
     appendFromTo(from, to, target) {
         for (let i = from; i < to; i++) {
             target.push(
@@ -84,6 +112,8 @@ class PveResult extends React.PureComponent {
                     pokList={this.props.pokList}
                     chargeMoveList={this.props.chargeMoveList}
                     quickMoveList={this.props.quickMoveList}
+
+                    raplace={this.raplace}
                 />
             )
         }
@@ -94,15 +124,16 @@ class PveResult extends React.PureComponent {
     render() {
         return (
             <div className="row m-0 p-0 justify-content-center matrixResult p-2" tabIndex="0" ref="reconstruction">
-                <div className="col-12 m-0 p-0">
+                <div className={"col-12 m-0 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
                     {this.state.listToShow}
                 </div>
-                {(this.state.isNextPage && !this.state.searchState) && <SubmitButton
-                    action="Load more"
-                    label={strings.buttons.loadmore}
-                    onSubmit={this.loadMore}
-                    class="newsButton btn btn-primary btn-sm"
-                />}
+                {this.state.isNextPage &&
+                    <SubmitButton
+                        action="Load more"
+                        label={strings.buttons.loadmore}
+                        onSubmit={this.loadMore}
+                        class="longButton btn btn-primary btn-sm"
+                    />}
             </div>
         )
     }
