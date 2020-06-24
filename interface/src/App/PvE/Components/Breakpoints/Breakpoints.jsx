@@ -6,6 +6,7 @@ import { pveLocale } from "../../../../locale/pveLocale"
 import { getCookie, tierMult, pveDamage, returnEffAtk, getPveMultiplier } from '../../../../js/indexFunctions'
 import BreakpointsList from "./BreakpointsList"
 import DamageCounter from "./DamageCounter"
+import RangeInput from "../RangeInput/RangeInput"
 
 
 let pveStrings = new LocalizedStrings(pveLocale);
@@ -16,6 +17,7 @@ class Breakpoints extends React.PureComponent {
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             attackerObj: {
+                Lvl: this.props.snapshot.attackerObj.Lvl,
                 Atk: this.props.snapshot.attackerObj.Atk,
             },
             pveObj: {
@@ -100,18 +102,23 @@ class Breakpoints extends React.PureComponent {
         let friendsh = this.state.pveObj.FriendshipStage
         let weather = this.state.pveObj.Weather
         let atkIV = this.state.attackerObj.Atk
+        let lvl = this.state.attackerObj.Lvl
 
         switch (event.target.name) {
             case "FriendshipStage":
                 friendsh = event.target.value
+                lvl = this.props.snapshot.attackerObj.Lvl
                 break
             case "Weather":
                 weather = event.target.value
+                lvl = this.props.snapshot.attackerObj.Lvl
                 break
             case "Atk":
                 atkIV = event.target.value
+                lvl = this.props.snapshot.attackerObj.Lvl
                 break
             default:
+                lvl = event.target.value
         }
 
         let qMult = getPveMultiplier(this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Type,
@@ -126,10 +133,9 @@ class Breakpoints extends React.PureComponent {
             weather,
             friendsh)
 
-        //!! level
         let effAtk = returnEffAtk(atkIV,
             this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Atk,
-            this.props.snapshot.attackerObj.Lvl,
+            lvl,
             this.props.snapshot.attackerObj.IsShadow)
 
 
@@ -138,18 +144,30 @@ class Breakpoints extends React.PureComponent {
         let baseQ = this.state.baseQuick
         let baseCh = this.state.baseCharge
 
+
         switch (event.target.name) {
             case "Lvl":
+                dQuick = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
+                    effAtk, this.state.effDef, qMult)
+                dCharge = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
+                    effAtk, this.state.effDef, chMult)
                 break
             default:
                 baseQ = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
                     effAtk, this.state.effDef, qMult)
                 baseCh = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
                     effAtk, this.state.effDef, chMult)
-                dQuick = baseQ
-                dCharge = baseCh
-        }
 
+                effAtk = returnEffAtk(atkIV,
+                    this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Atk,
+                    this.state.attackerObj.Lvl,
+                    this.props.snapshot.attackerObj.IsShadow)
+
+                dQuick = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
+                    effAtk, this.state.effDef, qMult)
+                dCharge = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
+                    effAtk, this.state.effDef, chMult)
+        }
 
 
         this.setState({
@@ -210,7 +228,20 @@ class Breakpoints extends React.PureComponent {
                     chargeName={this.props.snapshot.attackerObj.ChargeMove}
                 />
 
+                <div className="col-12 text-left px-auto borderTop p-0 m-0 pt-1 mt-1" >
+                    {pveStrings.poklvl}: <span className=" fontBolder">{this.state.attackerObj.Lvl}</span></div>
+                <RangeInput
+                    name="Lvl"
+                    attr={"attackerObj"}
+                    id={"levelslider"}
 
+                    onChange={this.onChange}
+
+                    step={0.5}
+                    value={Number(this.state.attackerObj.Lvl)}
+                    min={Number(this.props.snapshot.attackerObj.Lvl)}
+                    max={41}
+                />
                 <BreakpointsList
                     move={this.props.moveTable[this.props.snapshot.attackerObj.QuickMove]}
                     attacker={this.props.pokemonTable[this.props.snapshot.attackerObj.Name]}

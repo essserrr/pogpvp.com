@@ -59,6 +59,7 @@ export const pveLocale = {
         qbreak: "Breakpoints of ",
         lvl: "Level",
         damage: "Damage",
+        poklvl: "Pokemon level",
     },
 
     ru: {
@@ -120,5 +121,6 @@ export const pveLocale = {
         qbreak: "Брейкпоинты ",
         lvl: "Уровень",
         damage: "Урон",
+        poklvl: "Уровень покемона",
     }
 }
