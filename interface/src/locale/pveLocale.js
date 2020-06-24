@@ -55,7 +55,10 @@ export const pveLocale = {
         hprem: "Boss remaining HP: ",
         pres: "Recalculate with high precision",
         break: "Calculate breakpoints",
-
+        atkiv: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0Attack IV\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+        qbreak: "Breakpoints of ",
+        lvl: "Level",
+        damage: "Damage",
     },
 
     ru: {
@@ -113,5 +116,9 @@ export const pveLocale = {
         hprem: "Осталось HP у босса: ",
         pres: "Пересчитать с высокой точностью",
         break: "Посчитать брейкпоинты",
+        atkiv: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0IV Атака\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+        qbreak: "Брейкпоинты ",
+        lvl: "Уровень",
+        damage: "Урон",
     }
 }
