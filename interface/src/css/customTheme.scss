@@ -934,40 +934,41 @@ body {
 
 
 //buttons
-.customButton.btn.btn-primary.btn-sm {
-    width: fit-content !important;
 
-    padding-left: 0.85rem !important;
-    padding-right: 0.85rem !important;
-    padding-top: 0.4rem !important;
-    padding-bottom: 0.4rem !important;
-
-    font-size: 0.5rem !important;
-}
-
+//matrix panel, matrix-redact, matrix-save
 .matrixButton.btn.btn-primary.btn-sm {
-    width: 70% !important;
-
-    padding-left: 0.85rem !important;
-    padding-right: 0.85rem !important;
+    width: fit-content !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
     padding-top: 0.4rem !important;
     padding-bottom: 0.4rem !important;
-
     font-size: 0.65rem !important;
-
 }
 
+//matrix save/delete equalsized
 .saveinterface.btn.btn-primary.btn-sm {
     width: 90% !important;
 
-    padding-left: 0.2rem !important;
-    padding-right: 0.2rem !important;
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
     padding-top: 0.2rem !important;
     padding-bottom: 0.2rem !important;
 
     font-size: 0.6rem !important;
 }
 
+//maximizer equalsized
+.maximizerButton.btn.btn-primary.btn-sm {
+    width: 40% !important;
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    font-size: 0.5rem !important;
+}
+
+
+//fake button
 .langButton {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -976,9 +977,24 @@ body {
     margin-left: 0.1em;
 
     background-color: transparent;
-
     border: none;
 }
+
+
+.longButton.btn.btn-primary.btn-sm {
+    max-width: fit-content !important;
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+
+    font-size: 0.8rem !important;
+}
+
+
+
+
+
 
 //news style
 .newsTitle {
@@ -1035,11 +1051,7 @@ body {
     font-weight: 400;
     font-size: 1.1rem;
 }
-.newsButton {
-    width: 8rem !important;
-    margin-left: 1.5rem !important;
-    margin-right: 1.5rem !important ;
-}
+
 
 .singleNewsBody {
     
