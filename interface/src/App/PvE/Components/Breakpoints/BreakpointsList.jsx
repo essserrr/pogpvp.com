@@ -14,8 +14,6 @@ const BreakpointsList = React.memo(function Pokemon(props) {
     let baseDamage = pveDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, props.Lvl, props.IsShadow), props.effDef, multiplier)
     let arr = []
 
-    console.log(returnEffAtk(props.Atk, props.attacker.Atk, props.Lvl, props.IsShadow))
-
     for (let i = Number(props.Lvl); i <= 45; i += 0.5) {
         let damage = pveDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, i, props.IsShadow), props.effDef, multiplier)
 

@@ -2,9 +2,7 @@ import React from "react";
 
 
 const RangeInput = React.memo(function (props) {
-    console.log(props.value)
     return (
-
         <input
             name={props.name}
             attr={props.attr}

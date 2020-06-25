@@ -88,7 +88,6 @@ class PveResEntry extends React.PureComponent {
     }
 
     onClick() {
-        console.log(this.props.pokemonRes)
         this.setState({
             showCollapse: !this.state.showCollapse,
             colElement: !this.state.showCollapse ? this.generateCards() : null,
@@ -104,7 +103,6 @@ class PveResEntry extends React.PureComponent {
 
         //make server pve request
         var url = encodePveAttacker(newPok) + "/" + encodePveBoss(this.props.snapshot.bossObj) + "/" + encodePveObj(this.props.snapshot.pveObj)
-        console.log(url)
         this.setState({
             loading: true,
         });

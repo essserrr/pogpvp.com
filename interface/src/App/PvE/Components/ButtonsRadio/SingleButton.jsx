@@ -1,8 +1,6 @@
 import React from "react";
 
 const SingleButton = React.memo(function (props) {
-    console.log(props.checked, props.name)
-
     return (
         <label className={(props.class ? props.class : "") + " btn btn-primary m-0 " + (props.checked ? "active" : "")}>
             <input
