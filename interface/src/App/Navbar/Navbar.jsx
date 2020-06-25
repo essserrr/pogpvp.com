@@ -25,12 +25,12 @@ class Navbar extends React.PureComponent {
                 <a key="PvP Rating" className="dropdown-item" href="/pvprating/">{strings.navbar.pvprating}</a>,
             ],
             dropdownPvE: [
+                <a key="Raids List" className="dropdown-item" href="/raids/">{strings.navbar.raids}</a>,
                 <a key="Raid Simulator" className="dropdown-item" href="/pve/common/">{strings.navbar.raidsim}</a>,
             ],
             dropdownOther: [
                 <a key="Sniny Rates" className="dropdown-item" href="/shinyrates/">{strings.navbar.shiny}</a>,
                 <a key="Evolution Calc" className="dropdown-item" href="/evolution/">{strings.navbar.evo}</a>,
-                <a key="Raids List" className="dropdown-item" href="/raids/">{strings.navbar.raids}</a>,
                 <a key="Eggs List" className="dropdown-item" href="/eggs/">{strings.navbar.eggs}</a>,
             ],
             expanded: false,
