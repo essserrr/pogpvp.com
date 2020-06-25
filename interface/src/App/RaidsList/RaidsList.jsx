@@ -125,7 +125,8 @@ class RaidsList extends React.Component {
                             name={name}
                             icon={
                                 <a title={strings.topcounters + pokTable[name].Title}
-                                    href={"/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" + (encodeURIComponent(pokTable[name].Title)) + "___" + (i - 1) + "/0_0_0_18_3_false"}
+                                    href={(navigator.userAgent === "ReactSnap") ? "/" :
+                                        "/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" + (encodeURIComponent(pokTable[name].Title)) + "___" + (i - 1) + "/0_0_0_18_3_false"}
                                 >
                                     <PokemonIconer
                                         src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}

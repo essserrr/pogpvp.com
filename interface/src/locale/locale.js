@@ -96,7 +96,7 @@ export const locale = {
             raids: "Pokemon GO raids list. Don't miss raid tiers update",
             eggs: "Pokemon GO eggs list. Don't miss eggs pool update",
 
-            common: "Pokemon GO кфшв simulator. Find the best counters for current bosses",
+            common: "Pokemon GO raid simulator. Find the best counters to the current bosses",
 
             single: "Pokemon GO single PvP simulator. Battle between two mons",
             matrix: "Pokemon GO matrix PvP simulator. Battle between two or more mons",

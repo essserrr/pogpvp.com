@@ -18,7 +18,8 @@ function parseNewsList(list) {
     for (var i = 1; i < list.length; i++) {
         var elementI = JSON.parse(list[i])
         result.push(
-            <a key={i} href={"/news/id/" + elementI.ID}>
+            <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
+                "/news/id/" + elementI.ID}>
                 <div className="singleNews hoverable">
                     <div className="singleNewsTitle">
                         {elementI.Title + "  " + elementI.Date}
