@@ -479,7 +479,7 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
 
                     classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
                     classIcon={"icon64  col-auto mx-2 mt-2 p-0 align-self-center"}
-                    classBody={"bigCardBody col-8 col-md-10 align-self-center m-0 p-1 p-0 "}
+                    classBody={"bigCardBody col align-self-center m-0 p-1 p-0 "}
                     classBodyWrap={"row justify-content-between  m-0 p-0"}
                     classFooter="col-12 m-0  mb-2"
                 />
@@ -512,7 +512,7 @@ function generateBody(name, entry, pokemonTable, maxWeighted) {
                     {strings.rating.avgRate} {entry.AvgRate}
                 </div>
                 <div className="col-12 text-start bigText m-0 p-0">
-                    {strings.rating.avgWin} {(entry.AvgWinrate * 100).toFixed(0)}
+                    {strings.rating.avgWin} {(entry.AvgWinrate * 100).toFixed(0)}%
                 </div>
             </div>
         </div>
