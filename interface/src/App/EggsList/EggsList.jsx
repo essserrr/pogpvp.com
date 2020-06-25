@@ -273,7 +273,7 @@ function returnRaidsList(tierList, pokTable, showReg) {
             bucket.push(
                 <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-2"}>
                     <PokemonCard
-                        class={"pokEggCard  m-0 p-0"}
+                        class={"pokEggCard  m-0 p-0 pb-1"}
                         name={
                             <div className="text-center">
                                 <>{name}</>
@@ -297,9 +297,10 @@ function returnRaidsList(tierList, pokTable, showReg) {
                             class={"icon48"} />}
                         body={generateBody(name, pokTable)}
 
-                        classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
-                        classIcon={"icon48 m-0 p-0 align-self-center"}
-                        classBody={"eggCardBody  row  m-0 py-1 justify-content-center"}
+                        classBodyWrap="row justify-content-center justify-content-sm-between m-0 p-0"
+                        classHeader={"cardHeader col-12 m-0 p-0 px-1 mb-1 text-center"}
+                        classIcon={"icon48 m-0 p-0 ml-0 ml-sm-1 align-self-center"}
+                        classBody={"eggCardBody  row  m-0 py-1 justify-content-left"}
                     />
                 </div>)
         }
@@ -333,7 +334,7 @@ function generateBody(name, pokemonTable) {
         </div>
         <Range
             title="CP: "
-            innerClass="align-self-end"
+            innerClass="col-12 text-center p-0 m-0 align-self-end"
             left={culculateCP(name, 15, 10, 10, 10, pokemonTable)}
             right={culculateCP(name, 15, 15, 15, 15, pokemonTable)}
         />
