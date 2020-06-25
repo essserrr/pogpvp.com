@@ -366,15 +366,6 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 			}
 		}
 	}
-	//limit movelist if needed
-	if len(quickM) > 10 {
-		newQList, err := limitMoves(&pokVal, quickM, inDat, false)
-		if err != nil {
-			return []app.BossInfo{}, err
-		}
-		quickM = newQList
-	}
-
 	//make charge move list
 	chargeM := make([]string, 0, 1)
 	moveVal, ok = inDat.App.PokemonMovesBase[inDat.Boss.ChargeMove]
@@ -394,14 +385,30 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 			}
 		}
 	}
+
+	var maxMoves = 10
+	if len(quickM) > maxMoves && len(chargeM) > maxMoves {
+		maxMoves = 7
+	}
+
+	//limit movelist if needed
+	if len(quickM) > maxMoves {
+		newQList, err := limitMoves(&pokVal, quickM, inDat, false)
+		if err != nil {
+			return []app.BossInfo{}, err
+		}
+		quickM = newQList
+	}
+
 	//limit if needed
-	if len(chargeM) > 10 {
+	if len(chargeM) > maxMoves {
 		newChList, err := limitMoves(&pokVal, chargeM, inDat, true)
 		if err != nil {
 			return []app.BossInfo{}, err
 		}
 		chargeM = newChList
 	}
+
 	//create boss list
 	bosses := make([]app.BossInfo, 0, 1)
 	for _, valueQ := range quickM {
@@ -518,7 +525,7 @@ func (a byDpsMoves) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 //generateAttackersRow generates attacker row for simulations with know attacker name
 func generateAttackersRow(inDat *app.IntialDataPve) []app.PokemonInitialData {
-	//get pokemon from vase
+	//get pokemon from the base
 	pokVal, ok := inDat.App.PokemonStatsBase[inDat.Pok.Name]
 	if !ok {
 		return nil
