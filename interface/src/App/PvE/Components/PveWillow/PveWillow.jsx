@@ -39,7 +39,7 @@ class PveWillow extends React.PureComponent {
                 <div className="bubbleText long posAbsB px-2 py-1">
                     {pvestrings.willow1}<span className="fontBolder">{this.props.snapshot.bossObj.Name}</span>.
                     {pvestrings.willow2}<span className="fontBolder">{tierHP[this.props.snapshot.bossObj.Tier]}</span>
-                    {pvestrings.willow3}<span className="fontBolder">{(this.props.snapshot.bossObj.Tier > 3 ? 360 : 180) + pvestrings.s}</span>.
+                    {pvestrings.willow3}<span className="fontBolder">{(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180) + pvestrings.s}</span>.
                     {pvestrings.willow4}<span className="fontBolder">
                         {pvestrings.weatherList[this.props.snapshot.pveObj.Weather]}
                         {(this.props.snapshot.pveObj.Weather > 0) && <PokemonIconer
@@ -47,10 +47,11 @@ class PveWillow extends React.PureComponent {
                             src={this.props.snapshot.pveObj.Weather}
                             class={"icon18"} />}
                     </span>
-                    {(this.props.snapshot.pveObj.Weather > 0) && <>.<span className="fontBolder">
+                    {(this.props.snapshot.pveObj.Weather > 0) && <>.{pvestrings.willow6}: </>}
+                    {(this.props.snapshot.pveObj.Weather > 0) && <span className="fontBolder">
                         <WeatherList
                             weather={this.props.snapshot.pveObj.Weather} />
-                    </span></>}{(this.props.snapshot.pveObj.Weather > 0) && pvestrings.willow6}.
+                    </span>}.
 
                     {pvestrings.willow5}<span className="fontBolder">{boost ? pvestrings.boosted : pvestrings.normal}</span>
                     <span className="fontBolder">

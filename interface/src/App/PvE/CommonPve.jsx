@@ -44,6 +44,7 @@ class CommonPve extends React.PureComponent {
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.assignSort = this.assignSort.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -291,6 +292,11 @@ class CommonPve extends React.PureComponent {
         });
     }
 
+    assignSort(data) {
+        this.setState({
+            result: data,
+        });
+    }
 
     render() {
         return (
@@ -339,6 +345,8 @@ class CommonPve extends React.PureComponent {
                             result={this.state.result}
                             snapshot={this.state.snapshot}
                             tables={this.props.parentState.tables}
+
+                            assignSort={this.assignSort}
 
                             pokemonTable={this.props.parentState.pokemonTable}
                             moveTable={this.props.parentState.moveTable}

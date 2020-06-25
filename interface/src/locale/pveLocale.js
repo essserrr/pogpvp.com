@@ -65,10 +65,12 @@ export const pveLocale = {
         willow2: " Boss HP: ",
         willow3: ", raid duration: ",
         willow4: " Weather is ",
-        willow6: " are boosted",
+        willow6: " Boosted",
         willow5: " Boss catch CP is ",
         boosted: "boosted ",
         normal: "normal ",
+
+        sort: "SORT BY",
     },
 
     ru: {
@@ -137,8 +139,10 @@ export const pveLocale = {
         willow3: ", продолжительность рейда: ",
         willow4: " Погода ",
         willow5: " CP босса при ловле ",
-        willow6: " имеют буст",
+        willow6: " Имеют буст",
         boosted: "с бустом: ",
         normal: "обычное: ",
+
+        sort: "СОРТИРОВАТЬ ПО",
     }
 }
