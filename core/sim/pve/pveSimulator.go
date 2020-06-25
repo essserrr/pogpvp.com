@@ -393,7 +393,7 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 
 	//limit movelist if needed
 	if len(quickM) > maxMoves {
-		newQList, err := limitMoves(&pokVal, quickM, inDat, false)
+		newQList, err := limitMoves(&pokVal, quickM, inDat, false, maxMoves)
 		if err != nil {
 			return []app.BossInfo{}, err
 		}
@@ -402,7 +402,7 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 
 	//limit if needed
 	if len(chargeM) > maxMoves {
-		newChList, err := limitMoves(&pokVal, chargeM, inDat, true)
+		newChList, err := limitMoves(&pokVal, chargeM, inDat, true, maxMoves)
 		if err != nil {
 			return []app.BossInfo{}, err
 		}
@@ -426,11 +426,11 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 
 }
 
-//limitMoves limits boss moves to 10
-func limitMoves(pok *app.PokemonsBaseEntry, moves []string, inDat *app.IntialDataPve, isCharge bool) ([]string, error) {
+//limitMoves limits boss moves to n
+func limitMoves(pok *app.PokemonsBaseEntry, moves []string, inDat *app.IntialDataPve, isCharge bool, n int) ([]string, error) {
 	limiter := make([]moveLimiter, 0, len(moves))
 	hiddenPower := make([]moveLimiter, 0, 0)
-	newList := make([]string, 0, 10)
+	newList := make([]string, 0, n)
 
 	pokTyping := pok.Type
 
@@ -496,14 +496,14 @@ func limitMoves(pok *app.PokemonsBaseEntry, moves []string, inDat *app.IntialDat
 		default:
 		}
 		//add 4 hidden powers
-		for i := 0; len(limiter) < 10; i++ {
+		for i := 0; len(limiter) < n; i++ {
 			limiter = append(limiter, hiddenPower[i])
 		}
 	default:
 		//sort by dps
 		sort.Sort(byDpsMoves(limiter))
 		//get top-10
-		limiter = limiter[:10]
+		limiter = limiter[:n]
 	}
 	//create new movelist
 	for _, mName := range limiter {

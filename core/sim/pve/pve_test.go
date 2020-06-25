@@ -748,7 +748,7 @@ func TestMoveLimit(t *testing.T) {
 			Tier: 4,
 		},
 		Weather: 0,
-	}, false)
+	}, false, 10)
 	if err != nil {
 		t.Error(err)
 	}
