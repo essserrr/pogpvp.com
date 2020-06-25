@@ -1,13 +1,16 @@
 import React from "react";
 import LocalizedStrings from 'react-localization';
 
+import { ReactComponent as Dust } from "../../../../icons/stardust.svg";
+import { ReactComponent as Candy } from "../../../../icons/candy.svg";
 import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup";
+import { candyCost, dustCost } from "./powerupCost"
 import { pveLocale } from "../../../../locale/pveLocale"
 import { getCookie, tierMult, pveDamage, returnEffAtk, getPveMultiplier } from '../../../../js/indexFunctions'
 import BreakpointsList from "./BreakpointsList"
-import DamageCounter from "./DamageCounter"
+import Counter from "../Counter/Counter"
 import RangeInput from "../RangeInput/RangeInput"
-
+import FaButton from "../FaButton/FaButton"
 
 let pveStrings = new LocalizedStrings(pveLocale);
 
@@ -73,6 +76,7 @@ class Breakpoints extends React.PureComponent {
             ],
         };
         this.onChange = this.onChange.bind(this);
+        this.onPlusMinus = this.onPlusMinus.bind(this);
     }
 
     effectiveDef() {
@@ -183,6 +187,58 @@ class Breakpoints extends React.PureComponent {
         });
     }
 
+    onPlusMinus(event) {
+        let lvl = Number(this.state.attackerObj.Lvl)
+
+        switch (event.target.getAttribute("name")) {
+            case "plus":
+                lvl += 0.5
+                if (lvl > 45) {
+                    return
+                }
+                break
+            default:
+                lvl -= 0.5
+                if (lvl < this.props.snapshot.attackerObj.Lvl) {
+                    return
+                }
+        }
+
+        let qMult = getPveMultiplier(this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Type,
+            this.props.pokemonTable[this.props.snapshot.bossObj.Name].Type,
+            this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].MoveType,
+            this.state.pveObj.Weather,
+            this.state.pveObj.FriendshipStage)
+
+        let chMult = getPveMultiplier(this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Type,
+            this.props.pokemonTable[this.props.snapshot.bossObj.Name].Type,
+            this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].MoveType,
+            this.state.pveObj.Weather,
+            this.state.pveObj.FriendshipStage)
+
+        let effAtk = returnEffAtk(this.state.attackerObj.Atk,
+            this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Atk,
+            lvl,
+            this.props.snapshot.attackerObj.IsShadow)
+
+
+        let dQuick = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
+            effAtk, this.state.effDef, qMult)
+        let dCharge = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
+            effAtk, this.state.effDef, chMult)
+
+
+        this.setState({
+            dQuick: dQuick,
+            dCharge: dCharge,
+
+            attackerObj: {
+                ...this.state.attackerObj,
+                Lvl: lvl
+            },
+        });
+    }
+
 
     render() {
         return (
@@ -217,31 +273,78 @@ class Breakpoints extends React.PureComponent {
 
                     for={""}
                 />
-                <DamageCounter
-                    dQuick={this.state.dQuick}
-                    dCharge={this.state.dCharge}
 
-                    baseQuick={this.state.baseQuick}
-                    baseCharge={this.state.baseCharge}
+                <div className="col-12 m-0 p-0 text-center my-1">
+                    {pveStrings.damage}
+                </div>
+                <div className="col-12 m-0 p-0">
+                    <Counter
+                        value={this.state.dQuick}
+                        base={this.state.baseQuick}
+                        name={this.props.snapshot.attackerObj.QuickMove}
+                    />
+                </div>
+                <div className="col-12 m-0 p-0">
+                    <Counter
+                        value={this.state.dCharge}
+                        base={this.state.baseCharge}
+                        name={this.props.snapshot.attackerObj.ChargeMove}
+                    />
+                </div>
 
-                    quickName={this.props.snapshot.attackerObj.QuickMove}
-                    chargeName={this.props.snapshot.attackerObj.ChargeMove}
-                />
 
-                <div className="col-12 text-left px-auto borderTop p-0 m-0 pt-1 mt-1" >
-                    {pveStrings.poklvl}: <span className=" fontBolder">{this.state.attackerObj.Lvl}</span></div>
-                <RangeInput
-                    name="Lvl"
-                    attr={"attackerObj"}
-                    id={"levelslider"}
+                <div className="col-12 text-left borderTop p-0 m-0 pt-2 mt-1" >
+                    <Counter
+                        value={dustCost[(Number(this.state.attackerObj.Lvl) / 0.5) - 1] - dustCost[(Number(this.props.snapshot.attackerObj.Lvl) / 0.5) - 1]}
+                        base={999999999}
+                        name={<Dust className="icon24 mr-1" />}
+                        colorForvalue={true}
+                    />
+                </div>
+                <div className="col-12 text-left  p-0 m-0 my-1" >
+                    <Counter
+                        value={candyCost[(Number(this.state.attackerObj.Lvl) / 0.5) - 1] - candyCost[(Number(this.props.snapshot.attackerObj.Lvl) / 0.5) - 1]}
+                        base={999999999}
+                        name={<Candy className="icon24 mr-1" />}
+                        colorForvalue={true}
+                    />
+                </div>
 
-                    onChange={this.onChange}
+                <div className="col-12 text-left  p-0 m-0 mb-1" >
+                    <Counter
+                        value={Number(this.state.attackerObj.Lvl).toFixed(1)}
+                        base={this.props.snapshot.attackerObj.Lvl}
+                        name={pveStrings.poklvl}
 
-                    step={0.5}
-                    value={Number(this.state.attackerObj.Lvl)}
-                    min={Number(this.props.snapshot.attackerObj.Lvl)}
-                    max={41}
-                />
+                        toFixed={true}
+                        decimal={1}
+                    />
+                </div>
+
+
+
+
+                <div className="col-12 d-flex p-0 m-0" >
+                    <FaButton class="fab fa fa-minus clickable align-self-center mr-3"
+                        name="minus"
+                        onClick={this.onPlusMinus}
+                    />
+                    <RangeInput
+                        name="Lvl"
+                        attr={"attackerObj"}
+
+                        onChange={this.onChange}
+
+                        step={0.5}
+                        value={Number(this.state.attackerObj.Lvl)}
+                        min={Number(this.props.snapshot.attackerObj.Lvl)}
+                        max={45}
+                    />
+                    <FaButton class="fab fa fa-plus clickable align-self-center ml-3"
+                        name="plus"
+                        onClick={this.onPlusMinus}
+                    />
+                </div>
                 <BreakpointsList
                     move={this.props.moveTable[this.props.snapshot.attackerObj.QuickMove]}
                     attacker={this.props.pokemonTable[this.props.snapshot.attackerObj.Name]}

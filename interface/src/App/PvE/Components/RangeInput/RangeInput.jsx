@@ -17,7 +17,7 @@ const RangeInput = React.memo(function (props) {
             value={props.value}
 
             type="range"
-            className="custom-range"
+            className={props.class ? props.class : "custom-range"}
         />
 
     )
