@@ -174,7 +174,7 @@ class PveResEntry extends React.PureComponent {
                     label={pveStrings.pres}
                     action="Precision"
                     onSubmit={this.rerunWithPrecision}
-                    class="longButton btn btn-primary btn-sm mt-0  mx-0"
+                    class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
                 />
             </div>)
         arr.push(
@@ -183,7 +183,7 @@ class PveResEntry extends React.PureComponent {
                     label={pveStrings.break}
                     action="Breakpoints"
                     onSubmit={this.defineBreakpoints}
-                    class="longButton btn btn-primary btn-sm mt-0  mx-0"
+                    class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
                 />
             </div>)
         for (let i = 0; i < this.props.pokemonRes.length; i++) {

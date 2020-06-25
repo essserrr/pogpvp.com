@@ -7,6 +7,7 @@ import PveResEntry from "./PveResEntry"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import Breakpoints from "../Breakpoints/Breakpoints"
+import PveWillow from "../PveWillow/PveWillow"
 
 let strings = new LocalizedStrings(locale);
 
@@ -45,8 +46,7 @@ class PveResult extends React.PureComponent {
     };
 
     focusDiv() {
-        //strings.reconstruction
-        this.refs.reconstruction.focus();
+        this.refs.pveres.focus();
     };
 
     generateList() {
@@ -154,10 +154,15 @@ class PveResult extends React.PureComponent {
                         snapshot={this.state.breakpObj}
                     />}
                 />}
-                <div className="row m-0 p-0 justify-content-center matrixResult p-2" tabIndex="0" ref="reconstruction">
+                <div className="row m-0 p-0 justify-content-center matrixResult p-2" tabIndex="0" ref="pveres">
+                    <PveWillow
+                        pokemonTable={this.props.pokemonTable}
+                        snapshot={this.props.snapshot}
+                    />
                     <div className={"col-12 m-0 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
                         {this.state.listToShow}
                     </div>
+
                     {this.state.isNextPage &&
                         <SubmitButton
                             action="Load more"

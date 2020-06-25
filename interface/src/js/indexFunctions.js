@@ -1501,7 +1501,7 @@ export var tierMult = [
     0.79,
 ]
 
-var weather = {
+export var weather = {
     0: {},
     1: {
         10: 1.2,

@@ -991,6 +991,16 @@ body {
     font-size: 0.8rem !important;
 }
 
+.longButtonFixed.btn.btn-primary.btn-sm {
+    min-width: 345px !important;
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+
+    font-size: 0.8rem !important;
+}
+
 .fontBolder {
     font-weight: 500;
     text-align: end;
@@ -1304,12 +1314,17 @@ body {
     border-color:  rgba(0, 0, 0, 0.295) ;
 
     text-align: justify !important;
-        text-justify: inter-word !important;
+    text-justify: inter-word !important;
     
     background-color: #fff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     max-width: 320px;
+
+    &.long{
+        max-width: 500px !important;
+    }
 }
+
 
 //advisor
 .posAbs {

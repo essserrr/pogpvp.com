@@ -60,6 +60,15 @@ export const pveLocale = {
         lvl: "Level",
         damage: "Damage",
         poklvl: "Pokemon level",
+
+        willow1: "Hey Trainer, here are your results against ",
+        willow2: " Boss HP: ",
+        willow3: ", raid duration: ",
+        willow4: " Weather is ",
+        willow6: " are boosted",
+        willow5: " Boss catch CP is ",
+        boosted: "boosted ",
+        normal: "normal ",
     },
 
     ru: {
@@ -94,10 +103,10 @@ export const pveLocale = {
             0: "Экстремальная",
             1: "Солнечная",
             2: "Дождливая",
-            3: "Перемнная облачность",
+            3: "Перемнно-облачная",
             4: "Облачная",
             5: "Ветреная",
-            6: "Снег",
+            6: "Снежная",
             7: "Туманная",
         },
 
@@ -122,5 +131,14 @@ export const pveLocale = {
         lvl: "Уровень",
         damage: "Урон",
         poklvl: "Уровень покемона",
+
+        willow1: "Эй, тренер, вот твои результаты против ",
+        willow2: " HP босса: ",
+        willow3: ", продолжительность рейда: ",
+        willow4: " Погода ",
+        willow5: " CP босса при ловле ",
+        willow6: " имеют буст",
+        boosted: "с бустом: ",
+        normal: "обычное: ",
     }
 }
