@@ -1,10 +1,11 @@
 import React from "react";
 import LocalizedStrings from 'react-localization'
-import BarLoader from "react-spinners/BarLoader"
 import { Helmet } from 'react-helmet'
 
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../PvP/components/Errors/Errors"
+import Loader from "../PvpRating/Loader"
+
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
@@ -17,7 +18,8 @@ function parseNewsList(list) {
     for (var i = 1; i < list.length; i++) {
         var elementI = JSON.parse(list[i])
         result.push(
-            <a key={i} href={"/news/id/" + elementI.ID}>
+            <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
+                "/news/id/" + elementI.ID}>
                 <div className="singleNews hoverable">
                     <div className="singleNewsTitle">
                         {elementI.Title + "  " + elementI.Date}
@@ -120,6 +122,16 @@ class MainPage extends React.Component {
         window.location = ("/news/page/" + nextPage);
     }
 
+    buttonsConfig() {
+        if (this.state.prevPageExists && this.state.nextPageExists) {
+            return "justify-content-between"
+        }
+        if (this.state.prevPageExists) {
+            return "justify-content-start"
+        }
+        return "justify-content-end"
+    }
+
     render() {
         return (
             <>
@@ -144,36 +156,30 @@ class MainPage extends React.Component {
                                 {strings.title.latestnews}
                             </div>
                             {this.state.loading &&
-                                <div className="col-12 mt-0 mb-3 order-lg-2" style={{ fontWeight: "500", color: "black" }} >
-                                    <div className="row justify-content-center">
-                                        <div>
-                                            {strings.tips.loading}
-                                            <BarLoader
-                                                color={"black"}
-                                                loading={this.state.loading}
-                                            />
-                                        </div>
-                                    </div>
+                                <div className="col-12 mt-0 mb-3 order-lg-2" >
+                                    <Loader
+                                        color="black"
+                                        weight="500"
+                                        locale={strings.tips.loading}
+                                        loading={this.state.loading}
+                                    />
                                 </div>}
                             {this.state.showResult && <>
                                 {this.state.newsList && this.state.newsList}
-                                <div className="row m-0 p-0">
-                                    <div className="col m-0 p-0 d-flex justify-content-start">
-                                        {this.state.prevPageExists && <SubmitButton
-                                            action="Previous Page"
-                                            label={strings.buttons.prevpage}
-                                            onSubmit={this.onSubmit}
-                                            class="newsButton btn btn-primary btn-sm"
-                                        />}
-                                    </div>
-                                    <div className="col m-0 p-0 d-flex justify-content-end">
-                                        {this.state.nextPageExists && <SubmitButton
-                                            action="Next Page"
-                                            label={strings.buttons.nextpage}
-                                            onSubmit={this.onSubmit}
-                                            class="newsButton btn btn-primary btn-sm"
-                                        />}
-                                    </div>
+                                <div className={"row m-0 p-0 px-3 " + this.buttonsConfig()} >
+                                    {this.state.prevPageExists && <SubmitButton
+                                        action="Previous Page"
+                                        label={strings.buttons.prevpage}
+                                        onSubmit={this.onSubmit}
+                                        class="btn btn-primary btn-sm"
+                                    />}
+
+                                    {this.state.nextPageExists && <SubmitButton
+                                        action="Next Page"
+                                        label={strings.buttons.nextpage}
+                                        onSubmit={this.onSubmit}
+                                        class="btn btn-primary btn-sm"
+                                    />}
                                 </div>
                             </>}
                             {this.state.isError && <Errors class="alert alert-danger m-2 p-2" value={this.state.error} />}

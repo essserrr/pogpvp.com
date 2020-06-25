@@ -1,5 +1,7 @@
 export const locale = {
     en: {
+        topcounters: "Find top counters against ",
+
         notfound: "Error 404 - Page not found",
         return: "Return to main page",
         advisor: {
@@ -77,6 +79,7 @@ export const locale = {
         pageheaders: {
             pvprating: "PvP Rating  |  PogPvP.com",
             single: "Single PvP  |  PogPvP.com",
+            common: "Raid simulator  |  PogPvP.com",
             matrix: "Matrix PvP  |  PogPvP.com",
             shiny: "Shiny Rates  |  PogPvP.com",
             evolution: "Evolution calc  |  PogPvP.com",
@@ -92,6 +95,8 @@ export const locale = {
             evolution: "Pokemon GO evolution calculator. Know your mon's CP after evolution",
             raids: "Pokemon GO raids list. Don't miss raid tiers update",
             eggs: "Pokemon GO eggs list. Don't miss eggs pool update",
+
+            common: "Pokemon GO raid simulator. Find the best counters to the current bosses",
 
             single: "Pokemon GO single PvP simulator. Battle between two mons",
             matrix: "Pokemon GO matrix PvP simulator. Battle between two or more mons",
@@ -157,6 +162,7 @@ export const locale = {
         },
 
         buttons: {
+            calculate: "Calculate",
             letsbattle: "Let's Battle",
             addpokemon: "Add pokemon",
             save: "Save",
@@ -210,6 +216,8 @@ export const locale = {
             matrix: "Matrix PvP",
             shiny: "Sniny Rates",
             pvpTools: "PvP Tools",
+            pveTools: "PvE Tools",
+            raidsim: "Raid simulator",
             otherTools: "Other Tools",
             evo: "Evolution calc",
             raids: "Raids list",
@@ -247,6 +255,8 @@ export const locale = {
 
 
     ru: {
+        topcounters: "Найти лучших покемонов против ",
+
         notfound: "Ошибка 404 - Страница не найдена",
         return: "Вернуться на главную страницу",
         advisor: {
@@ -323,6 +333,7 @@ export const locale = {
         pageheaders: {
             pvprating: "PvP рейтинг  |  PogPvP.com",
             single: "Одиночное PvP  |  PogPvP.com",
+            common: "Симулятор рейдов  |  PogPvP.com",
             matrix: "Групповое PvP  |  PogPvP.com",
             shiny: "Шансы на шайни  |  PogPvP.com",
             evolution: "Калькулятор эволюций  |  PogPvP.com",
@@ -336,6 +347,8 @@ export const locale = {
             evolution: "Калькулятор эволюций в Pokemon GO. Знай CP своего покемона после эволюции!",
             raids: "Список текущих рейдов в Pokemon GO. Узнай об изменениях списка рейдов первым!",
             eggs: "Список покемонов из яиц в Pokemon GO. Узнай об изменениях списка яиц первым!",
+
+            common: "Симулятор рейдов в Pokemon GO. Найди лучшего покемона против любого босса",
 
             single: "Симулятор одиночного PvP в Pokemon GO. Бой между двумя покемонами",
             matrix: "Симулятор группового PvP  в Pokemon GO. Бой между двумя и более покемонами",
@@ -399,6 +412,7 @@ export const locale = {
             stage: "Модификатор: ",
         },
         buttons: {
+            calculate: "Посчитать",
             letsbattle: "В бой!",
             addpokemon: "Добавить покемона",
             save: "Сохранить",
@@ -452,6 +466,8 @@ export const locale = {
             matrix: "Групповое PvP",
             shiny: "Шансы на шайни",
             pvpTools: "PvP функции",
+            pveTools: "PvE функции",
+            raidsim: "Симулятор рейдов",
             otherTools: "Другое",
             evo: "Калькулятор эволюций",
             raids: "Список рейдов",

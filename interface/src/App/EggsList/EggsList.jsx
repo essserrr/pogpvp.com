@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import LocalizedStrings from 'react-localization';
-import BarLoader from "react-spinners/BarLoader";
 import ReactTooltip from "react-tooltip"
 
 import Errors from "../PvP/components/Errors/Errors"
@@ -11,7 +10,7 @@ import Tier from "../RaidsList/Tier"
 import Range from "../RaidsList/Range"
 import Checkbox from "../RaidsList/Checkbox"
 import Type from "../PvP/components/CpAndTypes/Type"
-
+import Loader from "../PvpRating/Loader"
 
 import { getCookie, typeDecoder, culculateCP, capitalize } from "../../js/indexFunctions"
 import { locale } from "../../locale/locale"
@@ -145,16 +144,13 @@ class EggsList extends React.Component {
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="singleNews col-sm-12 col-md-11 col-lg-8 mx-0 py-4">
-                            {this.state.loading && <div className="row  justify-content-center"  >
-                                <div style={{ fontWeight: "500", color: "black" }} >
-                                    {strings.tips.loading}
-                                    <BarLoader
-                                        attr="name"
-                                        color={"black"}
-                                        loading={this.state.loading}
-                                    />
-                                </div>
-                            </div>}
+                            {this.state.loading &&
+                                <Loader
+                                    color="black"
+                                    weight="500"
+                                    locale={strings.tips.loading}
+                                    loading={this.state.loading}
+                                />}
                             {this.state.eggsList && <div className="row mx-1 justify-content-center font-weight-bolder">
                                 <div className="pr-3">
                                     {strings.tierlist.eggs + ":"}

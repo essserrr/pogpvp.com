@@ -1,7 +1,8 @@
 package goldenlogs
 
 import (
-	sim "Solutions/pvpSimulator/core/sim"
+	"Solutions/pvpSimulator/core/sim/app"
+	pvp "Solutions/pvpSimulator/core/sim/pvp"
 	"encoding/json"
 	"io/ioutil"
 	"os"
@@ -9,41 +10,41 @@ import (
 )
 
 var links = map[string]string{
-	"knockQuickQuick":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/knockQuickQuick.json")),
-	"knockChargeQuick":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/knockChargeQuick.json")),
-	"simultaneousQuick":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/simultaneousQuick.json")),
-	"knockQuickCharge":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/knockQuickCharge.json")),
-	"simultaneousCharge": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/simultaneousCharge.json")),
-	"generalShielded":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/generalShielded.json")),
-	"shielded11":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shielded11.json")),
-	"shielded10":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shielded10.json")),
+	"knockQuickQuick":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockQuickQuick.json")),
+	"knockChargeQuick":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockChargeQuick.json")),
+	"simultaneousQuick":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/simultaneousQuick.json")),
+	"knockQuickCharge":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockQuickCharge.json")),
+	"simultaneousCharge": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/simultaneousCharge.json")),
+	"generalShielded":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/generalShielded.json")),
+	"shielded11":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shielded11.json")),
+	"shielded10":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shielded10.json")),
 
-	"azumarillVenusaur":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillVenusaur.json")),
-	"azumarillMeganium":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillMeganium.json")),
-	"azumarillMedicham":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillMedicham.json")),
-	"azumarillRegisteel": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/azumarillRegisteel.json")),
-	"skarmoryVigoroth":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/skarmoryVigoroth.json")),
-	"skarmoryAltaria":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/skarmoryAltaria.json")),
-	"giratinaASnorlax":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/giratinaASnorlax.json")),
+	"azumarillVenusaur":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillVenusaur.json")),
+	"azumarillMeganium":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillMeganium.json")),
+	"azumarillMedicham":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillMedicham.json")),
+	"azumarillRegisteel": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/azumarillRegisteel.json")),
+	"skarmoryVigoroth":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/skarmoryVigoroth.json")),
+	"skarmoryAltaria":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/skarmoryAltaria.json")),
+	"giratinaASnorlax":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/giratinaASnorlax.json")),
 
-	"shieldedAlolanMukAlolanMarowak":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedAlolanMukAlolanMarowak.json")),
-	"shieldedSwampertAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedSwampertAltaria.json")),
-	"shieldedAzumarillVenusaur1":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedAzumarillVenusaur1.json")),
-	"shieldedAzumarillVenusaur2":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedAzumarillVenusaur2.json")),
-	"shieldedSkarmoryAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedSkarmoryAltaria.json")),
-	"shieldedGiratinaAlteredSnorlax1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedGiratinaAlteredSnorlax1.json")),
-	"shieldedGiratinaAlteredSnorlax2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/shieldedGiratinaAlteredSnorlax2.json")),
+	"shieldedAlolanMukAlolanMarowak":  (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedAlolanMukAlolanMarowak.json")),
+	"shieldedSwampertAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedSwampertAltaria.json")),
+	"shieldedAzumarillVenusaur1":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedAzumarillVenusaur1.json")),
+	"shieldedAzumarillVenusaur2":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedAzumarillVenusaur2.json")),
+	"shieldedSkarmoryAltaria":         (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedSkarmoryAltaria.json")),
+	"shieldedGiratinaAlteredSnorlax1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedGiratinaAlteredSnorlax1.json")),
+	"shieldedGiratinaAlteredSnorlax2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/shieldedGiratinaAlteredSnorlax2.json")),
 
-	"matrixBattle": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/matrixBattle.json")),
+	"matrixBattle": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/matrixBattle.json")),
 
-	"pvpoke":        (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke.json")),
-	"pvpoke14":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke14.json")),
-	"pvpoke34":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke34.json")),
-	"pvpoke24":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpoke24.json")),
-	"pvpokeConstr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr1.json")),
-	"pvpokeConstr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/pvpokeConstr2.json")),
+	"pvpoke":        (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke.json")),
+	"pvpoke14":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke14.json")),
+	"pvpoke34":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke34.json")),
+	"pvpoke24":      (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpoke24.json")),
+	"pvpokeConstr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpokeConstr1.json")),
+	"pvpokeConstr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/pvpokeConstr2.json")),
 
-	"constr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr1.json")),
+	"constr1": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/constr1.json")),
 	"constr2": (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/pvp/goldenLogs/constr2.json")),
 }
 
@@ -79,7 +80,7 @@ func Update() error {
 // tests for unshielded PvP with 1 charge move
 
 func updateUnshielded1CM() error {
-	var Magnezone = sim.InitialData{
+	var Magnezone = app.InitialData{
 		Name:       "Magnezone",
 		AttackIV:   0,
 		DefenceIV:  13,
@@ -88,7 +89,7 @@ func updateUnshielded1CM() error {
 		QuickMove:  "Charge Beam",
 		ChargeMove: []string{"Wild Charge", ""},
 	}
-	var Medicham = sim.InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -97,7 +98,7 @@ func updateUnshielded1CM() error {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", ""},
 	}
-	var Swampert = sim.InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -111,7 +112,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 0
-	err := writeGoldenLog(Magnezone, Swampert, links["knockQuickQuick"], sim.Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
+	err := writeGoldenLog(Magnezone, Swampert, links["knockQuickQuick"], app.Constructor{}) //knock down an opponent by a quick move before his quick move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -120,7 +121,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 13
 	Swampert.InitialEnergy = 9
-	err = writeGoldenLog(Magnezone, Swampert, links["knockChargeQuick"], sim.Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
+	err = writeGoldenLog(Magnezone, Swampert, links["knockChargeQuick"], app.Constructor{}) //knock down an opponent by a charge move before his quick move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -129,7 +130,7 @@ func updateUnshielded1CM() error {
 	Magnezone.InitialEnergy = 0
 	Swampert.InitialHp = 12
 	Swampert.InitialEnergy = 0
-	err = writeGoldenLog(Magnezone, Swampert, links["simultaneousQuick"], sim.Constructor{}) //simultaneous knock down by a quick move
+	err = writeGoldenLog(Magnezone, Swampert, links["simultaneousQuick"], app.Constructor{}) //simultaneous knock down by a quick move
 	if err != nil {
 		return nil
 	}
@@ -138,7 +139,7 @@ func updateUnshielded1CM() error {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 4
-	err = writeGoldenLog(Medicham, Swampert, links["knockQuickCharge"], sim.Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
+	err = writeGoldenLog(Medicham, Swampert, links["knockQuickCharge"], app.Constructor{}) //knock down an opponent by a quick move before his charge move deals damage to you
 	if err != nil {
 		return nil
 	}
@@ -147,7 +148,7 @@ func updateUnshielded1CM() error {
 	Medicham.InitialEnergy = 4
 	Swampert.InitialHp = 51
 	Swampert.InitialEnergy = 10
-	err = writeGoldenLog(Medicham, Swampert, links["simultaneousCharge"], sim.Constructor{}) //simultaneous knock down by a charge move
+	err = writeGoldenLog(Medicham, Swampert, links["simultaneousCharge"], app.Constructor{}) //simultaneous knock down by a charge move
 	if err != nil {
 		return nil
 	}
@@ -158,7 +159,7 @@ func updateUnshielded1CM() error {
 //shielded PvP with 1 charge move
 
 func updateShielded1CM() error {
-	var Medicham = sim.InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		Shields:    2,
 		AttackIV:   15,
@@ -169,7 +170,7 @@ func updateShielded1CM() error {
 		ChargeMove: []string{"Power-Up Punch", ""},
 	}
 
-	var Swampert = sim.InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		Shields:    2,
 		AttackIV:   0,
@@ -180,21 +181,21 @@ func updateShielded1CM() error {
 		ChargeMove: []string{"Hydro Cannon", ""},
 	}
 
-	err := writeGoldenLog(Medicham, Swampert, links["generalShielded"], sim.Constructor{}) //general shielded PvP 2-2
+	err := writeGoldenLog(Medicham, Swampert, links["generalShielded"], app.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		return err
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 1
-	err = writeGoldenLog(Medicham, Swampert, links["shielded11"], sim.Constructor{}) //general shielded PvP 2-2
+	err = writeGoldenLog(Medicham, Swampert, links["shielded11"], app.Constructor{}) //general shielded PvP 2-2
 	if err != nil {
 		return err
 	}
 
 	Medicham.Shields = 1
 	Swampert.Shields = 0
-	err = writeGoldenLog(Medicham, Swampert, links["shielded10"], sim.Constructor{}) //shielded PvP 1-0
+	err = writeGoldenLog(Medicham, Swampert, links["shielded10"], app.Constructor{}) //shielded PvP 1-0
 	if err != nil {
 		return err
 	}
@@ -203,7 +204,7 @@ func updateShielded1CM() error {
 
 func updateUnshielded2CM() error {
 
-	var Azumarill = sim.InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		AttackIV:   8,
 		DefenceIV:  15,
@@ -212,7 +213,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = sim.InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -222,7 +223,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Meganium = sim.InitialData{
+	var Meganium = app.InitialData{
 		Name:       "Meganium",
 		AttackIV:   0,
 		DefenceIV:  10,
@@ -232,7 +233,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Frenzy Plant", "Earthquake"},
 	}
 
-	var Medicham = sim.InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -241,7 +242,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
-	var Registeel = sim.InitialData{
+	var Registeel = app.InitialData{
 		Name:       "Registeel",
 		AttackIV:   2,
 		DefenceIV:  13,
@@ -250,7 +251,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Lock-On",
 		ChargeMove: []string{"Flash Cannon", "Focus Blast"},
 	}
-	var Skarmory = sim.InitialData{
+	var Skarmory = app.InitialData{
 		Name:       "Skarmory",
 		AttackIV:   0,
 		DefenceIV:  15,
@@ -259,7 +260,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Air Slash",
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
-	var Vigoroth = sim.InitialData{
+	var Vigoroth = app.InitialData{
 		Name:       "Vigoroth",
 		AttackIV:   1,
 		DefenceIV:  15,
@@ -268,7 +269,7 @@ func updateUnshielded2CM() error {
 		QuickMove:  "Counter",
 		ChargeMove: []string{"Body Slam", "Brick Break"},
 	}
-	var Altaria = sim.InitialData{
+	var Altaria = app.InitialData{
 		Name:       "Altaria",
 		AttackIV:   2,
 		DefenceIV:  14,
@@ -278,7 +279,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
 
-	var GiratinaA = sim.InitialData{
+	var GiratinaA = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -288,7 +289,7 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	var Snorlax = sim.InitialData{
+	var Snorlax = app.InitialData{
 		Name:       "Snorlax",
 		AttackIV:   15,
 		DefenceIV:  15,
@@ -298,31 +299,31 @@ func updateUnshielded2CM() error {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := writeGoldenLog(Azumarill, Venusaur, links["azumarillVenusaur"], sim.Constructor{})
+	err := writeGoldenLog(Azumarill, Venusaur, links["azumarillVenusaur"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Meganium, links["azumarillMeganium"], sim.Constructor{})
+	err = writeGoldenLog(Azumarill, Meganium, links["azumarillMeganium"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Medicham, links["azumarillMedicham"], sim.Constructor{})
+	err = writeGoldenLog(Azumarill, Medicham, links["azumarillMedicham"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Registeel, links["azumarillRegisteel"], sim.Constructor{})
+	err = writeGoldenLog(Azumarill, Registeel, links["azumarillRegisteel"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Skarmory, Vigoroth, links["skarmoryVigoroth"], sim.Constructor{})
+	err = writeGoldenLog(Skarmory, Vigoroth, links["skarmoryVigoroth"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Skarmory, Altaria, links["skarmoryAltaria"], sim.Constructor{})
+	err = writeGoldenLog(Skarmory, Altaria, links["skarmoryAltaria"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(GiratinaA, Snorlax, links["giratinaASnorlax"], sim.Constructor{})
+	err = writeGoldenLog(GiratinaA, Snorlax, links["giratinaASnorlax"], app.Constructor{})
 	if err != nil {
 		return err
 	}
@@ -331,7 +332,7 @@ func updateUnshielded2CM() error {
 }
 
 func updateShielded2CM() error {
-	var AlolanMuk = sim.InitialData{
+	var AlolanMuk = app.InitialData{
 		Name:       "Alolan Muk",
 		Shields:    1,
 		AttackIV:   0,
@@ -341,7 +342,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Bite",
 		ChargeMove: []string{"Dark Pulse", "Acid Spray"},
 	}
-	var AlolanMarowak = sim.InitialData{
+	var AlolanMarowak = app.InitialData{
 		Name:       "Alolan Marowak",
 		Shields:    1,
 		AttackIV:   0,
@@ -351,7 +352,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Hex",
 		ChargeMove: []string{"Bone Club", "Shadow Ball"},
 	}
-	var Swampert = sim.InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -360,7 +361,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Water Gun",
 		ChargeMove: []string{"Hydro Cannon", "Earthquake"},
 	}
-	var Altaria = sim.InitialData{
+	var Altaria = app.InitialData{
 		Name:       "Altaria",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -369,7 +370,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Dragon Breath",
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
-	var Azumarill = sim.InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -379,7 +380,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = sim.InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -390,7 +391,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Skarmory = sim.InitialData{
+	var Skarmory = app.InitialData{
 		Name:      "Skarmory",
 		InitialHp: 54,
 
@@ -403,7 +404,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
 
-	var GiratinaAltered = sim.InitialData{
+	var GiratinaAltered = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -413,7 +414,7 @@ func updateShielded2CM() error {
 		QuickMove:  "Shadow Claw",
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
-	var Snorlax = sim.InitialData{
+	var Snorlax = app.InitialData{
 		Name:       "Snorlax",
 		Shields:    2,
 		AttackIV:   15,
@@ -424,7 +425,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
 
-	err := writeGoldenLog(AlolanMuk, AlolanMarowak, links["shieldedAlolanMukAlolanMarowak"], sim.Constructor{})
+	err := writeGoldenLog(AlolanMuk, AlolanMarowak, links["shieldedAlolanMukAlolanMarowak"], app.Constructor{})
 	if err != nil {
 		return err
 	}
@@ -434,41 +435,41 @@ func updateShielded2CM() error {
 	Altaria.Shields = 1
 	Swampert.InitialHp = 107
 	Swampert.Shields = 1
-	err = writeGoldenLog(Swampert, Altaria, links["shieldedSwampertAltaria"], sim.Constructor{})
+	err = writeGoldenLog(Swampert, Altaria, links["shieldedSwampertAltaria"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur1"], sim.Constructor{})
+	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur1"], app.Constructor{})
 	if err != nil {
 		return err
 	}
 	Venusaur.ChargeMove = []string{"Frenzy Plant", "Sludge Bomb"}
 
-	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur2"], sim.Constructor{})
+	err = writeGoldenLog(Azumarill, Venusaur, links["shieldedAzumarillVenusaur2"], app.Constructor{})
 	if err != nil {
 		return err
 	}
 
 	Altaria.InitialHp = 56
 	Altaria.Shields = 2
-	err = writeGoldenLog(Skarmory, Altaria, links["shieldedSkarmoryAltaria"], sim.Constructor{})
+	err = writeGoldenLog(Skarmory, Altaria, links["shieldedSkarmoryAltaria"], app.Constructor{})
 	if err != nil {
 		return err
 	}
 
-	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax1"], sim.Constructor{})
+	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax1"], app.Constructor{})
 	if err != nil {
 		return err
 	}
 	GiratinaAltered.Shields = 1
-	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax2"], sim.Constructor{})
+	err = writeGoldenLog(GiratinaAltered, Snorlax, links["shieldedGiratinaAlteredSnorlax2"], app.Constructor{})
 	if err != nil {
 		return err
 	}
 
 	//constructor
 
-	var GiratinaA = sim.InitialData{
+	var GiratinaA = app.InitialData{
 		Name:      "Giratina (Altered Forme)",
 		AttackIV:  1,
 		DefenceIV: 10,
@@ -483,7 +484,7 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
 	}
 
-	var Aerodactyl = sim.InitialData{
+	var Aerodactyl = app.InitialData{
 		Name:      "Aerodactyl",
 		AttackIV:  2,
 		DefenceIV: 6,
@@ -498,16 +499,16 @@ func updateShielded2CM() error {
 		ChargeMove: []string{"Rock Slide", "Earth Power"},
 	}
 
-	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr1"], sim.Constructor{
+	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr1"], app.Constructor{
 		Round: 12,
-		Attacker: sim.Status{
+		Attacker: app.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: sim.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -526,16 +527,16 @@ func updateShielded2CM() error {
 	GiratinaA.InitialAttackStage = 2
 	GiratinaA.InitialDefenceStage = 2
 
-	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr2"], sim.Constructor{
+	err = writeGoldenLog(GiratinaA, Aerodactyl, links["constr2"], app.Constructor{
 		Round: 21,
-		Attacker: sim.Status{
+		Attacker: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: sim.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,
@@ -551,8 +552,8 @@ func updateShielded2CM() error {
 
 }
 
-func writeGoldenLog(atatcker, defender sim.InitialData, logName string, constr sim.Constructor) error {
-	result, err := sim.NewPvpBetween(sim.SinglePvpInitialData{AttackerData: atatcker,
+func writeGoldenLog(atatcker, defender app.InitialData, logName string, constr app.Constructor) error {
+	result, err := pvp.NewPvpBetween(app.SinglePvpInitialData{AttackerData: atatcker,
 		DefenderData: defender,
 		Constr:       constr, Logging: true})
 	if err != nil {
@@ -566,7 +567,7 @@ func writeGoldenLog(atatcker, defender sim.InitialData, logName string, constr s
 }
 
 func updateMatrix() error {
-	var AlolanMuk = sim.InitialData{
+	var AlolanMuk = app.InitialData{
 		Name:       "Alolan Muk",
 		Shields:    1,
 		AttackIV:   0,
@@ -576,7 +577,7 @@ func updateMatrix() error {
 		QuickMove:  "Bite",
 		ChargeMove: []string{"Dark Pulse", "Acid Spray"},
 	}
-	var AlolanMarowak = sim.InitialData{
+	var AlolanMarowak = app.InitialData{
 		Name:       "Alolan Marowak",
 		Shields:    1,
 		AttackIV:   0,
@@ -586,7 +587,7 @@ func updateMatrix() error {
 		QuickMove:  "Hex",
 		ChargeMove: []string{"Bone Club", "Shadow Ball"},
 	}
-	var Swampert = sim.InitialData{
+	var Swampert = app.InitialData{
 		Name:       "Swampert",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -595,7 +596,7 @@ func updateMatrix() error {
 		QuickMove:  "Water Gun",
 		ChargeMove: []string{"Hydro Cannon", "Earthquake"},
 	}
-	var Altaria = sim.InitialData{
+	var Altaria = app.InitialData{
 		Name:       "Altaria",
 		AttackIV:   0,
 		DefenceIV:  14,
@@ -604,7 +605,7 @@ func updateMatrix() error {
 		QuickMove:  "Dragon Breath",
 		ChargeMove: []string{"Sky Attack", "Dragon Pulse"},
 	}
-	var Azumarill = sim.InitialData{
+	var Azumarill = app.InitialData{
 		Name:       "Azumarill",
 		Shields:    2,
 		AttackIV:   8,
@@ -614,7 +615,7 @@ func updateMatrix() error {
 		QuickMove:  "Bubble",
 		ChargeMove: []string{"Ice Beam", "Play Rough"},
 	}
-	var Venusaur = sim.InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		Shields:    2,
 		AttackIV:   0,
@@ -625,7 +626,7 @@ func updateMatrix() error {
 		ChargeMove: []string{"Solar Beam", "Sludge Bomb"},
 	}
 
-	var Medicham = sim.InitialData{
+	var Medicham = app.InitialData{
 		Name:       "Medicham",
 		Shields:    1,
 		AttackIV:   15,
@@ -636,7 +637,7 @@ func updateMatrix() error {
 		ChargeMove: []string{"Power-Up Punch", "Dynamic Punch"},
 	}
 
-	var Skarmory = sim.InitialData{
+	var Skarmory = app.InitialData{
 		Name:      "Skarmory",
 		InitialHp: 54,
 
@@ -649,7 +650,7 @@ func updateMatrix() error {
 		ChargeMove: []string{"Sky Attack", "Flash Cannon"},
 	}
 
-	var GiratinaAltered = sim.InitialData{
+	var GiratinaAltered = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		Shields:    2,
 		AttackIV:   15,
@@ -659,7 +660,7 @@ func updateMatrix() error {
 		QuickMove:  "Shadow Claw",
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
-	var Snorlax = sim.InitialData{
+	var Snorlax = app.InitialData{
 		IsGreedy:   true,
 		Name:       "Snorlax",
 		Shields:    2,
@@ -670,10 +671,10 @@ func updateMatrix() error {
 		QuickMove:  "Lick",
 		ChargeMove: []string{"Body Slam", "Superpower"},
 	}
-	err := writeGoldenMatrix([]sim.InitialData{
+	err := writeGoldenMatrix([]app.InitialData{
 		GiratinaAltered,
 	},
-		[]sim.InitialData{
+		[]app.InitialData{
 			Snorlax,
 			AlolanMuk,
 			AlolanMarowak,
@@ -691,19 +692,19 @@ func updateMatrix() error {
 	return nil
 }
 
-func writeGoldenMatrix(attacker, defender []sim.InitialData, matrixName string) sim.ErrorChan {
-	errChan := make(sim.ErrorChan, len(attacker)*len(defender))
-	matrixResults := make([]sim.MatrixResult, 0, len(attacker)*len(defender))
+func writeGoldenMatrix(attacker, defender []app.InitialData, matrixName string) app.ErrorChan {
+	errChan := make(app.ErrorChan, len(attacker)*len(defender))
+	matrixResults := make([]app.MatrixResult, 0, len(attacker)*len(defender))
 
 	for i, pokA := range attacker {
 		for k, pokB := range defender {
-			matrixBattleResult := sim.MatrixResult{}
+			matrixBattleResult := app.MatrixResult{}
 			//otherwise check pvp results in base
 
-			singleBattleResult, err := sim.NewPvpBetween(sim.SinglePvpInitialData{
+			singleBattleResult, err := pvp.NewPvpBetween(app.SinglePvpInitialData{
 				AttackerData: pokA,
 				DefenderData: pokB,
-				Constr:       sim.Constructor{}})
+				Constr:       app.Constructor{}})
 
 			if err != nil {
 				errChan <- err
@@ -735,7 +736,7 @@ func writeGoldenMatrix(attacker, defender []sim.InitialData, matrixName string) 
 }
 
 func updatePvpoke() error {
-	var Dewgong = sim.InitialData{
+	var Dewgong = app.InitialData{
 		Name:       "Dewgong",
 		AttackIV:   0,
 		DefenceIV:  12,
@@ -746,7 +747,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Icy Wind", "Water Pulse"},
 	}
 
-	var Venusaur = sim.InitialData{
+	var Venusaur = app.InitialData{
 		Name:       "Venusaur",
 		AttackIV:   1,
 		DefenceIV:  15,
@@ -757,7 +758,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Frenzy Plant", "Sludge Bomb"},
 	}
 
-	var Ampharos = sim.InitialData{
+	var Ampharos = app.InitialData{
 		Name:       "Ampharos",
 		AttackIV:   0,
 		DefenceIV:  13,
@@ -768,7 +769,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Thunder Punch", "Dragon Pulse"},
 	}
 
-	var AMuk = sim.InitialData{
+	var AMuk = app.InitialData{
 		Name:       "Alolan Muk",
 		AttackIV:   0,
 		DefenceIV:  15,
@@ -779,7 +780,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Dark Pulse", "Sludge Wave"},
 	}
 
-	var GiratinaA = sim.InitialData{
+	var GiratinaA = app.InitialData{
 		Name:       "Giratina (Altered Forme)",
 		AttackIV:   1,
 		DefenceIV:  12,
@@ -790,24 +791,24 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Dragon Claw", "Shadow Sneak"},
 	}
 
-	err := writeGoldenLog(Dewgong, Dewgong, links["pvpoke"], sim.Constructor{})
+	err := writeGoldenLog(Dewgong, Dewgong, links["pvpoke"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenPvpokeLog(GiratinaA, Ampharos, links["pvpoke14"], sim.Constructor{})
+	err = writeGoldenPvpokeLog(GiratinaA, Ampharos, links["pvpoke14"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenPvpokeLog(AMuk, Ampharos, links["pvpoke34"], sim.Constructor{})
+	err = writeGoldenPvpokeLog(AMuk, Ampharos, links["pvpoke34"], app.Constructor{})
 	if err != nil {
 		return err
 	}
-	err = writeGoldenPvpokeLog(Venusaur, Ampharos, links["pvpoke24"], sim.Constructor{})
+	err = writeGoldenPvpokeLog(Venusaur, Ampharos, links["pvpoke24"], app.Constructor{})
 	if err != nil {
 		return err
 	}
 
-	GiratinaA = sim.InitialData{
+	GiratinaA = app.InitialData{
 		Name:      "Giratina (Altered Forme)",
 		AttackIV:  1,
 		DefenceIV: 10,
@@ -822,7 +823,7 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Shadow Sneak", "Ancient Power"},
 	}
 
-	var Aerodactyl = sim.InitialData{
+	var Aerodactyl = app.InitialData{
 		Name:      "Aerodactyl",
 		AttackIV:  2,
 		DefenceIV: 6,
@@ -837,16 +838,16 @@ func updatePvpoke() error {
 		ChargeMove: []string{"Rock Slide", "Earth Power"},
 	}
 
-	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr1"], sim.Constructor{
+	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr1"], app.Constructor{
 		Round: 12,
-		Attacker: sim.Status{
+		Attacker: app.Status{
 			IsTriggered:    true,
 			SkipShield:     false,
 			MoveCooldown:   0,
 			RoundsToDamage: 0,
 			WhatToSkip:     1,
 		},
-		Defender: sim.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
@@ -866,16 +867,16 @@ func updatePvpoke() error {
 	GiratinaA.InitialAttackStage = 2
 	GiratinaA.InitialDefenceStage = 2
 
-	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr2"], sim.Constructor{
+	err = writeGoldenPvpokeLog(GiratinaA, Aerodactyl, links["pvpokeConstr2"], app.Constructor{
 		Round: 21,
-		Attacker: sim.Status{
+		Attacker: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   2,
 			RoundsToDamage: 1,
 			WhatToSkip:     0,
 		},
-		Defender: sim.Status{
+		Defender: app.Status{
 			IsTriggered:    false,
 			SkipShield:     true,
 			MoveCooldown:   0,
@@ -890,8 +891,8 @@ func updatePvpoke() error {
 	return nil
 }
 
-func writeGoldenPvpokeLog(atatcker, defender sim.InitialData, logName string, constr sim.Constructor) error {
-	result, err := sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{AttackerData: atatcker,
+func writeGoldenPvpokeLog(atatcker, defender app.InitialData, logName string, constr app.Constructor) error {
+	result, err := pvp.NewPvpBetweenPvpoke(app.SinglePvpInitialData{AttackerData: atatcker,
 		DefenderData: defender,
 		Constr:       constr, Logging: true})
 	if err != nil {

@@ -1,8 +1,10 @@
 import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import BarLoader from "react-spinners/BarLoader";
+import Loader from "./PvpRating/Loader"
+
 
 const PvpRouter = lazy(() => import('./PvP/PvpRouter.jsx'));
+const PveRouter = lazy(() => import('./PvE/PveRouter.jsx'));
 const IndexPageRouter = lazy(() => import('./IndexPage/IndexPageRouter.jsx'));
 const NewsPageRouter = lazy(() => import('./IndexPage/NewsPageRouter.jsx'));
 const NewsRouter = lazy(() => import('./IndexPage/NewsRouter.jsx'));
@@ -15,20 +17,22 @@ const NotFound = lazy(() => import('./NotFound/NotFound'));
 
 const Main = () => (
     <main>
-        <Suspense fallback={<div className="row justify-content-center text-white">
-            <div className=" col-auto mt-1  mt-md-2" style={{ fontWeight: "500", color: "white" }} >
-                {"Loading..."}
-                <BarLoader
-                    color={"white"}
-                    loading={true}
-                />
-            </div>
-        </div>}>
+        <Suspense fallback={
+            <Loader
+                color="white"
+                weight="500"
+                locale="Loading..."
+                loading={true}
+
+                class="row justify-content-center text-white"
+                innerClass="col-auto mt-1  mt-md-2"
+            />}>
             <Switch>
                 <Route exact path='/' component={IndexPageRouter} />
                 <Route path='/news/id' component={NewsRouter} />
                 <Route path='/news' component={NewsPageRouter} />
                 <Route path='/pvp' component={PvpRouter} />
+                <Route path='/pve' component={PveRouter} />
                 <Route path='/shinyrates' component={ShinyRates} />
                 <Route path='/evolution' component={Evolve} />
                 <Route path='/raids' component={RaidsList} />

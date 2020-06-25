@@ -169,7 +169,7 @@
         background-color: #EE4840;
         &.text {
             background-color: #EE4840;
-            color: black;
+            color: rgb(255, 255, 255);
         }
     }
     &.color6 {
@@ -934,40 +934,41 @@ body {
 
 
 //buttons
-.customButton.btn.btn-primary.btn-sm {
-    width: fit-content !important;
 
-    padding-left: 0.85rem !important;
-    padding-right: 0.85rem !important;
-    padding-top: 0.4rem !important;
-    padding-bottom: 0.4rem !important;
-
-    font-size: 0.5rem !important;
-}
-
+//matrix panel, matrix-redact, matrix-save
 .matrixButton.btn.btn-primary.btn-sm {
-    width: 70% !important;
-
-    padding-left: 0.85rem !important;
-    padding-right: 0.85rem !important;
+    width: fit-content !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
     padding-top: 0.4rem !important;
     padding-bottom: 0.4rem !important;
-
     font-size: 0.65rem !important;
-
 }
 
+//matrix save/delete equalsized
 .saveinterface.btn.btn-primary.btn-sm {
     width: 90% !important;
 
-    padding-left: 0.2rem !important;
-    padding-right: 0.2rem !important;
+    padding-left: 0.3rem !important;
+    padding-right: 0.3rem !important;
     padding-top: 0.2rem !important;
     padding-bottom: 0.2rem !important;
 
     font-size: 0.6rem !important;
 }
 
+//maximizer equalsized
+.maximizerButton.btn.btn-primary.btn-sm {
+    width: 40% !important;
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    font-size: 0.5rem !important;
+}
+
+
+//fake button
 .langButton {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -976,9 +977,38 @@ body {
     margin-left: 0.1em;
 
     background-color: transparent;
-
     border: none;
 }
+
+
+.longButton.btn.btn-primary.btn-sm {
+    max-width: fit-content !important;
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+
+    font-size: 0.8rem !important;
+}
+
+.longButtonFixed.btn.btn-primary.btn-sm {
+    min-width: 345px !important;
+    padding-top: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+
+    font-size: 0.8rem !important;
+}
+
+.fontBolder {
+    font-weight: 500;
+    text-align: end;
+}
+
+
+
+
 
 //news style
 .newsTitle {
@@ -1003,7 +1033,6 @@ body {
 .newsBody {
     background-color:rgba(244, 252, 255, 0.95);
     border-radius: 4px 4px 4px 4px;
-
 }
 
 .singleNews {
@@ -1036,11 +1065,7 @@ body {
     font-weight: 400;
     font-size: 1.1rem;
 }
-.newsButton {
-    width: 8rem !important;
-    margin-left: 1.5rem !important;
-    margin-right: 1.5rem !important ;
-}
+
 
 .singleNewsBody {
     
@@ -1198,6 +1223,8 @@ body {
     height: 16px;
 }
 
+
+
 .icon18 {
     width: 18px;
     height: 18px;
@@ -1287,12 +1314,17 @@ body {
     border-color:  rgba(0, 0, 0, 0.295) ;
 
     text-align: justify !important;
-        text-justify: inter-word !important;
+    text-justify: inter-word !important;
     
     background-color: #fff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     max-width: 320px;
+
+    &.long{
+        max-width: 500px !important;
+    }
 }
+
 
 //advisor
 .posAbs {
@@ -1331,6 +1363,10 @@ body {
     max-width: 800px !important;
 }
 
+.veryBig {
+    max-width: 1000px !important;
+}
+
 .superBig {
     max-width: 1200px !important;
 }
@@ -1343,6 +1379,10 @@ body {
 
 .smallWidth {
     max-width: 560px !important;
+}
+
+.verySmallWidth {
+    max-width: 450px !important;
 }
 
 .bigCardBody {
@@ -1606,4 +1646,61 @@ linkText:hover
      color:#00A0C6; 
      text-decoration:none; 
      cursor:pointer;  
+}
+
+.pveMove {
+    padding: 0rem 0.2rem 0rem 0.2rem ;
+    font-weight: bolder;;
+    border-radius: 5px;
+}
+
+.hpBack{
+    
+    position: relative;
+    max-width: 400px; 
+    height: 6px; 
+    background-color: grey;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+}
+
+.hpFront {
+    position: absolute;
+    height: 100%; 
+    background-color: #02d86d;
+    transition: all 0.4s linear;
+    
+}
+
+.hpBound {
+    position: absolute;
+    height: 100%; 
+    border-left: 2px solid red;
+    border-right: 2px solid red;
+    transition: all 0.4s linear; 
+
+    background: repeating-linear-gradient(
+  45deg,
+  #606cbc00,
+  #606cbc00 2px,
+  red 2px,
+  red 4px
+);
+}
+
+
+.pveResult {
+    background-color: #f2f3f4; 
+    border-radius: 4px 4px 4px 4px;
+    border-color: rgba(0, 0, 0, 0.308);
+    border-style: solid;
+    border-width: 1.5px;
+
+    height: fit-content;
+}
+
+.boostColor {
+    color: rgb(211, 165, 14),
 }

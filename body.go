@@ -4,6 +4,7 @@ import (
 	getbase "Solutions/pvpSimulator/bases"
 	"Solutions/pvpSimulator/core/limiter"
 	sim "Solutions/pvpSimulator/core/sim"
+	appl "Solutions/pvpSimulator/core/sim/app"
 	"bytes"
 	"encoding/binary"
 	"encoding/json"
@@ -34,6 +35,7 @@ import (
 type App struct {
 	semistaticDatabase database
 	pvpDatabase        database
+	pveDatabase        database
 	newsDatabse        database
 	users              database
 
@@ -102,10 +104,15 @@ func createApp(withLog *os.File) (*App, error) {
 	if err != nil {
 		return &App{}, err
 	}
+	err = app.pveDatabase.createDatabase("./pve.db", "BOLTDB", []string{"PVERESULTS"})
+	if err != nil {
+		return &App{}, err
+	}
+
 	//init server
 	app.initServer()
 	//start clean up task
-	go app.pvpDatabase.cleanupBucket(168, "PVPRESULTS", &app)
+	go app.pvpDatabase.cleanupPvpBucket(72, "PVPRESULTS", &app)
 	//start update db task
 	go app.semistaticDatabase.startUpdaterService(5, "SHINY", "value", &app, getbase.GetShinyBase)
 	go app.semistaticDatabase.startUpdaterService(24, "RAIDS", "value", &app, getbase.GetRaidsList)
@@ -154,13 +161,13 @@ func (dbs *database) addStaticBase(path, bucketName string) error {
 }
 
 //Clean up pvp bucket
-func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
+func (dbs *database) cleanupPvpBucket(timer uint, bucketName string, app *App) {
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
 		app.metrics.appCounters.With(prometheus.Labels{"type": "cleanup_pvp_count"}).Inc()
 
 		err := dbs.value.Update(func(tx *bolt.Tx) error {
-			var obj sim.PvpResults
+			var obj appl.PvpResults
 			b := tx.Bucket([]byte(bucketName))
 
 			b.ForEach(func(k, v []byte) error {
@@ -386,6 +393,8 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 		default:
 			http.ServeFile(*w, r, "./interface/build/pvp/single/index.html")
 		}
+	case "pve":
+		http.ServeFile(*w, r, "./interface/build/pve/common/index.html")
 	case "pvprating":
 		http.ServeFile(*w, r, "./interface/build/pvprating/index.html")
 	case "shinyrates":
@@ -582,6 +591,56 @@ func uintToByte(v uint64) []byte {
 	return b
 }
 
+func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
+	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("pve"))
+	defer timer.ObserveDuration().Milliseconds()
+	//Check if method is allowed
+	if r.Method != http.MethodGet {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+		return errors.NewHTTPError(nil, 405, "Method is not allowed")
+	}
+	//Check visitor's requests limit
+	err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations)
+	if err != nil {
+		return err
+	}
+	go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_count"}).Inc()
+
+	attacker := chi.URLParam(r, "attacker")
+	boss := chi.URLParam(r, "boss")
+	obj := chi.URLParam(r, "obj")
+	//if base aldready exists there is no need to create it again
+	var answer []byte
+
+	if answer == nil {
+		//Parse request
+		inDat, err := parser.ParseRaidRequest(attacker, boss, obj)
+		if err != nil {
+			return err
+		}
+		//Start new raid
+		pveResult, err := sim.CalculteCommonPve(inDat)
+
+		if err != nil {
+			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+			return errors.NewHTTPError(err, 400, "PvE error")
+		}
+		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Calculated raid")
+
+		//Create json answer from pvpResult
+		answer, err = json.Marshal(pveResult)
+		if err != nil {
+			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+			return fmt.Errorf("PvE result marshal error: %v", err)
+		}
+	}
+
+	//Write answer
+	(*w).Header().Set("Content-Type", "application/json")
+	_, err = (*w).Write(answer)
+	return nil
+}
+
 func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("pvp"))
 	defer timer.ObserveDuration().Milliseconds()
@@ -621,19 +680,19 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 			return err
 		}
 		//Start new PvP
-		var pvpResult sim.PvpResults
+		var pvpResult appl.PvpResults
 		switch isPvpoke {
 		case "pvpoke":
-			pvpResult, err = sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{
+			pvpResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
-				Constr:       sim.Constructor{},
+				Constr:       appl.Constructor{},
 				Logging:      true})
 		default:
-			pvpResult, err = sim.NewPvpBetween(sim.SinglePvpInitialData{
+			pvpResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
 				AttackerData: attacker,
 				DefenderData: defender,
-				Constr:       sim.Constructor{},
+				Constr:       appl.Constructor{},
 				Logging:      true})
 		}
 
@@ -713,7 +772,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	shieldsNumber := r.Header.Get("Pvp-Shields")
 	matrixObj.isPvpoke = r.Header.Get("Pvp-Type")
 	matrixObj.app = app
-	matrixObj.result = make([][]sim.MatrixResult, 0, 1)
+	matrixObj.result = make([][]appl.MatrixResult, 0, 1)
 	switch shieldsNumber {
 	case "triple":
 		err = matrixObj.calculateMatrix(0)
@@ -749,15 +808,15 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 }
 
 type matrixPvP struct {
-	rowA []sim.InitialData
-	rowB []sim.InitialData
+	rowA []appl.InitialData
+	rowB []appl.InitialData
 
-	pokA sim.InitialData
-	pokB sim.InitialData
+	pokA appl.InitialData
+	pokB appl.InitialData
 
-	errChan sim.ErrorChan
+	errChan appl.ErrorChan
 
-	result [][]sim.MatrixResult
+	result [][]appl.MatrixResult
 	app    *App
 
 	isPvpoke string
@@ -766,8 +825,8 @@ type matrixPvP struct {
 }
 
 func (mp *matrixPvP) calculateMatrix(shields uint8) error {
-	mp.errChan = make(sim.ErrorChan, len(mp.rowA)*len(mp.rowB))
-	singleMatrixResults := make([]sim.MatrixResult, 0, len(mp.rowA)*len(mp.rowB))
+	mp.errChan = make(appl.ErrorChan, len(mp.rowA)*len(mp.rowB))
+	singleMatrixResults := make([]appl.MatrixResult, 0, len(mp.rowA)*len(mp.rowB))
 	for mp.i, mp.pokA = range mp.rowA {
 		for mp.k, mp.pokB = range mp.rowB {
 			if shields != 5 {
@@ -784,16 +843,16 @@ func (mp *matrixPvP) calculateMatrix(shields uint8) error {
 	errStr := mp.errChan.Flush()
 	if errStr != "" {
 		go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf(errStr), 400, "PvP error")
+		return fmt.Errorf(errStr)
 	}
 	mp.result = append(mp.result, singleMatrixResults)
 	return nil
 }
 
-func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]sim.MatrixResult) {
+func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 	//if pokemons are the same, it should be tie without any calculations
 	if mp.pokA.Query == mp.pokB.Query {
-		*singleMatrixResults = append(*singleMatrixResults, sim.MatrixResult{
+		*singleMatrixResults = append(*singleMatrixResults, appl.MatrixResult{
 			I:      mp.i,
 			K:      mp.k,
 			Rate:   500,
@@ -803,7 +862,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]sim.MatrixResult) {
 		return
 	}
 
-	matrixBattleResult := sim.MatrixResult{}
+	matrixBattleResult := appl.MatrixResult{}
 	//otherwise check pvp results in base
 	pvpBaseKey := mp.pokA.Query + mp.pokB.Query
 
@@ -820,19 +879,19 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]sim.MatrixResult) {
 
 	switch baseEntry {
 	case nil: //if result doesn't exist
-		var singleBattleResult sim.PvpResults
+		var singleBattleResult appl.PvpResults
 		switch mp.isPvpoke {
 		case "pvpoke":
-			singleBattleResult, err = sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{
+			singleBattleResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
-				Constr:       sim.Constructor{},
+				Constr:       appl.Constructor{},
 				Logging:      true})
 		default:
-			singleBattleResult, err = sim.NewPvpBetween(sim.SinglePvpInitialData{
+			singleBattleResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
-				Constr:       sim.Constructor{},
+				Constr:       appl.Constructor{},
 				Logging:      true})
 		}
 
@@ -845,7 +904,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]sim.MatrixResult) {
 		matrixBattleResult.QueryB = mp.pokB.Query
 		//if results are not random
 		if !singleBattleResult.IsRandom {
-			go func(battleRes sim.PvpResults, key string) {
+			go func(battleRes appl.PvpResults, key string) {
 				//Create json from singleBattleResult
 				newBaseEntry, err := json.Marshal(battleRes)
 				if err != nil {
@@ -863,7 +922,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]sim.MatrixResult) {
 		}
 
 	default: //if result exists
-		var singleBattleResult sim.PvpResults
+		var singleBattleResult appl.PvpResults
 		err = json.Unmarshal(baseEntry, &singleBattleResult)
 		if err != nil {
 			go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
@@ -910,19 +969,19 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	isPvpoke := r.Header.Get("Pvp-Type")
 
 	//Start new PvP
-	var pvpResult sim.PvpResults
+	var pvpResult appl.PvpResults
 
 	switch isPvpoke {
 	case "pvpoke":
 		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
-		pvpResult, err = sim.NewPvpBetweenPvpoke(sim.SinglePvpInitialData{
+		pvpResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
 			AttackerData: pokA,
 			DefenderData: pokB,
 			Constr:       constructor,
 			Logging:      true,
 		})
 	default:
-		pvpResult, err = sim.NewPvpBetween(sim.SinglePvpInitialData{
+		pvpResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
 			AttackerData: pokA,
 			DefenderData: pokB,
 			Constr:       constructor,
@@ -1063,11 +1122,14 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/raids*", rootHandler{serveIndex, a})
 	router.Handle("/eggs*", rootHandler{serveIndex, a})
 	router.Handle("/pvprating*", rootHandler{serveIndex, a})
+	router.Handle("/pve*", rootHandler{serveIndex, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
 	router.Handle("/request/constructor", rootHandler{constructorPvpHandler, a})
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
+
+	router.Handle("/request/common/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
 
 	//bd calls
 	router.Handle("/db/{type}", rootHandler{dbCallHandler, a})

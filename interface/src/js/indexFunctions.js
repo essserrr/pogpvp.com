@@ -1,4 +1,5 @@
 import React from 'react';
+import PokemonIconer from "../App/PvP/components/PokemonIconer/PokemonIconer"
 
 export const capitalize = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase());
@@ -25,7 +26,7 @@ export function checkShadow(name, pokemonTable) {
 }
 
 //returns move pool of select elements. Inputs are: role (string) and data (object with pok data), output: quick and charge move pool <option>
-export function returnMovePool(name, data, locale) {
+export function returnMovePool(name, data, locale, isBoss, additionalQ, addtionalCh) {
     if (data[name] === undefined || name === "") {
         return ({ quickMovePool: [], chargeMovePool: [] });
     }
@@ -34,23 +35,64 @@ export function returnMovePool(name, data, locale) {
     let chargeRaw = [...data[name].ChargeMoves];
     //filter empty values
     var quickFiltered = quickRaw.filter(function (e) {
+        if (isBoss) {
+            switch (data[name].EliteMoves[e]) {
+                case 1:
+                    return false
+                default:
+                    return e !== ""
+            }
+        }
         return e !== "";
     });
     var chargeFiltered = chargeRaw.filter(function (e) {
+        if (isBoss) {
+            switch (data[name].EliteMoves[e]) {
+                case 1:
+                    return false
+                default:
+                    return e !== ""
+            }
+        }
         return e !== "";
     });
     //make options tag array
     var quickMovePool = quickFiltered.map(function (moveName) {
         return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
+    pushAdditional(additionalQ, quickFiltered, quickMovePool)
+    quickMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     quickMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
+
     var chargeMovePool = chargeFiltered.map(function (moveName) {
         return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
+    pushAdditional(addtionalCh, chargeFiltered, chargeMovePool)
     chargeMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     chargeMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
 
     return ({ quickMovePool, chargeMovePool })
+}
+
+function pushAdditional(additional, set, target) {
+    if (!additional || !set || !target) {
+        return
+    }
+    for (let i = 0; i < additional.length; i++) {
+        if (!additional[i]) {
+            continue
+        }
+        let isInMovepool = false
+        for (let j = 0; j < set.length; j++) {
+            if (additional[i] === set[j]) {
+                isInMovepool = true
+                break
+            }
+        }
+        if (!isInMovepool) {
+            target.push(<option value={additional[i]} key={additional[i]}>{additional[i] + "*"}</option>)
+        }
+    }
 }
 
 //Takes pok name, lvlCap and database, returns great, ultra and master leagues iv for given pok
@@ -281,6 +323,15 @@ export function culculateCP(name, Lvl, Atk, Def, Sta, base) {
     return cpAtLvl
 }
 
+export function culculateBossCP(name, tier, base) {
+    if (!name || !base[name]) {
+        return 0
+    }
+    var bossCP = Math.trunc((15 + Number(base[name]["Atk"])) * Math.pow(15 + Number(base[name]["Def"]), 0.5) * Math.pow(tierHP[tier], 0.5) / 10);
+
+    return bossCP
+}
+
 export function checkIV(IV) {
     if (isNaN(IV)) {
         return ""
@@ -371,11 +422,11 @@ export function calculateMultiplier(aTypes, dTypes, mType) {
         return 0
     }
     const pvpMultiplier = 1.3
-    var stabBonus
+    let stabBonus
     (aTypes.includes(mType)) ? stabBonus = 1.2 : stabBonus = 1
 
-    var moveEfficiency = effectivenessData[mType]
-    var seMultiplier = 1
+    let moveEfficiency = effectivenessData[mType]
+    let seMultiplier = 1
     for (let i = 0; i < dTypes.length; i++) {
         if (moveEfficiency[dTypes[i]] !== 0) {
             seMultiplier *= moveEfficiency[dTypes[i]]
@@ -384,6 +435,39 @@ export function calculateMultiplier(aTypes, dTypes, mType) {
 
     return pvpMultiplier * seMultiplier * stabBonus
 }
+
+export function returnEffAtk(AtkIV, Atk, Lvl, isShadow) {
+    return (Number(AtkIV) + Atk) * levelData[checkLvl(Lvl) / 0.5] * (isShadow === "true" ? 1.2 : 1)
+}
+
+export function pveDamage(Damage, effAtk, effDef, mult) {
+    return Math.trunc(Damage * 0.5 * (effAtk / effDef) * mult) + 1
+}
+
+export function getPveMultiplier(aTypes, dTypes, mType, weatherType, friendStage) {
+
+    let stabBonus = (aTypes.includes(mType)) ? 1.2 : 1
+
+    let moveEfficiency = effectivenessData[mType]
+    let seMultiplier = 1
+    for (let i = 0; i < dTypes.length; i++) {
+        if (moveEfficiency[dTypes[i]] !== 0) {
+            seMultiplier *= moveEfficiency[dTypes[i]]
+        }
+    }
+
+    let weatherMul = 1
+    if (weather[weatherType][mType]) {
+        weatherMul = weather[weatherType][mType]
+    }
+
+    return stabBonus * friendship[friendStage] * seMultiplier * weatherMul
+}
+
+
+
+
+
 export function encodeQueryData(data) {
     var res = [];
 
@@ -409,6 +493,20 @@ export function encodeQueryData(data) {
     return encodeURIComponent(res.join("_"));
 }
 
+export function extractName(name) {
+    let splitted = name.split(" ")
+    if (splitted.length === 1) {
+        return { Name: name, Additional: "" }
+    }
+
+    if (splitted[0] === "Galarian" || splitted[0] === "Alolan" || splitted[0] === "Black" || splitted[0] === "White" ||
+        splitted[0] === "Armored") {
+        return { Name: splitted[1], Additional: splitted[0] + ((splitted.length > 2) ? ", " + splitted.slice(2).join(" ").replace(/[()]/g, "") : "") }
+    }
+
+    return { Name: splitted[0], Additional: splitted.slice(1).join(" ").replace(/[()]/g, "") }
+}
+
 export function extractData(league, pok1, pok2) {
 
     let attacker = decodeURIComponent(pok1).split("_")
@@ -419,6 +517,200 @@ export function extractData(league, pok1, pok2) {
         defender: (defender.length === 15) ? defender : undefined,
         league: (league === "great" || league === "ultra" || league === "master") ? league : undefined
     }
+}
+
+export function extractRaidData(attacker, boss, obj) {
+
+    let attackerObj = decodeURIComponent(attacker).split("_")
+    let bossObj = decodeURIComponent(boss).split("_")
+    let pveObj = decodeURIComponent(obj).split("_")
+
+    return {
+        attackerObj: (attackerObj.length === 8) ? attackerObj : undefined,
+        bossObj: (bossObj.length === 4) ? bossObj : undefined,
+        pveObj: (pveObj.length === 6) ? pveObj : undefined,
+    }
+}
+
+export function extractPveAttacker(array) {
+    return {
+        Name: array[0],
+        QuickMove: array[1],
+        ChargeMove: array[2],
+
+        Lvl: array[3],
+        Atk: array[4],
+        Def: array[5],
+        Sta: array[6],
+
+        IsShadow: array[7],
+
+        quickMovePool: "",
+        chargeMovePool: "",
+
+    }
+}
+
+export function encodePveAttacker(data) {
+    var res = [];
+
+    res.push(data.Name);
+
+    res.push(data.QuickMove);
+    res.push(data.ChargeMove);
+
+    res.push(data.Lvl);
+    res.push(data.Atk);
+    res.push(data.Def);
+    res.push(data.Sta);
+
+    res.push(data.IsShadow);
+    return encodeURIComponent(res.join("_"));
+}
+
+export function extractPveBoss(array) {
+    return {
+        Name: array[0],
+        QuickMove: array[1],
+        ChargeMove: array[2],
+
+        Tier: array[3],
+
+        quickMovePool: "",
+        chargeMovePool: "",
+    }
+}
+
+export function encodePveBoss(data) {
+    var res = [];
+
+    res.push(data.Name);
+
+    res.push(data.QuickMove);
+    res.push(data.ChargeMove);
+
+    res.push(data.Tier);
+
+    return encodeURIComponent(res.join("_"));
+}
+
+
+export function extractPveObj(array) {
+    return {
+        FriendshipStage: array[0],
+        Weather: array[1],
+        DodgeStrategy: array[2],
+
+        PartySize: array[3],
+        PlayersNumber: array[4],
+        IsAggresive: array[5],
+    }
+}
+
+export function encodePveObj(data) {
+    var res = [];
+
+    res.push(data.FriendshipStage);
+    res.push(data.Weather);
+    res.push(data.DodgeStrategy);
+
+    res.push(data.PartySize);
+    res.push(data.PlayersNumber);
+    res.push(data.IsAggresive);
+
+    return encodeURIComponent(res.join("_"));
+}
+
+export function pveattacker() {
+    return {
+        Name: "",
+        QuickMove: "",
+        ChargeMove: "",
+
+        Lvl: "35",
+        Atk: "15",
+        Def: "15",
+        Sta: "15",
+
+        IsShadow: "false",
+
+        quickMovePool: "",
+        chargeMovePool: "",
+    }
+}
+
+export function boss(locale) {
+    return {
+        Name: locale,
+        QuickMove: "",
+        ChargeMove: "",
+
+        Tier: "4",
+
+        quickMovePool: "",
+        chargeMovePool: "",
+    }
+}
+
+export function pveobj() {
+    return {
+        FriendshipStage: "0",
+        Weather: "0",
+        DodgeStrategy: "0",
+
+        PartySize: "18",
+        PlayersNumber: "3",
+        IsAggresive: "false",
+    }
+}
+
+export function returnPokList(pokBase, addNone, locale) {
+    let pokList = [];
+    if (addNone) {
+        pokList.push({
+            value: locale,
+            label: <div style={{ textAlign: "left" }} >
+                {locale}
+            </div>,
+        });
+    }
+    //create pokemons list
+    for (let key in pokBase) {
+        pokList.push({
+            value: key,
+            label: <div style={{ textAlign: "left" }}>
+                <PokemonIconer
+                    src={pokBase[key].Number + (pokBase[key].Forme !== "" ? "-" + pokBase[key].Forme : "")}
+                    class={"icon24 mr-1"}
+                />{key}
+            </div>,
+        });
+    }
+    return pokList
+}
+
+export function separateMovebase(movebase) {
+    let chargeMoveList = [];
+    let quickMoveList = [];
+    //create pokemons list
+    for (let key in movebase) {
+        switch (movebase[key].MoveCategory) {
+            case "Charge Move":
+                chargeMoveList.push({
+                    value: key,
+                    label: key,
+                });
+                break
+            case "Fast Move":
+                quickMoveList.push({
+                    value: key,
+                    label: key,
+                });
+                break
+            default:
+        }
+    }
+    return { chargeMoveList: chargeMoveList, quickMoveList: quickMoveList }
 }
 
 
@@ -659,7 +951,7 @@ export function returnVunStyle(rate) {
     return "res4"
 }
 
-var levelData = [
+export var levelData = [
     0,
     0,
     0.094,
@@ -1191,3 +1483,68 @@ export var effectivenessData = [
     ]
 ]
 
+export var tierHP = [
+    600,
+    1800,
+    3600,
+    9000,
+    15000,
+    22500,
+]
+
+export var tierMult = [
+    0.5974,
+    0.67,
+    0.73,
+    0.79,
+    0.79,
+    0.79,
+]
+
+export var weather = {
+    0: {},
+    1: {
+        10: 1.2,
+        9: 1.2,
+        6: 1.2,
+    },
+    2: {
+        0: 1.2,
+        3: 1.2,
+        17: 1.2,
+    },
+    3: {
+        15: 1.2,
+        12: 1.2,
+    },
+    4: {
+        13: 1.2,
+        4: 1.2,
+        5: 1.2,
+    },
+    5: {
+        14: 1.2,
+        7: 1.2,
+        2: 1.2,
+    },
+    6: {
+        16: 1.2,
+        11: 1.2,
+    },
+    7: {
+        8: 1.2,
+        1: 1.2,
+    },
+}
+
+var friendship = [
+    1.0,
+    1.03,
+    1.05,
+    1.07,
+    1.1,
+    1.06,
+    1.12,
+    1.18,
+    1.25,
+]

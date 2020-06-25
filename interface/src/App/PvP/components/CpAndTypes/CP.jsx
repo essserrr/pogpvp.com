@@ -1,12 +1,15 @@
 import React from "react";
-import { culculateCP } from "../../../../js/indexFunctions.js"
+import { culculateCP, culculateBossCP } from "../../../../js/indexFunctions.js"
 
 const CP = React.memo(function Pokemon(props) {
 
     return (
         <div className={props.class}>
-            CP: {culculateCP(
+            CP: {props.isBoss ? culculateBossCP(
             props.name,
+            props.tier,
+            props.pokemonTable,
+        ) : culculateCP(props.name,
             props.Lvl,
             props.Atk,
             props.Def,

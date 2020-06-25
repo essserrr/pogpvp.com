@@ -1,11 +1,13 @@
 import React from "react";
 import Errors from "../PvP/components/Errors/Errors"
-import BarLoader from "react-spinners/BarLoader";
 import { Helmet } from "react-helmet";
+
 
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../locale/locale";
 import { getCookie } from "../../js/indexFunctions";
+import Loader from "../PvpRating/Loader"
+
 
 let strings = new LocalizedStrings(locale);
 
@@ -98,16 +100,13 @@ class News extends React.Component {
                 <div className=" container-fluid mt-3 ">
                     <div className=" row justify-content-center px-2 mb-5">
                         {this.state.loading &&
-                            <div className="col-12 mt-0 mb-3 order-lg-2" style={{ fontWeight: "500", color: "white" }} >
-                                <div className="row justify-content-center">
-                                    <div>
-                                        {strings.tips.loading}
-                                        <BarLoader
-                                            color={"white"}
-                                            loading={this.state.loading}
-                                        />
-                                    </div>
-                                </div>
+                            <div className="col-12 mt-0 mb-3 order-lg-2">
+                                <Loader
+                                    color="white"
+                                    weight="500"
+                                    locale={strings.tips.loading}
+                                    loading={this.state.loading}
+                                />
                             </div>}
                         <div className="col-md-10 col-lg-8 p-0">
                             {this.state.showResult &&

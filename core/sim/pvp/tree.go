@@ -1,6 +1,7 @@
 package pvp
 
 import (
+	app "Solutions/pvpSimulator/core/sim/app"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -139,7 +140,7 @@ func MakeTree(inData TreeInitialData) (bool, error) {
 
 	pvpData.readInitialConditions(&inData.AttackerData, &inData.DefenderData)
 
-	if (inData.Constr != Constructor{}) {
+	if (inData.Constr != app.Constructor{}) {
 		pvpData.readConstructorData(&inData.Constr)
 	}
 
@@ -178,7 +179,7 @@ func (pok *pokemon) writeBranchingData(targetData *branchingData) {
 	pok.hp = targetData.InitialHp
 	//nullify energy, the set up initial value
 	pok.energy = 0
-	pok.energy.addEnergy(targetData.InitialEnergy)
+	pok.energy.AddEnergy(int16(targetData.InitialEnergy))
 
 	pok.shields = targetData.Shields
 	pok.moveCooldown = targetData.MoveCooldown
