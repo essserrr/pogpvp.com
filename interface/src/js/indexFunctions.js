@@ -668,7 +668,7 @@ export function returnPokList(pokBase, addNone, locale) {
     let pokList = [];
     if (addNone) {
         pokList.push({
-            value: "None",
+            value: locale,
             label: <div style={{ textAlign: "left" }} >
                 {locale}
             </div>,

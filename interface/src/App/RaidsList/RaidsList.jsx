@@ -96,7 +96,7 @@ class RaidsList extends React.Component {
             showResult: true,
             isError: false,
             loading: false,
-            raidsList: returnRaidsList(results[1], results[0]),
+            raidsList: this.returnRaidsList(results[1], results[0]),
         });
     }
 
@@ -104,6 +104,89 @@ class RaidsList extends React.Component {
         this.setState({
             [event.target.name]: !Boolean(this.state[event.target.name]),
         })
+    }
+
+    //generator functions
+    returnRaidsList(tierList, pokTable) {
+        let result = []
+
+        for (var i = 5; i > 0; i--) {
+            var bucket = []
+            for (var j = 0; j < tierList["Tier " + i].length; j++) {
+                var name = tierList["Tier " + i][j].replace("’", "")
+                if (!pokTable[name]) {
+                    name = capitalize(name)
+                }
+                bucket.push(
+                    <div key={name + "wrap"} className={"col-6 col-md-4 px-1 pt-2"}>
+                        <PokemonCard
+                            class={"pokCard animShiny m-0 p-0"}
+
+                            name={name}
+                            icon={
+                                <a title={strings.topcounters + pokTable[name].Title}
+                                    href={"/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" + (encodeURIComponent(pokTable[name].Title)) + "___" + (i - 1) + "/0_0_0_18_3_false"}
+                                >
+                                    <PokemonIconer
+                                        src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                                        class={"icon48"} />
+                                </a>
+                            }
+                            body={this.generateBody(name, pokTable)}
+
+                            classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
+                            classIcon={"icon48 m-0 p-0 align-self-center"}
+                            classBody={"cardBody row m-0 p-1 justify-content-center"}
+                        />
+                    </div>)
+
+            }
+            result.push(bucket)
+        }
+
+        return result
+    }
+
+    generateBody(name, pokemonTable) {
+        if (!pokemonTable[name]) {
+            console.log(name + " not found")
+            return
+        }
+        return <>
+            <div className="col-12 text-center  m-0 p-0 align-self-start">
+                {(pokemonTable[name]["Type"][0] !== undefined) && <Type
+                    class={"icon18"}
+                    code={pokemonTable[name]["Type"][0]}
+                    value={typeDecoder[pokemonTable[name]["Type"][0]]}
+                />}
+                {(pokemonTable[name]["Type"][1] !== undefined) && <Type
+                    class={"ml-2 icon18"}
+                    code={pokemonTable[name]["Type"][1]}
+                    value={typeDecoder[pokemonTable[name]["Type"][1]]}
+                />}
+            </div>
+
+            <Range
+                title="CP: "
+                left={culculateCP(name, 20, 10, 10, 10, pokemonTable)}
+                right={culculateCP(name, 20, 15, 15, 15, pokemonTable)}
+            />
+            <Range
+                title={<>
+                    {(pokemonTable[name]["Type"][0] !== undefined) && <PokemonIconer
+                        folder="/weather/"
+                        src={weatherDecoder[pokemonTable[name]["Type"][0]]}
+                        class={"icon18"} />}
+                    {(pokemonTable[name]["Type"][1] !== undefined) && weatherDecoder[pokemonTable[name]["Type"][1]] !== weatherDecoder[pokemonTable[name]["Type"][0]] && <PokemonIconer
+                        folder="/weather/"
+                        src={weatherDecoder[pokemonTable[name]["Type"][1]]}
+                        class={"icon18"} />}
+                    {": "}
+                </>}
+                left={culculateCP(name, 25, 10, 10, 10, pokemonTable)}
+                right={culculateCP(name, 25, 15, 15, 15, pokemonTable)}
+            />
+        </>
     }
 
 
@@ -204,80 +287,3 @@ class RaidsList extends React.Component {
 
 export default RaidsList
 
-//generator functions
-function returnRaidsList(tierList, pokTable) {
-    let result = []
-
-    for (var i = 5; i > 0; i--) {
-        var bucket = []
-        for (var j = 0; j < tierList["Tier " + i].length; j++) {
-            var name = tierList["Tier " + i][j].replace("’", "")
-            if (!pokTable[name]) {
-                name = capitalize(name)
-            }
-
-            bucket.push(
-                <div key={name + "wrap"} className={"col-6 col-md-4 px-1 pt-2"}>
-                    <PokemonCard
-                        class={"pokCard animShiny m-0 p-0"}
-
-                        name={name}
-                        icon={<PokemonIconer
-                            src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                            class={"icon48"} />}
-                        body={generateBody(name, pokTable)}
-
-                        classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
-                        classIcon={"icon48 m-0 p-0 align-self-center"}
-                        classBody={"cardBody row m-0 p-1 justify-content-center"}
-                    />
-                </div>)
-
-        }
-        result.push(bucket)
-    }
-
-    return result
-}
-
-function generateBody(name, pokemonTable) {
-    if (!pokemonTable[name]) {
-        console.log(name + " not found")
-        return
-    }
-    return <>
-        <div className="col-12 text-center  m-0 p-0 align-self-start">
-            {(pokemonTable[name]["Type"][0] !== undefined) && <Type
-                class={"icon18"}
-                code={pokemonTable[name]["Type"][0]}
-                value={typeDecoder[pokemonTable[name]["Type"][0]]}
-            />}
-            {(pokemonTable[name]["Type"][1] !== undefined) && <Type
-                class={"ml-2 icon18"}
-                code={pokemonTable[name]["Type"][1]}
-                value={typeDecoder[pokemonTable[name]["Type"][1]]}
-            />}
-        </div>
-
-        <Range
-            title="CP: "
-            left={culculateCP(name, 20, 10, 10, 10, pokemonTable)}
-            right={culculateCP(name, 20, 15, 15, 15, pokemonTable)}
-        />
-        <Range
-            title={<>
-                {(pokemonTable[name]["Type"][0] !== undefined) && <PokemonIconer
-                    folder="/weather/"
-                    src={weatherDecoder[pokemonTable[name]["Type"][0]]}
-                    class={"icon18"} />}
-                {(pokemonTable[name]["Type"][1] !== undefined) && weatherDecoder[pokemonTable[name]["Type"][1]] !== weatherDecoder[pokemonTable[name]["Type"][0]] && <PokemonIconer
-                    folder="/weather/"
-                    src={weatherDecoder[pokemonTable[name]["Type"][1]]}
-                    class={"icon18"} />}
-                {": "}
-            </>}
-            left={culculateCP(name, 25, 10, 10, 10, pokemonTable)}
-            right={culculateCP(name, 25, 15, 15, 15, pokemonTable)}
-        />
-    </>
-}

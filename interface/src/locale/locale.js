@@ -1,5 +1,7 @@
 export const locale = {
     en: {
+        topcounters: "Find top counters against ",
+
         notfound: "Error 404 - Page not found",
         return: "Return to main page",
         advisor: {
@@ -253,6 +255,8 @@ export const locale = {
 
 
     ru: {
+        topcounters: "Найти лучших покемонов против ",
+
         notfound: "Ошибка 404 - Страница не найдена",
         return: "Вернуться на главную страницу",
         advisor: {
