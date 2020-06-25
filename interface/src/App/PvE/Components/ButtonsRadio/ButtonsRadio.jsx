@@ -22,7 +22,7 @@ class ButtonsRadio extends PureComponent {
                     name="damage"
                     label={pvestrings.damage}
                     id="damage"
-                    class="buttonRadio"
+                    class="raidButton"
 
                     checked={this.props.param === "damage"}
                     onChange={this.props.onChange}
@@ -31,7 +31,7 @@ class ButtonsRadio extends PureComponent {
                     name="dps"
                     label={"DPS"}
                     id="dps"
-                    class="buttonRadio"
+                    class="raidButton"
 
                     checked={this.props.param === "dps"}
                     onChange={this.props.onChange}

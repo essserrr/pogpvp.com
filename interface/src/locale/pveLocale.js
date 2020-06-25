@@ -1,5 +1,6 @@
 export const pveLocale = {
     en: {
+        winrate: "Wintrate",
         s: "s",
         boss: "Boss (required)",
         attacker: "Attacker (optional)",
@@ -74,6 +75,7 @@ export const pveLocale = {
     },
 
     ru: {
+        winrate: "Шанс победить",
         s: "с",
         boss: "Босс (обязательно)",
         attacker: "Атакующий (опционально)",
