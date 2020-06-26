@@ -2,6 +2,7 @@ import React from "react";
 import LocalizedStrings from 'react-localization';
 
 import PveResEntry from "./PveResEntry"
+import URL from "../../../PvP/components/URL/URL"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import Breakpoints from "../Breakpoints/Breakpoints"
@@ -221,6 +222,7 @@ class PveResult extends React.PureComponent {
     }
 
     render() {
+        console.log(this.props.url, this.props.showResult)
         return (
             <>
                 {(this.state.showBreakpoints) && <MagicBox
@@ -237,6 +239,20 @@ class PveResult extends React.PureComponent {
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}
                     />
+                    {this.props.url && <div className="col-12 mb-2" >
+                        <URL
+                            label={strings.title.url}
+                            for="pvpURLLabel"
+                            tip={<small>
+                                {strings.tips.url.first}
+                                < br />
+                                {strings.tips.url.second}
+                            </small>}
+                            place="top"
+                            message={strings.tips.url.message}
+                            value={this.props.url}
+                        />
+                    </div>}
                     <div className={"col-12 m-0 p-0 fontBolder font90 text-center"}>
                         {pvestrings.sort}
                     </div>
