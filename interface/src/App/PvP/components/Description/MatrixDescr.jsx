@@ -5,15 +5,12 @@ import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 
 import LocalizedStrings from 'react-localization';
-import { locale } from "../../../../locale/locale"
 import { matrixTips } from "../../../../locale/matrixTips"
 import { getCookie } from "../../../../js/indexFunctions"
 
-let strings = new LocalizedStrings(locale);
 let tips = new LocalizedStrings(matrixTips)
 
 const MatrixDecr = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>

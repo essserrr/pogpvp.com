@@ -1,15 +1,12 @@
 import React from "react";
 
 import LocalizedStrings from 'react-localization';
-import { locale } from "../../locale/locale"
 import { singleTips } from "../../locale/ratingTips"
 import { getCookie } from "../../js/indexFunctions"
 
-let strings = new LocalizedStrings(locale);
 let tips = new LocalizedStrings(singleTips)
 
 const RatingDescr = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>

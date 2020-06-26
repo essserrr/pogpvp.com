@@ -329,7 +329,7 @@ class CommonPve extends React.PureComponent {
                     </div>
                     {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 m-0 mb-2 mt-3" >
                         <Errors class="alert alert-danger m-0 p-2" value={this.state.error} /></div>}
-                    <div className="col-12 d-flex justify-content-center p-0 m-0" >
+                    <div className="col-12 d-flex justify-content-center p-0 m-0 my-1" >
                         <SubmitButton
                             label={strings.buttons.calculate}
                             action="Calculate"

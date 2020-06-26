@@ -222,7 +222,6 @@ class PveResult extends React.PureComponent {
     }
 
     render() {
-        console.log(this.props.url, this.props.showResult)
         return (
             <>
                 {(this.state.showBreakpoints) && <MagicBox
