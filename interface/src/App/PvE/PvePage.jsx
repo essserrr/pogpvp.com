@@ -8,7 +8,8 @@ import {
 import { locale } from "../../locale/locale"
 import CommonPve from "./CommonPve"
 import Loader from "../PvpRating/Loader"
-
+import { UnmountClosed } from 'react-collapse';
+import CommonDescr from "./Components/Description/CommonDescr"
 
 
 
@@ -110,6 +111,7 @@ class PvePage extends React.Component {
             loading: false,
         };
         this.updateState = this.updateState.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
 
@@ -301,6 +303,12 @@ class PvePage extends React.Component {
         return pok
     }
 
+    onClick() {
+        this.setState({
+            showCollapse: !this.state.showCollapse
+        })
+    }
+
     render() {
         return (
             <>
@@ -332,10 +340,22 @@ class PvePage extends React.Component {
                                 innerClass={"col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"}
                             />
                         </div>}
-                        <div className="col-12 superBig m-0 p-0 px-1">
+                        <div className="col-12 m-0 p-0 px-1">
                             {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonPve
                                 parentState={this.state}
                             />}
+                        </div>
+
+                        <div className="col-12 veryBig results m-0 p-0 px-3 py-2" >
+                            <div onClick={this.onClick} className="row justify-content-between m-0 p-0 pb-1 clickable">
+                                <div className="font-weight-bold ml-1">{strings.title.about}</div>
+                                <i className={this.state.showCollapse ? "align-self-center fas fa-angle-up fa-lg " : "align-self-center fas fa-angle-down fa-lg"}></i>
+                            </div>
+                            <UnmountClosed isOpened={this.state.showCollapse}>
+                                <div className="row justify-content-center m-0 p-0">
+                                    {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonDescr />}
+                                </div>
+                            </UnmountClosed>
                         </div>
                     </div>
                 </div >
