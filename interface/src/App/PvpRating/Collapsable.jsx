@@ -191,7 +191,7 @@ class Collapsable extends React.PureComponent {
             <div key={"Best meta matchups"} className="col-12 col-sm-6 p-0 m-0">
                 <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
                     <div className="col-8 m-0 p-0 text-left">{strings.rating.bestMatchups}</div>
-                    <i class="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
+                    <i className="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
                 </div>
                 {best}
             </div>
@@ -202,7 +202,7 @@ class Collapsable extends React.PureComponent {
             <div key={"Meta counters"} className="col-12 col-sm-6 p-0 m-0">
                 <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
                     <div className="col-8 m-0 p-0 text-left">{strings.rating.bestCounter}</div>
-                    <i class="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
+                    <i className="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
                 </div>
                 {counters}
             </div>
@@ -213,7 +213,7 @@ class Collapsable extends React.PureComponent {
             <div key={"Best movesets"} className="col-12 col-sm-11 col-md-8 p-0 m-0 text-center">
                 <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
                     <div className="col-8 m-0 p-0 text-left">{strings.rating.movesets}</div>
-                    <i class="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
+                    <i className="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
                 </div>
                 <div className="row p-0 mx-2 mx-md-3">
                     {movesets}
