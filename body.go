@@ -115,8 +115,8 @@ func createApp(withLog *os.File) (*App, error) {
 	go app.pvpDatabase.cleanupPvpBucket(72, "PVPRESULTS", &app)
 	//start update db task
 	go app.semistaticDatabase.startUpdaterService(5, "SHINY", "value", &app, getbase.GetShinyBase)
-	go app.semistaticDatabase.startUpdaterService(24, "RAIDS", "value", &app, getbase.GetRaidsList)
-	go app.semistaticDatabase.startUpdaterService(24, "EGGS", "value", &app, getbase.GetEggsList)
+	go app.semistaticDatabase.startUpdaterService(12, "RAIDS", "value", &app, getbase.GetRaidsList)
+	go app.semistaticDatabase.startUpdaterService(12, "EGGS", "value", &app, getbase.GetEggsList)
 	return &app, nil
 }
 

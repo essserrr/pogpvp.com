@@ -27,7 +27,7 @@ class SinglePvp extends React.PureComponent {
         this.state = {
             attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(strings.tips.nameSearch),
             defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(strings.tips.nameSearch),
-            result: (this.props.parentState.pvpResult) ? this.props.parentState.pvpResult : {},
+            result: (this.props.parentState.pvpResult) ? this.props.parentState.pvpResult : [],
             url: (this.props.parentState.url) ? this.props.parentState.url : "",
 
             error: this.props.parentState.error,
@@ -54,29 +54,30 @@ class SinglePvp extends React.PureComponent {
 
     componentDidUpdate(prevProps) {
         if (this.props.parentState.pvpResult !== prevProps.parentState.pvpResult) {
-            this.setState({
-                attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(strings.tips.nameSearch),
-                defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(strings.tips.nameSearch),
-                result: (this.props.parentState.pvpResult) ? this.props.parentState.pvpResult : {},
-                url: (this.props.parentState.url) ? this.props.parentState.url : "",
-
-                error: this.props.parentState.error,
-                showResult: this.props.parentState.showResult,
-                isError: this.props.parentState.isError,
-
-                loading: false,
-
-                constructor: {
-                    ...this.state.constructor,
-                    showMenu: false,
-                    isSelected: undefined,
-                    agregatedParams: {},
-                },
-                lastChangesAt: 0,
-                stateModified: false,
-            });
             return
         }
+        this.setState({
+            attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(strings.tips.nameSearch),
+            defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(strings.tips.nameSearch),
+            result: (this.props.parentState.pvpResult) ? this.props.parentState.pvpResult : [],
+            url: (this.props.parentState.url) ? this.props.parentState.url : "",
+
+            error: this.props.parentState.error,
+            showResult: this.props.parentState.showResult,
+            isError: this.props.parentState.isError,
+
+            loading: false,
+
+            constructor: {
+                ...this.state.constructor,
+                showMenu: false,
+                isSelected: undefined,
+                agregatedParams: {},
+            },
+            lastChangesAt: 0,
+            stateModified: false,
+        });
+        return
     }
 
     onNameChange(event, name) {
