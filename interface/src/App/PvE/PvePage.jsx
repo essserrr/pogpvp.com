@@ -278,10 +278,10 @@ class PvePage extends React.Component {
             bossObj: bossObj,
             pveObj: pveObj,
 
-            date: (results[2]) ? Date.now() : 0,
+            date: (results[2]) ? Date.now() : 1,
             pveResult: results[2],
             showResult: (results[2]) ? true : false,
-            url: (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) ? window.location.href : "",
+            url: window.location.href,
 
             pokemonTable: results[0],
             moveTable: results[1],

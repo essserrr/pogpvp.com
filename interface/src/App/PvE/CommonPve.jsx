@@ -25,9 +25,9 @@ class CommonPve extends React.PureComponent {
             bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
             pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : pveobj(),
 
-            date: this.props.parentState.date,
-            result: this.props.parentState.pveResult,
-            url: this.props.parentState.url,
+            result: this.props.parentState.pveResult ? this.props.parentState.pveResult : [],
+            url: this.props.parentState.url ? this.props.parentState.url : "",
+            date: this.props.parentState.date ? this.props.parentState.date : 1,
 
             error: this.props.parentState.error,
             showResult: this.props.parentState.showResult,
@@ -36,9 +36,9 @@ class CommonPve extends React.PureComponent {
             loading: false,
 
             snapshot: {
-                attackerObj: (this.props.parentState.attackerObj) ? { ...this.props.parentState.attackerObj } : pveattacker(),
-                bossObj: (this.props.parentState.bossObj) ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
-                pveObj: (this.props.parentState.pveObj) ? { ...this.props.parentState.pveObj } : pveobj(),
+                attackerObj: this.props.parentState.attackerObj ? { ...this.props.parentState.attackerObj } : pveattacker(),
+                bossObj: this.props.parentState.bossObj ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
+                pveObj: this.props.parentState.pveObj ? { ...this.props.parentState.pveObj } : pveobj(),
             }
         };
         this.onChange = this.onChange.bind(this);
@@ -48,23 +48,32 @@ class CommonPve extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.parentState.pveResult !== prevProps.parentState.pveResult) {
-            this.setState({
-                attackerObj: (this.props.parentState.attackerObj) ? this.props.parentState.attackerObj : {},
-                bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : {},
-                pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : {},
-
-                result: (this.props.parentState.pveResult) ? this.props.parentState.pveResult : {},
-                url: (this.props.parentState.url) ? this.props.parentState.url : "",
-
-                error: this.props.parentState.error,
-                showResult: this.props.parentState.showResult,
-                isError: this.props.parentState.isError,
-
-                loading: false,
-            });
+        if (this.props.parentState.pveResult === prevProps.parentState.pveResult) {
             return
         }
+
+        this.setState({
+            attackerObj: (this.props.parentState.attackerObj) ? this.props.parentState.attackerObj : pveattacker(),
+            bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
+            pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : pveobj(),
+
+            result: this.props.parentState.pveResult ? this.props.parentState.pveResult : [],
+            url: this.props.parentState.url ? this.props.parentState.url : "",
+            date: this.props.parentState.date ? this.props.parentState.date : 1,
+
+            error: this.props.parentState.error,
+            showResult: this.props.parentState.showResult,
+            isError: this.props.parentState.isError,
+
+            loading: false,
+
+            snapshot: {
+                attackerObj: this.props.parentState.attackerObj ? { ...this.props.parentState.attackerObj } : pveattacker(),
+                bossObj: this.props.parentState.bossObj ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
+                pveObj: this.props.parentState.pveObj ? { ...this.props.parentState.pveObj } : pveobj(),
+            }
+        });
+        return
     }
 
     onNameChange(event, name) {
@@ -268,7 +277,7 @@ class CommonPve extends React.PureComponent {
             isError: false,
             loading: false,
 
-            date: (data) ? Date.now() : this.state.date,
+            date: Date.now(),
             result: data,
             snapshot: snapshot,
 

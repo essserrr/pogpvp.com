@@ -70,6 +70,7 @@ class PvpRating extends React.Component {
             ],
             showDescription: false,
         };
+        this.updateState = this.updateState.bind(this);
         this.onLoadMore = this.onLoadMore.bind(this);
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -95,7 +96,39 @@ class PvpRating extends React.Component {
             }
         }
 
+        this.updateState(defaultLeague, defaultType, defaultPath)
+    }
 
+
+    componentDidUpdate(prevProps) {
+        const update = this.updateState
+        window.onpopstate = function (event) {
+            let windowPath = window.location.pathname.split('/').slice(2)
+            let leagueString = windowPath[0]
+            let typeString = windowPath[1]
+
+            var defaultLeague = "Great"
+            var defaultType = "overall"
+            var defaultPath = "Great"
+
+            if (leagueString && typeString) {
+                leagueString = capitalize(leagueString)
+                let league = (leagueString === "Great" || leagueString === "Ultra" || leagueString === "Master") ? leagueString : undefined
+                let type = (typeString === "overall" || typeString === "00" || typeString === "11"
+                    || typeString === "22" || typeString === "01" || typeString === "12") ? String(typeString) : undefined
+                if (league && type) {
+                    defaultPath = league + ((type === "overall") ? "" : type)
+                    defaultLeague = league
+                    defaultType = type
+                }
+            }
+            update(defaultLeague, defaultType, defaultPath)
+        }
+    }
+
+
+
+    async updateState(defaultLeague, defaultType, defaultPath) {
         this.setState({
             league: defaultLeague,
             combination: defaultType,
@@ -160,13 +193,9 @@ class PvpRating extends React.Component {
         }
 
         var ratingList = returnRatingList(results[1], results[0], results[2], this.state.league, this.state.combination)
-
-
-
         this.setState({
             n: 75,
             isNextPage: results[1].length - 75 > 0,
-
 
             showResult: true,
             isError: false,
@@ -175,7 +204,6 @@ class PvpRating extends React.Component {
             pokemonTable: results[0],
             rawData: results[1],
             moveTable: results[2],
-
 
             ratingList: ratingList,
             listToShow: ratingList.slice(0, 75),
@@ -217,7 +245,6 @@ class PvpRating extends React.Component {
     }
 
 
-
     async onChange(event) {
         switch (event.target.name === "league") {
             case true:
@@ -246,13 +273,6 @@ class PvpRating extends React.Component {
         var reason = ""
 
         let fetches = [
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
-                },
-            }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + typeOfrating, {
                 method: 'GET',
                 headers: {
@@ -260,14 +280,28 @@ class PvpRating extends React.Component {
                     'Accept-Encoding': 'gzip',
                 },
             }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
-                },
-            }),
         ];
+        if (!this.state.pokemonTable || !this.state.moveTable) {
+            fetches.push(
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept-Encoding': 'gzip',
+                    },
+                }),
+            )
+            fetches.push(
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept-Encoding': 'gzip',
+                    },
+                }),
+            )
+        }
+
         var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
@@ -284,9 +318,12 @@ class PvpRating extends React.Component {
 
         let parses = [
             responses[0].json(),
-            responses[1].json(),
-            responses[2].json(),
         ]
+        if (!this.state.pokemonTable || !this.state.moveTable) {
+            parses.push(responses[1].json())
+            parses.push(responses[2].json())
+        }
+
         var results = await Promise.all(parses)
 
         for (let i = 0; i < responses.length; i++) {
@@ -301,21 +338,23 @@ class PvpRating extends React.Component {
             }
         }
 
-        var ratingList = returnRatingList(results[1], results[0], results[2], this.state.league, this.state.combination)
+        var ratingList = returnRatingList(results[0],
+            !this.state.pokemonTable ? results[1] : this.state.pokemonTable, !this.state.moveTable ? results[2] : this.state.moveTable
+            , this.state.league, this.state.combination)
 
 
         window.history.pushState("object or string", "Title", "/pvprating/" + leaguePath.toLowerCase() + "/" + typePath);
         this.setState({
             n: 75,
-            isNextPage: results[1].length - 75 > 0,
+            isNextPage: results[0].length - 75 > 0,
 
             showResult: true,
             isError: false,
             loading: false,
             searchState: false,
 
-            pokemonTable: results[0],
-            moveTable: results[2],
+            pokemonTable: !this.state.pokemonTable ? results[1] : this.state.pokemonTable,
+            moveTable: !this.state.moveTable ? results[2] : this.state.moveTable,
 
             ratingList: ratingList,
             listToShow: ratingList.slice(0, 75),
