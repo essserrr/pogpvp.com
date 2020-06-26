@@ -9,6 +9,9 @@ const routes = [
         path: '/pvp/matrix',
     },
     {
+        path: '/pve/common',
+    },
+    {
         path: '/pvprating',
     },
     {
