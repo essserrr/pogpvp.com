@@ -227,7 +227,7 @@ class SimulatorPanel extends React.PureComponent {
                         moveTable={this.props.moveTable}
                         pokList={this.props.pokList}
                         chargeMoveList={this.props.chargeMoveList}
-                        quickMoveList={this.props.chargeMoveList}
+                        quickMoveList={this.props.quickMoveList}
 
                         value={this.props.value}
                         onChange={this.props.onChange}

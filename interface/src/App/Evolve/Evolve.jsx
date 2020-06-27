@@ -78,7 +78,7 @@ class Evolve extends React.Component {
 
         var list = []
         for (let key in result) {
-            if (result[key].Evolutions[0]) {
+            if (result[key].Evolutions && result[key].Evolutions.length > 0) {
                 list.push({
                     value: key,
                     label: <div style={{ textAlign: "left" }}>
