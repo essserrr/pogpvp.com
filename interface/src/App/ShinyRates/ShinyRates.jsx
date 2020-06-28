@@ -115,13 +115,13 @@ class ShinyRates extends React.Component {
                     active: { [fieldName]: true },
                     shinyRates: fieldType === "number" ?
                         this.state.shinyRates.sort(function (a, b) {
-                            return a.props.children[fieldName].key - b.props.children[fieldName].key
+                            return a.props.children[fieldName].props.value - b.props.children[fieldName].props.value
                         }) :
                         this.state.shinyRates.sort(function (a, b) {
-                            if (a.props.children[fieldName].key < b.props.children[fieldName].key) {
+                            if (a.props.children[fieldName].props.value < b.props.children[fieldName].props.value) {
                                 return -1;
                             }
-                            if (b.props.children[fieldName].key < a.props.children[fieldName].key) {
+                            if (b.props.children[fieldName].props.value < a.props.children[fieldName].props.value) {
                                 return 1;
                             }
                             return 0;
@@ -175,6 +175,7 @@ class ShinyRates extends React.Component {
                                     locale={strings.tips.loading}
                                     loading={this.state.loading}
                                 />}
+                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult && <ShinyTable
                                 onClick={this.onClick}
                                 onChange={this.onChange}
@@ -186,7 +187,6 @@ class ShinyRates extends React.Component {
                                 body={this.state.shinyRates}
                             />
                             }
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                         </div>
                     </div>
                 </div >
@@ -205,14 +205,14 @@ function parseShinyRates(list, pokTable) {
     for (var i = 0; i < values.length; i++) {
         result.push(
             <tr className="animShiny" key={values[i].Name}>
-                <th className="text-center text-sm-left px-0" key={values[i].Name} scope="row">
+                <th className="text-center text-sm-left px-0" value={values[i].Name} scope="row">
                     <PokemonIconer
                         src={pokTable[values[i].Name].Number + (pokTable[values[i].Name].Forme !== "" ? "-" + pokTable[values[i].Name].Forme : "")}
                         class={"icon24 p-0 m-0 mr-1 "} />{values[i].Name}
                 </th>
-                <td className="px-0" key={values[i].Odds}>{"1/" + values[i].Odds + " (" + (1 / values[i].Odds * 100).toFixed(2) + "%)"}</td>
-                <td className="px-0" key={values[i].Odds + "est"}>{"1/" + processRate(values[i].Odds)}</td>
-                <td className="px-0" key={values[i].Checks}>{values[i].Checks}</td>
+                <td className="px-0" value={values[i].Odds}>{"1/" + values[i].Odds + " (" + (1 / values[i].Odds * 100).toFixed(2) + "%)"}</td>
+                <td className="px-0" value={values[i].Odds + "est"}>{"1/" + processRate(values[i].Odds)}</td>
+                <td className="px-0" value={values[i].Checks}>{values[i].Checks}</td>
             </tr>
         )
     }
