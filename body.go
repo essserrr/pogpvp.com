@@ -47,6 +47,7 @@ type App struct {
 	semistaticBuckets []string
 	botsList          []string
 
+	iconVer     string
 	corsEnabled bool
 }
 
@@ -81,6 +82,7 @@ func createApp(withLog *os.File) (*App, error) {
 	if os.Getenv("APP_CORS") == "true" {
 		app.corsEnabled = true
 	}
+	app.iconVer = "2"
 
 	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot",
 		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
@@ -1104,6 +1106,23 @@ func getIP(r *http.Request) string {
 	return clientIP
 }
 
+func imageVer(h http.Handler, app *App) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		//set up CORS
+		if app.corsEnabled {
+			setupCors(&w, r)
+		}
+		//handle options method
+
+		if (*r).Header.Get("If-None-Match") == "2" {
+			(w).WriteHeader(304)
+			return
+		}
+		(w).Header().Set("Etag", "2")
+		h.ServeHTTP(w, r) // call original
+	})
+}
+
 func (a *App) initPvpSrv() *http.Server {
 	router := chi.NewRouter()
 
@@ -1111,7 +1130,7 @@ func (a *App) initPvpSrv() *http.Server {
 
 	//statics
 	router.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("./interface/build/static"))))
-	router.Handle("/images/*", http.StripPrefix("/images/", http.FileServer(http.Dir("./interface/build/images"))))
+	router.Handle("/images/*", http.StripPrefix("/images/", imageVer(http.FileServer(http.Dir("./interface/build/images")), a)))
 	router.Handle("/sitemap/*", http.StripPrefix("/sitemap/", http.FileServer(http.Dir("./interface/build/sitemap"))))
 
 	router.Handle("/", rootHandler{serveIndex, a})
