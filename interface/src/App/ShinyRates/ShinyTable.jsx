@@ -5,6 +5,7 @@ import ReactTooltip from "react-tooltip"
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
+import Header from "../Movedex/Header/Header"
 
 let strings = new LocalizedStrings(locale);
 
@@ -19,21 +20,25 @@ const ShinyTable = React.memo(function Pokemon(props) {
                 <thead>
                     <tr>
                         <th coltype="string" className="text-left  clickable align-text-top mx-0 mx-sm-2" name="0" onClick={props.onClick} scope="col">
-                            <div className="row  m-0 p-0 justify-content-center justify-content-sm-start">
-                                {strings.shinyrates.pokname}
-                                <div className={"ml-2 align-self-center " + (props.firstColumn ? "fas fa-angle-down fa-md" : "fas fa-angle-up fa-md")} />
-                            </div>
+                            <Header
+                                title={strings.shinyrates.pokname}
+                                class="ml-2 align-self-center "
+                                classOut="row  m-0 p-0 justify-content-center justify-content-sm-start"
+                                checked={props.firstColumn}
+                            />
                         </th>
                         <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} scope="col">
-                            <div className="row m-0 p-0 justify-content-center">
-                                {strings.shinyrates.rate1}<wbr />{strings.shinyrates.rate2}
-                                <div className={"ml-2 align-self-center " + (props.secondColumn ? "fas fa-angle-up fa-md" : "fas fa-angle-down fa-md")} />
+                            <Header
+                                title={<>{strings.shinyrates.rate1}<wbr />{strings.shinyrates.rate2}</>}
+                                class="ml-2 align-self-center "
+                                classOut="row m-0 p-0 justify-content-center"
+                                checked={props.secondColumn}
+                            />
 
-                            </div>
                         </th>
                         <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} id="estimated" scope="col">
-                            <div className="row m-0 p-0 justify-content-center">
-                                <div className="d-flex">
+                            <Header
+                                title={<div className="d-flex">
                                     {strings.shinyrates.rateest}
                                     <i data-tip data-for={"shinyrate"} className="align-self-center fas fa-info-circle ml-1">
                                         {<ReactTooltip
@@ -45,17 +50,20 @@ const ShinyTable = React.memo(function Pokemon(props) {
                                             {strings.shinyrates.tip}
                                         </ReactTooltip>}
                                     </i>
-                                </div>
-                                <div className={"ml-2 align-self-center " + (props.secondColumn ? "fas fa-angle-up fa-md" : "fas fa-angle-down fa-md")} />
+                                </div>}
+                                class="ml-2 align-self-center "
+                                classOut="row m-0 p-0 justify-content-center"
+                                checked={props.secondColumn}
+                            />
 
-                            </div>
                         </th>
                         <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="3" onClick={props.onClick} scope="col">
-                            <div className="row m-0 p-0 justify-content-center">
-                                {strings.shinyrates.checks}
-                                <div className={"ml-2 align-self-center " + (props.fourthColumn ? "fas fa-angle-up fa-md" : "fas fa-angle-down fa-md")} />
-
-                            </div>
+                            <Header
+                                title={strings.shinyrates.checks}
+                                classOut="row m-0 p-0 justify-content-center"
+                                class="ml-2 align-self-center "
+                                checked={props.fourthColumn}
+                            />
                         </th>
                     </tr>
                 </thead>
