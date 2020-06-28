@@ -1106,19 +1106,33 @@ func getIP(r *http.Request) string {
 	return clientIP
 }
 
-func imageVer(h http.Handler, app *App) http.Handler {
+func versioning(h http.Handler, app *App) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.RequestURI, "/") {
+			http.ServeFile(w, r, "./interface/build/200.html")
+			return
+		}
 		//set up CORS
 		if app.corsEnabled {
 			setupCors(&w, r)
 		}
 		//handle options method
 
-		if (*r).Header.Get("If-None-Match") == "2" {
+		if (*r).Header.Get("If-None-Match") == app.iconVer {
 			(w).WriteHeader(304)
 			return
 		}
-		(w).Header().Set("Etag", "2")
+		(w).Header().Set("Etag", app.iconVer)
+		h.ServeHTTP(w, r) // call original
+	})
+}
+
+func listingblock(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasSuffix(r.RequestURI, "/") {
+			http.ServeFile(w, r, "./interface/build/200.html")
+			return
+		}
 		h.ServeHTTP(w, r) // call original
 	})
 }
@@ -1129,9 +1143,9 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Use(middleware.Compress(5))
 
 	//statics
-	router.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("./interface/build/static"))))
-	router.Handle("/images/*", http.StripPrefix("/images/", imageVer(http.FileServer(http.Dir("./interface/build/images")), a)))
-	router.Handle("/sitemap/*", http.StripPrefix("/sitemap/", http.FileServer(http.Dir("./interface/build/sitemap"))))
+	router.Handle("/static/*", http.StripPrefix("/static/", listingblock(http.FileServer(http.Dir("./interface/build/static")))))
+	router.Handle("/images/*", http.StripPrefix("/images/", versioning(http.FileServer(http.Dir("./interface/build/images")), a)))
+	router.Handle("/sitemap/*", http.StripPrefix("/sitemap/", listingblock(http.FileServer(http.Dir("./interface/build/sitemap")))))
 
 	router.Handle("/", rootHandler{serveIndex, a})
 	router.Handle("/pvp*", rootHandler{serveIndex, a})
