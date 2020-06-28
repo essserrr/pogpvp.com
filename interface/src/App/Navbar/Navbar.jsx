@@ -11,6 +11,8 @@ import { ReactComponent as Logo } from "../../icons/logo.svg"
 import { ReactComponent as Battle } from "../../icons/battle.svg"
 import { ReactComponent as Others } from "../../icons/others.svg"
 import { ReactComponent as Redgym } from "../../icons/redgym.svg";
+import { ReactComponent as Dex } from "../../icons/dex.svg";
+
 
 let strings = new LocalizedStrings(locale);
 
@@ -27,6 +29,9 @@ class Navbar extends React.PureComponent {
             dropdownPvE: [
                 <a key="Raids List" className="dropdown-item" href="/raids/">{strings.navbar.raids}</a>,
                 <a key="Raid Simulator" className="dropdown-item" href="/pve/common/">{strings.navbar.raidsim}</a>,
+            ],
+            dropdownDex: [
+                <a key="Move Dex" className="dropdown-item" href="/movedex/">{strings.navbar.movedex}</a>,
             ],
             dropdownOther: [
                 <a key="Sniny Rates" className="dropdown-item" href="/shinyrates/">{strings.navbar.shiny}</a>,
@@ -75,9 +80,15 @@ class Navbar extends React.PureComponent {
                             list={this.state.dropdownPvP}
                             label={<><Battle id="battleicon" className={"icon24 mr-1"} />{strings.navbar.pvpTools}</>}
                         />
+
                         <DropdownMenu
                             list={this.state.dropdownPvE}
                             label={<><Redgym id="redgym" className={"icon24 mr-1"} />{strings.navbar.pveTools}</>}
+
+                        />
+                        <DropdownMenu
+                            list={this.state.dropdownDex}
+                            label={<><Dex id="redgym" className={"icon24 mr-1"} />{strings.navbar.dex}</>}
 
                         />
                         <DropdownMenu
