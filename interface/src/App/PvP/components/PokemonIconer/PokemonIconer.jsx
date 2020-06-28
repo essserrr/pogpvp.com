@@ -3,7 +3,7 @@ import React from "react";
 const PokemonIconer = React.memo(function (props) {
     return (
         <img
-            src={"/images/icons" + (props.folder ? props.folder : "/pokemons/") + props.src + ".png"}
+            src={"/images" + (props.folder ? props.folder : "/pokemons/") + props.src + ".png"}
             className={props.class}
             alt=""
             data-tip data-for={props.for} />
