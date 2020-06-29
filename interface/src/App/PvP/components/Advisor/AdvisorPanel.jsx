@@ -6,10 +6,14 @@ import { UnmountClosed } from 'react-collapse';
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import Result from "../Result"
 import Type from "../CpAndTypes/Type"
+import TableBody from "./TableBody"
+import TypingThead from "./TypingThead"
+import SingleMoveLine from "./SingleMoveLine"
+import SinglePokLine from "./SinglePokLine"
 
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 import { locale } from "../../../..//locale/locale"
-import { getCookie, returnVunStyle, typeDecoder, effectivenessData } from "../../..//../js/indexFunctions"
+import { getCookie, typeDecoder, effectivenessData } from "../../..//../js/indexFunctions"
 
 
 let strings = new LocalizedStrings(locale);
@@ -26,7 +30,7 @@ class AdvisorPanel extends React.PureComponent {
             colElement: null,
         };
         this.onClick = this.onClick.bind(this);
-
+        this.addStar = this.addStar.bind(this);
     }
 
     addStar(pokName, moveName) {
@@ -60,7 +64,9 @@ class AdvisorPanel extends React.PureComponent {
             <div className="overflowingx width90vw p-0 m-0">
                 <Result
                     class="tableFixHead"
-                    table={this.makeTableBody(this.recombineTable())}
+                    table={<TableBody
+                        value={this.recombineTable()}
+                    />}
                 />
             </div>
             <div className="col-12 text-center bigText m-0 p-0 mt-1 mb-2">
@@ -76,7 +82,9 @@ class AdvisorPanel extends React.PureComponent {
             <div className="overflowingx width90vw p-0 m-0">
                 <Result
                     class="tableFixHead"
-                    table={this.makeTableBody(this.makePokTypingList(this.addTypingThead(), vun[0]))}
+                    table={<TableBody
+                        value={this.makePokTypingList(vun[0])}
+                    />}
                 />
             </div>
             <div className="col-12 text-center bigText m-0 p-0 mt-1 mb-2">
@@ -92,12 +100,60 @@ class AdvisorPanel extends React.PureComponent {
             <div className="overflowingxy height400resp width90vw p-0 m-0">
                 <Result
                     class="tableFixHead"
-                    table={this.makeTableBody(this.makeMoveTypingList(this.addTypingThead()))}
+                    table={<TableBody
+                        value={this.makeMoveTypingList()}
+                    />}
                 />
             </div>
         </div>
     }
 
+    calculateVunerabilities() {
+        let arr = []
+        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.first.name])
+        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.second.name])
+        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.third.name])
+
+        let strong = []
+        let weak = []
+
+        for (let i = 0; i < arr[0].length; i++) {
+            let multipl = (arr[0][i] * arr[1][i] * arr[2][i]).toFixed(1)
+            if (multipl < 1) {
+                strong.push(<Type
+                    key={"strongDef" + i}
+                    class={"icon24 m-1"}
+                    code={i}
+                    value={typeDecoder[i]}
+                />)
+                continue
+            }
+            if (multipl > 1) {
+                weak.push(<Type
+                    key={"weakDef" + i}
+                    class={"icon24 m-1"}
+                    code={i}
+                    value={typeDecoder[i]}
+                />)
+                continue
+            }
+        }
+        return [arr, strong, weak]
+    }
+
+    pokVunerabilities(arr, pok) {
+        let i = arr.push([]) - 1
+        for (let j = 0; j < effectivenessData.length; j++) {
+            let eff = effectivenessData[j][pok.Type[0]]
+            arr[i].push((eff === 0 ? 1 : eff).toFixed(3))
+        }
+        if (pok.Type.length > 1) {
+            for (let j = 0; j < effectivenessData.length; j++) {
+                let eff = effectivenessData[j][pok.Type[1]]
+                arr[i][j] = (arr[i][j] * (eff === 0 ? 1 : eff)).toFixed(3)
+            }
+        }
+    }
 
     calculateOffensiveStats() {
         //add table lines
@@ -149,172 +205,6 @@ class AdvisorPanel extends React.PureComponent {
         }
     }
 
-
-    calculateVunerabilities() {
-        let arr = []
-        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.first.name])
-        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.second.name])
-        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.third.name])
-
-        let strong = []
-        let weak = []
-
-        for (let i = 0; i < arr[0].length; i++) {
-            let multipl = (arr[0][i] * arr[1][i] * arr[2][i]).toFixed(1)
-            if (multipl < 1) {
-                strong.push(<Type
-                    key={"strongDef" + i}
-                    class={"icon24 m-1"}
-                    code={i}
-                    value={typeDecoder[i]}
-                />)
-                continue
-            }
-            if (multipl > 1) {
-                weak.push(<Type
-                    key={"weakDef" + i}
-                    class={"icon24 m-1"}
-                    code={i}
-                    value={typeDecoder[i]}
-                />)
-                continue
-            }
-        }
-
-        return [arr, strong, weak]
-
-    }
-
-    pokVunerabilities(arr, pok) {
-        let i = arr.push([]) - 1
-        for (let j = 0; j < effectivenessData.length; j++) {
-            let eff = effectivenessData[j][pok.Type[0]]
-            arr[i].push((eff === 0 ? 1 : eff).toFixed(3))
-        }
-        if (pok.Type.length > 1) {
-            for (let j = 0; j < effectivenessData.length; j++) {
-                let eff = effectivenessData[j][pok.Type[1]]
-                arr[i][j] = (arr[i][j] * (eff === 0 ? 1 : eff)).toFixed(3)
-            }
-        }
-    }
-
-    addTypingThead() {
-        let arr = []
-        //add thead
-        //zero element
-        arr.push([])
-        arr[0].push(<th key={"zero"} className="modifiedBorderTable theadT p-0 px-1" scope="col" />)
-        //other elements
-        for (let j = 0; j < typeDecoder.length; j++) {
-
-            arr[0].push(<th key={j + "thead"} className="modifiedBorderTable  text-center theadT p-0 px-1" scope="col" >
-                <Type
-                    class={"icon36 m-1"}
-                    code={j}
-                    value={typeDecoder[j]}
-                />
-            </th>
-            )
-        }
-        return arr
-    }
-
-    makeMoveTypingList(arr) {
-        //add table lines
-        this.addMoveLine(arr, this.props.first)
-        this.addMoveLine(arr, this.props.second)
-        this.addMoveLine(arr, this.props.third)
-        return arr
-    }
-
-    addMoveLine(arr, pok) {
-        if (pok.QuickMove) {
-            this.singleMoveLine(arr, pok.QuickMove, pok)
-        }
-        if (pok.ChargeMove1) {
-            this.singleMoveLine(arr, pok.ChargeMove1, pok)
-        }
-        if (pok.ChargeMove2) {
-            this.singleMoveLine(arr, pok.ChargeMove2, pok)
-        }
-    }
-
-    singleMoveLine(arr, name, pok) {
-        let i = arr.push([])
-        arr[i - 1].push(<td key={i + "line"}
-            className={"modifiedBorderTable text-center align-middle theadT fixFirstRow  m-0 p-0 px-1 typeColor color" + this.props.moveTable[name].MoveType + " text"} >
-            {name + this.addStar(pok.name, name)}
-        </td>)
-
-        for (let j = 0; j < effectivenessData[this.props.moveTable[name].MoveType].length; j++) {
-            let multipl = effectivenessData[this.props.moveTable[name].MoveType][j] === 0 ? "1.000" :
-                (effectivenessData[this.props.moveTable[name].MoveType][j]).toFixed(3);
-            let rateStyle = returnVunStyle(multipl === "1.000" ? multipl : (1 / multipl).toFixed(3))
-
-            arr[i - 1].push(<td key={i - 1 + "offensive" + j} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                <div className={"rateTyping hover rateColor " + rateStyle} >
-                    {multipl}
-                </div>
-
-            </td >)
-        }
-    }
-
-
-    makePokTypingList(arr, vun) {
-        //add table lines
-        this.addPokLine(arr, this.props.first)
-        this.addPokLine(arr, this.props.second)
-        this.addPokLine(arr, this.props.third)
-
-
-
-        for (let j = 1; j < arr.length; j++) {
-            for (let k = 1; k < vun[j - 1].length + 1; k++) {
-                let rateStyle = returnVunStyle(vun[j - 1][k - 1])
-
-                arr[j].push(<td key={j + "defensive" + k} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                    <div className={"rateTyping hover rateColor " + rateStyle}>
-                        {vun[j - 1][k - 1]}
-                    </div>
-                </td >)
-            }
-        }
-
-        return arr
-    }
-
-    addPokLine(arr, pok) {
-        let i = arr.push([])
-        arr[i - 1].push(<td key={i + "line"} className="modifiedBorderTable text-center theadT fixFirstRow m-0 p-0 px-1" >
-            {(pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
-            <PokemonIconer
-                src={this.props.pokemonTable[pok.name].Number +
-                    (this.props.pokemonTable[pok.name].Forme !== "" ? "-" + this.props.pokemonTable[pok.name].Forme : "")}
-                class={"icon36"}
-                for={pok.name + i + "R"}
-            />
-            <ReactTooltip
-                className={"infoTip"}
-                id={pok.name + i + "R"} effect='solid'
-                place={"right"}
-                multiline={true}
-            >
-                {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
-            </ReactTooltip>
-            <div className="row m-0 p-0 justify-content-center">
-                {pok.QuickMove.replace(/[a-z -]/g, '') + this.addStar(pok.name, pok.QuickMove)}
-                {(pok.ChargeMove1 || pok.ChargeMove2) ? "+" : ""}
-                {pok.ChargeMove1 ? (pok.ChargeMove1.replace(/[a-z -]/g, '') + this.addStar(pok.name, pok.ChargeMove1)) : ""}
-                {(pok.ChargeMove1 && pok.ChargeMove2) ? "/" : ""}
-                {pok.ChargeMove2 ? (pok.ChargeMove2.replace(/[a-z -]/g, '') + this.addStar(pok.name, pok.ChargeMove2)) : ""}
-            </div>
-        </td>)
-
-    }
-
-
     makeZerosList() {
         //bad matchups
         let zerosList = []
@@ -343,36 +233,6 @@ class AdvisorPanel extends React.PureComponent {
         return zerosList.length > 0 ? zerosList : strings.options.moveSelect.none
     }
 
-
-
-    makeTableBody(arr) {
-        var tableBody = []
-        //create table body
-        tableBody.push(
-            <thead key={"thead0"} className="thead thead-light" >
-                <tr >
-                    {arr[0]}
-                </tr>
-            </thead>
-        )
-        var arrWithTr = []
-        for (let i = 1; i < arr.length; i++) {
-            arrWithTr.push(
-                <tr key={"tableline" + i}>
-                    {arr[i]}
-                </tr>
-            )
-        }
-        tableBody.push(
-            <tbody key={"tablebody"} className="modifiedBorderTable">
-                {arrWithTr}
-            </tbody>
-        )
-        return tableBody
-    }
-
-
-
     recombineTable() {
         var arr = []
         //markup table
@@ -383,9 +243,61 @@ class AdvisorPanel extends React.PureComponent {
         return arr
     }
 
+    makeMoveTypingList() {
+        let arr = [
+            [<TypingThead key="movetyping" />],
+        ]
+        //add table lines
+        this.addMoveLine(arr, this.props.first)
+        this.addMoveLine(arr, this.props.second)
+        this.addMoveLine(arr, this.props.third)
+        return arr
+    }
 
+    addMoveLine(arr, pok) {
+        if (pok.QuickMove) {
+            this.singleMoveLine(arr, pok.QuickMove, pok)
+        }
+        if (pok.ChargeMove1) {
+            this.singleMoveLine(arr, pok.ChargeMove1, pok)
+        }
+        if (pok.ChargeMove2) {
+            this.singleMoveLine(arr, pok.ChargeMove2, pok)
+        }
+    }
 
+    singleMoveLine(arr, name, pok) {
+        arr.push([<SingleMoveLine
+            MoveType={this.props.moveTable[name].MoveType}
+            line={arr.length}
+            name={name}
+            star={this.addStar(pok.name, name)}
+        />])
+    }
 
+    makePokTypingList(vun) {
+        let arr = [
+            [<TypingThead key="poktyping" />],
+        ]
+
+        //add table lines
+        this.addPokLine(arr, this.props.first, vun)
+        this.addPokLine(arr, this.props.second, vun)
+        this.addPokLine(arr, this.props.third, vun)
+
+        return arr
+    }
+
+    addPokLine(arr, pok, vun) {
+        arr.push([<SinglePokLine
+            i={arr.length}
+            pok={pok}
+            pokemonTable={this.props.pokemonTable}
+            locale={strings.options.type.shadow}
+            addStar={this.addStar}
+            vun={vun}
+        />])
+    }
 
     render() {
         return (
