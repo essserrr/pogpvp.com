@@ -1,18 +1,18 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
+import CSSTransitionGroup from 'react-addons-css-transition-group'
 
 import Errors from "../PvP/components/Errors/Errors"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import MoveRow from "./MoveRow/MoveRow"
-import Header from "./Header/Header"
+import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
 
-import { locale } from "../../locale/locale"
+import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
 
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(dexLocale);
 
 class Movedex extends React.Component {
     constructor(props) {
@@ -24,6 +24,8 @@ class Movedex extends React.Component {
             error: "",
             loading: false,
         };
+
+        this.onChange = this.onChange.bind(this)
     }
 
 
@@ -86,121 +88,63 @@ class Movedex extends React.Component {
             isError: false,
             loading: false,
             moveTable: results[0],
+            originalList: arr,
             listToShow: arr,
         });
     }
 
+
+    onChange(event) {
+        var newArray = []
+        for (var i = 0; i < this.state.originalList.length; i++) {
+            if (this.state.originalList[i].key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
+                newArray.push(this.state.originalList[i])
+            }
+        }
+
+        this.setState({
+            name: event.value,
+            listToShow: newArray,
+        });
+    }
 
 
 
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href="https://pogpvp.com/movedex" />
-
-                    <title>{strings.pageheaders.movedex}</title>
-                    <meta name="description" content={strings.pagedescriptions.movedex} />
-
-                    <meta property="og:title" content={strings.pageheaders.movedex} />
-                    <meta property="og:url" content="https://pogpvp.com/movedex"></meta>
-                    <meta property="og:description" content={strings.pagedescriptions.movedex} />
-
-                    <meta property="twitter:title" content={strings.pageheaders.movedex} />
-                    <meta property="twitter:url" content="https://pogpvp.com/movedex"></meta>
-                    <meta property="twitter:description" content={strings.pagedescriptions.movedex} />
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/movedex"
+                    header={strings.mdtitle}
+                    descr={strings.mddescr}
+                />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="singleNews  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+                        <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
                                     weight="500"
-                                    locale={strings.tips.loading}
+                                    locale={strings.loading}
                                     loading={this.state.loading}
                                 />}
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
-                            {this.state.showResult && <table className="table  table-sm text-center">
-                                <thead>
-                                    <tr>
-                                        <th coltype="string" className="text-left  clickable align-text-top mx-0 mx-sm-2" name="0" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                classOut="row m-0 p-0 justify-content-center"
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="2" id="estimated" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                classOut="row m-0 p-0 justify-content-center"
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="3" id="estimated" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                classOut="row m-0 p-0 justify-content-center"
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="4" id="estimated" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                classOut="row m-0 p-0 justify-content-center"
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="5" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                classOut="row m-0 p-0 justify-content-center"
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="6" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                classOut="row m-0 p-0 justify-content-center"
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="7" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                classOut="row m-0 p-0 justify-content-center"
-                                                checked={false}
-                                            />
-                                        </th>
-                                        <th coltype="string" className="clickable align-text-top mx-0 mx-sm-2" name="8" scope="col">
-                                            <Header
-                                                title="Name"
-                                                class="ml-2 align-self-center "
-                                                checked={false}
-                                            />
-                                        </th>
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                    {this.state.listToShow}
-                                </tbody>
-                            </table>}
+                            {this.state.showResult &&
+                                <>
+                                    <input onChange={this.onChange} className="form-control" type="text" placeholder={strings.moveplace} />
+                                    <table className="table mb-0 table-sm text-center">
+                                        <TableThead
+                                        />
+                                        <CSSTransitionGroup
+                                            component="tbody"
+                                            transitionName="shiny"
+                                            transitionEnterTimeout={150}
+                                            transitionLeaveTimeout={150}
+                                        >
+                                            {this.state.listToShow}
+                                        </CSSTransitionGroup>
+                                    </table>
+                                </>}
                         </div>
                     </div>
                 </div >

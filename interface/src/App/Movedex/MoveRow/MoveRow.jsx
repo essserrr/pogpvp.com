@@ -7,7 +7,7 @@ import { dexLocale } from "../../../locale/dexLocale"
 
 let strings = new LocalizedStrings(dexLocale);
 
-const MoveRow = React.memo(function Pokemon(props) {
+const MoveRow = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     let effect = ""
@@ -22,7 +22,7 @@ const MoveRow = React.memo(function Pokemon(props) {
     }
     return (
         <tr className="animShiny" key={props.value.Title}>
-            <th className="text-center text-sm-left pl-1 pl-sm-2 widthLimit150" key={props.value.Title} scope="row">
+            <th className="text-center text-sm-left px-sm-1 widthLimit150" key={props.value.Title} scope="row">
                 {props.value.Title}
             </th>
             <td className="px-0" value={props.value.MoveType}>
@@ -31,13 +31,13 @@ const MoveRow = React.memo(function Pokemon(props) {
                     code={props.value.MoveType}
                     value={typeDecoder[props.value.MoveType]}
                 /></td>
-            <td className="pl-0 pl-sm-2" value={props.value.Damage}>{props.value.Damage}</td>
-            <td className=" pl-0 pl-sm-2" value={props.value.Energy}>{props.value.Energy}</td>
-            <td className=" pl-0 pl-sm-2" value={props.value.Cooldown}>{props.value.Cooldown / 1000}</td>
-            <td className=" pl-0 pl-sm-2" value={props.value.PvpDamage}>{props.value.PvpDamage}</td>
-            <td className=" pl-0 pl-sm-2" value={props.value.PvpEnergy}>{props.value.PvpEnergy}</td>
-            <td className=" pl-0 pl-sm-2" value={props.value.PvpDuration}>{props.value.PvpDuration}</td>
-            <td className=" pl-1 pl-sm-2" value={props.value.Probability}>{effect}</td>
+            <td className="px-0 px-sm-1" value={props.value.Damage}>{props.value.Damage}</td>
+            <td className="px-0 px-sm-1" value={props.value.Energy}>{props.value.Energy}</td>
+            <td className="px-0 px-sm-1" value={props.value.Cooldown}>{props.value.Cooldown / 1000}</td>
+            <td className="px-0 px-sm-1" value={props.value.PvpDamage}>{props.value.PvpDamage}</td>
+            <td className="px-0 px-sm-1" value={props.value.PvpEnergy}>{props.value.PvpEnergy}</td>
+            <td className="px-0 px-sm-1" value={props.value.PvpDuration}>{props.value.PvpDuration}</td>
+            <td className="px-sm-1" value={props.value.Probability}>{effect}</td>
         </tr>
     )
 
