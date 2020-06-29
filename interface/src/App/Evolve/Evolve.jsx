@@ -43,6 +43,7 @@ class Evolve extends React.Component {
         this.setState({
             loading: true,
         })
+        //get pok base
         var reason = ""
         let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
             method: 'GET',
@@ -76,6 +77,17 @@ class Evolve extends React.Component {
             return;
         }
 
+
+        this.setState({
+            showResult: true,
+            isError: false,
+            loading: false,
+            pokCanEvolve: this.pokWithEvo(result),
+            pokemonTable: result,
+        });
+    }
+
+    pokWithEvo(result) {
         var list = []
         for (let key in result) {
             if (result[key].Evolutions && result[key].Evolutions.length > 0) {
@@ -89,13 +101,7 @@ class Evolve extends React.Component {
                 });
             }
         }
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-            pokCanEvolve: list,
-            pokemonTable: result,
-        });
+        return list
     }
 
     onNameChange(event) {

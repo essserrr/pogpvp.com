@@ -22,39 +22,64 @@ class EvoList extends PureComponent {
         this.returnEvolveList = this.returnEvolveList.bind(this);
     }
 
+    evolist(pokEntry, pokTable, list, stage) {
+        list.push({ name: pokEntry.Title, stage: stage })
+        for (let i = 0; i < pokEntry.Evolutions.length; i++) {
+            this.evolist(pokTable[pokEntry.Evolutions[i]], pokTable, list, stage + 1)
+        }
+    }
 
     returnEvolveList(state) {
+        let list = []
+        this.evolist(state.pokemonTable[state.name], state.pokemonTable, list, 0)
+
         let result = []
-
-        //push original pokemon
-        var firstEvo = []
-        this.pushPokecard(state.name, state, firstEvo, state.pokemonTable)
-        this.pushPokecardWrapper(result, firstEvo, <div key={"firstEvo"} className="separator" >{strings.tips.evolveTool}</div>, "firstEvo1")
-
-        //for range of original pokemon evolutions
-        var secondEvo = []
-        var thirdEvo = []
-        for (var i = 0; i < state.pokemonTable[state.name].Evolutions.length; i++) {
-            var secondName = state.pokemonTable[state.name].Evolutions[i]
-            this.pushPokecard(secondName, state, secondEvo, state.pokemonTable)
-
-            //for range of an evolution evolutions
-            for (var j = 0; j < state.pokemonTable[secondName].Evolutions.length; j++) {
-                var thirdName = state.pokemonTable[secondName].Evolutions[j]
-                if (thirdName === "") {
-                    continue
-                }
-                this.pushPokecard(thirdName, state, thirdEvo, state.pokemonTable)
+        for (let i = 0; i < list.length; i++) {
+            if (!result[list[i].stage]) {
+                result.push([])
             }
+            this.pushPokecard(list[i].name, state, result[list[i].stage], state.pokemonTable)
         }
-        //push the second evolution list
-        this.pushPokecardWrapper(result, secondEvo, (thirdEvo.length > 0) ? <div key={"secondEvo"} className="separator" >{strings.tips.evolveTool}</div> : null, "secondEvo2")
-        //if exists push the third evolution list
-        if (thirdEvo.length > 0) {
-            this.pushPokecardWrapper(result, thirdEvo, null, "thirdEvo3")
+
+        for (let i = 0; i < result.length; i++) {
+            result[i] = this.pushPokecardWrapper(result[i],
+                i < result.length - 1 ?
+                    <div key={i + "sep"} className="separator" >{strings.tips.evolveTool}</div> : null,
+                i + "Evo")
         }
+
         return result
     }
+
+    pushPokecard(name, state, array, pokTable) {
+        array.push(
+            <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-1"}>
+                <PokemonCard
+                    class={"pokEggCard animShiny m-0 p-0"}
+
+                    name={name}
+                    icon={<PokemonIconer
+                        src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                        class={"icon48"} />}
+                    body={this.generateBody(name, state)}
+
+                    classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
+                    classIcon={"icon48 m-0 p-0 align-self-center"}
+                    classBody={"eggCardBody row  m-0 p-1 justify-content-center"}
+                />
+            </div>)
+    }
+
+    pushPokecardWrapper(what, separator, key) {
+        what = [<div key={key} className={separator ? "row justify-content-center p-0 m-0 mb-2" : "row justify-content-center p-0 m-0"}>
+            {what}
+        </div>]
+        what.push(
+            separator
+        )
+        return what
+    }
+
 
     generateBody(name, state) {
         return <>
@@ -82,38 +107,6 @@ class EvoList extends PureComponent {
             </div>
         </>
     }
-
-    pushPokecard(name, state, array, pokTable) {
-        array.push(
-            <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-1"}>
-                <PokemonCard
-                    class={"pokEggCard animShiny m-0 p-0"}
-
-                    name={name}
-                    icon={<PokemonIconer
-                        src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                        class={"icon48"} />}
-                    body={this.generateBody(name, state)}
-
-                    classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}
-                    classIcon={"icon48 m-0 p-0 align-self-center"}
-                    classBody={"eggCardBody row  m-0 p-1 justify-content-center"}
-                />
-            </div>)
-    }
-
-    pushPokecardWrapper(result, what, separator, key) {
-        result.push(
-            <div key={key} className={separator ? "row justify-content-center p-0 m-0 mb-2" : "row justify-content-center p-0 m-0"}>
-                {what}
-            </div>
-        )
-        result.push(
-            separator
-        )
-    }
-
-
 
 
     render() {
