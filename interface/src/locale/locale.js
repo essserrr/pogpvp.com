@@ -86,7 +86,6 @@ export const locale = {
             raids: "Raids list  |  PogPvP.com",
             eggs: "Eggs list  |  PogPvP.com",
             main: "PogPvP.com | Pokemon GO PvP simulator, ratings, shiny rates and more",
-            movedex: "Movedex  |  PogPvP.com",
         },
 
         pagedescriptions: {
@@ -96,7 +95,6 @@ export const locale = {
             evolution: "Pokemon GO evolution calculator. Know your mon's CP after evolution",
             raids: "Pokemon GO raids list. Don't miss raid tiers update",
             eggs: "Pokemon GO eggs list. Don't miss eggs pool update",
-            movedex: "List of all currently available moves in Pokemon Go",
             common: "Pokemon GO raid simulator. Find the best counters to the current bosses",
 
             single: "Pokemon GO single PvP simulator. Battle between two mons",
@@ -343,7 +341,6 @@ export const locale = {
             raids: "Список текущих рейдов  |  PogPvP.com",
             eggs: "Список покемонов из яиц  |  PogPvP.com",
             main: "PogPvP.com | Pokemon GO PvP симулятор, рейтинг, шансы на шайни и многое другое",
-            movedex: "Мувдекс  |  PogPvP.com",
 
         },
 
@@ -352,7 +349,6 @@ export const locale = {
             evolution: "Калькулятор эволюций в Pokemon GO. Знай CP своего покемона после эволюции!",
             raids: "Список текущих рейдов в Pokemon GO. Узнай об изменениях списка рейдов первым!",
             eggs: "Список покемонов из яиц в Pokemon GO. Узнай об изменениях списка яиц первым!",
-            movedex: "Список всех допустныхв Pokemon Go умений",
             common: "Симулятор рейдов в Pokemon GO. Найди лучшего покемона против любого босса",
 
             single: "Симулятор одиночного PvP в Pokemon GO. Бой между двумя покемонами",
