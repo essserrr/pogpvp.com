@@ -18,7 +18,6 @@ const CpAndTyping = React.memo(function Pokemon(props) {
                 Sta={props.Sta}
                 pokemonTable={props.pokemonTable}
             />
-
             {(props.pokemonTable[props.name]["Type"][0] !== undefined) && <Type
                 class={"icon18"}
                 code={props.pokemonTable[props.name]["Type"][0]}
@@ -30,9 +29,6 @@ const CpAndTyping = React.memo(function Pokemon(props) {
                 code={props.pokemonTable[props.name]["Type"][1]}
                 value={typeDecoder[props.pokemonTable[props.name]["Type"][1]]}
             />}
-
-
-
         </div>
 
     )

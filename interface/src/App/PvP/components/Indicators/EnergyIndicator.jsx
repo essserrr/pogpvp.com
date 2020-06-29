@@ -17,15 +17,16 @@ const EnergyIndicator = React.memo(function (props) {
         : defaultValue;
 
     return (
-        <><ReactTooltip
-            className='logItems'
-            id={props.for}
-            effect='solid'
-            place="top"
-            multiline={true}
-        >
-            {props.tip}
-        </ReactTooltip>
+        <>
+            <ReactTooltip
+                className='logItems'
+                id={props.for}
+                effect='solid'
+                place="top"
+                multiline={true}
+            >
+                {props.tip}
+            </ReactTooltip>
             <div
                 data-tip data-for={props.for}
                 className={(value < maxValue) ? "energyBar" : "energyBar glow" + props.moveType}

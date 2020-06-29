@@ -30,7 +30,6 @@ class MagicBox extends PureComponent {
 
                     </div>
                 </div>
-
             </>
 
         );

@@ -29,7 +29,6 @@ const BreakpointsList = React.memo(function Pokemon(props) {
 
     return (
         arr.length > 0 && <>
-
             <div className={"col-12 m-0 p-0 text-center font90 borderTop mt-1 pt-1"} >
                 {pvestrings.qbreak} <span className="fontBolder">{props.move.Title}</span>
             </div>

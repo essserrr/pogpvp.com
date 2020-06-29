@@ -5,8 +5,6 @@ import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 
 
 class WeatherList extends React.PureComponent {
-
-
     weatherList() {
         let arr = []
         for (let key in weather[this.props.weather]) {
@@ -18,10 +16,8 @@ class WeatherList extends React.PureComponent {
                     class={"ml-1 icon18"} />
             )
         }
-
         return arr
     }
-
     render() {
         return (
             this.weatherList()

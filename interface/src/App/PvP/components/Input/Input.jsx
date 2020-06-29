@@ -2,7 +2,6 @@ import React from "react";
 
 const Input = React.memo(function (props) {
     return (
-
         <input
             className={props.class ? props.class : "defaultFont modifiedBorder form-control"}
 

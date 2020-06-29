@@ -19,10 +19,7 @@ const HPIndicator = React.memo(function (props) {
             <div className="textOnBar">
                 {value}/{maxValue}
             </div>
-
             <div className="hpIndicator" style={{ width: (value / maxValue * 100) + "%" }}></div>
-
-
         </div>
     )
 });
