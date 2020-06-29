@@ -22,22 +22,22 @@ const MoveRow = React.memo(function (props) {
     }
     return (
         <tr className="animShiny" key={props.value.Title}>
-            <th className="text-center text-sm-left px-sm-1 widthLimit150" key={props.value.Title} scope="row">
+            <th className="align-middle text-center text-sm-left px-sm-1 " key={props.value.Title} scope="row">
                 {props.value.Title}
             </th>
-            <td className="px-0" value={props.value.MoveType}>
+            <td className="align-middle px-0 " value={props.value.MoveType}>
                 <Type
                     class={"mx-1 icon18"}
                     code={props.value.MoveType}
                     value={typeDecoder[props.value.MoveType]}
                 /></td>
-            <td className="px-0 px-sm-1" value={props.value.Damage}>{props.value.Damage}</td>
-            <td className="px-0 px-sm-1" value={props.value.Energy}>{props.value.Energy}</td>
-            <td className="px-0 px-sm-1" value={props.value.Cooldown}>{props.value.Cooldown / 1000}</td>
-            <td className="px-0 px-sm-1" value={props.value.PvpDamage}>{props.value.PvpDamage}</td>
-            <td className="px-0 px-sm-1" value={props.value.PvpEnergy}>{props.value.PvpEnergy}</td>
-            <td className="px-0 px-sm-1" value={props.value.PvpDuration}>{props.value.PvpDuration}</td>
-            <td className="px-sm-1" value={props.value.Probability}>{effect}</td>
+            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.Damage}>{props.value.Damage}</td>
+            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.Energy}>{props.value.Energy}</td>
+            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.Cooldown}>{props.value.Cooldown / 1000}</td>
+            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.PvpDamage}>{props.value.PvpDamage}</td>
+            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.PvpEnergy}>{props.value.PvpEnergy}</td>
+            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.PvpDuration}>{props.value.PvpDuration}</td>
+            <td className="align-middle px-sm-1 " value={props.value.Probability}>{effect}</td>
         </tr>
     )
 
