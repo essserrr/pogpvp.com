@@ -1709,3 +1709,19 @@ linkText:hover
     padding-top: 5px !important;
     padding-bottom: 5px !important;
 }
+
+.link {
+    color: #0039e6 !important;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+.movecardTitle {
+    font-weight: 500;
+    border-bottom: 3px solid rgba(0, 0, 0, 0.342);
+}
+
+.cardFirst {
+    font-weight: 500;
+}

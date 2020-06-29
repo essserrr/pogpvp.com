@@ -4,7 +4,7 @@ import PokemonIconer from "../PokemonIconer/PokemonIconer"
 const Type = React.memo(function (props) {
 
     return (
-        props.value && <abbr title={props.value} className="initialism" >
+        props.value && <abbr title={props.value} className={props.abbrStyle ? props.abbrStyle : "initialism"} >
             <PokemonIconer
                 folder="/type/"
                 src={props.code}

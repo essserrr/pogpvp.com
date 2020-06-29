@@ -15,7 +15,7 @@ const TableThead = React.memo(function (props) {
             <tr>
                 <th coltype="string"
                     onClick={props.onClick}
-                    className="text-center text-sm-left clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
+                    className="text-center clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="Title" scope="col">
                     <Header
                         checked={props.active.Title}
@@ -100,9 +100,9 @@ const TableThead = React.memo(function (props) {
                 <th coltype="number"
                     onClick={props.onClick}
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
-                    name="PvpDuration" scope="col">
+                    name="PvpDurationSeconds" scope="col">
                     <Header
-                        checked={props.active.PvpDuration}
+                        checked={props.active.PvpDurationSeconds}
                         title={strings.mt.dr}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"

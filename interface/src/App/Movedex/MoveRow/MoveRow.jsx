@@ -22,8 +22,14 @@ const MoveRow = React.memo(function (props) {
     }
     return (
         <tr className="animShiny" key={props.value.Title}>
-            <th className="align-middle text-center text-sm-left px-sm-1 " key={props.value.Title} scope="row">
-                {props.value.Title}
+            <th className="align-middle text-center px-sm-1 " key={props.value.Title} scope="row">
+                <a title={strings.dexentr + props.value.Title}
+                    className="link"
+                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/movedex/id/" + encodeURIComponent(props.value.Title)}
+                >
+                    {props.value.Title}
+                </a>
+
             </th>
             <td className="align-middle px-0 " value={props.value.MoveType}>
                 <Type
@@ -36,7 +42,7 @@ const MoveRow = React.memo(function (props) {
             <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.Cooldown}>{props.value.Cooldown / 1000}</td>
             <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.PvpDamage}>{props.value.PvpDamage}</td>
             <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.PvpEnergy}>{props.value.PvpEnergy}</td>
-            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.PvpDuration}>{props.value.PvpDuration}</td>
+            <td className="align-middle px-0 px-sm-1 px-md-3 " value={props.value.PvpDurationSeconds / 0.5}>{props.value.PvpDurationSeconds / 0.5}</td>
             <td className="align-middle px-sm-1 " value={props.value.Probability}>{effect}</td>
         </tr>
     )
