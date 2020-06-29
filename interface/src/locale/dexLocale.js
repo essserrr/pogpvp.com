@@ -13,6 +13,8 @@ export const dexLocale = {
         mddescr: "List of all currently available moves in Pokemon Go",
         loading: "Loading...",
 
+        dexentr: "View dex for ",
+
         mt: {
             n: "Name",
             tp: "Type",
@@ -35,6 +37,25 @@ export const dexLocale = {
             dr: "PvP duration (rounds)",
             ef: "PvP effect",
         },
+
+        movecard: {
+            pve: "PvE move info",
+            dwstart: "Damage window starts (seconds)",
+            dwdur: "Dodge window (seconds)",
+            dps: "Damage per second",
+            eps: "Energy per second",
+            dpe: "Damage per energy",
+            dpsdpe: "DPS*DPE",
+
+            dpt: "Damage per turn",
+            ept: "Energy per turn",
+        },
+
+
+        mtype: "Move type",
+        macat: "Move category",
+        chm: "Charge move",
+        qm: "Quick move",
     },
 
     ru: {
@@ -50,6 +71,8 @@ export const dexLocale = {
         mdtitle: "Мувдекс  |  PogPvP.com",
         mddescr: "Список всех допустныхв Pokemon Go умений",
         loading: "Загрузка...",
+
+        dexentr: "Открыть декс для ",
 
         mt: {
             n: "Имя",
@@ -73,5 +96,23 @@ export const dexLocale = {
             dr: "Длительность в PvP (раундов)",
             ef: "Доп. эффект в PvP",
         },
+
+        movecard: {
+            pve: "Параметры умения в PvE",
+            dwstart: "Окно урона (секунд)",
+            dwdur: "Окно уклонения (секунд)",
+            eps: "Энергия в секунду",
+            dps: "Урон в секунду",
+            dpe: "Урона на энергию",
+            dpsdpe: "УВС*УНЭ",
+
+            dpt: "Урон за ход",
+            ept: "Энергия за ход",
+        },
+
+        mtype: "Тип мува",
+        macat: "Категория мува",
+        chm: "Заряжаемое умение",
+        qm: "Быстрое умение",
     }
 }
