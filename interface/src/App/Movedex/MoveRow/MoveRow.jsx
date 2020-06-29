@@ -10,7 +10,6 @@ let strings = new LocalizedStrings(dexLocale);
 const MoveRow = React.memo(function Pokemon(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-    console.log(props.value)
     let effect = ""
     if (props.value.Subject !== "") {
         effect += (props.value.Probability * 100) + strings.ch

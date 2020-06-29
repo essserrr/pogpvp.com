@@ -1,8 +1,9 @@
 import React from "react";
 import { UnmountClosed } from 'react-collapse';
-import { ReactComponent as Shadow } from "../../icons/shadow.svg";
 import { checkShadow, getCookie, encodeQueryData, calculateMaximizedStats } from "../../js/indexFunctions"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
+import RMoveRow from "./RMoveRow/RMoveRow"
+import RRateRow from "./RRateRow/RRateRow"
+import RowWrap from "./RowWrap/RowWrap"
 
 import LocalizedStrings from 'react-localization';
 import { locale } from "../../locale/locale"
@@ -20,7 +21,7 @@ class Collapsable extends React.PureComponent {
         this.onClick = this.onClick.bind(this);
         this.generateBody = this.generateBody.bind(this);
         this.onClickRedirect = this.onClickRedirect.bind(this);
-
+        this.createMovesetList = this.createMovesetList.bind(this);
     }
 
 
@@ -30,17 +31,13 @@ class Collapsable extends React.PureComponent {
             showCollapse: !this.state.showCollapse,
             colElement: !this.state.showCollapse ? this.generateBody() : null,
         })
-
     }
 
     onClickRedirect(event) {
         var defenderOriginalName = event.currentTarget.getAttribute('name')
         var defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
         var league = (this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())
-
-
         var maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall
-
 
         switch (this.props.combination) {
             case "00":
@@ -64,54 +61,29 @@ class Collapsable extends React.PureComponent {
         }
 
         var defender = this.props.ratingList.find(element => element.Name === defenderOriginalName);
-        var defenderString = encodeQueryData({
-            name: defenderName,
-            Lvl: maxStatsD.Level,
-            Atk: maxStatsD.Atk,
-            Def: maxStatsD.Def,
-            Sta: maxStatsD.Sta,
-            Shields: shields[1],
 
-            AtkStage: 0,
-            DefStage: 0,
-            InitialHP: 0,
-            InitialEnergy: 0,
-
-            IsGreedy: true,
-            IsShadow: defenderName !== defenderOriginalName,
-
-            QuickMove: defender.Movesets[0].Quick,
-            ChargeMove1: defender.Movesets[0].Charge[0],
-            ChargeMove2: defender.Movesets[0].Charge[1],
-        })
+        var defenderString = encodeQueryData(
+            this.generatePokObj(defenderName, maxStatsD, shields[1], defenderName !== defenderOriginalName, defender)
+        )
 
         var attackerOriginalName = this.props.container.Name
         var attackerName = checkShadow(attackerOriginalName, this.props.pokemonTable)
-
         var maxStatsA = calculateMaximizedStats(attackerName, 40, this.props.pokemonTable)[league].Overall
 
-        var attackerString = encodeQueryData({
-            name: attackerName,
-            Lvl: maxStatsA.Level,
-            Atk: maxStatsA.Atk,
-            Def: maxStatsA.Def,
-            Sta: maxStatsA.Sta,
-            Shields: shields[0],
-
-            AtkStage: 0,
-            DefStage: 0,
-            InitialHP: 0,
-            InitialEnergy: 0,
-
-            IsGreedy: true,
-            IsShadow: attackerName !== attackerOriginalName,
-
-            QuickMove: this.props.container.Movesets[0].Quick,
-            ChargeMove1: this.props.container.Movesets[0].Charge[0],
-            ChargeMove2: this.props.container.Movesets[0].Charge[1],
-        })
+        var attackerString = encodeQueryData(
+            this.generatePokObj(attackerName, maxStatsA, shields[0], attackerName !== attackerOriginalName, this.props.container)
+        )
 
         window.open("/pvp/single/great/" + attackerString + "/" + defenderString, "_blank")
+    }
+
+    generatePokObj(name, stat, shields, isShadow, movelist) {
+        return {
+            name: name, Lvl: stat.Level, Atk: stat.Atk, Def: stat.Def, Sta: stat.Sta, Shields: shields,
+            AtkStage: 0, DefStage: 0, InitialHP: 0, InitialEnergy: 0,
+            IsGreedy: true, IsShadow: isShadow,
+            QuickMove: movelist.Movesets[0].Quick, ChargeMove1: movelist.Movesets[0].Charge[0], ChargeMove2: movelist.Movesets[0].Charge[1],
+        }
     }
 
     createSublist(array) {
@@ -127,22 +99,13 @@ class Collapsable extends React.PureComponent {
                 continue
             }
             sublist.push(
-                <div key={array[i].Name}
-                    name={pokName}
-                    onClick={this.onClickRedirect}
-                    className="row collapseList clickable animRating justify-content-between px-2 mb-1 mx-2 mx-md-3">
-                    <div >
-                        <PokemonIconer
-                            src={this.props.pokemonTable[pokName].Number + (this.props.pokemonTable[pokName].Forme !== "" ? "-" + this.props.pokemonTable[pokName].Forme : "")}
-
-                            class={"icon24 mr-1"} />
-                        {pokName}
-                        {(pokName !== array[i].Name) && <Shadow className="allign-self-center icon24 py-1 ml-1" />}
-                    </div>
-                    <div >
-                        {array[i].Rate}
-                    </div>
-                </div>
+                <RRateRow
+                    key={array[i].Name}
+                    pokName={pokName}
+                    pokemonTable={this.props.pokemonTable}
+                    value={array[i]}
+                    onClickRedirect={this.onClickRedirect}
+                />
             )
         }
         return sublist
@@ -157,27 +120,11 @@ class Collapsable extends React.PureComponent {
         var maxLength = (array.length > 3) ? 3 : array.length
         for (var i = 0; i < maxLength; i++) {
             sublist.push(
-                <div key={array[i].Quick + array[i].Charge[0] + array[i].Charge[1]}
-                    className="col-12  collapseList animRating m-0 mb-1 p-0">
-                    <div className="row justify-content-between  m-0 p-0">
-                        <div className="col-10 m-0 p-0">
-                            <div className="row justify-content-md-left m-0 p-0">
-                                {this.props.moveTable[array[i].Quick] && <div className={"mx-1 moveStyle typeColor color" + this.props.moveTable[array[i].Quick].MoveType + " text"}>
-                                    {array[i].Quick}
-                                </div>}
-                                {this.props.moveTable[array[i].Charge[0]] && <div className={"mx-1  moveStyle typeColor color" + this.props.moveTable[array[i].Charge[0]].MoveType + " text"}>
-                                    {array[i].Charge[0]}
-                                </div>}
-                                {this.props.moveTable[array[i].Charge[1]] && <div className={"mx-1 moveStyle typeColor color" + this.props.moveTable[array[i].Charge[1]].MoveType + " text"}>
-                                    {array[i].Charge[1]}
-                                </div>}
-                            </div>
-                        </div>
-                        <div className="col-2 text-right align-self-center m-0 p-0 pr-2">
-                            {array[i].Rate}
-                        </div>
-                    </div>
-                </div>
+                <RMoveRow
+                    key={array[i].Quick + array[i].Charge[0] + array[i].Charge[1]}
+                    moveTable={this.props.moveTable}
+                    value={array[i]}
+                />
             )
         }
         return sublist
@@ -185,40 +132,32 @@ class Collapsable extends React.PureComponent {
 
     generateBody() {
         var body = []
-
-        var best = this.createSublist(this.props.container.BestMetaMatchups)
         body.push(
-            <div key={"Best meta matchups"} className="col-12 col-sm-6 p-0 m-0">
-                <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
-                    <div className="col-8 m-0 p-0 text-left">{strings.rating.bestMatchups}</div>
-                    <i className="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
-                </div>
-                {best}
-            </div>
+            <RowWrap
+                key={"Best meta matchups"}
+                outClass="col-12 col-sm-6 p-0 m-0"
+                locale={strings.rating.bestMatchups}
+                value={this.createSublist(this.props.container.BestMetaMatchups)}
+            />
         )
 
-        var counters = this.createSublist(this.props.container.Counters)
         body.push(
-            <div key={"Meta counters"} className="col-12 col-sm-6 p-0 m-0">
-                <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
-                    <div className="col-8 m-0 p-0 text-left">{strings.rating.bestCounter}</div>
-                    <i className="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
-                </div>
-                {counters}
-            </div>
+            <RowWrap
+                key={"Meta counters"}
+                outClass="col-12 col-sm-6 p-0 m-0"
+                locale={strings.rating.bestCounter}
+                value={this.createSublist(this.props.container.Counters)}
+            />
         )
 
-        var movesets = this.createMovesetList(this.props.container.Movesets)
         body.push(
-            <div key={"Best movesets"} className="col-12 col-sm-11 col-md-8 p-0 m-0 text-center">
-                <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">
-                    <div className="col-8 m-0 p-0 text-left">{strings.rating.movesets}</div>
-                    <i className="align-self-end fas fa-trophy mr-2 mb-sm-1"></i>
-                </div>
-                <div className="row p-0 mx-2 mx-md-3">
-                    {movesets}
-                </div>
-            </div>
+            <RowWrap
+                key={"Best movesets"}
+                outClass="col-12 col-sm-11 col-md-8 p-0 m-0 text-center"
+                locale={strings.rating.movesets}
+                class="row p-0 mx-2 mx-md-3"
+                value={this.createMovesetList(this.props.container.Movesets)}
+            />
         )
 
         return body
