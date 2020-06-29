@@ -3,10 +3,13 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 import CSSTransitionGroup from 'react-addons-css-transition-group'
 
+
 import Errors from "../PvP/components/Errors/Errors"
 import MoveRow from "./MoveRow/MoveRow"
 import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
+import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
+import MoveDescr from "./MoveDescr/MoveDescr"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -19,12 +22,13 @@ class Movedex extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
+            showLegend: false,
             showResult: false,
             isError: false,
             error: "",
             loading: false,
         };
-
+        this.onShowLegend = this.onShowLegend.bind(this)
         this.onChange = this.onChange.bind(this)
     }
 
@@ -109,6 +113,11 @@ class Movedex extends React.Component {
     }
 
 
+    onShowLegend() {
+        this.setState({
+            showLegend: !this.state.showLegend
+        })
+    }
 
     render() {
         return (
@@ -120,6 +129,19 @@ class Movedex extends React.Component {
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
+                        <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2">
+                            <DropWithArrow
+                                onShow={this.onShowLegend}
+                                show={this.state.showLegend}
+                                title={strings.tip.title}
+                                elem={<MoveDescr />}
+
+                                faOpened="align-self-center fas fa-angle-up fa-lg "
+                                faClosed="align-self-center fas fa-angle-down fa-lg"
+                                outClass="row justify-content-between m-0 p-0 clickable"
+                                inClass="row justify-content-start m-0 p-0" />
+                        </div>
+
                         <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader

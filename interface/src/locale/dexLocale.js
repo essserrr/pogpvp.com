@@ -24,6 +24,17 @@ export const dexLocale = {
             dr: "DR",
             ef: "EF",
         },
+
+        tip: {
+            title: "Legend",
+            rd: "Raid damage",
+            pd: "PvP damage",
+            re: "Raid energy",
+            pe: "PvP energy",
+            cd: "Raid cooldown (seconds)",
+            dr: "PvP duration (rounds)",
+            ef: "PvP effect",
+        },
     },
 
     ru: {
@@ -50,6 +61,17 @@ export const dexLocale = {
             cd: "ПР",
             dr: "ДЛ",
             ef: "ЭФ",
+        },
+
+        tip: {
+            title: "Условные обозначения",
+            rd: "Урон в рейдах",
+            pd: "Урон в PvP",
+            re: "Энергия в рейдах",
+            pe: "Энергия в PvP",
+            cd: "Перезарядка в рейдах (секунд)",
+            dr: "Длительность в PvP (раундов)",
+            ef: "Доп. эффект в PvP",
         },
     }
 }
