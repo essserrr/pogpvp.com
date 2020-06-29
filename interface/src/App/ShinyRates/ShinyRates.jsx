@@ -19,7 +19,7 @@ class ShinyRates extends React.Component {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             active: {
-                0: true,
+                Name: true,
             },
 
             name: "",
@@ -103,6 +103,7 @@ class ShinyRates extends React.Component {
     onClick(event) {
         var fieldName = event.currentTarget.getAttribute('name')
         var fieldType = event.currentTarget.getAttribute('coltype')
+        console.log(fieldType, fieldName)
         switch (this.state.active[fieldName]) {
             case true:
                 this.setState({
@@ -115,13 +116,13 @@ class ShinyRates extends React.Component {
                     active: { [fieldName]: true },
                     shinyRates: fieldType === "number" ?
                         this.state.shinyRates.sort(function (a, b) {
-                            return a.props.children[fieldName].props.value - b.props.children[fieldName].props.value
+                            return a.props.pok[fieldName] - b.props.pok[fieldName]
                         }) :
                         this.state.shinyRates.sort(function (a, b) {
-                            if (a.props.children[fieldName].props.value < b.props.children[fieldName].props.value) {
+                            if (a.props.pok[fieldName] < b.props.pok[fieldName]) {
                                 return -1;
                             }
-                            if (b.props.children[fieldName].props.value < a.props.children[fieldName].props.value) {
+                            if (b.props.pok[fieldName] < a.props.pok[fieldName]) {
                                 return 1;
                             }
                             return 0;
@@ -149,6 +150,7 @@ class ShinyRates extends React.Component {
 
 
     render() {
+        console.log(this.state.active)
         return (
             <>
                 <SiteHelm
@@ -170,10 +172,10 @@ class ShinyRates extends React.Component {
                             {this.state.showResult && <ShinyTable
                                 onClick={this.onClick}
                                 onChange={this.onChange}
-                                firstColumn={this.state.active[0]}
-                                secondColumn={this.state.active[1]}
-                                thirdColumn={this.state.active[2]}
-                                fourthColumn={this.state.active[3]}
+                                firstColumn={this.state.active.Name}
+                                secondColumn={this.state.active.Odds}
+                                thirdColumn={this.state.active.Odss}
+                                fourthColumn={this.state.active.Checks}
 
                                 body={this.state.shinyRates}
                             />

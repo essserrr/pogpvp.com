@@ -22,6 +22,10 @@ class Movedex extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
+            active: {
+                Title: false,
+            },
+
             showLegend: false,
             showResult: false,
             isError: false,
@@ -30,6 +34,7 @@ class Movedex extends React.Component {
         };
         this.onShowLegend = this.onShowLegend.bind(this)
         this.onChange = this.onChange.bind(this)
+        this.onSort = this.onSort.bind(this)
     }
 
 
@@ -119,6 +124,39 @@ class Movedex extends React.Component {
         })
     }
 
+    onSort(event) {
+        var fieldName = event.currentTarget.getAttribute('name')
+        var fieldType = event.currentTarget.getAttribute('coltype')
+
+        console.log(fieldName, fieldType)
+        switch (this.state.active[fieldName]) {
+            case true:
+                this.setState({
+                    active: { [fieldName]: false },
+                    shinyRates: this.state.listToShow.reverse(),
+                });
+                break
+            default:
+                this.setState({
+                    active: { [fieldName]: true },
+                    listToShow: fieldType === "number" ?
+                        this.state.listToShow.sort(function (a, b) {
+                            return b.props.value[fieldName] - a.props.value[fieldName]
+                        }) :
+                        this.state.listToShow.sort(function (a, b) {
+                            if (a.props.value[fieldName] > b.props.value[fieldName]) {
+                                return -1;
+                            }
+                            if (b.props.value[fieldName] < a.props.value[fieldName]) {
+                                return 1;
+                            }
+                            return 0;
+                        }),
+                });
+                break
+        }
+    }
+
     render() {
         return (
             <>
@@ -156,6 +194,8 @@ class Movedex extends React.Component {
                                     <input onChange={this.onChange} className="form-control" type="text" placeholder={strings.moveplace} />
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
+                                            active={this.state.active}
+                                            onClick={this.onSort}
                                         />
                                         <CSSTransitionGroup
                                             component="tbody"

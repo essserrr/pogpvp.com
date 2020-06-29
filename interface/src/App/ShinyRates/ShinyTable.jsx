@@ -19,7 +19,7 @@ const ShinyTable = React.memo(function (props) {
             <table className="table  table-sm text-center">
                 <thead>
                     <tr>
-                        <th coltype="string" className="text-left  clickable align-text-top mx-0 mx-sm-2" name="0" onClick={props.onClick} scope="col">
+                        <th coltype="string" className="text-left  clickable align-text-top mx-0 mx-sm-2" name="Name" onClick={props.onClick} scope="col">
                             <Header
                                 title={strings.shinyrates.pokname}
                                 class="ml-2 align-self-center "
@@ -27,7 +27,7 @@ const ShinyTable = React.memo(function (props) {
                                 checked={props.firstColumn}
                             />
                         </th>
-                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} scope="col">
+                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="Odds" onClick={props.onClick} scope="col">
                             <Header
                                 title={<>{strings.shinyrates.rate1}<wbr />{strings.shinyrates.rate2}</>}
                                 class="ml-2 align-self-center "
@@ -36,7 +36,7 @@ const ShinyTable = React.memo(function (props) {
                             />
 
                         </th>
-                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="1" onClick={props.onClick} id="estimated" scope="col">
+                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="Odds" onClick={props.onClick} id="estimated" scope="col">
                             <Header
                                 title={<div className="d-flex">
                                     {strings.shinyrates.rateest}
@@ -57,7 +57,7 @@ const ShinyTable = React.memo(function (props) {
                             />
 
                         </th>
-                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="3" onClick={props.onClick} scope="col">
+                        <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="Checks" onClick={props.onClick} scope="col">
                             <Header
                                 title={strings.shinyrates.checks}
                                 classOut="row m-0 p-0 justify-content-center"

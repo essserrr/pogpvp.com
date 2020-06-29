@@ -1,10 +1,11 @@
 import React from "react";
 
 const Header = React.memo(function (props) {
+    console.log(props.checked)
     return (
         <div className={props.classOut}>
             {props.title}
-            <div className={props.class + (props.checked ? "fas fa-angle-down fa-md" : "fas fa-angle-up fa-md")} />
+            <div className={props.class + (props.checked === true ? "fas fa-angle-up fa-md" : "fas fa-angle-down fa-md")} />
         </div>
     )
 
