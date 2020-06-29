@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = React.memo(function Pokemon(props) {
+const Header = React.memo(function (props) {
     return (
         <div className={props.classOut}>
             {props.title}

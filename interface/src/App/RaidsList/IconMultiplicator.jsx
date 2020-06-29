@@ -15,7 +15,7 @@ function multiply(n, key) {
 }
 
 
-const IconMultiplicator = React.memo(function Pokemon(props) {
+const IconMultiplicator = React.memo(function (props) {
     return (
         <>
             {props.title}

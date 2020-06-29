@@ -1,7 +1,7 @@
 import React from "react";
 import { culculateCP, culculateBossCP } from "../../../../js/indexFunctions.js"
 
-const CP = React.memo(function Pokemon(props) {
+const CP = React.memo(function (props) {
 
     return (
         <div className={props.class}>

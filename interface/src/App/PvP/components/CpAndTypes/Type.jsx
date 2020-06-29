@@ -1,7 +1,7 @@
 import React from "react";
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 
-const Type = React.memo(function Pokemon(props) {
+const Type = React.memo(function (props) {
 
     return (
         props.value && <abbr title={props.value} className="initialism" >

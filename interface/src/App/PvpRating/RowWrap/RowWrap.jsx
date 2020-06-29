@@ -1,6 +1,6 @@
 import React from "react";
 
-const RowWrap = React.memo(function Pokemon(props) {
+const RowWrap = React.memo(function (props) {
     return (
         <div className={props.outClass}>
             <div className="row bigCardHeader justify-content-between p-0 mb-1 mx-2 mx-md-3">

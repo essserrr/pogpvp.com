@@ -8,7 +8,7 @@ import { getCookie } from "../../../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
-const Stats = React.memo(function Pokemon(props) {
+const Stats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <div className={props.class ? props.class : "font95 input-group input-group-sm mt-1 mb-2"} >

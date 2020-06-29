@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Tier = React.memo(function Pokemon(props) {
+const Tier = React.memo(function (props) {
     return (
         <>
             {<div className="separator capsSeparator" >{props.title}</div>}

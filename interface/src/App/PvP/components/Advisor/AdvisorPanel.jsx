@@ -335,13 +335,9 @@ class AdvisorPanel extends React.PureComponent {
 
                 <div className={"col-12 m-0 p-0 " + (this.state.showCollapse ? "borderTop" : "")}>
                     <UnmountClosed isOpened={this.state.showCollapse}>
-
                         {this.state.colElement}
-
                     </UnmountClosed>
-
                 </div>
-
             </div>
 
         );

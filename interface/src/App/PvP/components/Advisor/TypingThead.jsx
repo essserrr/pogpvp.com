@@ -3,7 +3,7 @@ import { typeDecoder } from "../../../../js/indexFunctions"
 import TheadCell from "./TheadCell"
 
 
-const TypingThead = React.memo(function Pokemon(props) {
+const TypingThead = React.memo(function (props) {
     let arr = []
     for (let j = 0; j < typeDecoder.length; j++) {
         arr.push(<TheadCell key={j + "thead"} type={j} />)

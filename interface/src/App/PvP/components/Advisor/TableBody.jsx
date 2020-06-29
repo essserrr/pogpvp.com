@@ -1,6 +1,6 @@
 import React from "react";
 
-const TableBody = React.memo(function Pokemon(props) {
+const TableBody = React.memo(function (props) {
     var arrWithTr = []
     for (let i = 1; i < props.value.length; i++) {
         arrWithTr.push(

@@ -7,7 +7,7 @@ import { getCookie, pveDamage, returnEffAtk, getPveMultiplier } from "../../../.
 let pvestrings = new LocalizedStrings(pveLocale);
 
 
-const BreakpointsList = React.memo(function Pokemon(props) {
+const BreakpointsList = React.memo(function (props) {
     pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     let multiplier = getPveMultiplier(props.attacker.Type, props.boss.Type, props.move.MoveType, props.weather, props.friend)

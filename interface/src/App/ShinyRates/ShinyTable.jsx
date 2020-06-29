@@ -10,7 +10,7 @@ import Header from "../Movedex/Header/Header"
 let strings = new LocalizedStrings(locale);
 
 
-const ShinyTable = React.memo(function Pokemon(props) {
+const ShinyTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>

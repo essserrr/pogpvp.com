@@ -1,6 +1,6 @@
 import React from "react";
 
-const RMoveRow = React.memo(function Pokemon(props) {
+const RMoveRow = React.memo(function (props) {
     return (
         <div className="col-12  collapseList animRating m-0 mb-1 p-0">
             <div className="row justify-content-between  m-0 p-0">

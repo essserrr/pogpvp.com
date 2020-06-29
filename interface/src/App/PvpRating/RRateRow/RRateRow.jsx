@@ -3,7 +3,7 @@ import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import { ReactComponent as Shadow } from "../../../icons/shadow.svg";
 
 
-const RRateRow = React.memo(function Pokemon(props) {
+const RRateRow = React.memo(function (props) {
     return (
         <div key={props.value.Name}
             name={props.pokName}

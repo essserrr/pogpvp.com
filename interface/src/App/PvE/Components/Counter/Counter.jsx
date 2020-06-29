@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Counter = React.memo(function Pokemon(props) {
+const Counter = React.memo(function (props) {
 
     return (
         <>

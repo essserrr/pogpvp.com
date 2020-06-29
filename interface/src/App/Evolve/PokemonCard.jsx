@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const PokemonCard = React.memo(function Pokemon(props) {
+const PokemonCard = React.memo(function (props) {
     return (
         <div className={"row m-0 p-0  justify-content-center "}>
             <div className={props.class}>

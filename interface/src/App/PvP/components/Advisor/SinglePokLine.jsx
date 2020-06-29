@@ -5,7 +5,7 @@ import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import { returnVunStyle } from "../../..//../js/indexFunctions"
 
 
-const SinglePokLine = React.memo(function Pokemon(props) {
+const SinglePokLine = React.memo(function (props) {
 
     let arr = []
     for (let k = 1; k < props.vun[props.i - 1].length + 1; k++) {

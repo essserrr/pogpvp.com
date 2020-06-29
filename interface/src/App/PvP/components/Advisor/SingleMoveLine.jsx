@@ -2,7 +2,7 @@ import React from "react";
 import { returnVunStyle, effectivenessData } from "../../..//../js/indexFunctions"
 
 
-const SingleMoveLine = React.memo(function Pokemon(props) {
+const SingleMoveLine = React.memo(function (props) {
     let arr = []
 
     for (let j = 0; j < effectivenessData[props.MoveType].length; j++) {

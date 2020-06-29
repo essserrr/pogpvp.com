@@ -3,7 +3,7 @@ import CP from "./CP"
 import Type from "./Type"
 import { typeDecoder } from "../../../../js/indexFunctions.js"
 
-const CpAndTyping = React.memo(function Pokemon(props) {
+const CpAndTyping = React.memo(function (props) {
     return (
         <div className="defaultFont mt-2">
             <CP

@@ -4,7 +4,7 @@ import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 
 
 
-const ShinyTableTr = React.memo(function Pokemon(props) {
+const ShinyTableTr = React.memo(function (props) {
     return (
         <tr className="animShiny">
             <th className="text-center text-sm-left px-0" value={props.pok.Name} scope="row">

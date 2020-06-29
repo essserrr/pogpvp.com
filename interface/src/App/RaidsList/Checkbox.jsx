@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Checkbox = React.memo(function Pokemon(props) {
+const Checkbox = React.memo(function (props) {
     return (
         <div className={props.class ? props.class : "form-check form-check-inline m-0 p-0"}>
             <input
