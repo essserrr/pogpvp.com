@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet";
 import LocalizedStrings from 'react-localization';
 
 import Errors from "../PvP/components/Errors/Errors"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import ShinyTable from "./ShinyTable"
 import Loader from "../PvpRating/Loader"
+import ShinyTableTr from "./ShinyTableTr"
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
@@ -201,57 +201,16 @@ export default ShinyRates
 function parseShinyRates(list, pokTable) {
     let result = []
     const values = Object.values(list)
-
     for (var i = 0; i < values.length; i++) {
         result.push(
-            <tr className="animShiny" key={values[i].Name}>
-                <th className="text-center text-sm-left px-0" value={values[i].Name} scope="row">
-                    <PokemonIconer
-                        src={pokTable[values[i].Name].Number + (pokTable[values[i].Name].Forme !== "" ? "-" + pokTable[values[i].Name].Forme : "")}
-                        class={"icon24 p-0 m-0 mr-1 "} />{values[i].Name}
-                </th>
-                <td className="px-0" value={values[i].Odds}>{"1/" + values[i].Odds + " (" + (1 / values[i].Odds * 100).toFixed(2) + "%)"}</td>
-                <td className="px-0" value={values[i].Odds + "est"}>{"1/" + processRate(values[i].Odds)}</td>
-                <td className="px-0" value={values[i].Checks}>{values[i].Checks}</td>
-            </tr>
+            <ShinyTableTr
+                key={values[i].Name}
+                pok={values[i]}
+                pokTable={pokTable}
+            />
         )
     }
     return result
 }
 
 
-function processRate(chance) {
-    for (let i = ratesList.length - 1; i >= 0; i--) {
-        if (chance === ratesList[i]) {
-            return ratesList[i]
-        }
-        if (chance < ratesList[i]) {
-            continue
-        }
-
-        if (!ratesList[i + 1]) {
-            return ratesList[i]
-        }
-        let deltaLeft = chance - ratesList[i]
-        let deltaRight = ratesList[i + 1] - chance
-        switch (true) {
-            case deltaLeft > deltaRight:
-                return ratesList[i + 1]
-            case deltaLeft < deltaRight:
-                return ratesList[i]
-            default:
-                return ratesList[i + 1]
-        }
-    }
-    return ratesList[0]
-}
-
-var ratesList = [
-    24,
-    60,
-    90,
-    120,
-    240,
-    450,
-    800,
-]
