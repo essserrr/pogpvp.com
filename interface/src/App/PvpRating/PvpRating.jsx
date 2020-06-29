@@ -1,6 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
-import { UnmountClosed } from 'react-collapse';
+import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
@@ -12,6 +11,7 @@ import SelectGroup from "../PvP/components/SelectGroup/SelectGroup";
 import PokemonCard from "../Evolve/PokemonCard"
 import RatingDescr from "./RatingDescr"
 import Loader from "./Loader"
+import DropWithArrow from "./DropWithArrow/DropWithArrow"
 
 import { ReactComponent as Shadow } from "../../icons/shadow.svg";
 import { typeDecoder, checkShadow, getCookie, capitalize } from "../../js/indexFunctions"
@@ -370,20 +370,11 @@ class PvpRating extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href="https://pogpvp.com/pvprating" />
-
-                    <title>{strings.pageheaders.pvprating}</title>
-                    <meta name="description" content={strings.pagedescriptions.pvprating} />
-
-                    <meta property="og:title" content={strings.pageheaders.pvprating} />
-                    <meta property="og:url" content="https://pogpvp.com/pvprating"></meta>
-                    <meta property="og:description" content={strings.pagedescriptions.pvprating} />
-
-                    <meta property="twitter:title" content={strings.pageheaders.pvprating} />
-                    <meta property="twitter:url" content="https://pogpvp.com/pvprating"></meta>
-                    <meta property="twitter:description" content={strings.pagedescriptions.pvprating} />
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/pvprating"
+                    header={strings.pageheaders.pvprating}
+                    descr={strings.pagedescriptions.pvprating}
+                />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className="row justify-content-center px-1 px-sm-2 mx-md-3 pb-5">
                         <div className="col-12 bigWidth m-0 p-0">
@@ -416,15 +407,16 @@ class PvpRating extends React.Component {
                                 </div>
                             </div>
                             <div className="row singleNews m-0 p-0 px-3 py-2 mb-3" >
-                                <div onClick={this.onShowDescr} className="col-12 d-flex justify-content-between m-0 p-0 pb-1 clickable">
-                                    <div className="font-weight-bold ml-1">{strings.title.aboutrate}</div>
-                                    <i className={this.state.showDescription ? "align-self-center fas fa-angle-up fa-lg " : "align-self-center fas fa-angle-down fa-lg"}></i>
-                                </div>
-                                <UnmountClosed isOpened={this.state.showDescription}>
-                                    <div className="row justify-content-center m-0 p-0">
-                                        <RatingDescr />
-                                    </div>
-                                </UnmountClosed>
+                                <DropWithArrow
+                                    onShow={this.onShowDescr}
+                                    show={this.state.showDescription}
+                                    title={strings.title.aboutrate}
+                                    elem={<RatingDescr />}
+
+                                    faOpened="align-self-center fas fa-angle-up fa-lg "
+                                    faClosed="align-self-center fas fa-angle-down fa-lg"
+                                    outClass="col-12 d-flex justify-content-between m-0 p-0 pb-1 clickable"
+                                    inClass="row justify-content-center m-0 p-0" />
                             </div>
                             <div className="row justify-content-center m-0 p-0">
                                 <div className="singleNews bigWidth col-md-12 col-lg-12 p-2 m-0">

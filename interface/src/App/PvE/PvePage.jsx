@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 
 import {
@@ -8,7 +8,7 @@ import {
 import { locale } from "../../locale/locale"
 import CommonPve from "./CommonPve"
 import Loader from "../PvpRating/Loader"
-import { UnmountClosed } from 'react-collapse';
+import DropWithArrow from "../PvpRating//DropWithArrow/DropWithArrow"
 import CommonDescr from "./Components/Description/CommonDescr"
 
 
@@ -117,7 +117,7 @@ class PvePage extends React.Component {
 
 
     componentDidMount() {
-        this.updateState(this.props.match.params.type,
+        this.updateState(
             this.props.match.params.attacker,
             this.props.match.params.boss,
             this.props.match.params.obj,
@@ -128,35 +128,19 @@ class PvePage extends React.Component {
         const update = this.updateState
         window.onpopstate = function (event) {
             let windowPath = window.location.pathname.split('/').slice(2)
-            let type = windowPath[0]
             let party = windowPath[1]
             let boss = windowPath[2]
             let obj = windowPath[3]
 
-            update(type, party, boss, obj)
+            update(party, boss, obj)
         }
     }
 
 
 
-    async updateState(type, party, boss, obj) {
-        switch (type) {
-            case "common":
-                var title = strings.pageheaders.common;
-                var description = strings.pagedescriptions.common;
-                var urlSEO = "https://pogpvp.com/pve/common";
-                break
-            default:
-                title = strings.pageheaders.common;
-                description = strings.pagedescriptions.common;
-                urlSEO = "https://pogpvp.com/pve/common";
-                break
-        }
+    async updateState(party, boss, obj) {
         this.setState({
             loading: true,
-            title: title,
-            description: description,
-            urlSEO: urlSEO,
         })
 
         var extrData = extractRaidData(party, boss, obj)
@@ -312,21 +296,11 @@ class PvePage extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href={this.state.urlSEO} />
-
-                    <title>{this.state.title}</title>
-                    <meta name="description" content={this.state.description} ></meta>
-
-                    <meta property="og:title" content={this.state.title}  ></meta>
-                    <meta property="og:url" content={this.state.urlSEO}></meta>
-                    <meta property="og:description" content={this.state.description} ></meta>
-
-
-                    <meta property="twitter:title" content={this.state.title} ></meta>
-                    <meta property="twitter:url" content={this.state.urlSEO}></meta>
-                    <meta property="twitter:description" content={this.state.description} ></meta>
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/pve/common"
+                    header={strings.pageheaders.common}
+                    descr={strings.pagedescriptions.common}
+                />
                 <div className=" container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
                     <div className="row  mx-0 mx-lg-2 justify-content-center">
                         {this.state.loading && <div className="col-12 m-0 p-0  mb-4"  >
@@ -347,15 +321,16 @@ class PvePage extends React.Component {
                         </div>
 
                         <div className="col-12 veryBig results m-0 p-0 px-3 py-2" >
-                            <div onClick={this.onClick} className="row justify-content-between m-0 p-0 pb-1 clickable">
-                                <div className="font-weight-bold ml-1">{strings.title.about}</div>
-                                <i className={this.state.showCollapse ? "align-self-center fas fa-angle-up fa-lg " : "align-self-center fas fa-angle-down fa-lg"}></i>
-                            </div>
-                            <UnmountClosed isOpened={this.state.showCollapse}>
-                                <div className="row justify-content-center m-0 p-0">
-                                    {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonDescr />}
-                                </div>
-                            </UnmountClosed>
+                            <DropWithArrow
+                                onShow={this.onClick}
+                                show={this.state.showCollapse}
+                                title={strings.title.about}
+                                elem={(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonDescr />}
+
+                                faOpened="align-self-center fas fa-angle-up fa-lg "
+                                faClosed="align-self-center fas fa-angle-down fa-lg"
+                                outClass="row justify-content-between m-0 p-0 pb-1 clickable"
+                                inClass="row justify-content-center m-0 p-0" />
                         </div>
                     </div>
                 </div >

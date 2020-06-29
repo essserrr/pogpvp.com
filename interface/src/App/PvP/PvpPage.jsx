@@ -1,6 +1,6 @@
 import React from "react";
-import { Helmet } from "react-helmet";
-import { UnmountClosed } from 'react-collapse';
+import SiteHelm from "../SiteHelm/SiteHelm"
+import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import LocalizedStrings from 'react-localization';
 import ReactTooltip from "react-tooltip";
 
@@ -76,7 +76,7 @@ class PvpPage extends React.Component {
 
 
     componentDidMount() {
-        this.updateState(this.props.match.params.type,
+        this.updateState(
             this.props.match.params.league,
             this.props.match.params.pok1,
             this.props.match.params.pok2,
@@ -88,42 +88,20 @@ class PvpPage extends React.Component {
         const update = this.updateState
         window.onpopstate = function (event) {
             let windowPath = window.location.pathname.split('/').slice(2)
-            let type = windowPath[0]
             let league = windowPath[1]
             let pok1 = windowPath[2]
             let pok2 = windowPath[3]
             let simtype = windowPath[4]
-
-            update(type, league, pok1, pok2, simtype)
+            update(league, pok1, pok2, simtype)
         }
     }
 
 
 
-    async updateState(type, league, pok1, pok2, simtype) {
-        switch (type) {
-            case "single":
-                var title = strings.pageheaders.single;
-                var description = strings.pagedescriptions.single;
-                var urlSEO = "https://pogpvp.com/pvp/single";
-                break
-            case "matrix":
-                title = strings.pageheaders.matrix;
-                description = strings.pagedescriptions.matrix;
-                urlSEO = "https://pogpvp.com/pvp/matrix";
-                break
-            default:
-                title = strings.pageheaders.single;
-                description = strings.pagedescriptions.single;
-                urlSEO = "https://pogpvp.com/pvp/single";
-                break
-        }
+    async updateState(league, pok1, pok2, simtype) {
         this.setState({
             loading: true,
-            title: title,
             pvpoke: simtype === "pvpoke" ? true : false,
-            description: description,
-            urlSEO: urlSEO,
         })
         var extractedData = extractData(league, pok1, pok2)
         var reason = ""
@@ -283,21 +261,14 @@ class PvpPage extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href={this.state.urlSEO} />
-
-                    <title>{this.state.title}</title>
-                    <meta name="description" content={this.state.description} ></meta>
-
-                    <meta property="og:title" content={this.state.title}  ></meta>
-                    <meta property="og:url" content={this.state.urlSEO}></meta>
-                    <meta property="og:description" content={this.state.description} ></meta>
-
-
-                    <meta property="twitter:title" content={this.state.title} ></meta>
-                    <meta property="twitter:url" content={this.state.urlSEO}></meta>
-                    <meta property="twitter:description" content={this.state.description} ></meta>
-                </Helmet>
+                <SiteHelm
+                    url={this.props.match.params.type === "matrix" ? "https://pogpvp.com/pvp/matrix" :
+                        "https://pogpvp.com/pvp/single"}
+                    header={this.props.match.params.type === "matrix" ? strings.pageheaders.matrix :
+                        strings.pageheaders.single}
+                    descr={this.props.match.params.type === "matrix" ? strings.pagedescriptions.matrix :
+                        strings.pagedescriptions.single}
+                />
                 <div className=" container-fluid pt-2 pt-md-2 mb-5">
                     <div className="row justify-content-center px-1">
                         <div className="col-12 results mediumWidth p-2  m-0">
@@ -337,10 +308,7 @@ class PvpPage extends React.Component {
                                         </ReactTooltip>
                                     </i>
                                 </div>
-
-
                             </div>
-
                         </div>
                     </div>
                     <div className="row  mx-0 mx-lg-2 justify-content-center">
@@ -366,16 +334,16 @@ class PvpPage extends React.Component {
                     </div>
                     <div className="row justify-content-center px-1 ">
                         <div className="col-12 superBig-1 results m-0 p-0 px-3 py-2" >
-                            <div onClick={this.onClick} className="row justify-content-between m-0 p-0 pb-1 clickable">
-                                <div className="font-weight-bold ml-1">{strings.title.about}</div>
-                                <i className={this.state.showCollapse ? "align-self-center fas fa-angle-up fa-lg " : "align-self-center fas fa-angle-down fa-lg"}></i>
-                            </div>
-                            <UnmountClosed isOpened={this.state.showCollapse}>
-                                <div className="row justify-content-center m-0 p-0">
-                                    {(this.state.isLoaded && (this.props.match.params.type === "matrix")) && <MatrixDescr />}
-                                    {(this.state.isLoaded && (this.props.match.params.type === "single")) && <SingleDescr />}
-                                </div>
-                            </UnmountClosed>
+                            <DropWithArrow
+                                onShow={this.onClick}
+                                show={this.state.showCollapse}
+                                title={strings.title.about}
+                                elem={this.state.isLoaded && ((this.props.match.params.type === "matrix") ? <MatrixDescr /> : <SingleDescr />)}
+
+                                faOpened="align-self-center fas fa-angle-up fa-lg "
+                                faClosed="align-self-center fas fa-angle-down fa-lg"
+                                outClass="row justify-content-between m-0 p-0 pb-1 clickable"
+                                inClass="row justify-content-center m-0 p-0" />
                         </div>
                     </div>
                 </div >
