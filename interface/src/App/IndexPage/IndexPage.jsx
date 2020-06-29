@@ -1,6 +1,6 @@
 import React from "react";
 import LocalizedStrings from 'react-localization'
-import { Helmet } from 'react-helmet'
+import SiteHelm from "../SiteHelm/SiteHelm"
 
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../PvP/components/Errors/Errors"
@@ -135,20 +135,11 @@ class MainPage extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href="https://pogpvp.com/" />
-
-                    <title>{strings.pageheaders.main}</title>
-                    <meta name="description" content={strings.pagedescriptions.main} />
-
-                    <meta property="og:title" content={strings.pageheaders.main} />
-                    <meta property="og:url" content="https://pogpvp.com/"></meta>
-                    <meta property="og:description" content={strings.pagedescriptions.main} />
-
-                    <meta property="twitter:title" content={strings.pageheaders.main} />
-                    <meta property="twitter:url" content="https://pogpvp.com/"></meta>
-                    <meta property="twitter:description" content={strings.pagedescriptions.main} />
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/"
+                    header={strings.pageheaders.main}
+                    descr={strings.pagedescriptions.main}
+                />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="newsBody col-md-10 col-lg-8 p-0">

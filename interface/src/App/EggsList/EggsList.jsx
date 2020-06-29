@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 import ReactTooltip from "react-tooltip"
 
@@ -222,20 +222,11 @@ class EggsList extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href="https://pogpvp.com/eggs" />
-
-                    <title>{strings.pageheaders.eggs}</title>
-                    <meta name="description" content={strings.pagedescriptions.eggs} />
-
-                    <meta property="og:title" content={strings.pageheaders.eggs} />
-                    <meta property="og:url" content="https://pogpvp.com/eggs"></meta>
-                    <meta property="og:description" content={strings.pagedescriptions.eggs} />
-
-                    <meta property="twitter:title" content={strings.pageheaders.eggs} />
-                    <meta property="twitter:url" content="https://pogpvp.com/eggs"></meta>
-                    <meta property="twitter:description" content={strings.pagedescriptions.eggs} />
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/eggs"
+                    header={strings.pageheaders.eggs}
+                    descr={strings.pagedescriptions.eggs}
+                />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="singleNews col-sm-12 col-md-11 col-lg-8 mx-0 py-4">

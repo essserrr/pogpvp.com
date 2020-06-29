@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 
 
@@ -36,20 +36,11 @@ class NotFound extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href="https://pogpvp.com/" />
-
-                    <title>{strings.notfound}</title>
-                    <meta name="description" content={strings.notfound} />
-
-                    <meta property="og:title" content={strings.notfound} />
-                    <meta property="og:url" content="https://pogpvp.com/"></meta>
-                    <meta property="og:description" content={strings.notfound} />
-
-                    <meta property="twitter:title" content={strings.notfound} />
-                    <meta property="twitter:url" content="https://pogpvp.com/"></meta>
-                    <meta property="twitter:description" content={strings.notfound} />
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/"
+                    header={strings.notfound}
+                    descr={strings.notfound}
+                />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="singleNews col-sm-12 col-md-7 col-lg-5 p-0 m-0 pb-4">

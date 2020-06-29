@@ -1,5 +1,5 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import SiteHelm from "../SiteHelm/SiteHelm"
 import ReactTooltip from "react-tooltip"
 import LocalizedStrings from 'react-localization';
 
@@ -150,20 +150,11 @@ class Evolve extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href="https://pogpvp.com/evolution" />
-
-                    <title>{strings.pageheaders.evolution}</title>
-                    <meta name="description" content={strings.pagedescriptions.evolution} />
-
-                    <meta property="og:title" content={strings.pageheaders.evolution} />
-                    <meta property="og:url" content="https://pogpvp.com/evolution"></meta>
-                    <meta property="og:description" content={strings.pagedescriptions.evolution} />
-
-                    <meta property="twitter:title" content={strings.pageheaders.evolution} />
-                    <meta property="twitter:url" content="https://pogpvp.com/evolution"></meta>
-                    <meta property="twitter:description" content={strings.pagedescriptions.evolution} />
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/evolution"
+                    header={strings.pageheaders.evolution}
+                    descr={strings.pagedescriptions.evolution}
+                />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="singleNews col-sm-12 col-md-10 col-lg-6 mx-0 py-4">

@@ -1,11 +1,11 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 import LocalizedStrings from 'react-localization';
 
 import Errors from "../PvP/components/Errors/Errors"
 import ShinyTable from "./ShinyTable"
 import Loader from "../PvpRating/Loader"
 import ShinyTableTr from "./ShinyTableTr"
+import SiteHelm from "../SiteHelm/SiteHelm"
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
@@ -151,20 +151,11 @@ class ShinyRates extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <link rel="canonical" href="https://pogpvp.com/shinyrates" />
-
-                    <title>{strings.pageheaders.shiny}</title>
-                    <meta name="description" content={strings.pagedescriptions.shiny} />
-
-                    <meta property="og:title" content={strings.pageheaders.shiny} />
-                    <meta property="og:url" content="https://pogpvp.com/shinyrates"></meta>
-                    <meta property="og:description" content={strings.pagedescriptions.shiny} />
-
-                    <meta property="twitter:title" content={strings.pageheaders.shiny} />
-                    <meta property="twitter:url" content="https://pogpvp.com/shinyrates"></meta>
-                    <meta property="twitter:description" content={strings.pagedescriptions.shiny} />
-                </Helmet>
+                <SiteHelm
+                    url="https://pogpvp.com/shinyrates"
+                    header={strings.pageheaders.shiny}
+                    descr={strings.pagedescriptions.shiny}
+                />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
                         <div className="singleNews  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
@@ -201,6 +192,7 @@ export default ShinyRates
 function parseShinyRates(list, pokTable) {
     let result = []
     const values = Object.values(list)
+
     for (var i = 0; i < values.length; i++) {
         result.push(
             <ShinyTableTr
