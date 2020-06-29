@@ -427,6 +427,7 @@ class PvpRating extends React.Component {
                                             locale={strings.tips.loading}
                                             loading={this.state.loading}
                                         />}
+                                    {this.state.isError && <Errors class="alert alert-danger m-0 py-2" value={this.state.error} />}
                                     {this.state.showResult &&
                                         <>
                                             <div className="col m-0 px-2 py-2">
@@ -450,7 +451,6 @@ class PvpRating extends React.Component {
                                                 />}
                                             </div>
                                         </>}
-                                    {this.state.isError && <Errors class="alert alert-danger m-0 py-2" value={this.state.error} />}
                                 </div>
                             </div>
                         </div>

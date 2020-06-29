@@ -245,7 +245,7 @@ class RaidsList extends React.Component {
                                     label="1"
                                 />
                             </div>}
-
+                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.raidsList && <>
                                 {this.state.tier5 && <Tier
                                     title={<IconMultiplicator title={strings.tierlist.raidtier + " 5"} n={5} />}
@@ -268,7 +268,6 @@ class RaidsList extends React.Component {
                                     list={this.state.raidsList[4]}
                                 />}
                             </>}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                         </div>
                     </div>
                 </div >

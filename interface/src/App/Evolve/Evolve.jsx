@@ -164,6 +164,7 @@ class Evolve extends React.Component {
                                 locale={strings.tips.loading}
                                 loading={this.state.loading}
                             />}
+                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <div className="row justify-content-between p-0 m-0">
                                     <div className="col-12 px-2">
@@ -191,7 +192,6 @@ class Evolve extends React.Component {
                                     </div>}
                                 </div>
                             }
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                         </div>
                     </div>
                 </div >

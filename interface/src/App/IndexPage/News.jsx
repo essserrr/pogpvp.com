@@ -109,11 +109,11 @@ class News extends React.Component {
                                 />
                             </div>}
                         <div className="col-md-10 col-lg-8 p-0">
+                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
                                     {this.state.news && this.state.news}
                                 </>}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                         </div>
                     </div>
                 </div >

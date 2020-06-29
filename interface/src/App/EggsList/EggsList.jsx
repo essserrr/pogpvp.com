@@ -293,7 +293,7 @@ class EggsList extends React.Component {
                                     label={strings.tierlist.regionals}
                                 />
                             </div>}
-
+                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.eggsList && <>
                                 {this.state.km10 && <Tier
                                     title={<><Egg10km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 10 km"}</>}
@@ -320,7 +320,6 @@ class EggsList extends React.Component {
                                     list={this.state.eggsList[5]}
                                 />}
                             </>}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                         </div>
                     </div>
                 </div >

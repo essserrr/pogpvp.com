@@ -155,6 +155,7 @@ class MainPage extends React.Component {
                                         loading={this.state.loading}
                                     />
                                 </div>}
+                            {this.state.isError && <Errors class="alert alert-danger m-2 p-2" value={this.state.error} />}
                             {this.state.showResult && <>
                                 {this.state.newsList && this.state.newsList}
                                 <div className={"row m-0 p-0 px-3 " + this.buttonsConfig()} >
@@ -173,7 +174,6 @@ class MainPage extends React.Component {
                                     />}
                                 </div>
                             </>}
-                            {this.state.isError && <Errors class="alert alert-danger m-2 p-2" value={this.state.error} />}
                         </div>
 
                     </div>
