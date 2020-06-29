@@ -216,23 +216,16 @@ class EvoList extends PureComponent {
 
     shortEvent(arg) {
         return (
-            <td
+            <Event
                 onMouseEnter={this.props.onMouseEnter}
-                id={arg.key}
+                onclick={this.props.constructorOn}
+
+                className={arg.class}
                 key={arg.key}
-                style={{
-                    verticalAlign: "middle",
-                    textAlign: "center"
-                }} >
-                <Event
-                    onclick={this.props.constructorOn}
-                    className={arg.class}
-                    key={arg.key}
-                    value={arg.value}
-                    place="top"
-                    tip={arg.tip}
-                    for={arg.key} />
-            </td >
+                value={arg.value}
+                place="top"
+                tip={arg.tip}
+                for={arg.key} />
         )
     }
 

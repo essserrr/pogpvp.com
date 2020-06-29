@@ -3,7 +3,14 @@ import ReactTooltip from "react-tooltip"
 
 const Event = React.memo(function (props) {
     return (
-        <>
+        <td
+            onMouseEnter={props.onMouseEnter}
+            id={props.for}
+            style={{
+                verticalAlign: "middle",
+                textAlign: "center"
+            }}
+        >
             <div
                 onClick={props.onclick}
                 className={props.className}
@@ -17,7 +24,7 @@ const Event = React.memo(function (props) {
                 multiline={true}>
                 {props.tip}
             </ReactTooltip>}
-        </>
+        </td>
     )
 });
 
