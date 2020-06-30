@@ -224,6 +224,7 @@ export const locale = {
             pvprating: "PvP Rating",
             dex: "Dexes",
             movedex: "Movedex",
+            pokedex: "Pokedex",
         },
         errors: {
             savegroup: "Empty field",
@@ -476,6 +477,7 @@ export const locale = {
             pvprating: "PvP рейтинг",
             dex: "Дексы",
             movedex: "Мувдекс",
+            pokedex: "Покедекс",
         },
         errors: {
             savegroup: "Нет имени",

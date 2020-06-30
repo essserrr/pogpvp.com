@@ -2,6 +2,7 @@ export const dexLocale = {
     en: {
         Atk: "Atk",
         Def: "Def",
+        Sta: "Sta",
         Opponent: "opponent",
         Self: "self",
         of: " of ",
@@ -13,6 +14,8 @@ export const dexLocale = {
         mddescr: "List of all currently available moves in Pokemon Go",
         mdsdescr: " description in Pokemon Go",
         loading: "Loading...",
+        pdtitle: "Pokedex | PogPvP.com",
+        pddescr: "List of all currently available pokemon in Pokemon Go",
 
         dexentr: "View dex for ",
 
@@ -26,6 +29,8 @@ export const dexLocale = {
             cd: "CD",
             dr: "DR",
             ef: "EF",
+
+            gen: "Gen.",
         },
 
         tip: {
@@ -62,6 +67,7 @@ export const dexLocale = {
     ru: {
         Atk: "Атк",
         Def: "Защ",
+        Sta: "Здр",
         Opponent: "противника",
         Self: "себя",
         of: " у ",
@@ -70,9 +76,11 @@ export const dexLocale = {
         moveplace: "Поиск по названию умения",
 
         mdtitle: "Мувдекс | PogPvP.com",
-        mddescr: "Список всех допустныхв Pokemon Go умений",
+        mddescr: "Список всех допустных в Pokemon Go умений",
         mdsdescr: " описание в Pokemon Go",
         loading: "Загрузка...",
+        pdtitle: "Покедекс | PogPvP.com",
+        pddescr: "Список всех допустных в Pokemon Go покемонов",
 
         dexentr: "Открыть декс для ",
 
@@ -86,6 +94,8 @@ export const dexLocale = {
             cd: "ПР",
             dr: "ДЛ",
             ef: "ЭФ",
+
+            gen: "Покол.",
         },
 
         tip: {
