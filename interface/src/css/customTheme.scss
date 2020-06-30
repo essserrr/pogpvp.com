@@ -1632,7 +1632,7 @@ body {
     color: black;
 }
 
-linkText:hover 
+.linkText:hover 
 {
      color:#00A0C6; 
      text-decoration:none; 
@@ -1727,3 +1727,14 @@ linkText:hover
 .energyCell {
     width: 100px !important;
 }
+
+.max110 {
+    max-width: 200px !important;
+
+    @media (max-width: 768px) { 
+        .max110  {
+            max-width: 110px !important;
+        }
+     }
+}
+ 
