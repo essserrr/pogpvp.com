@@ -14,6 +14,7 @@ const RaidsList = lazy(() => import('./RaidsList/RaidsList'));
 const EggsList = lazy(() => import('./EggsList/EggsList'));
 const PvpRatingRouter = lazy(() => import('./PvpRating/PvpRatingRouter'));
 const MovedexRouter = lazy(() => import('./Movedex/MovedexRouter'));
+const PokedexRouter = lazy(() => import('./Pokedex/PokedexRouter'));
 const NotFound = lazy(() => import('./NotFound/NotFound'));
 
 const Main = () => (
@@ -40,6 +41,7 @@ const Main = () => (
                 <Route path='/eggs' component={EggsList} />
                 <Route path='/pvprating' component={PvpRatingRouter} />
                 <Route path='/movedex' component={MovedexRouter} />
+                <Route path='/pokedex' component={PokedexRouter} />
                 <Route path='*' component={NotFound} />
             </Switch>
         </Suspense>

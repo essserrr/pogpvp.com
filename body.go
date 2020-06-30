@@ -1157,6 +1157,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/pvprating*", rootHandler{serveIndex, a})
 	router.Handle("/pve*", rootHandler{serveIndex, a})
 	router.Handle("/movedex*", rootHandler{serveIndex, a})
+	router.Handle("/pokedex*", rootHandler{serveIndex, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
