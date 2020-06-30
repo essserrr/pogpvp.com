@@ -1,7 +1,6 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
-import CSSTransitionGroup from 'react-addons-css-transition-group'
 
 
 import Errors from "../PvP/components/Errors/Errors"
@@ -138,21 +137,28 @@ class Movedex extends React.Component {
                 this.setState({
                     active: { [fieldName]: true },
                     listToShow: fieldType === "number" ?
-                        this.state.listToShow.sort(function (a, b) {
-                            return b.props.value[fieldName] - a.props.value[fieldName]
-                        }) :
-                        this.state.listToShow.sort(function (a, b) {
-                            if (a.props.value[fieldName] > b.props.value[fieldName]) {
-                                return -1;
-                            }
-                            if (b.props.value[fieldName] < a.props.value[fieldName]) {
-                                return 1;
-                            }
-                            return 0;
-                        }),
+                        this.sortNumber(fieldName) : this.sortString(fieldName),
                 });
                 break
         }
+    }
+
+    sortNumber(fieldName) {
+        return this.state.listToShow.sort(function (a, b) {
+            return b.props.value[fieldName] - a.props.value[fieldName]
+        })
+    }
+
+    sortString(fieldName) {
+        return this.state.listToShow.sort(function (a, b) {
+            if (a.props.value[fieldName] > b.props.value[fieldName]) {
+                return -1;
+            }
+            if (b.props.value[fieldName] < a.props.value[fieldName]) {
+                return 1;
+            }
+            return 0;
+        })
     }
 
     render() {
@@ -195,14 +201,9 @@ class Movedex extends React.Component {
                                             active={this.state.active}
                                             onClick={this.onSort}
                                         />
-                                        <CSSTransitionGroup
-                                            component="tbody"
-                                            transitionName="shiny"
-                                            transitionEnterTimeout={150}
-                                            transitionLeaveTimeout={150}
-                                        >
+                                        <tbody>
                                             {this.state.listToShow}
-                                        </CSSTransitionGroup>
+                                        </tbody>
                                     </table>
                                 </>}
                         </div>

@@ -114,22 +114,31 @@ class ShinyRates extends React.Component {
                 this.setState({
                     active: { [fieldName]: true },
                     shinyRates: fieldType === "number" ?
-                        this.state.shinyRates.sort(function (a, b) {
-                            return a.props.pok[fieldName] - b.props.pok[fieldName]
-                        }) :
-                        this.state.shinyRates.sort(function (a, b) {
-                            if (a.props.pok[fieldName] < b.props.pok[fieldName]) {
-                                return -1;
-                            }
-                            if (b.props.pok[fieldName] < a.props.pok[fieldName]) {
-                                return 1;
-                            }
-                            return 0;
-                        }),
+                        this.sortNumber(fieldName) : this.sortString(fieldName),
                 });
                 break
         }
     }
+
+
+    sortNumber(fieldName) {
+        return this.state.shinyRates.sort(function (a, b) {
+            return a.props.pok[fieldName] - b.props.pok[fieldName]
+        })
+    }
+
+    sortString(fieldName) {
+        return this.state.shinyRates.sort(function (a, b) {
+            if (a.props.pok[fieldName] < b.props.pok[fieldName]) {
+                return -1;
+            }
+            if (b.props.pok[fieldName] < a.props.pok[fieldName]) {
+                return 1;
+            }
+            return 0;
+        })
+    }
+
 
     onChange(event) {
         var newArray = []

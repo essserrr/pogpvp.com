@@ -7,14 +7,14 @@ import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 const ShinyTableTr = React.memo(function (props) {
     return (
         <tr className="animShiny">
-            <th className="text-center text-sm-left px-0" value={props.pok.Name} scope="row">
+            <th className="text-center text-sm-left px-0" scope="row">
                 <PokemonIconer
                     src={props.pokTable[props.pok.Name].Number + (props.pokTable[props.pok.Name].Forme !== "" ? "-" + props.pokTable[props.pok.Name].Forme : "")}
                     class={"icon24 p-0 m-0 mr-1 "} />{props.pok.Name}
             </th>
-            <td className="px-0 fBolder" value={props.pok.Odds}>{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</td>
-            <td className="px-0 fBolder" value={props.pok.Odds + "est"}>{"1/" + processRate(props.pok.Odds)}</td>
-            <td className="px-0 fBolder" value={props.pok.Checks}>{props.pok.Checks}</td>
+            <td className="px-0 fBolder" >{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</td>
+            <td className="px-0 fBolder" >{"1/" + processRate(props.pok.Odds)}</td>
+            <td className="px-0 fBolder" >{props.pok.Checks}</td>
         </tr>
     )
 
