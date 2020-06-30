@@ -29,6 +29,9 @@ const routes = [
     {
         path: '/movedex',
     },
+    {
+        path: '/pokedex',
+    },
 ]
 
 export default routes;

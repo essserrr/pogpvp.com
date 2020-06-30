@@ -154,7 +154,7 @@ class Movedex extends React.Component {
             if (a.props.value[fieldName] > b.props.value[fieldName]) {
                 return -1;
             }
-            if (b.props.value[fieldName] < a.props.value[fieldName]) {
+            if (b.props.value[fieldName] > a.props.value[fieldName]) {
                 return 1;
             }
             return 0;
