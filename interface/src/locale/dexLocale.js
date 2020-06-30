@@ -9,6 +9,7 @@ export const dexLocale = {
         ch: "% chance to affect",
         by: " by ",
         moveplace: "Search move name",
+        pokplace: "Search pokemon name",
 
         mdtitle: "Movedex | PogPvP.com",
         mddescr: "List of all currently available moves in Pokemon Go",
@@ -74,6 +75,7 @@ export const dexLocale = {
         ch: "% шанс изменить",
         by: " на ",
         moveplace: "Поиск по названию умения",
+        pokplace: "Поиск по имени покемона",
 
         mdtitle: "Мувдекс | PogPvP.com",
         mddescr: "Список всех допустных в Pokemon Go умений",

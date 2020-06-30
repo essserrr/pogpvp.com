@@ -221,7 +221,8 @@ class Movedex extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
-                                    <input onChange={this.onChange} className="form-control" type="text" placeholder={strings.moveplace} />
+                                    <input onChange={this.onChange} className="form-control" type="text"
+                                        placeholder={strings.pokplace} />
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
                                             active={this.state.active}

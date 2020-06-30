@@ -403,12 +403,16 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 		http.ServeFile(*w, r, "./interface/build/shinyrates/index.html")
 	case "evolution":
 		http.ServeFile(*w, r, "./interface/build/evolution/index.html")
+	case "pokedex":
+		http.ServeFile(*w, r, "./interface/build/pokedex/index.html")
+	case "movedex":
+		http.ServeFile(*w, r, "./interface/build/movedex/index.html")
 	case "raids":
 		http.ServeFile(*w, r, "./interface/build/raids/index.html")
 	case "eggs":
 		http.ServeFile(*w, r, "./interface/build/eggs/index.html")
 	default:
-		http.ServeFile(*w, r, "./interface/build/404.html")
+		http.ServeFile(*w, r, "./interface/build/200.html")
 	}
 	return nil
 }

@@ -1486,20 +1486,23 @@ body {
   
   .animRating:hover::after {
       opacity: 1;
+      display: block;
   }
 
   .animShiny {
     -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
-  }
+}
   
   .animShiny::after {
     content: "";
     border-radius: 5px;
+
     position: absolute;
-    z-index: -1;
+    z-index: -2;
     top: 0;
     left: 0;
+    max-height: inherit;
     width: 100%;
     height: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -1509,33 +1512,15 @@ body {
   }
   
   .animShiny:hover {
-    -webkit-transform: scale(1.02, 1.02);
     transform: scale(1.02, 1.02);
+    -webkit-transform: scale(1.02, 1.02);
   }
   
   .animShiny:hover::after {
+    display: block;
       opacity: 1;
   }
 
-
-
-  .shiny-enter {
-    opacity: 0.01;
-  }
-  
-  .shiny-enter.shiny-enter-active {
-    opacity: 1;
-    transition: opacity 150ms ease-in;
-  }
-  
-  .shiny-leave {
-    opacity: 1;
-  }
-  
-  .shiny-leave.shiny-leave-active {
-    opacity: 0.01;
-    transition: opacity 150ms ease-in;
-  }
 
   .clickable {
     cursor:pointer;
