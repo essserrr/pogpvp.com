@@ -14,7 +14,7 @@ const Checkbox = React.memo(function (props) {
                 name={props.name}
                 disabled={props.isDisabled}
             />
-            <label className="form-check-label pr-2" htmlFor={props.name + (props.attr ? props.attr : "")}>{props.label}</label>
+            <label className="form-check-label pr-2 fBolder" htmlFor={props.name + (props.attr ? props.attr : "")}>{props.label}</label>
         </div>
     )
 });

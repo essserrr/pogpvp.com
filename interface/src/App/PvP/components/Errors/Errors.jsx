@@ -12,7 +12,7 @@ class Errors extends React.PureComponent {
     };
     render() {
         return (
-            <div data-nosnippet className={"text-center " + (this.props.class ? this.props.class : "")} tabIndex="0" ref="errorBox">
+            <div data-nosnippet className={"fBolder text-center " + (this.props.class ? this.props.class : "")} tabIndex="0" ref="errorBox">
                 {this.props.value}
             </div>
         )

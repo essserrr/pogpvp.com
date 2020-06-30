@@ -1,7 +1,6 @@
 import React from "react";
 
 const Header = React.memo(function (props) {
-    console.log(props.checked)
     return (
         <div className={props.classOut}>
             {props.title}

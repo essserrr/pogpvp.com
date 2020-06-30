@@ -1001,15 +1001,6 @@ body {
     font-size: 0.8rem !important;
 }
 
-.fontBolder {
-    font-weight: 500;
-    text-align: end;
-}
-
-
-
-
-
 //news style
 .newsTitle {
     background-color: #958ff1; 
@@ -1722,6 +1713,17 @@ linkText:hover
     border-bottom: 3px solid rgba(0, 0, 0, 0.342);
 }
 
-.cardFirst {
-    font-weight: 500;
+.fBolder {
+    font-weight: 400;
+}
+
+.energyBlock {
+    height: 10px;
+    border-radius: 2px;
+
+    @include backgrounds
+}
+
+.energyCell {
+    width: 100px !important;
 }

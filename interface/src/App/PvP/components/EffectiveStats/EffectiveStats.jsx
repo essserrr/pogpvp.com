@@ -26,17 +26,17 @@ const EffectiveStats = React.memo(function (props) {
 
             <div
                 data-tip data-for={props.attr + "effatk"}
-                className={"d-inline mr-3 stageColor" + (Number(props.AtkStage) + 4)}>
+                className={"d-inline mr-3 fBolder stageColor" + (Number(props.AtkStage) + 4)}>
                 {strings.effStats.atk} {props.effAtk}
             </div>
             <div
                 data-tip data-for={props.attr + "effdef"}
-                className={"d-inline mr-3 stageColor" + (Number(props.DefStage) + 4)}>
+                className={"d-inline mr-3 fBolder stageColor" + (Number(props.DefStage) + 4)}>
                 {strings.effStats.def} {props.effDef}
             </div>
             <div
                 data-tip data-for={props.attr + "effsta"}
-                className="d-inline">
+                className="d-inline fBolder">
                 {strings.effStats.sta} {props.effSta}
             </div>
         </div >

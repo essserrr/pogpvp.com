@@ -103,7 +103,6 @@ class ShinyRates extends React.Component {
     onClick(event) {
         var fieldName = event.currentTarget.getAttribute('name')
         var fieldType = event.currentTarget.getAttribute('coltype')
-        console.log(fieldType, fieldName)
         switch (this.state.active[fieldName]) {
             case true:
                 this.setState({
@@ -150,7 +149,6 @@ class ShinyRates extends React.Component {
 
 
     render() {
-        console.log(this.state.active)
         return (
             <>
                 <SiteHelm

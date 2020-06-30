@@ -7,7 +7,7 @@ const CpAndTyping = React.memo(function (props) {
     return (
         <div className="defaultFont mt-2">
             <CP
-                class="d-inline mr-2"
+                class="d-inline mr-2 fBolder"
                 name={props.name}
                 tier={props.tier}
                 isBoss={props.isBoss}

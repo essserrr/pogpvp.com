@@ -55,7 +55,7 @@ class MaximizerRadio extends PureComponent {
                         />
                     </div>
 
-                    <div className="d-flex justify-content-around" >
+                    <div className="d-flex justify-content-around fBolder" >
 
                         {strings.maximizer.levelTitle}
 

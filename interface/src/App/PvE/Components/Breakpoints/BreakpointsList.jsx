@@ -21,7 +21,7 @@ const BreakpointsList = React.memo(function (props) {
             baseDamage = damage
             arr.push(
                 <div className="col-12 text-center m-0 p-0" key={i + "" + damage}>
-                    {pvestrings.lvl}: <span className="fontBolder">{Number(i).toFixed(1)}</span> {pvestrings.damage}: <span className="fontBolder">{damage}</span>
+                    {pvestrings.lvl}: <span className="font-weight-bold">{Number(i).toFixed(1)}</span> {pvestrings.damage}: <span className="font-weight-bold">{damage}</span>
                 </div>
             )
         }
@@ -30,7 +30,7 @@ const BreakpointsList = React.memo(function (props) {
     return (
         arr.length > 0 && <>
             <div className={"col-12 m-0 p-0 text-center font90 borderTop mt-1 pt-1"} >
-                {pvestrings.qbreak} <span className="fontBolder">{props.move.Title}</span>
+                {pvestrings.qbreak} <span className="font-weight-bold">{props.move.Title}</span>
             </div>
             {arr}
 

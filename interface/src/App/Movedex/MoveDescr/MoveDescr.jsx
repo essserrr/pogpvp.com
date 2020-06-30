@@ -12,25 +12,25 @@ const MoveDescr = React.memo(function (props) {
     return (
         <>
             <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left tipfont m-0 px-1 py-1" >
-                <span className="fontBolder">{strings.mt.rd}</span> - {strings.tip.rd}
+                <span className="font-weight-bold">{strings.mt.rd}</span> - {strings.tip.rd}
             </p>
             <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left tipfont m-0 px-1 py-1" >
-                <span className="fontBolder">{strings.mt.re}</span> - {strings.tip.re}
+                <span className="font-weight-bold">{strings.mt.re}</span> - {strings.tip.re}
             </p>
             <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left tipfont m-0 px-1 py-1" >
-                <span className="fontBolder">{strings.mt.cd}</span> - {strings.tip.cd}
+                <span className="font-weight-bold">{strings.mt.cd}</span> - {strings.tip.cd}
             </p>
             <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left tipfont m-0 px-1 py-1" >
-                <span className="fontBolder">{strings.mt.pd}</span> - {strings.tip.pd}
+                <span className="font-weight-bold">{strings.mt.pd}</span> - {strings.tip.pd}
             </p>
             <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left tipfont m-0 px-1 py-1" >
-                <span className="fontBolder">{strings.mt.pe}</span> - {strings.tip.pe}
+                <span className="font-weight-bold">{strings.mt.pe}</span> - {strings.tip.pe}
             </p>
             <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left tipfont m-0 px-1 py-1" >
-                <span className="fontBolder">{strings.mt.dr}</span> - {strings.tip.dr}
+                <span className="font-weight-bold">{strings.mt.dr}</span> - {strings.tip.dr}
             </p>
             <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left tipfont m-0 px-1 py-1" >
-                <span className="fontBolder">{strings.mt.ef}</span> - {strings.tip.ef}
+                <span className="font-weight-bold">{strings.mt.ef}</span> - {strings.tip.ef}
             </p>
         </>
     )

@@ -127,8 +127,6 @@ class Movedex extends React.Component {
     onSort(event) {
         var fieldName = event.currentTarget.getAttribute('name')
         var fieldType = event.currentTarget.getAttribute('coltype')
-
-        console.log(fieldName, fieldType)
         switch (this.state.active[fieldName]) {
             case true:
                 this.setState({

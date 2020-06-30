@@ -66,7 +66,7 @@ class Advisor extends React.PureComponent {
                         src="willow3"
                         folder="/"
                         class={"willow p-2"} />
-                    <div className="bubbleText posAbsB px-2 py-1">
+                    <div className="bubbleText posAbsB px-2 py-1 fBolder">
                         {strings.advisor.willow}
                     </div>
                 </div>

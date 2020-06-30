@@ -270,17 +270,17 @@ class Constructor extends React.PureComponent {
             <div className="row  justify-content-center m-0 p-0 my-1">
                 {(this.props.lastChangesAt > this.props.round) && <div className="col-12 m-0 p-0">
                     <Errors
-                        class="alert defaultFont alert-danger m-0 p-2"
+                        class="alert defaultFont alert-danger m-0 p-2 "
                         value={strings.constructor.alertchanges1st + this.props.lastChangesAt + strings.constructor.alertchanges2nd}
                     />
                 </div>}
                 {this.props.stateModified && <div className="col-12 m-0 p-0 my-1">
                     <Errors
-                        class="alert defaultFont alert-danger m-0 p-2"
+                        class="alert defaultFont alert-danger m-0 p-2 "
                         value={strings.constructor.alertmodified}
                     />
                 </div>}
-                <div className="col-12 m-0 p-0">
+                <div className="col-12 m-0 p-0 fBolder">
                     {strings.constructor.newaction + this.props.round + ":"}
                 </div>
 

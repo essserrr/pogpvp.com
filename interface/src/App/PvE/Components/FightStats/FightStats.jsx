@@ -3,7 +3,7 @@ import React from "react";
 
 const FightStats = React.memo(function (props) {
     return (
-        <div className="row m-0 p-0">
+        <div className="row m-0 p-0 fBolder">
             <div className="col-6 m-0 p-0 pr-1">
                 <i className="fas fa-crosshairs mr-1"></i>
                 {(props.avgStats.DAvg / (props.tables.hp[props.snapshot.bossObj.Tier]) * 100).toFixed(1)}%

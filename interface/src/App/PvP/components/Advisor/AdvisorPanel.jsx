@@ -50,7 +50,7 @@ class AdvisorPanel extends React.PureComponent {
         let off = this.calculateOffensiveStats()
 
         return <div className="col-12 m-0 p-0 px-2" key={"coll" + this.props.i}>
-            <div className="row m-0 p-0 mx-1 my-2  justify-content-center">
+            <div className="row m-0 p-0 mx-1 my-2  justify-content-center fBolder">
                 <div className="col-12 text-center bigText m-0 p-0">
                     {strings.advisor.bad}
                 </div>
@@ -73,10 +73,10 @@ class AdvisorPanel extends React.PureComponent {
                 {strings.advisor.def}
 
             </div>
-            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
+            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2 fBolder">
                 {strings.advisor.res}{vun[1].length > 0 ? vun[1] : strings.options.moveSelect.none}
             </div>
-            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
+            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2 fBolder">
                 {strings.advisor.weak}  {vun[2].length > 0 ? vun[2] : strings.options.moveSelect.none}
             </div>
             <div className="overflowingx width90vw p-0 m-0">
@@ -91,10 +91,10 @@ class AdvisorPanel extends React.PureComponent {
                 {strings.advisor.off}
 
             </div>
-            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
+            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2 fBolder">
                 {strings.advisor.notcov} {off[0].length > 0 ? off[0] : strings.options.moveSelect.none}
             </div>
-            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
+            <div className="col-12 text-left  m-0 p-0 mt-1 mb-2 fBolder">
                 {strings.advisor.strong} {off[1].length > 0 ? off[1] : strings.options.moveSelect.none}
             </div>
             <div className="overflowingxy height400resp width90vw p-0 m-0">

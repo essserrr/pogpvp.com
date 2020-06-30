@@ -17,7 +17,7 @@ const SingleRadio = React.memo(function (props) {
                 onChange={props.onChange}
             />
             <label
-                className="custom-control-label d-flex align-items-center"
+                className="custom-control-label d-flex align-items-center fBolder"
                 htmlFor={props.value + props.attr}
             >
                 {props.label}

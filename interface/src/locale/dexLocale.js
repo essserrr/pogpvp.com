@@ -9,8 +9,9 @@ export const dexLocale = {
         by: " by ",
         moveplace: "Search move name",
 
-        mdtitle: "Movedex  |  PogPvP.com",
+        mdtitle: "Movedex | PogPvP.com",
         mddescr: "List of all currently available moves in Pokemon Go",
+        mdsdescr: " description in Pokemon Go",
         loading: "Loading...",
 
         dexentr: "View dex for ",
@@ -68,8 +69,9 @@ export const dexLocale = {
         by: " на ",
         moveplace: "Поиск по названию умения",
 
-        mdtitle: "Мувдекс  |  PogPvP.com",
+        mdtitle: "Мувдекс | PogPvP.com",
         mddescr: "Список всех допустныхв Pokemon Go умений",
+        mdsdescr: " описание в Pokemon Go",
         loading: "Загрузка...",
 
         dexentr: "Открыть декс для ",

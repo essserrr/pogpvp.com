@@ -419,7 +419,7 @@ class MatrixPanel extends React.PureComponent {
                     }
                 />}
                 <Counter
-                    class="defaultFont"
+                    class="defaultFont fBolder"
                     value={this.props.value.listToDisplay.length}
                     suffix={" / 50 " + strings.title.counter}
                 />
@@ -466,7 +466,7 @@ class MatrixPanel extends React.PureComponent {
                         label={strings.buttons.delete}
                         onSubmit={this.props.onChange} />
                 </div>
-                <div className="defaultFont">
+                <div className="defaultFont fBolder">
                     {strings.tips.matrixPanel}
                 </div>
                 <MaximizerNoSubmit

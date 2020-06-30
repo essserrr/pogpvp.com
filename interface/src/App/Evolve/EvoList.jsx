@@ -44,7 +44,7 @@ class EvoList extends PureComponent {
         for (let i = 0; i < result.length; i++) {
             result[i] = this.pushPokecardWrapper(result[i],
                 i < result.length - 1 ?
-                    <div key={i + "sep"} className="separator" >{strings.tips.evolveTool}</div> : null,
+                    <div key={i + "sep"} className="separator fBolder" >{strings.tips.evolveTool}</div> : null,
                 i + "Evo")
         }
 

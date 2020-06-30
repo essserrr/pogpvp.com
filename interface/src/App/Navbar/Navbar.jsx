@@ -22,21 +22,21 @@ class Navbar extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             dropdownPvP: [
-                <a key="Single PvP" className="dropdown-item" href="/pvp/single/">{strings.navbar.single}</a>,
-                <a key="Matrix PvP" className="dropdown-item" href="/pvp/matrix/">{strings.navbar.matrix}</a>,
-                <a key="PvP Rating" className="dropdown-item" href="/pvprating/">{strings.navbar.pvprating}</a>,
+                <a key="Single PvP" className="dropdown-item " href="/pvp/single/">{strings.navbar.single}</a>,
+                <a key="Matrix PvP" className="dropdown-item " href="/pvp/matrix/">{strings.navbar.matrix}</a>,
+                <a key="PvP Rating" className="dropdown-item " href="/pvprating/">{strings.navbar.pvprating}</a>,
             ],
             dropdownPvE: [
-                <a key="Raids List" className="dropdown-item" href="/raids/">{strings.navbar.raids}</a>,
-                <a key="Raid Simulator" className="dropdown-item" href="/pve/common/">{strings.navbar.raidsim}</a>,
+                <a key="Raids List" className="dropdown-item " href="/raids/">{strings.navbar.raids}</a>,
+                <a key="Raid Simulator" className="dropdown-item " href="/pve/common/">{strings.navbar.raidsim}</a>,
             ],
             dropdownDex: [
-                <a key="Move Dex" className="dropdown-item" href="/movedex/">{strings.navbar.movedex}</a>,
+                <a key="Move Dex" className="dropdown-item " href="/movedex/">{strings.navbar.movedex}</a>,
             ],
             dropdownOther: [
-                <a key="Sniny Rates" className="dropdown-item" href="/shinyrates/">{strings.navbar.shiny}</a>,
-                <a key="Evolution Calc" className="dropdown-item" href="/evolution/">{strings.navbar.evo}</a>,
-                <a key="Eggs List" className="dropdown-item" href="/eggs/">{strings.navbar.eggs}</a>,
+                <a key="Sniny Rates" className="dropdown-item " href="/shinyrates/">{strings.navbar.shiny}</a>,
+                <a key="Evolution Calc" className="dropdown-item " href="/evolution/">{strings.navbar.evo}</a>,
+                <a key="Eggs List" className="dropdown-item " href="/eggs/">{strings.navbar.eggs}</a>,
             ],
             expanded: false,
         };
@@ -74,7 +74,7 @@ class Navbar extends React.PureComponent {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className={"order-3 order-sm-2 collapse navbar-collapse " + (this.state.expanded ? "show" : "")} id="navbarSupportedContent">
+                <div className={"order-3  order-sm-2 collapse navbar-collapse " + (this.state.expanded ? "show" : "")} id="navbarSupportedContent">
                     <ul className="navbar-nav ml-1 ml-sm-0 mr-auto">
                         <DropdownMenu
                             list={this.state.dropdownPvP}

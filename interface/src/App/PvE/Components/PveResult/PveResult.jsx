@@ -252,7 +252,7 @@ class PveResult extends React.PureComponent {
                             value={this.props.url}
                         />
                     </div>}
-                    <div className={"col-12 m-0 p-0 fontBolder font90 text-center"}>
+                    <div className={"col-12 m-0 p-0 font-weight-bold text-center"}>
                         {pvestrings.sort}
                     </div>
                     <ButtonsRadio

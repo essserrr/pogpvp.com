@@ -21,7 +21,7 @@ class MagicBox extends PureComponent {
                                 className="close mx-0"
                             />
                         </div>
-                        {this.props.title && <div className="col-12 mx-2 pl-0 pr-2">
+                        {this.props.title && <div className="col-12 mx-2 pl-0 pr-2 fBolder">
                             {this.props.title}
                         </div>}
                         <div className="col-12 mx-2 mb-2 pl-0 pr-3">

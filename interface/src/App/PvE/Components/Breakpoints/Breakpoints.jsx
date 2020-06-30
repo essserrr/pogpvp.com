@@ -242,7 +242,7 @@ class Breakpoints extends React.PureComponent {
 
     render() {
         return (
-            <div className="row  justify-content-center m-0 p-0">
+            <div className="row  justify-content-center m-0 p-0 fBolder">
                 <SelectGroup
                     name="Atk"
                     value={this.state.attackerObj.Atk}

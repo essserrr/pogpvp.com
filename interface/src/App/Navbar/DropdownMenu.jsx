@@ -30,7 +30,7 @@ export default class DropdownMenu extends React.PureComponent {
     render() {
         return (
             <li className="nav-item dropdown clickable noselect" ref={this.setWrapperRef} onClick={this.onClick}>
-                <div className="nav-link dropdown-toggle"
+                <div className="nav-link dropdown-toggle  fBolder"
                     id="navbarDropdownMenuLink"
                     data-toggle="dropdown"
                     aria-haspopup="true"

@@ -25,7 +25,10 @@ const routes = [
     },
     {
         path: '/eggs',
-    }
+    },
+    {
+        path: '/movedex',
+    },
 ]
 
 export default routes;
