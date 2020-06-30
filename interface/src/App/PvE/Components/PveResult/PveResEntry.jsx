@@ -185,40 +185,41 @@ class PveResEntry extends React.PureComponent {
                 />
             </div>)
         for (let i = 0; i < this.props.pokemonRes.length; i++) {
-            arr.push(<div className="col-12 pveResult animShiny m-0 p-0 p-2 my-1 " key={this.props.pokemonRes[i].BQ + this.props.pokemonRes[i].BCh}>
-                <div className="col-12 d-flex m-0 p-0">
-                    <WeatherMoves
-                        pokQick={this.props.moveTable[this.props.pokemonRes[i].BQ]}
-                        pokCh={this.props.moveTable[this.props.pokemonRes[i].BCh]}
-                        snapshot={this.props.snapshot}
-                    />
-                </div>
-                <div className="col-12 m-0 p-0 mt-2">
-                    <HpBar
-                        upbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DMin)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                        lowbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DMax)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                        length={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DAvg)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                    />
-                </div>
-                <div className="col-12 m-0 p-0">
-                    <HpRemaining
-                        locale={pveStrings.hprem}
-                        DAvg={this.damageString(this.props.pokemonRes[i].DAvg)}
-                        DMax={this.damageString(this.props.pokemonRes[i].DMax)}
-                        DMin={this.damageString(this.props.pokemonRes[i].DMin)}
-                        NOfWins={this.props.pokemonRes[i].NOfWins}
-                        tierHP={this.props.tables.hp[this.props.snapshot.bossObj.Tier]}
-                    />
-                </div>
-                <div className="col-12 m-0 p-0">
-                    <FightStats
-                        locale={pveStrings.s}
-                        tables={this.props.tables}
-                        snapshot={this.props.snapshot}
-                        avgStats={this.props.pokemonRes[i]}
-                    />
-                </div>
-            </div>)
+            arr.push(
+                <div className="col-12 pveResult animShiny m-0 p-0 p-2 my-1 " key={this.props.pokemonRes[i].BQ + this.props.pokemonRes[i].BCh}>
+                    <div className="col-12 d-flex m-0 p-0">
+                        <WeatherMoves
+                            pokQick={this.props.moveTable[this.props.pokemonRes[i].BQ]}
+                            pokCh={this.props.moveTable[this.props.pokemonRes[i].BCh]}
+                            snapshot={this.props.snapshot}
+                        />
+                    </div>
+                    <div className="col-12 m-0 p-0 mt-2">
+                        <HpBar
+                            upbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DMin)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
+                            lowbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DMax)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
+                            length={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DAvg)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
+                        />
+                    </div>
+                    <div className="col-12 m-0 p-0 fBolder">
+                        <HpRemaining
+                            locale={pveStrings.hprem}
+                            DAvg={this.damageString(this.props.pokemonRes[i].DAvg)}
+                            DMax={this.damageString(this.props.pokemonRes[i].DMax)}
+                            DMin={this.damageString(this.props.pokemonRes[i].DMin)}
+                            NOfWins={this.props.pokemonRes[i].NOfWins}
+                            tierHP={this.props.tables.hp[this.props.snapshot.bossObj.Tier]}
+                        />
+                    </div>
+                    <div className="col-12 m-0 p-0">
+                        <FightStats
+                            locale={pveStrings.s}
+                            tables={this.props.tables}
+                            snapshot={this.props.snapshot}
+                            avgStats={this.props.pokemonRes[i]}
+                        />
+                    </div>
+                </div>)
         }
         return arr
     }
@@ -247,7 +248,7 @@ class PveResEntry extends React.PureComponent {
                             snapshot={this.props.snapshot}
                         />
                     </div>
-                    <div className="col-12 m-0 p-0">
+                    <div className="col-12 m-0 p-0 fBolder">
                         {"CP "} {culculateCP(pok.Title, this.props.snapshot.attackerObj.Lvl, this.props.snapshot.attackerObj.Atk, this.props.snapshot.attackerObj.Def, this.props.snapshot.attackerObj.Sta, this.props.pokemonTable)}
                         {" / HP "} {calculateEffStat(pok.Title, this.props.snapshot.attackerObj.Lvl, this.props.snapshot.attackerObj.Sta, 0, this.props.pokemonTable, "Sta", false)}
                         {name.Additional && (" / " + name.Additional)}
@@ -262,7 +263,7 @@ class PveResEntry extends React.PureComponent {
                                 length={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(avgStats.DAvg)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
                             />
                         </div>
-                        <div className="col-12 m-0 p-0">
+                        <div className="col-12 m-0 p-0 fBolder">
                             <HpRemaining
                                 locale={pveStrings.hprem}
                                 DAvg={this.damageString(avgStats.DAvg)}

@@ -72,8 +72,6 @@ class Movedex extends React.Component {
                 return;
             }
         }
-        console.log(results[0][this.props.match.params.id])
-
         this.setState({
             showResult: true,
             isError: false,
@@ -83,16 +81,13 @@ class Movedex extends React.Component {
         });
     }
 
-
-
-
     render() {
         return (
             <>
                 <SiteHelm
-                    url="https://pogpvp.com/movedex"
-                    header={strings.mdtitle}
-                    descr={strings.mddescr}
+                    url={"https://pogpvp.com/movedex/" + encodeURIComponent(this.props.match.params.id)}
+                    header={this.props.match.params.id + strings.mdsdescr + " | PogPvP.com"}
+                    descr={this.props.match.params.id + strings.mdsdescr}
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
