@@ -97,8 +97,26 @@ class Movedex extends React.Component {
             loading: false,
             moveTable: results[0],
             originalList: arr,
-            listToShow: arr,
         });
+
+        const step = 300
+        this.recursive((step < arr.length ? step : arr.length), arr)
+    }
+
+    recursive = (end, original) => {
+        const step = 300
+        setTimeout(() => {
+            let nextPortion = end + step < original.length ? end + step : original.length;
+
+            this.setState({
+                listToShow: original.slice(0, end)
+            });
+            let isNext = end < original.length
+
+            if (isNext) {
+                this.recursive(nextPortion, original)
+            }
+        }, 0);
     }
 
 
