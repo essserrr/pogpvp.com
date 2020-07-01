@@ -1,10 +1,10 @@
 @mixin energyGlow {
     &.glow0 {
         box-shadow: 
-        0px 0px 0 #98D630,
-        0px 0px 4px #98D630,
-        0px 0px 8px #98D630,
-        0px 0px 16px #98D630;
+        0px 0px 0 #A8B820,
+        0px 0px 4px #A8B820,
+        0px 0px 8px #A8B820,
+        0px 0px 16px #A8B820;
     }
     &.glow1 {
         box-shadow: 
@@ -15,10 +15,10 @@
     }
     &.glow2 {
         box-shadow: 
-        0px 0px 0 #0039e6,
-        0px 0px 4px #0039e6,
-        0px 0px 8px #0039e6,
-        0px 0px 16px #0039e6;
+        0px 0px 0 #7038F8,
+        0px 0px 4px #7038F8,
+        0px 0px 8px #7038F8,
+        0px 0px 16px #7038F8;
     }
     &.glow3 {
         box-shadow: 
@@ -29,17 +29,17 @@
     }
     &.glow4 {
         box-shadow: 
-        0px 0px 0 #ff99cc,
-        0px 0px 4px #ff99cc,
-        0px 0px 8px #ff99cc,
-        0px 0px 16px #ff99cc;
+        0px 0px 0 #EE99AC,
+        0px 0px 4px #EE99AC,
+        0px 0px 8px #EE99AC,
+        0px 0px 16px #EE99AC;
     }
     &.glow5 {
         box-shadow: 
-        0px 0px 0 #EE4840,
-        0px 0px 4px #EE4840,
-        0px 0px 8px #EE4840,
-        0px 0px 16px #EE4840;
+        0px 0px 0 #C02038,
+        0px 0px 4px #C02038,
+        0px 0px 8px #C02038,
+        0px 0px 16px #C02038;
     }
     &.glow6 {
         box-shadow: 
@@ -64,10 +64,10 @@
     }
     &.glow9 {
         box-shadow: 
-        0px 0px 0 #30D669,
-        0px 0px 4px #30D669,
-        0px 0px 8px #30D669,
-        0px 0px 16px #30D669;
+        0px 0px 0 #78C850,
+        0px 0px 4px #78C850,
+        0px 0px 8px #78C850,
+        0px 0px 16px #78C850;
     }
     &.glow10 {
         box-shadow: 
@@ -78,10 +78,10 @@
     }
     &.glow11 {
         box-shadow: 
-        0px 0px 0 #38E1DD,
-        0px 0px 4px #38E1DD,
-        0px 0px 8px #38E1DD,
-        0px 0px 16px #38E1DD;
+        0px 0px 0 #98D8D8,
+        0px 0px 4px #98D8D8,
+        0px 0px 8px #98D8D8,
+        0px 0px 16px #98D8D8;
     }
     &.glow12 {
         box-shadow: 
@@ -92,10 +92,10 @@
     }
     &.glow13 {
         box-shadow: 
-        0px 0px 0 #CB1ED8,
-        0px 0px 4px #CB1ED8,
-        0px 0px 8px #CB1ED8,
-        0px 0px 16px #CB1ED8;
+        0px 0px 0 #A040A1,
+        0px 0px 4px #A040A1,
+        0px 0px 8px #A040A1,
+        0px 0px 16px #A040A1;
     }
     &.glow14 {
         box-shadow: 
@@ -131,9 +131,9 @@
 
 @mixin backgrounds {
     &.color0 {
-        background-color: #98D630;
+        background-color: #A8B820;
         &.text {
-            background-color: #98D630;
+            background-color: #A8B820;
             color: black;
         }
     }
@@ -145,9 +145,9 @@
         }
     }
     &.color2 {
-        background-color: #0039e6;
+        background-color: #7038F8;
         &.text {
-            background-color: #0039e6;
+            background-color: #7038F8;
             color: white;
         }
     }
@@ -159,16 +159,16 @@
         }
     }
     &.color4 {
-        background-color: #ff99cc;
+        background-color: #EE99AC;
         &.text {
-            background-color: #ff99cc;
+            background-color: #EE99AC;
             color: black;
         }
     }
     &.color5 {
-        background-color: #EE4840;
+        background-color: #C02038;
         &.text {
-            background-color: #EE4840;
+            background-color: #C02038;
             color: rgb(255, 255, 255);
         }
     }
@@ -194,9 +194,9 @@
         }
     }
     &.color9 {
-        background-color: #30D669;
+        background-color: #78C850;
         &.text {
-            background-color: #30D669;
+            background-color: #78C850;
             color: black;
         }
     }
@@ -208,9 +208,9 @@
         }
     }
     &.color11 {
-        background-color: #38E1DD;
+        background-color: #98D8D8;
         &.text {
-            background-color: #38E1DD;
+            background-color: #98D8D8;
             color: black;
         }
     }
@@ -222,9 +222,9 @@
         }
     }
     &.color13 {
-        background-color: #CB1ED8;
+        background-color: #A040A1;
         &.text {
-            background-color: #CB1ED8;
+            background-color: #A040A1;
             color: black;
         }
     }
@@ -255,6 +255,63 @@
             background-color: #3590D1;
             color: black;
         }
+    }
+   }
+
+   @mixin typeFonts {
+    &.color0 {
+        color: #A8B820;
+    }
+    &.color1 {
+        color: #42434E;
+    }
+    &.color2 {
+        color: #7038F8;
+    }
+    &.color3 {
+        color: #ffcc00;
+    }
+    &.color4 {
+        color: #EE99AC;
+    }
+    &.color5 {
+        color: #C02038;
+    }
+    &.color6 {
+        color: #ff9933;
+    }
+    &.color7 {
+        color: #78C8E4;
+    }
+    &.color8 {
+        color: #7546BB;
+    }
+    &.color9 {
+        color: #78C850;
+    }
+    &.color10 {
+        color: #B17D4A;
+    }
+    &.color11 {
+        color: #98D8D8;
+    }
+    &.color12 {
+        color: #9F9F9A;
+    }
+    &.color13 {
+        color: #A040A1;
+    }
+    &.color14 {
+        color: #FE6688;
+    }
+    &.color15 {
+        color: #adad85;
+    }
+    &.color16 {
+        color: #496D92;
+    }
+    &.color17 {
+        color: #3590D1;
     }
    }
 
@@ -309,7 +366,7 @@
 
    @mixin fills {
     &.color0 {
-        fill: #98D630;
+        fill: #A8B820;
         @include effects;
     }
     &.color1 {
@@ -317,7 +374,7 @@
         @include effects;
     }
     &.color2 {
-        fill: #0039e6;
+        fill: #7038F8;
         @include effects;
     }
     &.color3 {
@@ -325,11 +382,11 @@
         @include effects;
     }
     &.color4 {
-        fill: #ff99cc;
+        fill: #EE99AC;
         @include effects;
     }
     &.color5 {
-        fill: #EE4840;
+        fill: #C02038;
         @include effects;
     }
     &.color6 {
@@ -345,7 +402,7 @@
         @include effects;
     }
     &.color9 {
-        fill: #30D669;
+        fill: #78C850;
         @include effects;
     }
     &.color10 {
@@ -353,7 +410,7 @@
         @include effects;
     }
     &.color11 {
-        fill: #38E1DD;
+        fill: #98D8D8;
         @include effects;
     }
     &.color12 {
@@ -361,7 +418,7 @@
         @include effects;
     }
     &.color13 {
-        fill: #CB1ED8;
+        fill: #A040A1;
         @include effects;
     }
     &.color14 {
@@ -405,6 +462,10 @@
         background-color: rgb(224, 86, 32);
         color:rgba(24, 23, 23, 1);
     }
+}
+
+.typefont {
+@include typeFonts
 }
 
 //global rules
@@ -1027,7 +1088,6 @@ body {
 }
 
 .singleNews {
-    
     margin-left: 1.5rem;
     margin-right: 1.5rem;
     margin-bottom: 1rem;
@@ -1705,8 +1765,6 @@ body {
 .energyBlock {
     height: 10px;
     border-radius: 2px;
-
-    @include backgrounds
 }
 
 .energyCell {
@@ -1723,3 +1781,80 @@ body {
      }
 }
  
+
+.dexCard {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    margin-bottom: 1rem;
+
+    border-radius: 4px 4px 4px 4px;
+    background-color: #ffffff;
+    border-style: solid;
+    border-color: #acacac;
+    border-width: 1px;
+    
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dexCardIcon {
+    flex: 1;
+    max-width: 220px !important;
+    max-height: 220px !important;
+    object-fit: contain;
+}
+.dexIconText {
+    max-width: 410px !important;
+    //650-240
+}
+
+.dexCardText {
+    font-family: 'Baloo Bhaina', cursive;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+.dexFont {
+    font-size: 1.2em;
+    font-weight: 400; 
+}
+.dexFontSm {
+    font-size: 0.85em;
+    font-weight: 500; 
+}
+
+.dexStatBack{
+    position: relative;
+    max-width: 400px !important; 
+    height: 25px !important; 
+    background-color: rgb(207, 207, 207);
+
+    overflow: hidden;
+    border-radius: 2px;
+}
+
+.dexStatFront {
+    position: absolute;
+    height: 100%; 
+
+    font-size: 10pt !important;
+    font-weight: 500 !important;
+    text-align: center;
+    line-height: 25px;
+}
+
+.dexLink {
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+.dexEnergyBlock {
+    height: 7px;
+    border-radius: 3px;
+
+    background-color: rgba(0, 0, 0, 0.438);
+
+    &.Dark {
+        background-color: rgba(255, 255, 255, 0.432);
+    }
+}
