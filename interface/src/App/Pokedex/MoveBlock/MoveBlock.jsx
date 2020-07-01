@@ -14,7 +14,7 @@ class MoveBlock extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            showCollapse: false,
+            showCollapse: this.props.defOpen,
         };
         this.onClick = this.onClick.bind(this)
     }

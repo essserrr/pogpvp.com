@@ -144,14 +144,11 @@ class AdvisorPanel extends React.PureComponent {
     pokVunerabilities(arr, pok) {
         let i = arr.push([]) - 1
         for (let j = 0; j < effectivenessData.length; j++) {
-            let eff = effectivenessData[j][pok.Type[0]]
-            arr[i].push((eff === 0 ? 1 : eff).toFixed(3))
-        }
-        if (pok.Type.length > 1) {
-            for (let j = 0; j < effectivenessData.length; j++) {
-                let eff = effectivenessData[j][pok.Type[1]]
-                arr[i][j] = (arr[i][j] * (eff === 0 ? 1 : eff)).toFixed(3)
+            let eff = 1
+            for (let k = 0; k < pok.Type.length; k++) {
+                eff *= (effectivenessData[j][pok.Type[k]] === 0 ? 1 : effectivenessData[j][pok.Type[k]])
             }
+            arr[i].push(eff.toFixed(3))
         }
     }
 

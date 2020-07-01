@@ -2,13 +2,15 @@ import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 
+import ReactTooltip from "react-tooltip";
+import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
 import StatsBlock from "./StatsBlock/StatsBlock"
 import MoveBlock from "./MoveBlock/MoveBlock"
 import EffBlock from "./EffBlock/EffBlock"
-
+import CpBlock from "./CpBlock/CpBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -81,6 +83,18 @@ class PokeCard extends React.Component {
                 return;
             }
         }
+        //if error imput somehow
+        if (!results[1][this.props.match.params.id]) {
+            this.setState({
+                error: strings.pokerr,
+                showResult: false,
+                loading: false,
+                isError: true,
+            });
+            return
+        }
+
+
         this.setState({
             showResult: true,
             isError: false,
@@ -126,9 +140,34 @@ class PokeCard extends React.Component {
                                         value={this.state.pok}
                                         moveTable={this.state.moveTable}
                                         pokeTable={this.state.pokeTable}
+                                        defOpen={false}
                                     />}
                                 <EffBlock
-                                    value={this.state.pok}
+                                    type={this.state.pok.Type}
+                                    title={<>
+                                        <PokemonIconer
+                                            src={this.state.pok.Number +
+                                                (this.state.pok.Forme !== "" ? "-" + this.state.pok.Forme : "")}
+                                            class={"icon36"}
+                                            for={this.state.pok.Title}
+                                        />
+                                        <ReactTooltip
+                                            className={"infoTip"}
+                                            id={this.state.pok.Title} effect='solid'
+                                            place={"top"}
+                                            multiline={true}
+                                        >
+                                            {this.state.pok.Title}
+                                        </ReactTooltip>
+                                    </>}
+                                    locale={strings.vunlist + this.state.pok.Title}
+                                    defOpen={false}
+                                />
+                                <CpBlock
+                                    defOpen={false}
+                                    pok={this.state.pok}
+                                    locale={strings.cpcalc}
+                                    pokeTable={this.state.pokeTable}
                                 />
                             </>}
                         </div>

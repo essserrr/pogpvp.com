@@ -23,7 +23,6 @@ const EffectiveStats = React.memo(function (props) {
                 id={props.attr + "effsta"} effect='solid'>
                 {strings.effStats.staTip}
             </ReactTooltip>
-
             <div
                 data-tip data-for={props.attr + "effatk"}
                 className={"d-inline mr-3 fBolder stageColor" + (Number(props.AtkStage) + 4)}>

@@ -76,7 +76,11 @@ export const dexLocale = {
 
         movelist: "Complete movelist of ",
         vunlist: "Vulnerabilities list of ",
+        moveeff: "Effectiveness of ",
 
+        pokerr: "Pokemon not found",
+        moveerr: "Move not found",
+        cpcalc: "CP calculator",
     },
 
     ru: {
@@ -155,5 +159,10 @@ export const dexLocale = {
 
         movelist: "Список всех мувов ",
         vunlist: "Список всех уязвимостей ",
+        moveeff: "Эффективность ",
+
+        pokerr: "Покемон не найден",
+        moveerr: "Мув не найден",
+        cpcalc: "Калькулятор CP",
     }
 }

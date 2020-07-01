@@ -8,6 +8,7 @@ import Loader from "../PvpRating/Loader"
 import CardTitle from "./CardTitle/CardTitle"
 import ChargeMove from "./CardBody/ChargeMove"
 import QuickMove from "./CardBody/QuickMove"
+import EffBlock from "../Pokedex/EffBlock/EffBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -72,6 +73,18 @@ class MoveCard extends React.Component {
                 return;
             }
         }
+
+        //if error imput somehow
+        if (!results[0][this.props.match.params.id]) {
+            this.setState({
+                error: strings.moveerr,
+                showResult: false,
+                loading: false,
+                isError: true,
+            });
+            return
+        }
+
         this.setState({
             showResult: true,
             isError: false,
@@ -107,6 +120,13 @@ class MoveCard extends React.Component {
                                         <ChargeMove move={this.state.move} /> :
                                         <QuickMove move={this.state.move} />}
                                 </div>
+                                <EffBlock
+                                    type={[this.state.move.MoveType]}
+                                    title={this.state.move.Title}
+                                    locale={strings.moveeff + this.state.move.Title}
+                                    defOpen={false}
+                                    reverse={true}
+                                />
                             </>
                             }
                         </div>

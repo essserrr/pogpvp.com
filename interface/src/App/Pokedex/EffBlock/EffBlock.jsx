@@ -13,7 +13,7 @@ class EffBlock extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            showCollapse: true,
+            showCollapse: this.props.defOpen,
         };
         this.onClick = this.onClick.bind(this)
     }
@@ -29,11 +29,12 @@ class EffBlock extends React.PureComponent {
             <DropWithArrow
                 onShow={this.onClick}
                 show={this.state.showCollapse}
-                title={strings.vunlist + this.props.value.Title}
-                elem={
-                    <EffTable
-                        value={this.props.value}
-                    />}
+                title={this.props.locale}
+                elem={<EffTable
+                    type={this.props.type}
+                    title={this.props.title}
+                    reverse={this.props.reverse}
+                />}
 
                 faOpened="align-self-center fas fa-angle-up fa-lg "
                 faClosed="align-self-center fas fa-angle-down fa-lg"
