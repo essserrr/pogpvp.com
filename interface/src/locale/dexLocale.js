@@ -63,6 +63,20 @@ export const dexLocale = {
         macat: "Move category",
         chm: "Charge move",
         qm: "Quick move",
+
+        generation: "Generation",
+
+        atkFull: "Attack",
+        defFull: "Defence",
+        staFull: "Stamina",
+
+        dabbr: "D",
+        cdabbr: "CD",
+        s: "s",
+
+        movelist: "Complete movelist of ",
+        vunlist: "Vulnerabilities list of ",
+
     },
 
     ru: {
@@ -128,5 +142,18 @@ export const dexLocale = {
         macat: "Категория мува",
         chm: "Заряжаемое умение",
         qm: "Быстрое умение",
+
+        generation: "Поколение",
+
+        atkFull: "Атака",
+        defFull: "Защита",
+        staFull: "Здоровье",
+
+        dabbr: "У",
+        cdabbr: "ПР",
+        s: "с",
+
+        movelist: "Список всех мувов ",
+        vunlist: "Список всех уязвимостей ",
     }
 }
