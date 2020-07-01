@@ -17,7 +17,13 @@ const PokeRow = React.memo(function (props) {
             <th className="align-middle text-center text-sm-left px-0 px-sm-1 max110" scope="row">
                 <PokemonIconer
                     src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
-                    class={"icon36 mr-1"} />{props.value.Title}
+                    class={"icon36 mr-1"} />
+                <a title={strings.dexentr + props.value.Title}
+                    className="link"
+                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.value.Title)}
+                >
+                    {props.value.Title}
+                </a>
             </th>
             <td className="align-middle px-0 ">
                 <Type
