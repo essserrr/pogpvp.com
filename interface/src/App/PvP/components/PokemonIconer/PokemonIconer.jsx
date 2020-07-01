@@ -18,14 +18,31 @@ const PokemonIconer = React.memo(function (props) {
                 }
                 break
             default:
-                ev.target.src = "/images/missingno.png"
-                break
+                switch (props.folder === "/art/") {
+                    case true:
+                        if (i === 0) {
+                            let withoutForme = props.src.split("-")
+                            ev.target.src = "/images" + props.folder + withoutForme[0] + ".jpg"
+                        }
+                        if (i === 1) {
+                            ev.target.src = iconList[0] + props.src + ".png"
+                        }
+                        if (i === 2) {
+                            ev.target.src = "/images/missingno.png"
+                        }
+                        i++
+                        break
+                    default:
+                        ev.target.src = "/images/missingno.png"
+                        break
+                }
         }
     }
 
     return (
         navigator.userAgent !== "ReactSnap" && <img
-            src={"/images" + (props.folder ? props.folder : "/pokemons/") + props.src + ".png"}
+            src={"/images" + (props.folder ? props.folder : "/pokemons/") +
+                props.src + (props.folder === "/art/" ? ".jpg" : ".png")}
             onError={addDefaultSrc}
             className={props.class}
             alt=""
