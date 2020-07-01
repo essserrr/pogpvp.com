@@ -15,7 +15,7 @@ import { getCookie } from "../../js/indexFunctions"
 
 let strings = new LocalizedStrings(dexLocale);
 
-class Movedex extends React.Component {
+class MoveCard extends React.Component {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -100,7 +100,7 @@ class Movedex extends React.Component {
                                     loading={this.state.loading}
                                 />}
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
-                            {this.state.showResult && <>
+                            {this.state.showResult && this.state.move && <>
                                 <CardTitle move={this.state.move} />
                                 <div className="row m-0 p-0">
                                     {this.state.move.MoveCategory === "Charge Move" ?
@@ -117,4 +117,4 @@ class Movedex extends React.Component {
     }
 }
 
-export default Movedex
+export default MoveCard
