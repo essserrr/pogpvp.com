@@ -837,9 +837,10 @@ class MatrixPvp extends React.PureComponent {
 
     countWeakSpots(objA, objB, objC) {
         let counter = []
-        for (let field in objA) {
-            if (objA[field] && objB[field] && objC[field]) {
-                counter.push(field)
+
+        for (const [key, value] of Object.entries(objA)) {
+            if (value && objB[key] && objC[key]) {
+                counter.push(key)
             }
         }
         return counter

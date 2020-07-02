@@ -7,7 +7,8 @@ import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 class WeatherList extends React.PureComponent {
     weatherList() {
         let arr = []
-        for (let key in weather[this.props.weather]) {
+
+        for (const [key] of Object.entries(weather[this.props.weather])) {
             arr.push(
                 <PokemonIconer
                     key={key}

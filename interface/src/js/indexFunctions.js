@@ -675,12 +675,12 @@ export function returnPokList(pokBase, addNone, locale) {
         });
     }
     //create pokemons list
-    for (let key in pokBase) {
+    for (const [key, value] of Object.entries(pokBase)) {
         pokList.push({
             value: key,
             label: <div style={{ textAlign: "left" }}>
                 <PokemonIconer
-                    src={pokBase[key].Number + (pokBase[key].Forme !== "" ? "-" + pokBase[key].Forme : "")}
+                    src={value.Number + (value.Forme !== "" ? "-" + value.Forme : "")}
                     class={"icon24 mr-1"}
                 />{key}
             </div>,
@@ -693,8 +693,9 @@ export function separateMovebase(movebase) {
     let chargeMoveList = [];
     let quickMoveList = [];
     //create pokemons list
-    for (let key in movebase) {
-        switch (movebase[key].MoveCategory) {
+
+    for (const [key, value] of Object.entries(movebase)) {
+        switch (value.MoveCategory) {
             case "Charge Move":
                 chargeMoveList.push({
                     value: key,

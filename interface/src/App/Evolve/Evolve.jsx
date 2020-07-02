@@ -89,13 +89,15 @@ class Evolve extends React.Component {
 
     pokWithEvo(result) {
         var list = []
-        for (let key in result) {
-            if (result[key].Evolutions && result[key].Evolutions.length > 0) {
+
+
+        for (const [key, value] of Object.entries(result)) {
+            if (value.Evolutions && value.Evolutions.length > 0) {
                 list.push({
                     value: key,
                     label: <div style={{ textAlign: "left" }}>
                         <PokemonIconer
-                            src={result[key].Number + (result[key].Forme !== "" ? "-" + result[key].Forme : "")}
+                            src={value.Number + (value.Forme !== "" ? "-" + value.Forme : "")}
                             class={"icon24 mr-1"} />{key}
                     </div>,
                 });
