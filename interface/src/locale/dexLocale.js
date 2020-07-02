@@ -81,6 +81,14 @@ export const dexLocale = {
         pokerr: "Pokemon not found",
         moveerr: "Move not found",
         cpcalc: "CP calculator",
+        otherinf: "Other info",
+        infot: {
+            bud: "Buddy distance (km)",
+            pur: "Purification cost",
+            reg: "Region",
+            sec: "Second charge cost",
+        },
+        evochart: "Evolution chart",
     },
 
     ru: {
@@ -164,5 +172,13 @@ export const dexLocale = {
         pokerr: "Покемон не найден",
         moveerr: "Мув не найден",
         cpcalc: "Калькулятор CP",
+        otherinf: "Другая информация",
+        infot: {
+            bud: "Расстояни бадди (км)",
+            pur: "Стоимость очищения",
+            reg: "Регион",
+            sec: "Стоимость второго чарджа",
+        },
+        evochart: "Стадии эволюции",
     }
 }
