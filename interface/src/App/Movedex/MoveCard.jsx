@@ -8,7 +8,9 @@ import Loader from "../PvpRating/Loader"
 import CardTitle from "./CardTitle/CardTitle"
 import ChargeMove from "./CardBody/ChargeMove"
 import QuickMove from "./CardBody/QuickMove"
-import EffBlock from "../Pokedex/EffBlock/EffBlock"
+import EffTable from "../Pokedex/EffBlock/EffTable"
+import CollBlock from "../Pokedex/CollBlock/CollBlock"
+
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -120,13 +122,15 @@ class MoveCard extends React.Component {
                                         <ChargeMove move={this.state.move} /> :
                                         <QuickMove move={this.state.move} />}
                                 </div>
-                                <EffBlock
-                                    type={[this.state.move.MoveType]}
-                                    title={this.state.move.Title}
-                                    locale={strings.moveeff + this.state.move.Title}
+                                <CollBlock
+                                    locale={strings.moveeff}
                                     defOpen={false}
-                                    reverse={true}
-                                />
+                                    elem={
+                                        <EffTable
+                                            type={[this.state.move.MoveType]}
+                                            title={this.state.move.Title}
+                                            reverse={true}
+                                        />} />
                             </>
                             }
                         </div>

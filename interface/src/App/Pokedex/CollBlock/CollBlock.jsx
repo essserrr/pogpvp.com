@@ -1,17 +1,9 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
-
-import { getCookie } from "../../../js/indexFunctions"
-import { dexLocale } from "../../../locale/dexLocale"
 import DropWithArrow from "../../PvpRating/DropWithArrow/DropWithArrow"
-import EffTable from "./EffTable"
 
-let strings = new LocalizedStrings(dexLocale);
-
-class EffBlock extends React.PureComponent {
+class CollBlock extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showCollapse: this.props.defOpen,
         };
@@ -30,11 +22,7 @@ class EffBlock extends React.PureComponent {
                 onShow={this.onClick}
                 show={this.state.showCollapse}
                 title={this.props.locale}
-                elem={<EffTable
-                    type={this.props.type}
-                    title={this.props.title}
-                    reverse={this.props.reverse}
-                />}
+                elem={this.props.elem}
 
                 faOpened="align-self-center fas fa-angle-up fa-lg "
                 faClosed="align-self-center fas fa-angle-down fa-lg"
@@ -47,4 +35,4 @@ class EffBlock extends React.PureComponent {
     }
 }
 
-export default EffBlock;
+export default CollBlock;

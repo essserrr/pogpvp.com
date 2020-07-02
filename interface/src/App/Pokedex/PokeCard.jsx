@@ -8,9 +8,15 @@ import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
 import StatsBlock from "./StatsBlock/StatsBlock"
-import MoveBlock from "./MoveBlock/MoveBlock"
-import EffBlock from "./EffBlock/EffBlock"
+import MoveCol from "./MoveBlock/MoveCol"
+import EffTable from "./EffBlock/EffTable"
 import CpBlock from "./CpBlock/CpBlock"
+import OtherTable from "./OtherBlock/OtherTable"
+import DescrBlock from "./DescrBlock/DescrBlock"
+import EvoBlock from "./EvoBlock/EvoBlock"
+
+import CollBlock from "./CollBlock/CollBlock"
+
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -51,6 +57,13 @@ class PokeCard extends React.Component {
                     'Accept-Encoding': 'gzip',
                 },
             }),
+            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/misc", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept-Encoding': 'gzip',
+                },
+            }),
         ];
         var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
@@ -69,6 +82,7 @@ class PokeCard extends React.Component {
         let parses = [
             responses[0].json(),
             responses[1].json(),
+            responses[2].json(),
         ]
         var results = await Promise.all(parses)
 
@@ -93,7 +107,9 @@ class PokeCard extends React.Component {
             });
             return
         }
-
+        console.log(results[2].Misc[this.props.match.params.id])
+        console.log(results[2].Misc[this.props.match.params.id].Family)
+        console.log(results[2].Families)
 
         this.setState({
             showResult: true,
@@ -101,7 +117,10 @@ class PokeCard extends React.Component {
             loading: false,
             moveTable: results[0],
             pokeTable: results[1],
+            miscTable: results[2],
+
             pok: results[1][this.props.match.params.id],
+            pokMisc: results[2].Misc[this.props.match.params.id],
         });
     }
 
@@ -130,45 +149,77 @@ class PokeCard extends React.Component {
                                     moveTable={this.state.moveTable}
                                     pokeTable={this.state.pokeTable}
                                 />
+                                {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
+                                    <DescrBlock value={this.state.pokMisc.Description} />}
                                 <StatsBlock
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
                                     pokeTable={this.state.pokeTable}
                                 />
                                 {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
-                                    <MoveBlock
-                                        value={this.state.pok}
-                                        moveTable={this.state.moveTable}
-                                        pokeTable={this.state.pokeTable}
+                                    <CollBlock
                                         defOpen={false}
+                                        locale={strings.movelist}
+                                        elem={<>
+                                            {this.state.pok.QuickMoves.length > 0 &&
+                                                <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
+                                                    moveTable={this.state.moveTable} title={strings.qm} pok={this.state.pok} />}
+                                            {this.state.pok.ChargeMoves.length > 0 &&
+                                                <MoveCol value={this.state.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
+                                                    moveTable={this.state.moveTable} title={strings.chm} pok={this.state.pok} />}
+                                        </>} />}
+
+
+                                {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
+                                    <CollBlock
+                                        locale={strings.evochart}
+                                        defOpen={true}
+                                        elem={<EvoBlock
+                                            value={this.state.miscTable.Families[this.state.pokMisc.Family]}
+                                            familyName={this.state.pokMisc.Family}
+                                        />}
                                     />}
-                                <EffBlock
-                                    type={this.state.pok.Type}
-                                    title={<>
-                                        <PokemonIconer
-                                            src={this.state.pok.Number +
-                                                (this.state.pok.Forme !== "" ? "-" + this.state.pok.Forme : "")}
-                                            class={"icon36"}
-                                            for={this.state.pok.Title}
-                                        />
-                                        <ReactTooltip
-                                            className={"infoTip"}
-                                            id={this.state.pok.Title} effect='solid'
-                                            place={"top"}
-                                            multiline={true}
-                                        >
-                                            {this.state.pok.Title}
-                                        </ReactTooltip>
-                                    </>}
-                                    locale={strings.vunlist + this.state.pok.Title}
+
+
+                                <CollBlock
+                                    locale={strings.vunlist}
                                     defOpen={false}
-                                />
+                                    elem={
+                                        <EffTable
+                                            type={this.state.pok.Type}
+                                            title={<>
+                                                <PokemonIconer
+                                                    src={this.state.pok.Number +
+                                                        (this.state.pok.Forme !== "" ? "-" + this.state.pok.Forme : "")}
+                                                    class={"icon36"}
+                                                    for={this.state.pok.Title}
+                                                />
+                                                <ReactTooltip
+                                                    className={"infoTip"}
+                                                    id={this.state.pok.Title} effect='solid'
+                                                    place={"top"}
+                                                    multiline={true}
+                                                >
+                                                    {this.state.pok.Title}
+                                                </ReactTooltip>
+                                            </>}
+                                            reverse={this.props.reverse}
+                                        />} />
+
                                 <CpBlock
                                     defOpen={false}
                                     pok={this.state.pok}
                                     locale={strings.cpcalc}
                                     pokeTable={this.state.pokeTable}
                                 />
+                                {this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                    this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)) &&
+                                    <CollBlock
+                                        defOpen={false}
+                                        locale={strings.otherinf}
+                                        elem={<OtherTable
+                                            value={this.state.pokMisc}
+                                        />} />}
                             </>}
                         </div>
                     </div>
