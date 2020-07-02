@@ -292,6 +292,20 @@ func dbUpdateAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error
 		if err != nil {
 			return errors.NewHTTPError(err, 400, "Error while updating bucket: "+bucketKey)
 		}
+	case "MISC":
+		switch authForm.Body {
+		case nil:
+			return errors.NewHTTPError(err, 400, "Error while updating bucket: "+bucketKey+" , nil body")
+		default:
+			err = app.semistaticDatabase.createNewEntry(bucketKey, "value", authForm.Body)
+			if err != nil {
+				return errors.NewHTTPError(err, 400, "Error while updating bucket: "+bucketKey)
+			}
+			err = app.semistaticDatabase.updateBaseVersion(bucketKey)
+			if err != nil {
+				return errors.NewHTTPError(err, 400, "Error while updating bucket ver: "+bucketKey)
+			}
+		}
 	case "RATING":
 		for key, value := range authForm.Value {
 			err = app.semistaticDatabase.createNewEntry(bucketKey, key, value)

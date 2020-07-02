@@ -88,7 +88,7 @@ func createApp(withLog *os.File) (*App, error) {
 		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
 		"telegrambot", "twitterbot"}
 
-	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING"}
+	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING", "MISC"}
 	//create/open bases
 	err = app.semistaticDatabase.createDatabase("./semistatic.db", "BOLTDB", app.semistaticBuckets)
 	if err != nil {
@@ -467,6 +467,7 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	case "RAIDS":
 	case "EGGS":
 	case "RATING":
+	case "MISC":
 	default:
 		return errors.NewHTTPError(nil, 400, "Unsupported db")
 	}
