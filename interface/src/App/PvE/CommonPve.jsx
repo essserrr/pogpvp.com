@@ -348,7 +348,7 @@ class CommonPve extends React.PureComponent {
                             />
                         </div>}
 
-                    {(this.state.showResult) && <div className="col-12 col-md-10 col-lg-6 justify-content-center p-0 m-0" >
+                    {(this.state.showResult) && <div className="veryBig col-12 col-md-10 col-lg-6 justify-content-center p-0 m-0" >
                         <PveResult
                             date={this.state.date}
                             result={this.state.result}

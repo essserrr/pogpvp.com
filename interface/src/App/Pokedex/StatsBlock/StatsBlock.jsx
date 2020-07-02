@@ -11,7 +11,7 @@ const StatsBlock = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <div className="row m-0 p-0 mt-2">
+        <div className="row m-0 p-0 mt-1">
             <Stat value={props.value.Atk} max={414} type={props.value.Type[0]} label={strings.atkFull} />
             <Stat value={props.value.Def} max={505} type={props.value.Type[0]} label={strings.defFull} />
             <Stat value={props.value.Sta} max={496} type={props.value.Type[0]} label={strings.staFull} />
