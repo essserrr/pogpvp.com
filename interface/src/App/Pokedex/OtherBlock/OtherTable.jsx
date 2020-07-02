@@ -13,8 +13,6 @@ let regions = new LocalizedStrings(regionLocale);
 const OtherTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     regions.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
-    console.log(props.value)
     return (
         <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
             <tbody className="modifiedBorderTable ">

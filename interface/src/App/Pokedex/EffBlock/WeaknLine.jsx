@@ -31,8 +31,6 @@ const WeaknLine = React.memo(function (props) {
                 </div>
             </td >)
     }
-
-    console.log(arr)
     return (
         <tr>
             <td className="modifiedBorderTable align-middle text-center fixFirstRow dexFont m-0 p-0 px-1"

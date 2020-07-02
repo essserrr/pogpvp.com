@@ -89,6 +89,7 @@ export const dexLocale = {
             sec: "Second charge cost",
         },
         evochart: "Evolution chart",
+        stage: "Stage",
     },
 
     ru: {
@@ -180,5 +181,7 @@ export const dexLocale = {
             sec: "Стоимость второго чарджа",
         },
         evochart: "Стадии эволюции",
+
+        stage: "Стадия",
     }
 }

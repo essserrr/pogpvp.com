@@ -19,8 +19,8 @@ const IconBlock = React.memo(function (props) {
                 folder={"/art/"}
             />
             <div className="col d-inline m-0 p-0 ">
-                <div className={"fBolder dexCardText typefont color" + props.value.Type[0]}># {props.value.Number}</div>
-                <span className={"fBolder dexCardText typefont color" + props.value.Type[0]}>{props.value.Title}</span>
+                <div className={"fBolder dexCardText typefont "}># {props.value.Number}</div>
+                <span className={"fBolder dexCardText typefont "}>{props.value.Title}</span>
                 <div className="col-12 d-flex m-0 p-0  mt-2">
                     <span className="dexFont align-self-center">{strings.mt.tp + ":"}</span>
                     <Type

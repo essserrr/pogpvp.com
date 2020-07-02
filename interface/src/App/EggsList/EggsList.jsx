@@ -171,10 +171,18 @@ class EggsList extends React.Component {
 
                                 </div>
                             }
-                            icon={<PokemonIconer
-                                src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                                class={"icon48"} />}
-                            body={this.generateBody(name, pokTable)}
+                            icon={
+                                <a
+                                    title={strings.dexentr + name}
+                                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
+                                        encodeURIComponent(name)}
+                                >
+                                    <PokemonIconer
+                                        src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                                        class={"icon48"} />
+                                </a>}
+                            body={this.generateBody(name, pokTable)
+                            }
 
                             classBodyWrap="row justify-content-center justify-content-sm-between m-0 p-0"
                             classHeader={"cardHeader col-12 m-0 p-0 px-1 mb-1 text-center"}

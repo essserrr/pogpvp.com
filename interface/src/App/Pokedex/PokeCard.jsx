@@ -14,6 +14,7 @@ import CpBlock from "./CpBlock/CpBlock"
 import OtherTable from "./OtherBlock/OtherTable"
 import DescrBlock from "./DescrBlock/DescrBlock"
 import EvoBlock from "./EvoBlock/EvoBlock"
+import NavigationBlock from "./NavigationBlock/NavigationBlock"
 
 import CollBlock from "./CollBlock/CollBlock"
 
@@ -107,14 +108,21 @@ class PokeCard extends React.Component {
             });
             return
         }
-        console.log(results[2].Misc[this.props.match.params.id])
-        console.log(results[2].Misc[this.props.match.params.id].Family)
-        console.log(results[2].Families)
+
+
+        let scrollList = this.makeList(results[1])
+
+        let position = this.findPosition(this.props.match.params.id, Number(results[1][this.props.match.params.id].Number) - 1,
+            scrollList)
 
         this.setState({
             showResult: true,
             isError: false,
             loading: false,
+
+            scrollList: scrollList,
+            position: position,
+
             moveTable: results[0],
             pokeTable: results[1],
             miscTable: results[2],
@@ -122,6 +130,24 @@ class PokeCard extends React.Component {
             pok: results[1][this.props.match.params.id],
             pokMisc: results[2].Misc[this.props.match.params.id],
         });
+    }
+
+    findPosition(name, number, list) {
+        for (let i = number; i < list.length; i++) {
+            if (name === list[i][0]) {
+                return i
+            }
+        }
+        console.log(name + " not found")
+    }
+
+    makeList(base) {
+        return Object.entries(base).sort(function (a, b) {
+            if (Number(a[1].Number) === Number(b[1].Number)) {
+                return Number(a[1].Forme) - Number(b[1].Forme)
+            }
+            return Number(a[1].Number) - Number(b[1].Number)
+        })
     }
 
     render() {
@@ -144,6 +170,12 @@ class PokeCard extends React.Component {
                                 />}
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult && this.state.pok && <>
+                                {this.state.scrollList && !(this.state.position === undefined) &&
+                                    <NavigationBlock
+                                        list={this.state.scrollList}
+                                        position={this.state.position}
+                                    />}
+
                                 <IconBlock
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
@@ -173,8 +205,11 @@ class PokeCard extends React.Component {
                                 {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
                                     <CollBlock
                                         locale={strings.evochart}
-                                        defOpen={true}
+                                        defOpen={false}
                                         elem={<EvoBlock
+                                            miscTable={this.state.miscTable.Misc}
+                                            pokeTable={this.state.pokeTable}
+
                                             value={this.state.miscTable.Families[this.state.pokMisc.Family]}
                                             familyName={this.state.pokMisc.Family}
                                         />}

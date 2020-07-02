@@ -10,7 +10,6 @@ let strings = new LocalizedStrings(dexLocale);
 
 const EffTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    console.log(props.value)
     return (
         <table className="table mb-0 table-sm text-center table-responsive">
             <thead className="thead " >

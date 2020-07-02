@@ -58,9 +58,17 @@ class EvoList extends PureComponent {
                     class={"pokEggCard animShiny m-0 p-0"}
 
                     name={name}
-                    icon={<PokemonIconer
-                        src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                        class={"icon48"} />}
+                    icon={
+
+                        <a
+                            title={strings.dexentr + name}
+                            href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
+                                encodeURIComponent(name)}
+                        >
+                            <PokemonIconer
+                                src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                                class={"icon48"} />
+                        </a>}
                     body={this.generateBody(name, state)}
 
                     classHeader={"cardHeader col-12 m-0 p-0 px-1 text-center"}

@@ -1,5 +1,6 @@
 export const locale = {
     en: {
+        dexentr: "View dex for ",
         topcounters: "Find top counters against ",
 
         notfound: "Error 404 - Page not found",
@@ -257,6 +258,7 @@ export const locale = {
 
 
     ru: {
+        dexentr: "Открыть декс для ",
         topcounters: "Найти лучших покемонов против ",
 
         notfound: "Ошибка 404 - Страница не найдена",
