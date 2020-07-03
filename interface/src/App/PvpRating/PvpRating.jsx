@@ -492,9 +492,16 @@ function returnRatingList(ratingList, pokemonTable, moveTable, league, combinati
                     icon={<>
                         {(pokName !== ratingList[i].Name) &&
                             <Shadow className="posAbsR icon24" />}
-                        <PokemonIconer
-                            src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
-                            class={"icon64"} />
+                        <a
+                            className="link"
+                            title={strings.dexentr + pokName}
+                            href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
+                                encodeURIComponent(pokName)}
+                        >
+                            <PokemonIconer
+                                src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
+                                class={"icon64"} />
+                        </a>
                     </>
                     }
                     body={generateBody(pokName, ratingList[i], pokemonTable, maxWeighted)}

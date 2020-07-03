@@ -42,18 +42,3 @@ class ButtonsRadio extends PureComponent {
 }
 
 export default ButtonsRadio;
-
-
-
-
-
-
-
-
-/*
-const ButtonsRadio = React.memo(function (props) {
-    return (
-
-
-    )
-});*/
