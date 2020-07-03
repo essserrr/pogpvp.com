@@ -19,8 +19,8 @@ const IconBlock = React.memo(function (props) {
                 folder={"/art/"}
             />
             <div className="col d-inline m-0 p-0 ">
-                <div className={"fBolder dexTitle"}># {props.value.Number}</div>
-                <span className={"fBolder dexTitle"}>{props.value.Title}</span>
+                <div className={"fBolder dexTitle"}># {props.value.Number} <span>{props.value.Title}</span></div>
+
                 {props.pokMisc && props.pokMisc.ShortDescr !== "" && <div className="col-12 dexFont font-weight-bold m-0 p-0 mt-2">
                     {props.pokMisc.ShortDescr}
                 </div>}

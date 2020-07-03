@@ -74,21 +74,21 @@ export const dexLocale = {
         cdabbr: "CD",
         s: "s",
 
-        movelist: "Complete movelist of ",
-        vunlist: "Vulnerabilities list of ",
+        movelist: "Moves",
+        vunlist: "Effectiveness",
         moveeff: "Effectiveness of ",
 
         pokerr: "Pokemon not found",
         moveerr: "Move not found",
         cpcalc: "CP calculator",
-        otherinf: "Other info",
+        otherinf: "Other",
         infot: {
             bud: "Buddy distance (km)",
             pur: "Purification cost",
             reg: "Region",
             sec: "Second charge cost",
         },
-        evochart: "Evolution chart",
+        evochart: "Evolution",
         stage: "Stage",
 
         resist: "Resistant to ",
@@ -171,21 +171,21 @@ export const dexLocale = {
         cdabbr: "ПР",
         s: "с",
 
-        movelist: "Список всех мувов ",
-        vunlist: "Список всех уязвимостей ",
+        movelist: "Мувы",
+        vunlist: "Эффективность",
         moveeff: "Эффективность ",
 
         pokerr: "Покемон не найден",
         moveerr: "Мув не найден",
         cpcalc: "Калькулятор CP",
-        otherinf: "Другая информация",
+        otherinf: "Другое",
         infot: {
             bud: "Расстояни бадди (км)",
             pur: "Стоимость очищения",
             reg: "Регион",
             sec: "Стоимость второго чарджа",
         },
-        evochart: "Стадии эволюции",
+        evochart: "Эволюции",
 
         stage: "Стадия",
         resist: "Сопротивляется ",

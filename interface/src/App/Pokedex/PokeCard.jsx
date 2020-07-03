@@ -1,6 +1,8 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
+import { UnmountClosed } from 'react-collapse';
+
 
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
@@ -13,9 +15,7 @@ import OtherTable from "./OtherBlock/OtherTable"
 import DescrBlock from "./DescrBlock/DescrBlock"
 import EvoBlock from "./EvoBlock/EvoBlock"
 import NavigationBlock from "./NavigationBlock/NavigationBlock"
-
-import CollBlock from "./CollBlock/CollBlock"
-
+import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -32,7 +32,10 @@ class PokeCard extends React.Component {
             isError: false,
             error: "",
             loading: false,
+
+            active: {},
         };
+        this.onClick = this.onClick.bind(this)
     }
 
     componentDidUpdate(prevProps) {
@@ -186,6 +189,15 @@ class PokeCard extends React.Component {
         })
     }
 
+    onClick(event) {
+        let attr = event.target.getAttribute('attr')
+        this.setState({
+            active: {
+                [attr]: !this.state.active[attr],
+            },
+        })
+    }
+
     render() {
         return (
             <>
@@ -238,57 +250,68 @@ class PokeCard extends React.Component {
                                     moveTable={this.state.moveTable}
                                     pokeTable={this.state.pokeTable}
                                 />
+                                <ButtonsBlock
+                                    moDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
+                                    evoDis={!(this.state.pokMisc && this.state.pokMisc.Family)}
+                                    othDis={!(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                        this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))}
+                                    onClick={this.onClick}
+                                />
+
+
                                 {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
-                                    <CollBlock
-                                        defOpen={false}
-                                        locale={strings.movelist}
-                                        elem={<>
+                                    <UnmountClosed isOpened={this.state.active.moves}>
+                                        <div className={"row m-0 p-0"}>
                                             {this.state.pok.QuickMoves.length > 0 &&
                                                 <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
                                                     moveTable={this.state.moveTable} title={strings.qm} pok={this.state.pok} />}
                                             {this.state.pok.ChargeMoves.length > 0 &&
                                                 <MoveCol value={this.state.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
                                                     moveTable={this.state.moveTable} title={strings.chm} pok={this.state.pok} />}
-                                        </>} />}
-
+                                        </div>
+                                    </UnmountClosed>}
 
                                 {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
-                                    <CollBlock
-                                        locale={strings.evochart}
-                                        defOpen={false}
-                                        elem={<EvoBlock
-                                            miscTable={this.state.miscTable.Misc}
-                                            pokeTable={this.state.pokeTable}
+                                    <UnmountClosed isOpened={this.state.active.evo}>
+                                        <div className={"row m-0 p-0"}>
+                                            <EvoBlock
+                                                miscTable={this.state.miscTable.Misc}
+                                                pokeTable={this.state.pokeTable}
 
-                                            value={this.state.miscTable.Families[this.state.pokMisc.Family]}
-                                            familyName={this.state.pokMisc.Family}
-                                        />}
-                                    />}
+                                                value={this.state.miscTable.Families[this.state.pokMisc.Family]}
+                                                familyName={this.state.pokMisc.Family}
+                                            />
+                                        </div>
+                                    </UnmountClosed>}
 
-
-                                <CollBlock
-                                    locale={strings.vunlist}
-                                    defOpen={false}
-                                    elem={
+                                <UnmountClosed isOpened={this.state.active.eff}>
+                                    <div className={"row m-0 p-0"}>
                                         <EffTable
                                             type={this.state.pok.Type}
                                             reverse={this.props.reverse}
-                                        />} />
+                                        />
+                                    </div>
+                                </UnmountClosed>
 
-                                <CpBlock
-                                    defOpen={false}
-                                    pok={this.state.pok}
-                                    locale={strings.cpcalc}
-                                    pokeTable={this.state.pokeTable}
-                                />
+                                <UnmountClosed isOpened={this.state.active.cp}>
+                                    <div className={"row m-0 p-0"}>
+                                        <CpBlock
+                                            pok={this.state.pok}
+                                            locale={strings.cpcalc}
+                                            pokeTable={this.state.pokeTable}
+                                        />
+                                    </div>
+                                </UnmountClosed>
+
                                 {this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
                                     this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)) &&
-                                    <CollBlock
-                                        defOpen={false}
-                                        locale={strings.otherinf}
-                                        elem={<OtherTable
-                                            value={this.state.pokMisc}
-                                        />} />}
+                                    <UnmountClosed isOpened={this.state.active.other}>
+                                        <div className={"row m-0 p-0"}>
+                                            <OtherTable
+                                                value={this.state.pokMisc}
+                                            />
+                                        </div>
+                                    </UnmountClosed>}
                             </>}
                         </div>
                     </div>

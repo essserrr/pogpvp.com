@@ -109,11 +109,12 @@ class Movedex extends React.Component {
         const step = 100
         setTimeout(() => {
             let nextPortion = end + step < original.length ? end + step : original.length;
+            let isNext = end < original.length
 
             this.setState({
+                blockSort: isNext,
                 listToShow: original.slice(0, end)
             });
-            let isNext = end < original.length
 
             if (isNext) {
                 this.recursive(nextPortion, original)
@@ -145,6 +146,10 @@ class Movedex extends React.Component {
     }
 
     onSort(event) {
+        console.log(this.state.blockSort)
+        if (this.state.blockSort) {
+            return
+        }
         var fieldName = event.currentTarget.getAttribute('name')
         var fieldType = event.currentTarget.getAttribute('coltype')
         switch (this.state.active[fieldName]) {

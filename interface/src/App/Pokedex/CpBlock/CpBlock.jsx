@@ -3,7 +3,6 @@ import LocalizedStrings from 'react-localization';
 
 import { getCookie, calculateEffStat, checkLvl, checkIV, } from "../../../js/indexFunctions"
 import { dexLocale } from "../../../locale/dexLocale"
-import DropWithArrow from "../../PvpRating/DropWithArrow/DropWithArrow"
 import CpCalc from "./CpCalc"
 
 let strings = new LocalizedStrings(dexLocale);
@@ -13,8 +12,6 @@ class CpBlock extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            showCollapse: this.props.defOpen,
-
             pokemon: {
                 Lvl: "40",
                 Atk: "15",
@@ -31,14 +28,7 @@ class CpBlock extends React.PureComponent {
 
             },
         };
-        this.onClick = this.onClick.bind(this)
         this.onChange = this.onChange.bind(this)
-    }
-
-    onClick() {
-        this.setState({
-            showCollapse: !this.state.showCollapse,
-        })
     }
 
 
@@ -86,26 +76,13 @@ class CpBlock extends React.PureComponent {
 
     render() {
         return (
-            <DropWithArrow
-                onShow={this.onClick}
-                show={this.state.showCollapse}
-                title={this.props.locale}
-                elem={<CpCalc
-                    value={this.state.pokemon}
-                    pok={this.props.pok}
-                    attr="pokemon"
-                    pokeTable={this.props.pokeTable}
-
-                    onChange={this.onChange}
-                />}
-
-                faOpened="align-self-center fas fa-angle-up fa-lg "
-                faClosed="align-self-center fas fa-angle-down fa-lg"
-
-                outClass="row justify-content-between m-0 p-0 pb-1 mt-2 clickable"
-                midClass="dexFont font-weight-bold"
-                inClass="row m-0 p-0" />
-
+            <CpCalc
+                value={this.state.pokemon}
+                pok={this.props.pok}
+                attr="pokemon"
+                pokeTable={this.props.pokeTable}
+                onChange={this.onChange}
+            />
         );
     }
 }
