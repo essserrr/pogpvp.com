@@ -18,9 +18,12 @@ const EvoCard = React.memo(function (props) {
 
 
     return (
-        <div className="col-6 col-lg-4 px-1 py-2 text-center">
+        <div className="col-6 col-lg-4 px-1 mt-1 text-center">
             <div className="col-12 p-0">
                 {"#" + props.pokeTable[props.name].Number + " " + props.name + " "}
+
+            </div>
+            <div className="col-12 p-0 mt-1">
                 <Type
                     class={"icon18"}
                     code={props.pokeTable[props.name].Type[0]}
@@ -32,8 +35,7 @@ const EvoCard = React.memo(function (props) {
                     value={typeDecoder[props.pokeTable[props.name].Type[1]]}
                 />}
             </div>
-
-            <div className="col-12 p-0">
+            <div className="col-12 p-0 mt-1">
                 <a
                     title={strings.dexentr + props.name}
                     href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + (encodeURIComponent(props.name))}

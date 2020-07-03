@@ -90,6 +90,11 @@ export const dexLocale = {
         },
         evochart: "Evolution chart",
         stage: "Stage",
+
+        resist: "Resistant to ",
+        weak: "Weak to ",
+        dless: "Deal less damage to ",
+        dmore: "Deal more damage to ",
     },
 
     ru: {
@@ -183,5 +188,9 @@ export const dexLocale = {
         evochart: "Стадии эволюции",
 
         stage: "Стадия",
+        resist: "Сопротивляется ",
+        weak: "Слаб к ",
+        dless: "Наносит меньше урона ",
+        dmore: "Наносит больше урона ",
     }
 }

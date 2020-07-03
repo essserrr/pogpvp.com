@@ -128,7 +128,6 @@ class MoveCard extends React.Component {
                                     elem={
                                         <EffTable
                                             type={[this.state.move.MoveType]}
-                                            title={this.state.move.Title}
                                             reverse={true}
                                         />} />
                             </>

@@ -2,8 +2,6 @@ import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 
-import ReactTooltip from "react-tooltip";
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
@@ -177,6 +175,7 @@ class PokeCard extends React.Component {
                                     />}
 
                                 <IconBlock
+                                    pokMisc={this.state.pokMisc}
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
                                     pokeTable={this.state.pokeTable}
@@ -218,26 +217,10 @@ class PokeCard extends React.Component {
 
                                 <CollBlock
                                     locale={strings.vunlist}
-                                    defOpen={false}
+                                    defOpen={true}
                                     elem={
                                         <EffTable
                                             type={this.state.pok.Type}
-                                            title={<>
-                                                <PokemonIconer
-                                                    src={this.state.pok.Number +
-                                                        (this.state.pok.Forme !== "" ? "-" + this.state.pok.Forme : "")}
-                                                    class={"icon36"}
-                                                    for={this.state.pok.Title}
-                                                />
-                                                <ReactTooltip
-                                                    className={"infoTip"}
-                                                    id={this.state.pok.Title} effect='solid'
-                                                    place={"top"}
-                                                    multiline={true}
-                                                >
-                                                    {this.state.pok.Title}
-                                                </ReactTooltip>
-                                            </>}
                                             reverse={this.props.reverse}
                                         />} />
 
