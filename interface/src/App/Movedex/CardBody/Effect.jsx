@@ -23,8 +23,8 @@ const Effect = React.memo(function (props) {
     return (
         <>
             <tr>
-                <th className="modifiedBorderTable align-middle m-0 p-0 py-1 fBolder" scope="row" >{strings.tip.ef}</th>
-                <td className="modifiedBorderTable align-middle m-0 p-0 py-1 fBolder" >{effect}</td>
+                <th className="modifiedBorderTable align-middle m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.ef}</th>
+                <td className="modifiedBorderTable align-middle m-0 p-0 py-1 dexFont" >{effect}</td>
             </tr>
         </>
     )

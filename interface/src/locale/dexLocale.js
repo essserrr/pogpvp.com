@@ -76,7 +76,7 @@ export const dexLocale = {
 
         movelist: "Moves",
         vunlist: "Effectiveness",
-        moveeff: "Effectiveness of ",
+        used: "Pokemon with this move",
 
         pokerr: "Pokemon not found",
         moveerr: "Move not found",
@@ -173,7 +173,7 @@ export const dexLocale = {
 
         movelist: "Мувы",
         vunlist: "Эффективность",
-        moveeff: "Эффективность ",
+        used: "Покемоны с этим мувом",
 
         pokerr: "Покемон не найден",
         moveerr: "Мув не найден",

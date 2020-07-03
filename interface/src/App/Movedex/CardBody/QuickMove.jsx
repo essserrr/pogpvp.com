@@ -23,15 +23,15 @@ const QuickMove = React.memo(function (props) {
                             move={props.move}
                         />
                         <tr>
-                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 fBolder" scope="row" >{strings.movecard.eps}</th>
-                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 fBolder" >{
+                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.eps}</th>
+                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{
                                 (Math.abs(props.move.Energy) / (props.move.Cooldown / 1000)).toFixed(2)}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div className="col-12 col-sm-6 m-0 p-0 px-1">
-                <h5 className="text-center text-sm-left fBolder">
+                <h5 className="text-center text-sm-left dexFont">
                     {strings.movecard.pve}
                 </h5>
                 <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
@@ -41,13 +41,13 @@ const QuickMove = React.memo(function (props) {
                             move={props.move}
                         />
                         <tr>
-                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 fBolder" scope="row" >{strings.movecard.dpt}</th>
-                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 fBolder" >{
+                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.dpt}</th>
+                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{
                                 (props.move.PvpDamage / (props.move.PvpDurationSeconds / 0.5)).toFixed(2)}</td>
                         </tr>
                         <tr>
-                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 fBolder" scope="row" >{strings.movecard.ept}</th>
-                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 fBolder" >{
+                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.ept}</th>
+                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{
                                 (props.move.PvpEnergy / (props.move.PvpDurationSeconds / 0.5)).toFixed(2)}</td>
                         </tr>
                     </tbody>

@@ -43,7 +43,7 @@ class PokeCard extends React.Component {
             return
         }
         //if error input somehow
-        if (!this.state.pokeTable || this.state.scrollList || this.state.miscTable || this.state.moveTable) {
+        if (!this.state.pokTable || this.state.scrollList || this.state.miscTable || this.state.moveTable) {
             this.setState({
                 error: "strings.pokerr",
                 showResult: false,
@@ -51,7 +51,7 @@ class PokeCard extends React.Component {
                 isError: true,
             });
         }
-        if (!this.state.pokeTable[this.props.match.params.id]) {
+        if (!this.state.pokTable[this.props.match.params.id]) {
             this.setState({
                 error: strings.pokerr,
                 showResult: false,
@@ -62,7 +62,7 @@ class PokeCard extends React.Component {
         }
 
         let position = this.findPosition(this.props.match.params.id,
-            Number(this.state.pokeTable[this.props.match.params.id].Number) - 1, this.state.scrollList)
+            Number(this.state.pokTable[this.props.match.params.id].Number) - 1, this.state.scrollList)
 
         this.setState({
             showResult: true,
@@ -71,7 +71,7 @@ class PokeCard extends React.Component {
 
             position: position,
 
-            pok: this.state.pokeTable[this.props.match.params.id],
+            pok: this.state.pokTable[this.props.match.params.id],
             pokMisc: this.state.miscTable.Misc[this.props.match.params.id],
         });
     }
@@ -163,7 +163,7 @@ class PokeCard extends React.Component {
             position: position,
 
             moveTable: results[0],
-            pokeTable: results[1],
+            pokTable: results[1],
             miscTable: results[2],
 
             pok: results[1][this.props.match.params.id],
@@ -241,14 +241,14 @@ class PokeCard extends React.Component {
                                     pokMisc={this.state.pokMisc}
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
-                                    pokeTable={this.state.pokeTable}
+                                    pokTable={this.state.pokTable}
                                 />
                                 {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
                                     <DescrBlock value={this.state.pokMisc.Description} />}
                                 <StatsBlock
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
-                                    pokeTable={this.state.pokeTable}
+                                    pokTable={this.state.pokTable}
                                 />
                                 <ButtonsBlock
                                     moDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
@@ -276,7 +276,7 @@ class PokeCard extends React.Component {
                                         <div className={"row m-0 p-0"}>
                                             <EvoBlock
                                                 miscTable={this.state.miscTable.Misc}
-                                                pokeTable={this.state.pokeTable}
+                                                pokTable={this.state.pokTable}
 
                                                 value={this.state.miscTable.Families[this.state.pokMisc.Family]}
                                                 familyName={this.state.pokMisc.Family}
@@ -298,7 +298,7 @@ class PokeCard extends React.Component {
                                         <CpBlock
                                             pok={this.state.pok}
                                             locale={strings.cpcalc}
-                                            pokeTable={this.state.pokeTable}
+                                            pokTable={this.state.pokTable}
                                         />
                                     </div>
                                 </UnmountClosed>

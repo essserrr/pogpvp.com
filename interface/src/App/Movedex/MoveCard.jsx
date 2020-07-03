@@ -1,6 +1,7 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
+import { UnmountClosed } from 'react-collapse';
 
 
 import Errors from "../PvP/components/Errors/Errors"
@@ -9,9 +10,8 @@ import CardTitle from "./CardTitle/CardTitle"
 import ChargeMove from "./CardBody/ChargeMove"
 import QuickMove from "./CardBody/QuickMove"
 import EffTable from "../Pokedex/EffBlock/EffTable"
-import CollBlock from "../Pokedex/CollBlock/CollBlock"
-
-
+import UsesList from "./UsesList/UsesList"
+import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
 
@@ -27,7 +27,10 @@ class MoveCard extends React.Component {
             isError: false,
             error: "",
             loading: false,
+
+            active: {},
         };
+        this.onClick = this.onClick.bind(this)
     }
 
 
@@ -38,6 +41,13 @@ class MoveCard extends React.Component {
         var reason = ""
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept-Encoding': 'gzip',
+                },
+            }),
+            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,6 +71,7 @@ class MoveCard extends React.Component {
 
         let parses = [
             responses[0].json(),
+            responses[1].json(),
         ]
         var results = await Promise.all(parses)
 
@@ -91,9 +102,20 @@ class MoveCard extends React.Component {
             showResult: true,
             isError: false,
             loading: false,
+
+            pokTable: results[1],
             moveTable: results[0],
             move: results[0][this.props.match.params.id],
         });
+    }
+
+    onClick(event) {
+        let attr = event.target.getAttribute('attr')
+        this.setState({
+            active: {
+                [attr]: !this.state.active[attr],
+            },
+        })
     }
 
     render() {
@@ -122,14 +144,26 @@ class MoveCard extends React.Component {
                                         <ChargeMove move={this.state.move} /> :
                                         <QuickMove move={this.state.move} />}
                                 </div>
-                                <CollBlock
-                                    locale={strings.moveeff}
-                                    defOpen={false}
-                                    elem={
+                                <ButtonsBlock
+                                    onClick={this.onClick}
+                                />
+
+                                <UnmountClosed isOpened={this.state.active.eff}>
+                                    <div className={"row m-0 p-0"}>
                                         <EffTable
                                             type={[this.state.move.MoveType]}
                                             reverse={true}
-                                        />} />
+                                        />
+                                    </div>
+                                </UnmountClosed>
+                                <UnmountClosed isOpened={this.state.active.use}>
+                                    <UsesList
+                                        move={this.state.move}
+                                        pokTable={this.state.pokTable}
+                                    />
+                                </UnmountClosed>
+
+
                             </>
                             }
                         </div>

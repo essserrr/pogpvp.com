@@ -18,7 +18,7 @@ const EvoBlock = React.memo(function (props) {
             <div key={props.familyName} className="row justify-content-center m-0 p-0">
                 <EvoCard
                     name={props.familyName}
-                    pokeTable={props.pokeTable}
+                    pokTable={props.pokTable}
                 />
             </div>)
 
@@ -41,7 +41,7 @@ const EvoBlock = React.memo(function (props) {
                             <EvoCard
                                 key={evoStages[i].Name}
                                 name={evoStages[i].Name}
-                                pokeTable={props.pokeTable}
+                                pokTable={props.pokTable}
                             />)
                         break
                     case "SecondStage":
@@ -55,7 +55,7 @@ const EvoBlock = React.memo(function (props) {
                             <EvoCard
                                 key={evoStages[i].Name}
                                 name={evoStages[i].Name}
-                                pokeTable={props.pokeTable}
+                                pokTable={props.pokTable}
                             />)
                         break
                     default:

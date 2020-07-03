@@ -40,7 +40,7 @@ const IconBlock = React.memo(function (props) {
                 <div className="col-12 m-0 p-0 mt-1">
                     <span className="dexFont">{"Max CP: "}</span>
                     <span className="dexFont font-weight-bold">
-                        {culculateCP(props.value.Title, 40, 15, 15, 15, props.pokeTable)}</span>
+                        {culculateCP(props.value.Title, 40, 15, 15, 15, props.pokTable)}</span>
                 </div>
                 <div className="col-12 m-0 p-0 mt-1">
                     <span className="dexFont">{strings.generation} {props.value.Generation}</span>

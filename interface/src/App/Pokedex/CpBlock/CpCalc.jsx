@@ -30,7 +30,7 @@ const CpCalc = React.memo(function (props) {
                     Atk={props.value.Atk}
                     Def={props.value.Def}
                     Sta={props.value.Sta}
-                    pokemonTable={props.pokeTable}
+                    pokemonTable={props.pokTable}
                 />
             </div>
         </>

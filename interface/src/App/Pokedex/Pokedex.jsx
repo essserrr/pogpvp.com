@@ -146,7 +146,6 @@ class Movedex extends React.Component {
     }
 
     onSort(event) {
-        console.log(this.state.blockSort)
         if (this.state.blockSort) {
             return
         }

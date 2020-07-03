@@ -22,9 +22,9 @@ class CpBlock extends React.PureComponent {
                 DefStage: 0,
                 IsShadow: "false",
 
-                effAtk: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokeTable, "Atk", "false"),
-                effDef: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokeTable, "Def", "false"),
-                effSta: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokeTable, "Sta"),
+                effAtk: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokTable, "Atk", "false"),
+                effDef: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokTable, "Def", "false"),
+                effSta: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokTable, "Sta"),
 
             },
         };
@@ -35,7 +35,7 @@ class CpBlock extends React.PureComponent {
     onIvChange(event) {
         var role = event.target.getAttribute('attr')
 
-        var eff = calculateEffStat(this.props.pok.Title, this.state[role].Lvl, event.target.value, this.state[role][event.target.name + "Stage"], this.props.pokeTable, event.target.name, this.state[role].IsShadow)
+        var eff = calculateEffStat(this.props.pok.Title, this.state[role].Lvl, event.target.value, this.state[role][event.target.name + "Stage"], this.props.pokTable, event.target.name, this.state[role].IsShadow)
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -53,9 +53,9 @@ class CpBlock extends React.PureComponent {
             [role]: {
                 ...this.state[role],
                 [event.target.name]: checkLvl(event.target.value) + "",
-                effAtk: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Atk, this.state[role].AtkStage, this.props.pokeTable, "Atk", this.state[role].IsShadow),
-                effDef: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Def, this.state[role].DefStage, this.props.pokeTable, "Def", this.state[role].IsShadow),
-                effSta: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Sta, 0, this.props.pokeTable, "Sta"),
+                effAtk: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Atk, this.state[role].AtkStage, this.props.pokTable, "Atk", this.state[role].IsShadow),
+                effDef: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Def, this.state[role].DefStage, this.props.pokTable, "Def", this.state[role].IsShadow),
+                effSta: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Sta, 0, this.props.pokTable, "Sta"),
             },
         });
     }
@@ -80,7 +80,7 @@ class CpBlock extends React.PureComponent {
                 value={this.state.pokemon}
                 pok={this.props.pok}
                 attr="pokemon"
-                pokeTable={this.props.pokeTable}
+                pokTable={this.props.pokTable}
                 onChange={this.onChange}
             />
         );

@@ -20,19 +20,19 @@ const EvoCard = React.memo(function (props) {
     return (
         <div className="col-6 col-lg-4 px-1 mt-1 text-center">
             <div className="col-12 p-0">
-                {"#" + props.pokeTable[props.name].Number + " " + props.name + " "}
+                {"#" + props.pokTable[props.name].Number + " " + props.name + " "}
 
             </div>
             <div className="col-12 p-0 mt-1">
                 <Type
                     class={"icon18"}
-                    code={props.pokeTable[props.name].Type[0]}
-                    value={typeDecoder[props.pokeTable[props.name].Type[0]]}
+                    code={props.pokTable[props.name].Type[0]}
+                    value={typeDecoder[props.pokTable[props.name].Type[0]]}
                 />
-                {props.pokeTable[props.name].Type.length > 1 && <Type
+                {props.pokTable[props.name].Type.length > 1 && <Type
                     class={"ml-2 icon18"}
-                    code={props.pokeTable[props.name].Type[1]}
-                    value={typeDecoder[props.pokeTable[props.name].Type[1]]}
+                    code={props.pokTable[props.name].Type[1]}
+                    value={typeDecoder[props.pokTable[props.name].Type[1]]}
                 />}
             </div>
             <div className="col-12 p-0 mt-1">
@@ -41,7 +41,7 @@ const EvoCard = React.memo(function (props) {
                     href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + (encodeURIComponent(props.name))}
                 >
                     <PokemonIconer
-                        src={props.pokeTable[props.name].Number + (props.pokeTable[props.name].Forme !== "" ? "-" + props.pokeTable[props.name].Forme : "")}
+                        src={props.pokTable[props.name].Number + (props.pokTable[props.name].Forme !== "" ? "-" + props.pokTable[props.name].Forme : "")}
                         folder="/art/"
                         class={"m-1 dexEvoIcon"}
                     />
