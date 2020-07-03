@@ -1,21 +1,16 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
 import { useHistory } from "react-router-dom";
+import ReactTooltip from "react-tooltip"
 
-import { getCookie } from "../../../js/indexFunctions"
-import { dexLocale } from "../../../locale/dexLocale"
-
-let strings = new LocalizedStrings(dexLocale);
 
 const NavigationBlock = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const history = useHistory();
 
     function buttonsConfig() {
-        if (props.list[props.position - 1] && props.list[props.position + 1]) {
+        if (props.prev && props.next) {
             return "justify-content-between"
         }
-        if (props.list[props.position - 1]) {
+        if (props.prev) {
             return "justify-content-start"
         }
         return "justify-content-end"
@@ -25,56 +20,68 @@ const NavigationBlock = React.memo(function (props) {
         let attr = event.target.getAttribute('attr');
         switch (attr) {
             case "prev":
-                history.push((navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                    encodeURIComponent(props.list[props.position - 1][0]));
+                history.push((navigator.userAgent === "ReactSnap") ? "/" : props.prev);
                 break
             case "next":
-                history.push((navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                    encodeURIComponent(props.list[props.position + 1][0]));
+                history.push((navigator.userAgent === "ReactSnap") ? "/" : props.next);
                 break
             default:
         }
     }
 
+    function onMiddle(event) {
+        if (event.button === 1) {
+            let attr = event.target.getAttribute('attr');
+            switch (attr) {
+                case "prev":
+                    window.open((navigator.userAgent === "ReactSnap") ? "/" : props.prev)
+                    break
+                case "next":
+                    window.open((navigator.userAgent === "ReactSnap") ? "/" : props.next)
+                    break
+                default:
+            }
+        }
+    }
+
     return (
-        <div className={"row m-0 p-0 mb-2 " + buttonsConfig()}>
-            {props.list[props.position - 1] &&
+        <div className={(props.class ? props.class : "row m-0 p-0 mb-2 ") + buttonsConfig()}>
+            {props.prev && <>
                 <i
                     attr={"prev"}
-                    class="fas fa-angle-double-left fa-2x clickable"
+                    className="fas fa-angle-double-left fa-2x clickable"
                     onClick={onPrevNext}
-                ></i>}
-            {props.list[props.position + 1] &&
+                    onMouseDown={onMiddle}
+
+                    data-tip data-for={props.prevTitle ? "prev" : ""}
+                ></i>
+                <ReactTooltip
+                    className={"infoTip"}
+                    multiline={true}
+                    id={props.prevTitle ? "prev" : ""} effect='solid'>
+                    {props.prevTitle}
+                </ReactTooltip>
+            </>}
+            {props.next && <>
                 <i
                     attr={"next"}
-                    class="fas fa-angle-double-right fa-2x clickable"
+                    className="fas fa-angle-double-right fa-2x clickable"
+                    onMouseDown={onMiddle}
                     onClick={onPrevNext}
-                ></i>}
+
+                    data-tip data-for={props.nextTitle ? "next" : ""}
+                ></i>
+                <ReactTooltip
+                    className={"infoTip"}
+                    multiline={true}
+                    id={props.nextTitle ? "next" : ""} effect='solid'>
+                    {props.nextTitle}
+                </ReactTooltip>
+
+            </>}
         </div>
     )
 });
 
-
-
-
-
-/*
-<a
-                    title={strings.dexentr +
-                        "#" + props.list[props.position - 1][1].Number + " " +
-                        props.list[props.position - 1][0]}
-                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                        encodeURIComponent(props.list[props.position - 1][0])}
-                >
-
-
- <a
-                        title={strings.dexentr +
-                            "#" + props.list[props.position + 1][1].Number + " " +
-                            props.list[props.position + 1][0]}
-                        href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                            encodeURIComponent(props.list[props.position + 1][0])}
-                    >
-*/
 
 export default NavigationBlock;

@@ -2,10 +2,9 @@ import React from "react";
 import LocalizedStrings from 'react-localization'
 import SiteHelm from "../SiteHelm/SiteHelm"
 
-import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
-
+import NavigationBlock from "../Pokedex/NavigationBlock/NavigationBlock"
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
@@ -44,11 +43,21 @@ class MainPage extends React.Component {
             error: "",
             loading: false,
         };
-        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.number === prevProps.match.params.number) {
+            return
+        }
+        this.getNextPage()
     }
 
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getNextPage()
+    }
+
+    async getNextPage() {
         this.setState({
             loading: true,
         })
@@ -97,39 +106,6 @@ class MainPage extends React.Component {
             loading: false,
             newsList: parseNewsList(result),
         });
-
-    }
-
-    onSubmit(event) {
-        event.preventDefault();
-        var pageNumber = 1
-        if (this.props.match.params.number) {
-            pageNumber = Number(this.props.match.params.number)
-        }
-        var delta
-        switch (event.target.attributes["action"].value) {
-            case "Previous Page":
-                delta = -1
-                break
-            default:
-                delta = 1
-                break
-        }
-        var nextPage = pageNumber + delta
-        if (nextPage <= 0) {
-            return
-        }
-        window.location = ("/news/page/" + nextPage);
-    }
-
-    buttonsConfig() {
-        if (this.state.prevPageExists && this.state.nextPageExists) {
-            return "justify-content-between"
-        }
-        if (this.state.prevPageExists) {
-            return "justify-content-start"
-        }
-        return "justify-content-end"
     }
 
     render() {
@@ -158,8 +134,32 @@ class MainPage extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger m-2 p-2" value={this.state.error} />}
                             {this.state.showResult && <>
                                 {this.state.newsList && this.state.newsList}
-                                <div className={"row m-0 p-0 px-3 " + this.buttonsConfig()} >
-                                    {this.state.prevPageExists && <SubmitButton
+                                <NavigationBlock
+                                    class="row m-0 px-4 pb-2 "
+
+                                    prevTitle={this.state.prevPageExists ?
+                                        strings.buttons.nextpage : null}
+                                    nextTitle={this.state.nextPageExists ?
+                                        strings.buttons.prevpage : null}
+                                    prev={this.state.prevPageExists ?
+                                        "/news/page/" + (Number(this.props.match.params.number ? this.props.match.params.number : 1)
+                                            - 1) : null}
+                                    next={this.state.nextPageExists ?
+                                        "/news/page/" + (Number(this.props.match.params.number ? this.props.match.params.number : 1)
+                                            + 1) : null}
+                                />
+                            </>}
+                        </div>
+
+                    </div>
+                </div >
+            </>
+        );
+    }
+}
+
+/*
+{this.state.prevPageExists && <SubmitButton
                                         action="Previous Page"
                                         label={strings.buttons.prevpage}
                                         onSubmit={this.onSubmit}
@@ -172,15 +172,6 @@ class MainPage extends React.Component {
                                         onSubmit={this.onSubmit}
                                         class="btn btn-primary btn-sm"
                                     />}
-                                </div>
-                            </>}
-                        </div>
-
-                    </div>
-                </div >
-            </>
-        );
-    }
-}
+*/
 
 export default MainPage

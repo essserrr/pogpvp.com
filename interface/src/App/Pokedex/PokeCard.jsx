@@ -208,8 +208,21 @@ class PokeCard extends React.Component {
                             {this.state.showResult && this.state.pok && <>
                                 {this.state.scrollList && !(this.state.position === undefined) &&
                                     <NavigationBlock
-                                        list={this.state.scrollList}
-                                        position={this.state.position}
+                                        prevTitle={this.state.scrollList[this.state.position - 1] ?
+                                            <>{strings.dexentr}<br />
+                                                {"#" + this.state.scrollList[this.state.position - 1][1].Number + " " +
+                                                    this.state.scrollList[this.state.position - 1][0]}</> : null}
+                                        nextTitle={this.state.scrollList[this.state.position + 1] ?
+                                            <>{strings.dexentr}<br />
+                                                {"#" + this.state.scrollList[this.state.position + 1][1].Number + " " +
+                                                    this.state.scrollList[this.state.position + 1][0]}</> : null}
+
+                                        prev={this.state.scrollList[this.state.position - 1] ?
+                                            "/pokedex/id/" +
+                                            encodeURIComponent(this.state.scrollList[this.state.position - 1][0]) : null}
+                                        next={this.state.scrollList[this.state.position + 1] ?
+                                            "/pokedex/id/" +
+                                            encodeURIComponent(this.state.scrollList[this.state.position + 1][0]) : null}
                                     />}
 
                                 <IconBlock
