@@ -77,7 +77,6 @@ class SinglePvp extends React.PureComponent {
             lastChangesAt: 0,
             stateModified: false,
         });
-        return
     }
 
     onNameChange(event, name) {

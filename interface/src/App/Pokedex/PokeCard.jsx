@@ -35,6 +35,44 @@ class PokeCard extends React.Component {
         };
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.id === prevProps.match.params.id) {
+            return
+        }
+        //if error input somehow
+        if (!this.state.pokeTable || this.state.scrollList || this.state.miscTable || this.state.moveTable) {
+            this.setState({
+                error: "strings.pokerr",
+                showResult: false,
+                loading: false,
+                isError: true,
+            });
+        }
+        if (!this.state.pokeTable[this.props.match.params.id]) {
+            this.setState({
+                error: strings.pokerr,
+                showResult: false,
+                loading: false,
+                isError: true,
+            });
+            return
+        }
+
+        let position = this.findPosition(this.props.match.params.id,
+            Number(this.state.pokeTable[this.props.match.params.id].Number) - 1, this.state.scrollList)
+
+        this.setState({
+            showResult: true,
+            isError: false,
+            loading: false,
+
+            position: position,
+
+            pok: this.state.pokeTable[this.props.match.params.id],
+            pokMisc: this.state.miscTable.Misc[this.props.match.params.id],
+        });
+    }
+
 
     async componentDidMount() {
         this.setState({
@@ -96,7 +134,7 @@ class PokeCard extends React.Component {
                 return;
             }
         }
-        //if error imput somehow
+        //if error input somehow
         if (!results[1][this.props.match.params.id]) {
             this.setState({
                 error: strings.pokerr,
@@ -217,7 +255,7 @@ class PokeCard extends React.Component {
 
                                 <CollBlock
                                     locale={strings.vunlist}
-                                    defOpen={true}
+                                    defOpen={false}
                                     elem={
                                         <EffTable
                                             type={this.state.pok.Type}
