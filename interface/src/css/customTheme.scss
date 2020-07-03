@@ -553,9 +553,7 @@ body {
         background-color: rgb(0, 0, 0) !important;
         &.place-top {
             &:after {
-            border-top-color: rgb(0, 0, 0) !important;
-            border-top-style: solid !important;
-            border-top-width: 6px !important;
+                border-top: 6px solid rgb(0, 0, 0) !important;
             }
         }
    }
@@ -570,9 +568,7 @@ body {
     background-color: rgb(0, 0, 0) !important;
     &.place-top {
         &:after {
-        border-top-color: rgb(0, 0, 0) !important;
-        border-top-style: solid !important;
-        border-top-width: 6px !important;
+            border-top: 6px solid rgb(0, 0, 0) !important;
         }
     }
 }
@@ -588,9 +584,7 @@ body {
     background-color: rgb(0, 0, 0) !important;
     &.place-top {
         &:after {
-        border-top-color: rgb(0, 0, 0) !important;
-        border-top-style: solid !important;
-        border-top-width: 6px !important;
+            border-top: 6px solid rgb(0, 0, 0) !important;
         }
     }
 }
@@ -609,7 +603,7 @@ body {
 
     background-color: rgba(0, 0, 0, 0.836);
     color: white;
-    border-radius: 3px 3px 3px 3px;
+    border-radius: 3px;
 }
 
 
@@ -675,8 +669,7 @@ body {
 
 .timeline {
     border-radius: 13px;
-    border-style: solid;
-    border-color: black;
+    border: solid black;
     padding: 0.3rem;
 
        
@@ -693,13 +686,11 @@ body {
 
 //status bar styles
 .hpBar{
-    
     position: relative;
     width: 150px; 
     height: 25px; 
     background-color: black;
-    border-style: solid;
-    border-color: grey;
+    border: solid grey;
 
     font-size: 0.78rem;
     color: white;
@@ -709,10 +700,9 @@ body {
     position: absolute;
     height: 100%; 
     background-color: #0275d8;
+    -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear;
-    
-    border-style: solid;
-    border-color: black;
+    border: solid black;
 }
 .textOnBar{
     top: 50%;
@@ -724,9 +714,9 @@ body {
 }
 
 .energyIndicator{
-    
     position: absolute;
     width: 100%; 
+    -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear;
 
     z-index: 1;
@@ -746,15 +736,14 @@ body {
     
     overflow: hidden;
 
-    border-width: 1.5px;
-    border-style: solid;
-    border-color: black;
+    border: 1.5px solid black;
     border-radius: 50%;
 
     font-size: 0.78rem;
     color: white;
     font-weight: bold;
 
+    -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear;
     @include energyGlow;
 }
@@ -762,20 +751,16 @@ body {
 //single pvp styles
 .results {
     background-color:rgba(244, 252, 255, 0.95);
-    border-radius: 4px 4px 4px 4px;
-    border-color: rgba(0, 0, 0, 0.2);
-    border-style: solid;
-    border-width: 0.5px;
+    border-radius: 4px;
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
 
     height: fit-content;
 }
 
 .maximizer {
     width: 100%;
-    border-radius: 4px 4px 4px 4px;
-    border-color: rgba(0, 0, 0, 0.4);
-    border-style: solid;
-    border-width: 0.5px;
+    border-radius: 4px;
+    border: 0.5px solid rgba(0, 0, 0, 0.4);
     font-size: 75% !important;
 }
 
@@ -808,10 +793,8 @@ body {
 
     display: inline-block;
     width: fit-content;
-    border-style: solid;
-    border-radius: 4px 4px 4px 4px;
-    border-color: black;
-    border-width: 1px;
+    border: 1px solid black;
+    border-radius: 4px;
 
     color: white;
     font-weight: bold;
@@ -829,11 +812,10 @@ body {
 
     display: inline-block;
     width: fit-content;
-    border-style: solid;
-    border-radius: 4px 4px 4px 4px;
-    border-color: black;
-    border-width: 1px;
+    border-radius: 4px;
 
+    border: 1px solid black;
+  
     color: white;
     font-weight: bold;
     font-size: 110% !important;
@@ -853,10 +835,8 @@ body {
 
     display: inline-block;
     width: fit-content;
-    border-style: solid;
-    border-radius: 4px 4px 4px 4px;
-    border-color: black;
-    border-width: 1px;
+    border-radius: 4px;
+    border: 1px solid black;
 
     color: white;
     font-weight: bold;
@@ -873,14 +853,12 @@ body {
     height: 20px;
     font-weight: bolder;
     &.borx{
-        border-left: 1.5px solid;
-        border-right: 1.5px solid;
-        border-color: #42434E;
+        border-left: 1.5px solid #42434E;
+        border-right: 1.5px solid #42434E;
     }
     &.bor{
-        border-radius: 3px 3px 3px 3px;
-        border: 1.5px solid;
-        border-color: #42434E;
+        border: 1.5px solid #42434E;
+        border-radius: 3px;
     }
     &.hover:hover{
         background-color: white;
@@ -891,8 +869,7 @@ body {
     width: 100%;
     font-weight: 500;
     &.bort{
-        border-top: 1.5px solid;
-        border-color: #42434E;
+        border-top: 1.5px solid #42434E;
     }
     &.hover:hover{
         background-color: white;
@@ -908,9 +885,8 @@ body {
     min-width: 70px !important;
     max-width: 80px !important;
     &.bor {
-        border-radius: 3px 3px 3px 3px;
-        border: 1.5px solid;
-        border-color: #42434E;
+        border: 1.5px solid #42434E;
+        border-radius: 3px;
     } 
 }
 
@@ -927,14 +903,13 @@ body {
 
 //border styles
 .modifiedBorder {
+    border-width: 0.8px !important;
     border-color: rgba(0, 0, 0, 0.4) !important;
-    border-width: 0.5px !important;
-    
 }
 
 .modifiedBorderTable {
-    border-color: rgba(0, 0, 0, 0.6) !important;
-    border-width: 1.0px !important;
+    border-width: 1.2px !important;
+    border-color: rgba(0, 0, 0, 0.4) !important;
     &.theadT {
         font-size: 80%;
         font-weight: bold;
@@ -1077,14 +1052,12 @@ body {
 
     
     border-radius: 2px 2px 0px 0px;
-    border-style: solid;
-    border-color: #748dfa;
-    border-width: 1.2px;
+    border: 1.2px solid #748dfa;
 }
 
 .newsBody {
     background-color:rgba(244, 252, 255, 0.95);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 4px;
 }
 
 .singleNews {
@@ -1092,19 +1065,16 @@ body {
     margin-right: 1.5rem;
     margin-bottom: 1rem;
 
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 4px;
     background-color: #eff0f1;
-    border-style: solid;
-    border-color: #acacac;
-    border-width: 1px;
-    
+    border: 1px solid #acacac;
+   
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 .singleNewsTitle {
     border-radius: 3px 3px 0px 0px;
     background-color: #dbdbdb;
-    border-style: solid;
-    border-color: #d1d1d1;
+    border: solid #d1d1d1;
     border-width: 0px 0px 1px 0px;
 
     padding-left: 1rem;
@@ -1164,10 +1134,8 @@ body {
  
 
     background-color:rgba(244, 252, 255, 0.95);
-    border-radius: 4px 4px 4px 4px;
-    border-color: rgba(0, 0, 0, 0.2);
-    border-style: solid;
-    border-width: 1px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
 
     z-index: 101;
 }
@@ -1182,10 +1150,8 @@ body {
 .matrixListEntry {
     margin-bottom: 0.5em;
 
-    border-radius: 4px 4px 4px 4px;
-    border-color: rgba(0, 0, 0, 0.4);
-    border-style: solid;
-    border-width: 0.5px;
+    border-radius: 4px;
+    border: 0.5px solid rgba(0, 0, 0, 0.4);
     background-color: rgba(228, 228, 228, 0.95);
     
     text-align: left;
@@ -1205,10 +1171,8 @@ body {
 
 .matrixResult {
     background-color:#e9ecef;
-    border-radius: 4px 4px 4px 4px;
-    border-color: rgba(0, 0, 0, 0.2);
-    border-style: solid;
-    border-width: 0.5px;
+    border-radius: 4px;
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
 
     height: fit-content;
 }
@@ -1304,11 +1268,9 @@ body {
 
 
 .pokCard {
-    border: solid;
-    border-radius: 6px 6px 6px 6px;
-    border-width: 0.5px;
-    border-color:  rgba(0, 0, 0, 0.295) ;
-    
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
+    border-radius: 6px;
+
     background-color: #fff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     
@@ -1327,10 +1289,8 @@ body {
 }
 
 .pokEggCard {
-    border: solid;
-    border-radius: 6px 6px 6px 6px;
-    border-width: 0.5px;
-    border-color:  rgba(0, 0, 0, 0.295) ;
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
+    border-radius: 6px;
     
     background-color: #fff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -1347,10 +1307,8 @@ body {
 
 
 .cardBig {
-    border: solid;
-    border-radius: 6px 6px 6px 6px;
-    border-width: 0.5px;
-    border-color:  rgba(0, 0, 0, 0.295) ;
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
+    border-radius: 6px;
     
     background-color: #fff;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
@@ -1358,10 +1316,8 @@ body {
 
 
 .bubbleText {
-    border: solid;
-    border-radius: 6px 6px 6px 6px;
-    border-width: 0.5px;
-    border-color:  rgba(0, 0, 0, 0.295) ;
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
+    border-radius: 6px;
 
     text-align: justify !important;
     text-justify: inter-word !important;
@@ -1483,13 +1439,10 @@ body {
 
 //rating style
 .rating {
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
+    border-radius: 5px;
+
     background-color: rgba(179, 179, 179, 0.253);
-
-    border-radius: 5px 5px 5px 5px;
-    border:solid;
-    border-color: rgba(0, 0, 0, 0.295);
-    border-width: 0.5px;
-
     font-weight: 450;
     font-size: 1.3rem;    
 }
@@ -1506,11 +1459,8 @@ body {
 
       background-color: rgba(179, 179, 179, 0.253);
 
-      border-radius: 5px 5px 5px 5px;
-      border:solid;
-      border-color: rgba(0, 0, 0, 0.295);
-      border-width: 0.5px;
-
+      border-radius: 5px;
+      border: 0.5px solid rgba(0, 0, 0, 0.295);
   }
 
 //animations
@@ -1603,7 +1553,7 @@ body {
 
   .constructorButton {
     background-color:rgba(244, 252, 255, 0.95);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 4px;
 
     padding: 0rem 0.2rem 0rem 0.2rem ;
 
@@ -1634,9 +1584,7 @@ body {
 }
 
 .borderTop {
-    border-top: solid;
-    border-width: 1px;
-    border-color:  rgba(0, 0, 0, 0.295) ;
+    border-top: 1px solid rgba(0, 0, 0, 0.295);
 }
 
 .window404 {
@@ -1649,9 +1597,7 @@ body {
     
     overflow: hidden;
 
-    border-width: 3px;
-    border-style: solid;
-    border-color: black;
+    border: 3px solid black;
     border-radius: 50%;
 }
 
@@ -1705,6 +1651,7 @@ body {
     position: absolute;
     height: 100%; 
     background-color: #02d86d;
+    -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear;
     
 }
@@ -1714,6 +1661,7 @@ body {
     height: 100%; 
     border-left: 2px solid red;
     border-right: 2px solid red;
+    -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
 
     background: repeating-linear-gradient(
@@ -1728,11 +1676,8 @@ body {
 
 .pveResult {
     background-color: #f2f3f4; 
-    border-radius: 4px 4px 4px 4px;
-    border-color: rgba(0, 0, 0, 0.308);
-    border-style: solid;
-    border-width: 1.5px;
-
+    border-radius: 4px;
+    border-color: 1.5px solid rgba(0, 0, 0, 0.308);
     height: fit-content;
 }
 
@@ -1786,11 +1731,9 @@ body {
     margin-right: 1.5rem;
     margin-bottom: 1rem;
 
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 4px;
     background-color: #ffffff;
-    border-style: solid;
-    border-color: #acacac;
-    border-width: 1px;
+    border: 1px solid #acacac;
     
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
@@ -1831,6 +1774,7 @@ body {
 }
 
 .dexStatBack{
+    -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
     position: relative;
     max-width: 400px !important; 
@@ -1842,6 +1786,7 @@ body {
 }
 
 .dexStatFront {
+    -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
     position: absolute;
     height: 100%; 
@@ -1868,3 +1813,42 @@ body {
         background-color: rgba(255, 255, 255, 0.432);
     }
 }
+
+.dexButton {
+    cursor:pointer;
+    z-index: 1;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear; 
+    background-color: #82b1ff;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.219);
+
+    &.act {
+        background-color: #1c71ff;
+    }
+    &.dis {
+        background-color: #cfcfcf;
+    }
+}
+
+.dexButton::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.24);
+    opacity: 0;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+  }
+  .dexButton:hover {
+    z-index: 2;
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+  }
+  .dexButton:hover::after {
+    display: block;
+    opacity: 1;
+  }
