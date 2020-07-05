@@ -145,17 +145,18 @@ class MoveCard extends React.Component {
                                         <QuickMove move={this.state.move} />}
                                 </div>
                                 <ButtonsBlock
+                                    class="row m-0 my-2 text-center dexButtonGroup justify-content-center"
+                                    onClick={this.onClick}
                                     buttons={[{
                                         attr: "eff",
                                         title: strings.vunlist,
-                                        class: ""
+                                        class: this.state.active.eff ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                     },
                                     {
                                         attr: "use",
                                         title: strings.used,
-                                        class: ""
+                                        class: this.state.active.use ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                     },]}
-                                    onClick={this.onClick}
                                 />
 
                                 <UnmountClosed isOpened={this.state.active.eff}>

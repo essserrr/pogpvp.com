@@ -7,7 +7,7 @@ const Button = React.memo(function (props) {
 
             attr={props.attr}
             onClick={props.onClick}
-            className={"col py-1 dexButton " + props.class}>
+            className={props.class}>
             {props.title}
         </button>
     )

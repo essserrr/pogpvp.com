@@ -251,37 +251,38 @@ class PokeCard extends React.Component {
                                     pokTable={this.state.pokTable}
                                 />
                                 <ButtonsBlock
+                                    class="row m-0 my-2 text-center dexButtonGroup justify-content-center"
+                                    onClick={this.onClick}
                                     buttons={[{
                                         attr: "moves",
                                         title: strings.movelist,
-                                        class: "",
+                                        class: this.state.active.moves ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                         disabled: !(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0),
                                     },
                                     {
                                         attr: "evo",
                                         title: strings.evochart,
-                                        class: "",
+                                        class: this.state.active.evo ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                         disabled: !(this.state.pokMisc && this.state.pokMisc.Family),
                                     },
                                     {
                                         attr: "eff",
                                         title: strings.vunlist,
-                                        class: "",
+                                        class: this.state.active.eff ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                     },
                                     {
                                         attr: "cp",
                                         title: "CP",
-                                        class: "",
+                                        class: this.state.active.cp ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                     },
                                     {
                                         attr: "other",
                                         title: strings.otherinf,
-                                        class: "",
+                                        class: this.state.active.other ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                         disabled: !(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
                                             (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
                                             this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0))),
                                     },]}
-                                    onClick={this.onClick}
                                 />
 
 
@@ -320,7 +321,8 @@ class PokeCard extends React.Component {
                                 </UnmountClosed>
 
                                 <UnmountClosed isOpened={this.state.active.cp}>
-                                    <div className={"row m-0 p-0"}>
+                                    <div className={"row dexFont m-0 p-0 "}>
+                                        <div className="col-12 p-0 text-center">{strings.entparams}</div>
                                         <CpBlock
                                             pok={this.state.pok}
                                             locale={strings.cpcalc}

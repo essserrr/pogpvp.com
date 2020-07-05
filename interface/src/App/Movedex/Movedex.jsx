@@ -9,8 +9,7 @@ import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
-import Checkbox from "../RaidsList/Checkbox"
-
+import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -23,9 +22,13 @@ class Movedex extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
+            name: "",
             active: {},
-            showQuick: true,
-            showCharge: true,
+            filter: {
+                showQuick: false,
+                showCharge: false,
+            },
+
 
             showLegend: false,
             showResult: false,
@@ -34,9 +37,9 @@ class Movedex extends React.Component {
             loading: false,
         };
         this.onShowLegend = this.onShowLegend.bind(this)
-        this.onChange = this.onChange.bind(this)
+        this.onNameChange = this.onNameChange.bind(this)
         this.onSortColumn = this.onSortColumn.bind(this)
-        this.onSort = this.onSort.bind(this)
+        this.onFilter = this.onFilter.bind(this)
     }
 
 
@@ -123,27 +126,57 @@ class Movedex extends React.Component {
     }
 
 
-    onChange(event) {
+    onNameChange(event) {
+        if (this.state.blockSort) {
+            return
+        }
         let newList = this.state.originalList.filter(e => {
-            return (e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) && this.filterArr(e)
+            return (e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) && this.filterArr(e, this.state.filter)
         })
         if (this.state.active.field) {
             newList = this.state.active.type === "number" ?
                 this.sortNumber(this.state.active.field, newList) : this.sortString(this.state.active.field, newList)
         }
         this.setState({
-            name: event.value,
+            name: !event.value ? "" : event.value,
             listToShow: newList,
         });
     }
 
-    filterArr(e) {
-        switch (e.props.value.MoveCategory) {
-            case "Charge Move":
-                return this.state.showCharge
-            default:
-                return this.state.showQuick
+    onFilter(event) {
+        if (this.state.blockSort) {
+            return
         }
+        let attr = event.target.getAttribute('attr')
+        let newList = this.state.originalList.filter(e => {
+            return (e.key.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1) &&
+                this.filterArr(e, { ...this.state.filter, [attr]: !this.state.filter[attr] })
+        })
+        if (this.state.active.field) {
+            newList = this.state.active.type === "number" ?
+                this.sortNumber(this.state.active.field, newList) : this.sortString(this.state.active.field, newList)
+        }
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                [attr]: !this.state.filter[attr],
+            },
+            listToShow: newList,
+        });
+    }
+
+    filterArr(e, filter) {
+        let corresponds = true
+        if (filter.showCharge !== false || filter.showQuick !== false) {
+            switch (e.props.value.MoveCategory) {
+                case "Charge Move":
+                    corresponds *= filter.showCharge
+                    break
+                default:
+                    corresponds *= filter.showQuick
+            }
+        }
+        return corresponds
     }
 
 
@@ -201,9 +234,6 @@ class Movedex extends React.Component {
         })
     }
 
-    onSort() {
-
-    }
 
     render() {
         return (
@@ -239,26 +269,21 @@ class Movedex extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
-                                    <input onChange={this.onChange} className="form-control" type="text" placeholder={strings.moveplace} />
-                                    <div className="row m-0 p-0 my-2 dexFont">
-                                        <span className="pr-3">
-                                            {"Sort by type" + ":"}
-                                        </span>
-                                        <Checkbox
-                                            onChange={this.onChange}
-                                            value={this.state.showCharge}
-                                            checked={this.state.showCharge ? "checked" : false}
-                                            name={"showCharge"}
-                                            label="Charge"
-                                        />
-                                        <Checkbox
-                                            onChange={this.onChange}
-                                            value={this.state.showQuick}
-                                            checked={this.state.showQuick ? "checked" : false}
-                                            name={"showQuick"}
-                                            label="Quick"
-                                        />
-                                    </div>
+                                    <input onChange={this.onNameChange} className="form-control" type="text" placeholder={strings.moveplace} />
+                                    <ButtonsBlock
+                                        class="row m-0 my-3 text-center dexButtonGroup justify-content-center"
+                                        onClick={this.onFilter}
+                                        buttons={[{
+                                            attr: "showCharge",
+                                            title: strings.showCh,
+                                            class: this.state.filter.showCharge ? "col py-1 dexRadio active" : "col py-1 dexRadio",
+                                        },
+                                        {
+                                            attr: "showQuick",
+                                            title: strings.showQck,
+                                            class: this.state.filter.showQuick ? "col py-1 dexRadio active" : "col py-1 dexRadio",
+                                        },]}
+                                    />
 
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
