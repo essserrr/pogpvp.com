@@ -31,7 +31,7 @@ const QuickMove = React.memo(function (props) {
                 </table>
             </div>
             <div className="col-12 col-sm-6 m-0 p-0 px-1">
-                <h5 className="text-center text-sm-left dexFont">
+                <h5 className="text-center text-sm-left fBolder">
                     {strings.movecard.pve}
                 </h5>
                 <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >

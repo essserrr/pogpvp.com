@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/boltdb/bolt v1.3.1
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/go-chi/chi v4.1.1+incompatible
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible // indirect
 	github.com/gofrs/flock v0.7.1 // indirect
@@ -16,6 +17,7 @@ require (
 	github.com/prometheus/client_golang v1.5.1
 	github.com/sirupsen/logrus v1.5.0
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
+	go.mongodb.org/mongo-driver v1.3.4 // indirect
 	go.uber.org/zap v1.14.1 // indirect
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 )
