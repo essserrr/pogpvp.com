@@ -5,6 +5,7 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import NavigationBlock from "../Pokedex/NavigationBlock/NavigationBlock"
+import News from "./News"
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
@@ -12,26 +13,7 @@ import { getCookie } from "../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
-function parseNewsList(list) {
-    let result = []
-    for (var i = 1; i < list.length; i++) {
-        var elementI = JSON.parse(list[i])
-        result.push(
-            <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
-                "/news/id/" + elementI.ID}>
-                <div className="singleNews hoverable">
-                    <div className="singleNewsTitle">
-                        {elementI.Title + "  " + elementI.Date}
-                    </div>
-                    {<div className="singleNewsBody" dangerouslySetInnerHTML={{ __html: elementI.ShortDescription }} />}
-                </div>
-            </a>
-        )
-    }
-    return result
-}
-
-class MainPage extends React.Component {
+class NewsPages extends React.Component {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -52,7 +34,6 @@ class MainPage extends React.Component {
         this.getNextPage()
     }
 
-
     componentDidMount() {
         this.getNextPage()
     }
@@ -61,8 +42,8 @@ class MainPage extends React.Component {
         this.setState({
             loading: true,
         })
-        var reason = ""
-        var pageNumber = 1
+        let reason = ""
+        let pageNumber = 1
         if (this.props.match.params.number) {
             pageNumber = this.props.match.params.number
         }
@@ -104,8 +85,24 @@ class MainPage extends React.Component {
             showResult: true,
             isError: false,
             loading: false,
-            newsList: parseNewsList(result),
+            newsList: this.parseNewsList(result.slice(1)),
         });
+    }
+
+
+    parseNewsList(list) {
+        return list.map((el, i) => {
+            let parsed = JSON.parse(el)
+            return <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
+                "/news/id/" + parsed.ID}>
+                <News
+                    class="singleNews hoverable"
+                    title={parsed.Title}
+                    date={parsed.Date}
+                    description={parsed.ShortDescription}
+                />
+            </a>
+        })
     }
 
     render() {
@@ -158,4 +155,4 @@ class MainPage extends React.Component {
     }
 }
 
-export default MainPage
+export default NewsPages

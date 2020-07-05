@@ -1,13 +1,13 @@
 
 import React from 'react';
-import News from './News.jsx';
+import NewsWrap from './NewsWrap.jsx';
 import { Switch, Route } from 'react-router-dom';
 
 const NewsRouter = () => (
     <Switch>
-        <Route path='/news/id/:id' component={News} />
-        <Route path='/news/id/*' component={News} />
-        <Route path='/news/id' component={News} />
+        <Route path='/news/id/:id' component={NewsWrap} />
+        <Route path='/news/id/*' component={NewsWrap} />
+        <Route path='/news/id' component={NewsWrap} />
     </Switch>
 )
 
