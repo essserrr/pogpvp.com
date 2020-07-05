@@ -24,32 +24,91 @@ services:
       - "traefik.port=8080"
     ports:
       - 8181:8181
-
-
+    depends_on:
+      - mongo3
+  mongo1:
+      container_name: mongo1
+      image: mongo
+      command:
+        - mongod
+        - "--bind_ip_all"
+        - "--replSet"
+        - "rs0"
+        - "--auth"
+        - "--keyFile"
+        - "/mongo/key/keyfile"
+      volumes:
+        - ./mongo/db1:/data/db
+        - ./mongo/backups:/backups
+        - ./mongo/key/keyfile:/mongo/key/keyfile
+      ports:
+        - 27017:27017
+      restart: always
+      labels:
+        - "traefik.enable=false"
+  mongo2:
+      container_name: mongo2
+      image: mongo
+      command: 
+        - mongod
+        - "--bind_ip_all"
+        - "--replSet"
+        - "rs0"
+        - "--auth"
+        - "--keyFile"
+        - "/mongo/key/keyfile"
+      volumes:
+        - ./mongo/db2:/data/db
+        - ./mongo/backups:/backups
+        - ./mongo/key/keyfile:/mongo/key/keyfile
+      ports:
+        - 27018:27017
+      restart: always
+      depends_on:
+        - mongo1
+      labels:
+        - "traefik.enable=false"
+  mongo3:
+      container_name: mongo3
+      image: mongo
+      command: 
+        - mongod
+        - "--bind_ip_all"
+        - "--replSet"
+        - "rs0"
+        - "--auth"
+        - "--keyFile"
+        - "/mongo/key/keyfile"
+      volumes:
+        - ./mongo/db3:/data/db
+        - ./mongo/backups:/backups
+        - ./mongo/key/keyfile:/mongo/key/keyfile
+      ports:
+        - 27019:27017
+      restart: always
+      depends_on:
+        - mongo2
+      labels:
+        - "traefik.enable=false"
   prometheus:
     image: "prom/prometheus"
     container_name: prometheus
     volumes:
      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
      - prometheus_data:/prometheus
-    command: "--config.file=/etc/prometheus/prometheus.yml --web.enable-admin-api --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries --storage.tsdb.path=/prometheus --storage.tsdb.retention=168h --storage.tsdb.retention.size=2GB"
+    command: "--config.file=/etc/prometheus/prometheus.yml --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries --storage.tsdb.path=/prometheus --storage.tsdb.retention=168h --storage.tsdb.retention.size=2GB"
     restart: always
     deploy:
         resources:
           limits:
             cpus: '0.10'
             memory: 45M
-    expose:
-      - 9090
     ports:
      - "9090:9090"
     depends_on:
       - simulator
-
-
-
   grafana:
-    image: "grafana/grafana"
+    image: "grafana/grafana:latest"
     container_name: grafana
     #environment:
       #- GF_INSTALL_PLUGINS=https://github.com/raintank/crate-datasource/archive/master.zip;crate-datasource,grafana-clock-panel,grafana-worldmap-panel,natel-plotly-panel
@@ -73,7 +132,6 @@ services:
             memory: 50M
     depends_on:
       - prometheus
-
   traefik:
         image: "traefik:v2.2"
         container_name: "traefik"
@@ -107,6 +165,4 @@ services:
               max-size: '25m'
               max-file: '3'
         depends_on:
-            - prometheus
-            - simulator
             - grafana

@@ -1021,6 +1021,8 @@ func (a *App) listen() {
 	log.WithFields(log.Fields{"location": "global"}).Printf("Root location: %v", os.Getenv("PVP_SIMULATOR_ROOT"))
 	log.WithFields(log.Fields{"location": "global"}).Printf("BoltDB location: %v", os.Getenv("BOLTDB"))
 	log.WithFields(log.Fields{"location": "global"}).Printf("PvP node limit: %v", os.Getenv("NODE_LIMIT"))
+	log.WithFields(log.Fields{"location": "global"}).Printf("CORS are: %v", os.Getenv("APP_CORS"))
+	log.WithFields(log.Fields{"location": "global"}).Printf("Mongo path: %v", os.Getenv("MONGO_URI"))
 	log.WithFields(log.Fields{"location": "global"}).Println("Server is listening...")
 
 	log.WithFields(log.Fields{"location": "global"}).Println(a.pvpSrv.ListenAndServe())
@@ -1170,6 +1172,13 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/news/{action}", rootHandler{newsAPIHandler, a})
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
+	//test auth
+	router.Handle("/api/auth/login", rootHandler{login, a})
+	router.Handle("/api/auth/refresh", rootHandler{refresh, a})
+	router.Handle("/api/auth/logout/{type}", rootHandler{logout, a})
+
+	router.Handle("/api/auth/retrive", rootHandler{retrive, a})
+	router.Handle("/api/auth/deleteall", rootHandler{deleteAll, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)
