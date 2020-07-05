@@ -8,9 +8,9 @@ import (
 //ClientError is an interface contining all kind of client errors
 type ClientError interface {
 	Error() string
-	// ResponseBody returns response body.
+	//ResponseBody returns response body.
 	ResponseBody() ([]byte, error)
-	// ResponseHeaders returns http status code and headers.
+	//ResponseHeaders returns http status code and headers.
 	ResponseHeaders() (int, map[string]string)
 }
 

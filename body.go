@@ -90,31 +90,26 @@ func createApp(withLog *os.File) (*App, error) {
 
 	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING", "MISC"}
 	//create/open bases
-	err = app.semistaticDatabase.createDatabase("./semistatic.db", "BOLTDB", app.semistaticBuckets)
-	if err != nil {
+	if err = app.semistaticDatabase.createDatabase("./semistatic.db", "BOLTDB", app.semistaticBuckets); err != nil {
 		return &App{}, err
 	}
-	err = app.newsDatabse.createDatabase("./news.db", "BOLTDB", []string{"NEWS_HEADERS", "NEWS"})
-	if err != nil {
+	if err = app.newsDatabse.createDatabase("./news.db", "BOLTDB", []string{"NEWS_HEADERS", "NEWS"}); err != nil {
 		return &App{}, err
 	}
-	err = app.users.createDatabase("./users.db", "BOLTDB", []string{"SUPERADMINS"})
-	if err != nil {
+	if err = app.users.createDatabase("./users.db", "BOLTDB", []string{"SUPERADMINS"}); err != nil {
 		return &App{}, err
 	}
-	err = app.pvpDatabase.createDatabase("./pvp.db", "BOLTDB", []string{"PVPRESULTS"})
-	if err != nil {
+	if err = app.pvpDatabase.createDatabase("./pvp.db", "BOLTDB", []string{"PVPRESULTS"}); err != nil {
 		return &App{}, err
 	}
-	err = app.pveDatabase.createDatabase("./pve.db", "BOLTDB", []string{"PVERESULTS"})
-	if err != nil {
+	if err = app.pveDatabase.createDatabase("./pve.db", "BOLTDB", []string{"PVERESULTS"}); err != nil {
 		return &App{}, err
 	}
 
 	//init server
 	app.initServer()
 	//start clean up task
-	go app.pvpDatabase.cleanupPvpBucket(72, "PVPRESULTS", &app)
+	go app.pvpDatabase.cleanupBucket(72, "PVPRESULTS", &app)
 	//start update db task
 	go app.semistaticDatabase.startUpdaterService(5, "SHINY", "value", &app, getbase.GetShinyBase)
 	go app.semistaticDatabase.startUpdaterService(12, "RAIDS", "value", &app, getbase.GetRaidsList)
@@ -129,11 +124,10 @@ func (a *App) initServer() {
 
 func (dbs *database) createDatabase(pathToDB, envPath string, bucketName []string) error {
 	var err error
-	dbs.value, err = bolt.Open(path.Join(os.Getenv(envPath)+pathToDB), 0600, nil)
-	if err != nil {
+	if dbs.value, err = bolt.Open(path.Join(os.Getenv(envPath)+pathToDB), 0600, nil); err != nil {
 		return err
 	}
-	err = dbs.value.Update(func(tx *bolt.Tx) error {
+	return dbs.value.Update(func(tx *bolt.Tx) error {
 		for _, value := range bucketName {
 			_, err := tx.CreateBucketIfNotExists([]byte(value))
 			if err != nil {
@@ -142,7 +136,6 @@ func (dbs *database) createDatabase(pathToDB, envPath string, bucketName []strin
 		}
 		return nil
 	})
-	return err
 }
 
 func (dbs *database) addStaticBase(path, bucketName string) error {
@@ -151,7 +144,7 @@ func (dbs *database) addStaticBase(path, bucketName string) error {
 	if err != nil {
 		return err
 	}
-	err = dbs.value.Update(func(tx *bolt.Tx) error {
+	return dbs.value.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(bucketName))
 		err = b.Put([]byte("value"), base)
 		if err != nil {
@@ -159,11 +152,10 @@ func (dbs *database) addStaticBase(path, bucketName string) error {
 		}
 		return nil
 	})
-	return err
 }
 
 //Clean up pvp bucket
-func (dbs *database) cleanupPvpBucket(timer uint, bucketName string, app *App) {
+func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
 		app.metrics.appCounters.With(prometheus.Labels{"type": "cleanup_pvp_count"}).Inc()
@@ -185,7 +177,7 @@ func (dbs *database) cleanupPvpBucket(timer uint, bucketName string, app *App) {
 		})
 		if err != nil {
 			app.metrics.appCounters.With(prometheus.Labels{"type": "cleanup_pvp_error_count"}).Inc()
-			log.WithFields(log.Fields{"location": "cleanupPVP"}).Error(err)
+			log.WithFields(log.Fields{"location": "cleanupBucket"}).Error(err)
 			continue
 		}
 	}
@@ -196,8 +188,7 @@ func (dbs *database) startUpdaterService(timer uint, bucketName, key string, app
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
 		app.metrics.dbCounters.With(prometheus.Labels{"type": "update_db_count"}).Inc()
-		err := dbs.updateBase(bucketName, key, funcCall)
-		if err != nil {
+		if err := dbs.updateBase(bucketName, key, funcCall); err != nil {
 			app.metrics.dbCounters.With(prometheus.Labels{"type": "update_db_error_count"}).Inc()
 			log.WithFields(log.Fields{"location": "updaterService, " + bucketName}).Error(err)
 			continue
@@ -214,12 +205,10 @@ func (dbs *database) updateBase(bucketName, key string, funcCall func() ([]byte,
 
 	err = dbs.value.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(bucketName))
-		err = b.Put([]byte(key), table)
-		if err != nil {
+		if err = b.Put([]byte(key), table); err != nil {
 			return fmt.Errorf("Can not insert key: %v to the bucket %v: %v", key, bucketName, err)
 		}
-		err = b.Put([]byte("version"), uintToByte(newVer))
-		if err != nil {
+		if err = b.Put([]byte("version"), uintToByte(newVer)); err != nil {
 			return fmt.Errorf("Can not insert key: version to the bucket %v: %v", bucketName, err)
 		}
 		return nil
@@ -235,8 +224,7 @@ func (dbs *database) updateBaseVersion(bucketName string) error {
 	newVer := dbs.returnNewVersion(bucketName)
 	err := dbs.value.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(bucketName))
-		err := b.Put([]byte("version"), uintToByte(newVer))
-		if err != nil {
+		if err := b.Put([]byte("version"), uintToByte(newVer)); err != nil {
 			return fmt.Errorf("Can not insert key: version to the bucket %v: %v", bucketName, err)
 		}
 		return nil
@@ -280,12 +268,12 @@ func setupCors(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Pvp-Type, Pvp-Shields")
 }
 
+//rootHandler implements http.Handler interface
 type rootHandler struct {
 	function func(*http.ResponseWriter, *http.Request, *App) error
 	app      *App
 }
 
-// rootHandler implements http.Handler interface.
 func (rh rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//close request body
 	defer r.Body.Close()
@@ -307,20 +295,19 @@ func (rh rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	//Check if it is a ClientError
 	clientError, ok := err.(errors.ClientError)
 	if !ok {
-		log.WithFields(log.Fields{"location": "indexHandler"}).Error(err)
-
+		log.WithFields(log.Fields{"location": r.RequestURI}).Error(err)
 		//If the error is not ClientError, consider that it is an ServerError
-		w.WriteHeader(500) // return 500 Internal Server Error
+		w.WriteHeader(http.StatusInternalServerError) // return 500 Internal Server Error
 		return
 	}
 	//Try to get response body of ClientError
 	body, err := clientError.ResponseBody()
 	if err != nil {
-		log.WithFields(log.Fields{"location": "indexHandler"}).Errorf("An error accured during parsing error body: %v", err)
-		w.WriteHeader(500)
+		log.WithFields(log.Fields{"location": r.RequestURI}).Errorf("An error accured during parsing error body: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	log.WithFields(log.Fields{"location": "indexHandler"}).Errorf(string(body))
+	log.WithFields(log.Fields{"location": r.RequestURI}).Errorf(string(body))
 
 	//Get http status code and headers
 	status, headers := clientError.ResponseHeaders()
@@ -330,8 +317,8 @@ func (rh rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(status)
 	_, err = w.Write(body)
 	if err != nil {
-		log.WithFields(log.Fields{"location": "indexHandler"}).Errorf("An error accured during writing error body: %v", err)
-		w.WriteHeader(500)
+		log.WithFields(log.Fields{"location": r.RequestURI}).Errorf("An error accured during writing error body: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 }
@@ -340,7 +327,7 @@ func checkLimits(RemoteAddr, limiterType string, ipLocations *prometheus.Counter
 	//Check visitor's requests limit
 	limiter := limiter.GetVisitor(RemoteAddr, limiterType, ipLocations)
 	if limiter.Allow() == false {
-		return errors.NewHTTPError(nil, 429, "Too many Requests")
+		return errors.NewHTTPError(nil, http.StatusTooManyRequests, "Too many Requests")
 	}
 	return nil
 }
@@ -356,19 +343,20 @@ func (a *App) checkBot(str string) bool {
 
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check visitor's requests limit
-	err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations)
-	if err != nil {
+	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
 		return err
 	}
 	agent := r.Header.Get("User-Agent")
-	log.WithFields(log.Fields{"location": "index"}).Println("User-agent: " + agent)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
+	//SEO actions
+	//check if an user if bot
 	isBot := app.checkBot(strings.ToLower(agent))
-
+	//if he doesn't serve him usual page
 	if !isBot {
 		http.ServeFile(*w, r, "./interface/build/200.html")
 		return nil
 	}
-
+	//otherwise prebuilded page
 	s := strings.Split(r.RequestURI, "/")
 	switch s[1] {
 	case "":
@@ -450,11 +438,10 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
 		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
-		return errors.NewHTTPError(nil, 405, "Method not allowed")
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
-	err := checkLimits(getIP(r), "limiterBase", app.metrics.ipLocations)
-	if err != nil {
+	if err := checkLimits(getIP(r), "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
 
@@ -469,13 +456,12 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	case "RATING":
 	case "MISC":
 	default:
-		return errors.NewHTTPError(nil, 400, "Unsupported db")
+		return errors.NewHTTPError(nil, http.StatusBadRequest, "Unsupported db")
 	}
-
+	//check vase version; if not modified return 304 status
 	ver := strconv.FormatUint(byteToUint(app.semistaticDatabase.readBase(bucketName, "version")), 10)
-
 	if (*r).Header.Get("If-None-Match") == ver {
-		(*w).WriteHeader(304)
+		(*w).WriteHeader(http.StatusNotModified)
 		return nil
 	}
 
@@ -483,12 +469,15 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if value == "" {
 		value = "value"
 	}
-
+	//return base
 	base := app.semistaticDatabase.readBase(bucketName, value)
-
+	//set up etag
 	(*w).Header().Set("Etag", ver)
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(base)
+	_, err := (*w).Write(base)
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
 	return nil
 }
 
@@ -499,11 +488,10 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
 		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
-		return errors.NewHTTPError(nil, 405, "Method not allowed")
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
-	err := checkLimits(getIP(r), "limiterBase", app.metrics.ipLocations)
-	if err != nil {
+	if err := checkLimits(getIP(r), "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
 	var (
@@ -516,7 +504,7 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	case "id":
 		bucketName = "NEWS"
 	default:
-		return errors.NewHTTPError(err, 400, "Unsupported method")
+		return errors.NewHTTPError(nil, http.StatusBadRequest, "Unsupported method")
 	}
 
 	newsHeadersBase, err := app.newsDatabse.readNews(bucketName, bucketKey)
@@ -532,6 +520,9 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 	(*w).Header().Set("Content-Type", "application/json")
 	_, err = (*w).Write(answer)
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
 	return nil
 }
 
@@ -543,7 +534,7 @@ func (dbs *database) readNews(bucket, page string) ([]string, error) {
 		c := b.Cursor()
 
 		k, v := c.Last()
-		//if there are no news, return "no"
+		//if there is no news, return "no"
 		if v == nil {
 			answer = append(answer, "no")
 			return nil
@@ -553,15 +544,15 @@ func (dbs *database) readNews(bucket, page string) ([]string, error) {
 		requstedKey, err := strconv.ParseUint(page, 10, 64)
 		//check key format
 		if err != nil {
-			return errors.NewHTTPError(err, 400, "Wrong key number fromat")
+			return errors.NewHTTPError(err, http.StatusBadRequest, "Wrong key number fromat")
 		}
 		if int64(requstedKey) <= 0 {
-			return errors.NewHTTPError(err, 400, "Key cannot be negative")
+			return errors.NewHTTPError(err, http.StatusBadRequest, "Key cannot be negative")
 		}
 		//process news request
 		if bucket == "NEWS" {
 			if int64(requstedKey) > lastKey {
-				return errors.NewHTTPError(err, 404, "News not found")
+				return errors.NewHTTPError(err, http.StatusNotFound, "News not found")
 			}
 			k, v = c.Seek(uintToByte(requstedKey))
 			answer = append(answer, string(v[:]))
@@ -604,11 +595,10 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
-		return errors.NewHTTPError(nil, 405, "Method is not allowed")
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
-	err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations)
-	if err != nil {
+	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_count"}).Inc()
@@ -619,6 +609,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//if base aldready exists there is no need to create it again
 	var answer []byte
 
+	//template for firther implementing other types of pve
 	if answer == nil {
 		//Parse request
 		inDat, err := parser.ParseRaidRequest(attacker, boss, obj)
@@ -627,12 +618,11 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		}
 		//Start new raid
 		pveResult, err := sim.CalculteCommonPve(inDat)
-
 		if err != nil {
 			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
-			return errors.NewHTTPError(err, 400, "PvE error")
+			return errors.NewHTTPError(err, http.StatusBadRequest, "PvE error")
 		}
-		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Calculated raid")
+		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated raid")
 
 		//Create json answer from pvpResult
 		answer, err = json.Marshal(pveResult)
@@ -641,10 +631,12 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 			return fmt.Errorf("PvE result marshal error: %v", err)
 		}
 	}
-
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(answer)
+	_, err := (*w).Write(answer)
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
 	return nil
 }
 
@@ -654,32 +646,31 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-		return errors.NewHTTPError(nil, 405, "Method is not allowed")
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
-	err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations)
-	if err != nil {
+	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_count"}).Inc()
 	pok1 := chi.URLParam(r, "pok1")
 	pok2 := chi.URLParam(r, "pok2")
 	isPvpoke := r.Header.Get("Pvp-Type")
-	//if base aldready exists there is no need to create it again
-	pvpBaseKey := pok1 + pok2
 
+	//if we have pvp in the base, there is no need to create it again
+	pvpBaseKey := pok1 + pok2
 	var answer []byte
 	switch isPvpoke {
 	case "pvpoke":
 		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvpoke")
-		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
+		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Pvpoke enabled")
 	default:
 		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey)
 	}
-
 	if answer != nil {
-		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Got from pvp base")
+		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Got from pvp base")
 	}
+
 	if answer == nil {
 		//Parse request
 		attacker, defender, err := parser.ParsePvpRequest(pok1, pok2)
@@ -705,9 +696,9 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 		if err != nil {
 			go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-			return errors.NewHTTPError(err, 400, "PvP error")
+			return errors.NewHTTPError(err, http.StatusBadRequest, "PvP error")
 		}
-		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Calculated")
+		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated")
 		//Create json answer from pvpResult
 		answer, err = json.Marshal(pvpResult)
 		if err != nil {
@@ -729,7 +720,10 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(answer)
+	_, err := (*w).Write(answer)
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
 	return nil
 }
 
@@ -738,7 +732,7 @@ func (a *App) writePvp(battleRes []byte, key string) {
 	err := a.pvpDatabase.createNewEntry("PVPRESULTS", key, battleRes)
 	if err != nil {
 		a.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-		log.WithFields(log.Fields{"location": "putMatrixRwsult"}).Error(err)
+		log.WithFields(log.Fields{"location": "writePvp"}).Error(err)
 		return
 	}
 }
@@ -749,12 +743,11 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(nil, 405, "Method is not allowed")
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 
 	//Check visitor's requests limit
-	err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations)
-	if err != nil {
+	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp"}).Inc()
@@ -762,7 +755,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, 400, "Error while reading request body")
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	//Parse request
 	matrixObj := matrixPvP{}
@@ -773,7 +766,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	if len(matrixObj.rowA) > 50 || len(matrixObj.rowB) > 50 {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, 400, "Parties with length more than 50 ae not allowed")
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Parties with length more than 50 are not allowed")
 	}
 	//Start new PvP
 	shieldsNumber := r.Header.Get("Pvp-Shields")
@@ -782,26 +775,22 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	matrixObj.result = make([][]appl.MatrixResult, 0, 1)
 	switch shieldsNumber {
 	case "triple":
-		err = matrixObj.calculateMatrix(0)
-		if err != nil {
+		if err = matrixObj.calculateMatrix(0); err != nil {
 			return err
 		}
-		err = matrixObj.calculateMatrix(1)
-		if err != nil {
+		if err = matrixObj.calculateMatrix(1); err != nil {
 			return err
 		}
-		err = matrixObj.calculateMatrix(2)
-		if err != nil {
+		if err = matrixObj.calculateMatrix(2); err != nil {
 			return err
 		}
 	default:
-		err = matrixObj.calculateMatrix(5)
-		if err != nil {
+		if err = matrixObj.calculateMatrix(5); err != nil {
 			return err
 		}
 	}
 
-	log.WithFields(log.Fields{"location": "matrixPvpHandler"}).Println("Calculated")
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated")
 	//Create json answer from pvpResult
 	answer, err := json.Marshal(matrixObj.result)
 	if err != nil {
@@ -811,6 +800,9 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
 	_, err = (*w).Write([]byte(answer))
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
 	return nil
 }
 
@@ -847,8 +839,7 @@ func (mp *matrixPvP) calculateMatrix(shields uint8) error {
 		}
 	}
 	close(mp.errChan)
-	errStr := mp.errChan.Flush()
-	if errStr != "" {
+	if errStr := mp.errChan.Flush(); errStr != "" {
 		go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
 		return fmt.Errorf(errStr)
 	}
@@ -916,7 +907,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 				newBaseEntry, err := json.Marshal(battleRes)
 				if err != nil {
 					mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
-					log.WithFields(log.Fields{"location": "putMatrixRwsult"}).Error(fmt.Errorf("Matrix PvP result marshal error: %v", err))
+					log.WithFields(log.Fields{"location": "writeMatrixRwsult"}).Error(fmt.Errorf("Matrix PvP result marshal error: %v", err))
 					return
 				}
 				switch mp.isPvpoke {
@@ -930,8 +921,7 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 
 	default: //if result exists
 		var singleBattleResult appl.PvpResults
-		err = json.Unmarshal(baseEntry, &singleBattleResult)
-		if err != nil {
+		if err = json.Unmarshal(baseEntry, &singleBattleResult); err != nil {
 			go mp.app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
 			mp.errChan <- fmt.Errorf("Matrix PvP result unmarshal error: %v", err)
 			return
@@ -952,12 +942,11 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(nil, 405, "Method is not allowed")
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 
 	//Check visitor's requests limit
-	err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations)
-	if err != nil {
+	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp"}).Inc()
@@ -965,7 +954,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, 400, "Error while reading request body")
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	//Parse request
 	pokA, pokB, constructor, err := parser.ParseConstructorRequest(body)
@@ -977,10 +966,9 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 
 	//Start new PvP
 	var pvpResult appl.PvpResults
-
 	switch isPvpoke {
 	case "pvpoke":
-		log.WithFields(log.Fields{"location": "pvpHandler"}).Println("Pvpoke enabled")
+		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Pvpoke enabled")
 		pvpResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
 			AttackerData: pokA,
 			DefenderData: pokB,
@@ -998,7 +986,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, 400, "PvP error")
+		return errors.NewHTTPError(err, http.StatusBadRequest, "PvP error")
 	}
 	log.WithFields(log.Fields{"location": "constructorPvpHandler"}).Println("Calculated")
 	//Create json answer from pvpResult
@@ -1010,6 +998,9 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
 	_, err = (*w).Write([]byte(answer))
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
 	return nil
 }
 
@@ -1179,7 +1170,6 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/news/{action}", rootHandler{newsAPIHandler, a})
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
-	//rootHandler{serveIndex, a}
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)
