@@ -1805,7 +1805,7 @@ body {
 
 .dexEnergyBlock {
     height: 7px;
-    border-radius: 3px;
+    border-radius: 2px;
 
     background-color: rgba(0, 0, 0, 0.438);
 
@@ -1814,9 +1814,12 @@ body {
     }
 }
 
-.dexButton {
+.dexRadio {
     font-weight: 500;
     background-color: rgba(255, 255, 255, 0);
+
+    padding-left: 3px !important;
+    padding-right: 3px !important;
 
     -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
@@ -1825,9 +1828,12 @@ body {
     border-width: 0px 2px 0px 0px;
     border-right: solid #59698d;
 
+    &.active {
+        background-color: #b1dbe2;
+        outline: none;
+    }
 }
-.dexButton:focus {
-    background-color: #9cdce7;
+.dexRadio:focus {
     outline: none;
 }
 .dexButtonGroup {

@@ -95,6 +95,10 @@ export const dexLocale = {
         weak: "Weak to ",
         dless: "Deal less damage to ",
         dmore: "Deal more damage to ",
+        entparams: "Enter paremeters to calculate CP",
+
+        showCh: "Charge moves",
+        showQck: "Quick moves",
     },
 
     ru: {
@@ -192,5 +196,9 @@ export const dexLocale = {
         weak: "Слабости ",
         dless: "Наносит меньше урона ",
         dmore: "Наносит больше урона ",
+        entparams: "Введите парметры, что бы посчитать CP",
+
+        showCh: "Заряжаемые мувы",
+        showQck: "Быстрые мувы",
     }
 }
