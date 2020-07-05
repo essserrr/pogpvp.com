@@ -19,7 +19,8 @@ class ShinyRates extends React.Component {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             active: {
-                Name: true,
+                field: "Name",
+                type: "string",
             },
 
             name: "",
@@ -103,32 +104,35 @@ class ShinyRates extends React.Component {
     onClick(event) {
         var fieldName = event.currentTarget.getAttribute('name')
         var fieldType = event.currentTarget.getAttribute('coltype')
-        switch (this.state.active[fieldName]) {
+        switch (this.state.active.field === fieldName) {
             case true:
                 this.setState({
-                    active: { [fieldName]: false },
+                    active: {},
                     shinyRates: this.state.shinyRates.reverse(),
                 });
                 break
             default:
                 this.setState({
-                    active: { [fieldName]: true },
+                    active: {
+                        field: fieldName,
+                        type: fieldType,
+                    },
                     shinyRates: fieldType === "number" ?
-                        this.sortNumber(fieldName) : this.sortString(fieldName),
+                        this.sortNumber(fieldName, this.state.shinyRates) : this.sortString(fieldName, this.state.shinyRates),
                 });
                 break
         }
     }
 
 
-    sortNumber(fieldName) {
-        return this.state.shinyRates.sort(function (a, b) {
+    sortNumber(fieldName, arr) {
+        return arr.sort(function (a, b) {
             return a.props.pok[fieldName] - b.props.pok[fieldName]
         })
     }
 
-    sortString(fieldName) {
-        return this.state.shinyRates.sort(function (a, b) {
+    sortString(fieldName, arr) {
+        return arr.sort(function (a, b) {
             if (a.props.pok[fieldName] < b.props.pok[fieldName]) {
                 return -1;
             }
@@ -141,16 +145,14 @@ class ShinyRates extends React.Component {
 
 
     onChange(event) {
-        var newArray = []
-        for (var i = 0; i < this.state.pokList.length; i++) {
-            if (this.state.pokList[i].key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
-                newArray.push(this.state.pokList[i])
-            }
+        let newList = this.state.pokList.filter(e => e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1)
+        if (this.state.active.field) {
+            newList = this.state.active.type === "number" ?
+                this.sortNumber(this.state.active.field, newList) : this.sortString(this.state.active.field, newList)
         }
-
         this.setState({
             name: event.value,
-            shinyRates: newArray,
+            shinyRates: newList,
         });
     }
 
@@ -179,10 +181,10 @@ class ShinyRates extends React.Component {
                             {this.state.showResult && <ShinyTable
                                 onClick={this.onClick}
                                 onChange={this.onChange}
-                                firstColumn={this.state.active.Name}
-                                secondColumn={this.state.active.Odds}
-                                thirdColumn={this.state.active.Odss}
-                                fourthColumn={this.state.active.Checks}
+                                firstColumn={this.state.active.field === "Name"}
+                                secondColumn={this.state.active.field === "Odds"}
+                                thirdColumn={this.state.active.field === "Odds"}
+                                fourthColumn={this.state.active.field === "Checks"}
 
                                 body={this.state.shinyRates}
                             />

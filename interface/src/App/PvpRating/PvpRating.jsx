@@ -223,8 +223,6 @@ class PvpRating extends React.Component {
 
 
     onChangeInput(event) {
-        var newArray = []
-
         if (!event.target.value) {
             this.setState({
                 searchState: false,
@@ -232,15 +230,9 @@ class PvpRating extends React.Component {
             });
             return
         }
-        for (var i = 0; i < this.state.ratingList.length; i++) {
-            if (this.state.ratingList[i].key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
-                newArray.push(this.state.ratingList[i])
-            }
-        }
-
         this.setState({
             searchState: true,
-            listToShow: newArray,
+            listToShow: this.state.ratingList.filter(e => e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1),
         });
     }
 

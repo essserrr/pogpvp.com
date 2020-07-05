@@ -53,7 +53,7 @@ const ShinyTable = React.memo(function (props) {
                                 </div>}
                                 class="ml-2 align-self-center "
                                 classOut="row m-0 p-0 justify-content-center"
-                                checked={props.secondColumn}
+                                checked={props.thirdColumn}
                             />
 
                         </th>

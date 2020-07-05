@@ -18,7 +18,7 @@ const TableThead = React.memo(function (props) {
                     className="text-center clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="Title" scope="col">
                     <Header
-                        checked={props.active.Title}
+                        checked={props.active.field === "Title"}
                         title={strings.mt.n}
                         class="ml-2 align-self-center "
 
@@ -29,7 +29,7 @@ const TableThead = React.memo(function (props) {
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="MoveType" scope="col">
                     <Header
-                        checked={props.active.MoveType}
+                        checked={props.active.field === "MoveType"}
                         title={strings.mt.tp}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"
@@ -41,7 +41,7 @@ const TableThead = React.memo(function (props) {
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="Damage" scope="col">
                     <Header
-                        checked={props.active.Damage}
+                        checked={props.active.field === "Damage"}
                         title={strings.mt.rd}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"
@@ -53,7 +53,7 @@ const TableThead = React.memo(function (props) {
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="Energy" scope="col">
                     <Header
-                        checked={props.active.Energy}
+                        checked={props.active.field === "Energy"}
                         title={strings.mt.re}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"
@@ -65,7 +65,7 @@ const TableThead = React.memo(function (props) {
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="Cooldown" scope="col">
                     <Header
-                        checked={props.active.Cooldown}
+                        checked={props.active.field === "Cooldown"}
                         title={strings.mt.cd}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"
@@ -78,7 +78,7 @@ const TableThead = React.memo(function (props) {
                     name="PvpDamage"
                     scope="col">
                     <Header
-                        checked={props.active.PvpDamage}
+                        checked={props.active.field === "PvpDamage"}
                         title={strings.mt.pd}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"
@@ -90,7 +90,7 @@ const TableThead = React.memo(function (props) {
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="PvpEnergy" scope="col">
                     <Header
-                        checked={props.active.PvpEnergy}
+                        checked={props.active.field === "PvpEnergy"}
                         title={strings.mt.pe}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"
@@ -102,7 +102,7 @@ const TableThead = React.memo(function (props) {
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="PvpDurationSeconds" scope="col">
                     <Header
-                        checked={props.active.PvpDurationSeconds}
+                        checked={props.active.field === "PvpDurationSeconds"}
                         title={strings.mt.dr}
                         class="ml-2 align-self-center "
                         classOut="row m-0 p-0 justify-content-center"
@@ -114,7 +114,7 @@ const TableThead = React.memo(function (props) {
                     className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
                     name="Subject" scope="col">
                     <Header
-                        checked={props.active.Subject}
+                        checked={props.active.field === "Subject"}
                         title={strings.mt.ef}
                         class="ml-2 align-self-center "
 

@@ -158,20 +158,4 @@ class MainPage extends React.Component {
     }
 }
 
-/*
-{this.state.prevPageExists && <SubmitButton
-                                        action="Previous Page"
-                                        label={strings.buttons.prevpage}
-                                        onSubmit={this.onSubmit}
-                                        class="btn btn-primary btn-sm"
-                                    />}
-
-                                    {this.state.nextPageExists && <SubmitButton
-                                        action="Next Page"
-                                        label={strings.buttons.nextpage}
-                                        onSubmit={this.onSubmit}
-                                        class="btn btn-primary btn-sm"
-                                    />}
-*/
-
 export default MainPage

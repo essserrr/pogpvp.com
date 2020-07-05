@@ -9,6 +9,8 @@ import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
+import Checkbox from "../RaidsList/Checkbox"
+
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -21,9 +23,9 @@ class Movedex extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            active: {
-                Title: false,
-            },
+            active: {},
+            showQuick: true,
+            showCharge: true,
 
             showLegend: false,
             showResult: false,
@@ -33,6 +35,7 @@ class Movedex extends React.Component {
         };
         this.onShowLegend = this.onShowLegend.bind(this)
         this.onChange = this.onChange.bind(this)
+        this.onSortColumn = this.onSortColumn.bind(this)
         this.onSort = this.onSort.bind(this)
     }
 
@@ -121,17 +124,26 @@ class Movedex extends React.Component {
 
 
     onChange(event) {
-        var newArray = []
-        for (var i = 0; i < this.state.originalList.length; i++) {
-            if (this.state.originalList[i].key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
-                newArray.push(this.state.originalList[i])
-            }
+        let newList = this.state.originalList.filter(e => {
+            return (e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) && this.filterArr(e)
+        })
+        if (this.state.active.field) {
+            newList = this.state.active.type === "number" ?
+                this.sortNumber(this.state.active.field, newList) : this.sortString(this.state.active.field, newList)
         }
-
         this.setState({
             name: event.value,
-            listToShow: newArray,
+            listToShow: newList,
         });
+    }
+
+    filterArr(e) {
+        switch (e.props.value.MoveCategory) {
+            case "Charge Move":
+                return this.state.showCharge
+            default:
+                return this.state.showQuick
+        }
     }
 
 
@@ -141,37 +153,44 @@ class Movedex extends React.Component {
         })
     }
 
-    onSort(event) {
+    onSortColumn(event) {
         if (this.state.blockSort) {
             return
         }
         var fieldName = event.currentTarget.getAttribute('name')
         var fieldType = event.currentTarget.getAttribute('coltype')
-        switch (this.state.active[fieldName]) {
+        switch (this.state.active.field === fieldName) {
             case true:
                 this.setState({
-                    active: { [fieldName]: false },
+                    active: {
+                        field: "",
+                        type: "",
+                    },
                     shinyRates: this.state.listToShow.reverse(),
                 });
                 break
             default:
                 this.setState({
-                    active: { [fieldName]: true },
+                    active: {
+                        field: fieldName,
+                        type: fieldType,
+                    },
                     listToShow: fieldType === "number" ?
-                        this.sortNumber(fieldName) : this.sortString(fieldName),
+                        this.sortNumber(fieldName, this.state.listToShow) : this.sortString(fieldName, this.state.listToShow),
                 });
                 break
         }
     }
 
-    sortNumber(fieldName) {
-        return this.state.listToShow.sort(function (a, b) {
+    sortNumber(fieldName, arr) {
+        return arr.sort(function (a, b) {
             return b.props.value[fieldName] - a.props.value[fieldName]
         })
     }
 
-    sortString(fieldName) {
-        return this.state.listToShow.sort(function (a, b) {
+    sortString(fieldName, arr) {
+        return arr.sort(function (a, b) {
+            console.log(a)
             if (a.props.value[fieldName] > b.props.value[fieldName]) {
                 return -1;
             }
@@ -180,6 +199,10 @@ class Movedex extends React.Component {
             }
             return 0;
         })
+    }
+
+    onSort() {
+
     }
 
     render() {
@@ -217,10 +240,30 @@ class Movedex extends React.Component {
                             {this.state.showResult &&
                                 <>
                                     <input onChange={this.onChange} className="form-control" type="text" placeholder={strings.moveplace} />
+                                    <div className="row m-0 p-0 my-2 dexFont">
+                                        <span className="pr-3">
+                                            {"Sort by type" + ":"}
+                                        </span>
+                                        <Checkbox
+                                            onChange={this.onChange}
+                                            value={this.state.showCharge}
+                                            checked={this.state.showCharge ? "checked" : false}
+                                            name={"showCharge"}
+                                            label="Charge"
+                                        />
+                                        <Checkbox
+                                            onChange={this.onChange}
+                                            value={this.state.showQuick}
+                                            checked={this.state.showQuick ? "checked" : false}
+                                            name={"showQuick"}
+                                            label="Quick"
+                                        />
+                                    </div>
+
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
                                             active={this.state.active}
-                                            onClick={this.onSort}
+                                            onClick={this.onSortColumn}
                                         />
                                         <tbody>
                                             {this.state.listToShow}
