@@ -13,6 +13,8 @@ services:
     volumes:
         - bolt_data:/app/boltDB
         - log_data:/app/logs/
+    environment:
+        - MONGO_URI=${MONGO_URI}
     build: .
     restart: always
     labels:
@@ -24,8 +26,6 @@ services:
       - "traefik.port=8080"
     ports:
       - 8181:8181
-    depends_on:
-      - mongo3
   mongo1:
       container_name: mongo1
       image: mongo
@@ -46,6 +46,8 @@ services:
       restart: always
       labels:
         - "traefik.enable=false"
+      depends_on:
+        - grafana
   mongo2:
       container_name: mongo2
       image: mongo
@@ -165,4 +167,4 @@ services:
               max-size: '25m'
               max-file: '3'
         depends_on:
-            - grafana
+            - mongo3
