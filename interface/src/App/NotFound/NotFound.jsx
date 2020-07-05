@@ -48,7 +48,6 @@ class NotFound extends React.Component {
                                 <div className="text404 align-self-center">
                                     4
                                 </div>
-
                                 <div className="window404 align-self-center">
                                     <PokemonIconer
                                         src={"404"}

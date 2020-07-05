@@ -13,7 +13,7 @@ import Checkbox from "./Checkbox"
 import Loader from "../PvpRating/Loader"
 
 import { locale } from "../../locale/locale"
-import { getCookie, typeDecoder, culculateCP, capitalize, weatherDecoder } from "../../js/indexFunctions"
+import { getCookie, typeDecoder, culculateCP, capitalizeFirst, weatherDecoder } from "../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
@@ -115,7 +115,7 @@ class RaidsList extends React.Component {
             for (var j = 0; j < tierList["Tier " + i].length; j++) {
                 var name = tierList["Tier " + i][j].replace("’", "")
                 if (!pokTable[name]) {
-                    name = capitalize(name)
+                    name = capitalizeFirst(name)
                 }
                 bucket.push(
                     <div key={name + "wrap"} className={"col-6 col-md-4 px-1 pt-2"}>

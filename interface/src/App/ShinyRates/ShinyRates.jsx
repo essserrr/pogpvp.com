@@ -40,7 +40,7 @@ class ShinyRates extends React.Component {
         this.setState({
             loading: true,
         })
-        var reason = ""
+        let reason = ""
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: 'GET',
@@ -58,7 +58,7 @@ class ShinyRates extends React.Component {
             }),
             //after opening the page get pokemonBase
         ];
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -76,7 +76,7 @@ class ShinyRates extends React.Component {
             responses[0].json(),
             responses[1].json(),
         ]
-        var results = await Promise.all(parses)
+        let results = await Promise.all(parses)
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
@@ -90,7 +90,7 @@ class ShinyRates extends React.Component {
             }
         }
 
-        let list = parseShinyRates(results[1], results[0])
+        let list = this.parseShinyRates(results[1], results[0])
         this.setState({
             showResult: true,
             isError: false,
@@ -101,9 +101,24 @@ class ShinyRates extends React.Component {
         });
     }
 
+    //generator functions
+    parseShinyRates(list, pokTable) {
+        let result = []
+        for (const [key, value] of Object.entries(list)) {
+            result.push(
+                <ShinyTableTr
+                    key={value.Name + key}
+                    pok={value}
+                    pokTable={pokTable}
+                />
+            )
+        }
+        return result
+    }
+
     onClick(event) {
-        var fieldName = event.currentTarget.getAttribute('name')
-        var fieldType = event.currentTarget.getAttribute('coltype')
+        let fieldName = event.currentTarget.getAttribute('name')
+        let fieldType = event.currentTarget.getAttribute('coltype')
         switch (this.state.active.field === fieldName) {
             case true:
                 this.setState({
@@ -156,9 +171,6 @@ class ShinyRates extends React.Component {
         });
     }
 
-
-
-
     render() {
         return (
             <>
@@ -199,21 +211,6 @@ class ShinyRates extends React.Component {
 
 export default ShinyRates
 
-//generator functions
-function parseShinyRates(list, pokTable) {
-    let result = []
-    const values = Object.values(list)
 
-    for (var i = 0; i < values.length; i++) {
-        result.push(
-            <ShinyTableTr
-                key={values[i].Name}
-                pok={values[i]}
-                pokTable={pokTable}
-            />
-        )
-    }
-    return result
-}
 
 

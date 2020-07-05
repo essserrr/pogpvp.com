@@ -44,7 +44,7 @@ class Evolve extends React.Component {
             loading: true,
         })
         //get pok base
-        var reason = ""
+        let reason = ""
         let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
             method: 'GET',
             headers: {
@@ -88,9 +88,7 @@ class Evolve extends React.Component {
     }
 
     pokWithEvo(result) {
-        var list = []
-
-
+        let list = []
         for (const [key, value] of Object.entries(result)) {
             if (value.Evolutions && value.Evolutions.length > 0) {
                 list.push({

@@ -19,19 +19,17 @@ const ShinyTable = React.memo(function (props) {
             <table className="table  table-sm text-center">
                 <thead>
                     <tr>
-                        <th coltype="string" className="text-left  clickable align-text-top mx-0 mx-sm-2" name="Name" onClick={props.onClick} scope="col">
+                        <th coltype="string" className="clickable align-text-top mx-0 mx-sm-2" name="Name" onClick={props.onClick} scope="col">
                             <Header
                                 title={strings.shinyrates.pokname}
-                                class="ml-2 align-self-center "
-                                classOut="row  m-0 p-0 justify-content-center justify-content-sm-start"
+                                class="ml-2 align-self-center " classOut="row  m-0 p-0 justify-content-center justify-content-sm-start"
                                 checked={props.firstColumn}
                             />
                         </th>
                         <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="Odds" onClick={props.onClick} scope="col">
                             <Header
                                 title={<>{strings.shinyrates.rate1}<wbr />{strings.shinyrates.rate2}</>}
-                                class="ml-2 align-self-center "
-                                classOut="row m-0 p-0 justify-content-center"
+                                class="ml-2 align-self-center " classOut="row m-0 p-0 justify-content-center"
                                 checked={props.secondColumn}
                             />
 
@@ -51,8 +49,7 @@ const ShinyTable = React.memo(function (props) {
                                         </ReactTooltip>}
                                     </i>
                                 </div>}
-                                class="ml-2 align-self-center "
-                                classOut="row m-0 p-0 justify-content-center"
+                                class="ml-2 align-self-center " classOut="row m-0 p-0 justify-content-center"
                                 checked={props.thirdColumn}
                             />
 
@@ -60,8 +57,7 @@ const ShinyTable = React.memo(function (props) {
                         <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="Checks" onClick={props.onClick} scope="col">
                             <Header
                                 title={strings.shinyrates.checks}
-                                classOut="row m-0 p-0 justify-content-center"
-                                class="ml-2 align-self-center "
+                                classOut="row m-0 p-0 justify-content-center" class="ml-2 align-self-center "
                                 checked={props.fourthColumn}
                             />
                         </th>

@@ -12,7 +12,7 @@ import Checkbox from "../RaidsList/Checkbox"
 import Type from "../PvP/components/CpAndTypes/Type"
 import Loader from "../PvpRating/Loader"
 
-import { getCookie, typeDecoder, culculateCP, capitalize } from "../../js/indexFunctions"
+import { getCookie, typeDecoder, culculateCP, capitalizeFirst } from "../../js/indexFunctions"
 import { locale } from "../../locale/locale"
 import { regionLocale } from "../../locale/regionLocale"
 import { ReactComponent as Egg2km } from "../../icons/egg2km.svg";
@@ -142,7 +142,7 @@ class EggsList extends React.Component {
                 //format title string
                 var name = tierList[matrix[i]][j].replace("’", "")
                 if (!pokTable[name]) {
-                    name = capitalize(name)
+                    name = capitalizeFirst(name)
                 }
                 //skip reginals if regionals are not selected
                 if (!showReg && regionals[name]) {

@@ -14,7 +14,7 @@ import Loader from "./Loader"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"
 
 import { ReactComponent as Shadow } from "../../icons/shadow.svg";
-import { typeDecoder, checkShadow, getCookie, capitalize } from "../../js/indexFunctions"
+import { typeDecoder, checkShadow, getCookie, capitalizeFirst } from "../../js/indexFunctions"
 
 import { locale } from "../../locale/locale"
 
@@ -79,53 +79,37 @@ class PvpRating extends React.Component {
 
 
     async componentDidMount() {
-        var defaultLeague = "Great"
-        var defaultType = "overall"
-        var defaultPath = "Great"
-
-        if (this.props.match.params.league && this.props.match.params.type) {
-            let propLeague = capitalize(this.props.match.params.league)
-            let league = (propLeague === "Great" || propLeague === "Ultra" || propLeague === "Master") ? propLeague : undefined
-            let propType = this.props.match.params.type
-            let type = (propType === "overall" || propType === "00" || propType === "11"
-                || propType === "22" || propType === "01" || propType === "12") ? String(propType) : undefined
-            if (league && type) {
-                defaultPath = league + ((type === "overall") ? "" : type)
-                defaultLeague = league
-                defaultType = type
-            }
-        }
-
-        this.updateState(defaultLeague, defaultType, defaultPath)
+        let obj = this.returnUpdObj(this.props.match.params.league ? capitalizeFirst(this.props.match.params.league) : "",
+            this.props.match.params.type ? String(this.props.match.params.type) : "")
+        this.updateState(obj.defaultLeague, obj.defaultType, obj.defaultPath)
     }
 
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         const update = this.updateState
-        window.onpopstate = function (event) {
+        window.onpopstate = function () {
             let windowPath = window.location.pathname.split('/').slice(2)
             let leagueString = windowPath[0]
             let typeString = windowPath[1]
 
-            var defaultLeague = "Great"
-            var defaultType = "overall"
-            var defaultPath = "Great"
-
-            if (leagueString && typeString) {
-                leagueString = capitalize(leagueString)
-                let league = (leagueString === "Great" || leagueString === "Ultra" || leagueString === "Master") ? leagueString : undefined
-                let type = (typeString === "overall" || typeString === "00" || typeString === "11"
-                    || typeString === "22" || typeString === "01" || typeString === "12") ? String(typeString) : undefined
-                if (league && type) {
-                    defaultPath = league + ((type === "overall") ? "" : type)
-                    defaultLeague = league
-                    defaultType = type
-                }
-            }
-            update(defaultLeague, defaultType, defaultPath)
+            let obj = this.returnUpdObj(leagueString ? capitalizeFirst(leagueString) : "", typeString ? String(typeString) : "")
+            update(obj.defaultLeague, obj.defaultType, obj.defaultPath)
         }
     }
 
+    returnUpdObj(leagueString, typeString) {
+        let obj = {
+            defaultLeague: "Great",
+            defaultType: "overall",
+            defaultPath: "Great",
+        }
+        if (leagueString && typeString) {
+            obj.defaultPath = leagueString + (typeString === "overall" ? "" : typeString)
+            obj.defaultLeague = leagueString
+            obj.defaultType = typeString
+        }
+        return obj
+    }
 
 
     async updateState(defaultLeague, defaultType, defaultPath) {
@@ -134,7 +118,7 @@ class PvpRating extends React.Component {
             combination: defaultType,
             loading: true,
         })
-        var reason = ""
+        let reason = ""
 
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
@@ -159,7 +143,7 @@ class PvpRating extends React.Component {
                 },
             }),
         ];
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -178,7 +162,7 @@ class PvpRating extends React.Component {
             responses[1].json(),
             responses[2].json(),
         ]
-        var results = await Promise.all(parses)
+        let results = await Promise.all(parses)
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
@@ -192,7 +176,7 @@ class PvpRating extends React.Component {
             }
         }
 
-        var ratingList = returnRatingList(results[1], results[0], results[2], this.state.league, this.state.combination)
+        let ratingList = this.returnRatingList(results[1], results[0], results[2])
         this.setState({
             n: 75,
             isNextPage: results[1].length - 75 > 0,
@@ -209,6 +193,115 @@ class PvpRating extends React.Component {
             listToShow: ratingList.slice(0, 75),
         });
     }
+
+
+
+
+    returnRatingList(ratingList, pokemonTable, moveTable) {
+        let result = []
+
+        let maxWeighted = ratingList[0].AvgRateWeighted
+        for (let i = 0; i < ratingList.length; i++) {
+            let pokName = checkShadow(ratingList[i].Name, pokemonTable)
+            if (!pokemonTable[pokName]) {
+                console.log(pokName + " not found")
+                continue
+            }
+            result.push(
+                <div key={ratingList[i].Name} className={"col-12 px-1 pt-1"}>
+                    <PokemonCard
+                        class={"col-12 cardBig m-0 p-0"}
+
+                        name={<div className="d-flex justify-content-between">
+                            <div className="pl-2">{"#" + (i + 1)}</div>
+                            <div className=" text-center">
+                                <>{pokName + ((pokName !== ratingList[i].Name) ? " (" + strings.options.type.shadow + ")" : "")}</>
+                            </div>
+                            <div></div>
+                        </div>}
+                        icon={<>
+                            {(pokName !== ratingList[i].Name) &&
+                                <Shadow className="posAbsR icon24" />}
+                            <a
+                                className="link"
+                                title={strings.dexentr + pokName}
+                                href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
+                                    encodeURIComponent(pokName)}
+                            >
+                                <PokemonIconer
+                                    src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
+                                    class={"icon64"} />
+                            </a>
+                        </>
+                        }
+                        body={this.generateBody(pokName, ratingList[i], pokemonTable, maxWeighted)}
+                        footer={<Collapsable
+                            pokemonTable={pokemonTable}
+                            moveTable={moveTable}
+                            ratingList={ratingList}
+
+                            container={ratingList[i]}
+                            league={this.state.league}
+                            combination={this.state.combination}
+                        />}
+
+                        classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
+                        classIcon={"icon64  col-auto mx-2 mt-2 p-0 align-self-center"}
+                        classBody={"bigCardBody col align-self-center m-0 p-1 p-0 "}
+                        classBodyWrap={"row justify-content-between  m-0 p-0"}
+                        classFooter="col-12 m-0  mb-2"
+                    />
+                </div>)
+        }
+        return result
+
+    }
+
+    generateBody(name, entry, pokemonTable, maxWeighted) {
+        return <div className="row justify-content-between m-0 p-0">
+            <div className="col-10 col-sm-5 m-0 p-0">
+                <div className="row  m-0 p-0">
+                    <div className="col-12 m-0 p-0">
+                        <div className="d-inline bigText mr-2">
+                            {strings.rating.type}
+                        </div>
+                        {(pokemonTable[name]["Type"][0] !== undefined) && <Type
+                            class={"icon18"}
+                            code={pokemonTable[name]["Type"][0]}
+                            value={typeDecoder[pokemonTable[name]["Type"][0]]}
+                        />}
+                        {(pokemonTable[name]["Type"][1] !== undefined) && <Type
+                            class={"ml-2 icon18"}
+                            code={pokemonTable[name]["Type"][1]}
+                            value={typeDecoder[pokemonTable[name]["Type"][1]]}
+                        />}
+                    </div>
+                    <div className="col-12 text-start bigText m-0 p-0">
+                        {strings.rating.avgRate} {entry.AvgRate}
+                    </div>
+                    <div className="col-12 text-start bigText m-0 p-0">
+                        {strings.rating.avgWin} {(entry.AvgWinrate * 100).toFixed(0)}%
+                </div>
+                </div>
+            </div>
+            <div className="col-10 col-sm-2  text-sm-center text-left  mx-sm-2 p-0 ">
+                <div className="row rating  m-0 px-2 p-sm-0 ">
+                    <div className="col-auto   col-sm-12 mr-1 mr-sm-0 m-0 p-0 ">
+                        {strings.rating.score} </div>
+                    <div className="col-auto col-sm-12 m-0 p-0 ">
+                        {(entry.AvgRateWeighted / maxWeighted * 100).toFixed(1)}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+
+
+
+
 
 
     onLoadMore() {
@@ -330,9 +423,9 @@ class PvpRating extends React.Component {
             }
         }
 
-        var ratingList = returnRatingList(results[0],
-            !this.state.pokemonTable ? results[1] : this.state.pokemonTable, !this.state.moveTable ? results[2] : this.state.moveTable
-            , this.state.league, this.state.combination)
+        var ratingList = this.returnRatingList(results[0],
+            !this.state.pokemonTable ? results[1] : this.state.pokemonTable,
+            !this.state.moveTable ? results[2] : this.state.moveTable)
 
 
         window.history.pushState("object or string", "Title", "/pvprating/" + leaguePath.toLowerCase() + "/" + typePath);
@@ -456,105 +549,3 @@ class PvpRating extends React.Component {
 export default PvpRating
 
 
-//generation functions
-
-function returnRatingList(ratingList, pokemonTable, moveTable, league, combination) {
-    let result = []
-
-    var maxWeighted = ratingList[0].AvgRateWeighted
-
-    for (var i = 0; i < ratingList.length; i++) {
-        var pokName = checkShadow(ratingList[i].Name, pokemonTable)
-        if (!pokemonTable[pokName]) {
-            console.log(pokName + " not found")
-            continue
-        }
-        result.push(
-            <div key={ratingList[i].Name} className={"col-12 px-1 pt-1"}>
-                <PokemonCard
-                    class={"col-12 cardBig m-0 p-0"}
-
-                    name={<div className="d-flex justify-content-between">
-                        <div className="pl-2">{"#" + (i + 1)}</div>
-                        <div className=" text-center">
-                            <>{pokName + ((pokName !== ratingList[i].Name) ? " (" + strings.options.type.shadow + ")" : "")}</>
-                        </div>
-                        <div></div>
-                    </div>}
-                    icon={<>
-                        {(pokName !== ratingList[i].Name) &&
-                            <Shadow className="posAbsR icon24" />}
-                        <a
-                            className="link"
-                            title={strings.dexentr + pokName}
-                            href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                                encodeURIComponent(pokName)}
-                        >
-                            <PokemonIconer
-                                src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
-                                class={"icon64"} />
-                        </a>
-                    </>
-                    }
-                    body={generateBody(pokName, ratingList[i], pokemonTable, maxWeighted)}
-                    footer={<Collapsable
-                        pokemonTable={pokemonTable}
-                        moveTable={moveTable}
-                        ratingList={ratingList}
-
-                        container={ratingList[i]}
-                        league={league}
-                        combination={combination}
-                    />}
-
-                    classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
-                    classIcon={"icon64  col-auto mx-2 mt-2 p-0 align-self-center"}
-                    classBody={"bigCardBody col align-self-center m-0 p-1 p-0 "}
-                    classBodyWrap={"row justify-content-between  m-0 p-0"}
-                    classFooter="col-12 m-0  mb-2"
-                />
-            </div>)
-    }
-    return result
-
-}
-
-function generateBody(name, entry, pokemonTable, maxWeighted) {
-    return <div className="row justify-content-between m-0 p-0">
-        <div className="col-10 col-sm-5 m-0 p-0">
-            <div className="row  m-0 p-0">
-                <div className="col-12 m-0 p-0">
-                    <div className="d-inline bigText mr-2">
-                        {strings.rating.type}
-                    </div>
-                    {(pokemonTable[name]["Type"][0] !== undefined) && <Type
-                        class={"icon18"}
-                        code={pokemonTable[name]["Type"][0]}
-                        value={typeDecoder[pokemonTable[name]["Type"][0]]}
-                    />}
-                    {(pokemonTable[name]["Type"][1] !== undefined) && <Type
-                        class={"ml-2 icon18"}
-                        code={pokemonTable[name]["Type"][1]}
-                        value={typeDecoder[pokemonTable[name]["Type"][1]]}
-                    />}
-                </div>
-                <div className="col-12 text-start bigText m-0 p-0">
-                    {strings.rating.avgRate} {entry.AvgRate}
-                </div>
-                <div className="col-12 text-start bigText m-0 p-0">
-                    {strings.rating.avgWin} {(entry.AvgWinrate * 100).toFixed(0)}%
-                </div>
-            </div>
-        </div>
-        <div className="col-10 col-sm-2  text-sm-center text-left  mx-sm-2 p-0 ">
-            <div className="row rating  m-0 px-2 p-sm-0 ">
-                <div className="col-auto   col-sm-12 mr-1 mr-sm-0 m-0 p-0 ">
-                    {strings.rating.score} </div>
-                <div className="col-auto col-sm-12 m-0 p-0 ">
-                    {(entry.AvgRateWeighted / maxWeighted * 100).toFixed(1)}
-                </div>
-            </div>
-        </div>
-    </div>
-
-}

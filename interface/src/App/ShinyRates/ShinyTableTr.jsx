@@ -10,6 +10,38 @@ let strings = new LocalizedStrings(locale);
 const ShinyTableTr = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
+    function processRate(chance) {
+        let ratesList = [24, 60, 90, 120, 240, 450, 800,]
+        //in reverse direction
+        for (let i = ratesList.length - 1; i >= 0; i--) {
+            //if two chances are equal
+            if (chance === ratesList[i]) {
+                return ratesList[i]
+            }
+            //if chance to find lower than chance in the table
+            if (chance < ratesList[i]) {
+                continue
+            }
+            //if it is the first entry, return it
+            if (!ratesList[i + 1]) {
+                return ratesList[i]
+            }
+            //otherwise calculate delta to two nearest chances
+            let deltaLeft = chance - ratesList[i]
+            let deltaRight = ratesList[i + 1] - chance
+            switch (true) {
+                case deltaLeft > deltaRight:
+                    return ratesList[i + 1]
+                case deltaLeft < deltaRight:
+                    return ratesList[i]
+                default:
+                    //return highest by default
+                    return ratesList[i + 1]
+            }
+        }
+        return ratesList[0]
+    }
+
     return (
         <tr className="animShiny">
             <th className="text-center text-sm-left px-0" scope="row">
@@ -35,38 +67,5 @@ const ShinyTableTr = React.memo(function (props) {
 
 export default ShinyTableTr;
 
-function processRate(chance) {
-    for (let i = ratesList.length - 1; i >= 0; i--) {
-        if (chance === ratesList[i]) {
-            return ratesList[i]
-        }
-        if (chance < ratesList[i]) {
-            continue
-        }
 
-        if (!ratesList[i + 1]) {
-            return ratesList[i]
-        }
-        let deltaLeft = chance - ratesList[i]
-        let deltaRight = ratesList[i + 1] - chance
-        switch (true) {
-            case deltaLeft > deltaRight:
-                return ratesList[i + 1]
-            case deltaLeft < deltaRight:
-                return ratesList[i]
-            default:
-                return ratesList[i + 1]
-        }
-    }
-    return ratesList[0]
-}
 
-var ratesList = [
-    24,
-    60,
-    90,
-    120,
-    240,
-    450,
-    800,
-]

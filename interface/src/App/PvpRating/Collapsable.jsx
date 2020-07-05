@@ -34,10 +34,10 @@ class Collapsable extends React.PureComponent {
     }
 
     onClickRedirect(event) {
-        var defenderOriginalName = event.currentTarget.getAttribute('name')
-        var defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
-        var league = (this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())
-        var maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall
+        let defenderOriginalName = event.currentTarget.getAttribute('name')
+        let defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
+        let league = (this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())
+        let maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall
 
         switch (this.props.combination) {
             case "00":
@@ -60,17 +60,17 @@ class Collapsable extends React.PureComponent {
                 break
         }
 
-        var defender = this.props.ratingList.find(element => element.Name === defenderOriginalName);
+        let defender = this.props.ratingList.find(element => element.Name === defenderOriginalName);
 
-        var defenderString = encodeQueryData(
+        let defenderString = encodeQueryData(
             this.generatePokObj(defenderName, maxStatsD, shields[1], defenderName !== defenderOriginalName, defender)
         )
 
-        var attackerOriginalName = this.props.container.Name
-        var attackerName = checkShadow(attackerOriginalName, this.props.pokemonTable)
-        var maxStatsA = calculateMaximizedStats(attackerName, 40, this.props.pokemonTable)[league].Overall
+        let attackerOriginalName = this.props.container.Name
+        let attackerName = checkShadow(attackerOriginalName, this.props.pokemonTable)
+        let maxStatsA = calculateMaximizedStats(attackerName, 40, this.props.pokemonTable)[league].Overall
 
-        var attackerString = encodeQueryData(
+        let attackerString = encodeQueryData(
             this.generatePokObj(attackerName, maxStatsA, shields[0], attackerName !== attackerOriginalName, this.props.container)
         )
 
@@ -87,13 +87,13 @@ class Collapsable extends React.PureComponent {
     }
 
     createSublist(array) {
-        var sublist = []
+        let sublist = []
         //if null array, return empty array
         if (!array) {
             return sublist
         }
-        for (var i = 0; i < array.length; i++) {
-            var pokName = checkShadow(array[i].Name, this.props.pokemonTable)
+        for (let i = 0; i < array.length; i++) {
+            let pokName = checkShadow(array[i].Name, this.props.pokemonTable)
             if (!this.props.pokemonTable[pokName]) {
                 console.log(pokName + " not found")
                 continue
@@ -112,13 +112,13 @@ class Collapsable extends React.PureComponent {
     }
 
     createMovesetList(array) {
-        var sublist = []
+        let sublist = []
         //if null array, return empty array
         if (!array) {
             return sublist
         }
-        var maxLength = (array.length > 3) ? 3 : array.length
-        for (var i = 0; i < maxLength; i++) {
+        let maxLength = (array.length > 3) ? 3 : array.length
+        for (let i = 0; i < maxLength; i++) {
             sublist.push(
                 <RMoveRow
                     key={array[i].Quick + array[i].Charge[0] + array[i].Charge[1]}
@@ -131,36 +131,24 @@ class Collapsable extends React.PureComponent {
     }
 
     generateBody() {
-        var body = []
-        body.push(
+        return <>
             <RowWrap
-                key={"Best meta matchups"}
                 outClass="col-12 col-sm-6 p-0 m-0"
                 locale={strings.rating.bestMatchups}
                 value={this.createSublist(this.props.container.BestMetaMatchups)}
             />
-        )
-
-        body.push(
             <RowWrap
-                key={"Meta counters"}
                 outClass="col-12 col-sm-6 p-0 m-0"
                 locale={strings.rating.bestCounter}
                 value={this.createSublist(this.props.container.Counters)}
             />
-        )
-
-        body.push(
             <RowWrap
-                key={"Best movesets"}
                 outClass="col-12 col-sm-11 col-md-8 p-0 m-0 text-center"
                 locale={strings.rating.movesets}
                 class="row p-0 mx-2 mx-md-3"
                 value={this.createMovesetList(this.props.container.Movesets)}
             />
-        )
-
-        return body
+        </>
     }
 
     render() {

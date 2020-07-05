@@ -125,6 +125,9 @@ class Movedex extends React.Component {
 
 
     onChange(event) {
+        if (this.state.blockSort) {
+            return
+        }
         let newArray = this.state.originalList.filter(e => e.key.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1);
         this.setState({
             name: event.value,
