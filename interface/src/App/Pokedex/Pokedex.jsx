@@ -125,13 +125,7 @@ class Movedex extends React.Component {
 
 
     onChange(event) {
-        var newArray = []
-        for (var i = 0; i < this.state.originalList.length; i++) {
-            if (this.state.originalList[i].key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1) {
-                newArray.push(this.state.originalList[i])
-            }
-        }
-
+        let newArray = this.state.originalList.filter(e => e.key.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1);
         this.setState({
             name: event.value,
             listToShow: newArray,

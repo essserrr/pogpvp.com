@@ -145,6 +145,16 @@ class MoveCard extends React.Component {
                                         <QuickMove move={this.state.move} />}
                                 </div>
                                 <ButtonsBlock
+                                    buttons={[{
+                                        attr: "eff",
+                                        title: strings.vunlist,
+                                        class: ""
+                                    },
+                                    {
+                                        attr: "use",
+                                        title: strings.used,
+                                        class: ""
+                                    },]}
                                     onClick={this.onClick}
                                 />
 

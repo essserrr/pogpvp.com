@@ -15,7 +15,7 @@ import OtherTable from "./OtherBlock/OtherTable"
 import DescrBlock from "./DescrBlock/DescrBlock"
 import EvoBlock from "./EvoBlock/EvoBlock"
 import NavigationBlock from "./NavigationBlock/NavigationBlock"
-import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
+import ButtonsBlock from "../Movedex/ButtonsBlock/ButtonsBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -251,10 +251,36 @@ class PokeCard extends React.Component {
                                     pokTable={this.state.pokTable}
                                 />
                                 <ButtonsBlock
-                                    moDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
-                                    evoDis={!(this.state.pokMisc && this.state.pokMisc.Family)}
-                                    othDis={!(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                        this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))}
+                                    buttons={[{
+                                        attr: "moves",
+                                        title: strings.movelist,
+                                        class: "",
+                                        disabled: !(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0),
+                                    },
+                                    {
+                                        attr: "evo",
+                                        title: strings.evochart,
+                                        class: "",
+                                        disabled: !(this.state.pokMisc && this.state.pokMisc.Family),
+                                    },
+                                    {
+                                        attr: "eff",
+                                        title: strings.vunlist,
+                                        class: "",
+                                    },
+                                    {
+                                        attr: "cp",
+                                        title: "CP",
+                                        class: "",
+                                    },
+                                    {
+                                        attr: "other",
+                                        title: strings.otherinf,
+                                        class: "",
+                                        disabled: !(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
+                                            (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                            this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0))),
+                                    },]}
                                     onClick={this.onClick}
                                 />
 
