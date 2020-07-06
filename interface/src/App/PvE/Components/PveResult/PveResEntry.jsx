@@ -102,11 +102,11 @@ class PveResEntry extends React.PureComponent {
 
 
         //make server pve request
-        var url = encodePveAttacker(newPok) + "/" + encodePveBoss(this.props.snapshot.bossObj) + "/" + encodePveObj(this.props.snapshot.pveObj)
+        let url = encodePveAttacker(newPok) + "/" + encodePveBoss(this.props.snapshot.bossObj) + "/" + encodePveObj(this.props.snapshot.pveObj)
         this.setState({
             loading: true,
         });
-        var reason = ""
+        let reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
             method: 'GET',
             headers: {

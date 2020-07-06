@@ -100,7 +100,7 @@ class CommonPve extends React.PureComponent {
 
 
     onIvChange(event) {
-        var role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute('attr')
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -110,7 +110,7 @@ class CommonPve extends React.PureComponent {
     }
 
     onLevelChange(event) {
-        var role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute('attr')
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -120,7 +120,7 @@ class CommonPve extends React.PureComponent {
     }
 
     onTypeChange(event) {
-        var role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute('attr')
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -134,7 +134,6 @@ class CommonPve extends React.PureComponent {
         switch (category.includes("Charge")) {
             case true:
                 var newMovePool = [...this.state[attr].chargeMovePool]
-
                 newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
                 this.setState({
                     [attr]: {
@@ -223,12 +222,12 @@ class CommonPve extends React.PureComponent {
             bossObj: { ...this.state.bossObj },
             pveObj: { ...this.state.pveObj },
         }
-        var url = encodePveAttacker(this.state.attackerObj) + "/" + encodePveBoss(this.state.bossObj) + "/" + encodePveObj(this.state.pveObj)
+        let url = encodePveAttacker(this.state.attackerObj) + "/" + encodePveBoss(this.state.bossObj) + "/" + encodePveObj(this.state.pveObj)
         event.preventDefault();
         this.setState({
             loading: true,
         });
-        var reason = ""
+        let reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
             method: 'GET',
             headers: {
@@ -285,7 +284,7 @@ class CommonPve extends React.PureComponent {
     };
 
     onClick(event) {
-        var role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute('attr')
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
         }

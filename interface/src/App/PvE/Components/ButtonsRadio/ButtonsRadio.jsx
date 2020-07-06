@@ -17,7 +17,6 @@ class ButtonsRadio extends PureComponent {
     render() {
         return (
             <div className={this.props.class} data-toggle="buttons">
-
                 <SingleButton
                     name="damage"
                     label={pvestrings.damage}

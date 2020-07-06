@@ -146,7 +146,7 @@ class PvePage extends React.Component {
             loading: true,
         })
 
-        var extrData = extractRaidData(party, boss, obj)
+        let extrData = extractRaidData(party, boss, obj)
         //after opening the page get pokemonBase
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
@@ -174,8 +174,8 @@ class PvePage extends React.Component {
                 },
             }))
         }
-        var reason = ""
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let reason = ""
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -204,7 +204,7 @@ class PvePage extends React.Component {
         if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
             parses.push(responses[2].json())
         }
-        var results = await Promise.all(parses)
+        let results = await Promise.all(parses)
 
         let pokList = [];
         if (results[0]) {
@@ -256,7 +256,6 @@ class PvePage extends React.Component {
             var attackerObj = this.setUpPokemon(extractPveAttacker(extrData.attackerObj), results[0])
         }
         if (extrData.bossObj !== undefined) {
-
             var bossObj = this.setUpPokemon(extractPveBoss(extrData.bossObj), results[0], true)
         }
         if (extrData.pveObj !== undefined) {
@@ -283,7 +282,7 @@ class PvePage extends React.Component {
     }
 
     setUpPokemon(pok, pokemonTable, isBoss) {
-        var moves = returnMovePool(pok.Name, pokemonTable, strings.options.moveSelect,
+        let moves = returnMovePool(pok.Name, pokemonTable, strings.options.moveSelect,
             isBoss, [pok.QuickMove], [pok.ChargeMove])
         pok.quickMovePool = moves.quickMovePool
         pok.chargeMovePool = moves.chargeMovePool
