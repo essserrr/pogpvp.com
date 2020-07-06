@@ -7,12 +7,11 @@ import Errors from "../PvP/components/Errors/Errors"
 import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import Tier from "../RaidsList/Tier/Tier"
-import Range from "../RaidsList/Range/Range"
 import Checkbox from "../RaidsList/Checkbox/Checkbox"
-import Type from "../PvP/components/CpAndTypes/Type"
 import Loader from "../PvpRating/Loader"
+import CardBody from "./CardBody"
 
-import { getCookie, typeDecoder, culculateCP, capitalizeFirst } from "../../js/indexFunctions"
+import { getCookie, capitalizeFirst } from "../../js/indexFunctions"
 import { locale } from "../../locale/locale"
 import { regionLocale } from "../../locale/regionLocale"
 import { ReactComponent as Egg2km } from "../../icons/egg2km.svg";
@@ -69,8 +68,8 @@ class EggsList extends React.Component {
                 },
             }),
         ];
-        var reason = ""
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let reason = ""
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -88,8 +87,8 @@ class EggsList extends React.Component {
             responses[0].json(),
             responses[1].json(),
         ]
-        var results = await Promise.all(parses)
 
+        let results = await Promise.all(parses)
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
                 this.setState({
@@ -125,8 +124,6 @@ class EggsList extends React.Component {
 
 
     returnRaidsList(tierList, pokTable, showReg) {
-        let result = []
-
         let matrix = [
             "10KM Eggs",
             "7KM Gift Eggs",
@@ -136,96 +133,64 @@ class EggsList extends React.Component {
             "5KM Eggs (25KM)",
         ]
         //for every matrix entry
-        for (var i = 0; matrix.length > i; i++) {
-            var bucket = []
-            for (var j = 0; j < tierList[matrix[i]].length; j++) {
+        return matrix.map((block, i) => {
+            return tierList[block].reduce((result, elem) => {
                 //format title string
-                var name = tierList[matrix[i]][j].replace("’", "")
+                let name = elem.replace("’", "")
                 if (!pokTable[name]) {
                     name = capitalizeFirst(name)
                 }
+                if (!pokTable[name]) {
+                    console.log(name + " not found")
+                    return result
+                }
                 //skip reginals if regionals are not selected
                 if (!showReg && regionals[name]) {
-                    continue
+                    return result
                 }
-
-                bucket.push(
+                result.push(
                     <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-2"}>
                         <PokemonCard
                             class={"pokEggCard  m-0 p-0 pb-1"}
-                            name={
-                                <div className="text-center">
-                                    <>{name}</>
-                                    {regionals[name] &&
-                                        <i data-tip data-for={name} className="fas fa-info-circle ml-1">
-                                            {regionals[name] && <ReactTooltip
-                                                className={"infoTip"}
-                                                id={name} effect='solid'
-                                                place={"top"}
-                                                multiline={true}
-                                            >
-                                                {regions[regionals[name]]}
-                                            </ReactTooltip>}
-                                        </i>
-                                    }
+                            name={<div className="text-center">
+                                <>{name}</>
+                                {regionals[name] &&
+                                    <i data-tip data-for={name} className="fas fa-info-circle ml-1">
+                                        {regionals[name] && <ReactTooltip
+                                            className={"infoTip"}
+                                            id={name} effect='solid'
+                                            place={"top"}
+                                            multiline={true}
+                                        >
+                                            {regions[regionals[name]]}
+                                        </ReactTooltip>}
+                                    </i>}
+                            </div>}
+                            icon={<a
+                                title={strings.dexentr + name}
+                                href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
+                                    encodeURIComponent(name)}
+                            >
+                                <PokemonIconer
+                                    src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                                    class={"icon48"} />
+                            </a>}
 
-                                </div>
-                            }
-                            icon={
-                                <a
-                                    title={strings.dexentr + name}
-                                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                                        encodeURIComponent(name)}
-                                >
-                                    <PokemonIconer
-                                        src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                                        class={"icon48"} />
-                                </a>}
-                            body={this.generateBody(name, pokTable)
-                            }
-
+                            body={<CardBody
+                                name={name}
+                                pokTable={pokTable}
+                            />}
                             classBodyWrap="row justify-content-center justify-content-sm-between m-0 p-0"
                             classHeader={"cardHeader col-12 m-0 p-0 px-1 mb-1 text-center"}
                             classIcon={"icon48 m-0 p-0 ml-0 ml-sm-1 align-self-center"}
                             classBody={"eggCardBody  row  m-0 py-1 justify-content-left"}
                         />
                     </div>)
-            }
-            result.push(bucket)
-        }
-        return result
+                return result
+            }, [])
+        });
     }
 
-
-
-
-    generateBody(name, pokemonTable) {
-        //if there is an error, report it
-        if (!pokemonTable[name]) {
-            console.log(name + " not found")
-            return
-        }
-        return <>
-            <div className="col-12 text-center  m-0 p-0 align-self-start">
-                {(pokemonTable[name]["Type"][0] !== undefined) && <Type
-                    class={"icon18"}
-                    code={pokemonTable[name]["Type"][0]}
-                    value={typeDecoder[pokemonTable[name]["Type"][0]]}
-                />}
-                {(pokemonTable[name]["Type"][1] !== undefined) && <Type
-                    class={"ml-2 icon18"}
-                    code={pokemonTable[name]["Type"][1]}
-                    value={typeDecoder[pokemonTable[name]["Type"][1]]}
-                />}
-            </div>
-            <Range
-                title="CP: "
-                innerClass="col-12 text-center p-0 m-0 align-self-end"
-                left={culculateCP(name, 15, 10, 10, 10, pokemonTable)}
-                right={culculateCP(name, 15, 15, 15, 15, pokemonTable)}
-            />
-        </>
-    }
 
     render() {
         return (
