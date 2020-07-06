@@ -264,13 +264,8 @@ class SimulatorPanel extends React.PureComponent {
                     />
                 </div>
 
-
-
-
                 {(this.props.pokemonTable[this.props.value.name] && this.props.value.name) &&
                     <>
-
-
                         <Stats
                             Lvl={this.props.value.Lvl}
                             Atk={this.props.value.Atk}
@@ -279,10 +274,6 @@ class SimulatorPanel extends React.PureComponent {
                             attr={this.props.attr}
                             onChange={this.props.onChange}
                         />
-
-
-
-
 
                         <SelectGroup
                             name="IsShadow"
@@ -299,9 +290,6 @@ class SimulatorPanel extends React.PureComponent {
                             tip={strings.tips.shadow}
                             tipClass='strategyTips'
                         />
-
-
-
                     </>}
             </div>
         )

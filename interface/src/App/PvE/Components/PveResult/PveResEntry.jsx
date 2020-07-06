@@ -165,63 +165,42 @@ class PveResEntry extends React.PureComponent {
     }
 
     generateCards() {
-        let arr = []
-        arr.push(
-            <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"pres"}>
-                <SubmitButton
-                    label={pveStrings.pres}
-                    action="Precision"
-                    onSubmit={this.rerunWithPrecision}
-                    class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
-                />
-            </div>)
-        arr.push(
-            <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"break"}>
-                <SubmitButton
-                    label={pveStrings.break}
-                    action="Breakpoints"
-                    onSubmit={this.defineBreakpoints}
-                    class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
-                />
-            </div>)
-        for (let i = 0; i < this.props.pokemonRes.length; i++) {
-            arr.push(
-                <div className="col-12 pveResult animShiny m-0 p-0 p-2 my-1 " key={this.props.pokemonRes[i].BQ + this.props.pokemonRes[i].BCh}>
-                    <div className="col-12 d-flex m-0 p-0">
-                        <WeatherMoves
-                            pokQick={this.props.moveTable[this.props.pokemonRes[i].BQ]}
-                            pokCh={this.props.moveTable[this.props.pokemonRes[i].BCh]}
-                            snapshot={this.props.snapshot}
-                        />
-                    </div>
-                    <div className="col-12 m-0 p-0 mt-2">
-                        <HpBar
-                            upbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DMin)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                            lowbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DMax)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                            length={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(this.props.pokemonRes[i].DAvg)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                        />
-                    </div>
-                    <div className="col-12 m-0 p-0 fBolder">
-                        <HpRemaining
-                            locale={pveStrings.hprem}
-                            DAvg={this.damageString(this.props.pokemonRes[i].DAvg)}
-                            DMax={this.damageString(this.props.pokemonRes[i].DMax)}
-                            DMin={this.damageString(this.props.pokemonRes[i].DMin)}
-                            NOfWins={this.props.pokemonRes[i].NOfWins}
-                            tierHP={this.props.tables.hp[this.props.snapshot.bossObj.Tier]}
-                        />
-                    </div>
-                    <div className="col-12 m-0 p-0">
-                        <FightStats
-                            locale={pveStrings.s}
-                            tables={this.props.tables}
-                            snapshot={this.props.snapshot}
-                            avgStats={this.props.pokemonRes[i]}
-                        />
-                    </div>
-                </div>)
-        }
-        return arr
+        return this.props.pokemonRes.map((elem) => {
+            return <div className="col-12 pveResult animShiny m-0 p-0 p-2 my-1 " key={elem.BQ + elem.BCh}>
+                <div className="col-12 d-flex m-0 p-0">
+                    <WeatherMoves
+                        pokQick={this.props.moveTable[elem.BQ]}
+                        pokCh={this.props.moveTable[elem.BCh]}
+                        snapshot={this.props.snapshot}
+                    />
+                </div>
+                <div className="col-12 m-0 p-0 mt-2">
+                    <HpBar
+                        upbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(elem.DMin)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
+                        lowbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(elem.DMax)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
+                        length={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(elem.DAvg)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
+                    />
+                </div>
+                <div className="col-12 m-0 p-0 fBolder">
+                    <HpRemaining
+                        locale={pveStrings.hprem}
+                        DAvg={this.damageString(elem.DAvg)}
+                        DMax={this.damageString(elem.DMax)}
+                        DMin={this.damageString(elem.DMin)}
+                        NOfWins={elem.NOfWins}
+                        tierHP={this.props.tables.hp[this.props.snapshot.bossObj.Tier]}
+                    />
+                </div>
+                <div className="col-12 m-0 p-0">
+                    <FightStats
+                        locale={pveStrings.s}
+                        tables={this.props.tables}
+                        snapshot={this.props.snapshot}
+                        avgStats={elem}
+                    />
+                </div>
+            </div>
+        });
     }
 
     render() {
@@ -299,6 +278,25 @@ class PveResEntry extends React.PureComponent {
                                     </div>}
                                 {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 m-0 mb-2 mt-3" >
                                     <Errors class="alert alert-danger m-0 p-2" value={this.state.error} /></div>}
+                                <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"pres"}>
+                                    <SubmitButton
+                                        label={pveStrings.pres}
+                                        action="Precision"
+                                        onSubmit={this.rerunWithPrecision}
+                                        class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
+                                    />
+                                </div>
+                                <div className="col-12 d-flex justify-content-center m-0 p-0 mb-1 mt-2" key={"break"}>
+                                    <SubmitButton
+                                        label={pveStrings.break}
+                                        action="Breakpoints"
+                                        onSubmit={this.defineBreakpoints}
+                                        class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
+                                    />
+                                </div>
+
+
+
                                 {this.state.colElement}
                             </div>
                         </UnmountClosed>

@@ -60,14 +60,11 @@ class PveResult extends React.PureComponent {
     };
 
     generateList() {
-        let arr = []
-        this.appendFromTo(0, (this.props.result.length >= 25 ? 25 : this.props.result.length), arr, this.props.result)
-
         this.setState({
             isNextPage: this.props.result.length > 25 ? true : false,
             n: this.props.result.length > 25 ? 2 : 1,
 
-            listToShow: arr,
+            listToShow: this.appendFromTo(0, (this.props.result.length >= 25 ? 25 : this.props.result.length), this.props.result),
             param: "damage",
         })
     }
@@ -75,14 +72,11 @@ class PveResult extends React.PureComponent {
     loadMore() {
         let upperBound = this.props.result.length >= this.state.n * 25 ? this.state.n * 25 : this.props.result.length
         let lowerBound = (this.state.n - 1) * 25
-        let arr = []
-        this.appendFromTo(lowerBound, upperBound, arr, this.props.result)
-
         this.setState({
             isNextPage: (this.props.result.length > this.state.n * 25 ? true : false) && (this.state.n * 25 < 150),
             n: this.props.result.length > this.state.n * 25 ? this.state.n + 1 : this.state.n,
 
-            listToShow: [...this.state.listToShow, ...arr],
+            listToShow: [...this.state.listToShow, ...this.appendFromTo(lowerBound, upperBound, this.props.result)],
         })
     }
 
@@ -112,10 +106,10 @@ class PveResult extends React.PureComponent {
         })
     }
 
-    appendFromTo(from, to, target, res) {
+    appendFromTo(from, to, res) {
+        let target = []
         for (let i = from; i < to; i++) {
             target.push(
-
                 <PveResEntry
                     key={i}
 
@@ -135,42 +129,21 @@ class PveResult extends React.PureComponent {
                 />
             )
         }
+        return target
     }
 
-    showBreakpoints(obj) {
-        this.setState({
-            showBreakpoints: true,
-            breakpObj: obj,
-        })
-    }
-
-    onClick(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-
-        this.setState({
-            showBreakpoints: false,
-        });
-    }
 
     onSortChange(event) {
-        let data = []
-
         switch (event.target.name) {
             case "dps":
-                data = this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180)
+                var data = this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180)
                 break
             default:
                 data = this.sortByDamage()
         }
 
-
-        let arr = []
-        this.appendFromTo(0, this.state.listToShow.length, arr, data)
-
         this.setState({
-            listToShow: arr,
+            listToShow: this.appendFromTo(0, this.state.listToShow.length, data),
             param: event.target.name,
         })
 
@@ -219,6 +192,22 @@ class PveResult extends React.PureComponent {
 
             return dpsB - dpsA
         })
+    }
+
+    showBreakpoints(obj) {
+        this.setState({
+            showBreakpoints: true,
+            breakpObj: obj,
+        })
+    }
+
+    onClick(event) {
+        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
+            return
+        }
+        this.setState({
+            showBreakpoints: false,
+        });
     }
 
     render() {
