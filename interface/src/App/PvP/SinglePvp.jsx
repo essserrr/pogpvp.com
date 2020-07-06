@@ -419,7 +419,7 @@ class SinglePvp extends React.PureComponent {
             return;
         }
         //otherwise set state
-        window.history.pushState("object or string", "Title", "/pvp/single/" + url + (this.props.parentState.pvpoke ? "/pvpoke" : ""));
+        this.props.changeUrl("/pvp/single/" + url + (this.props.parentState.pvpoke ? "/pvpoke" : ""))
         this.setState({
             showResult: true,
             isError: false,

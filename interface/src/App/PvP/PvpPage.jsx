@@ -71,6 +71,7 @@ class PvpPage extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.onPvpokeEnable = this.onPvpokeEnable.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.changeUrl = this.changeUrl.bind(this);
     }
 
 
@@ -85,15 +86,18 @@ class PvpPage extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const update = this.updateState
-        window.onpopstate = function (event) {
-            let windowPath = window.location.pathname.split('/').slice(2)
-            let league = windowPath[1]
-            let pok1 = windowPath[2]
-            let pok2 = windowPath[3]
-            let simtype = windowPath[4]
-            update(league, pok1, pok2, simtype)
+        if (this.props.match.params.league === prevProps.match.params.league &&
+            this.props.match.params.pok1 === prevProps.match.params.pok1 &&
+            this.props.match.params.pok2 === prevProps.match.params.pok2 &&
+            this.props.match.params.simtype === prevProps.match.params.simtype) {
+            return
         }
+        this.updateState(
+            this.props.match.params.league,
+            this.props.match.params.pok1,
+            this.props.match.params.pok2,
+            this.props.match.params.simtype,
+        )
     }
 
 
@@ -257,6 +261,10 @@ class PvpPage extends React.Component {
         })
     }
 
+    changeUrl(url) {
+        this.props.history.push(url)
+    }
+
 
     render() {
         return (
@@ -325,7 +333,8 @@ class PvpPage extends React.Component {
                         </div>}
                         <div className="col-12 superBig m-0 p-0">
                             {(this.state.isLoaded && (this.props.match.params.type === "single")) &&
-                                <SinglePvp parentState={this.state} />
+                                <SinglePvp parentState={this.state}
+                                    changeUrl={this.changeUrl} />
                             }
                             {(this.state.isLoaded && (this.props.match.params.type === "matrix")) &&
                                 <MatrixPvp parentState={this.state} />
