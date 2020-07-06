@@ -206,8 +206,8 @@ class Movedex extends React.Component {
             <>
                 <SiteHelm
                     url="https://pogpvp.com/pokedex"
-                    header={strings.pdtitle}
-                    descr={strings.pddescr}
+                    header={strings.helm.pdtitle}
+                    descr={strings.helm.pddescr}
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">

@@ -3,22 +3,29 @@ export const dexLocale = {
         Atk: "Atk",
         Def: "Def",
         Sta: "Sta",
+        atkFull: "Attack",
+        defFull: "Defence",
+        staFull: "Stamina",
+
         Opponent: "opponent",
         Self: "self",
         of: " of ",
         ch: "% chance to affect",
         by: " by ",
+
         moveplace: "Search move name",
         pokplace: "Search pokemon name",
 
-        mdtitle: "Movedex | PogPvP.com",
-        mddescr: "List of all currently available moves in Pokemon Go",
-        mdsdescr: " description in Pokemon Go",
-        loading: "Loading...",
-        pdtitle: "Pokedex | PogPvP.com",
-        pddescr: "List of all currently available pokemon in Pokemon Go",
+        helm: {
+            mdtitle: "Movedex | PogPvP.com",
+            mddescr: "List of all currently available moves in Pokemon Go",
+            pdtitle: "Pokedex | PogPvP.com",
+            pddescr: "List of all currently available pokemon in Pokemon Go",
+        },
 
+        mdsdescr: " description in Pokemon Go",
         dexentr: "View dex for ",
+        loading: "Loading...",
 
         mt: {
             n: "Name",
@@ -58,69 +65,67 @@ export const dexLocale = {
             ept: "Energy per turn",
         },
 
+        pokerr: "Pokemon not found",
+        moveerr: "Move not found",
 
-        mtype: "Move type",
-        macat: "Move category",
         chm: "Charge move",
         qm: "Quick move",
+        vunlist: "Effectiveness",
+        used: "Pokemon with this move",
+
+        dless: "Deal less damage to ",
+        dmore: "Deal more damage to ",
 
         generation: "Generation",
-
-        atkFull: "Attack",
-        defFull: "Defence",
-        staFull: "Stamina",
+        movelist: "Moves",
+        evochart: "Evolution",
+        cpcalc: "CP calculator",
+        otherinf: "Other",
 
         dabbr: "D",
         cdabbr: "CD",
         s: "s",
 
-        movelist: "Moves",
-        vunlist: "Effectiveness",
-        used: "Pokemon with this move",
+        stage: "Stage",
+        resist: "Resistant to ",
+        weak: "Weak to ",
+        entparams: "Enter paremeters to calculate CP",
 
-        pokerr: "Pokemon not found",
-        moveerr: "Move not found",
-        cpcalc: "CP calculator",
-        otherinf: "Other",
         infot: {
             bud: "Buddy distance (km)",
             pur: "Purification cost",
             reg: "Region",
             sec: "Second charge cost",
         },
-        evochart: "Evolution",
-        stage: "Stage",
-
-        resist: "Resistant to ",
-        weak: "Weak to ",
-        dless: "Deal less damage to ",
-        dmore: "Deal more damage to ",
-        entparams: "Enter paremeters to calculate CP",
-
-        showCh: "Charge moves",
-        showQck: "Quick moves",
     },
 
     ru: {
         Atk: "Атк",
         Def: "Защ",
         Sta: "Здр",
+        atkFull: "Атака",
+        defFull: "Защита",
+        staFull: "Здоровье",
+
         Opponent: "противника",
         Self: "себя",
         of: " у ",
         ch: "% шанс изменить",
         by: " на ",
+
         moveplace: "Поиск по названию умения",
         pokplace: "Поиск по имени покемона",
 
-        mdtitle: "Мувдекс | PogPvP.com",
-        mddescr: "Список всех допустных в Pokemon Go умений",
-        mdsdescr: " описание в Pokemon Go",
-        loading: "Загрузка...",
-        pdtitle: "Покедекс | PogPvP.com",
-        pddescr: "Список всех допустных в Pokemon Go покемонов",
+        helm: {
+            mdtitle: "Мувдекс | PogPvP.com",
+            mddescr: "Список всех допустных в Pokemon Go умений",
+            pdtitle: "Покедекс | PogPvP.com",
+            pddescr: "Список всех допустных в Pokemon Go покемонов",
+        },
 
+        mdsdescr: " описание в Pokemon Go",
         dexentr: "Открыть декс для ",
+        loading: "Загрузка...",
 
         mt: {
             n: "Имя",
@@ -132,7 +137,6 @@ export const dexLocale = {
             cd: "ПР",
             dr: "ДЛ",
             ef: "ЭФ",
-
             gen: "Покол.",
         },
 
@@ -160,45 +164,37 @@ export const dexLocale = {
             ept: "Энергия за ход",
         },
 
-        mtype: "Тип мува",
-        macat: "Категория мува",
-        chm: "Заряжаемое умение",
-        qm: "Быстрое умение",
+        pokerr: "Покемон не найден",
+        moveerr: "Умение не найдено",
+
+        chm: "Заряжаемые умения",
+        qm: "Быстрые умения",
+        vunlist: "Эффективность",
+        used: "Покемоны с этим умением",
+
+        dless: "Наносит меньше урона ",
+        dmore: "Наносит больше урона ",
 
         generation: "Поколение",
-
-        atkFull: "Атака",
-        defFull: "Защита",
-        staFull: "Здоровье",
+        movelist: "Умения",
+        evochart: "Эволюции",
+        cpcalc: "Калькулятор CP",
+        otherinf: "Другое",
 
         dabbr: "У",
         cdabbr: "ПР",
         s: "с",
 
-        movelist: "Мувы",
-        vunlist: "Эффективность",
-        used: "Покемоны с этим мувом",
+        stage: "Стадия",
+        resist: "Сопротивления ",
+        weak: "Слабости ",
+        entparams: "Введите парметры, что бы посчитать CP",
 
-        pokerr: "Покемон не найден",
-        moveerr: "Мув не найден",
-        cpcalc: "Калькулятор CP",
-        otherinf: "Другое",
         infot: {
             bud: "Расстояние бадди (км)",
             pur: "Стоимость очищения",
             reg: "Регион",
             sec: "Стоимость второго чарджа",
         },
-        evochart: "Эволюции",
-
-        stage: "Стадия",
-        resist: "Сопротивления ",
-        weak: "Слабости ",
-        dless: "Наносит меньше урона ",
-        dmore: "Наносит больше урона ",
-        entparams: "Введите парметры, что бы посчитать CP",
-
-        showCh: "Заряжаемые мувы",
-        showQck: "Быстрые мувы",
     }
 }

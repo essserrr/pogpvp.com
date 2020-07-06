@@ -244,8 +244,8 @@ class Movedex extends React.Component {
             <>
                 <SiteHelm
                     url="https://pogpvp.com/movedex"
-                    header={strings.mdtitle}
-                    descr={strings.mddescr}
+                    header={strings.helm.mdtitle}
+                    descr={strings.helm.mddescr}
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
@@ -279,12 +279,12 @@ class Movedex extends React.Component {
                                         onClick={this.onFilter}
                                         buttons={[{
                                             attr: "showCharge",
-                                            title: strings.showCh,
+                                            title: strings.chm,
                                             class: this.state.filter.showCharge ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                         },
                                         {
                                             attr: "showQuick",
-                                            title: strings.showQck,
+                                            title: strings.qm,
                                             class: this.state.filter.showQuick ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                         },]}
                                     />
