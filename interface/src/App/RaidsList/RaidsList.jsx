@@ -109,7 +109,6 @@ class RaidsList extends React.Component {
         for (let i = 5; i > 0; i--) {
             raidList.push(
                 tierList["Tier " + i].reduce((result, elem) => {
-                    console.log(elem)
                     let name = elem.replace("’", "")
                     if (!pokTable[name]) {
                         name = capitalizeFirst(name)

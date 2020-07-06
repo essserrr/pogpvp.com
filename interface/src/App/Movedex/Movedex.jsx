@@ -10,6 +10,7 @@ import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
+import TypeRow from "./TypeRow/TypeRow"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -24,10 +25,7 @@ class Movedex extends React.Component {
         this.state = {
             name: "",
             active: {},
-            filter: {
-                showQuick: false,
-                showCharge: false,
-            },
+            filter: {},
 
 
             showLegend: false,
@@ -147,7 +145,7 @@ class Movedex extends React.Component {
         if (this.state.blockSort) {
             return
         }
-        let attr = event.target.getAttribute('attr')
+        let attr = event.currentTarget.getAttribute('attr')
         let newList = this.state.originalList.filter(e => {
             return (e.key.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1) &&
                 this.filterArr(e, { ...this.state.filter, [attr]: !this.state.filter[attr] })
@@ -167,13 +165,20 @@ class Movedex extends React.Component {
 
     filterArr(e, filter) {
         let corresponds = true
-        if (filter.showCharge !== false || filter.showQuick !== false) {
+        if (filter.showCharge || filter.showQuick) {
             switch (e.props.value.MoveCategory) {
                 case "Charge Move":
                     corresponds *= filter.showCharge
                     break
                 default:
                     corresponds *= filter.showQuick
+            }
+        }
+        if (filter.type0 || filter.type1 || filter.type2 || filter.type3 || filter.type4 || filter.type5 ||
+            filter.type6 || filter.type7 || filter.type8 || filter.type9 || filter.type10 || filter.type11 ||
+            filter.type12 || filter.type13 || filter.type14 || filter.type15 || filter.type16 || filter.type17) {
+            if (!filter["type" + e.props.value.MoveType]) {
+                corresponds *= false
             }
         }
         return corresponds
@@ -223,7 +228,6 @@ class Movedex extends React.Component {
 
     sortString(fieldName, arr) {
         return arr.sort(function (a, b) {
-            console.log(a)
             if (a.props.value[fieldName] > b.props.value[fieldName]) {
                 return -1;
             }
@@ -284,6 +288,11 @@ class Movedex extends React.Component {
                                             class: this.state.filter.showQuick ? "col py-1 dexRadio active" : "col py-1 dexRadio",
                                         },]}
                                     />
+                                    <TypeRow
+                                        filter={this.state.filter}
+                                        onFilter={this.onFilter}
+                                    />
+
 
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
