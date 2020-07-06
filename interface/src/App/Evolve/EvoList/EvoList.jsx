@@ -16,8 +16,6 @@ class EvoList extends PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        this.state = {};
-        this.returnEvolveList = this.returnEvolveList.bind(this);
     }
 
 
@@ -27,7 +25,7 @@ class EvoList extends PureComponent {
         this.evolist(state.pokemonTable[state.name], state.pokemonTable, list, 0)
 
         //makes structured list of evocards from generated list
-        let structuredResult = list.reduce(function (result, elem) {
+        let structuredResult = list.reduce((result, elem) => {
             if (!result[elem.stage]) {
                 result.push([])
             }

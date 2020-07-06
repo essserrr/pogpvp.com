@@ -112,6 +112,7 @@ class PvePage extends React.Component {
         };
         this.updateState = this.updateState.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.changeUrl = this.changeUrl.bind(this);
     }
 
 
@@ -125,15 +126,17 @@ class PvePage extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const update = this.updateState
-        window.onpopstate = function (event) {
-            let windowPath = window.location.pathname.split('/').slice(2)
-            let party = windowPath[1]
-            let boss = windowPath[2]
-            let obj = windowPath[3]
-
-            update(party, boss, obj)
+        if (this.props.match.params.attacker === prevProps.match.params.attacker &&
+            this.props.match.params.boss === prevProps.match.params.boss &&
+            this.props.match.params.obj === prevProps.match.params.obj) {
+            return
         }
+
+        this.updateState(
+            this.props.match.params.attacker,
+            this.props.match.params.boss,
+            this.props.match.params.obj,
+        )
     }
 
 
@@ -293,6 +296,10 @@ class PvePage extends React.Component {
         })
     }
 
+    changeUrl(url) {
+        this.props.history.push(url)
+    }
+
     render() {
         return (
             <>
@@ -316,6 +323,7 @@ class PvePage extends React.Component {
                         </div>}
                         <div className="col-12 m-0 p-0 px-1">
                             {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonPve
+                                changeUrl={this.changeUrl}
                                 parentState={this.state}
                             />}
                         </div>

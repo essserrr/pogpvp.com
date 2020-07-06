@@ -271,7 +271,7 @@ class CommonPve extends React.PureComponent {
             return;
         }
         //otherwise set state
-        window.history.pushState("object or string", "Title", "/pve/common/" + url);
+        this.props.changeUrl("/pve/common/" + url)
         this.setState({
             showResult: true,
             isError: false,
@@ -287,7 +287,6 @@ class CommonPve extends React.PureComponent {
 
     onClick(event) {
         var role = event.target.getAttribute('attr')
-
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
         }

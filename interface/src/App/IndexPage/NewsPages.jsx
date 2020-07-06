@@ -91,8 +91,8 @@ class NewsPages extends React.Component {
 
 
     parseNewsList(list) {
-        return list.map((el, i) => {
-            let parsed = JSON.parse(el)
+        return list.map((elem, i) => {
+            let parsed = JSON.parse(elem)
             return <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
                 "/news/id/" + parsed.ID}>
                 <News

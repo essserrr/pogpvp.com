@@ -86,12 +86,13 @@ class PvpRating extends React.Component {
 
 
     componentDidUpdate(prevProps) {
-        if (prevProps.match.params.league !== this.props.match.params.league ||
-            prevProps.match.params.type !== this.props.match.params.type) {
-            let obj = this.returnUpdObj(this.props.match.params.league ? capitalizeFirst(this.props.match.params.league) : "",
-                this.props.match.params.type ? String(this.props.match.params.type) : "")
-            this.updateState(obj.defaultLeague, obj.defaultType, obj.defaultPath)
+        if (prevProps.match.params.league === this.props.match.params.league &&
+            prevProps.match.params.type === this.props.match.params.type) {
+            return
         }
+        let obj = this.returnUpdObj(this.props.match.params.league ? capitalizeFirst(this.props.match.params.league) : "",
+            this.props.match.params.type ? String(this.props.match.params.type) : "")
+        this.updateState(obj.defaultLeague, obj.defaultType, obj.defaultPath)
     }
 
     returnUpdObj(leagueString, typeString) {
