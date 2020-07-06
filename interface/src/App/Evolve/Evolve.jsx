@@ -7,7 +7,7 @@ import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SearchableSelect from "../PvP/components/SearchableSelect/SearchableSelect"
 import Stats from "../PvP/components/Stats/Stats"
 import Errors from "../PvP/components/Errors/Errors"
-import EvoList from "./EvoList"
+import EvoList from "./EvoList/EvoList"
 import Loader from "../PvpRating/Loader"
 
 import { locale } from "../../locale/locale"
@@ -143,9 +143,6 @@ class Evolve extends React.Component {
             return
         }
     }
-
-
-
 
     render() {
         return (

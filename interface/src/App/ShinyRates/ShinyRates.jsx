@@ -40,7 +40,6 @@ class ShinyRates extends React.Component {
         this.setState({
             loading: true,
         })
-        let reason = ""
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: 'GET',
@@ -56,8 +55,8 @@ class ShinyRates extends React.Component {
                     'Accept-Encoding': 'gzip',
                 },
             }),
-            //after opening the page get pokemonBase
         ];
+        let reason = ""
         let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
@@ -101,7 +100,7 @@ class ShinyRates extends React.Component {
         });
     }
 
-    //generator functions
+    //generator function
     parseShinyRates(list, pokTable) {
         let result = []
         for (const [key, value] of Object.entries(list)) {

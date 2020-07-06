@@ -8,7 +8,7 @@ import Collapsable from "./Collapsable/Collapsable"
 import Errors from "../PvP/components/Errors/Errors"
 import Type from "../PvP/components/CpAndTypes/Type"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup";
-import PokemonCard from "../Evolve/PokemonCard"
+import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import RatingDescr from "./RatingDescr/RatingDescr"
 import Loader from "./Loader"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"

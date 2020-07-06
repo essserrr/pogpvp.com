@@ -4,7 +4,7 @@ import LocalizedStrings from 'react-localization';
 import ReactTooltip from "react-tooltip"
 
 import Errors from "../PvP/components/Errors/Errors"
-import PokemonCard from "../Evolve/PokemonCard"
+import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import Tier from "../RaidsList/Tier/Tier"
 import Range from "../RaidsList/Range/Range"

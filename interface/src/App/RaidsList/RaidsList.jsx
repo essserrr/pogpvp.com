@@ -3,7 +3,7 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from 'react-localization';
 
 import Errors from "../PvP/components/Errors/Errors"
-import PokemonCard from "../Evolve/PokemonCard"
+import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import Type from "../PvP/components/CpAndTypes/Type"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import IconMultiplicator from "./IconMultiplicator/IconMultiplicator"
