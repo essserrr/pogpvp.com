@@ -38,13 +38,13 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
+                    className="clickable align-text-top borderLeft p-0 py-2 mx-0 mx-sm-2"
                     name="Damage" scope="col">
                     <Header
                         checked={props.active.field === "Damage"}
                         title={strings.mt.rd}
                         class="ml-2 align-self-center "
-                        classOut="row m-0 p-0 justify-content-center"
+                        classOut="row m-0 p-0  justify-content-center"
 
                     />
                 </th>
@@ -74,7 +74,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
+                    className="clickable align-text-top borderLeft p-0 py-2 mx-0 mx-sm-2"
                     name="PvpDamage"
                     scope="col">
                     <Header
@@ -87,7 +87,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 mx-0 mx-sm-2"
+                    className="clickable align-text-top  p-0 py-2 mx-0 mx-sm-2"
                     name="PvpEnergy" scope="col">
                     <Header
                         checked={props.active.field === "PvpEnergy"}
