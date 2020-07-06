@@ -54,8 +54,8 @@ class Movedex extends React.Component {
                 },
             }),
         ];
-        var reason = ""
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let reason = ""
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -72,8 +72,8 @@ class Movedex extends React.Component {
         let parses = [
             responses[0].json(),
         ]
-        var results = await Promise.all(parses)
 
+        let results = await Promise.all(parses)
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
                 this.setState({
@@ -195,8 +195,8 @@ class Movedex extends React.Component {
         if (this.state.blockSort) {
             return
         }
-        var fieldName = event.currentTarget.getAttribute('name')
-        var fieldType = event.currentTarget.getAttribute('coltype')
+        let fieldName = event.currentTarget.getAttribute('name')
+        let fieldType = event.currentTarget.getAttribute('coltype')
         switch (this.state.active.field === fieldName) {
             case true:
                 this.setState({

@@ -8,7 +8,7 @@ const UsesList = React.memo(function (props) {
     for (const [key, value] of Object.entries(props.pokTable)) {
         switch (props.move.MoveCategory === "Charge Move") {
             case true:
-                if (findIn(value.ChargeMoves, props.move.Title)) {
+                if (value.ChargeMoves.includes(props.move.Title)) {
                     list.push(
                         <ListElement
                             key={key}
@@ -18,7 +18,7 @@ const UsesList = React.memo(function (props) {
                 }
                 break
             default:
-                if (findIn(value.QuickMoves, props.move.Title)) {
+                if (value.QuickMoves.includes(props.move.Title)) {
                     list.push(
                         <ListElement
                             key={key}
@@ -27,16 +27,6 @@ const UsesList = React.memo(function (props) {
                         />)
                 }
         }
-
-    }
-
-    function findIn(arr, string) {
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i] === string) {
-                return true
-            }
-        }
-        return false
     }
 
     return (

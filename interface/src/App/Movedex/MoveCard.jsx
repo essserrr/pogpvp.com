@@ -54,8 +54,8 @@ class MoveCard extends React.Component {
                 },
             }),
         ];
-        var reason = ""
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let reason = ""
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -73,7 +73,7 @@ class MoveCard extends React.Component {
             responses[0].json(),
             responses[1].json(),
         ]
-        var results = await Promise.all(parses)
+        let results = await Promise.all(parses)
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {

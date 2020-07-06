@@ -14,9 +14,10 @@ const Effect = React.memo(function (props) {
     if (props.move.Subject !== "") {
         effect += (props.move.Probability * 100) + strings.ch
 
-        for (let i = 0; i < props.move.Stat.length; i++) {
-            effect += " " + strings[props.move.Stat[i]]
-        }
+        props.move.Stat.forEach(function (elem) {
+            effect += " " + strings[elem]
+        });
+
         effect += strings.by + props.move.StageDelta
         effect += strings.of + strings[props.move.Subject]
     }

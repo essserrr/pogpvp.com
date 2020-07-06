@@ -14,9 +14,10 @@ const MoveRow = React.memo(function (props) {
     if (props.value.Subject !== "") {
         effect += (props.value.Probability * 100) + strings.ch
 
-        for (let i = 0; i < props.value.Stat.length; i++) {
-            effect += " " + strings[props.value.Stat[i]]
-        }
+        props.value.Stat.forEach(function (elem) {
+            effect += " " + strings[elem]
+        });
+
         effect += strings.by + props.value.StageDelta
         effect += strings.of + strings[props.value.Subject]
     }
