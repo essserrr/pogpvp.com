@@ -5,7 +5,7 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import NavigationBlock from "../Pokedex/NavigationBlock/NavigationBlock"
-import News from "./News"
+import News from "./News/News"
 
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"

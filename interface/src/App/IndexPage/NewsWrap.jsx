@@ -7,7 +7,7 @@ import LocalizedStrings from 'react-localization';
 import { locale } from "../../locale/locale";
 import { getCookie } from "../../js/indexFunctions";
 import Loader from "../PvpRating/Loader"
-import News from "./News"
+import News from "./News/News"
 
 let strings = new LocalizedStrings(locale);
 
