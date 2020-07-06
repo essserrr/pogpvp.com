@@ -2,9 +2,9 @@ import React from "react";
 import LocalizedStrings from 'react-localization';
 
 import Errors from "../PvP/components/Errors/Errors"
-import ShinyTable from "./ShinyTable"
+import ShinyTable from "./ShinyTable/ShinyTable"
 import Loader from "../PvpRating/Loader"
-import ShinyTableTr from "./ShinyTableTr"
+import ShinyTableTr from "./ShinyTable/ShinyTableTr"
 import SiteHelm from "../SiteHelm/SiteHelm"
 
 import { locale } from "../../locale/locale"

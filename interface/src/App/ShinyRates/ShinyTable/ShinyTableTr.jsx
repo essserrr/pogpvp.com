@@ -1,9 +1,9 @@
 import React from "react";
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
+import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import LocalizedStrings from 'react-localization';
 
-import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/indexFunctions"
+import { locale } from "../../../locale/locale"
+import { getCookie } from "../../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 

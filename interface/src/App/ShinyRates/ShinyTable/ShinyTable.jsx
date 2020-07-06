@@ -3,9 +3,9 @@ import CSSTransitionGroup from 'react-addons-css-transition-group'
 import LocalizedStrings from 'react-localization';
 import ReactTooltip from "react-tooltip"
 
-import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/indexFunctions"
-import Header from "../Movedex/Header/Header"
+import { locale } from "../../../locale/locale"
+import { getCookie } from "../../../js/indexFunctions"
+import Header from "../../Movedex/Header/Header"
 
 let strings = new LocalizedStrings(locale);
 
