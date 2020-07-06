@@ -198,8 +198,7 @@ class PvpRating extends React.Component {
     returnRatingList(ratingList, pokemonTable, moveTable) {
         return ratingList.reduce((result, elem, i) => {
             let pokName = checkShadow(elem.Name, pokemonTable)
-            if (!pokemonTable[pokName]) {
-                console.log(pokName + " not found")
+            if (!pokName) {
                 return result
             }
             result.push(

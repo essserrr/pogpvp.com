@@ -11,172 +11,158 @@ export function getCookie(name) {
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function checkShadow(name, pokemonTable) {
-    var pokName = name
-    if (!pokemonTable[pokName]) {
-        var index = pokName.indexOf(" (Shadow)")
+export function checkShadow(name, pokTable) {
+    if (!pokTable[name]) {
+        let index = name.indexOf(" (Shadow)")
         if (index !== -1) {
-            pokName = pokName.slice(0, index)
-            if (!pokemonTable[pokName]) {
-                console.log("Not found " + pokName)
+            name = name.slice(0, index)
+            if (!pokTable[name]) {
+                console.log("Not found " + name)
+                return ""
             }
         }
     }
-    return pokName
+    return name
 }
 
-//returns move pool of select elements. Inputs are: role (string) and data (object with pok data), output: quick and charge move pool <option>
-export function returnMovePool(name, data, locale, isBoss, additionalQ, addtionalCh) {
-    if (data[name] === undefined || name === "") {
-        return ({ quickMovePool: [], chargeMovePool: [] });
+export function returnMovePool(name, pokTable, locale, isBoss, additionalQ, addtionalCh) {
+    if (pokTable[name] === undefined || name === "") {
+        return { quickMovePool: [], chargeMovePool: [] }
     }
     //make array of moves
-    let quickRaw = [...data[name].QuickMoves];
-    let chargeRaw = [...data[name].ChargeMoves];
-    //filter empty values
-    var quickFiltered = quickRaw.filter(function (e) {
+    let quickRaw = [...pokTable[name].QuickMoves];
+    let chargeRaw = [...pokTable[name].ChargeMoves];
+    //filter empty values and elite moves for boses
+    let quickFiltered = quickRaw.filter((elem) => {
         if (isBoss) {
-            switch (data[name].EliteMoves[e]) {
+            switch (pokTable[name].EliteMoves[elem]) {
                 case 1:
                     return false
                 default:
-                    return e !== ""
+                    return elem !== ""
             }
         }
-        return e !== "";
+        return elem !== "";
     });
-    var chargeFiltered = chargeRaw.filter(function (e) {
+    let chargeFiltered = chargeRaw.filter((elem) => {
         if (isBoss) {
-            switch (data[name].EliteMoves[e]) {
+            switch (pokTable[name].EliteMoves[elem]) {
                 case 1:
                     return false
                 default:
-                    return e !== ""
+                    return elem !== ""
             }
         }
-        return e !== "";
+        return elem !== "";
     });
-    //make options tag array
-    var quickMovePool = quickFiltered.map(function (moveName) {
-        return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
+    //make options array
+    let quickMovePool = quickFiltered.map((moveName) => {
+        return <option value={moveName} key={moveName}>{moveName + (pokTable[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
     pushAdditional(additionalQ, quickFiltered, quickMovePool)
     quickMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     quickMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
 
-    var chargeMovePool = chargeFiltered.map(function (moveName) {
-        return <option value={moveName} key={moveName}>{moveName + (data[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
+    let chargeMovePool = chargeFiltered.map((moveName) => {
+        return <option value={moveName} key={moveName}>{moveName + (pokTable[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
     pushAdditional(addtionalCh, chargeFiltered, chargeMovePool)
     chargeMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     chargeMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
 
-    return ({ quickMovePool, chargeMovePool })
+    return { quickMovePool, chargeMovePool }
 }
 
 function pushAdditional(additional, set, target) {
     if (!additional || !set || !target) {
         return
     }
-    for (let i = 0; i < additional.length; i++) {
-        if (!additional[i]) {
-            continue
+    //iterate over additional moves
+    additional.forEach((item, i) => {
+        //if addirional move is invalid somehow  - continue
+        if (!item) { return }
+        if (!set.includes(item)) {
+            target.push(<option value={item} key={item}>{item + "*"}</option>)
         }
-        let isInMovepool = false
-        for (let j = 0; j < set.length; j++) {
-            if (additional[i] === set[j]) {
-                isInMovepool = true
-                break
-            }
-        }
-        if (!isInMovepool) {
-            target.push(<option value={additional[i]} key={additional[i]}>{additional[i] + "*"}</option>)
-        }
-    }
+    });
 }
 
-//Takes pok name, lvlCap and database, returns great, ultra and master leagues iv for given pok
-export function calculateMaximizedStats(name, lvlCap, data, options) {
-    if (data[name] === undefined) {
+export function calculateMaximizedStats(name, lvlCap, pokTable, options) {
+    if (pokTable[name] === undefined) {
         return [];
     }
 
-    var legendaries = ["Articuno", "Zapdos", "Moltres", "Mewtwo", "Raikou", "Entei", "Suicune", "Lugia", "Ho-Oh", "Regirock",
+    let legendaries = ["Articuno", "Zapdos", "Moltres", "Mewtwo", "Raikou", "Entei", "Suicune", "Lugia", "Ho-Oh", "Regirock",
         "Regice", "Registeel", "Latias", "Latios", "Kyogre", "Groudon", "Rayquaza", "Dialga", "Palkia", "Heatran", "Regigigas",
-        "Uxie", "Mesprit", "Azelf", "Giratina (Altered Forme)", "Giratina (Origin Forme)", "Cresselia", "Cobalion", "Terrakion",
-        "Virizion", "Thundurus (Incarnate Forme)", "Thundurus (Therian Forme)", "Tornadus (Incarnate Forme)",
-        "Tornadus (Therian Forme)", "Landorus (Incarnate Forme)", "Landorus (Therian Forme)", "Reshiram", "Zekrom", "Kyurem",
-        "Black Kyurem", "White Kyurem", "Armored Mewtwo"
-    ]
-    var untradable = ["Mew", "Celebi", "Deoxys (Attack Forme)", "Deoxys (Defense Forme)", "Deoxys (Speed Forme)",
+        "Giratina (Altered Forme)", "Giratina (Origin Forme)", "Cresselia", "Cobalion", "Terrakion", "Virizion",
+        "Thundurus (Incarnate Forme)", "Thundurus (Therian Forme)", "Tornadus (Incarnate Forme)", "Tornadus (Therian Forme)",
+        "Landorus (Incarnate Forme)", "Landorus (Therian Forme)", "Reshiram", "Zekrom", "Kyurem", "Black Kyurem", "White Kyurem",
+        "Armored Mewtwo"]
+
+    let untradable = ["Mew", "Celebi", "Deoxys (Attack Forme)", "Deoxys (Defense Forme)", "Deoxys (Speed Forme)",
         "Deoxys (Normal Forme)", "Jirachi", "Darkrai"]
 
-    var fieldResearched = ["Articuno", "Zapdos", "Moltres", "Mewtwo", "Raikou", "Entei", "Suicune", "Lugia", "Ho-Oh", "Regirock",
+    let fieldResearched = ["Articuno", "Zapdos", "Moltres", "Mewtwo", "Raikou", "Entei", "Suicune", "Lugia", "Ho-Oh", "Regirock",
         "Regice", "Registeel", "Latias", "Latios", "Kyogre", "Mew", "Celebi", "Jirachi", "Groudon", "Cresselia", "Regigigas"]
 
-    var isUntradable = (untradable.indexOf(name) > -1);
-    var isLegendary = (legendaries.indexOf(name) > -1);
-    var isFromResearch = (fieldResearched.indexOf(name) > -1);
-
-    var minIV = 0
-    var minLvl = 1
+    let minIV = 0
+    let minLvl = 1
     switch (true) {
-        case isUntradable:
+        case untradable.includes(name):
             minIV = 10
-            minLvl = 20
-            if (isFromResearch) {
-                minLvl = 15
+            switch (fieldResearched.includes(name)) {
+                case true:
+                    minLvl = 20
+                    break
+                default:
+                    minLvl = 15
             }
             break
-        case isLegendary:
+        case legendaries.includes(name):
             minIV = 1
             minLvl = 20
-            if (isFromResearch) {
-                minLvl = 15
+            switch (fieldResearched.includes(name)) {
+                case true:
+                    minLvl = 20
+                    break
+                default:
+                    minLvl = 15
             }
             break
         default:
-            break
-
     }
-    if (name === "Uxie" || name === "Mesprit" || name === "Azelf") {
-        minLvl = 1
-    }
-
+    //if options obj is missing, or object league=true
     if (!options || options.great) {
-        var sheetGreat = generateIVSpreadSheet(data[name], 1500, minIV, lvlCap, minLvl)
+        let sheetGreat = generateIVSpreadSheet(pokTable[name], 1500, minIV, lvlCap, minLvl)
         var great = generateMaximized(sheetGreat)
-
     }
     if (!options || options.ultra) {
-        var sheetUltra = generateIVSpreadSheet(data[name], 2500, minIV, lvlCap, minLvl)
+        let sheetUltra = generateIVSpreadSheet(pokTable[name], 2500, minIV, lvlCap, minLvl)
         var ultra = generateMaximized(sheetUltra)
-
     }
     if (!options || options.master) {
-        var sheetMaster = generateIVSpreadSheet(data[name], 9999, minIV, lvlCap, minLvl)
+        let sheetMaster = generateIVSpreadSheet(pokTable[name], 9999, minIV, lvlCap, minLvl)
         var master = generateMaximized(sheetMaster)
-
     }
     return { great, ultra, master }
 }
 
 //generates spread sheet of pok's stats
 function generateIVSpreadSheet(pok, cpCap, minIV, lvlCap, minLvl) {
-    var pokIVSpreadSheet = [];
-    var maxA = {}
-    var maxD = {}
+    let pokIVSpreadSheet = [];
+    let maxA = {}
+    let maxD = {}
 
-    for (var cIV = 15.0; cIV >= minIV; cIV--) {
-        for (var dIV = 15.0; dIV >= minIV; dIV--) {
-            for (var aIV = 15.0; aIV >= minIV; aIV--) {
-                for (var level = lvlCap; level >= minLvl ? minLvl : 1; level -= 0.5) {
+    for (let cIV = 15.0; cIV >= minIV; cIV--) {
+        for (let dIV = 15.0; dIV >= minIV; dIV--) {
+            for (let aIV = 15.0; aIV >= minIV; aIV--) {
+                for (let level = lvlCap; level >= minLvl ? minLvl : 1; level -= 0.5) {
                     //calculate cp every iteration
-                    var levelMultiplier = levelData[level / 0.5]
-                    var cpAtLvl = Math.trunc(((aIV + Number(pok.Atk)) * Math.pow((dIV + Number(pok.Def)), 0.5) *
+                    let levelMultiplier = levelData[level / 0.5]
+                    let cpAtLvl = Math.trunc(((aIV + Number(pok.Atk)) * Math.pow((dIV + Number(pok.Def)), 0.5) *
                         Math.pow((cIV + Number(pok.Sta)), 0.5) * Math.pow(levelMultiplier, 2)) / 10);
 
-                    //if cp is bigger than max, skip muther calculations
+                    //if cp is bigger than max, skip calculations
                     if (cpAtLvl > cpCap) {
                         if ((cpAtLvl - cpCap) > 800) {
                             level -= 2
@@ -194,89 +180,57 @@ function generateIVSpreadSheet(pok, cpCap, minIV, lvlCap, minLvl) {
                     }
 
                     //calculate effective stats
-                    var efA = levelMultiplier * (aIV + pok.Atk);
-                    var efD = levelMultiplier * (dIV + pok.Def);
-                    var efS = Math.trunc(levelMultiplier * (cIV + pok.Sta));
-                    var statProd = efA * efD * efS
+                    let efA = levelMultiplier * (aIV + pok.Atk);
+                    let efD = levelMultiplier * (dIV + pok.Def);
+                    let efS = Math.trunc(levelMultiplier * (cIV + pok.Sta));
+                    let statProd = efA * efD * efS
 
 
                     if (compareStats(maxA.efA, efA, maxA.StatProduct, statProd)) {
                         maxA = {
-                            StatProduct: (statProd),
-
-                            Level: level,
-                            Atk: aIV,
-                            Def: dIV,
-                            Sta: cIV,
-
-                            efA: efA,
-                            efD: efD,
-                            efS: efS,
+                            StatProduct: statProd, Level: level,
+                            Atk: aIV, Def: dIV, Sta: cIV,
+                            efA: efA, efD: efD, efS: efS,
                         }
                     }
 
                     if (compareStats(maxD.efD, efD, maxD.StatProduct, statProd)) {
                         maxD = {
-                            StatProduct: (statProd),
-
-                            Level: level,
-                            Atk: aIV,
-                            Def: dIV,
-                            Sta: cIV,
-
-                            efA: efA,
-                            efD: efD,
-                            efS: efS,
+                            StatProduct: statProd, Level: level,
+                            Atk: aIV, Def: dIV, Sta: cIV,
+                            efA: efA, efD: efD, efS: efS,
                         }
                     }
 
                     pokIVSpreadSheet.push({
-                        StatProduct: (statProd),
-
-                        Level: level,
-                        Atk: aIV,
-                        Def: dIV,
-                        Sta: cIV,
-
-                        efA: efA,
-                        efD: efD,
-                        efS: efS,
+                        StatProduct: statProd, Level: level,
+                        Atk: aIV, Def: dIV, Sta: cIV,
+                        efA: efA, efD: efD, efS: efS,
                     })
                     break
                 }
             }
         }
     };
-
-    sortSheet(pokIVSpreadSheet)
-
-    return { maxCom: pokIVSpreadSheet, maxA: maxA, maxD: maxD, }
-}
-
-function compareStats(statA, statB, statProdA, statProdB) {
-    if (statA === statB) {
-        if (statProdA === statProdB) {
-            return false
-        }
-        if (statProdA > statProdB) {
-            return false
-        }
-        return true
-    }
-    if (statA >= statB) {
-        return false
-    }
-    return true
-}
-
-function sortSheet(sheet) {
-    sheet.sort(function (a, b) {
+    pokIVSpreadSheet.sort((a, b) => {
         if (a.StatProduct === b.StatProduct) {
             return (b.Atk + b.Def + b.Sta) - (a.Atk + a.Def + a.Sta)
         }
         return b.StatProduct - a.StatProduct
     });
+    return { maxCom: pokIVSpreadSheet, maxA: maxA, maxD: maxD, }
 }
+
+function compareStats(statA, statB, statProdA, statProdB) {
+    if (statA === statB) {
+        if (statProdA === statProdB) { return false }
+        if (statProdA > statProdB) { return false }
+        return true
+    }
+    if (statA >= statB) { return false }
+    return true
+}
+
 
 
 //selects Max overall, max attack and max defence results from spreadsheet. Generates default iv's as well
@@ -284,103 +238,86 @@ function generateMaximized(sheet) {
     return {
         Overall: {
             Level: String(sheet.maxCom[0].Level),
-            Atk: String(sheet.maxCom[0].Atk),
-            Def: String(sheet.maxCom[0].Def),
-            Sta: String(sheet.maxCom[0].Sta),
+            Atk: String(sheet.maxCom[0].Atk), Def: String(sheet.maxCom[0].Def), Sta: String(sheet.maxCom[0].Sta),
         },
         Atk: {
             Level: String(sheet.maxA.Level),
-            Atk: String(sheet.maxA.Atk),
-            Def: String(sheet.maxA.Def),
-            Sta: String(sheet.maxA.Sta),
+            Atk: String(sheet.maxA.Atk), Def: String(sheet.maxA.Def), Sta: String(sheet.maxA.Sta),
         },
         Def: {
             Level: String(sheet.maxD.Level),
-            Atk: String(sheet.maxD.Atk),
-            Def: String(sheet.maxD.Def),
-            Sta: String(sheet.maxD.Sta),
-
+            Atk: String(sheet.maxD.Atk), Def: String(sheet.maxD.Def), Sta: String(sheet.maxD.Sta),
         },
         Default: {
-            Level: String(sheet.maxCom[100].Level),
-            Atk: String(sheet.maxCom[100].Atk),
-            Def: String(sheet.maxCom[100].Def),
-            Sta: String(sheet.maxCom[100].Sta),
+            Level: String(sheet.maxCom[99].Level),
+            Atk: String(sheet.maxCom[99].Atk), Def: String(sheet.maxCom[99].Def), Sta: String(sheet.maxCom[99].Sta),
         }
     }
 }
 
-export function culculateCP(name, Lvl, Atk, Def, Sta, base) {
-    if (!name || !base[name]) {
+export function culculateCP(name, Lvl, Atk, Def, Sta, pokBase) {
+    if (!name || !pokBase[name]) {
         return 0
     }
-    var levelMultiplier = levelData[checkLvl(Lvl) / 0.5];
-    var cpAtLvl = Math.trunc(((checkIV(Atk) + Number(base[name]["Atk"])) * Math.pow((checkIV(Def) + Number(base[name]["Def"])), 0.5) *
-        Math.pow((checkIV(Sta) + Number(base[name]["Sta"])), 0.5) * Math.pow(levelMultiplier, 2)) / 10)
+    let cpAtLvl = Math.trunc(((checkIV(Atk) + Number(pokBase[name]["Atk"])) * Math.pow((checkIV(Def) + Number(pokBase[name]["Def"])), 0.5) *
+        Math.pow((checkIV(Sta) + Number(pokBase[name]["Sta"])), 0.5) * Math.pow(levelData[checkLvl(Lvl) / 0.5], 2)) / 10)
     if (cpAtLvl < 10) {
         cpAtLvl = 10
     }
     return cpAtLvl
 }
 
-export function culculateBossCP(name, tier, base) {
-    if (!name || !base[name]) {
+export function culculateBossCP(name, tier, pokBase) {
+    if (!name || !pokBase[name]) {
         return 0
     }
-    var bossCP = Math.trunc((15 + Number(base[name]["Atk"])) * Math.pow(15 + Number(base[name]["Def"]), 0.5) * Math.pow(tierHP[tier], 0.5) / 10);
-
-    return bossCP
+    return Math.trunc((15 + Number(pokBase[name]["Atk"])) * Math.pow(15 + Number(pokBase[name]["Def"]), 0.5) *
+        Math.pow(tierHP[tier], 0.5) / 10);
 }
 
 export function checkIV(IV) {
     if (isNaN(IV)) {
         return ""
     }
-    if (Number(IV) > 15) {
+    IV = Number(IV)
+    if (IV > 15) {
         return 15
     }
-    if (Number(IV) < 0) {
+    if (IV < 0) {
         return 0
     }
-    if (!Number.isInteger(Number(IV))) {
+    if (!Number.isInteger(IV)) {
         return Math.trunc(IV)
     }
-
-    return Number(IV)
+    return IV
 }
 
 export function checkLvl(lvl) {
     if (isNaN(lvl)) {
         return ""
     }
-    if (Number(lvl) > 45) {
+    lvl = Number(lvl)
+    if (lvl > 45) {
         return 45
     }
-    if (Number(lvl) < 1) {
+    if (lvl < 1) {
         return ""
     }
     if (!Number.isInteger(lvl / 0.5)) {
         return Math.trunc(lvl)
     }
-
     return String(lvl)
 }
 
-export function calculateEffStat(name, lvl, value, stage, base, what, isShadow) {
-    if (!name || !base[name]) {
+export function calculateEffStat(name, lvl, value, stage, pokBase, what, isShadow) {
+    if (!name || !pokBase[name]) {
         return 0
     };
+    let stageMultiplier = (what !== "Sta" ? stagesData[stage] : 1)
+    let shadowMultipler = (isShadow === "true" ? (what === "Atk" ? 1.2 : 0.833) : 1)
 
-    var levelMultiplier = levelData[checkLvl(lvl) / 0.5];
-    var stageMultiplier;
-    (what !== "Sta") ? stageMultiplier = stagesData[stage] : stageMultiplier = 1;
-
-    var shadowMultipler = 1;
-    (isShadow === "true") ?
-        (what === "Atk" ? shadowMultipler = 1.2 : shadowMultipler = 0.833) :
-        shadowMultipler = 1;
-    var effValue = (checkIV(value) + Number(base[name][what])) * levelMultiplier * stageMultiplier * shadowMultipler;
-    return (what !== "Sta") ? Math.round(effValue * 10) / 10 : Math.trunc(effValue)
+    let effValue = (checkIV(value) + Number(pokBase[name][what])) * levelData[checkLvl(lvl) / 0.5] * stageMultiplier * shadowMultipler
+    return what !== "Sta" ? Math.round(effValue * 10) / 10 : Math.trunc(effValue)
 }
 
 export function processHP(HP) {
@@ -404,17 +341,11 @@ export function processInitialStats(stat) {
 }
 
 export function getRoundFromString(string) {
-    let extractedNumber = parseInt(string, 10);
+    let extractedNumber = parseInt(string, 10)
     if (extractedNumber) {
         return extractedNumber
     }
     return ""
-}
-export function calculateDamage(movePower, aAttack, dDefence, multiplier) {
-    if (aAttack === 0 || dDefence === 0 || multiplier === 0) {
-        return 0
-    }
-    return Math.trunc(movePower * 0.5 * (aAttack / dDefence) * multiplier + 1)
 }
 
 export function calculateMultiplier(aTypes, dTypes, mType) {
@@ -422,17 +353,15 @@ export function calculateMultiplier(aTypes, dTypes, mType) {
         return 0
     }
     const pvpMultiplier = 1.3
-    let stabBonus
-    (aTypes.includes(mType)) ? stabBonus = 1.2 : stabBonus = 1
-
+    let stabBonus = (aTypes.includes(mType) ? 1.2 : 1)
     let moveEfficiency = effectivenessData[mType]
     let seMultiplier = 1
-    for (let i = 0; i < dTypes.length; i++) {
-        if (moveEfficiency[dTypes[i]] !== 0) {
-            seMultiplier *= moveEfficiency[dTypes[i]]
-        }
-    }
 
+    dTypes.forEach((elem) => {
+        if (moveEfficiency[elem] !== 0) {
+            seMultiplier *= moveEfficiency[elem]
+        }
+    });
     return pvpMultiplier * seMultiplier * stabBonus
 }
 
@@ -440,27 +369,28 @@ export function returnEffAtk(AtkIV, Atk, Lvl, isShadow) {
     return (Number(AtkIV) + Atk) * levelData[checkLvl(Lvl) / 0.5] * (isShadow === "true" ? 1.2 : 1)
 }
 
-export function pveDamage(Damage, effAtk, effDef, mult) {
-    return Math.trunc(Damage * 0.5 * (effAtk / effDef) * mult) + 1
+
+export function calculateDamage(movePower, aAttack, dDefence, multiplier) {
+    if (aAttack === 0 || dDefence === 0 || multiplier === 0) {
+        return 0
+    }
+    return Math.trunc(movePower * 0.5 * (aAttack / dDefence) * multiplier + 1)
 }
 
 export function getPveMultiplier(aTypes, dTypes, mType, weatherType, friendStage) {
-
-    let stabBonus = (aTypes.includes(mType)) ? 1.2 : 1
-
+    let stabBonus = (aTypes.includes(mType) ? 1.2 : 1)
     let moveEfficiency = effectivenessData[mType]
     let seMultiplier = 1
-    for (let i = 0; i < dTypes.length; i++) {
-        if (moveEfficiency[dTypes[i]] !== 0) {
-            seMultiplier *= moveEfficiency[dTypes[i]]
-        }
-    }
 
+    dTypes.forEach((elem) => {
+        if (moveEfficiency[elem] !== 0) {
+            seMultiplier *= moveEfficiency[elem]
+        }
+    });
     let weatherMul = 1
     if (weather[weatherType][mType]) {
         weatherMul = weather[weatherType][mType]
     }
-
     return stabBonus * friendship[friendStage] * seMultiplier * weatherMul
 }
 
@@ -469,27 +399,12 @@ export function getPveMultiplier(aTypes, dTypes, mType, weatherType, friendStage
 
 
 export function encodeQueryData(data) {
-    var res = [];
-
-    res.push(data.Shields);
-
-    res.push(data.Lvl);
-    res.push(data.Atk);
-    res.push(data.Def);
-    res.push(data.Sta);
-    res.push(data.name);
-
-    res.push(data.AtkStage);
-    res.push(data.DefStage);
-    res.push(data.InitialHP);
-    res.push(data.InitialEnergy);
-    res.push(data.IsGreedy);
-    res.push(data.IsShadow);
-
-    res.push(data.QuickMove);
-    res.push(data.ChargeMove1);
-    res.push(data.ChargeMove2);
-
+    let res = [
+        data.Shields,
+        data.Lvl, data.Atk, data.Def, data.Sta, data.name,
+        data.AtkStage, data.DefStage, data.InitialHP, data.InitialEnergy, data.IsGreedy, data.IsShadow,
+        data.QuickMove, data.ChargeMove1, data.ChargeMove2,
+    ]
     return encodeURIComponent(res.join("_"));
 }
 
@@ -498,20 +413,19 @@ export function extractName(name) {
     if (splitted.length === 1) {
         return { Name: name, Additional: "" }
     }
-
     if (splitted[0] === "Galarian" || splitted[0] === "Alolan" || splitted[0] === "Black" || splitted[0] === "White" ||
         splitted[0] === "Armored") {
-        return { Name: splitted[1], Additional: splitted[0] + ((splitted.length > 2) ? ", " + splitted.slice(2).join(" ").replace(/[()]/g, "") : "") }
+        return {
+            Name: splitted[1],
+            Additional: splitted[0] + ((splitted.length > 2) ? ", " + splitted.slice(2).join(" ").replace(/[()]/g, "") : "")
+        }
     }
-
     return { Name: splitted[0], Additional: splitted.slice(1).join(" ").replace(/[()]/g, "") }
 }
 
 export function extractData(league, pok1, pok2) {
-
     let attacker = decodeURIComponent(pok1).split("_")
     let defender = decodeURIComponent(pok2).split("_")
-
     return {
         attacker: (attacker.length === 15) ? attacker : undefined,
         defender: (defender.length === 15) ? defender : undefined,
@@ -520,11 +434,9 @@ export function extractData(league, pok1, pok2) {
 }
 
 export function extractRaidData(attacker, boss, obj) {
-
     let attackerObj = decodeURIComponent(attacker).split("_")
     let bossObj = decodeURIComponent(boss).split("_")
     let pveObj = decodeURIComponent(obj).split("_")
-
     return {
         attackerObj: (attackerObj.length === 8) ? attackerObj : undefined,
         bossObj: (bossObj.length === 4) ? bossObj : undefined,
@@ -534,63 +446,32 @@ export function extractRaidData(attacker, boss, obj) {
 
 export function extractPveAttacker(array) {
     return {
-        Name: array[0],
-        QuickMove: array[1],
-        ChargeMove: array[2],
-
-        Lvl: array[3],
-        Atk: array[4],
-        Def: array[5],
-        Sta: array[6],
-
-        IsShadow: array[7],
-
-        quickMovePool: "",
-        chargeMovePool: "",
-
+        Name: array[0], QuickMove: array[1], ChargeMove: array[2],
+        Lvl: array[3], Atk: array[4], Def: array[5], Sta: array[6],
+        IsShadow: array[7], quickMovePool: "", chargeMovePool: "",
     }
 }
 
 export function encodePveAttacker(data) {
-    var res = [];
-
-    res.push(data.Name);
-
-    res.push(data.QuickMove);
-    res.push(data.ChargeMove);
-
-    res.push(data.Lvl);
-    res.push(data.Atk);
-    res.push(data.Def);
-    res.push(data.Sta);
-
-    res.push(data.IsShadow);
+    let res = [
+        data.Name, data.QuickMove, data.ChargeMove,
+        data.Lvl, data.Atk, data.Def, data.Sta,
+        data.IsShadow,
+    ]
     return encodeURIComponent(res.join("_"));
 }
 
 export function extractPveBoss(array) {
     return {
-        Name: array[0],
-        QuickMove: array[1],
-        ChargeMove: array[2],
-
-        Tier: array[3],
-
-        quickMovePool: "",
-        chargeMovePool: "",
+        Name: array[0], QuickMove: array[1], ChargeMove: array[2],
+        Tier: array[3], quickMovePool: "", chargeMovePool: "",
     }
 }
 
 export function encodePveBoss(data) {
-    var res = [];
-
-    res.push(data.Name);
-
-    res.push(data.QuickMove);
-    res.push(data.ChargeMove);
-
-    res.push(data.Tier);
-
+    let res = [
+        data.Name, data.QuickMove, data.ChargeMove, data.Tier,
+    ]
     return encodeURIComponent(res.join("_"));
 }
 
@@ -608,59 +489,32 @@ export function extractPveObj(array) {
 }
 
 export function encodePveObj(data) {
-    var res = [];
-
-    res.push(data.FriendshipStage);
-    res.push(data.Weather);
-    res.push(data.DodgeStrategy);
-
-    res.push(data.PartySize);
-    res.push(data.PlayersNumber);
-    res.push(data.IsAggresive);
-
+    let res = [
+        data.FriendshipStage, data.Weather, data.DodgeStrategy,
+        data.PartySize, data.PlayersNumber, data.IsAggresive,
+    ]
     return encodeURIComponent(res.join("_"));
 }
 
 export function pveattacker() {
     return {
-        Name: "",
-        QuickMove: "",
-        ChargeMove: "",
-
-        Lvl: "35",
-        Atk: "15",
-        Def: "15",
-        Sta: "15",
-
-        IsShadow: "false",
-
-        quickMovePool: "",
-        chargeMovePool: "",
+        Name: "", QuickMove: "", ChargeMove: "",
+        Lvl: "35", Atk: "15", Def: "15", Sta: "15",
+        IsShadow: "false", quickMovePool: "", chargeMovePool: "",
     }
 }
 
 export function boss(locale) {
     return {
-        Name: locale,
-        QuickMove: "",
-        ChargeMove: "",
-
-        Tier: "4",
-
-        quickMovePool: "",
-        chargeMovePool: "",
+        Name: locale, QuickMove: "", ChargeMove: "",
+        Tier: "4", quickMovePool: "", chargeMovePool: "",
     }
 }
 
 export function pveobj() {
     return {
-        FriendshipStage: "0",
-        Weather: "0",
-        DodgeStrategy: "0",
-
-        PartySize: "18",
-        PlayersNumber: "3",
-        IsAggresive: "false",
+        FriendshipStage: "0", Weather: "0", DodgeStrategy: "0",
+        PartySize: "18", PlayersNumber: "3", IsAggresive: "false",
     }
 }
 
@@ -669,9 +523,7 @@ export function returnPokList(pokBase, addNone, locale) {
     if (addNone) {
         pokList.push({
             value: locale,
-            label: <div style={{ textAlign: "left" }} >
-                {locale}
-            </div>,
+            label: <div style={{ textAlign: "left" }} >{locale}</div>,
         });
     }
     //create pokemons list
@@ -717,210 +569,141 @@ export function separateMovebase(movebase) {
 
 export function extractPokemon(array) {
     return {
-        name: array[5],
-        Lvl: array[1],
-        Atk: array[2],
-        Def: array[3],
-        Sta: array[4],
-        Shields: array[0],
-
-        AtkStage: array[6],
-        DefStage: array[7],
-        InitialHP: array[8],
-        InitialEnergy: array[9],
-        IsGreedy: array[10],
-        IsShadow: array[11],
-
-        QuickMove: array[12],
-        ChargeMove1: array[13],
-        ChargeMove2: array[14],
-
-        quickMovePool: "",
-        chargeMovePool: "",
-        ivSet: "",
-
-        effAtk: "",
-        effDef: "",
-        effSta: "",
-
-        HP: undefined,
-        Energy: undefined,
+        name: array[5], Lvl: array[1], Atk: array[2], Def: array[3], Sta: array[4], Shields: array[0],
+        AtkStage: array[6], DefStage: array[7], InitialHP: array[8], InitialEnergy: array[9], IsGreedy: array[10], IsShadow: array[11],
+        QuickMove: array[12], ChargeMove1: array[13], ChargeMove2: array[14],
+        quickMovePool: "", chargeMovePool: "", ivSet: "",
+        effAtk: "", effDef: "", effSta: "",
+        HP: undefined, Energy: undefined,
     }
 }
 export function pokemon(locale) {
     return {
-        name: locale,
-        Lvl: "",
-        Atk: "",
-        Def: "",
-        Sta: "",
-        Shields: "",
-
-        AtkStage: "",
-        DefStage: "",
-        InitialHP: "",
-        InitialEnergy: "",
-        IsGreedy: "",
-        IsShadow: "",
-
-        QuickMove: "",
-        ChargeMove1: "",
-        ChargeMove2: "",
-
-
-        quickMovePool: "",
-        chargeMovePool: "",
-        ivSet: "",
-
-        effAtk: "",
-        effDef: "",
-        effSta: "",
-
-        HP: undefined,
-        Energy: undefined,
-
-        showMenu: false,
+        name: locale, Lvl: "", Atk: "", Def: "", Sta: "", Shields: "",
+        AtkStage: "", DefStage: "", InitialHP: "", InitialEnergy: "", IsGreedy: "", IsShadow: "",
+        QuickMove: "", ChargeMove1: "", ChargeMove2: "",
+        quickMovePool: "", chargeMovePool: "", ivSet: "",
+        effAtk: "", effDef: "", effSta: "",
+        HP: undefined, Energy: undefined, showMenu: false,
     }
 }
 
 
 export function selectQuick(movelist, moveTable, pokName, pokTable) {
-    var bestScore = 0
-    var bestName = ""
+    let bestScore = 0
+    let bestName = ""
     //for every move
-    for (let i = 0; i < movelist.length; i++) {
-        //exepr select option
-        if (movelist[i].key === "Select..." || movelist[i].key === "") {
-            continue
+    movelist.forEach(function (move) {
+        //exept select option
+        if (move.key === "Select..." || move.key === "") {
+            return
         }
-        let duration = moveTable[movelist[i].key].PvpDurationSeconds
-        let damage = moveTable[movelist[i].key].PvpDamage
-        let energy = moveTable[movelist[i].key].PvpEnergy
-        let stab = 1
+        let duration = moveTable[move.key].PvpDurationSeconds
+        let damage = moveTable[move.key].PvpDamage
+        let energy = moveTable[move.key].PvpEnergy
         //define stab
-        for (let j = 0; j < pokTable[pokName].Type.Length; j++) {
-            if (pokTable[pokName].Type[j] === moveTable[movelist[i].key].MoveType) {
-                stab = 1.2
-                break
-            }
-            continue
-        }
-
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = Math.pow(((damage * stab) / duration) * Math.pow(energy / duration, 1.9), 1 / 2)
         if (score > bestScore) {
             bestScore = score
-            bestName = moveTable[movelist[i].key].Title
+            bestName = moveTable[move.key].Title
         }
-    }
+    });
     return bestName
 }
 
 export function selectCharge(movelist, moveTable, pokName, pokTable) {
-    var primaryName = ""
-    var bestScore = 0
-    var bestEnergy = 0
-    var primaryType = ""
+    let primaryName = ""
+    let bestScore = 0
+    let bestEnergy = 0
+    let primaryType = ""
     //define primary move
     //for every move
-    for (let i = 0; i < movelist.length; i++) {
+    movelist.forEach((move) => {
         //exept select option
-        if (movelist[i].key === "Select..." || movelist[i].key === "") {
-            continue
+        if (move.key === "Select..." || move.key === "") {
+            return
         }
         //filter self-harm moves
-        if (moveTable[movelist[i].key].StageDelta < 0 && moveTable[movelist[i].key].Subject === "Self") {
-            continue
+        if (moveTable[move.key].StageDelta < 0 && moveTable[move.key].Subject === "Self") {
+            return
         }
-        let damage = moveTable[movelist[i].key].PvpDamage
-        let energy = -moveTable[movelist[i].key].PvpEnergy
-        let stab = 1
-        //define stab
-        for (let j = 0; j < pokTable[pokName].Type.Length; j++) {
-            if (pokTable[pokName].Type[j] === moveTable[movelist[i].key].MoveType) {
-                stab = 1.2
-                break
-            }
-            continue
-        }
+        let damage = moveTable[move.key].PvpDamage
+        let energy = -moveTable[move.key].PvpEnergy
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = stab * damage / Math.pow(energy, 2)
-        if (score > bestScore) {
-            bestScore = score
-            bestEnergy = energy
-            primaryName = moveTable[movelist[i].key].Title
-            primaryType = moveTable[movelist[i].key].MoveType
-            continue
-        }
-        // is DPE is equal
-        if (score === bestScore) {
-            if (energy < bestEnergy) {
+        switch (true) {
+            case score > bestScore:
                 bestScore = score
                 bestEnergy = energy
-                primaryName = moveTable[movelist[i].key].Title
-                primaryType = moveTable[movelist[i].key].MoveType
-                continue
-            }
+                primaryName = moveTable[move.key].Title
+                primaryType = moveTable[move.key].MoveType
+                break
+            case score === bestScore:
+                if (energy < bestEnergy) {
+                    bestScore = score
+                    bestEnergy = energy
+                    primaryName = moveTable[move.key].Title
+                    primaryType = moveTable[move.key].MoveType
+                }
+                break
+            default:
         }
-    }
+    })
 
     //define secondary move
     //for every move
     bestEnergy = 0
     bestScore = 0
-    var secodaryName = ""
-    var secondaryType = ""
-    for (let i = 0; i < movelist.length; i++) {
+    let secodaryName = ""
+    let secondaryType = ""
+
+    movelist.forEach((move) => {
         //exept select option and primary move
-        if (movelist[i].key === "Select..." || movelist[i].key === "" || movelist[i].key === primaryName) {
-            continue
+        if (move.key === "Select..." || move.key === "" || move.key === primaryName) {
+            return
         }
-        let damage = moveTable[movelist[i].key].PvpDamage
-        let energy = -moveTable[movelist[i].key].PvpEnergy
-        let stab = 1
-        //define stab
-        for (let j = 0; j < pokTable[pokName].Type.Length; j++) {
-            if (pokTable[pokName].Type[j] === moveTable[movelist[i].key].MoveType) {
-                stab = 1.2
-                break
-            }
-            continue
-        }
+        let damage = moveTable[move.key].PvpDamage
+        let energy = -moveTable[move.key].PvpEnergy
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = stab * damage / Math.pow(energy, 2)
-        if (score > bestScore) {
-            bestScore = score
-            bestEnergy = energy
-            secodaryName = moveTable[movelist[i].key].Title
-            secondaryType = moveTable[movelist[i].key].MoveType
-            continue
-        }
-        // is DPE^2 is equal
-        if (score === bestScore) {
-            if (energy < bestEnergy) {
+
+        switch (true) {
+            case score > bestScore:
                 bestScore = score
                 bestEnergy = energy
-                secodaryName = moveTable[movelist[i].key].Title
-                secondaryType = moveTable[movelist[i].key].MoveType
-                continue
-            }
+                secodaryName = moveTable[move.key].Title
+                secondaryType = moveTable[move.key].MoveType
+                break
+            case score === bestScore:
+                if (energy < bestEnergy) {
+                    bestScore = score
+                    bestEnergy = energy
+                    secodaryName = moveTable[move.key].Title
+                    secondaryType = moveTable[move.key].MoveType
+                }
+                break
+            case primaryType === secondaryType:
+                if (primaryType !== moveTable[move.key].MoveType) {
+                    bestScore = score
+                    bestEnergy = energy
+                    secodaryName = moveTable[move.key].Title
+                    secondaryType = moveTable[move.key].MoveType
+                }
+                break
+            default:
         }
-        if (primaryType === secondaryType) {
-            if (primaryType !== moveTable[movelist[i].key].MoveType) {
-                bestScore = score
-                bestEnergy = energy
-                secodaryName = moveTable[movelist[i].key].Title
-                secondaryType = moveTable[movelist[i].key].MoveType
-            }
-        }
-    }
+    })
+
 
 
     return { primaryName, secodaryName }
 }
 
 export function returnRateStyle(rate) {
-
     if (rate >= 630) {
         return ["+2", "res4"]
     }

@@ -6,7 +6,7 @@ import { ReactComponent as Candy } from "../../../../icons/candy.svg";
 import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup";
 import { candyCost, dustCost } from "./powerupCost"
 import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie, tierMult, pveDamage, returnEffAtk, getPveMultiplier } from '../../../../js/indexFunctions'
+import { getCookie, tierMult, calculateDamage, returnEffAtk, getPveMultiplier } from '../../../../js/indexFunctions'
 import BreakpointsList from "./BreakpointsList"
 import Counter from "../Counter/Counter"
 import RangeInput from "../RangeInput/RangeInput"
@@ -91,7 +91,7 @@ class Breakpoints extends React.PureComponent {
             this.props.snapshot.pveObj.FriendshipStage)
 
 
-        return pveDamage(this.props.moveTable[this.props.snapshot.attackerObj[type]].Damage,
+        return calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj[type]].Damage,
             returnEffAtk(this.props.snapshot.attackerObj.Atk,
                 this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Atk,
                 this.props.snapshot.attackerObj.Lvl,
@@ -151,15 +151,15 @@ class Breakpoints extends React.PureComponent {
 
         switch (event.target.name) {
             case "Lvl":
-                dQuick = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
+                dQuick = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
                     effAtk, this.state.effDef, qMult)
-                dCharge = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
+                dCharge = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
                     effAtk, this.state.effDef, chMult)
                 break
             default:
-                baseQ = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
+                baseQ = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
                     effAtk, this.state.effDef, qMult)
-                baseCh = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
+                baseCh = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
                     effAtk, this.state.effDef, chMult)
 
                 effAtk = returnEffAtk(atkIV,
@@ -167,9 +167,9 @@ class Breakpoints extends React.PureComponent {
                     this.state.attackerObj.Lvl,
                     this.props.snapshot.attackerObj.IsShadow)
 
-                dQuick = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
+                dQuick = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
                     effAtk, this.state.effDef, qMult)
-                dCharge = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
+                dCharge = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
                     effAtk, this.state.effDef, chMult)
         }
 
@@ -222,9 +222,9 @@ class Breakpoints extends React.PureComponent {
             this.props.snapshot.attackerObj.IsShadow)
 
 
-        let dQuick = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
+        let dQuick = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.QuickMove].Damage,
             effAtk, this.state.effDef, qMult)
-        let dCharge = pveDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
+        let dCharge = calculateDamage(this.props.moveTable[this.props.snapshot.attackerObj.ChargeMove].Damage,
             effAtk, this.state.effDef, chMult)
 
 

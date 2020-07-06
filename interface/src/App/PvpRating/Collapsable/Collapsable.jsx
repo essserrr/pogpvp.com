@@ -89,8 +89,7 @@ class Collapsable extends React.PureComponent {
         }
         return array.reduce((result, elem) => {
             let pokName = checkShadow(elem.Name, this.props.pokemonTable)
-            if (!this.props.pokemonTable[pokName]) {
-                console.log(pokName + " not found")
+            if (!pokName) {
                 return result
             }
             result.push(<RRateRow
