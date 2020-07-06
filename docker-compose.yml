@@ -24,8 +24,6 @@ services:
       - "traefik.http.routers.simulator.entrypoints=websecure"
       - "traefik.http.routers.simulator.tls.certresolver=myresolver"
       - "traefik.port=8080"
-    ports:
-      - 8181:8181
   mongo1:
       container_name: mongo1
       image: mongo
@@ -41,8 +39,6 @@ services:
         - ./mongo/db1:/data/db
         - ./mongo/backups:/backups
         - ./mongo/key/keyfile:/mongo/key/keyfile
-      ports:
-        - 27017:27017
       restart: always
       labels:
         - "traefik.enable=false"
@@ -63,8 +59,6 @@ services:
         - ./mongo/db2:/data/db
         - ./mongo/backups:/backups
         - ./mongo/key/keyfile:/mongo/key/keyfile
-      ports:
-        - 27018:27017
       restart: always
       depends_on:
         - mongo1
@@ -85,8 +79,6 @@ services:
         - ./mongo/db3:/data/db
         - ./mongo/backups:/backups
         - ./mongo/key/keyfile:/mongo/key/keyfile
-      ports:
-        - 27019:27017
       restart: always
       depends_on:
         - mongo2
@@ -95,18 +87,31 @@ services:
   prometheus:
     image: "prom/prometheus"
     container_name: prometheus
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prom.pogpvp.com`)"
+      - "traefik.http.routers.prometheus.tls=true"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls.certresolver=myresolver"
+      - "traefik.port=9090"
+      - "traefik.http.routers.prometheus.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.users=${USR_PSWD}"
     volumes:
      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
      - prometheus_data:/prometheus
-    command: "--config.file=/etc/prometheus/prometheus.yml --web.console.templates=/etc/prometheus/consoles --web.console.libraries=/etc/prometheus/console_libraries --storage.tsdb.path=/prometheus --storage.tsdb.retention=168h --storage.tsdb.retention.size=2GB"
+    command: 
+      - "--config.file=/etc/prometheus/prometheus.yml" 
+      - "--web.console.templates=/etc/prometheus/consoles" 
+      - "--web.console.libraries=/etc/prometheus/console_libraries" 
+      - "--storage.tsdb.path=/prometheus" 
+      - "--storage.tsdb.retention=168h"
+      - "--storage.tsdb.retention.size=2GB"
     restart: always
     deploy:
         resources:
           limits:
             cpus: '0.10'
             memory: 45M
-    ports:
-     - "9090:9090"
     depends_on:
       - simulator
   grafana:
@@ -140,6 +145,7 @@ services:
         command:
           #- "--log.level=DEBUG"
           - "--providers.docker=true"
+          - "--providers.docker.exposedbydefault=false"
           - "--entrypoints.web.address=:80"
           - "--entrypoints.websecure.address=:443"
           - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
@@ -157,13 +163,11 @@ services:
          # global redirect to https  
          - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"  
          - "traefik.http.routers.redirs.entrypoints=web"  
-         - "traefik.http.routers.redirs.middlewares=redirect-to-https"  
         volumes:
           - "letsencrypt:/letsencrypt/"
           - "/var/run/docker.sock:/var/run/docker.sock:ro"
         logging:
           options:
-                # It generates quite a lot of logs when traefik.toml's log level is set to debug, so let's not keep it all
               max-size: '25m'
               max-file: '3'
         depends_on:
