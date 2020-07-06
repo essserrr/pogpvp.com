@@ -2,7 +2,7 @@ import React from "react";
 import LocalizedStrings from 'react-localization';
 
 import SelectGroup from "../SelectGroup/SelectGroup"
-import Checkbox from "../../../RaidsList/Checkbox"
+import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
 import SubmitButton from "../SubmitButton/SubmitButton"
 import Errors from "../Errors/Errors"
 

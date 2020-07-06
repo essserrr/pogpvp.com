@@ -4,12 +4,12 @@ import LocalizedStrings from 'react-localization';
 
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-import Collapsable from "./Collapsable"
+import Collapsable from "./Collapsable/Collapsable"
 import Errors from "../PvP/components/Errors/Errors"
 import Type from "../PvP/components/CpAndTypes/Type"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup";
 import PokemonCard from "../Evolve/PokemonCard"
-import RatingDescr from "./RatingDescr"
+import RatingDescr from "./RatingDescr/RatingDescr"
 import Loader from "./Loader"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"
 

@@ -1,12 +1,12 @@
 import React from "react";
 import { UnmountClosed } from 'react-collapse';
-import { checkShadow, getCookie, encodeQueryData, calculateMaximizedStats } from "../../js/indexFunctions"
-import RMoveRow from "./RMoveRow/RMoveRow"
-import RRateRow from "./RRateRow/RRateRow"
-import RowWrap from "./RowWrap/RowWrap"
+import { checkShadow, getCookie, encodeQueryData, calculateMaximizedStats } from "../../../js/indexFunctions"
+import RMoveRow from "../RMoveRow/RMoveRow"
+import RRateRow from "../RRateRow/RRateRow"
+import RowWrap from "../RowWrap/RowWrap"
 
 import LocalizedStrings from 'react-localization';
-import { locale } from "../../locale/locale"
+import { locale } from "../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
 

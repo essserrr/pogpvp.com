@@ -12,7 +12,7 @@ import Stages from "./Stages/Stages";
 import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
 import InputAndSubmit from "./InputAndSubmit/InputAndSubmit"
 import Counter from "./Counter/Counter"
-import Checkbox from "../../RaidsList/Checkbox"
+import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
 import ReactTooltip from "react-tooltip";
 import LocalizedStrings from 'react-localization';

@@ -84,7 +84,7 @@ func createApp(withLog *os.File) (*App, error) {
 	}
 	app.iconVer = "2"
 
-	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot",
+	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot", "Googlebot",
 		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
 		"telegrambot", "twitterbot"}
 

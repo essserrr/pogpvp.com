@@ -7,7 +7,7 @@ import ReactTooltip from "react-tooltip";
 import SinglePvp from "./SinglePvp"
 import MatrixPvp from "./MatrixPvp"
 import SelectGroup from "./components/SelectGroup/SelectGroup";
-import Checkbox from "../RaidsList/Checkbox"
+import Checkbox from "../RaidsList/Checkbox/Checkbox"
 import MatrixDescr from "./components/Description/MatrixDescr"
 import SingleDescr from "./components/Description/SingleDescr"
 import Loader from "../PvpRating/Loader"
