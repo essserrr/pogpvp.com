@@ -140,7 +140,6 @@ class PvpRating extends React.Component {
                 },
             }),
         ];
-
         let reason = ""
         let responses = await Promise.all(fetches).catch(function (r) {
             reason = r

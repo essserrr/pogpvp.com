@@ -47,7 +47,6 @@ class Movedex extends React.Component {
         this.setState({
             loading: true,
         })
-        var reason = ""
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
                 method: 'GET',
@@ -57,6 +56,7 @@ class Movedex extends React.Component {
                 },
             }),
         ];
+        var reason = ""
         var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return

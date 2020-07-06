@@ -147,7 +147,6 @@ class PvePage extends React.Component {
         })
 
         var extrData = extractRaidData(party, boss, obj)
-        var reason = ""
         //after opening the page get pokemonBase
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
@@ -175,6 +174,7 @@ class PvePage extends React.Component {
                 },
             }))
         }
+        var reason = ""
         var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return

@@ -52,7 +52,6 @@ class EggsList extends React.Component {
         this.setState({
             loading: true,
         })
-        var reason = ""
         //get pok and eggs db
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
@@ -70,6 +69,7 @@ class EggsList extends React.Component {
                 },
             }),
         ];
+        var reason = ""
         var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return

@@ -44,8 +44,10 @@ class MaximizerNoSubmit extends PureComponent {
                     </div>
 
                     <div className="d-flex justify-content-around" >
+                        <span className="fBolder align-self-center">
+                            {strings.maximizer.levelTitle}
+                        </span>
 
-                        {strings.maximizer.levelTitle}
 
                         <SingleRadio
                             name="level"

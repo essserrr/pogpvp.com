@@ -42,7 +42,6 @@ class RaidsList extends React.Component {
         this.setState({
             loading: true,
         })
-        var reason = ""
 
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
@@ -61,6 +60,7 @@ class RaidsList extends React.Component {
             }),
             //after opening the page get pokemonBase
         ];
+        var reason = ""
         var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return

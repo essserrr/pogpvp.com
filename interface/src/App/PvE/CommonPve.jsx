@@ -235,11 +235,10 @@ class CommonPve extends React.PureComponent {
                 'Content-Type': 'application/json',
                 'Accept-Encoding': 'gzip',
             },
-        })
-            .catch(function (r) {
-                reason = r
-                return
-            });
+        }).catch(function (r) {
+            reason = r
+            return
+        });
         if (reason !== "") {
             this.setState({
                 showResult: false,

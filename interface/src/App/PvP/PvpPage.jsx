@@ -108,7 +108,6 @@ class PvpPage extends React.Component {
             pvpoke: simtype === "pvpoke" ? true : false,
         })
         var extractedData = extractData(league, pok1, pok2)
-        var reason = ""
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: 'GET',
@@ -136,6 +135,7 @@ class PvpPage extends React.Component {
                 },
             }))
         }
+        var reason = ""
         var responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
