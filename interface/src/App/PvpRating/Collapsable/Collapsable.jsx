@@ -16,10 +16,8 @@ class Collapsable extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showCollapse: false,
-            colElement: null
         };
         this.onClick = this.onClick.bind(this);
-        this.generateBody = this.generateBody.bind(this);
         this.onClickRedirect = this.onClickRedirect.bind(this);
         this.createMovesetList = this.createMovesetList.bind(this);
     }
@@ -29,7 +27,6 @@ class Collapsable extends React.PureComponent {
     async onClick(event) {
         this.setState({
             showCollapse: !this.state.showCollapse,
-            colElement: !this.state.showCollapse ? this.generateBody() : null,
         })
     }
 
@@ -61,7 +58,6 @@ class Collapsable extends React.PureComponent {
         }
 
         let defender = this.props.ratingList.find(element => element.Name === defenderOriginalName);
-
         let defenderString = encodeQueryData(
             this.generatePokObj(defenderName, maxStatsD, shields[1], defenderName !== defenderOriginalName, defender)
         )
@@ -87,28 +83,25 @@ class Collapsable extends React.PureComponent {
     }
 
     createSublist(array) {
-        let sublist = []
         //if null array, return empty array
         if (!array) {
-            return sublist
+            return []
         }
-        for (let i = 0; i < array.length; i++) {
-            let pokName = checkShadow(array[i].Name, this.props.pokemonTable)
+        return array.reduce((result, elem) => {
+            let pokName = checkShadow(elem.Name, this.props.pokemonTable)
             if (!this.props.pokemonTable[pokName]) {
                 console.log(pokName + " not found")
-                continue
+                return result
             }
-            sublist.push(
-                <RRateRow
-                    key={array[i].Name}
-                    pokName={pokName}
-                    pokemonTable={this.props.pokemonTable}
-                    value={array[i]}
-                    onClickRedirect={this.onClickRedirect}
-                />
-            )
-        }
-        return sublist
+            result.push(<RRateRow
+                key={elem.Name}
+                pokName={pokName}
+                pokemonTable={this.props.pokemonTable}
+                value={elem}
+                onClickRedirect={this.onClickRedirect}
+            />)
+            return result
+        }, [])
     }
 
     createMovesetList(array) {
@@ -117,38 +110,12 @@ class Collapsable extends React.PureComponent {
         if (!array) {
             return sublist
         }
-        let maxLength = (array.length > 3) ? 3 : array.length
-        for (let i = 0; i < maxLength; i++) {
-            sublist.push(
-                <RMoveRow
-                    key={array[i].Quick + array[i].Charge[0] + array[i].Charge[1]}
-                    moveTable={this.props.moveTable}
-                    value={array[i]}
-                />
-            )
-        }
-        return sublist
-    }
-
-    generateBody() {
-        return <>
-            <RowWrap
-                outClass="col-12 col-sm-6 p-0 m-0"
-                locale={strings.rating.bestMatchups}
-                value={this.createSublist(this.props.container.BestMetaMatchups)}
-            />
-            <RowWrap
-                outClass="col-12 col-sm-6 p-0 m-0"
-                locale={strings.rating.bestCounter}
-                value={this.createSublist(this.props.container.Counters)}
-            />
-            <RowWrap
-                outClass="col-12 col-sm-11 col-md-8 p-0 m-0 text-center"
-                locale={strings.rating.movesets}
-                class="row p-0 mx-2 mx-md-3"
-                value={this.createMovesetList(this.props.container.Movesets)}
-            />
-        </>
+        return (array.length > 3 ? array.slice(0, 3) : array).map((elem) =>
+            <RMoveRow
+                key={elem.Quick + elem.Charge[0] + elem.Charge[1]}
+                moveTable={this.props.moveTable}
+                value={elem}
+            />)
     }
 
     render() {
@@ -159,7 +126,22 @@ class Collapsable extends React.PureComponent {
                 </div>
                 <UnmountClosed isOpened={this.state.showCollapse}>
                     <div className="row justify-content-center m-0 p-0 px-2">
-                        {this.state.colElement}
+                        <RowWrap
+                            outClass="col-12 col-sm-6 p-0 m-0"
+                            locale={strings.rating.bestMatchups}
+                            value={this.createSublist(this.props.container.BestMetaMatchups)}
+                        />
+                        <RowWrap
+                            outClass="col-12 col-sm-6 p-0 m-0"
+                            locale={strings.rating.bestCounter}
+                            value={this.createSublist(this.props.container.Counters)}
+                        />
+                        <RowWrap
+                            outClass="col-12 col-sm-11 col-md-10 p-0 m-0 text-center"
+                            locale={strings.rating.movesets}
+                            class="row p-0 mx-2 mx-md-3"
+                            value={this.createMovesetList(this.props.container.Movesets)}
+                        />
                     </div>
                 </UnmountClosed>
             </>

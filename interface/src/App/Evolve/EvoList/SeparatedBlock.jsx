@@ -1,16 +1,14 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 
-class SeparatedBlock extends PureComponent {
-    render() {
-        return (
-            <>
-                <div className={this.props.separator ? "row justify-content-center p-0 m-0 mb-2" : "row justify-content-center p-0 m-0"}>
-                    {this.props.elem}
-                </div>
-                {this.props.separator}
-            </>
-        );
-    }
-}
+const SeparatedBlock = React.memo(function (props) {
+    return (
+        <>
+            <div className={props.separator ? "row justify-content-center p-0 m-0 mb-2" : "row justify-content-center p-0 m-0"}>
+                {props.elem}
+            </div>
+            {props.separator}
+        </>
+    )
+});
 
 export default SeparatedBlock;

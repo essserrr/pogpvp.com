@@ -4,15 +4,15 @@ import Button from "./Button"
 const ButtonsBlock = React.memo(function (props) {
     return (
         <div className={props.class} >
-            {props.buttons.map((el, i) =>
+            {props.buttons.map((elem, i) =>
                 <Button
-                    key={el.attr + i}
+                    key={elem.attr + i}
 
-                    attr={el.attr}
-                    title={el.title}
-                    disabled={el.disabled}
+                    attr={elem.attr}
+                    title={elem.title}
+                    disabled={elem.disabled}
 
-                    class={el.class}
+                    class={elem.class}
                     onClick={props.onClick}
                 />)}
         </div>

@@ -6,15 +6,15 @@ import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Collapsable from "./Collapsable/Collapsable"
 import Errors from "../PvP/components/Errors/Errors"
-import Type from "../PvP/components/CpAndTypes/Type"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup";
 import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import RatingDescr from "./RatingDescr/RatingDescr"
 import Loader from "./Loader"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"
+import CardBody from "./CardBody/CardBody"
 
 import { ReactComponent as Shadow } from "../../icons/shadow.svg";
-import { typeDecoder, checkShadow, getCookie, capitalizeFirst } from "../../js/indexFunctions"
+import { checkShadow, getCookie, capitalizeFirst } from "../../js/indexFunctions"
 
 import { locale } from "../../locale/locale"
 
@@ -196,29 +196,26 @@ class PvpRating extends React.Component {
 
 
     returnRatingList(ratingList, pokemonTable, moveTable) {
-        let result = []
-
-        let maxWeighted = ratingList[0].AvgRateWeighted
-        for (let i = 0; i < ratingList.length; i++) {
-            let pokName = checkShadow(ratingList[i].Name, pokemonTable)
+        return ratingList.reduce((result, elem, i) => {
+            let pokName = checkShadow(elem.Name, pokemonTable)
             if (!pokemonTable[pokName]) {
                 console.log(pokName + " not found")
-                continue
+                return result
             }
             result.push(
-                <div key={ratingList[i].Name} className={"col-12 px-1 pt-1"}>
+                <div key={elem.Name} className={"col-12 px-1 pt-1"}>
                     <PokemonCard
                         class={"col-12 cardBig m-0 p-0"}
 
                         name={<div className="d-flex justify-content-between">
                             <div className="pl-2">{"#" + (i + 1)}</div>
                             <div className=" text-center">
-                                <>{pokName + ((pokName !== ratingList[i].Name) ? " (" + strings.options.type.shadow + ")" : "")}</>
+                                <>{pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}</>
                             </div>
                             <div></div>
                         </div>}
                         icon={<>
-                            {(pokName !== ratingList[i].Name) &&
+                            {(pokName !== elem.Name) &&
                                 <Shadow className="posAbsR icon24" />}
                             <a
                                 className="link"
@@ -230,15 +227,19 @@ class PvpRating extends React.Component {
                                     src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
                                     class={"icon64"} />
                             </a>
-                        </>
-                        }
-                        body={this.generateBody(pokName, ratingList[i], pokemonTable, maxWeighted)}
+                        </>}
+                        body={<CardBody
+                            name={pokName}
+                            pokemonTable={pokemonTable}
+                            maxWeighted={ratingList[0].AvgRateWeighted}
+                            entry={elem}
+                        />}
                         footer={<Collapsable
                             pokemonTable={pokemonTable}
                             moveTable={moveTable}
                             ratingList={ratingList}
 
-                            container={ratingList[i]}
+                            container={elem}
                             league={this.state.league}
                             combination={this.state.combination}
                         />}
@@ -250,49 +251,8 @@ class PvpRating extends React.Component {
                         classFooter="col-12 m-0  mb-2"
                     />
                 </div>)
-        }
-        return result
-
-    }
-
-    generateBody(name, entry, pokemonTable, maxWeighted) {
-        return <div className="row justify-content-between m-0 p-0">
-            <div className="col-10 col-sm-5 m-0 p-0">
-                <div className="row  m-0 p-0">
-                    <div className="col-12 m-0 p-0">
-                        <div className="d-inline bigText mr-2">
-                            {strings.rating.type}
-                        </div>
-                        {(pokemonTable[name]["Type"][0] !== undefined) && <Type
-                            class={"icon18"}
-                            code={pokemonTable[name]["Type"][0]}
-                            value={typeDecoder[pokemonTable[name]["Type"][0]]}
-                        />}
-                        {(pokemonTable[name]["Type"][1] !== undefined) && <Type
-                            class={"ml-2 icon18"}
-                            code={pokemonTable[name]["Type"][1]}
-                            value={typeDecoder[pokemonTable[name]["Type"][1]]}
-                        />}
-                    </div>
-                    <div className="col-12 text-start bigText m-0 p-0">
-                        {strings.rating.avgRate} {entry.AvgRate}
-                    </div>
-                    <div className="col-12 text-start bigText m-0 p-0">
-                        {strings.rating.avgWin} {(entry.AvgWinrate * 100).toFixed(0)}%
-                </div>
-                </div>
-            </div>
-            <div className="col-10 col-sm-2  text-sm-center text-left  mx-sm-2 p-0 ">
-                <div className="row rating  m-0 px-2 p-sm-0 ">
-                    <div className="col-auto   col-sm-12 mr-1 mr-sm-0 m-0 p-0 ">
-                        {strings.rating.score} </div>
-                    <div className="col-auto col-sm-12 m-0 p-0 ">
-                        {(entry.AvgRateWeighted / maxWeighted * 100).toFixed(1)}
-                    </div>
-                </div>
-            </div>
-        </div>
-
+            return result;
+        }, []);
     }
 
 
