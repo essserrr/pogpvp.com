@@ -32,47 +32,48 @@ class AdvisorPanelBody extends React.PureComponent {
     }
 
     calculateVunerabilities() {
-        let arr = []
-        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.first.name])
-        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.second.name])
-        this.pokVunerabilities(arr, this.props.pokemonTable[this.props.third.name])
+        let arr = [
+            this.pokVunerabilities(this.props.pokemonTable[this.props.first.name]),
+            this.pokVunerabilities(this.props.pokemonTable[this.props.second.name]),
+            this.pokVunerabilities(this.props.pokemonTable[this.props.third.name]),
+        ]
 
         let strong = []
         let weak = []
 
-        for (let i = 0; i < arr[0].length; i++) {
-            let multipl = (arr[0][i] * arr[1][i] * arr[2][i]).toFixed(1)
-            if (multipl < 1) {
-                strong.push(<Type
-                    key={"strongDef" + i}
-                    class={"icon24 m-1"}
-                    code={i}
-                    value={typeDecoder[i]}
-                />)
-                continue
+        arr[0].forEach((elem, i) => {
+            let multipl = (elem * arr[1][i] * arr[2][i]).toFixed(1)
+            switch (true) {
+                case multipl < 1:
+                    strong.push(<Type
+                        key={"strongDef" + i}
+                        class={"icon24 m-1"}
+                        code={i}
+                        value={typeDecoder[i]}
+                    />)
+                    break
+                case multipl > 1:
+                    weak.push(<Type
+                        key={"weakDef" + i}
+                        class={"icon24 m-1"}
+                        code={i}
+                        value={typeDecoder[i]}
+                    />)
+                    break
+                default:
             }
-            if (multipl > 1) {
-                weak.push(<Type
-                    key={"weakDef" + i}
-                    class={"icon24 m-1"}
-                    code={i}
-                    value={typeDecoder[i]}
-                />)
-                continue
-            }
-        }
+        });
         return [arr, strong, weak]
     }
 
-    pokVunerabilities(arr, pok) {
-        let i = arr.push([]) - 1
-        for (let j = 0; j < effectivenessData.length; j++) {
+    pokVunerabilities(pok) {
+        return effectivenessData.map((elem) => {
             let eff = 1
-            for (let k = 0; k < pok.Type.length; k++) {
-                eff *= (effectivenessData[j][pok.Type[k]] === 0 ? 1 : effectivenessData[j][pok.Type[k]])
-            }
-            arr[i].push(eff.toFixed(3))
-        }
+            pok.Type.forEach((pokType) => {
+                eff *= (elem[pokType] === 0 ? 1 : elem[pokType])
+            });
+            return eff.toFixed(3)
+        });
     }
 
     calculateOffensiveStats() {
@@ -85,32 +86,38 @@ class AdvisorPanelBody extends React.PureComponent {
         let zeros = []
         let strong = []
 
-        for (let i = 0; i < effectivenessData.length; i++) {
+        effectivenessData.forEach((elem, i) => {
             let cumulative = 1
             let zeroCount = 0
-            for (let j = 0; j < arr.length; j++) {
-                cumulative *= (effectivenessData[this.props.moveTable[arr[j]].MoveType][i] === 0 ? 1 : effectivenessData[this.props.moveTable[arr[j]].MoveType][i])
-                zeroCount += (effectivenessData[this.props.moveTable[arr[j]].MoveType][i] > 1 ||
-                    effectivenessData[this.props.moveTable[arr[j]].MoveType][i] === 0) ? 0 : 1
-            }
-            if (zeroCount / arr.length > 0.5) {
-                zeros.push(<Type
-                    key={"zeroOff" + i}
-                    class={"icon24 m-1"}
-                    code={i}
-                    value={typeDecoder[i]}
-                />)
-            }
-            if (cumulative.toFixed(1) > 1) {
-                strong.push(<Type
-                    key={"strongOff" + i}
-                    class={"icon24 m-1"}
-                    code={i}
-                    value={typeDecoder[i]}
-                />)
 
+            arr.forEach((name) => {
+                cumulative *= (effectivenessData[this.props.moveTable[name].MoveType][i] === 0 ?
+                    1 : effectivenessData[this.props.moveTable[name].MoveType][i])
+
+                zeroCount += (effectivenessData[this.props.moveTable[name].MoveType][i] > 1 ||
+                    effectivenessData[this.props.moveTable[name].MoveType][i] === 0) ? 0 : 1
+
+            });
+            switch (true) {
+                case zeroCount / arr.length > 0.5:
+                    zeros.push(<Type
+                        key={"zeroOff" + i}
+                        class={"icon24 m-1"}
+                        code={i}
+                        value={typeDecoder[i]}
+                    />)
+                    break
+                case cumulative.toFixed(1) > 1:
+                    strong.push(<Type
+                        key={"strongOff" + i}
+                        class={"icon24 m-1"}
+                        code={i}
+                        value={typeDecoder[i]}
+                    />)
+                    break
+                default:
             }
-        }
+        });
         return [zeros, strong]
     }
 
@@ -128,45 +135,32 @@ class AdvisorPanelBody extends React.PureComponent {
 
     makeZerosList() {
         //bad matchups
-        let zerosList = []
-        for (let z = 0; z < this.props.list[this.props.i].zeros.length; z++) {
-            let pok = this.props.rightPanel.listForBattle[this.props.list[this.props.i].zeros[z]]
-            zerosList.push(
-                <div className="posRel" key={pok.name + z + "zero"}>
-                    {(pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
-                    <PokemonIconer
-                        src={this.props.pokemonTable[pok.name].Number + (this.props.pokemonTable[pok.name].Forme !== "" ? "-" + this.props.pokemonTable[pok.name].Forme : "")}
-                        class={"icon48 mr-2"}
-                        for={pok.name + z + "zero"}
-                    />
-
-                    <ReactTooltip
-                        className={"infoTip"}
-                        id={pok.name + z + "zero"} effect='solid'
-                        place={"top"}
-                        multiline={true}
-                    >
-                        {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
-                    </ReactTooltip>
-                </div>
-            )
-        }
+        let zerosList = this.props.list[this.props.i].zeros.map((elem, i) => {
+            let pok = this.props.rightPanel.listForBattle[elem]
+            return <div className="posRel" key={pok.name + i + "zero"}>
+                {(pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
+                <PokemonIconer
+                    src={this.props.pokemonTable[pok.name].Number + (this.props.pokemonTable[pok.name].Forme !== "" ?
+                        "-" + this.props.pokemonTable[pok.name].Forme : "")}
+                    class={"icon48 mr-2"}
+                    for={pok.name + i + "zero"}
+                />
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={pok.name + i + "zero"} effect='solid'
+                    place={"top"}
+                    multiline={true}
+                >
+                    {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
+                </ReactTooltip>
+            </div>
+        })
         return zerosList.length > 0 ? zerosList : strings.options.moveSelect.none
-    }
-
-    recombineTable() {
-        var arr = []
-        //markup table
-        arr.push(this.props.rawResult[0])
-        arr.push(this.props.rawResult[this.props.list[this.props.i].first + 1])
-        arr.push(this.props.rawResult[this.props.list[this.props.i].second + 1])
-        arr.push(this.props.rawResult[this.props.list[this.props.i].third + 1])
-        return arr
     }
 
     makeMoveTypingList() {
         let arr = [
-            [<TypingThead key="movetyping" />],
+            <TypingThead key="movetyping" />,
         ]
         //add table lines
         this.addMoveLine(arr, this.props.first)
@@ -188,36 +182,14 @@ class AdvisorPanelBody extends React.PureComponent {
     }
 
     singleMoveLine(arr, name, pok) {
-        arr.push([<SingleMoveLine
-            MoveType={this.props.moveTable[name].MoveType}
-            line={arr.length}
-            name={name}
-            star={this.addStar(pok.name, name)}
-        />])
-    }
-
-    makePokTypingList(vun) {
-        let arr = [
-            [<TypingThead key="poktyping" />],
-        ]
-
-        //add table lines
-        this.addPokLine(arr, this.props.first, vun)
-        this.addPokLine(arr, this.props.second, vun)
-        this.addPokLine(arr, this.props.third, vun)
-
-        return arr
-    }
-
-    addPokLine(arr, pok, vun) {
-        arr.push([<SinglePokLine
-            i={arr.length - 1}
-            pok={pok}
-            pokemonTable={this.props.pokemonTable}
-            locale={strings.options.type.shadow}
-            addStar={this.addStar}
-            vun={vun}
-        />])
+        arr.push([
+            <SingleMoveLine
+                key={arr.length + name}
+                MoveType={this.props.moveTable[name].MoveType}
+                line={arr.length}
+                name={name}
+                star={this.addStar(pok.name, name)}
+            />])
     }
 
     render() {
@@ -240,7 +212,12 @@ class AdvisorPanelBody extends React.PureComponent {
                     <Result
                         class="tableFixHead"
                         table={<TableBody
-                            value={this.recombineTable()}
+                            value={[
+                                this.props.rawResult[0],
+                                this.props.rawResult[this.props.list[this.props.i].first + 1],
+                                this.props.rawResult[this.props.list[this.props.i].second + 1],
+                                this.props.rawResult[this.props.list[this.props.i].third + 1],
+                            ]}
                         />}
                     />
                 </div>
@@ -258,7 +235,36 @@ class AdvisorPanelBody extends React.PureComponent {
                     <Result
                         class="tableFixHead"
                         table={<TableBody
-                            value={this.makePokTypingList(vun[0])}
+                            value={[
+                                <TypingThead key="poktyping" />,
+                                <SinglePokLine
+                                    key="typesof1"
+                                    i={0}
+                                    pok={this.props.first}
+                                    pokemonTable={this.props.pokemonTable}
+                                    locale={strings.options.type.shadow}
+                                    addStar={this.addStar}
+                                    vun={vun[0]}
+                                />,
+                                <SinglePokLine
+                                    key="typesof2"
+                                    i={1}
+                                    pok={this.props.second}
+                                    pokemonTable={this.props.pokemonTable}
+                                    locale={strings.options.type.shadow}
+                                    addStar={this.addStar}
+                                    vun={vun[0]}
+                                />,
+                                <SinglePokLine
+                                    key="typesof2"
+                                    i={2}
+                                    pok={this.props.third}
+                                    pokemonTable={this.props.pokemonTable}
+                                    locale={strings.options.type.shadow}
+                                    addStar={this.addStar}
+                                    vun={vun[0]}
+                                />
+                            ]}
                         />}
                     />
                 </div>
