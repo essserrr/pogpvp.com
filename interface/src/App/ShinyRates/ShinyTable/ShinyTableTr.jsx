@@ -47,7 +47,7 @@ const ShinyTableTr = React.memo(function (props) {
             <th className="text-center text-sm-left px-0" scope="row">
                 <PokemonIconer
                     src={props.pokTable[props.pok.Name].Number + (props.pokTable[props.pok.Name].Forme !== "" ? "-" + props.pokTable[props.pok.Name].Forme : "")}
-                    class={"icon24 p-0 m-0 mr-1 "} />
+                    class={"icon36 p-0 m-0 mr-1 "} />
                 <a
                     className="link"
                     title={strings.dexentr + props.pok.Name}
