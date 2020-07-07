@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import { ReactComponent as Dust } from "../../../icons/stardust.svg";
 import { ReactComponent as Candy } from "../../../icons/candy.svg";

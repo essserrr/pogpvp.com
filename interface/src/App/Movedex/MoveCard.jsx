@@ -1,7 +1,7 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from 'react-localization';
-import { UnmountClosed } from 'react-collapse';
+import LocalizedStrings from "react-localization";
+import { UnmountClosed } from "react-collapse";
 
 
 import Errors from "../PvP/components/Errors/Errors"
@@ -40,17 +40,17 @@ class MoveCard extends React.Component {
         })
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
         ];

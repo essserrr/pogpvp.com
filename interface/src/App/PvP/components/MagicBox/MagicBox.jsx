@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import CloseButton from "./CloseButton"
 
 class MagicBox extends PureComponent {

@@ -16,7 +16,7 @@ const LabelPrepend = React.memo(function (props) {
             </label>
             {(props.for !== "") && <ReactTooltip
                 className={props.tipClass}
-                id={props.for} effect='solid'
+                id={props.for} effect="solid"
                 place={props.place}
                 multiline={true}>
                 {props.tip}

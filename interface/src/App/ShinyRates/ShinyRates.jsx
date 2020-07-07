@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import Errors from "../PvP/components/Errors/Errors"
 import ShinyTable from "./ShinyTable/ShinyTable"
@@ -42,17 +42,17 @@ class ShinyRates extends React.Component {
         })
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/shiny", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
         ];
@@ -116,8 +116,8 @@ class ShinyRates extends React.Component {
     }
 
     onClick(event) {
-        let fieldName = event.currentTarget.getAttribute('name')
-        let fieldType = event.currentTarget.getAttribute('coltype')
+        let fieldName = event.currentTarget.getAttribute("name")
+        let fieldType = event.currentTarget.getAttribute("coltype")
         switch (this.state.active.field === fieldName) {
             case true:
                 this.setState({

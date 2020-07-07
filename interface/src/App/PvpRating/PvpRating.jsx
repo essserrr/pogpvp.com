@@ -1,6 +1,6 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
@@ -119,24 +119,24 @@ class PvpRating extends React.Component {
 
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + defaultPath, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
         ];
@@ -314,10 +314,10 @@ class PvpRating extends React.Component {
         let reason = ""
         //fecth for new rating result
         let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + typeOfrating, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
             },
         }).catch(function (r) {
             reason = r
@@ -401,7 +401,7 @@ class PvpRating extends React.Component {
                                         place={"bottom"}
                                         for={"rating"}
                                         tip={this.state.ratingTip}
-                                        tipClass='strategyTips'
+                                        tipClass="strategyTips"
                                     />
                                 </div>
                             </div>

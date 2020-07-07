@@ -58,7 +58,7 @@ const NavigationBlock = React.memo(function (props) {
                 <ReactTooltip
                     className={"infoTip"}
                     multiline={true}
-                    id={props.prevTitle ? "prev" : ""} effect='solid'>
+                    id={props.prevTitle ? "prev" : ""} effect="solid">
                     {props.prevTitle}
                 </ReactTooltip>
             </>}
@@ -74,12 +74,12 @@ const NavigationBlock = React.memo(function (props) {
                 <ReactTooltip
                     className={"infoTip"}
                     multiline={true}
-                    id={props.nextTitle ? "next" : ""} effect='solid'>
+                    id={props.nextTitle ? "next" : ""} effect="solid">
                     {props.nextTitle}
                 </ReactTooltip>
 
             </>}
-        </div>
+        </div >
     )
 });
 

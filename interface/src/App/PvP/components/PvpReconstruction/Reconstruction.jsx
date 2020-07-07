@@ -2,9 +2,9 @@ import React from "react";
 
 import TimelineGenerator from "./TimelineGenerator"
 import ReactTooltip from "react-tooltip"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
-import { getCookie } from '../../../../js/indexFunctions'
+import { getCookie } from "../../../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
@@ -44,7 +44,7 @@ class Reconstruction extends React.PureComponent {
                 <div className="col-12 m-0 p-0 text-right">
                     <ReactTooltip
                         className={"strategyTips"}
-                        id={"constructorButton"} effect='solid'
+                        id={"constructorButton"} effect="solid"
                         place={"top"}
                         multiline={true}>
                         {strings.tips.constructor}

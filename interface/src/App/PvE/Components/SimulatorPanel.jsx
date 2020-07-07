@@ -3,7 +3,7 @@ import Stats from "../../PvP/components/Stats/Stats";
 import SelectGroup from "../../PvP/components/SelectGroup/SelectGroup";
 import PvePokemon from "./PvePokemon"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
 import { pveLocale } from "../../../locale/pveLocale"
 import { getCookie } from "../../../js/indexFunctions"
@@ -144,7 +144,7 @@ class SimulatorPanel extends React.PureComponent {
                         for={"attackerIsShadow"}
 
                         tip={strings.tips.shadow}
-                        tipClass='strategyTips'
+                        tipClass="strategyTips"
                     />
                 </div>
                 <div className="order-3 order-sm-2 col-12 col-sm-4 m-0 p-0 text-center px-1">
@@ -165,7 +165,7 @@ class SimulatorPanel extends React.PureComponent {
                                 for={"pvePlayersNumber"}
 
                                 tip={pveStrings.playernumbTip}
-                                tipClass='strategyTips'
+                                tipClass="strategyTips"
                             />
                             <SelectGroup
                                 name="PartySize"
@@ -202,7 +202,7 @@ class SimulatorPanel extends React.PureComponent {
                                 for={"pveDodgeStrategy"}
 
                                 tip={pveStrings.dodgetip}
-                                tipClass='strategyTips'
+                                tipClass="strategyTips"
                             />
                             <SelectGroup
                                 name="FriendshipStage"
@@ -245,7 +245,7 @@ class SimulatorPanel extends React.PureComponent {
                         for={"bossTier"}
 
                         tip={this.state.tierTip}
-                        tipClass='strategyTips'
+                        tipClass="strategyTips"
                     />
                     <SelectGroup
                         name="IsAggresive"
@@ -260,7 +260,7 @@ class SimulatorPanel extends React.PureComponent {
                         for={"bossIsAggresive"}
 
                         tip={pveStrings.aggresivetip}
-                        tipClass='strategyTips'
+                        tipClass="strategyTips"
                     />
                 </div>
 
@@ -284,11 +284,11 @@ class SimulatorPanel extends React.PureComponent {
                             label={strings.title.type}
 
 
-                            place={((this.props.attr === "attacker") ? 'right' : 'left')}
+                            place={((this.props.attr === "attacker") ? "right" : "left")}
                             for={"shadow" + this.props.attr}
 
                             tip={strings.tips.shadow}
-                            tipClass='strategyTips'
+                            tipClass="strategyTips"
                         />
                     </>}
             </div>

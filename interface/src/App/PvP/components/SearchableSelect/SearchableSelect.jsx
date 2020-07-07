@@ -1,9 +1,9 @@
-import React from 'react';
-import Select from 'react-select';
+import React from "react";
+import Select from "react-select";
 
 const SearchableSelect = React.memo(function (props) {
     const customStyles = {
-        control: styles => ({ ...styles, borderColor: 'rgba(0, 0, 0, 0.4)', borderWidth: "0.5px" }),
+        control: styles => ({ ...styles, borderColor: "rgba(0, 0, 0, 0.4)", borderWidth: "0.5px" }),
     }
     return (
         <Select

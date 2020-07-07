@@ -18,18 +18,18 @@ const SinglePokLine = React.memo(function (props) {
                 />
                 <ReactTooltip
                     className={"infoTip"}
-                    id={props.pok.name + props.i + "R"} effect='solid'
+                    id={props.pok.name + props.i + "R"} effect="solid"
                     place={"right"}
                     multiline={true}
                 >
                     {props.pok.name + (props.pok.IsShadow === "true" ? " (" + props.locale + ")" : "")}
                 </ReactTooltip>
                 <div className="row m-0 p-0 justify-content-center">
-                    {props.pok.QuickMove.replace(/[a-z -]/g, '') + props.addStar(props.pok.name, props.pok.QuickMove)}
+                    {props.pok.QuickMove.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.QuickMove)}
                     {(props.pok.ChargeMove1 || props.pok.ChargeMove2) ? "+" : ""}
-                    {props.pok.ChargeMove1 ? (props.pok.ChargeMove1.replace(/[a-z -]/g, '') + props.addStar(props.pok.name, props.pok.ChargeMove1)) : ""}
+                    {props.pok.ChargeMove1 ? (props.pok.ChargeMove1.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove1)) : ""}
                     {(props.pok.ChargeMove1 && props.pok.ChargeMove2) ? "/" : ""}
-                    {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, '') + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
+                    {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
                 </div>
             </td>
             {props.vun[props.i].map((elem, k) => {

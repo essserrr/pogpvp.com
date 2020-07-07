@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import SingleRadio from "./SingleRadio"
 import SubmitButton from "../SubmitButton/SubmitButton"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/indexFunctions"
 

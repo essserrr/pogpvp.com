@@ -1,6 +1,6 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 
 import { locale } from "../../locale/locale"

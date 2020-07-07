@@ -18,8 +18,8 @@ const Event = React.memo(function (props) {
                 data-tip data-for={props.for}
             >{props.value}</div>
             {(props.for !== "") && <ReactTooltip
-                className='logItems'
-                id={props.for} effect='solid'
+                className="logItems"
+                id={props.for} effect="solid"
                 place={props.place}
                 multiline={true}>
                 {props.tip}

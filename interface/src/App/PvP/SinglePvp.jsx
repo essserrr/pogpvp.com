@@ -5,7 +5,7 @@ import SubmitButton from "./components/SubmitButton/SubmitButton"
 import {
     calculateEffStat, pokemon, encodeQueryData, returnMovePool, calculateMaximizedStats, processHP,
     getCookie, processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
-} from '../../js/indexFunctions.js'
+} from "../../js/indexFunctions.js"
 import Reconstruction from "./components/PvpReconstruction/Reconstruction.jsx"
 import Errors from "./components/Errors/Errors"
 import Indicators from "./components/Indicators/Indicators"
@@ -14,7 +14,7 @@ import MagicBox from "./components/MagicBox/MagicBox"
 import Constructor from "./components/Constructor/Constructor"
 import Loader from "../PvpRating/Loader"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -125,7 +125,7 @@ class SinglePvp extends React.PureComponent {
     }
 
     onInitialStatsChange(event, role) {
-        let correspondingStat = event.target.name.replace("Initial", '')
+        let correspondingStat = event.target.name.replace("Initial", "")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -176,7 +176,7 @@ class SinglePvp extends React.PureComponent {
     }
 
     onStageChange(event, role) {
-        let correspondingStat = event.target.name.replace("Stage", '')
+        let correspondingStat = event.target.name.replace("Stage", "")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -222,7 +222,6 @@ class SinglePvp extends React.PureComponent {
     }
 
     onChange(event, name) {
-        let role = event.target.getAttribute("attr")
         //check if it`s a name change
         if (event.target === undefined) {
             switch (name.name[1]) {
@@ -241,6 +240,7 @@ class SinglePvp extends React.PureComponent {
             }
             return
         }
+        let role = event.target.getAttribute("attr")
         //check if it's an initial stat change
         if (event.target.name === "InitialHP" || event.target.name === "InitialEnergy") {
             this.onInitialStatsChange(event, role)
@@ -290,9 +290,9 @@ class SinglePvp extends React.PureComponent {
         event.preventDefault();
 
         let role = event.target.getAttribute("attr")
-        let level = event.target.getAttribute('level')
-        let stat = event.target.getAttribute('stat')
-        let action = event.target.getAttribute('action')
+        let level = event.target.getAttribute("level")
+        let stat = event.target.getAttribute("stat")
+        let action = event.target.getAttribute("action")
         let varIVS = {}
 
 
@@ -364,11 +364,11 @@ class SinglePvp extends React.PureComponent {
         });
         let reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/single/" + url, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
-                'Pvp-Type': this.props.parentState.pvpoke ? "pvpoke" : "normal",
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
+                "Pvp-Type": this.props.parentState.pvpoke ? "pvpoke" : "normal",
             },
         }).catch(function (r) {
             reason = r
@@ -437,7 +437,7 @@ class SinglePvp extends React.PureComponent {
     };
 
     onMouseEnter(event) {
-        let dataFor = event.target.getAttribute('data-for')
+        let dataFor = event.target.getAttribute("data-for")
         let id = event.target.id
         let extractedNumber
         let round
@@ -475,7 +475,7 @@ class SinglePvp extends React.PureComponent {
     }
 
     constructorOn(event) {
-        let dataFor = event.currentTarget.getAttribute('data-for')
+        let dataFor = event.currentTarget.getAttribute("data-for")
         let extractedNumber
         switch (true) {
             case Boolean(dataFor):
@@ -574,11 +574,11 @@ class SinglePvp extends React.PureComponent {
 
         var reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/constructor", {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
-                'Pvp-Type': this.props.parentState.pvpoke ? "pvpoke" : "normal",
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
+                "Pvp-Type": this.props.parentState.pvpoke ? "pvpoke" : "normal",
             },
             body: JSON.stringify(requestObj)
         }).catch(function (r) {

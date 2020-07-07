@@ -8,7 +8,7 @@ const Stat = React.memo(function (props) {
             <ReactTooltip
                 className={"infoTip"}
                 multiline={true}
-                id={props.label} effect='solid'>
+                id={props.label} effect="solid">
                 {props.value}/{props.max}
             </ReactTooltip>
             <div className="col-3 col-sm-2 p-0 dexFont">

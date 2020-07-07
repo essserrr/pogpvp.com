@@ -2,7 +2,7 @@ import React from "react";
 import Line from "./Line";
 import Thead from "./Thead";
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
 import { getCookie, returnRateStyle } from "../../../../js/indexFunctions"
 

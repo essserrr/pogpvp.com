@@ -1,6 +1,6 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
-import { UnmountClosed } from 'react-collapse';
+import LocalizedStrings from "react-localization";
+import { UnmountClosed } from "react-collapse";
 import HpBar from "../PhBar/HpBar"
 
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
@@ -108,10 +108,10 @@ class PveResEntry extends React.PureComponent {
         });
         let reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
             },
         })
             .catch(function (r) {

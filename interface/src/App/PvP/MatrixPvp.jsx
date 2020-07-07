@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
@@ -135,7 +135,7 @@ class MatrixPvp extends React.PureComponent {
 
     onPopup(event, role) {
         event.preventDefault();
-        let stat = event.target.getAttribute('stat')
+        let stat = event.target.getAttribute("stat")
 
         this.setState({
             [role]: {
@@ -225,7 +225,7 @@ class MatrixPvp extends React.PureComponent {
 
     onChange(event) {
         //otherwise follow general pattern
-        let action = event.target.getAttribute('action')
+        let action = event.target.getAttribute("action")
         let role = event.target.getAttribute("attr")
         if (action === "defaultStatMaximizer") {
             this.statMaximizer(event, role)
@@ -276,7 +276,7 @@ class MatrixPvp extends React.PureComponent {
 
     onPokemonDelete(event) {
         let role = event.target.getAttribute("attr")
-        let index = event.target.getAttribute('index')
+        let index = event.target.getAttribute("index")
 
         let newListForBattle = this.state[role].listForBattle.filter((value) => value.key !== index);
         let newListToDisplay = this.state[role].listToDisplay.filter((value) => value.key !== index);
@@ -313,12 +313,12 @@ class MatrixPvp extends React.PureComponent {
         })
         let reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/matrix", {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
-                'Pvp-Type': pvpoke ? "pvpoke" : "normal",
-                'Pvp-Shields': triple ? "triple" : "normal",
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
+                "Pvp-Type": pvpoke ? "pvpoke" : "normal",
+                "Pvp-Shields": triple ? "triple" : "normal",
             },
             body: JSON.stringify({ Party1: this.state.leftPanel.listForBattle, Party2: this.state.rightPanel.listForBattle, })
         }).catch(function (r) {
@@ -587,11 +587,11 @@ class MatrixPvp extends React.PureComponent {
     }
 
     onPokRedact(event) {
-        if (event.target.getAttribute('name') === "closeButton") {
+        if (event.target.getAttribute("name") === "closeButton") {
             return
         }
         let listForBattle = this.state[event.currentTarget.getAttribute("attr")].listForBattle
-        let index = event.currentTarget.getAttribute('index')
+        let index = event.currentTarget.getAttribute("index")
         let elementNumber
         let pokemon
 

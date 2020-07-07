@@ -4,7 +4,7 @@ import EnergyIndicator from "./EnergyIndicator"
 import EnergyNumber from "./EnergyNumber"
 import { calculateDamage, calculateMultiplier, getCookie } from "../../../../js/indexFunctions"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -32,7 +32,7 @@ const Indicators = React.memo(function (props) {
                     value={props.energy}
                     defaultValue={0}
                     maxValue={-props.chargeMove1.PvpEnergy}
-                    moveName={props.chargeMove1.Title.replace(/[a-z -]/g, '')}
+                    moveName={props.chargeMove1.Title.replace(/[a-z -]/g, "")}
                     moveType={props.chargeMove1.MoveType}
                     for={"ChM1En" + props.attr}
                     tip={<small>
@@ -52,7 +52,7 @@ const Indicators = React.memo(function (props) {
                     value={props.energy}
                     defaultValue={0}
                     maxValue={-props.chargeMove2.PvpEnergy}
-                    moveName={props.chargeMove2.Title.replace(/[a-z -]/g, '')}
+                    moveName={props.chargeMove2.Title.replace(/[a-z -]/g, "")}
                     moveType={props.chargeMove2.MoveType}
                     for={"ChM2En" + props.attr}
                     tip={<small>

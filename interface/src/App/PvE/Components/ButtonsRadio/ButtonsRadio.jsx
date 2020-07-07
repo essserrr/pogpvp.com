@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import SingleButton from "./SingleButton"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { pveLocale } from "../../../../locale/pveLocale"
 import { getCookie } from "../../../../js/indexFunctions"
 

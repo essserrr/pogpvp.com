@@ -1,6 +1,6 @@
 import React from "react";
-import CSSTransitionGroup from 'react-addons-css-transition-group'
-import LocalizedStrings from 'react-localization';
+import CSSTransitionGroup from "react-addons-css-transition-group"
+import LocalizedStrings from "react-localization";
 import ReactTooltip from "react-tooltip"
 
 import { locale } from "../../../locale/locale"
@@ -41,7 +41,7 @@ const ShinyTable = React.memo(function (props) {
                                     <i data-tip data-for={"shinyrate"} className="align-self-center fas fa-info-circle ml-1">
                                         {<ReactTooltip
                                             className={"infoTip"}
-                                            id={"shinyrate"} effect='solid'
+                                            id={"shinyrate"} effect="solid"
                                             place={"top"}
                                             multiline={true}
                                         >

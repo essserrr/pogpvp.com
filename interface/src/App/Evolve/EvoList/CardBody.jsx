@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Type from "../../PvP/components/CpAndTypes/Type"
 import CP from "../../PvP/components/CpAndTypes/CP"
 import { typeDecoder } from "../../../js/indexFunctions"

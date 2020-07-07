@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization'
+import LocalizedStrings from "react-localization"
 import SiteHelm from "../SiteHelm/SiteHelm"
 
 import Errors from "../PvP/components/Errors/Errors"
@@ -48,10 +48,10 @@ class NewsPages extends React.Component {
             pageNumber = this.props.match.params.number
         }
         let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/page/" + pageNumber, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
             },
         }).catch(function (r) {
             reason = r

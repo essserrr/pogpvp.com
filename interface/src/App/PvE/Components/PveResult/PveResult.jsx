@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import PveResEntry from "./PveResEntry"
 import URL from "../../../PvP/components/URL/URL"
@@ -11,7 +11,7 @@ import ButtonsRadio from "../ButtonsRadio/ButtonsRadio"
 
 import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie } from '../../../../js/indexFunctions'
+import { getCookie } from "../../../../js/indexFunctions"
 
 
 let strings = new LocalizedStrings(locale);

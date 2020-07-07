@@ -1,7 +1,7 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import ReactTooltip from "react-tooltip"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SearchableSelect from "../PvP/components/SearchableSelect/SearchableSelect"
@@ -46,10 +46,10 @@ class Evolve extends React.Component {
         //get pok base
         let reason = ""
         let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
             },
         }).catch(function (r) {
             reason = r
@@ -172,7 +172,7 @@ class Evolve extends React.Component {
                                         />
                                     </div>
                                     <div className="col-12 col-md-12 px-2">
-                                        <ReactTooltip effect='solid' />
+                                        <ReactTooltip effect="solid" />
                                         <Stats
                                             Lvl={this.state.Lvl}
                                             Atk={this.state.Atk}

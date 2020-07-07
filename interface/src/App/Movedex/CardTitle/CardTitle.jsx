@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import { getCookie, typeDecoder } from "../../../js/indexFunctions"
 import { dexLocale } from "../../../locale/dexLocale"

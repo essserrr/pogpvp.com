@@ -15,7 +15,7 @@ class URL extends React.PureComponent {
 
     async onClick(event) {
         event.target.select();
-        document.execCommand('copy');
+        document.execCommand("copy");
         this.setState({
             showTip: true
         })

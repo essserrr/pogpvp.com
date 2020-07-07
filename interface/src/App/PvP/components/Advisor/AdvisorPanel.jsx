@@ -1,5 +1,5 @@
 import React from "react";
-import { UnmountClosed } from 'react-collapse';
+import { UnmountClosed } from "react-collapse";
 
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import AdvisorPanelBody from "./AdvisorPanelBody"

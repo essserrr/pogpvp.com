@@ -1,7 +1,7 @@
 import React from "react";
 import {
     returnMovePool, pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, getCookie, checkLvl, checkIV
-} from '../../js/indexFunctions.js'
+} from "../../js/indexFunctions.js"
 
 import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
@@ -10,7 +10,7 @@ import PveResult from "./Components/PveResult/PveResult"
 import Loader from "../PvpRating/Loader"
 
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -99,8 +99,7 @@ class CommonPve extends React.PureComponent {
     }
 
 
-    onIvChange(event) {
-        let role = event.target.getAttribute("attr")
+    onIvChange(event, role) {
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -109,8 +108,7 @@ class CommonPve extends React.PureComponent {
         });
     }
 
-    onLevelChange(event) {
-        let role = event.target.getAttribute("attr")
+    onLevelChange(event, role) {
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -119,8 +117,7 @@ class CommonPve extends React.PureComponent {
         });
     }
 
-    onTypeChange(event) {
-        let role = event.target.getAttribute("attr")
+    onTypeChange(event, role) {
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -177,18 +174,18 @@ class CommonPve extends React.PureComponent {
             }
             return
         }
+        let role = event.target.getAttribute("attr")
         //check if it's an iv change
         if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event)
+            this.onIvChange(event, role)
             return
         }
         //check if it's an level change
         if (event.target.name === "Lvl") {
-            this.onLevelChange(event)
+            this.onLevelChange(event, role)
             return
         }
         if (event.target.value === "Select...") {
-            var role = event.target.getAttribute("attr")
             this.setState({
                 [role]: {
                     ...this.state[role],
@@ -200,11 +197,10 @@ class CommonPve extends React.PureComponent {
         }
         //if it's an type change
         if (event.target.name === "IsShadow") {
-            this.onTypeChange(event)
+            this.onTypeChange(event, role)
             return
         }
         //otherwise follow general pattern
-        role = event.target.getAttribute("attr")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -229,10 +225,10 @@ class CommonPve extends React.PureComponent {
         });
         let reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
             },
         }).catch(function (r) {
             reason = r

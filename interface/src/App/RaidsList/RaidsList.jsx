@@ -1,6 +1,6 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import Errors from "../PvP/components/Errors/Errors"
 import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
@@ -43,17 +43,17 @@ class RaidsList extends React.Component {
 
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/raids", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             //after opening the page get pokemonBase

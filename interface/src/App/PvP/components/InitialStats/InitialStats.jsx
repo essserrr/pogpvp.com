@@ -3,7 +3,7 @@ import Input from "../Input/Input";
 import ReactTooltip from "react-tooltip"
 import LabelPrepend from "../SelectGroup/LabelPrepend"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/indexFunctions"
 
@@ -14,11 +14,11 @@ const InitialStats = React.memo(function (props) {
     return (
         <div className="input-group input-group-sm mt-2">
             <ReactTooltip
-                id={props.attr + "InitialHP"} effect='solid'>
+                id={props.attr + "InitialHP"} effect="solid">
                 {"HP: 0-" + strings.initialStats.hpTip + " HP"}
             </ReactTooltip>
             <ReactTooltip
-                id={props.attr + "InitialEnergy"} effect='solid'>
+                id={props.attr + "InitialEnergy"} effect="solid">
                 {strings.initialStats.energyTip + ": 0-100"}
             </ReactTooltip>
 

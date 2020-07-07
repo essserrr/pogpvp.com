@@ -12,10 +12,10 @@ export default class DropdownMenu extends React.PureComponent {
 
     onClick = () => this.setState({ showDropdown: !this.state.showDropdown });
     componentDidMount() {
-        document.addEventListener('mousedown', this.handleClickOutside);
+        document.addEventListener("mousedown", this.handleClickOutside);
     }
     componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClickOutside);
+        document.removeEventListener("mousedown", this.handleClickOutside);
     }
     setWrapperRef(node) {
         this.wrapperRef = node;

@@ -1,7 +1,7 @@
 import React from "react";
 import DropdownMenu from "./DropdownMenu"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
 
@@ -47,7 +47,7 @@ class Navbar extends React.PureComponent {
 
     onClick(event) {
         event.preventDefault();
-        document.cookie = "appLang=" + event.currentTarget.getAttribute('name') + "; path=/; max-age=31536000"
+        document.cookie = "appLang=" + event.currentTarget.getAttribute("name") + "; path=/; max-age=31536000"
         window.location.reload()
     }
 

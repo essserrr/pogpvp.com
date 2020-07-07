@@ -1,8 +1,8 @@
 import React from "react";
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie, tierHP, weather, culculateCP } from '../../../../js/indexFunctions'
+import { getCookie, tierHP, weather, culculateCP } from "../../../../js/indexFunctions"
 import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 import WeatherList from "./WeatherList"
 

@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import LocalizedStrings from 'react-localization';
+import React, { PureComponent } from "react";
+import LocalizedStrings from "react-localization";
 
 import PokemonCard from "../PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"

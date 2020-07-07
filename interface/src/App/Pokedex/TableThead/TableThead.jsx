@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import Header from "../../Movedex/Header/Header"
 import { getCookie } from "../../../js/indexFunctions"

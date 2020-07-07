@@ -5,7 +5,7 @@ import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
 
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/indexFunctions"
 
@@ -74,7 +74,7 @@ class PvePokemon extends React.PureComponent {
                         {"DPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Damage / (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
                         {"EPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy / (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
                     </small>}
-                    tipClass='logItems'
+                    tipClass="logItems"
                 />
 
                 <SelectGroup
@@ -99,7 +99,7 @@ class PvePokemon extends React.PureComponent {
                         {"DPS*DPE: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage / (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000) * this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage / -this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Energy).toFixed(2)}<br />
 
                     </small>}
-                    tipClass='logItems'
+                    tipClass="logItems"
                 />
 
             </>

@@ -19,9 +19,9 @@ const EnergyIndicator = React.memo(function (props) {
     return (
         <>
             <ReactTooltip
-                className='logItems'
+                className="logItems"
                 id={props.for}
-                effect='solid'
+                effect="solid"
                 place="top"
                 multiline={true}
             >

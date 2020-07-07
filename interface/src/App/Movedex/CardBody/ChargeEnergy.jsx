@@ -12,7 +12,7 @@ const ChargeEnergy = React.memo(function (props) {
             </div>
             <ReactTooltip
                 className={"infoTip"}
-                id={props.move.Title + "En"} effect='solid'
+                id={props.move.Title + "En"} effect="solid"
                 place={"top"}
                 multiline={false}>
                 {props.move.Energy}

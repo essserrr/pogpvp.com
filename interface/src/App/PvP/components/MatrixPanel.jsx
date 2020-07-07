@@ -7,7 +7,7 @@ import SubmitButton from "./SubmitButton/SubmitButton"
 import {
     getCookie, returnMovePool, calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat,
     pokemon, selectCharge, selectQuick
-} from '../../../js/indexFunctions.js'
+} from "../../../js/indexFunctions.js"
 import Stages from "./Stages/Stages";
 import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
 import InputAndSubmit from "./InputAndSubmit/InputAndSubmit"
@@ -15,7 +15,7 @@ import Counter from "./Counter/Counter"
 import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
 import ReactTooltip from "react-tooltip";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -123,7 +123,7 @@ class MatrixPanel extends React.PureComponent {
     }
 
     onInitialStatsChange(event, role) {
-        let correspondingStat = event.target.name.replace("Initial", '')
+        let correspondingStat = event.target.name.replace("Initial", "")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -176,7 +176,7 @@ class MatrixPanel extends React.PureComponent {
     }
 
     onStageChange(event, role) {
-        let correspondingStat = event.target.name.replace("Stage", '')
+        let correspondingStat = event.target.name.replace("Stage", "")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -288,9 +288,9 @@ class MatrixPanel extends React.PureComponent {
     maximizerSubmit(event) {
         event.preventDefault();
         let role = event.target.getAttribute("attr")
-        let level = event.target.getAttribute('level')
-        let stat = event.target.getAttribute('stat')
-        let action = event.target.getAttribute('action')
+        let level = event.target.getAttribute("level")
+        let stat = event.target.getAttribute("stat")
+        let action = event.target.getAttribute("action")
         let varIVS = {}
 
         //if there is no data for given level - generate it
@@ -441,7 +441,7 @@ class MatrixPanel extends React.PureComponent {
                     onChange={this.props.onChange}
                     options={this.props.savedParties}
                     label={strings.title.savedparties}
-                    for=''
+                    for=""
                 />
                 <div className="row  justify-content-around mx-0 px-0 pb-0 padding325" >
 
@@ -482,7 +482,7 @@ class MatrixPanel extends React.PureComponent {
                     onChange={this.props.onChange}
                     options={this.state.stagesList}
                     label={strings.title.initialStages}
-                    for=''
+                    for=""
                 />
 
                 <SelectGroup
@@ -492,7 +492,7 @@ class MatrixPanel extends React.PureComponent {
                     onChange={this.props.onChange}
                     options={this.state.shieldsList}
                     label={strings.title.shields}
-                    for=''
+                    for=""
                 />
                 <SelectGroup
                     name="IsGreedy"
@@ -502,10 +502,10 @@ class MatrixPanel extends React.PureComponent {
                     options={this.state.stratigiesList}
                     label={strings.title.strategy}
 
-                    place={((this.props.attr === "leftPanel") ? 'right' : 'left')}
-                    for={((this.props.attr === "leftPanel") ? 'strategyL' : 'strategyR')}
+                    place={((this.props.attr === "leftPanel") ? "right" : "left")}
+                    for={((this.props.attr === "leftPanel") ? "strategyL" : "strategyR")}
                     tip={this.state.strategyTip}
-                    tipClass='strategyTips'
+                    tipClass="strategyTips"
                 />
 
                 {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1"><Checkbox
@@ -522,7 +522,7 @@ class MatrixPanel extends React.PureComponent {
                     <i data-tip data-for={"triple"} className="align-self-center fas fa-info-circle fa-lg ml-auto mt-2">
                         <ReactTooltip
                             className={"infoTip"}
-                            id={"triple"} effect='solid'
+                            id={"triple"} effect="solid"
                             place={"top"}
                             multiline={true}
                         >
@@ -543,7 +543,7 @@ class MatrixPanel extends React.PureComponent {
                     <i data-tip data-for={"advisor"} className="align-self-center fas fa-info-circle fa-lg ml-auto">
                         <ReactTooltip
                             className={"infoTip"}
-                            id={"advisor"} effect='solid'
+                            id={"advisor"} effect="solid"
                             place={"top"}
                             multiline={true}
                         >

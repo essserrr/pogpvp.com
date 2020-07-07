@@ -15,7 +15,7 @@ const EffIcon = React.memo(function (props) {
             />
             <ReactTooltip
                 className={"infoTip"}
-                id={props.i + "effIcon"} effect='solid'
+                id={props.i + "effIcon"} effect="solid"
                 place={"top"}
                 multiline={true}
             >

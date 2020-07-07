@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Type from "../PvP/components/CpAndTypes/Type"
 import Range from "../RaidsList/Range/Range"
 

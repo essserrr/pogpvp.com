@@ -1,7 +1,7 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import ReactTooltip from "react-tooltip";
 
 import SinglePvp from "./SinglePvp"
@@ -108,28 +108,28 @@ class PvpPage extends React.Component {
         var extractedData = extractData(league, pok1, pok2)
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             //after opening the page get pokemonBase
         ];
         if (extractedData.attacker !== undefined && extractedData.defender !== undefined) {
             fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + window.location.pathname.replace("pvp", "request").replace("/pvpoke", ""), {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
-                    'Pvp-Type': simtype === "pvpoke" ? "pvpoke" : "normal",
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
+                    "Pvp-Type": simtype === "pvpoke" ? "pvpoke" : "normal",
                 },
             }))
         }
@@ -304,7 +304,7 @@ class PvpPage extends React.Component {
                                     <i data-tip data-for={"pvpoke"} className="align-self-center fas fa-info-circle fa-lg ml-2">
                                         <ReactTooltip
                                             className={"infoTip"}
-                                            id={"pvpoke"} effect='solid'
+                                            id={"pvpoke"} effect="solid"
                                             place={"top"}
                                             multiline={true}
                                         >

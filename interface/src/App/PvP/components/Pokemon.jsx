@@ -10,7 +10,7 @@ import EffectiveStats from "./EffectiveStats/EffectiveStats"
 import MagicBox from "./MagicBox/MagicBox"
 
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/indexFunctions"
 
@@ -123,7 +123,7 @@ class Pokemon extends React.PureComponent {
                             attr={this.props.attr}
                             onChange={this.props.onChange}
                             label={strings.title.initialStats}
-                            for=''
+                            for=""
                         />
 
                         <Stages
@@ -133,7 +133,7 @@ class Pokemon extends React.PureComponent {
                             onChange={this.props.onChange}
                             options={this.state.stagesList}
                             label={strings.title.initialStages}
-                            for=''
+                            for=""
                         />
 
                         <SelectGroup
@@ -143,7 +143,7 @@ class Pokemon extends React.PureComponent {
                             onChange={this.props.onChange}
                             options={this.state.shieldsList}
                             label={strings.title.shields}
-                            for=''
+                            for=""
                         />
 
                         <SelectGroup
@@ -154,10 +154,10 @@ class Pokemon extends React.PureComponent {
                             options={this.state.stratigiesList}
                             label={strings.title.strategy}
 
-                            place={((this.props.attr === "attacker") ? 'right' : 'left')}
-                            for={((this.props.attr === "attacker") ? 'strategyA' : 'strategyD')}
+                            place={((this.props.attr === "attacker") ? "right" : "left")}
+                            for={((this.props.attr === "attacker") ? "strategyA" : "strategyD")}
                             tip={this.state.strategyTip}
-                            tipClass='strategyTips'
+                            tipClass="strategyTips"
                         />
 
                         <SelectGroup
@@ -169,11 +169,11 @@ class Pokemon extends React.PureComponent {
                             label={strings.title.type}
 
 
-                            place={((this.props.attr === "attacker") ? 'right' : 'left')}
+                            place={((this.props.attr === "attacker") ? "right" : "left")}
                             for={"shadow" + this.props.attr}
 
                             tip={strings.tips.shadow}
-                            tipClass='strategyTips'
+                            tipClass="strategyTips"
                         />
 
                         <SelectGroup
@@ -186,7 +186,7 @@ class Pokemon extends React.PureComponent {
                             labelStyle={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
                                 "color" + this.props.moveTable[this.props.value.QuickMove].MoveType + " text" : ""}
 
-                            place={((this.props.attr === "attacker") ? 'right' : 'left')}
+                            place={((this.props.attr === "attacker") ? "right" : "left")}
                             for={this.props.value.QuickMove && ("QuickMove" + this.props.attr)}
                             tip={this.props.value.QuickMove && <small>
                                 {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].PvpDamage)}<br />
@@ -198,7 +198,7 @@ class Pokemon extends React.PureComponent {
                                     <br />{strings.move.stage + this.props.moveTable[this.props.value.QuickMove].StageDelta}
                                 </>)}
                             </small>}
-                            tipClass='logItems'
+                            tipClass="logItems"
                         />
 
                         <SelectGroup
@@ -213,7 +213,7 @@ class Pokemon extends React.PureComponent {
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
                                 "color" + this.props.moveTable[this.props.value.ChargeMove1].MoveType + " text" : ""}
 
-                            place={((this.props.attr === "attacker") ? 'right' : 'left')}
+                            place={((this.props.attr === "attacker") ? "right" : "left")}
                             for={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") && ("ChargeMove1" + this.props.attr)}
                             tip={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") && <small>
                                 {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove1].PvpDamage)}<br />
@@ -225,7 +225,7 @@ class Pokemon extends React.PureComponent {
                                     <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove1].StageDelta}
                                 </>)}
                             </small>}
-                            tipClass='logItems'
+                            tipClass="logItems"
                         />
 
                         <SelectGroup
@@ -240,7 +240,7 @@ class Pokemon extends React.PureComponent {
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
                                 "color" + this.props.moveTable[this.props.value.ChargeMove2].MoveType + " text" : ""}
 
-                            place={((this.props.attr === "attacker") ? 'right' : 'left')}
+                            place={((this.props.attr === "attacker") ? "right" : "left")}
                             for={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") && ("ChargeMove2" + this.props.attr)}
                             tip={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") && <small>
                                 {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].PvpDamage)}<br />
@@ -252,7 +252,7 @@ class Pokemon extends React.PureComponent {
                                     <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove2].StageDelta}
                                 </>)}
                             </small>}
-                            tipClass='logItems'
+                            tipClass="logItems"
                         />
                     </>}
             </div>

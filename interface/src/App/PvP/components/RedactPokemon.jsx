@@ -5,9 +5,9 @@ import SubmitButton from "./SubmitButton/SubmitButton"
 import {
     getCookie, returnMovePool, calculateMaximizedStats, processInitialStats, checkLvl, checkIV,
     calculateEffStat, selectCharge, selectQuick
-} from '../../../js/indexFunctions.js'
+} from "../../../js/indexFunctions.js"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -134,7 +134,7 @@ class RedactPokemon extends React.PureComponent {
     }
 
     onInitialStatsChange(event, role) {
-        let correspondingStat = event.target.name.replace("Initial", '')
+        let correspondingStat = event.target.name.replace("Initial", "")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -189,7 +189,7 @@ class RedactPokemon extends React.PureComponent {
     }
 
     onStageChange(event, role) {
-        let correspondingStat = event.target.name.replace("Stage", '')
+        let correspondingStat = event.target.name.replace("Stage", "")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -301,9 +301,9 @@ class RedactPokemon extends React.PureComponent {
         event.preventDefault();
 
         let role = event.target.getAttribute("attr")
-        let level = event.target.getAttribute('level')
-        let stat = event.target.getAttribute('stat')
-        let action = event.target.getAttribute('action')
+        let level = event.target.getAttribute("level")
+        let stat = event.target.getAttribute("stat")
+        let action = event.target.getAttribute("action")
         let varIVS = {}
 
         //if there is no data for given level - generate it

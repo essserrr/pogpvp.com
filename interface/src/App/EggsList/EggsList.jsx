@@ -1,6 +1,6 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import ReactTooltip from "react-tooltip"
 
 import Errors from "../PvP/components/Errors/Errors"
@@ -54,17 +54,17 @@ class EggsList extends React.Component {
         //get pok and eggs db
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/eggs", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
         ];
@@ -158,7 +158,7 @@ class EggsList extends React.Component {
                                     <i data-tip data-for={name} className="fas fa-info-circle ml-1">
                                         {regionals[name] && <ReactTooltip
                                             className={"infoTip"}
-                                            id={name} effect='solid'
+                                            id={name} effect="solid"
                                             place={"top"}
                                             multiline={true}
                                         >

@@ -533,7 +533,7 @@ div :focus {
 
 //background
 body { 
-    background: url('./background.jpg') no-repeat center center fixed; 
+    background: url("./background.jpg") no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -1201,7 +1201,7 @@ body {
 
     padding-bottom: 0px !important;
     font-style: italic;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: "Times New Roman", Times, serif;
     color: black;
     text-align: center;
     width: 100%;
@@ -1425,7 +1425,7 @@ body {
     font-size: 80%;
 }
 .separator::before, .separator::after {
-    content: '';
+    content: "";
     flex: 1;
     border-bottom: 1px solid rgba(0, 0, 0, 0.342);
 }
@@ -1758,7 +1758,7 @@ body {
 }
 
 .dexTitle {
-    font-family: 'Baloo Bhaina', cursive;
+    font-family: "Baloo Bhaina", cursive;
     font-size: 1.5em;
     font-weight: 600;
 }

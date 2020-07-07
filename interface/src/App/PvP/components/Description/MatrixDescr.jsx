@@ -4,7 +4,7 @@ import ReactTooltip from "react-tooltip"
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { matrixTips } from "../../../../locale/matrixTips"
 import { getCookie } from "../../../../js/indexFunctions"
 
@@ -33,7 +33,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"0vs0"} className={"col-4 m-0 p-0 cupl hover matrixCardThead rateColor res3"} >
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"0vs0"} effect='solid'
+                                id={"0vs0"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.cells.v0}
@@ -43,7 +43,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"1vs1"} className={"col-4 m-0 p-0   hover matrixCardThead borx rateColor res0"}>
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"1vs1"} effect='solid'
+                                id={"1vs1"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.cells.v1}
@@ -53,7 +53,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"2vs2"} className={"col-4 m-0 p-0  cupr hover matrixCardThead rateColor res1"} >
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"2vs2"} effect='solid'
+                                id={"2vs2"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.cells.v2}
@@ -64,7 +64,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"over"} className={"matrixCardBody bort cbotlr hover col-12 m-0 p-0 rateColor res4"}>
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"over"} effect='solid'
+                                id={"over"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.cells.over}
@@ -87,7 +87,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"pl2color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColor res4"} >
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"pl2color"} effect='solid'
+                                id={"pl2color"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.colortip.g2}
@@ -97,7 +97,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"pl1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColor res3"}>
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"pl1color"} effect='solid'
+                                id={"pl1color"} effect="solid"
                                 place={"top"}
                                 multiline={true}  >
                                 {tips.colortip.g1}
@@ -107,7 +107,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"pl0color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColor res0"} >
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"pl0color"} effect='solid'
+                                id={"pl0color"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.colortip.g}
@@ -117,7 +117,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"mi1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColor res1"} >
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"mi1color"} effect='solid'
+                                id={"mi1color"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.colortip.r1}
@@ -127,7 +127,7 @@ const MatrixDecr = React.memo(function (props) {
                         <div data-tip data-for={"mi2color"} style={{ width: "30px", height: "25px" }} className={" text-center  hover matrixCardThead bor rateColor res2"} >
                             <ReactTooltip
                                 className={"infoTip"}
-                                id={"mi2color"} effect='solid'
+                                id={"mi2color"} effect="solid"
                                 place={"top"}
                                 multiline={true} >
                                 {tips.colortip.r2}
@@ -166,7 +166,7 @@ const MatrixDecr = React.memo(function (props) {
                     <div data-tip data-for={"topnumber"} className="ml-2 mr-2 bigText align-self-center ">{"#1"}</div>
                     <ReactTooltip
                         className={"infoTip"}
-                        id={"topnumber"} effect='solid'
+                        id={"topnumber"} effect="solid"
                         place={"top"}
                         multiline={true} >
                         {tips.cardTip.n}
@@ -177,7 +177,7 @@ const MatrixDecr = React.memo(function (props) {
                             class={"icon48 ml-1 ml-sm-3  mr-2"} />
                         <ReactTooltip
                             className={"infoTip"}
-                            id={"iconpok1"} effect='solid'
+                            id={"iconpok1"} effect="solid"
                             place={"top"}
                             multiline={true} >
                             {tips.cardTip.p1}
@@ -191,7 +191,7 @@ const MatrixDecr = React.memo(function (props) {
                             class={"icon48 ml-1 ml-sm-3  mr-2"} />
                         <ReactTooltip
                             className={"infoTip"}
-                            id={"iconpok2"} effect='solid'
+                            id={"iconpok2"} effect="solid"
                             place={"top"}
                             multiline={true} >
                             {tips.cardTip.p2}
@@ -204,7 +204,7 @@ const MatrixDecr = React.memo(function (props) {
                             class={"icon48 ml-1 ml-sm-3 mr-2"} />
                         <ReactTooltip
                             className={"infoTip"}
-                            id={"iconpok3"} effect='solid'
+                            id={"iconpok3"} effect="solid"
                             place={"top"}
                             multiline={true} >
                             {tips.cardTip.p3}
@@ -215,7 +215,7 @@ const MatrixDecr = React.memo(function (props) {
                     <div data-tip data-for={"zerosn"} className="mr-2 mr-sm-4 w64 bigText text-center align-self-center ">99</div>
                     <ReactTooltip
                         className={"logItems"}
-                        id={"zerosn"} effect='solid'
+                        id={"zerosn"} effect="solid"
                         place={"top"}
                         multiline={true} >
                         {tips.cardTip.zer}
@@ -223,7 +223,7 @@ const MatrixDecr = React.memo(function (props) {
                     <div data-tip data-for={"avgratetop"} className="mr-2 mr-sm-4 w64 bigText text-center align-self-center ">1000</div>
                     <ReactTooltip
                         className={"infoTip"}
-                        id={"avgratetop"} effect='solid'
+                        id={"avgratetop"} effect="solid"
                         place={"top"}
                         multiline={true} >
                         {tips.cardTip.rate}
@@ -232,7 +232,7 @@ const MatrixDecr = React.memo(function (props) {
                         <i className={"fas fa-angle-down fa-lg"}></i>
                         <ReactTooltip
                             className={"logItems"}
-                            id={"more"} effect='solid'
+                            id={"more"} effect="solid"
                             place={"top"}
                             multiline={true} >
                             {tips.cardTip.more}

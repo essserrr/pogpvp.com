@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import SelectGroup from "../SelectGroup/SelectGroup"
 import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
@@ -7,7 +7,7 @@ import SubmitButton from "../SubmitButton/SubmitButton"
 import Errors from "../Errors/Errors"
 
 import { locale } from "../../../../locale/locale"
-import { getCookie } from '../../../../js/indexFunctions'
+import { getCookie } from "../../../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
@@ -296,7 +296,7 @@ class Constructor extends React.PureComponent {
                         place={"top"}
                         for={"Attacker"}
                         tip={this.props.Attacker.name}
-                        tipClass='logItems'
+                        tipClass="logItems"
                     />
                 </div>
                 <div className="col-12 defaultFont d-flex m-0 p-0 my-1">
@@ -333,7 +333,7 @@ class Constructor extends React.PureComponent {
                         place={"top"}
                         for={"Defender"}
                         tip={this.props.Defender.name}
-                        tipClass='logItems'
+                        tipClass="logItems"
                     />
                 </div>
                 <div className="col-12 defaultFont d-flex m-0 p-0 my-1 mb-3">

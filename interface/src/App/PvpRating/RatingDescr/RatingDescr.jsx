@@ -1,6 +1,6 @@
 import React from "react";
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { singleTips } from "../../../locale/ratingTips"
 import { getCookie } from "../../../js/indexFunctions"
 

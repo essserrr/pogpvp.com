@@ -1,6 +1,6 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 
 import Errors from "../PvP/components/Errors/Errors"
@@ -47,10 +47,10 @@ class Movedex extends React.Component {
         })
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip',
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
                 },
             }),
         ];
@@ -195,8 +195,8 @@ class Movedex extends React.Component {
         if (this.state.blockSort) {
             return
         }
-        let fieldName = event.currentTarget.getAttribute('name')
-        let fieldType = event.currentTarget.getAttribute('coltype')
+        let fieldName = event.currentTarget.getAttribute("name")
+        let fieldType = event.currentTarget.getAttribute("coltype")
         switch (this.state.active.field === fieldName) {
             case true:
                 this.setState({

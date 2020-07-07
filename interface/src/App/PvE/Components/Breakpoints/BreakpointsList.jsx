@@ -1,6 +1,6 @@
 import React from "react";
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { pveLocale } from "../../../../locale/pveLocale"
 import { getCookie, calculateDamage, returnEffAtk, getPveMultiplier } from "../../../../js/indexFunctions"
 

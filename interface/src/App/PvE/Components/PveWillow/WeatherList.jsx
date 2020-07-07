@@ -1,6 +1,6 @@
 import React from "react";
 
-import { weather } from '../../../../js/indexFunctions'
+import { weather } from "../../../../js/indexFunctions"
 import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import ReactTooltip from "react-tooltip";
 
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
@@ -147,7 +147,7 @@ class AdvisorPanelBody extends React.PureComponent {
                 />
                 <ReactTooltip
                     className={"infoTip"}
-                    id={pok.name + i + "zero"} effect='solid'
+                    id={pok.name + i + "zero"} effect="solid"
                     place={"top"}
                     multiline={true}
                 >

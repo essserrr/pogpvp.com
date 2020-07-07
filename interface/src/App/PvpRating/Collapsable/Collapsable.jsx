@@ -1,11 +1,11 @@
 import React from "react";
-import { UnmountClosed } from 'react-collapse';
+import { UnmountClosed } from "react-collapse";
 import { checkShadow, getCookie, encodeQueryData, calculateMaximizedStats } from "../../../js/indexFunctions"
 import RMoveRow from "../RMoveRow/RMoveRow"
 import RRateRow from "../RRateRow/RRateRow"
 import RowWrap from "../RowWrap/RowWrap"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -31,7 +31,7 @@ class Collapsable extends React.PureComponent {
     }
 
     onClickRedirect(event) {
-        let defenderOriginalName = event.currentTarget.getAttribute('name')
+        let defenderOriginalName = event.currentTarget.getAttribute("name")
         let defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
         let league = (this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())
         let maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall

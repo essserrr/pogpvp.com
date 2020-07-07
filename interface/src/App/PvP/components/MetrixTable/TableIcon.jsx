@@ -1,6 +1,6 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
@@ -26,22 +26,22 @@ const TableIcon = React.memo(function (props) {
             />
             <ReactTooltip
                 className={"infoTip"}
-                id={props.pok.name + props.j + props.letter} effect='solid'
+                id={props.pok.name + props.j + props.letter} effect="solid"
                 place={"top"}
                 multiline={true}
             >
                 {props.pok.name + (props.pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
             </ReactTooltip>
             <div className="row m-0 p-0 justify-content-center">
-                {props.pok.QuickMove.replace(/[a-z -]/g, '') + props.addStar(props.pok.name, props.pok.QuickMove)}
+                {props.pok.QuickMove.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.QuickMove)}
 
                 {(props.pok.ChargeMove1 || props.pok.ChargeMove2) ? "+" : ""}
 
-                {props.pok.ChargeMove1 ? (props.pok.ChargeMove1.replace(/[a-z -]/g, '') + props.addStar(props.pok.name, props.pok.ChargeMove1)) : ""}
+                {props.pok.ChargeMove1 ? (props.pok.ChargeMove1.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove1)) : ""}
 
                 {(props.pok.ChargeMove1 && props.pok.ChargeMove2) ? "/" : ""}
 
-                {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, '') + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
+                {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
             </div>
         </>
     )

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactTooltip from "react-tooltip"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { commonRaidTips } from "../../../../locale/commonRaidTips"
 
 import { getCookie } from "../../../../js/indexFunctions"
@@ -22,7 +22,7 @@ const CommonDescr = React.memo(function (props) {
                 <i data-tip data-for={"damage"} className="fas fa-crosshairs mr-3 fa-2x"></i>
                 <ReactTooltip
                     className={"infoTip"}
-                    id={"damage"} effect='solid'
+                    id={"damage"} effect="solid"
                     place={"top"}
                     multiline={true} >
                     {tips.damage}
@@ -30,7 +30,7 @@ const CommonDescr = React.memo(function (props) {
                 <i data-tip data-for={"time"} className="far fa-clock mr-3 fa-2x"></i>
                 <ReactTooltip
                     className={"infoTip"}
-                    id={"time"} effect='solid'
+                    id={"time"} effect="solid"
                     place={"top"}
                     multiline={true} >
                     {tips.time}
@@ -38,7 +38,7 @@ const CommonDescr = React.memo(function (props) {
                 <i data-tip data-for={"dps"} className="fab fa-cloudscale mr-3 fa-2x"></i>
                 <ReactTooltip
                     className={"infoTip"}
-                    id={"dps"} effect='solid'
+                    id={"dps"} effect="solid"
                     place={"top"}
                     multiline={true} >
                     {"DPS"}
@@ -46,7 +46,7 @@ const CommonDescr = React.memo(function (props) {
                 <i data-tip data-for={"fainted"} className="fas fa-skull-crossbones fa-2x"></i>
                 <ReactTooltip
                     className={"infoTip"}
-                    id={"fainted"} effect='solid'
+                    id={"fainted"} effect="solid"
                     place={"top"}
                     multiline={true} >
                     {tips.fainted}

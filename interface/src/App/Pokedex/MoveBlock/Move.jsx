@@ -1,5 +1,5 @@
 import React from "react";
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 
 import ChargeEnergy from "./ChargeEnergy"
 import { getCookie, typeDecoder } from "../../../js/indexFunctions"

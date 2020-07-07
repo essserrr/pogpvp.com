@@ -2,7 +2,7 @@ import React from "react";
 import Input from "../Input/Input";
 import ReactTooltip from "react-tooltip"
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/indexFunctions"
 
@@ -13,19 +13,19 @@ const Stats = React.memo(function (props) {
     return (
         <div className={props.class ? props.class : "font95 input-group input-group-sm mt-1 mb-2"} >
             <ReactTooltip
-                id={props.attr + "inlvl"} effect='solid'>
+                id={props.attr + "inlvl"} effect="solid">
                 {strings.stats.lvl + ": 1-45"}
             </ReactTooltip>
             <ReactTooltip
-                id={props.attr + "inatk"} effect='solid'>
+                id={props.attr + "inatk"} effect="solid">
                 {strings.effStats.atk + " IV: 0-15"}
             </ReactTooltip>
             <ReactTooltip
-                id={props.attr + "indef"} effect='solid'>
+                id={props.attr + "indef"} effect="solid">
                 {strings.effStats.def + " IV: 0-15"}
             </ReactTooltip>
             <ReactTooltip
-                id={props.attr + "insta"} effect='solid'>
+                id={props.attr + "insta"} effect="solid">
                 {strings.effStats.sta + " IV: 0-15"}
             </ReactTooltip>
 

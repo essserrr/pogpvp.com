@@ -3,7 +3,7 @@ import Errors from "../PvP/components/Errors/Errors"
 import { Helmet } from "react-helmet";
 
 
-import LocalizedStrings from 'react-localization';
+import LocalizedStrings from "react-localization";
 import { locale } from "../../locale/locale";
 import { getCookie } from "../../js/indexFunctions";
 import Loader from "../PvpRating/Loader"
@@ -32,10 +32,10 @@ class NewsWrap extends React.Component {
         })
         let reason = ""
         let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/id/" + this.props.match.params.id, {
-            method: 'GET',
+            method: "GET",
             headers: {
-                'Content-Type': 'application/json',
-                'Accept-Encoding': 'gzip',
+                "Content-Type": "application/json",
+                "Accept-Encoding": "gzip",
             },
         }).catch(function (r) {
             reason = r
