@@ -8,15 +8,15 @@ const CardBody = React.memo(function (props) {
     return (
         <>
             <div className="col-12 text-center  m-0 p-0 align-self-start">
-                {(props.pokTable[props.name]["Type"][0] !== undefined) && <Type
+                {(props.pokTable[props.name].Type[0] !== undefined) && <Type
                     class={"icon18"}
-                    code={props.pokTable[props.name]["Type"][0]}
-                    value={typeDecoder[props.pokTable[props.name]["Type"][0]]}
+                    code={props.pokTable[props.name].Type[0]}
+                    value={typeDecoder[props.pokTable[props.name].Type[0]]}
                 />}
-                {(props.pokTable[props.name]["Type"][1] !== undefined) && <Type
+                {(props.pokTable[props.name].Type[1] !== undefined) && <Type
                     class={"ml-2 icon18"}
-                    code={props.pokTable[props.name]["Type"][1]}
-                    value={typeDecoder[props.pokTable[props.name]["Type"][1]]}
+                    code={props.pokTable[props.name].Type[1]}
+                    value={typeDecoder[props.pokTable[props.name].Type[1]]}
                 />}
             </div>
 
@@ -27,13 +27,13 @@ const CardBody = React.memo(function (props) {
             />
             <Range
                 title={<>
-                    {(props.pokTable[props.name]["Type"][0] !== undefined) && <PokemonIconer
+                    {(props.pokTable[props.name].Type[0] !== undefined) && <PokemonIconer
                         folder="/weather/"
-                        src={weatherDecoder[props.pokTable[props.name]["Type"][0]]}
+                        src={weatherDecoder[props.pokTable[props.name].Type[0]]}
                         class={"icon18"} />}
-                    {(props.pokTable[props.name]["Type"][1] !== undefined) && weatherDecoder[props.pokTable[props.name]["Type"][1]] !== weatherDecoder[props.pokTable[props.name]["Type"][0]] && <PokemonIconer
+                    {(props.pokTable[props.name].Type[1] !== undefined) && weatherDecoder[props.pokTable[props.name].Type[1]] !== weatherDecoder[props.pokTable[props.name].Type[0]] && <PokemonIconer
                         folder="/weather/"
-                        src={weatherDecoder[props.pokTable[props.name]["Type"][1]]}
+                        src={weatherDecoder[props.pokTable[props.name].Type[1]]}
                         class={"icon18"} />}
                     {": "}
                 </>}

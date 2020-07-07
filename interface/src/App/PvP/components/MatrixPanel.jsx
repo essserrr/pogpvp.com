@@ -96,10 +96,10 @@ class MatrixPanel extends React.PureComponent {
                 QuickMove: quick,
                 ChargeMove1: charge.primaryName,
                 ChargeMove2: charge.secodaryName,
-                Lvl: ivSet[this.props.league][whatToMaximize]["Level"],
-                Atk: ivSet[this.props.league][whatToMaximize]["Atk"],
-                Def: ivSet[this.props.league][whatToMaximize]["Def"],
-                Sta: ivSet[this.props.league][whatToMaximize]["Sta"],
+                Lvl: ivSet[this.props.league][whatToMaximize].Level,
+                Atk: ivSet[this.props.league][whatToMaximize].Atk,
+                Def: ivSet[this.props.league][whatToMaximize].Def,
+                Sta: ivSet[this.props.league][whatToMaximize].Sta,
                 AtkStage: this.props.value.AtkStage,
                 DefStage: this.props.value.DefStage,
                 InitialHP: "0",
@@ -109,12 +109,12 @@ class MatrixPanel extends React.PureComponent {
                 IsGreedy: this.props.value.IsGreedy,
                 IsShadow: "false",
 
-                effAtk: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize]["Level"],
-                    ivSet[this.props.league][whatToMaximize]["Atk"], 0, this.props.pokemonTable, "Atk", "false"),
-                effDef: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize]["Level"],
-                    ivSet[this.props.league][whatToMaximize]["Def"], 0, this.props.pokemonTable, "Def", "false"),
-                effSta: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize]["Level"],
-                    ivSet[this.props.league][whatToMaximize]["Sta"], 0, this.props.pokemonTable, "Sta"),
+                effAtk: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
+                    ivSet[this.props.league][whatToMaximize].Atk, 0, this.props.pokemonTable, "Atk", "false"),
+                effDef: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
+                    ivSet[this.props.league][whatToMaximize].Def, 0, this.props.pokemonTable, "Def", "false"),
+                effSta: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
+                    ivSet[this.props.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
 
                 HP: undefined,
                 Energy: undefined,
@@ -294,7 +294,7 @@ class MatrixPanel extends React.PureComponent {
         let varIVS = {}
 
         //if there is no data for given level - generate it
-        switch (this.state[role]["ivSet"][level] === undefined) {
+        switch (this.state[role].ivSet[level] === undefined) {
             case true:
                 let missingLevel = calculateMaximizedStats(this.state[role].name, level, this.props.pokemonTable)
                 switch (action) {

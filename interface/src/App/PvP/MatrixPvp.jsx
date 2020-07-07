@@ -113,10 +113,10 @@ class MatrixPvp extends React.PureComponent {
             let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
 
             return Object.assign({}, pok, {
-                "Lvl": ivSet[this.props.parentState.league][whatToMaximize]["Level"],
-                "Atk": ivSet[this.props.parentState.league][whatToMaximize]["Atk"],
-                "Def": ivSet[this.props.parentState.league][whatToMaximize]["Def"],
-                "Sta": ivSet[this.props.parentState.league][whatToMaximize]["Sta"],
+                "Lvl": ivSet[this.props.parentState.league][whatToMaximize].Level,
+                "Atk": ivSet[this.props.parentState.league][whatToMaximize].Atk,
+                "Def": ivSet[this.props.parentState.league][whatToMaximize].Def,
+                "Sta": ivSet[this.props.parentState.league][whatToMaximize].Sta,
             })
         });
 

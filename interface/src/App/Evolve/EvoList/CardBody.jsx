@@ -7,15 +7,15 @@ const CardBody = React.memo(function (props) {
     return (
         <>
             <div className="col-12 text-center p-0 align-self-start">
-                {(props.state.pokemonTable[props.name]["Type"][0] !== undefined) && <Type
+                {(props.state.pokemonTable[props.name].Type[0] !== undefined) && <Type
                     class={"icon18"}
-                    code={props.state.pokemonTable[props.name]["Type"][0]}
-                    value={typeDecoder[props.state.pokemonTable[props.name]["Type"][0]]}
+                    code={props.state.pokemonTable[props.name].Type[0]}
+                    value={typeDecoder[props.state.pokemonTable[props.name].Type[0]]}
                 />}
-                {(props.state.pokemonTable[props.name]["Type"][1] !== undefined) && <Type
+                {(props.state.pokemonTable[props.name].Type[1] !== undefined) && <Type
                     class={"ml-2 icon18"}
-                    code={props.state.pokemonTable[props.name]["Type"][1]}
-                    value={typeDecoder[props.state.pokemonTable[props.name]["Type"][1]]}
+                    code={props.state.pokemonTable[props.name].Type[1]}
+                    value={typeDecoder[props.state.pokemonTable[props.name].Type[1]]}
                 />}
             </div>
             <div className={"col-12 mt-1 text-center"}>

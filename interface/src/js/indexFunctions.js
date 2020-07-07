@@ -259,8 +259,8 @@ export function culculateCP(name, Lvl, Atk, Def, Sta, pokBase) {
     if (!name || !pokBase[name]) {
         return 0
     }
-    let cpAtLvl = Math.trunc(((checkIV(Atk) + Number(pokBase[name]["Atk"])) * Math.pow((checkIV(Def) + Number(pokBase[name]["Def"])), 0.5) *
-        Math.pow((checkIV(Sta) + Number(pokBase[name]["Sta"])), 0.5) * Math.pow(levelData[checkLvl(Lvl) / 0.5], 2)) / 10)
+    let cpAtLvl = Math.trunc(((checkIV(Atk) + Number(pokBase[name].Atk)) * Math.pow((checkIV(Def) + Number(pokBase[name].Def)), 0.5) *
+        Math.pow((checkIV(Sta) + Number(pokBase[name].Sta)), 0.5) * Math.pow(levelData[checkLvl(Lvl) / 0.5], 2)) / 10)
     if (cpAtLvl < 10) {
         cpAtLvl = 10
     }
@@ -271,7 +271,7 @@ export function culculateBossCP(name, tier, pokBase) {
     if (!name || !pokBase[name]) {
         return 0
     }
-    return Math.trunc((15 + Number(pokBase[name]["Atk"])) * Math.pow(15 + Number(pokBase[name]["Def"]), 0.5) *
+    return Math.trunc((15 + Number(pokBase[name].Atk)) * Math.pow(15 + Number(pokBase[name].Def), 0.5) *
         Math.pow(tierHP[tier], 0.5) / 10);
 }
 

@@ -296,7 +296,7 @@ class SinglePvp extends React.PureComponent {
         let varIVS = {}
 
 
-        switch (this.state[role]["ivSet"][level] === undefined) {
+        switch (this.state[role].ivSet[level] === undefined) {
             //if there is no data for given level - generate it
             case true:
                 let missingLevel = calculateMaximizedStats(this.state[role].name, level, this.props.parentState.pokemonTable)
@@ -782,9 +782,9 @@ class SinglePvp extends React.PureComponent {
                                                 chargeMove2={this.props.parentState.moveTable[this.state.attacker.ChargeMove2]}
                                                 attr="Attacker"
 
-                                                attackerTypes={this.props.parentState.pokemonTable[this.state.attacker.name]["Type"]}
+                                                attackerTypes={this.props.parentState.pokemonTable[this.state.attacker.name].Type}
                                                 defenderTypes={(this.props.parentState.pokemonTable[this.state.defender.name]) ?
-                                                    this.props.parentState.pokemonTable[this.state.defender.name]["Type"] : ""}
+                                                    this.props.parentState.pokemonTable[this.state.defender.name].Type : ""}
                                                 aAttack={this.state.attacker.effAtk}
                                                 dDefence={this.state.defender.effDef}
                                             />}
@@ -808,9 +808,9 @@ class SinglePvp extends React.PureComponent {
                                                 chargeMove2={this.props.parentState.moveTable[this.state.defender.ChargeMove2]}
                                                 attr="Defender"
 
-                                                attackerTypes={this.props.parentState.pokemonTable[this.state.defender.name]["Type"]}
+                                                attackerTypes={this.props.parentState.pokemonTable[this.state.defender.name].Type}
                                                 defenderTypes={(this.props.parentState.pokemonTable[this.state.attacker.name]) ?
-                                                    this.props.parentState.pokemonTable[this.state.attacker.name]["Type"] : ""}
+                                                    this.props.parentState.pokemonTable[this.state.attacker.name].Type : ""}
                                                 aAttack={this.state.defender.effAtk}
                                                 dDefence={this.state.attacker.effDef}
                                             />}
