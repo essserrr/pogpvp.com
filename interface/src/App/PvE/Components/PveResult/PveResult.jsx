@@ -7,7 +7,7 @@ import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import Breakpoints from "../Breakpoints/Breakpoints"
 import PveWillow from "../PveWillow/PveWillow"
-import ButtonsRadio from "../ButtonsRadio/ButtonsRadio"
+import DoubleSlider from "../../../Movedex/DoubleSlider/DoubleSlider"
 
 import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
@@ -134,7 +134,8 @@ class PveResult extends React.PureComponent {
 
 
     onSortChange(event) {
-        switch (event.target.name) {
+        let attr = event.target.getAttribute("attr")
+        switch (attr) {
             case "dps":
                 var data = this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180)
                 break
@@ -144,9 +145,8 @@ class PveResult extends React.PureComponent {
 
         this.setState({
             listToShow: this.appendFromTo(0, this.state.listToShow.length, data),
-            param: event.target.name,
+            param: attr,
         })
-
         this.props.assignSort(data)
     }
 
@@ -241,16 +241,19 @@ class PveResult extends React.PureComponent {
                             value={this.props.url}
                         />
                     </div>}
-                    <div className={"col-12 m-0 p-0 font-weight-bold text-center"}>
-                        {pvestrings.sort}
+                    <div className="col-12 p-0 mb-1 px-3">
+                        <DoubleSlider
+                            onClick={this.onSortChange}
+
+                            attr1="damage"
+                            title1={pvestrings.sortd}
+                            active1={this.state.param === "damage"}
+
+                            attr2="dps"
+                            title2={pvestrings.sortdps}
+                            active2={this.state.param === "dps"}
+                        />
                     </div>
-                    <ButtonsRadio
-                        class="col-10 m-0 p-0 mb-2 btn-group btn-group-toggle"
-                        param={this.state.param}
-                        onChange={this.onSortChange}
-                    />
-
-
                     <div className={"col-12 m-0 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
                         {this.state.listToShow}
                     </div>

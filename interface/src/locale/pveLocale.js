@@ -71,7 +71,8 @@ export const pveLocale = {
         boosted: "boosted ",
         normal: "normal ",
 
-        sort: "SORT BY",
+        sortd: "Sort by damage",
+        sortdps: "Sort by DPS",
     },
 
     ru: {
@@ -145,6 +146,7 @@ export const pveLocale = {
         boosted: "с бустом: ",
         normal: "обычное: ",
 
-        sort: "СОРТИРОВАТЬ ПО",
+        sortd: "Сортировать по урону",
+        sortdps: "Сортировать по DPS",
     }
 }
