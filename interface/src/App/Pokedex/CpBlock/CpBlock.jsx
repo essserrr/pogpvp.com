@@ -1,16 +1,10 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
-
-import { getCookie, calculateEffStat, checkLvl, checkIV, } from "../../../js/indexFunctions"
-import { dexLocale } from "../../../locale/dexLocale"
+import { calculateEffStat, checkLvl, checkIV, } from "../../../js/indexFunctions"
 import CpCalc from "./CpCalc"
-
-let strings = new LocalizedStrings(dexLocale);
 
 class CpBlock extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             pokemon: {
                 Lvl: "40",

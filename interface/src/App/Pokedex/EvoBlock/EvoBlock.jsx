@@ -1,16 +1,9 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
-
-import { getCookie } from "../../../js/indexFunctions"
-import { dexLocale } from "../../../locale/dexLocale"
 import EvoCard from "./EvoCard"
 import CardAndSep from "./CardAndSep"
 
-let strings = new LocalizedStrings(dexLocale);
 
 const EvoBlock = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
     function generateEvos() {
         let arr = []
         let candies = [0, 0]
