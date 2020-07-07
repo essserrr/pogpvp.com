@@ -2,9 +2,7 @@ import React from "react";
 
 const PokemonIconer = React.memo(function (props) {
     //if we are looking for a pokemon icon
-    let iconList = [
-        "/images/low/",
-    ]
+    let iconList = ["/images/low/",]
     let i = 0
 
     function addDefaultSrc(ev) {

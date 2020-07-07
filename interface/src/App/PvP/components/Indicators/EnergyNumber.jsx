@@ -2,9 +2,7 @@ import React from "react";
 import ReactTooltip from "react-tooltip"
 
 const EnergyNumber = React.memo(function (props) {
-    var value = (props.value !== undefined && props.value !== "") ?
-        ((props.value <= 100) ? props.value : 100)
-        : 0;
+    let value = (props.value !== undefined && props.value !== "") ? (props.value <= 100 ? props.value : 100) : 0
     return (
         <>
             <div

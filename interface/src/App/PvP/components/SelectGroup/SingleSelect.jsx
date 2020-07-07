@@ -14,11 +14,7 @@ const SingleSelect = React.memo(function (props) {
             onChange={props.onChange}
             onClick={props.onClick}
         >
-            <Options
-
-                options={props.options}
-            />
-
+            <Options options={props.options} />
         </select>
     )
 });

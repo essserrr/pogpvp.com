@@ -3,19 +3,19 @@ import { calculateEffStat } from "../../../../js/indexFunctions"
 import ReactTooltip from "react-tooltip"
 
 const EnergyIndicator = React.memo(function (props) {
-    var maxValue
-    var defaultValue
-    if (props.maxValue === undefined) {
-        maxValue = calculateEffStat(props.name, props.lvl, props.sta, "0", props.table, "Sta")
-        defaultValue = maxValue
-    } else {
-        maxValue = props.maxValue
-        defaultValue = props.defaultValue
-    }
-    var value = (props.value !== undefined && props.value !== "") ?
-        ((props.value <= maxValue) ? props.value : maxValue)
-        : defaultValue;
+    let maxValue
+    let defaultValue
 
+    switch (props.maxValue === undefined) {
+        case true:
+            maxValue = calculateEffStat(props.name, props.lvl, props.sta, "0", props.table, "Sta")
+            defaultValue = maxValue
+            break
+        default:
+            maxValue = props.maxValue
+            defaultValue = props.defaultValue
+    }
+    let value = (props.value !== undefined && props.value !== "") ? (props.value <= maxValue ? props.value : maxValue) : defaultValue;
     return (
         <>
             <ReactTooltip

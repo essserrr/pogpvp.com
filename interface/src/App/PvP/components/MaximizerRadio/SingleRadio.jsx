@@ -3,7 +3,6 @@ import React from "react";
 const SingleRadio = React.memo(function (props) {
     return (
         <div className="custom-control custom-radio">
-
             <input
                 type="radio"
                 id={props.value + props.attr}
@@ -23,7 +22,6 @@ const SingleRadio = React.memo(function (props) {
                 {props.label}
             </label>
         </div>
-
     )
 });
 

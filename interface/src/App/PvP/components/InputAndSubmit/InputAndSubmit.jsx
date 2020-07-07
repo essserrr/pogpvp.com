@@ -26,7 +26,6 @@ class InputAndSubmit extends React.PureComponent {
             })
             return
         }
-
         this.setState({
             isError: false,
             error: "",

@@ -54,13 +54,10 @@ class MaximizerRadio extends PureComponent {
                             attr={this.props.attr}
                         />
                     </div>
-
                     <div className="d-flex justify-content-around" >
                         <span className="fBolder align-self-center">
                             {strings.maximizer.levelTitle}
                         </span>
-
-
                         <SingleRadio
                             name="level"
                             value="40"
