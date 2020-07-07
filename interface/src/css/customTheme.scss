@@ -1390,12 +1390,6 @@ body {
     max-width: 450px !important;
 }
 
-.bigCardBody {
-    font-size: 70%;
-    font-weight: 400;
-    flex-grow: 1 !important;
-}
-
 .bigCardHeader {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.295) ;
     font-size: 110%;
@@ -1443,13 +1437,10 @@ body {
 
     background-color: rgba(179, 179, 179, 0.253);
     font-weight: 450;
-    font-size: 1.3rem;    
+    font-size: 1.3rem;
+    
+    height: fit-content;
 }
-@media (max-width: 576px) { 
-    .rating {
-        width: fit-content;
-    }
- }
 
 
 .collapseList{
