@@ -57,30 +57,20 @@ class PveResEntry extends React.PureComponent {
         let obj = {
             DAvg: 0, DMax: 0, DMin: 999999, FMax: 0, FMin: 200, NOfWins: 0, TAvg: 0, TMax: 0, TMin: 9000,
         }
-        for (let i = 0; i < this.props.pokemonRes.length; i++) {
-            if (this.props.pokemonRes[i].DMax > obj.DMax) {
-                obj.DMax = this.props.pokemonRes[i].DMax
-            }
-            if (this.props.pokemonRes[i].FMax > obj.FMax) {
-                obj.FMax = this.props.pokemonRes[i].FMax
-            }
-            if (this.props.pokemonRes[i].TMax > obj.TMax) {
-                obj.TMax = this.props.pokemonRes[i].TMax
-            }
+        this.props.pokemonRes.forEach((elem) => {
+            if (elem.DMax > obj.DMax) { obj.DMax = elem.DMax }
+            if (elem.FMax > obj.FMax) { obj.FMax = elem.FMax }
+            if (elem.TMax > obj.TMax) { obj.TMax = elem.TMax }
 
-            if (this.props.pokemonRes[i].DMin < obj.DMin) {
-                obj.DMin = this.props.pokemonRes[i].DMin
-            }
-            if (this.props.pokemonRes[i].FMin < obj.FMin) {
-                obj.FMin = this.props.pokemonRes[i].FMin
-            }
-            if (this.props.pokemonRes[i].TMin < obj.TMin) {
-                obj.TMin = this.props.pokemonRes[i].TMin
-            }
-            obj.DAvg += this.props.pokemonRes[i].DAvg
-            obj.NOfWins += this.props.pokemonRes[i].NOfWins
-            obj.TAvg += this.props.pokemonRes[i].TAvg
-        }
+            if (elem.DMin < obj.DMin) { obj.DMin = elem.DMin }
+            if (elem.FMin < obj.FMin) { obj.FMin = elem.FMin }
+            if (elem.TMin < obj.TMin) { obj.TMin = elem.TMin }
+
+            obj.DAvg += elem.DAvg
+            obj.NOfWins += elem.NOfWins
+            obj.TAvg += elem.TAvg
+        });
+
         obj.DAvg = (obj.DAvg / this.props.pokemonRes.length).toFixed(0)
         obj.NOfWins = (obj.NOfWins / this.props.pokemonRes.length).toFixed(0)
         obj.TAvg = obj.TAvg / this.props.pokemonRes.length

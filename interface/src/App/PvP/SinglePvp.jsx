@@ -600,7 +600,7 @@ class SinglePvp extends React.PureComponent {
             });
             return
         }
-        var data = await response.json();
+        let data = await response.json();
 
         if (!response.ok) {
             if (data.detail === "PvP error") {

@@ -155,12 +155,12 @@ class PveResult extends React.PureComponent {
             let sumDamageA = 0
             let sumDamageB = 0
 
-            for (let i = 0; i < a.length; i++) {
-                sumDamageA += a[i].DAvg
-            }
-            for (let j = 0; j < b.length; j++) {
-                sumDamageB += b[j].DAvg
-            }
+            a.forEach((elem) => {
+                sumDamageA += elem.DAvg
+            });
+            b.forEach((elem) => {
+                sumDamageB += elem.DAvg
+            });
 
             return sumDamageB - sumDamageA
         })
@@ -174,14 +174,14 @@ class PveResult extends React.PureComponent {
             let timerA = 0
             let timerB = 0
 
-            for (let i = 0; i < a.length; i++) {
-                sumDamageA += a[i].DAvg
-                timerA += a[i].TAvg
-            }
-            for (let j = 0; j < b.length; j++) {
-                sumDamageB += b[j].DAvg
-                timerB += b[j].TAvg
-            }
+            a.forEach((elem) => {
+                sumDamageA += elem.DAvg
+                timerA += elem.TAvg
+            });
+            b.forEach((elem) => {
+                sumDamageB += elem.DAvg
+                timerB += elem.TAvg
+            });
 
             let dpsA = (sumDamageA / a.length / (timer - timerA / a.length / 1000)).toFixed(1)
             let dpsB = (sumDamageB / b.length / (timer - timerB / b.length / 1000)).toFixed(1)
