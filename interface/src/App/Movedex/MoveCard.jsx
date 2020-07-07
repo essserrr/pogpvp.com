@@ -11,9 +11,9 @@ import ChargeMove from "./CardBody/ChargeMove"
 import QuickMove from "./CardBody/QuickMove"
 import EffTable from "../Pokedex/EffBlock/EffTable"
 import UsesList from "./UsesList/UsesList"
-import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
+import DoubleSlider from "./DoubleSlider/DoubleSlider"
 
 
 let strings = new LocalizedStrings(dexLocale);
@@ -144,21 +144,18 @@ class MoveCard extends React.Component {
                                         <ChargeMove move={this.state.move} /> :
                                         <QuickMove move={this.state.move} />}
                                 </div>
-                                <ButtonsBlock
-                                    class="row m-0 my-2 text-center dexButtonGroup justify-content-center"
-                                    onClick={this.onClick}
-                                    buttons={[{
-                                        attr: "eff",
-                                        title: strings.vunlist,
-                                        class: this.state.active.eff ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                    },
-                                    {
-                                        attr: "use",
-                                        title: strings.used,
-                                        class: this.state.active.use ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                    },]}
-                                />
 
+                                <DoubleSlider
+                                    onClick={this.onClick}
+
+                                    attr1="eff"
+                                    title1={strings.vunlist}
+                                    active1={this.state.active.eff}
+
+                                    attr2="use"
+                                    title2={strings.used}
+                                    active2={this.state.active.use}
+                                />
                                 <UnmountClosed isOpened={this.state.active.eff}>
                                     <div className={"row m-0 p-0"}>
                                         <EffTable

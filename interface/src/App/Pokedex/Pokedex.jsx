@@ -115,6 +115,7 @@ class Movedex extends React.Component {
             let isNext = end < original.length
 
             this.setState({
+                loading: isNext,
                 blockSort: isNext,
                 listToShow: original.slice(0, end)
             });
@@ -271,6 +272,7 @@ class Movedex extends React.Component {
                         <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
+                                    class="row justify-content-center mb-2"
                                     color="black"
                                     weight="500"
                                     locale={strings.loading}

@@ -1,5 +1,4 @@
 import React from "react";
-import Options from "../Options/Options";
 
 const SingleSelect = React.memo(function (props) {
     return (
@@ -14,7 +13,7 @@ const SingleSelect = React.memo(function (props) {
             onChange={props.onChange}
             onClick={props.onClick}
         >
-            <Options options={props.options} />
+            {props.options}
         </select>
     )
 });

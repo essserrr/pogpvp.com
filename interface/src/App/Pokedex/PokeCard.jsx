@@ -15,7 +15,7 @@ import OtherTable from "./OtherBlock/OtherTable"
 import DescrBlock from "./DescrBlock/DescrBlock"
 import EvoBlock from "./EvoBlock/EvoBlock"
 import NavigationBlock from "./NavigationBlock/NavigationBlock"
-import ButtonsBlock from "../Movedex/ButtonsBlock/ButtonsBlock"
+import SliderBlock from "./SliderBlock/SliderBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -250,41 +250,15 @@ class PokeCard extends React.Component {
                                     moveTable={this.state.moveTable}
                                     pokTable={this.state.pokTable}
                                 />
-                                <ButtonsBlock
-                                    class="row m-0 my-2 text-center dexButtonGroup justify-content-center"
+                                <SliderBlock
                                     onClick={this.onClick}
-                                    buttons={[{
-                                        attr: "moves",
-                                        title: strings.movelist,
-                                        class: this.state.active.moves ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                        disabled: !(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0),
-                                    },
-                                    {
-                                        attr: "evo",
-                                        title: strings.evochart,
-                                        class: this.state.active.evo ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                        disabled: !(this.state.pokMisc && this.state.pokMisc.Family),
-                                    },
-                                    {
-                                        attr: "eff",
-                                        title: strings.vunlist,
-                                        class: this.state.active.eff ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                    },
-                                    {
-                                        attr: "cp",
-                                        title: "CP",
-                                        class: this.state.active.cp ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                    },
-                                    {
-                                        attr: "other",
-                                        title: strings.otherinf,
-                                        class: this.state.active.other ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                        disabled: !(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
-                                            (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                            this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0))),
-                                    },]}
+                                    active={this.state.active}
+                                    moveDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
+                                    evoDis={!(this.state.pokMisc && this.state.pokMisc.Family)}
+                                    othDis={!(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
+                                        (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                        this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))}
                                 />
-
 
                                 {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
                                     <UnmountClosed isOpened={this.state.active.moves}>

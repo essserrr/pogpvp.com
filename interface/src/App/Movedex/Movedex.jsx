@@ -9,7 +9,7 @@ import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
-import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
+import DoubleSlider from "./DoubleSlider/DoubleSlider"
 import TypeRow from "./TypeRow/TypeRow"
 
 import { dexLocale } from "../../locale/dexLocale"
@@ -275,19 +275,16 @@ class Movedex extends React.Component {
                                 <>
                                     <input onChange={this.onNameChange} className="form-control" type="text"
                                         placeholder={strings.moveplace} value={this.state.name} />
-                                    <ButtonsBlock
-                                        class="row m-0 my-3 text-center dexButtonGroup justify-content-center"
+                                    <DoubleSlider
                                         onClick={this.onFilter}
-                                        buttons={[{
-                                            attr: "showCharge",
-                                            title: strings.chm,
-                                            class: this.state.filter.showCharge ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                        },
-                                        {
-                                            attr: "showQuick",
-                                            title: strings.qm,
-                                            class: this.state.filter.showQuick ? "col py-1 dexRadio active" : "col py-1 dexRadio",
-                                        },]}
+
+                                        attr1="showCharge"
+                                        title1={strings.chm}
+                                        active1={this.state.filter.showCharge}
+
+                                        attr2="showQuick"
+                                        title2={strings.qm}
+                                        active2={this.state.filter.showQuick}
                                     />
                                     <TypeRow
                                         filter={this.state.filter}
