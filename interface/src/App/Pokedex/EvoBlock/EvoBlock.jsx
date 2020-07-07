@@ -3,91 +3,47 @@ import LocalizedStrings from 'react-localization';
 
 import { getCookie } from "../../../js/indexFunctions"
 import { dexLocale } from "../../../locale/dexLocale"
-import { ReactComponent as Candy } from "../../../icons/candy.svg";
 import EvoCard from "./EvoCard"
+import CardAndSep from "./CardAndSep"
 
 let strings = new LocalizedStrings(dexLocale);
 
 const EvoBlock = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-
-    function generateMoves() {
+    function generateEvos() {
         let arr = []
-        arr.push(
-            <div key={props.familyName} className="row justify-content-center m-0 p-0">
-                <EvoCard
-                    name={props.familyName}
-                    pokTable={props.pokTable}
-                />
-            </div>)
-
-        let subArr = []
-        subArr.push([])
-
         let candies = [0, 0]
+        arr.push([])
+
         for (const [key, evoStages] of Object.entries(props.value)) {
             if (!evoStages) {
                 continue
             }
-            for (let i = 0; i < evoStages.length; i++) {
+            evoStages.forEach((stage) => {
                 switch (key) {
                     case "FirstStage":
-                        if (candies[0] < props.miscTable[evoStages[i].Name].Evo.Candy) {
-                            candies[0] = props.miscTable[evoStages[i].Name].Evo.Candy
-                        }
-
-                        subArr[0].push(
-                            <EvoCard
-                                key={evoStages[i].Name}
-                                name={evoStages[i].Name}
-                                pokTable={props.pokTable}
-                            />)
+                        if (candies[0] < props.miscTable[stage.Name].Evo.Candy) { candies[0] = props.miscTable[stage.Name].Evo.Candy }
+                        arr[0].push(<EvoCard key={stage.Name} name={stage.Name} pokTable={props.pokTable} />)
                         break
                     case "SecondStage":
-                        if (!subArr[1]) {
-                            subArr.push([])
-                        }
-                        if (candies[1] < props.miscTable[evoStages[i].Name].Evo.Candy) {
-                            candies[1] = props.miscTable[evoStages[i].Name].Evo.Candy
-                        }
-                        subArr[1].push(
-                            <EvoCard
-                                key={evoStages[i].Name}
-                                name={evoStages[i].Name}
-                                pokTable={props.pokTable}
-                            />)
+                        if (!arr[1]) { arr.push([]) }
+                        if (candies[1] < props.miscTable[stage.Name].Evo.Candy) { candies[1] = props.miscTable[stage.Name].Evo.Candy }
+                        arr[1].push(<EvoCard key={stage.Name} name={stage.Name} pokTable={props.pokTable} />)
                         break
                     default:
                 }
-            }
+            });
         }
-
-        for (let j = 0; j < subArr.length; j++) {
-            arr.push(
-                <div key={j + "sep"} className="separator fBolder" >
-                    {candies[j] > 0 ? <span className="font-weight-bold">{candies[j]}</span> : ""}
-                    {candies[j] > 0 ? <Candy className="icon18 mx-1" /> : null}
-                    {strings.stage + " " + (j + 1)}
-                </div>,
-                <div key={props.familyName + j} className="row m-0 p-0 justify-content-center">
-                    {subArr[j]}
-                </div>
-            )
-        }
-
-
-        return arr
+        return arr.map((elem, i) => <CardAndSep key={i + "sep"} i={i} elem={elem} candies={candies[i]} />)
     }
-
-
-
-
-
 
     return (
         <div className={"col-12 m-0 p-0 dexFont text-left"}>
-            {generateMoves()}
+            <div key={props.familyName} className="row justify-content-center m-0 p-0">
+                <EvoCard name={props.familyName} pokTable={props.pokTable} />
+            </div>
+            {generateEvos()}
         </div>
     )
 

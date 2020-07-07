@@ -9,23 +9,17 @@ let strings = new LocalizedStrings(dexLocale);
 
 const MoveCol = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    function generateMoves() {
-        let arr = []
-        for (let i = 0; i < props.value.length; i++) {
-            arr.push(<Move
-                key={props.value[i]}
-                value={props.moveTable[props.value[i]]}
-                pok={props.pok}
-            />)
-        }
-        return arr
-    }
+
     return (
         <div className={"col-12 col-sm-6 " + props.class}>
             <div className="col-12 p-0 dexFont">
                 {props.title}
             </div>
-            {generateMoves()}
+            {props.value.map((elem) => <Move
+                key={elem}
+                value={props.moveTable[elem]}
+                pok={props.pok}
+            />)}
         </div>
     )
 

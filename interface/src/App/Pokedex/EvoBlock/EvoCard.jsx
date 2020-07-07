@@ -16,7 +16,6 @@ let strings = new LocalizedStrings(dexLocale);
 const EvoCard = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-
     return (
         <div className="col-6 col-lg-4 px-1 mt-1 text-center">
             <div className="col-12 p-0">

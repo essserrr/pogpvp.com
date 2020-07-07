@@ -33,9 +33,9 @@ class CpBlock extends React.PureComponent {
 
 
     onIvChange(event) {
-        var role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute('attr')
 
-        var eff = calculateEffStat(this.props.pok.Title, this.state[role].Lvl, event.target.value, this.state[role][event.target.name + "Stage"], this.props.pokTable, event.target.name, this.state[role].IsShadow)
+        let eff = calculateEffStat(this.props.pok.Title, this.state[role].Lvl, event.target.value, this.state[role][event.target.name + "Stage"], this.props.pokTable, event.target.name, this.state[role].IsShadow)
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -47,7 +47,7 @@ class CpBlock extends React.PureComponent {
 
 
     onLevelChange(event) {
-        var role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute('attr')
 
         this.setState({
             [role]: {

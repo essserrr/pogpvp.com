@@ -104,8 +104,8 @@ class PokeCard extends React.Component {
                 },
             }),
         ];
-        var reason = ""
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let reason = ""
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -124,7 +124,7 @@ class PokeCard extends React.Component {
             responses[1].json(),
             responses[2].json(),
         ]
-        var results = await Promise.all(parses)
+        let results = await Promise.all(parses)
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {

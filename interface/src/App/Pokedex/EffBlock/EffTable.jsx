@@ -15,41 +15,38 @@ const EffTable = React.memo(function (props) {
 
     let effective = []
     let weak = []
-
-    for (let i = 0; i < effectivenessData.length; i++) {
+    effectivenessData.forEach((elem, i) => {
         let efficiency = 1
         //calculate eff
         switch (props.reverse) {
             case true:
-                for (let j = 0; j < props.type.length; j++) {
-                    efficiency *= (effectivenessData[props.type[j]][i] === 0 ? 1 : effectivenessData[props.type[j]][i])
-                }
+                props.type.forEach((type) => {
+                    efficiency *= (effectivenessData[type][i] === 0 ? 1 : effectivenessData[type][i])
+                });
                 break
             default:
-                for (let j = 0; j < props.type.length; j++) {
-                    efficiency *= (effectivenessData[i][props.type[j]] === 0 ? 1 : effectivenessData[i][props.type[j]])
-                }
+                props.type.forEach((type) => {
+                    efficiency *= (elem[type] === 0 ? 1 : elem[type])
+                });
         }
-
         //push icon
-        if (efficiency > 1) {
-            weak.push(
-                <EffIcon
+        switch (true) {
+            case efficiency > 1:
+                weak.push(<EffIcon
                     key={i + "eff"}
                     i={i}
-                    eff={efficiency.toFixed(3)}
-                />)
-        }
-        if (efficiency < 1) {
-            effective.push(
-                <EffIcon
+                    eff={efficiency.toFixed(3)} />)
+                break
+            case efficiency < 1:
+                effective.push(<EffIcon
                     key={i + "weak"}
                     i={i}
-                    eff={efficiency.toFixed(3)}
-                />)
+                    eff={efficiency.toFixed(3)} />)
+                break
+            default:
         }
+    });
 
-    }
 
     return (
         <table className={"table table-sm table-hover text-center"} >
