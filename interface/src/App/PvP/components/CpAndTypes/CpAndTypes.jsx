@@ -5,9 +5,9 @@ import { typeDecoder } from "../../../../js/indexFunctions.js"
 
 const CpAndTyping = React.memo(function (props) {
     return (
-        <div className="defaultFont mt-2">
+        <div className="d-flex dont90 justify-content-center mt-2">
             <CP
-                class="d-inline mr-2 fBolder"
+                class="mr-2 fBolder align-self-center"
                 name={props.name}
                 tier={props.tier}
                 isBoss={props.isBoss}
