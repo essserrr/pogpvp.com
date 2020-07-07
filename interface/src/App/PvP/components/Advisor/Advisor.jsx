@@ -8,8 +8,6 @@ import { getCookie, } from "../../..//../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
-
-
 class Advisor extends React.PureComponent {
 
     constructor(props) {
@@ -32,30 +30,24 @@ class Advisor extends React.PureComponent {
     };
 
     returnRatingList() {
-        let result = []
-        for (var i = 0; i < this.props.list.length; i++) {
-            result.push(
-                <div key={i} className={"col-12 p-0 m-0 mb-1"}>
+        return this.props.list.map((elem, i) => {
+            return <div key={i} className={"col-12 p-0 m-0 mb-1"}>
+                <AdvisorPanel
+                    first={this.props.leftPanel.listForBattle[elem.first]}
+                    second={this.props.leftPanel.listForBattle[elem.second]}
+                    third={this.props.leftPanel.listForBattle[elem.third]}
+                    i={i}
 
-                    <AdvisorPanel
-                        first={this.props.leftPanel.listForBattle[this.props.list[i].first]}
-                        second={this.props.leftPanel.listForBattle[this.props.list[i].second]}
-                        third={this.props.leftPanel.listForBattle[this.props.list[i].third]}
-                        i={i}
+                    pokemonTable={this.props.pokemonTable}
+                    list={this.props.list}
+                    rawResult={this.props.rawResult}
 
-                        pokemonTable={this.props.pokemonTable}
-                        list={this.props.list}
-                        rawResult={this.props.rawResult}
-
-                        leftPanel={this.props.leftPanel}
-                        rightPanel={this.props.rightPanel}
-                        moveTable={this.props.moveTable}
-                    />
-                </div>
-            )
-        }
-        return result
-
+                    leftPanel={this.props.leftPanel}
+                    rightPanel={this.props.rightPanel}
+                    moveTable={this.props.moveTable}
+                />
+            </div>
+        });
     }
 
     render() {
