@@ -25,6 +25,7 @@ class URL extends React.PureComponent {
     }
 
     onChange() {
+        //mock on change to avoid lint warnings
     }
 
     render() {
