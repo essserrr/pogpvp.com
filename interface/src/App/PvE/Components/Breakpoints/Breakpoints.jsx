@@ -102,7 +102,7 @@ class Breakpoints extends React.PureComponent {
 
     onChange(event) {
 
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         let friendsh = this.state.pveObj.FriendshipStage
         let weather = this.state.pveObj.Weather
         let atkIV = this.state.attackerObj.Atk

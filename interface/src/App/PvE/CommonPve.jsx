@@ -100,7 +100,7 @@ class CommonPve extends React.PureComponent {
 
 
     onIvChange(event) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -110,7 +110,7 @@ class CommonPve extends React.PureComponent {
     }
 
     onLevelChange(event) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -120,7 +120,7 @@ class CommonPve extends React.PureComponent {
     }
 
     onTypeChange(event) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -188,7 +188,7 @@ class CommonPve extends React.PureComponent {
             return
         }
         if (event.target.value === "Select...") {
-            var role = event.target.getAttribute('attr')
+            var role = event.target.getAttribute("attr")
             this.setState({
                 [role]: {
                     ...this.state[role],
@@ -204,7 +204,7 @@ class CommonPve extends React.PureComponent {
             return
         }
         //otherwise follow general pattern
-        role = event.target.getAttribute('attr')
+        role = event.target.getAttribute("attr")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -284,7 +284,7 @@ class CommonPve extends React.PureComponent {
     };
 
     onClick(event) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
         }

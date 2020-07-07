@@ -149,7 +149,7 @@ class Movedex extends React.Component {
         if (this.state.blockSort) {
             return
         }
-        let attr = event.currentTarget.getAttribute('attr')
+        let attr = event.currentTarget.getAttribute("attr")
         let newList = this.state.originalList.filter(e => {
             return (e.key.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1) &&
                 this.filterArr(e, { ...this.state.filter, [attr]: !this.state.filter[attr] })

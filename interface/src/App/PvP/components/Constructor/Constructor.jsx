@@ -86,7 +86,7 @@ class Constructor extends React.PureComponent {
     }
 
     onChange(event) {
-        var role = event.target.getAttribute('attr')
+        var role = event.target.getAttribute("attr")
         let value = event.target.value
         if (event.target.name === "IsShield" || event.target.name === "IsTriggered") {
             value = !this.state[role][event.target.name]

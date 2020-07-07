@@ -78,7 +78,7 @@ class RedactPokemon extends React.PureComponent {
     }
 
     onClick(event) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -300,7 +300,7 @@ class RedactPokemon extends React.PureComponent {
     maximizerSubmit(event) {
         event.preventDefault();
 
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         let level = event.target.getAttribute('level')
         let stat = event.target.getAttribute('stat')
         let action = event.target.getAttribute('action')

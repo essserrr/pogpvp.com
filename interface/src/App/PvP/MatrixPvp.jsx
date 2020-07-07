@@ -226,7 +226,7 @@ class MatrixPvp extends React.PureComponent {
     onChange(event) {
         //otherwise follow general pattern
         let action = event.target.getAttribute('action')
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         if (action === "defaultStatMaximizer") {
             this.statMaximizer(event, role)
             return
@@ -264,7 +264,7 @@ class MatrixPvp extends React.PureComponent {
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
         }
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -275,7 +275,7 @@ class MatrixPvp extends React.PureComponent {
     }
 
     onPokemonDelete(event) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         let index = event.target.getAttribute('index')
 
         let newListForBattle = this.state[role].listForBattle.filter((value) => value.key !== index);
@@ -590,7 +590,7 @@ class MatrixPvp extends React.PureComponent {
         if (event.target.getAttribute('name') === "closeButton") {
             return
         }
-        let listForBattle = this.state[event.currentTarget.getAttribute('attr')].listForBattle
+        let listForBattle = this.state[event.currentTarget.getAttribute("attr")].listForBattle
         let index = event.currentTarget.getAttribute('index')
         let elementNumber
         let pokemon
@@ -607,7 +607,7 @@ class MatrixPvp extends React.PureComponent {
             redact: {
                 ...this.state.redact,
                 showMenu: true,
-                attr: event.currentTarget.getAttribute('attr'),
+                attr: event.currentTarget.getAttribute("attr"),
                 number: elementNumber,
                 pokemon: pokemon,
             }

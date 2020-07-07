@@ -222,7 +222,7 @@ class SinglePvp extends React.PureComponent {
     }
 
     onChange(event, name) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         //check if it`s a name change
         if (event.target === undefined) {
             switch (name.name[1]) {
@@ -289,7 +289,7 @@ class SinglePvp extends React.PureComponent {
     maximizerSubmit(event) {
         event.preventDefault();
 
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         let level = event.target.getAttribute('level')
         let stat = event.target.getAttribute('stat')
         let action = event.target.getAttribute('action')
@@ -662,7 +662,7 @@ class SinglePvp extends React.PureComponent {
     }
 
     onClick(event) {
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
         }

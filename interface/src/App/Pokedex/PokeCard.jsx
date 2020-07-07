@@ -190,7 +190,7 @@ class PokeCard extends React.Component {
     }
 
     onClick(event) {
-        let attr = event.target.getAttribute('attr')
+        let attr = event.target.getAttribute("attr")
         this.setState({
             active: {
                 [attr]: !this.state.active[attr],

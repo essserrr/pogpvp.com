@@ -17,7 +17,7 @@ const NavigationBlock = React.memo(function (props) {
     }
 
     function onPrevNext(event) {
-        let attr = event.target.getAttribute('attr');
+        let attr = event.target.getAttribute("attr");
         switch (attr) {
             case "prev":
                 history.push((navigator.userAgent === "ReactSnap") ? "/" : props.prev);
@@ -31,7 +31,7 @@ const NavigationBlock = React.memo(function (props) {
 
     function onMiddle(event) {
         if (event.button === 1) {
-            let attr = event.target.getAttribute('attr');
+            let attr = event.target.getAttribute("attr");
             switch (attr) {
                 case "prev":
                     window.open((navigator.userAgent === "ReactSnap") ? "/" : props.prev)
