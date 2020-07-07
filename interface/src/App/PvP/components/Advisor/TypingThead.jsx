@@ -4,15 +4,11 @@ import TheadCell from "./TheadCell"
 
 
 const TypingThead = React.memo(function (props) {
-    let arr = []
-    for (let j = 0; j < typeDecoder.length; j++) {
-        arr.push(<TheadCell key={j + "thead"} type={j} />)
-    }
 
     return (
         <>
             <th key={"zero"} className="modifiedBorderTable theadT p-0 px-1" scope="col" />
-            {arr}
+            {typeDecoder.map((elem, i) => <TheadCell key={i + "thead"} type={i} />)}
         </>
     )
 });

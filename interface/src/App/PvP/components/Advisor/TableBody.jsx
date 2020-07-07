@@ -1,15 +1,6 @@
 import React from "react";
 
 const TableBody = React.memo(function (props) {
-    var arrWithTr = []
-    for (let i = 1; i < props.value.length; i++) {
-        arrWithTr.push(
-            <tr key={"tableline" + i}>
-                {props.value[i]}
-            </tr>
-        )
-    }
-
     return (
         <>
             <thead key={"thead0"} className="thead thead-light" >
@@ -18,7 +9,7 @@ const TableBody = React.memo(function (props) {
                 </tr>
             </thead>
             <tbody key={"tablebody"} className="modifiedBorderTable">
-                {arrWithTr}
+                {props.value.slice(1).map((elem, i) => <tr key={"tableline" + i}>{elem}</tr>)}
             </tbody>
         </>
     )

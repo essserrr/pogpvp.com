@@ -164,12 +164,13 @@ class AdvisorPanel extends React.PureComponent {
 
         for (let i = 0; i < effectivenessData.length; i++) {
             let cumulative = 1
-            let notZero = false
+            let zeroCount = 0
             for (let j = 0; j < arr.length; j++) {
                 cumulative *= (effectivenessData[this.props.moveTable[arr[j]].MoveType][i] === 0 ? 1 : effectivenessData[this.props.moveTable[arr[j]].MoveType][i])
-                notZero += (effectivenessData[this.props.moveTable[arr[j]].MoveType][i] > 1 || effectivenessData[this.props.moveTable[arr[j]].MoveType][i] === 0)
+                zeroCount += (effectivenessData[this.props.moveTable[arr[j]].MoveType][i] > 1 ||
+                    effectivenessData[this.props.moveTable[arr[j]].MoveType][i] === 0) ? 0 : 1
             }
-            if (!notZero) {
+            if (zeroCount / arr.length > 0.5) {
                 zeros.push(<Type
                     key={"zeroOff" + i}
                     class={"icon24 m-1"}
@@ -287,7 +288,7 @@ class AdvisorPanel extends React.PureComponent {
 
     addPokLine(arr, pok, vun) {
         arr.push([<SinglePokLine
-            i={arr.length}
+            i={arr.length - 1}
             pok={pok}
             pokemonTable={this.props.pokemonTable}
             locale={strings.options.type.shadow}

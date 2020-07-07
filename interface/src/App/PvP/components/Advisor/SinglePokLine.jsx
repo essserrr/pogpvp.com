@@ -6,17 +6,6 @@ import { returnVunStyle } from "../../..//../js/indexFunctions"
 
 
 const SinglePokLine = React.memo(function (props) {
-
-    let arr = []
-    for (let k = 1; k < props.vun[props.i - 1].length + 1; k++) {
-        let rateStyle = returnVunStyle(props.vun[props.i - 1][k - 1])
-        arr.push(<td key={props.i + "defensive" + k} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-            <div className={"rateTyping hover rateColor " + rateStyle}>
-                {props.vun[props.i - 1][k - 1]}
-            </div>
-        </td >)
-    }
-
     return (
         <>
             <td className="modifiedBorderTable text-center theadT fixFirstRow m-0 p-0 px-1" >
@@ -43,7 +32,14 @@ const SinglePokLine = React.memo(function (props) {
                     {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, '') + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
                 </div>
             </td>
-            {arr}
+            {props.vun[props.i].map((elem, k) => {
+                let rateStyle = returnVunStyle(elem)
+                return <td key={props.i + "defensive" + k} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
+                    <div className={"rateTyping hover rateColor " + rateStyle}>
+                        {elem}
+                    </div>
+                </td >
+            })}
         </>
     )
 });
