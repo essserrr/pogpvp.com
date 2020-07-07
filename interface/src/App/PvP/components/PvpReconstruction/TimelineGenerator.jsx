@@ -48,17 +48,13 @@ class EvoList extends PureComponent {
             )
         }
 
-        return ([
-            <tr key="attacker">{attackerTimeline}</tr>,
-            <tr key="defender">{defenderTimeline}</tr>,
-        ]
-        )
+        return [<tr key="attacker">{attackerTimeline}</tr>, <tr key="defender">{defenderTimeline}</tr>,]
     }
 
 
 
     processPokemonResults(arg) {
-        var result = []
+        let result = []
         const thisRound = this.props.log[arg.i]
         //if there is no next round
         if (this.props.log[arg.i + 1] === undefined) {
@@ -99,9 +95,6 @@ class EvoList extends PureComponent {
                 }
                 break
         }
-
-
-
         return result
     }
 
@@ -133,7 +126,7 @@ class EvoList extends PureComponent {
             }
         }
         //then make own charge event
-        var glow = ""
+        let glow = ""
         if (thisRound[arg.actor1].StageA !== 0) {
             glow = glow + "attack"
         }
