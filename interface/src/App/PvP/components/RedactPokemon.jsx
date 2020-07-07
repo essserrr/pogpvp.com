@@ -250,7 +250,7 @@ class RedactPokemon extends React.PureComponent {
             }
             return
         }
-        let role = event.target.getAttribute('attr')
+        let role = event.target.getAttribute("attr")
         //check if it's an initial stat change
         if (event.target.name === "InitialHP" || event.target.name === "InitialEnergy") {
             this.onInitialStatsChange(event, role)

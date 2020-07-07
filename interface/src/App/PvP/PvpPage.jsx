@@ -12,8 +12,6 @@ import MatrixDescr from "./components/Description/MatrixDescr"
 import SingleDescr from "./components/Description/SingleDescr"
 import Loader from "../PvpRating/Loader"
 
-
-
 import {
     getCookie, extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase,
     calculateEffStat
@@ -28,7 +26,7 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.HP = hisResult.HP
     pok.Energy = hisResult.EnergyRemained
 
-    var moves = returnMovePool(pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
+    let moves = returnMovePool(pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
     pok.quickMovePool = moves.quickMovePool
     pok.chargeMovePool = moves.chargeMovePool
 
@@ -135,8 +133,8 @@ class PvpPage extends React.Component {
                 },
             }))
         }
-        var reason = ""
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let reason = ""
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -166,7 +164,7 @@ class PvpPage extends React.Component {
         if (extractedData.attacker !== undefined && extractedData.defender !== undefined) {
             parses.push(responses[2].json())
         }
-        var results = await Promise.all(parses)
+        let results = await Promise.all(parses)
 
         let pokList = [];
         if (results[0]) {
@@ -242,12 +240,10 @@ class PvpPage extends React.Component {
 
 
     onChange(event) {
-
         this.setState({
             [event.target.name]: event.target.value
 
         });
-
     }
 
     onPvpokeEnable(event) {
