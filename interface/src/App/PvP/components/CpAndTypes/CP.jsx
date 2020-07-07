@@ -17,7 +17,6 @@ const CP = React.memo(function (props) {
             props.pokemonTable)}
         </div>
     )
-
 });
 
 export default CP;
