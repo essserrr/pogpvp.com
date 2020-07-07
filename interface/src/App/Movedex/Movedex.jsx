@@ -136,7 +136,7 @@ class Movedex extends React.Component {
                 this.sortNumber(this.state.active.field, newList) : this.sortString(this.state.active.field, newList)
         }
         this.setState({
-            name: !event.value ? "" : event.value,
+            name: !event.target.value ? "" : event.target.value,
             listToShow: newList,
         });
     }
@@ -273,7 +273,8 @@ class Movedex extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
-                                    <input onChange={this.onNameChange} className="form-control" type="text" placeholder={strings.moveplace} />
+                                    <input onChange={this.onNameChange} className="form-control" type="text"
+                                        placeholder={strings.moveplace} value={this.state.name} />
                                     <ButtonsBlock
                                         class="row m-0 my-3 text-center dexButtonGroup justify-content-center"
                                         onClick={this.onFilter}

@@ -6,6 +6,8 @@ import Errors from "../PvP/components/Errors/Errors"
 import PokeRow from "./PokeRow/PokeRow"
 import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
+import TypeRow from "../Movedex/TypeRow/TypeRow"
+import GenRow from "./GenRow/GenRow"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie, culculateCP } from "../../js/indexFunctions"
@@ -18,9 +20,9 @@ class Movedex extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            active: {
-                Title: false,
-            },
+            name: "",
+            active: {},
+            filter: {},
 
             showLegend: false,
             showResult: false,
@@ -29,8 +31,9 @@ class Movedex extends React.Component {
             loading: false,
         };
         this.onShowLegend = this.onShowLegend.bind(this)
-        this.onChange = this.onChange.bind(this)
-        this.onSort = this.onSort.bind(this)
+        this.onNameChange = this.onNameChange.bind(this)
+        this.onSortColumn = this.onSortColumn.bind(this)
+        this.onFilter = this.onFilter.bind(this)
     }
 
 
@@ -47,8 +50,8 @@ class Movedex extends React.Component {
                 },
             }),
         ];
-        var reason = ""
-        var responses = await Promise.all(fetches).catch(function (r) {
+        let reason = ""
+        let responses = await Promise.all(fetches).catch(function (r) {
             reason = r
             return
         });
@@ -65,7 +68,7 @@ class Movedex extends React.Component {
         let parses = [
             responses[0].json(),
         ]
-        var results = await Promise.all(parses)
+        let results = await Promise.all(parses)
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
@@ -124,15 +127,63 @@ class Movedex extends React.Component {
 
 
 
-    onChange(event) {
+    onNameChange(event) {
         if (this.state.blockSort) {
             return
         }
-        let newArray = this.state.originalList.filter(e => e.key.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1);
-        this.setState({
-            name: event.value,
-            listToShow: newArray,
+        let newList = this.state.originalList.filter(e => {
+            return e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1 && this.filterArr(e, this.state.filter)
         });
+        if (this.state.active.field) {
+            newList = this.state.active.type === "number" ? this.sortNumber(this.state.active.field, newList) :
+                (this.state.active.type === "array" ? this.sortTypeArr(this.state.active.field, newList) :
+                    this.sortString(this.state.active.field, newList))
+        }
+        this.setState({
+            name: !event.target.value ? "" : event.target.value,
+            listToShow: newList,
+        });
+    }
+
+    onFilter(event) {
+        if (this.state.blockSort) {
+            return
+        }
+        let attr = event.currentTarget.getAttribute('attr')
+        let newList = this.state.originalList.filter(e => {
+            return (e.key.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1) &&
+                this.filterArr(e, { ...this.state.filter, [attr]: !this.state.filter[attr] })
+        })
+        if (this.state.active.field) {
+            newList = this.state.active.type === "number" ? this.sortNumber(this.state.active.field, newList) :
+                (this.state.active.type === "array" ? this.sortTypeArr(this.state.active.field, newList) :
+                    this.sortString(this.state.active.field, newList))
+        }
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                [attr]: !this.state.filter[attr],
+            },
+            listToShow: newList,
+        });
+    }
+
+    filterArr(e, filter) {
+        console.log(e.props.value)
+        let corresponds = true
+        if (filter.type0 || filter.type1 || filter.type2 || filter.type3 || filter.type4 || filter.type5 ||
+            filter.type6 || filter.type7 || filter.type8 || filter.type9 || filter.type10 || filter.type11 ||
+            filter.type12 || filter.type13 || filter.type14 || filter.type15 || filter.type16 || filter.type17) {
+            if (e.props.value.Type.reduce((result, type) => { return result * !filter["type" + type] }, true)) {
+                corresponds *= false
+            }
+        }
+        if (filter.gen1 || filter.gen2 || filter.gen3 || filter.gen4 || filter.gen5 || filter.gen6 || filter.gen7 || filter.gen8) {
+            if (!filter["gen" + e.props.value.Generation]) {
+                corresponds *= false
+            }
+        }
+        return corresponds
     }
 
 
@@ -142,38 +193,44 @@ class Movedex extends React.Component {
         })
     }
 
-    onSort(event) {
+    onSortColumn(event) {
         if (this.state.blockSort) {
             return
         }
-        var fieldName = event.currentTarget.getAttribute('name')
-        var fieldType = event.currentTarget.getAttribute('coltype')
-        switch (this.state.active[fieldName]) {
+        let fieldName = event.currentTarget.getAttribute('name')
+        let fieldType = event.currentTarget.getAttribute('coltype')
+        switch (this.state.active.field === fieldName) {
             case true:
                 this.setState({
-                    active: { [fieldName]: false },
+                    active: {
+                        field: "",
+                        type: "",
+                    },
                     shinyRates: this.state.listToShow.reverse(),
                 });
                 break
             default:
                 this.setState({
-                    active: { [fieldName]: true },
-                    listToShow: fieldType === "number" ? this.sortNumber(fieldName) :
-                        (fieldType === "type" ? this.sortTypeArr(fieldName) :
-                            this.sortString(fieldName)),
+                    active: {
+                        field: fieldName,
+                        type: fieldType,
+                    },
+                    listToShow: fieldType === "number" ? this.sortNumber(fieldName, this.state.listToShow) :
+                        (fieldType === "array" ? this.sortTypeArr(fieldName, this.state.listToShow) :
+                            this.sortString(fieldName, this.state.listToShow)),
                 });
                 break
         }
     }
 
-    sortNumber(fieldName) {
-        return this.state.listToShow.sort(function (a, b) {
+    sortNumber(fieldName, arr) {
+        return arr.sort(function (a, b) {
             return b.props.value[fieldName] - a.props.value[fieldName]
         })
     }
 
-    sortString(fieldName) {
-        return this.state.listToShow.sort(function (a, b) {
+    sortString(fieldName, arr) {
+        return arr.sort(function (a, b) {
             if (a.props.value[fieldName] > b.props.value[fieldName]) {
                 return -1;
             }
@@ -184,8 +241,8 @@ class Movedex extends React.Component {
         })
     }
 
-    sortTypeArr(fieldName) {
-        return this.state.listToShow.sort(function (a, b) {
+    sortTypeArr(fieldName, arr) {
+        return arr.sort(function (a, b) {
             if (b.props.value[fieldName][0] === a.props.value[fieldName][0]) {
                 if (b.props.value[fieldName].length > 1 && a.props.value[fieldName].length > 1) {
                     return b.props.value[fieldName][1] - a.props.value[fieldName][1];
@@ -222,12 +279,21 @@ class Movedex extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
-                                    <input onChange={this.onChange} className="form-control" type="text"
-                                        placeholder={strings.pokplace} />
+                                    <input onChange={this.onNameChange} className="form-control" type="text"
+                                        placeholder={strings.pokplace} value={this.state.name} />
+                                    <div className="dexFont my-1">{strings.generation + ":"}</div>
+                                    <GenRow
+                                        filter={this.state.filter}
+                                        onFilter={this.onFilter}
+                                    />
+                                    <TypeRow
+                                        filter={this.state.filter}
+                                        onFilter={this.onFilter}
+                                    />
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
                                             active={this.state.active}
-                                            onClick={this.onSort}
+                                            onClick={this.onSortColumn}
                                         />
                                         <tbody>
                                             {this.state.listToShow}
