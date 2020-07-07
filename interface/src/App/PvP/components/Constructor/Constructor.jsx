@@ -69,15 +69,18 @@ class Constructor extends React.PureComponent {
     }
 
     createList(role) {
-        var list = [<option value="Default" key={"default" + role}>{strings.constructor.default}</option>,]
-        var containCharge = false
-        switch (this.props.log[this.props.round][role].ActionCode === 1 || this.props.log[this.props.round][role].ActionCode === 11 || this.props.log[this.props.round][role].ActionCode === 0) {
+        let list = [<option value="Default" key={"default" + role}>{strings.constructor.default}</option>,]
+        let containCharge = false
+        switch (this.props.log[this.props.round][role].ActionCode === 1 || this.props.log[this.props.round][role].ActionCode === 11 ||
+        this.props.log[this.props.round][role].ActionCode === 0) {
             case true:
                 list.push(
                     <option value={this.props[role].QuickMove} key={this.props[role].QuickMove + role}>{this.props[role].QuickMove}</option>
                 )
-                containCharge += this.appendCharge(this.props[role].ChargeMove1, this.props.log[this.props.round - 1][role].Energy, list, role, 1)
-                containCharge += this.appendCharge(this.props[role].ChargeMove2, this.props.log[this.props.round - 1][role].Energy, list, role, 2)
+                containCharge += this.appendCharge(this.props[role].ChargeMove1, this.props.log[this.props.round - 1][role].Energy,
+                    list, role, 1)
+                containCharge += this.appendCharge(this.props[role].ChargeMove2, this.props.log[this.props.round - 1][role].Energy,
+                    list, role, 2)
                 break
             default:
                 console.log("Unknown action code")
@@ -86,24 +89,20 @@ class Constructor extends React.PureComponent {
     }
 
     onChange(event) {
-        var role = event.target.getAttribute("attr")
+        let role = event.target.getAttribute("attr")
         let value = event.target.value
         if (event.target.name === "IsShield" || event.target.name === "IsTriggered") {
             value = !this.state[role][event.target.name]
         }
-        if (event.target.name === "Action") {
-            if (value !== "Default") {
-                if (this.props.moveTable[value].Probability === 1) {
-                    this.setState({
-                        [role]: {
-                            ...this.state[role],
-                            [event.target.name]: value,
-                            IsTriggered: true,
-                        }
-                    })
-                    return
+        if (event.target.name === "Action" && value !== "Default" && this.props.moveTable[value].Probability === 1) {
+            this.setState({
+                [role]: {
+                    ...this.state[role],
+                    [event.target.name]: value,
+                    IsTriggered: true,
                 }
-            }
+            })
+            return
         }
 
 
@@ -142,18 +141,16 @@ class Constructor extends React.PureComponent {
                 upperNotFound = false
 
                 //check if energy is enough to use a charge move
-                if (this.props[role].ChargeMove1) {
-                    if ((this.props.moveTable[this.props[role].ChargeMove1].PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
-                        constr[role].WhatToSkip = 2
-                        break
-                    }
+                if (this.props[role].ChargeMove1 &&
+                    (this.props.moveTable[this.props[role].ChargeMove1].PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
+                    constr[role].WhatToSkip = 2
+                    break
                 }
 
-                if (this.props[role].ChargeMove2) {
-                    if ((this.props.moveTable[this.props[role].ChargeMove2].PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
-                        constr[role].WhatToSkip = 1
-                        break
-                    }
+                if (this.props[role].ChargeMove2 &&
+                    (this.props.moveTable[this.props[role].ChargeMove2].PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
+                    constr[role].WhatToSkip = 1
+                    break
                 }
 
 

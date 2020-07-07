@@ -572,7 +572,7 @@ class SinglePvp extends React.PureComponent {
             this.state.constructor.agregatedParams.Defender,
             this.state.result.Log[this.state.constructor.isSelected - 1].Defender);
 
-        var reason = ""
+        let reason = ""
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/constructor", {
             method: "POST",
             headers: {

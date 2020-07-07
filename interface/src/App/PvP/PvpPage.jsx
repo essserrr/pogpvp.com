@@ -105,7 +105,7 @@ class PvpPage extends React.Component {
             loading: true,
             pvpoke: simtype === "pvpoke" ? true : false,
         })
-        var extractedData = extractData(league, pok1, pok2)
+        let extractedData = extractData(league, pok1, pok2)
         let fetches = [
             fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
                 method: "GET",
