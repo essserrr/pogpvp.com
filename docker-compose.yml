@@ -20,8 +20,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.simulator.rule=Host(`pogpvp.com`)"
-      - "traefik.http.routers.simulator.tls=true"
       - "traefik.http.routers.simulator.entrypoints=websecure"
+      - "traefik.http.routers.simulator.tls=true"
       - "traefik.http.routers.simulator.tls.certresolver=myresolver"
       - "traefik.port=8080"
   mongo1:
@@ -156,13 +156,15 @@ services:
           - "80:80"
           - "443:443"
         labels:
+         - "traefik.enable=true"
           #middleware compressor
          - "traefik.http.middlewares.test-compress.compress=true"
          # middleware redirect  
          - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"  
          # global redirect to https  
-         - "traefik.http.routers.redirs.rule=hostregexp(`{host:.+}`)"  
-         - "traefik.http.routers.redirs.entrypoints=web"  
+         - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"  
+         - "traefik.http.routers.http-catchall.entrypoints=web"
+         - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"  
         volumes:
           - "letsencrypt:/letsencrypt/"
           - "/var/run/docker.sock:/var/run/docker.sock:ro"
