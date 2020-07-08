@@ -11,6 +11,7 @@ import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
 import DoubleSlider from "./DoubleSlider/DoubleSlider"
 import TypeRow from "./TypeRow/TypeRow"
+import Input from "../PvP/components/Input/Input"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -273,8 +274,12 @@ class Movedex extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
-                                    <input onChange={this.onNameChange} className="form-control" type="text"
-                                        placeholder={strings.moveplace} value={this.state.name} />
+                                    <Input
+                                        class="modifiedBorder form-control"
+                                        onChange={this.onNameChange}
+                                        place={strings.moveplace}
+                                        value={this.state.name}
+                                    />
                                     <DoubleSlider
                                         onClick={this.onFilter}
 
@@ -290,8 +295,6 @@ class Movedex extends React.Component {
                                         filter={this.state.filter}
                                         onFilter={this.onFilter}
                                     />
-
-
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
                                             active={this.state.active}

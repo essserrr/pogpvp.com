@@ -12,6 +12,7 @@ import RatingDescr from "./RatingDescr/RatingDescr"
 import Loader from "./Loader"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"
 import CardBody from "./CardBody/CardBody"
+import Input from "../PvP/components/Input/Input"
 
 import { ReactComponent as Shadow } from "../../icons/shadow.svg";
 import { checkShadow, getCookie, capitalizeFirst } from "../../js/indexFunctions"
@@ -426,10 +427,11 @@ class PvpRating extends React.Component {
                                     {this.state.showResult &&
                                         <>
                                             <div className="col px-2 py-2">
-                                                <input onChange={this.onChangeInput}
-                                                    className="form-control" type="text"
-                                                    placeholder={strings.shinyrates.searchplaceholder}>
-                                                </input>
+                                                <Input
+                                                    class="modifiedBorder form-control"
+                                                    onChange={this.onChangeInput}
+                                                    place={strings.shinyrates.searchplaceholder}
+                                                />
                                             </div>
 
                                             <div className="row m-0 px-2  justify-content-center">

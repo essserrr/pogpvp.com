@@ -6,6 +6,8 @@ import ReactTooltip from "react-tooltip"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/indexFunctions"
 import Header from "../../Movedex/Header/Header"
+import Input from "../../PvP/components/Input/Input"
+
 
 let strings = new LocalizedStrings(locale);
 
@@ -14,8 +16,11 @@ const ShinyTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <input onChange={props.onChange} className="form-control mb-2" type="text" placeholder={strings.shinyrates.searchplaceholder}>
-            </input>
+            <Input
+                class="modifiedBorder form-control mb-2"
+                onChange={props.onChange}
+                place={strings.shinyrates.searchplaceholder}
+            />
             <table className="table  table-sm text-center">
                 <thead>
                     <tr>

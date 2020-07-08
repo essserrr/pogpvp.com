@@ -8,6 +8,7 @@ import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
 import TypeRow from "../Movedex/TypeRow/TypeRow"
 import GenRow from "./GenRow/GenRow"
+import Input from "../PvP/components/Input/Input"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie, culculateCP } from "../../js/indexFunctions"
@@ -280,8 +281,17 @@ class Movedex extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
-                                    <input onChange={this.onNameChange} className="form-control" type="text"
-                                        placeholder={strings.pokplace} value={this.state.name} />
+
+
+                                    <Input
+                                        class="modifiedBorder form-control"
+                                        onChange={this.onNameChange}
+                                        place={strings.pokplace}
+                                        value={this.state.name}
+                                    />
+
+
+
                                     <div className="dexFont my-1">{strings.generation + ":"}</div>
                                     <GenRow
                                         filter={this.state.filter}

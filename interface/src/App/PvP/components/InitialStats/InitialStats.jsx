@@ -12,7 +12,7 @@ let strings = new LocalizedStrings(locale);
 const InitialStats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className="input-group input-group-sm mt-2">
+        <>
             <ReactTooltip
                 id={props.attr + "InitialHP"} effect="solid">
                 {"HP: 0-" + strings.initialStats.hpTip + " HP"}
@@ -21,33 +21,34 @@ const InitialStats = React.memo(function (props) {
                 id={props.attr + "InitialEnergy"} effect="solid">
                 {strings.initialStats.energyTip + ": 0-100"}
             </ReactTooltip>
+            <div className="input-group input-group-sm mt-2">
+                <LabelPrepend
+                    label={props.label}
 
-            <LabelPrepend
-                label={props.label}
+                    for={props.for}
+                    tip={props.tip}
+                    place={props.place}
+                />
 
-                for={props.for}
-                tip={props.tip}
-                place={props.place}
-            />
+                <Input
+                    name="InitialHP"
+                    attr={props.attr}
+                    value={props.InitialHP}
+                    onChange={props.onChange}
+                    place="HP"
+                    for={props.attr + "InitialHP"}
+                />
 
-            <Input
-                name="InitialHP"
-                attr={props.attr}
-                value={props.InitialHP}
-                onChange={props.onChange}
-                place="HP"
-                for={props.attr + "InitialHP"}
-            />
-
-            <Input
-                name="InitialEnergy"
-                attr={props.attr}
-                value={props.InitialEnergy}
-                onChange={props.onChange}
-                place={strings.initialStats.energy}
-                for={props.attr + "InitialEnergy"}
-            />
-        </div>
+                <Input
+                    name="InitialEnergy"
+                    attr={props.attr}
+                    value={props.InitialEnergy}
+                    onChange={props.onChange}
+                    place={strings.initialStats.energy}
+                    for={props.attr + "InitialEnergy"}
+                />
+            </div>
+        </>
     )
 
 });

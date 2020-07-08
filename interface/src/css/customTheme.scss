@@ -468,17 +468,7 @@
 }
 
 //global rules
-.btn  {
-    &.btn-primary  {
-        &.btn-sm {
-            margin-top: 0px !important;
-            padding-top: 0.35rem !important;
-            padding-bottom: 0.35rem !important;
-            padding-left: 1.45rem !important;
-            padding-right: 1.45rem !important;
-        }
-    }
-}
+
 
 .custom-control  {
     &.custom-radio  {
@@ -962,6 +952,7 @@ body {
 
 //matrix panel, matrix-redact, matrix-save
 .matrixButton.btn.btn-primary.btn-sm {
+    margin-top: 0rem !important;
     width: fit-content !important;
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
@@ -972,6 +963,7 @@ body {
 
 //maximizer equalsized
 .maximizerButton.btn.btn-primary.btn-sm {
+    margin-top: 0rem !important;
     width: 45% !important;
     padding-left: 0.85rem !important;
     padding-right: 0.85rem !important;
@@ -995,6 +987,7 @@ body {
 
 
 .longButton.btn.btn-primary.btn-sm {
+    margin-top: 0rem !important;
     max-width: fit-content !important;
     padding-top: 0.3rem !important;
     padding-bottom: 0.3rem !important;

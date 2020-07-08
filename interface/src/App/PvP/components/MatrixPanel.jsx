@@ -529,7 +529,7 @@ class MatrixPanel extends React.PureComponent {
                 {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
 
                     <SubmitButton
-                        class="saveinterface btn btn-primary btn-sm mx-0 pl-1 col-8"
+                        class="matrixButton btn btn-primary btn-sm mx-0 pl-1 col-8"
                         action="Advisor"
                         disabled={this.props.advDisabled}
 
