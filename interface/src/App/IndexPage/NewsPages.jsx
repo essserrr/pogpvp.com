@@ -96,7 +96,7 @@ class NewsPages extends React.Component {
             return <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
                 "/news/id/" + parsed.ID}>
                 <News
-                    class="singleNews hoverable"
+                    class="singleNews hoverable mx-4 mt-3"
                     title={parsed.Title}
                     date={parsed.Date}
                     description={parsed.ShortDescription}
@@ -116,7 +116,7 @@ class NewsPages extends React.Component {
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="newsBody col-md-10 col-lg-8 p-0">
-                            <div className="newsTitle mb-3 ">
+                            <div className="newsTitle">
                                 {strings.title.latestnews}
                             </div>
                             {this.state.loading &&
@@ -132,7 +132,7 @@ class NewsPages extends React.Component {
                             {this.state.showResult && <>
                                 {this.state.newsList && this.state.newsList}
                                 <NavigationBlock
-                                    class="row m-0 px-4 pb-2 "
+                                    class="row m-0 px-4 py-2 "
 
                                     prevTitle={this.state.prevPageExists ?
                                         strings.buttons.nextpage : null}

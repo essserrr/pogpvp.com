@@ -110,14 +110,14 @@ class Navbar extends React.PureComponent {
                             className="langButton clickable"
                             onClick={this.onClick}
                         >
-                            <Ru title={strings.buttons.ru} className="icon24 p-0 m-0 mr-1" ></Ru>
+                            <Ru title={strings.buttons.ru} className="icon24 mr-1" ></Ru>
                         </li>
                         <li
                             name="en"
                             className="langButton clickable"
                             onClick={this.onClick}
                         >
-                            <En title={strings.buttons.en} className="icon24 p-0 m-0 mr-2" ></En>
+                            <En title={strings.buttons.en} className="icon24 mr-2" ></En>
                         </li>
 
                     </ul>

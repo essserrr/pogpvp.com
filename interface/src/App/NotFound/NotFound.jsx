@@ -43,8 +43,8 @@ class NotFound extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews col-sm-12 col-md-7 col-lg-5 p-0 m-0 pb-4">
-                            <div className="row  justify-content-center p-0 m-0"  >
+                        <div className="singleNews col-sm-12 col-md-7 col-lg-5 p-0 pb-4">
+                            <div className="row  justify-content-center m-0"  >
                                 <div className="text404 align-self-center">
                                     4
                                 </div>
@@ -61,7 +61,7 @@ class NotFound extends React.Component {
                                     {strings.notfound}
                                 </h5>
                                 <div tabIndex="0" ref="notfound"></div>
-                                <a title={strings.buttons.home} className="row ml-2 mr-1 p-0 linkText font-weight-bold text-center" href="/">
+                                <a title={strings.buttons.home} className="row ml-2 mr-1 linkText font-weight-bold text-center" href="/">
                                     <i className="fas fa-angle-double-left align-self-center  mr-1"></i>
                                     {strings.return}
                                 </a>
