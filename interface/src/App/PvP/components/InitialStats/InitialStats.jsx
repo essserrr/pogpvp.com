@@ -25,9 +25,10 @@ const InitialStats = React.memo(function (props) {
                 <LabelPrepend
                     label={props.label}
 
-                    for={props.for}
-                    tip={props.tip}
-                    place={props.place}
+                    tipClass="strategyTips"
+                    for={props.attr + "instats"}
+                    place={"top"}
+                    tip={strings.initialStats.tip}
                 />
 
                 <Input

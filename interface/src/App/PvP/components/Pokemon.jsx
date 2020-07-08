@@ -154,7 +154,7 @@ class Pokemon extends React.PureComponent {
                             options={this.state.stratigiesList}
                             label={strings.title.strategy}
 
-                            place={((this.props.attr === "attacker") ? "right" : "left")}
+                            place={"top"}
                             for={((this.props.attr === "attacker") ? "strategyA" : "strategyD")}
                             tip={this.state.strategyTip}
                             tipClass="strategyTips"
@@ -169,7 +169,7 @@ class Pokemon extends React.PureComponent {
                             label={strings.title.type}
 
 
-                            place={((this.props.attr === "attacker") ? "right" : "left")}
+                            place={"top"}
                             for={"shadow" + this.props.attr}
 
                             tip={strings.tips.shadow}
@@ -186,18 +186,19 @@ class Pokemon extends React.PureComponent {
                             labelStyle={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
                                 "color" + this.props.moveTable[this.props.value.QuickMove].MoveType + " text" : ""}
 
-                            place={((this.props.attr === "attacker") ? "right" : "left")}
-                            for={this.props.value.QuickMove && ("QuickMove" + this.props.attr)}
-                            tip={this.props.value.QuickMove && <small>
-                                {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].PvpDamage)}<br />
-                                {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].PvpEnergy)}
-                                {(this.props.moveTable[this.props.value.QuickMove].Probability !== 0) && (<>
-                                    <br />{strings.move.probability + this.props.moveTable[this.props.value.QuickMove].Probability}
-                                    <br />{strings.move.target + this.props.moveTable[this.props.value.QuickMove].Subject}
-                                    <br />{strings.move.stat + this.props.moveTable[this.props.value.QuickMove].Stat}
-                                    <br />{strings.move.stage + this.props.moveTable[this.props.value.QuickMove].StageDelta}
-                                </>)}
-                            </small>}
+                            place={"top"}
+                            for={("QuickMove" + this.props.attr)}
+                            tip={<><small>{strings.tips.quick}</small><br />
+                                {this.props.value.QuickMove && <small>
+                                    {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].PvpDamage)}<br />
+                                    {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].PvpEnergy)}
+                                    {(this.props.moveTable[this.props.value.QuickMove].Probability !== 0) && (<>
+                                        <br />{strings.move.probability + this.props.moveTable[this.props.value.QuickMove].Probability}
+                                        <br />{strings.move.target + this.props.moveTable[this.props.value.QuickMove].Subject}
+                                        <br />{strings.move.stat + this.props.moveTable[this.props.value.QuickMove].Stat}
+                                        <br />{strings.move.stage + this.props.moveTable[this.props.value.QuickMove].StageDelta}
+                                    </>)}
+                                </small>}</>}
                             tipClass="logItems"
                         />
 
@@ -213,18 +214,20 @@ class Pokemon extends React.PureComponent {
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
                                 "color" + this.props.moveTable[this.props.value.ChargeMove1].MoveType + " text" : ""}
 
-                            place={((this.props.attr === "attacker") ? "right" : "left")}
-                            for={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") && ("ChargeMove1" + this.props.attr)}
-                            tip={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") && <small>
-                                {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove1].PvpDamage)}<br />
-                                {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove1].PvpEnergy)}
-                                {(this.props.moveTable[this.props.value.ChargeMove1].Probability !== 0) && (<>
-                                    <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove1].Probability}
-                                    <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove1].Subject}
-                                    <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove1].Stat}
-                                    <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove1].StageDelta}
-                                </>)}
-                            </small>}
+                            place={"top"}
+                            for={"ChargeMove1" + this.props.attr}
+                            tip={
+                                <><small>{strings.tips.charge}</small><br />
+                                    {(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") && <small>
+                                        {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove1].PvpDamage)}<br />
+                                        {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove1].PvpEnergy)}
+                                        {(this.props.moveTable[this.props.value.ChargeMove1].Probability !== 0) && (<>
+                                            <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove1].Probability}
+                                            <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove1].Subject}
+                                            <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove1].Stat}
+                                            <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove1].StageDelta}
+                                        </>)}
+                                    </small>}</>}
                             tipClass="logItems"
                         />
 
@@ -240,18 +243,20 @@ class Pokemon extends React.PureComponent {
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
                                 "color" + this.props.moveTable[this.props.value.ChargeMove2].MoveType + " text" : ""}
 
-                            place={((this.props.attr === "attacker") ? "right" : "left")}
-                            for={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") && ("ChargeMove2" + this.props.attr)}
-                            tip={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") && <small>
-                                {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].PvpDamage)}<br />
-                                {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].PvpEnergy)}
-                                {(this.props.moveTable[this.props.value.ChargeMove2].Probability !== 0) && (<>
-                                    <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove2].Probability}
-                                    <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove2].Subject}
-                                    <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove2].Stat}
-                                    <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove2].StageDelta}
-                                </>)}
-                            </small>}
+                            place={"top"}
+                            for={"ChargeMove2" + this.props.attr}
+                            tip={
+                                <><small>{strings.tips.charge}</small><br />
+                                    {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") && <small>
+                                        {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].PvpDamage)}<br />
+                                        {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].PvpEnergy)}
+                                        {(this.props.moveTable[this.props.value.ChargeMove2].Probability !== 0) && (<>
+                                            <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove2].Probability}
+                                            <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove2].Subject}
+                                            <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove2].Stat}
+                                            <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove2].StageDelta}
+                                        </>)}
+                                    </small>}</>}
                             tipClass="logItems"
                         />
                     </>}

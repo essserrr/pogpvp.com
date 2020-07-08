@@ -3,7 +3,7 @@ import React from "react";
 const SingleSelect = React.memo(function (props) {
     return (
         <select
-            className="defaultFont modifiedBorder custom-select"
+            className="modifiedBorder custom-select"
             id="selectGroup"
 
             label={props.name}

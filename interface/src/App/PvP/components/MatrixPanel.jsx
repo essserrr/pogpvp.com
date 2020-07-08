@@ -441,7 +441,11 @@ class MatrixPanel extends React.PureComponent {
                     onChange={this.props.onChange}
                     options={this.props.savedParties}
                     label={strings.title.savedparties}
-                    for=""
+
+                    place={"top"}
+                    for={this.props.attr + "partyTips"}
+                    tip={strings.tips.saved}
+                    tipClass="strategyTips"
                 />
                 <div className="row  justify-content-around m-0 pt-3" >
 
@@ -498,8 +502,8 @@ class MatrixPanel extends React.PureComponent {
                     options={this.state.stratigiesList}
                     label={strings.title.strategy}
 
-                    place={((this.props.attr === "leftPanel") ? "right" : "left")}
-                    for={((this.props.attr === "leftPanel") ? "strategyL" : "strategyR")}
+                    place={"top"}
+                    for={this.props.attr + "startegyTipsMain"}
                     tip={this.state.strategyTip}
                     tipClass="strategyTips"
                 />

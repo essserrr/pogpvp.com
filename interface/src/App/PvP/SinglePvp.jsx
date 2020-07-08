@@ -745,7 +745,7 @@ class SinglePvp extends React.PureComponent {
                                                 <Result value={this.state.result} />}
                                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                                         </div>
-                                        {this.state.url && this.state.showResult && <div className="order-1 order-lg-2 col-12 col-lg-6" >
+                                        {this.state.url && this.state.showResult && <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >
                                             <URL
                                                 label={strings.title.url}
                                                 for="pvpURLLabel"

@@ -2,15 +2,24 @@ import React from "react";
 import LabelPrepend from "../SelectGroup/LabelPrepend"
 import SingleSelect from "../SelectGroup/SingleSelect"
 
+import LocalizedStrings from "react-localization";
+import { locale } from "../../../../locale/locale"
+import { getCookie } from "../../../../js/indexFunctions"
+
+let strings = new LocalizedStrings(locale);
+strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
+
 const Stages = React.memo(function (props) {
     return (
         <div className="input-group input-group-sm mt-2">
             <LabelPrepend
                 label={props.label}
 
-                for={props.for}
-                tip={props.tip}
-                place={props.place}
+                tipClass="strategyTips"
+                for={props.attr + "stagestip"}
+                place={"top"}
+                tip={strings.tips.stages}
             />
             <SingleSelect
                 name="AtkStage"

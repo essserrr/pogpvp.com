@@ -477,12 +477,6 @@
     }
 }
 
-.url {
-    label small{
-        font-size: 100%;
-    }
-}
-
 div :focus {
     outline: none;
 }
@@ -893,7 +887,7 @@ body {
 //border styles
 .modifiedBorder {
     border-width: 0.8px !important;
-    border-color: rgba(0, 0, 0, 0.4) !important;
+    border-color: #59698d !important;
 }
 
 .modifiedBorderTable {

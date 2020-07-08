@@ -175,7 +175,10 @@ class SimulatorPanel extends React.PureComponent {
                                 options={this.state.PartySize}
                                 label={pveStrings.partysize}
 
-                                for={""}
+                                place={"top"}
+                                for={"partySizeTips"}
+                                tip={pveStrings.sizetip}
+                                tipClass="strategyTips"
                             />
                             <SelectGroup
                                 name="Weather"

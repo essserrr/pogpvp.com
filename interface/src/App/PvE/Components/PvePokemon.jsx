@@ -66,14 +66,17 @@ class PvePokemon extends React.PureComponent {
                         "color" + this.props.moveTable[this.props.value[this.props.attr].QuickMove].MoveType + " text" : ""}
 
                     place={"top"}
-                    for={this.props.value[this.props.attr].QuickMove && "QuickMove" + this.props.attr}
-                    tip={this.props.value[this.props.attr].QuickMove && <small>
-                        {strings.move.damage + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Damage)}<br />
-                        {strings.move.energy + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy)}<br />
-                        {"Cooldown: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)}<br />
-                        {"DPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Damage / (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                        {"EPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy / (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                    </small>}
+                    for={"QuickMove" + this.props.attr}
+                    tip={<><small>{strings.tips.quick}</small><br />
+                        {this.props.value[this.props.attr].QuickMove && <small>
+                            {strings.move.damage + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Damage)}<br />
+                            {strings.move.energy + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy)}<br />
+                            {"Cooldown: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)}<br />
+                            {"DPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Damage /
+                                (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
+                            {"EPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy /
+                                (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
+                        </small>}</>}
                     tipClass="logItems"
                 />
 
@@ -90,15 +93,19 @@ class PvePokemon extends React.PureComponent {
                         "color" + this.props.moveTable[this.props.value[this.props.attr].ChargeMove].MoveType + " text" : ""}
 
                     place={"top"}
-                    for={(this.props.value[this.props.attr].ChargeMove && this.props.value[this.props.attr].ChargeMove !== "Select...") && ("ChargeMove" + this.props.attr)}
-                    tip={(this.props.value[this.props.attr].ChargeMove && this.props.value[this.props.attr].ChargeMove !== "Select...") && <small>
-                        {strings.move.damage + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].PvpDamage)}<br />
-                        {strings.move.energy + (-this.props.moveTable[this.props.value[this.props.attr].ChargeMove].PvpEnergy)}<br />
-                        {"Cooldown: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000)}<br />
-                        {"DPS: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage / (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000)).toFixed(2)}<br />
-                        {"DPS*DPE: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage / (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000) * this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage / -this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Energy).toFixed(2)}<br />
+                    for={"ChargeMove" + this.props.attr}
 
-                    </small>}
+                    tip={<><small>{strings.tips.charge}</small><br />
+                        {(this.props.value[this.props.attr].ChargeMove && this.props.value[this.props.attr].ChargeMove !== "Select...") && <small>
+                            {strings.move.damage + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].PvpDamage)}<br />
+                            {strings.move.energy + (-this.props.moveTable[this.props.value[this.props.attr].ChargeMove].PvpEnergy)}<br />
+                            {"Cooldown: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000)}<br />
+                            {"DPS: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage / (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000)).toFixed(2)}<br />
+                            {"DPS*DPE: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage /
+                                (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000) *
+                                this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage /
+                                -this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Energy).toFixed(2)}<br />
+                        </small>}</>}
                     tipClass="logItems"
                 />
 

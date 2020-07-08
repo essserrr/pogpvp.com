@@ -30,7 +30,7 @@ class URL extends React.PureComponent {
 
     render() {
         return (
-            <div className="url input-group input-group-sm">
+            <div className="input-group input-group-sm">
                 <LabelPrepend
                     tipClass="infoTip"
                     label={this.props.label}
