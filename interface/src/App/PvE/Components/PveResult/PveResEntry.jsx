@@ -272,7 +272,7 @@ class PveResEntry extends React.PureComponent {
                                         label={pveStrings.pres}
                                         action="Precision"
                                         onSubmit={this.rerunWithPrecision}
-                                        class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
+                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
                                     />
                                 </div>
                                 <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"break"}>
@@ -280,7 +280,7 @@ class PveResEntry extends React.PureComponent {
                                         label={pveStrings.break}
                                         action="Breakpoints"
                                         onSubmit={this.defineBreakpoints}
-                                        class="longButtonFixed btn btn-primary btn-sm mt-0  mx-0"
+                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
                                     />
                                 </div>
                                 {this.state.colElement}

@@ -3,7 +3,7 @@ import Button from "../Button/Button"
 
 const DoubleSlider = React.memo(function (props) {
     return (
-        <div className={"row m-0 my-2 text-center dexButtonGroup justify-content-center"} >
+        <div className={"row m-0 my-2 text-center sliderButton justify-content-center"} >
             <Button
                 attr={props.attr1}
                 title={props.title1}

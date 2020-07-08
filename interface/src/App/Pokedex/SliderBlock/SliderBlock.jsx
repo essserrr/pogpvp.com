@@ -10,7 +10,7 @@ let strings = new LocalizedStrings(dexLocale);
 const SliderBlock = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className={"row m-0 my-2 text-center dexButtonGroup justify-content-center"} >
+        <div className={"row m-0 my-2 text-center sliderButton justify-content-center"} >
             <Button
                 attr="moves"
                 title={strings.movelist}

@@ -205,7 +205,7 @@ class MatrixPvp extends React.PureComponent {
                 body={
                     elem.QuickMove + this.addStar(elem.name, elem.QuickMove) +
                     (elem.ChargeMove1 ? " + " + elem.ChargeMove1 + this.addStar(elem.name, elem.ChargeMove1) : "") +
-                    (elem.ChargeMove2 ? "/" + elem.ChargeMove2 + this.addStar(elem.name, elem.ChargeMove2) : "")
+                    (elem.ChargeMove2 ? " / " + elem.ChargeMove2 + this.addStar(elem.name, elem.ChargeMove2) : "")
                 }
             />
         });
@@ -543,7 +543,7 @@ class MatrixPvp extends React.PureComponent {
                     (event.pokemon.ChargeMove1 ?
                         " + " + event.pokemon.ChargeMove1 + this.addStar(event.pokemon.name, event.pokemon.ChargeMove1) : "") +
                     (event.pokemon.ChargeMove2 ?
-                        "/" + event.pokemon.ChargeMove2 + this.addStar(event.pokemon.name, event.pokemon.ChargeMove2) : "")
+                        " / " + event.pokemon.ChargeMove2 + this.addStar(event.pokemon.name, event.pokemon.ChargeMove2) : "")
                 }
             />
         );
@@ -659,7 +659,7 @@ class MatrixPvp extends React.PureComponent {
 
             body={pokCopy.QuickMove + this.addStar(pokCopy.name, pokCopy.QuickMove) +
                 (pokCopy.ChargeMove1 ? " + " + pokCopy.ChargeMove1 + this.addStar(pokCopy.name, pokCopy.ChargeMove1) : "") +
-                (pokCopy.ChargeMove2 ? "/" + pokCopy.ChargeMove2 + this.addStar(pokCopy.name, pokCopy.ChargeMove2) : "")
+                (pokCopy.ChargeMove2 ? " / " + pokCopy.ChargeMove2 + this.addStar(pokCopy.name, pokCopy.ChargeMove2) : "")
             }
         />
 

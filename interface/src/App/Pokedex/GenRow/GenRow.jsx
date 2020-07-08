@@ -5,7 +5,7 @@ import Button from "../../Movedex/Button/Button"
 const GenRow = React.memo(function (props) {
 
     return (
-        <div className={"row m-0 mb-3 text-center dexButtonGroup justify-content-center"} >
+        <div className={"row m-0 mb-3 text-center sliderButton justify-content-center"} >
             <Button
                 attr="gen1"
                 title={"# " + 1}

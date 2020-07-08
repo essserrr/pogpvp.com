@@ -76,7 +76,7 @@ class MaximizerRadio extends PureComponent {
                         />
                     </div>
                 </form>
-                <div className="d-flex justify-content-around mx-0 px-0" >
+                <div className="d-flex justify-content-around mx-0 px-0 mt-1" >
                     <SubmitButton
                         class="maximizerButton btn btn-primary btn-sm  mx-0"
                         stat={this.state.stat}

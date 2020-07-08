@@ -5,7 +5,7 @@ import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 
 const TypeRow = React.memo(function (props) {
     return (
-        <div className={"row m-0 my-3 text-center dexButtonGroup justify-content-center"} >
+        <div className={"row m-0 my-3 text-center sliderButton justify-content-center"} >
             <Button
                 attr="type0"
                 title={<PokemonIconer
