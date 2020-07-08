@@ -21,82 +21,21 @@ class PvePage extends React.Component {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             tables: {
-                weather: {
-                    0: {},
-                    1: {
-                        10: 1.2,
-                        9: 1.2,
-                        6: 1.2,
-                    },
-                    2: {
-                        0: 1.2,
-                        3: 1.2,
-                        17: 1.2,
-                    },
-                    3: {
-                        15: 1.2,
-                        12: 1.2,
-                    },
-                    4: {
-                        13: 1.2,
-                        4: 1.2,
-                        5: 1.2,
-                    },
-                    5: {
-                        14: 1.2,
-                        7: 1.2,
-                        2: 1.2,
-                    },
-                    6: {
-                        16: 1.2,
-                        11: 1.2,
-                    },
-                    7: {
-                        8: 1.2,
-                        1: 1.2,
-                    },
-                },
-
-                friend: {
-                    0: 1.0,
-                    1: 1.03,
-                    2: 1.05,
-                    3: 1.07,
-                    4: 1.1,
-                    5: 1.06,
-                    6: 1.12,
-                    7: 1.18,
-                    8: 1.25,
-                },
-
-                hp: {
-                    0: 600,
-                    1: 1800,
-                    2: 3600,
-                    3: 9000,
-                    4: 15000,
-                    5: 22500,
-                },
-
-                timer: {
-                    0: 180,
-                    1: 180,
-                    2: 180,
-                    3: 180,
-                    4: 300,
-                    5: 300,
-                },
-
-                mult: {
-                    0: 0.5974,
-                    1: 0.67,
-                    2: 0.73,
-                    3: 0.79,
-                    4: 0.79,
-                    5: 0.79,
-                },
+                weather: [
+                    {},
+                    { 10: 1.2, 9: 1.2, 6: 1.2, },
+                    { 0: 1.2, 3: 1.2, 17: 1.2, },
+                    { 15: 1.2, 12: 1.2, },
+                    { 13: 1.2, 4: 1.2, 5: 1.2, },
+                    { 14: 1.2, 7: 1.2, 2: 1.2, },
+                    { 16: 1.2, 11: 1.2, },
+                    { 8: 1.2, 1: 1.2, },
+                ],
+                friend: [1.0, 1.03, 1.05, 1.07, 1.1, 1.06, 1.12, 1.18, 1.25,],
+                hp: [600, 1800, 3600, 9000, 15000, 22500,],
+                timer: [180, 180, 180, 180, 300, 300,],
+                mult: [0.5974, 0.67, 0.73, 0.79, 0.79, 0.79,],
             },
-
 
             error: "",
             showResult: false,
@@ -114,8 +53,6 @@ class PvePage extends React.Component {
         this.onClick = this.onClick.bind(this);
         this.changeUrl = this.changeUrl.bind(this);
     }
-
-
 
     componentDidMount() {
         this.updateState(
@@ -308,26 +245,26 @@ class PvePage extends React.Component {
                     descr={strings.pagedescriptions.common}
                 />
                 <div className=" container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
-                    <div className="row  mx-0 mx-lg-2 justify-content-center">
-                        {this.state.loading && <div className="col-12 m-0 p-0  mb-4"  >
+                    <div className="row mx-0 mx-lg-2 justify-content-center">
+                        {this.state.loading && <div className="col-12 p-0 mb-4"  >
                             <Loader
                                 color="white"
                                 weight="500"
                                 locale={strings.tips.loading}
                                 loading={this.state.loading}
 
-                                class={"row m-0 p-0 justify-content-center"}
+                                class={"row m-0 justify-content-center"}
                                 innerClass={"col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"}
                             />
                         </div>}
-                        <div className="col-12 m-0 p-0 px-1">
+                        <div className="col-12 px-1">
                             {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonPve
                                 changeUrl={this.changeUrl}
                                 parentState={this.state}
                             />}
                         </div>
 
-                        <div className="col-12 veryBig results m-0 p-0 px-3 py-2" >
+                        <div className="col-12 veryBig results px-3 py-2" >
                             <DropWithArrow
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}
@@ -336,8 +273,8 @@ class PvePage extends React.Component {
 
                                 faOpened="align-self-center fas fa-angle-up fa-lg "
                                 faClosed="align-self-center fas fa-angle-down fa-lg"
-                                outClass="row justify-content-between m-0 p-0 pb-1 clickable"
-                                inClass="row justify-content-center m-0 p-0" />
+                                outClass="row justify-content-between m-0 pb-1 clickable"
+                                inClass="row justify-content-center m-0" />
                         </div>
                     </div>
                 </div >

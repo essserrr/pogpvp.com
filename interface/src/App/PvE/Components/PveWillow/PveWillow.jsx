@@ -4,7 +4,7 @@ import LocalizedStrings from "react-localization";
 import { pveLocale } from "../../../../locale/pveLocale"
 import { getCookie, tierHP, weather, culculateCP } from "../../../../js/indexFunctions"
 import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
-import WeatherList from "./WeatherList"
+import WeatherBoosted from "./WeatherBoosted"
 
 let pvestrings = new LocalizedStrings(pveLocale);
 
@@ -37,10 +37,10 @@ class PveWillow extends React.PureComponent {
                     folder="/"
                     class={"willow p-2"} />
                 <div className="bubbleText long posAbsB px-2 py-1 fBolder">
-                    {pvestrings.willow1}<span className="font-weight-bold">{this.props.snapshot.bossObj.Name}</span>.
-                    {pvestrings.willow2}<span className="font-weight-bold">{tierHP[this.props.snapshot.bossObj.Tier]}</span>
-                    {pvestrings.willow3}<span className="font-weight-bold">{(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180) + pvestrings.s}</span>.
-                    {pvestrings.willow4}<span className="font-weight-bold">
+                    {pvestrings.willow1}<span className="font-weight-bold">{this.props.snapshot.bossObj.Name}</span>
+                    {". " + pvestrings.willow2}<span className="font-weight-bold">{tierHP[this.props.snapshot.bossObj.Tier]}</span>
+                    {pvestrings.willow3}<span className="font-weight-bold">{(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180) + pvestrings.s}</span>
+                    {". " + pvestrings.willow4}<span className="font-weight-bold">
                         {pvestrings.weatherList[this.props.snapshot.pveObj.Weather]}
                         {(this.props.snapshot.pveObj.Weather > 0) && <PokemonIconer
                             folder="/weather/"
@@ -49,11 +49,10 @@ class PveWillow extends React.PureComponent {
                     </span>
                     {(this.props.snapshot.pveObj.Weather > 0) && <>.{pvestrings.willow6}: </>}
                     {(this.props.snapshot.pveObj.Weather > 0) && <span className="font-weight-bold">
-                        <WeatherList
+                        <WeatherBoosted
                             weather={this.props.snapshot.pveObj.Weather} />
-                    </span>}.
-
-                    {pvestrings.willow5}<span className="font-weight-bold">{boost ? pvestrings.boosted : pvestrings.normal}</span>
+                    </span>}
+                    {". " + pvestrings.willow5}<span className="font-weight-bold">{boost ? pvestrings.boosted : pvestrings.normal}</span>
                     <span className="font-weight-bold">
                         {culculateCP(
                             this.props.snapshot.bossObj.Name,
@@ -62,16 +61,16 @@ class PveWillow extends React.PureComponent {
                             10,
                             10,
                             this.props.pokemonTable
-                        )}-
-                        {culculateCP(
-                            this.props.snapshot.bossObj.Name,
-                            boost ? 25 : 20,
-                            15,
-                            15,
-                            15,
-                            this.props.pokemonTable
-                        )}
-                    </span>.
+                        ) + "-" +
+                            culculateCP(
+                                this.props.snapshot.bossObj.Name,
+                                boost ? 25 : 20,
+                                15,
+                                15,
+                                15,
+                                this.props.pokemonTable
+                            )}
+                    </span>{"."}
                 </div>
             </div>
         )

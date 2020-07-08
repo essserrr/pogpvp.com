@@ -242,7 +242,7 @@ class Breakpoints extends React.PureComponent {
 
     render() {
         return (
-            <div className="row  justify-content-center m-0 p-0 fBolder">
+            <div className="row  justify-content-center m-0 fBolder">
                 <SelectGroup
                     name="Atk"
                     value={this.state.attackerObj.Atk}
@@ -274,17 +274,17 @@ class Breakpoints extends React.PureComponent {
                     for={""}
                 />
 
-                <div className="col-12 m-0 p-0 text-center my-1">
+                <div className="col-12 p-0 text-center my-1">
                     {pveStrings.damage}
                 </div>
-                <div className="col-12 m-0 p-0">
+                <div className="col-12 p-0">
                     <Counter
                         value={this.state.dQuick}
                         base={this.state.baseQuick}
                         name={this.props.snapshot.attackerObj.QuickMove}
                     />
                 </div>
-                <div className="col-12 m-0 p-0">
+                <div className="col-12 p-0">
                     <Counter
                         value={this.state.dCharge}
                         base={this.state.baseCharge}
@@ -293,7 +293,7 @@ class Breakpoints extends React.PureComponent {
                 </div>
 
 
-                <div className="col-12 text-left borderTop p-0 m-0 pt-2 mt-1" >
+                <div className="col-12 text-left borderTop p-0 pt-2 mt-1" >
                     <Counter
                         value={dustCost[(Number(this.state.attackerObj.Lvl) / 0.5) - 1] - dustCost[(Number(this.props.snapshot.attackerObj.Lvl) / 0.5) - 1]}
                         base={999999999}
@@ -301,7 +301,7 @@ class Breakpoints extends React.PureComponent {
                         colorForvalue={true}
                     />
                 </div>
-                <div className="col-12 text-left  p-0 m-0 my-1" >
+                <div className="col-12 text-left p-0 my-1" >
                     <Counter
                         value={candyCost[(Number(this.state.attackerObj.Lvl) / 0.5) - 1] - candyCost[(Number(this.props.snapshot.attackerObj.Lvl) / 0.5) - 1]}
                         base={999999999}
@@ -310,7 +310,7 @@ class Breakpoints extends React.PureComponent {
                     />
                 </div>
 
-                <div className="col-12 text-left  p-0 m-0 mb-1" >
+                <div className="col-12 text-left p-0 mb-1" >
                     <Counter
                         value={Number(this.state.attackerObj.Lvl).toFixed(1)}
                         base={this.props.snapshot.attackerObj.Lvl}
@@ -320,11 +320,7 @@ class Breakpoints extends React.PureComponent {
                         decimal={1}
                     />
                 </div>
-
-
-
-
-                <div className="col-12 d-flex p-0 m-0" >
+                <div className="col-12 d-flex p-0" >
                     <FaButton class="fab fa fa-minus clickable align-self-center mr-3"
                         name="minus"
                         onClick={this.onPlusMinus}

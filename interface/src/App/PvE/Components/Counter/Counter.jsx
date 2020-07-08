@@ -10,7 +10,7 @@ const Counter = React.memo(function (props) {
 
             {((props.value - props.base) > 0) &&
                 <span className="font-weight-bold boostColor">
-                    (+{props.toFixed ? (props.value - props.base).toFixed(props.decimal) : props.value - props.base})
+                    {"(+" + (props.toFixed ? (props.value - props.base).toFixed(props.decimal) : props.value - props.base) + ")"}
                 </span>}
         </>
     )

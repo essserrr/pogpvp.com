@@ -63,11 +63,11 @@ export const pveLocale = {
         poklvl: "Pokemon level",
 
         willow1: "Hey Trainer, here are your results against ",
-        willow2: " Boss HP: ",
+        willow2: "Boss HP: ",
         willow3: ", raid duration: ",
-        willow4: " Weather is ",
-        willow6: " Boosted",
-        willow5: " Boss catch CP is ",
+        willow4: "Weather is ",
+        willow6: "Boosted",
+        willow5: "Boss catch CP is ",
         boosted: "boosted ",
         normal: "normal ",
 

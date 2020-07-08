@@ -222,7 +222,7 @@ class PveResult extends React.PureComponent {
                         snapshot={this.state.breakpObj}
                     />}
                 />}
-                <div className="row m-0 p-0 justify-content-center matrixResult p-2" tabIndex="0" ref="pveres">
+                <div className="row m-0 justify-content-center matrixResult p-2" tabIndex="0" ref="pveres">
                     <PveWillow
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}
@@ -241,7 +241,7 @@ class PveResult extends React.PureComponent {
                             value={this.props.url}
                         />
                     </div>}
-                    <div className="col-12 p-0 mb-1 px-3">
+                    <div className="col-12 mb-1 px-3">
                         <DoubleSlider
                             onClick={this.onSortChange}
 
@@ -254,7 +254,7 @@ class PveResult extends React.PureComponent {
                             active2={this.state.param === "dps"}
                         />
                     </div>
-                    <div className={"col-12 m-0 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
+                    <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
                         {this.state.listToShow}
                     </div>
 

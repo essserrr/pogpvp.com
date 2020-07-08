@@ -11,18 +11,18 @@ const WeatherMoves = React.memo(function (props) {
                 <PokemonIconer
                     folder="/weather/"
                     src={props.snapshot.pveObj.Weather}
-                    class={"icon18"} />
+                    class={"icon18 align-self-center"} />
             }
-            <div className={"mr-1 align-self-center font90 pveMove typeColor color" + props.pokQick.MoveType + " text"}>
+            <div className={"mr-1 align-self-center text-center font90 pveMove typeColor color" + props.pokQick.MoveType + " text"}>
                 {props.pokQick.Title}
             </div>
             {weatherDecoder[props.pokCh.MoveType] === props.snapshot.pveObj.Weather &&
                 <PokemonIconer
                     folder="/weather/"
                     src={props.snapshot.pveObj.Weather}
-                    class={"icon18"} />
+                    class={"icon18 align-self-center"} />
             }
-            <div className={"align-self-center font90 pveMove typeColor color" + props.pokCh.MoveType + " text"}>
+            <div className={"align-self-center text-center font90 pveMove typeColor color" + props.pokCh.MoveType + " text"}>
                 {props.pokCh.Title}
             </div>
         </>

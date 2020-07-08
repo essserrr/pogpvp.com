@@ -106,7 +106,7 @@ class SimulatorPanel extends React.PureComponent {
     render() {
         return (
             <div className={this.props.className}>
-                <div className="order-1 order-sm-1 col-6 col-sm-4 m-0 p-0 text-center px-1">
+                <div className="order-1 order-sm-1 col-6 col-sm-4 text-center px-1">
                     <PvePokemon
                         title={pveStrings.attacker}
                         attr="attackerObj"
@@ -147,10 +147,10 @@ class SimulatorPanel extends React.PureComponent {
                         tipClass="strategyTips"
                     />
                 </div>
-                <div className="order-3 order-sm-2 col-12 col-sm-4 m-0 p-0 text-center px-1">
+                <div className="order-3 order-sm-2 col-12 col-sm-4 text-center px-1">
                     <p5 className="fBolder">{pveStrings.raid}</p5>
-                    <div className="row m-0 p-0">
-                        <div className="col-6 col-sm-12 m-0 p-0 pr-1 pr-sm-0">
+                    <div className="row m-0">
+                        <div className="col-6 col-sm-12 p-0 pr-1 pr-sm-0">
                             <SelectGroup
                                 class="input-group input-group-sm mt-2"
                                 name="PlayersNumber"
@@ -188,7 +188,7 @@ class SimulatorPanel extends React.PureComponent {
                                 for={""}
                             />
                         </div >
-                        <div className="col-6 col-sm-12 m-0 p-0 pl-1 pl-sm-0">
+                        <div className="col-6 col-sm-12 p-0 pl-1 pl-sm-0">
                             <SelectGroup
                                 name="DodgeStrategy"
                                 value={this.props.value.pveObj.DodgeStrategy}
@@ -218,7 +218,7 @@ class SimulatorPanel extends React.PureComponent {
                     </div>
                 </div>
 
-                <div className="order-2 order-sm-3 col-6 col-sm-4 m-0 p-0 text-center px-1">
+                <div className="order-2 order-sm-3 col-6 col-sm-4 text-center px-1">
                     <PvePokemon
                         title={pveStrings.boss}
                         attr="bossObj"

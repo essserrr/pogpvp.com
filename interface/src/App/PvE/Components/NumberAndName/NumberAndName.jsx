@@ -8,7 +8,7 @@ const NumberAndName = React.memo(function (props) {
             <span className="bigText align-self-center ">{"#" + (props.i + 1)}</span>
             <PokemonIconer
                 src={props.pok.Number + (props.pok.Forme !== "" ? "-" + props.pok.Forme : "")}
-                class={"icon48 ml-1"} />
+                class={"icon48 mx-1"} />
         </>
     )
 });

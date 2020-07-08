@@ -4,8 +4,8 @@ import { weather } from "../../../../js/indexFunctions"
 import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 
 
-class WeatherList extends React.PureComponent {
-    weatherList() {
+class WeatherBoosted extends React.PureComponent {
+    boostedList() {
         let arr = []
         for (const [key] of Object.entries(weather[this.props.weather])) {
             arr.push(
@@ -20,11 +20,11 @@ class WeatherList extends React.PureComponent {
     }
     render() {
         return (
-            this.weatherList()
+            this.boostedList()
         )
     }
 
 }
 
 
-export default WeatherList;
+export default WeatherBoosted;

@@ -303,11 +303,11 @@ class CommonPve extends React.PureComponent {
     render() {
         return (
             < >
-                <div className="row justify-content-center m-0 mb-4 p-0"  >
+                <div className="row justify-content-center m-0 mb-4"  >
 
-                    <div className="col-12 veryBig results py-1 py-sm-2 px-0 px-sm-1 m-0" >
+                    <div className="col-12 veryBig results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
-                            className="row justify-content-between m-0 p-0"
+                            className="row justify-content-between m-0"
                             pokemonTable={this.props.parentState.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
                             pokList={this.props.parentState.pokList}
@@ -320,9 +320,9 @@ class CommonPve extends React.PureComponent {
                         />
 
                     </div>
-                    {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 m-0 mb-2 mt-3" >
-                        <Errors class="alert alert-danger m-0 p-2" value={this.state.error} /></div>}
-                    <div className="col-12 d-flex justify-content-center p-0 m-0 my-1" >
+                    {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
+                        <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
+                    <div className="col-12 d-flex justify-content-center p-0 my-1" >
                         <SubmitButton
                             label={strings.buttons.calculate}
                             action="Calculate"
@@ -341,7 +341,7 @@ class CommonPve extends React.PureComponent {
                             />
                         </div>}
 
-                    {(this.state.showResult) && <div className="veryBig col-12 col-md-10 col-lg-6 justify-content-center p-0 m-0" >
+                    {(this.state.showResult) && <div className="veryBig col-12 col-md-10 col-lg-6 justify-content-center p-0" >
                         <PveResult
                             date={this.state.date}
                             result={this.state.result}

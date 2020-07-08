@@ -16,11 +16,10 @@ const BreakpointsList = React.memo(function (props) {
 
     for (let i = Number(props.Lvl); i <= 45; i += 0.5) {
         let damage = calculateDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, i, props.IsShadow), props.effDef, multiplier)
-
         if (damage > baseDamage) {
             baseDamage = damage
             arr.push(
-                <div className="col-12 text-center m-0 p-0" key={i + "" + damage}>
+                <div className="col-12 text-center p-0" key={i + "" + damage}>
                     {pvestrings.lvl}: <span className="font-weight-bold">{Number(i).toFixed(1)}</span> {pvestrings.damage}: <span className="font-weight-bold">{damage}</span>
                 </div>
             )
@@ -29,7 +28,7 @@ const BreakpointsList = React.memo(function (props) {
 
     return (
         arr.length > 0 && <>
-            <div className={"col-12 m-0 p-0 text-center font90 borderTop mt-1 pt-1"} >
+            <div className={"col-12 p-0 text-center font90 borderTop mt-1 pt-1"} >
                 {pvestrings.qbreak} <span className="font-weight-bold">{props.move.Title}</span>
             </div>
             {arr}
