@@ -120,25 +120,24 @@ class Collapsable extends React.PureComponent {
     render() {
         return (
             <>
-                <div onClick={this.onClick} className="row clickable justify-content-end m-0 p-0 px-3 pb-1">
+                <div onClick={this.onClick} className="row clickable justify-content-end m-0 px-3 pb-1">
                     <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
                 </div>
                 <UnmountClosed isOpened={this.state.showCollapse}>
-                    <div className="row justify-content-center m-0 p-0 px-2">
+                    <div className="row justify-content-center m-0 px-2">
                         <RowWrap
-                            outClass="col-12 col-sm-6 p-0 m-0"
+                            outClass="col-12 col-sm-6 p-0"
                             locale={strings.rating.bestMatchups}
                             value={this.createSublist(this.props.container.BestMetaMatchups)}
                         />
                         <RowWrap
-                            outClass="col-12 col-sm-6 p-0 m-0"
+                            outClass="col-12 col-sm-6 p-0"
                             locale={strings.rating.bestCounter}
                             value={this.createSublist(this.props.container.Counters)}
                         />
                         <RowWrap
-                            outClass="col-12 col-sm-11 col-md-10 p-0 m-0 text-center"
+                            outClass="col-12 col-sm-11 col-md-10 p-0 text-center"
                             locale={strings.rating.movesets}
-                            class="row p-0 mx-2 mx-md-3"
                             value={this.createMovesetList(this.props.container.Movesets)}
                         />
                     </div>

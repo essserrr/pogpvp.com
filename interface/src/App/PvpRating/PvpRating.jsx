@@ -241,10 +241,10 @@ class PvpRating extends React.Component {
                         combination={this.state.combination}
                     />}
 
-                    classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
-                    classBody={"col align-self-center m-0 p-1 p-0 "}
-                    classBodyWrap={"row justify-content-between  m-0 p-0"}
-                    classFooter="col-12 m-0  mb-2"
+                    classHeader={"bigCardHeader col-12 p-0 px-1"}
+                    classBody={"col align-self-center p-1 p-0 "}
+                    classBodyWrap={"row justify-content-between m-0"}
+                    classFooter="col-12 p-0  mb-2"
                 />)
             return result;
         }, []);
@@ -372,9 +372,9 @@ class PvpRating extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className="row justify-content-center px-1 px-sm-2 mx-md-3 pb-5">
-                        <div className="col-12 bigWidth m-0 p-0">
-                            <div className="row m-0 p-0 singleNews mb-2 p-2">
-                                <div className="col-12 col-sm-6 m-0 p-1">
+                        <div className="col-12 bigWidth p-0">
+                            <div className="row m-0 singleNews mb-2 p-2">
+                                <div className="col-12 col-sm-6 p-1">
                                     <SelectGroup
                                         class="input-group input-group-sm p-0 m-0"
                                         name="league"
@@ -385,7 +385,7 @@ class PvpRating extends React.Component {
                                         for=""
                                     />
                                 </div>
-                                <div className="col-12 col-sm-6 m-0 p-0 p-1">
+                                <div className="col-12 col-sm-6 p-0 p-1">
                                     <SelectGroup
                                         class="input-group input-group-sm "
                                         name="combination"
@@ -410,10 +410,10 @@ class PvpRating extends React.Component {
 
                                     faOpened="align-self-center fas fa-angle-up fa-lg "
                                     faClosed="align-self-center fas fa-angle-down fa-lg"
-                                    outClass="col-12 d-flex justify-content-between m-0 p-0 pb-1 clickable"
-                                    inClass="row justify-content-center m-0 p-0" />
+                                    outClass="col-12 d-flex justify-content-between p-0 pb-1 clickable"
+                                    inClass="row justify-content-center m-0" />
                             </div>
-                            <div className="row justify-content-center m-0 p-0">
+                            <div className="row justify-content-center m-0">
                                 <div className="singleNews bigWidth col-md-12 col-lg-12 p-2 m-0">
                                     {this.state.loading &&
                                         <Loader
@@ -422,22 +422,22 @@ class PvpRating extends React.Component {
                                             locale={strings.tips.loading}
                                             loading={this.state.loading}
                                         />}
-                                    {this.state.isError && <Errors class="alert alert-danger m-0 py-2" value={this.state.error} />}
+                                    {this.state.isError && <Errors class="alert alert-danger py-2" value={this.state.error} />}
                                     {this.state.showResult &&
                                         <>
-                                            <div className="col m-0 px-2 py-2">
+                                            <div className="col px-2 py-2">
                                                 <input onChange={this.onChangeInput}
                                                     className="form-control" type="text"
                                                     placeholder={strings.shinyrates.searchplaceholder}>
                                                 </input>
                                             </div>
 
-                                            <div className="row m-0 p-0 px-2  justify-content-center">
+                                            <div className="row m-0 px-2  justify-content-center">
                                                 {this.state.listToShow}
                                             </div>
 
 
-                                            <div className="col d-flex p-0 m-0 pt-3  justify-content-center">
+                                            <div className="col d-flex p-0 pt-3  justify-content-center">
                                                 {(this.state.isNextPage && !this.state.searchState) && <SubmitButton
                                                     action="Load more"
                                                     label={strings.buttons.loadmore}

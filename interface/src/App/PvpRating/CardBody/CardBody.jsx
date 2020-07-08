@@ -14,9 +14,9 @@ const CardBody = React.memo(function (props) {
 
 
     return (
-        <div className="row justify-content-between m-0 p-0">
-            <div className="col m-0 dexFont p-0">
-                <div className="row m-0 p-0">
+        <div className="row justify-content-between m-0">
+            <div className="col dexFont p-0">
+                <div className="row m-0">
                     <span className="align-self-center  mr-2">
                         {strings.rating.type}
                     </span>
@@ -34,7 +34,7 @@ const CardBody = React.memo(function (props) {
                 {strings.rating.avgRate + " " + props.entry.AvgRate} <br />
                 {strings.rating.avgWin + " " + (props.entry.AvgWinrate * 100).toFixed(0) + "%"}
             </div>
-            <div className="col-2 rating text-center align-self-center p-0 mx-2">
+            <div className="col-auto rating text-center align-self-center px-2 mx-2" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
                 {strings.rating.score}<br />
                 {(props.entry.AvgRateWeighted / props.maxWeighted * 100).toFixed(1)}
             </div>

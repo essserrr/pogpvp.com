@@ -1411,26 +1411,13 @@ body {
 
 //rating style
 .rating {
-    border: 0.5px solid rgba(0, 0, 0, 0.295);
-    border-radius: 5px;
-
+    font-weight: 400;
     background-color: rgba(179, 179, 179, 0.253);
-    font-weight: 450;
-    font-size: 1.3rem;
+    border-radius: 5px;
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
     
     height: fit-content;
 }
-
-
-.collapseList{
-      font-size: 90%;
-      font-weight: 400;
-
-      background-color: rgba(179, 179, 179, 0.253);
-
-      border-radius: 5px;
-      border: 0.5px solid rgba(0, 0, 0, 0.295);
-  }
 
 //animations
  .animRating {
