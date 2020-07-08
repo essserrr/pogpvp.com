@@ -415,7 +415,7 @@ class MatrixPanel extends React.PureComponent {
                     }
                 />}
                 <Counter
-                    class="dexFontSm"
+                    class="fBolder"
                     value={this.props.value.listToDisplay.length}
                     suffix={" / 50 " + strings.title.counter}
                 />
@@ -443,7 +443,7 @@ class MatrixPanel extends React.PureComponent {
                     label={strings.title.savedparties}
                     for=""
                 />
-                <div className="row  justify-content-around m-0 padding325" >
+                <div className="row  justify-content-around m-0 pt-3" >
 
                     <SubmitButton
                         class="maximizerButton btn btn-primary btn-sm mx-0"
@@ -462,7 +462,7 @@ class MatrixPanel extends React.PureComponent {
                         label={strings.buttons.delete}
                         onSubmit={this.props.onChange} />
                 </div>
-                <div className="dexFontSm">
+                <div className="fBolder">
                     {strings.tips.matrixPanel}
                 </div>
                 <MaximizerNoSubmit

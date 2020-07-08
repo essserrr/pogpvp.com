@@ -13,7 +13,7 @@ const TypeRow = React.memo(function (props) {
                     src={0}
                     class={"icon16"}
                 />}
-                class={props.filter.type0 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type0 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -23,7 +23,7 @@ const TypeRow = React.memo(function (props) {
                     src={1}
                     class={"icon16"}
                 />}
-                class={props.filter.type1 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type1 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -33,7 +33,7 @@ const TypeRow = React.memo(function (props) {
                     src={2}
                     class={"icon16"}
                 />}
-                class={props.filter.type2 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type2 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -43,7 +43,7 @@ const TypeRow = React.memo(function (props) {
                     src={3}
                     class={"icon16"}
                 />}
-                class={props.filter.type3 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type3 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -53,7 +53,7 @@ const TypeRow = React.memo(function (props) {
                     src={4}
                     class={"icon16"}
                 />}
-                class={props.filter.type4 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type4 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -63,7 +63,7 @@ const TypeRow = React.memo(function (props) {
                     src={5}
                     class={"icon16"}
                 />}
-                class={props.filter.type5 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type5 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -73,7 +73,7 @@ const TypeRow = React.memo(function (props) {
                     src={6}
                     class={"icon16"}
                 />}
-                class={props.filter.type6 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type6 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -83,7 +83,7 @@ const TypeRow = React.memo(function (props) {
                     src={7}
                     class={"icon16"}
                 />}
-                class={props.filter.type7 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type7 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -93,7 +93,7 @@ const TypeRow = React.memo(function (props) {
                     src={8}
                     class={"icon16"}
                 />}
-                class={props.filter.type8 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type8 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -103,7 +103,7 @@ const TypeRow = React.memo(function (props) {
                     src={9}
                     class={"icon16"}
                 />}
-                class={props.filter.type9 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type9 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -113,7 +113,7 @@ const TypeRow = React.memo(function (props) {
                     src={10}
                     class={"icon16"}
                 />}
-                class={props.filter.type10 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type10 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -123,7 +123,7 @@ const TypeRow = React.memo(function (props) {
                     src={11}
                     class={"icon16"}
                 />}
-                class={props.filter.type11 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type11 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -133,7 +133,7 @@ const TypeRow = React.memo(function (props) {
                     src={12}
                     class={"icon16"}
                 />}
-                class={props.filter.type12 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type12 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -143,7 +143,7 @@ const TypeRow = React.memo(function (props) {
                     src={13}
                     class={"icon16"}
                 />}
-                class={props.filter.type13 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type13 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -153,7 +153,7 @@ const TypeRow = React.memo(function (props) {
                     src={14}
                     class={"icon16"}
                 />}
-                class={props.filter.type14 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type14 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -163,7 +163,7 @@ const TypeRow = React.memo(function (props) {
                     src={15}
                     class={"icon16"}
                 />}
-                class={props.filter.type15 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type15 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -173,7 +173,7 @@ const TypeRow = React.memo(function (props) {
                     src={16}
                     class={"icon16"}
                 />}
-                class={props.filter.type16 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type16 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
             <Button
@@ -183,7 +183,7 @@ const TypeRow = React.memo(function (props) {
                     src={17}
                     class={"icon16"}
                 />}
-                class={props.filter.type17 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.filter.type17 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onFilter}
             />
         </div>

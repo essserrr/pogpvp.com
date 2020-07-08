@@ -116,7 +116,7 @@ class Movedex extends React.Component {
             let isNext = end < original.length
 
             this.setState({
-                loading: isNext,
+                loadingTable: isNext,
                 blockSort: isNext,
                 listToShow: original.slice(0, end)
             });
@@ -301,6 +301,14 @@ class Movedex extends React.Component {
                                         filter={this.state.filter}
                                         onFilter={this.onFilter}
                                     />
+                                    {this.state.loadingTable &&
+                                        <Loader
+                                            class="row justify-content-center my-2"
+                                            color="black"
+                                            weight="500"
+                                            locale={strings.loading}
+                                            loading={this.state.loading}
+                                        />}
                                     <table className="table mb-0 table-sm text-center">
                                         <TableThead
                                             active={this.state.active}

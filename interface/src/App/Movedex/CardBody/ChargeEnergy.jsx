@@ -5,6 +5,7 @@ const ChargeEnergy = React.memo(function (props) {
     return (
         <div className="row m-0 justify-content-center">
             <div data-tip data-for={props.move.Title + "En"}
+                style={{ width: "100px" }}
                 className="energyCell d-flex justify-content-between">
                 <div className={"col energyBlock m-0 typeColor color" + props.move.MoveType} />
                 {Math.abs(props.move.Energy) < 100 && <div className={"col energyBlock ml-1 typeColor color" + props.move.MoveType} />}

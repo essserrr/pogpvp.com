@@ -14,33 +14,33 @@ const SliderBlock = React.memo(function (props) {
             <Button
                 attr="moves"
                 title={strings.movelist}
-                class={props.active.moves ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.active.moves ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 disabled={props.moveDis}
                 onClick={props.onClick}
             />
             <Button
                 attr="evo"
                 title={strings.evochart}
-                class={props.active.evo ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.active.evo ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 disabled={props.evoDis}
                 onClick={props.onClick}
             />
             <Button
                 attr={"eff"}
                 title={strings.vunlist}
-                class={props.active.eff ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.active.eff ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onClick}
             />
             <Button
                 attr={"cp"}
                 title={"CP"}
-                class={props.active.cp ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.active.cp ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onClick}
             />
             <Button
                 attr={"other"}
                 title={strings.otherinf}
-                class={props.active.other ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.active.other ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 disabled={props.othDis}
                 onClick={props.onClick}
             />

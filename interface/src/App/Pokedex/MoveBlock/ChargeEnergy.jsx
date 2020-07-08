@@ -7,9 +7,9 @@ const ChargeEnergy = React.memo(function (props) {
         <div className="row m-0 justify-content-center">
             <div data-tip data-for={props.move.Title + "En"}
                 className="col-12 d-flex p-0 justify-content-between">
-                <div className={"col dexEnergyBlock " + (props.move.MoveType === 1 ? "Dark" : "")} />
-                {Math.abs(props.move.Energy) < 100 && <div className={"col dexEnergyBlock ml-1 " + (props.move.MoveType === 1 ? "Dark" : "")} />}
-                {Math.abs(props.move.Energy) < 50 && <div className={"col dexEnergyBlock ml-1 " + (props.move.MoveType === 1 ? "Dark" : "")} />}
+                <div className={"col shadeEnBlock " + (props.move.MoveType === 1 ? "Dark" : "")} />
+                {Math.abs(props.move.Energy) < 100 && <div className={"col shadeEnBlock ml-1 " + (props.move.MoveType === 1 ? "Dark" : "")} />}
+                {Math.abs(props.move.Energy) < 50 && <div className={"col shadeEnBlock ml-1 " + (props.move.MoveType === 1 ? "Dark" : "")} />}
             </div>
             <ReactTooltip
                 className={"infoTip"}

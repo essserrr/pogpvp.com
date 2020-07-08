@@ -750,7 +750,7 @@ body {
     width: 100%;
     border-radius: 4px;
     border: 0.5px solid rgba(0, 0, 0, 0.4);
-    font-size: 75% !important;
+    font-size: 90% !important;
 }
 
 .pokemon {
@@ -985,7 +985,7 @@ body {
     border: none;
 }
 
-
+//long button
 .longButton.btn.btn-primary.btn-sm {
     margin-top: 0rem !important;
     max-width: fit-content !important;
@@ -995,7 +995,7 @@ body {
     padding-right: 3rem !important;
 
     font-size: 0.75rem !important;
-
+    //fixed size option
     &.fix {
         min-width: 345px !important; 
     }
@@ -1462,6 +1462,7 @@ body {
     @include backgrounds;
   }
 
+  //stopped here
   .constructorButton {
     background-color:rgba(244, 252, 255, 0.95);
     border-radius: 4px;
@@ -1485,24 +1486,13 @@ body {
         0px 0px 16px rgba(0, 187, 255, 0.11);
 }
 
-.padding325 {
-    padding-top: 0.75rem !important;
-}
-
-.borderTop {
-    border-top: 1px solid rgba(0, 0, 0, 0.295);
-}
-
 .window404 {
     position: relative;
     width: 85px; 
     height: 95px; 
     background-color: rgb(255, 255, 255);
-
     z-index: 2;
-    
     overflow: hidden;
-
     border: 3px solid black;
     border-radius: 50%;
 }
@@ -1510,7 +1500,6 @@ body {
 .icon404{
     position: absolute;
     width: 100%; 
-
     z-index: 1;
 }
 
@@ -1612,30 +1601,15 @@ body {
     border-radius: 2px;
 }
 
-.energyCell {
-    width: 100px !important;
-}
 
 .max110 {
-    max-width: 200px !important;
-
-    @media (max-width: 768px) { 
-        .max110  {
-            max-width: 110px !important;
-        }
-     }
+    max-width: 110px !important;
 }
- 
 
 .dexCard {
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
-    margin-bottom: 1rem;
-
     border-radius: 4px;
     background-color: #ffffff;
     border: 1px solid #acacac;
-    
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -1653,12 +1627,6 @@ body {
     object-fit: contain;
 }
 
-
-.dexIconText {
-    max-width: 410px !important;
-    //650-240
-}
-
 .dexTitle {
     font-family: "Baloo Bhaina", cursive;
     font-size: 1.5em;
@@ -1674,7 +1642,7 @@ body {
     font-weight: 500; 
 }
 
-.dexStatBack{
+.statBarBack{
     -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
     position: relative;
@@ -1686,7 +1654,7 @@ body {
     border-radius: 2px;
 }
 
-.dexStatFront {
+.statBarFront {
     -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
     position: absolute;
@@ -1698,24 +1666,16 @@ body {
     line-height: 25px;
 }
 
-.dexLink {
-    &:hover{
-        text-decoration: underline;
-    }
-}
-
-.dexEnergyBlock {
+.shadeEnBlock {
     height: 7px;
     border-radius: 2px;
-
     background-color: rgba(0, 0, 0, 0.438);
-
     &.Dark {
         background-color: rgba(255, 255, 255, 0.432);
     }
 }
 
-.dexRadio {
+.sliderGroup {
     font-weight: 500;
     background-color: rgba(255, 255, 255, 0);
 
@@ -1736,22 +1696,24 @@ body {
 }
 
 @media (max-width: 768px) { 
-    .dexRadio {
+    .sliderGroup {
         padding-left: 2px !important;
         padding-right: 2px !important;
     }
  }
 
 @media (max-width: 576px) { 
-    .dexRadio {
+    .sliderGroup {
         padding-left: 1px !important;
         padding-right: 1px !important;
     }
  }
 
-.dexRadio:focus {
+.sliderGroup:focus {
     outline: none;
 }
+
+
 .sliderButton {
     overflow: hidden;
     border: 2px solid #59698d !important;
@@ -1759,6 +1721,10 @@ body {
 }
 .sliderButton button:last-child {
     border: none !important;
+}
+
+.borderTop {
+    border-top: 1px solid rgba(0, 0, 0, 0.295);
 }
 
 .borderLeft{

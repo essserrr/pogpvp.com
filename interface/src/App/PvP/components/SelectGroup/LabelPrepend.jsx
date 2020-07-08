@@ -12,7 +12,7 @@ const LabelPrepend = React.memo(function (props) {
                 id="selectGroup"
 
                 data-tip data-for={props.for}>
-                <small>{props.label}</small>
+                {props.label}
             </label>
             {(props.for !== "") && <ReactTooltip
                 className={props.tipClass}

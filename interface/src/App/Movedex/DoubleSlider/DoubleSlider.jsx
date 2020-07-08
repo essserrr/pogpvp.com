@@ -7,13 +7,13 @@ const DoubleSlider = React.memo(function (props) {
             <Button
                 attr={props.attr1}
                 title={props.title1}
-                class={props.active1 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.active1 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onClick}
             />
             <Button
                 attr={props.attr2}
                 title={props.title2}
-                class={props.active2 ? "col py-1 dexRadio active" : "col py-1 dexRadio"}
+                class={props.active2 ? "col py-1 sliderGroup active" : "col py-1 sliderGroup"}
                 onClick={props.onClick}
             />
         </div>
