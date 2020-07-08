@@ -53,8 +53,8 @@ const EvoBlock = React.memo(function (props) {
     }
 
     return (
-        <div className={"col-12 m-0 p-0 dexFont text-left"}>
-            <div key={props.familyName} className="row justify-content-center m-0 p-0">
+        <div className={"col-12 p-0 dexFont text-left"}>
+            <div key={props.familyName} className="row justify-content-center m-0">
                 <EvoCard name={props.familyName} pokTable={props.pokTable} />
             </div>
             {generateEvos()}

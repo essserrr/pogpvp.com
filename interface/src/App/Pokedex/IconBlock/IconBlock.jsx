@@ -12,19 +12,19 @@ const IconBlock = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <div className="row m-0 p-0">
+        <div className="row m-0 justify-content-center">
             <PokemonIconer
                 src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
                 class={"dexCardIcon mr-3"}
                 folder={"/art/"}
             />
-            <div className="col d-inline m-0 p-0 ">
+            <div className="col p-0 ">
                 <div className={"fBolder dexTitle"}># {props.value.Number} <span>{props.value.Title}</span></div>
 
                 {props.pokMisc && props.pokMisc.ShortDescr !== "" && <div className="col-12 dexFont font-weight-bold m-0 p-0 mt-2">
                     {props.pokMisc.ShortDescr}
                 </div>}
-                <div className="col-12 d-flex m-0 p-0 mt-1">
+                <div className="col-12 d-flex p-0 mt-1">
                     <span className="dexFont align-self-center">{strings.mt.tp + ":"}</span>
                     <Type
                         abbrStyle="initialism align-self-center"
@@ -37,12 +37,12 @@ const IconBlock = React.memo(function (props) {
                         code={props.value.Type[1]}
                         value={typeDecoder[props.value.Type[1]]} />}
                 </div>
-                <div className="col-12 m-0 p-0 mt-1">
+                <div className="col-12 p-0 mt-1">
                     <span className="dexFont">{"Max CP: "}</span>
                     <span className="dexFont font-weight-bold">
                         {culculateCP(props.value.Title, 40, 15, 15, 15, props.pokTable)}</span>
                 </div>
-                <div className="col-12 m-0 p-0 mt-1">
+                <div className="col-12 p-0 mt-1">
                     <span className="dexFont">{strings.generation} {props.value.Generation}</span>
                 </div>
             </div>

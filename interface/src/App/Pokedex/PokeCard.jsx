@@ -262,7 +262,7 @@ class PokeCard extends React.Component {
 
                                 {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
                                     <UnmountClosed isOpened={this.state.active.moves}>
-                                        <div className={"row m-0 p-0"}>
+                                        <div className={"row m-0"}>
                                             {this.state.pok.QuickMoves.length > 0 &&
                                                 <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
                                                     moveTable={this.state.moveTable} title={strings.qm} pok={this.state.pok} />}
@@ -274,7 +274,7 @@ class PokeCard extends React.Component {
 
                                 {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
                                     <UnmountClosed isOpened={this.state.active.evo}>
-                                        <div className={"row m-0 p-0"}>
+                                        <div className={"row m-0"}>
                                             <EvoBlock
                                                 miscTable={this.state.miscTable.Misc}
                                                 pokTable={this.state.pokTable}
@@ -286,7 +286,7 @@ class PokeCard extends React.Component {
                                     </UnmountClosed>}
 
                                 <UnmountClosed isOpened={this.state.active.eff}>
-                                    <div className={"row m-0 p-0"}>
+                                    <div className={"row m-0"}>
                                         <EffTable
                                             type={this.state.pok.Type}
                                             reverse={this.props.reverse}
@@ -295,7 +295,7 @@ class PokeCard extends React.Component {
                                 </UnmountClosed>
 
                                 <UnmountClosed isOpened={this.state.active.cp}>
-                                    <div className={"row dexFont m-0 p-0 "}>
+                                    <div className={"row dexFont m-0 "}>
                                         <div className="col-12 p-0 text-center">{strings.entparams}</div>
                                         <CpBlock
                                             pok={this.state.pok}
@@ -308,7 +308,7 @@ class PokeCard extends React.Component {
                                 {this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
                                     this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)) &&
                                     <UnmountClosed isOpened={this.state.active.other}>
-                                        <div className={"row m-0 p-0"}>
+                                        <div className={"row m-0"}>
                                             <OtherTable
                                                 value={this.state.pokMisc}
                                             />

@@ -17,11 +17,9 @@ const Move = React.memo(function (props) {
             title={strings.dexentr + props.value.Title}
             href={(navigator.userAgent === "ReactSnap") ? "/" : "/movedex/id/" + encodeURIComponent(props.value.Title)}
         >
-            <div className={"col-3 text-center dexFont col-md-2 p-1 mr-1 " + mColor} style={{ borderRadius: "3px 0px 0px 3px" }}>
-                DPS
-                < div >
-                    {(props.value.Damage / (props.value.Cooldown / 1000)).toFixed(1)}
-                </div>
+            <div className={"col-3 col-md-2 text-center dexFont p-1 mr-1 " + mColor} style={{ borderRadius: "3px 0px 0px 3px" }}>
+                DPS<br />
+                {(props.value.Damage / (props.value.Cooldown / 1000)).toFixed(1)}
             </div>
             <div className={"col-9 col-md-10 py-1 px-2 " + mColor} style={{ borderRadius: "0px 3px 3px 0px" }}>
                 <div className={"col-12 dexFont p-0"}                >
@@ -33,9 +31,7 @@ const Move = React.memo(function (props) {
                     {strings.cdabbr}:{props.value.Cooldown / 1000}{strings.s}
                     {props.value.MoveCategory === "Fast Move" ? "/EPS:" + (props.value.Energy / (props.value.Cooldown / 1000)).toFixed(1) : ""}
                 </div>
-                {props.value.MoveCategory === "Charge Move" && <div className="col-12 p-0">
-                    <ChargeEnergy move={props.value} />
-                </div>}
+                {props.value.MoveCategory === "Charge Move" && <ChargeEnergy move={props.value} />}
             </div>
         </a >
     )

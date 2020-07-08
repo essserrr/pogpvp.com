@@ -45,7 +45,7 @@ const NavigationBlock = React.memo(function (props) {
     }
 
     return (
-        <div className={(props.class ? props.class : "row m-0 p-0 mb-2 ") + buttonsConfig()}>
+        <div className={(props.class ? props.class : "row m-0 mb-2 ") + buttonsConfig()}>
             {props.prev && <>
                 <i
                     attr={"prev"}

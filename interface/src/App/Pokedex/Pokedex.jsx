@@ -278,7 +278,7 @@ class Movedex extends React.Component {
                                     locale={strings.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
                                     <input onChange={this.onNameChange} className="form-control" type="text"
