@@ -136,7 +136,7 @@ class MoveCard extends React.Component {
                                     locale={strings.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.showResult && this.state.move && <>
                                 <CardTitle move={this.state.move} />
                                 <div className="row m-0 p-0">
@@ -157,7 +157,7 @@ class MoveCard extends React.Component {
                                     active2={this.state.active.use}
                                 />
                                 <UnmountClosed isOpened={this.state.active.eff}>
-                                    <div className={"row m-0 p-0"}>
+                                    <div className={"row m-0"}>
                                         <EffTable
                                             type={[this.state.move.MoveType]}
                                             reverse={true}

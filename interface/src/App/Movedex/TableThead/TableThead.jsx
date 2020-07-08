@@ -15,7 +15,7 @@ const TableThead = React.memo(function (props) {
             <tr>
                 <th coltype="string"
                     onClick={props.onClick}
-                    className="text-center clickable align-text-top p-0 py-2 px-0 px-sm-2"
+                    className="text-center clickable align-text-top py-2 px-0 px-sm-2"
                     name="Title" scope="col">
                     <Header
                         checked={props.active.field === "Title"}
@@ -26,7 +26,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top py-2 px-0 px-sm-2"
                     name="MoveType" scope="col">
                     <Header
                         checked={props.active.field === "MoveType"}
@@ -38,7 +38,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top borderLeft p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top borderLeft py-2 px-0 px-sm-2"
                     name="Damage" scope="col">
                     <Header
                         checked={props.active.field === "Damage"}
@@ -50,7 +50,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top py-2 px-0 px-sm-2"
                     name="Energy" scope="col">
                     <Header
                         checked={props.active.field === "Energy"}
@@ -62,7 +62,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top py-2 px-0 px-sm-2"
                     name="Cooldown" scope="col">
                     <Header
                         checked={props.active.field === "Cooldown"}
@@ -74,7 +74,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top borderLeft p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top borderLeft py-2 px-0 px-sm-2"
                     name="PvpDamage"
                     scope="col">
                     <Header
@@ -87,7 +87,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top  p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top  py-2 px-0 px-sm-2"
                     name="PvpEnergy" scope="col">
                     <Header
                         checked={props.active.field === "PvpEnergy"}
@@ -99,7 +99,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top py-2 px-0 px-sm-2"
                     name="PvpDurationSeconds" scope="col">
                     <Header
                         checked={props.active.field === "PvpDurationSeconds"}
@@ -111,7 +111,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="string"
                     onClick={props.onClick}
-                    className="clickable align-text-top p-0 py-2 px-0 px-sm-2"
+                    className="clickable align-text-top py-2 px-0 px-sm-2"
                     name="Subject" scope="col">
                     <Header
                         checked={props.active.field === "Subject"}

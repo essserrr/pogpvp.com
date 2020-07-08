@@ -12,7 +12,7 @@ const ListElement = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <div className="col-6 col-sm-4 col-md-3 p-0 m-0">
+        <div className="col-6 col-sm-4 col-md-3 p-0">
             <PokemonIconer
                 src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
                 class={"icon36 mr-2"}

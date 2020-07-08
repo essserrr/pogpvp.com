@@ -12,7 +12,7 @@ const QuickMove = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <div className="col-12 col-sm-6 m-0 p-0 px-1">
+            <div className="col-12 col-sm-6 p-0 px-1">
                 <h5 className="text-center text-sm-left fBolder">
                     {strings.movecard.pve}
                 </h5>
@@ -30,7 +30,7 @@ const QuickMove = React.memo(function (props) {
                     </tbody>
                 </table>
             </div>
-            <div className="col-12 col-sm-6 m-0 p-0 px-1">
+            <div className="col-12 col-sm-6 p-0 px-1">
                 <h5 className="text-center text-sm-left fBolder">
                     {strings.movecard.pve}
                 </h5>
@@ -41,13 +41,13 @@ const QuickMove = React.memo(function (props) {
                             move={props.move}
                         />
                         <tr>
-                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.dpt}</th>
-                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{
+                            <th className="modifiedBorderTable align-middle m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.dpt}</th>
+                            <td className="modifiedBorderTable align-middle m-0 p-0 py-1 dexFont" >{
                                 (props.move.PvpDamage / (props.move.PvpDurationSeconds / 0.5)).toFixed(2)}</td>
                         </tr>
                         <tr>
-                            <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.ept}</th>
-                            <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{
+                            <th className="modifiedBorderTable align-middle m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.ept}</th>
+                            <td className="modifiedBorderTable align-middle m-0 p-0 py-1 dexFont" >{
                                 (props.move.PvpEnergy / (props.move.PvpDurationSeconds / 0.5)).toFixed(2)}</td>
                         </tr>
                     </tbody>

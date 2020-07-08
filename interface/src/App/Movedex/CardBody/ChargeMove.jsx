@@ -15,7 +15,7 @@ const ChargeMove = React.memo(function (props) {
 
     return (
         <>
-            <div className="col-12 col-sm-6 m-0 p-0 px-1">
+            <div className="col-12 col-sm-6 p-0 px-1">
                 <h5 className="text-center text-sm-left fBolder">
                     {strings.movecard.pve}
                 </h5>
@@ -39,7 +39,7 @@ const ChargeMove = React.memo(function (props) {
                     </tbody>
                 </table>
             </div>
-            <div className="col-12 col-sm-6 m-0 p-0 px-1">
+            <div className="col-12 col-sm-6 p-0 px-1">
                 <h5 className="text-center text-sm-left fBolder">
                     {strings.movecard.pve}
                 </h5>

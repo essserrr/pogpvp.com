@@ -258,8 +258,8 @@ class Movedex extends React.Component {
 
                                 faOpened="align-self-center fas fa-angle-up fa-lg "
                                 faClosed="align-self-center fas fa-angle-down fa-lg"
-                                outClass="row justify-content-between m-0 p-0 clickable"
-                                inClass="row justify-content-start m-0 p-0" />
+                                outClass="row justify-content-between m-0 clickable"
+                                inClass="row justify-content-start m-0" />
                         </div>
 
                         <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
@@ -270,7 +270,7 @@ class Movedex extends React.Component {
                                     locale={strings.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
                                     <input onChange={this.onNameChange} className="form-control" type="text"
