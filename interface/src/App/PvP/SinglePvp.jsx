@@ -735,7 +735,7 @@ class SinglePvp extends React.PureComponent {
 
 
 
-                    <div className="overflowing order-3 order-lg-2 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
+                    <div className="overflowing order-3 order-lg-2 col-12 col-lg mt-0 mt-lg-2 px-0" >
                         <div className="row mx-2 h-100"  >
                             {(this.state.showResult || this.state.isError) && <div className="align-self-start results col order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
                                 <div className="row justify-content-center mx-0"  >

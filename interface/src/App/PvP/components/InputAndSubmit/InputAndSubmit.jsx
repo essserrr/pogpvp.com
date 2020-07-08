@@ -45,7 +45,7 @@ class InputAndSubmit extends React.PureComponent {
     render() {
         return (
             <>
-                {this.state.isError && <Errors class="alert alert-danger m-0 p-2 mt-2" value={this.state.error} />}
+                {this.state.isError && <Errors class="alert alert-danger p-2 mt-2" value={this.state.error} />}
                 <ReactTooltip
                     className={"logItems"}
                     id={"partyNameInput" + this.props.attr} effect="solid"

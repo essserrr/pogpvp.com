@@ -264,24 +264,24 @@ class Constructor extends React.PureComponent {
 
     render() {
         return (
-            <div className="row  justify-content-center m-0 p-0 my-1">
-                {(this.props.lastChangesAt > this.props.round) && <div className="col-12 m-0 p-0">
+            <div className="row  justify-content-center m-0 my-1">
+                {(this.props.lastChangesAt > this.props.round) && <div className="col-12 p-0">
                     <Errors
                         class="alert defaultFont alert-danger m-0 p-2 "
                         value={strings.constructor.alertchanges1st + this.props.lastChangesAt + strings.constructor.alertchanges2nd}
                     />
                 </div>}
-                {this.props.stateModified && <div className="col-12 m-0 p-0 my-1">
+                {this.props.stateModified && <div className="col-12 p-0 my-1">
                     <Errors
-                        class="alert defaultFont alert-danger m-0 p-2 "
+                        class="alert defaultFont alert-danger p-2 "
                         value={strings.constructor.alertmodified}
                     />
                 </div>}
-                <div className="col-12 m-0 p-0 fBolder">
+                <div className="col-12 p-0 fBolder">
                     {strings.constructor.newaction + this.props.round + ":"}
                 </div>
 
-                <div className="col-12 m-0 p-0">
+                <div className="col-12 p-0">
                     <SelectGroup
                         name="Action"
                         value={this.state.Attacker.Action}
@@ -296,7 +296,7 @@ class Constructor extends React.PureComponent {
                         tipClass="logItems"
                     />
                 </div>
-                <div className="col-12 defaultFont d-flex m-0 p-0 my-1">
+                <div className="col-12 defaultFont d-flex p-0 my-1">
                     <Checkbox
                         onChange={this.onChange}
                         value={this.state.Attacker.IsShield}
@@ -318,7 +318,7 @@ class Constructor extends React.PureComponent {
                         label={strings.constructor.trigger}
                     />}
                 </div>
-                <div className="col-12  m-0 p-0">
+                <div className="col-12 p-0">
                     <SelectGroup
                         name="Action"
                         value={this.state.Defender.Action}
@@ -333,7 +333,7 @@ class Constructor extends React.PureComponent {
                         tipClass="logItems"
                     />
                 </div>
-                <div className="col-12 defaultFont d-flex m-0 p-0 my-1 mb-3">
+                <div className="col-12 defaultFont d-flex p-0 my-1 mb-3">
                     <Checkbox
                         onChange={this.onChange}
                         value={this.state.Defender.IsShield}

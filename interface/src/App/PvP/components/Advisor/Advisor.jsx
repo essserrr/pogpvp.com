@@ -53,7 +53,7 @@ class Advisor extends React.PureComponent {
     render() {
         return (
             <div className="matrixResult smallWidth px-2 py-2 col-12 ">
-                <div tabIndex="0" ref="advisor" className="col-12  d-flex justify-content-center m-0 p-0">
+                <div tabIndex="0" ref="advisor" className="col-12  d-flex justify-content-center p-0">
                     <PokemonIconer
                         src="willow3"
                         folder="/"
@@ -62,7 +62,7 @@ class Advisor extends React.PureComponent {
                         {strings.advisor.willow}
                     </div>
                 </div>
-                <div className="overflowingy height500resp col-12 m-0 p-0 ">
+                <div className="overflowingy height500resp col-12 p-0 ">
                     {this.returnRatingList()}
                 </div>
 

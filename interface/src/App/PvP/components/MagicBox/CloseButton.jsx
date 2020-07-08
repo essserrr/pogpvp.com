@@ -5,7 +5,7 @@ class CloseButton extends PureComponent {
         return (
             <button
                 onClick={this.props.onClick}
-                type="button m-0 p-0"
+                type="button"
                 className={this.props.className}
                 aria-label="Close"
             >

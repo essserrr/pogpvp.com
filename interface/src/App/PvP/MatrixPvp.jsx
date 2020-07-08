@@ -844,10 +844,7 @@ class MatrixPvp extends React.PureComponent {
                         />
                     </div>
 
-
-
-
-                    {this.state.advisorList && <div className="order-6 col-12 m-0 p-1 pt-3" >
+                    {this.state.advisorList && <div className="order-6 col-12 p-1 pt-3" >
                         <div className="row mx-1  justify-content-center"  >
                             <Advisor
                                 list={this.state.advisorList}
@@ -861,17 +858,8 @@ class MatrixPvp extends React.PureComponent {
                             />
                         </div>
                     </div>}
-
-
-
-
-
-
-
                 </div>
-
             </ >
-
         );
     }
 }

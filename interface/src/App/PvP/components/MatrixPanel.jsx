@@ -443,7 +443,7 @@ class MatrixPanel extends React.PureComponent {
                     label={strings.title.savedparties}
                     for=""
                 />
-                <div className="row  justify-content-around mx-0 px-0 pb-0 padding325" >
+                <div className="row  justify-content-around m-0 padding325" >
 
                     <SubmitButton
                         class="saveinterface btn btn-primary btn-sm mx-0 col-5"
@@ -508,8 +508,8 @@ class MatrixPanel extends React.PureComponent {
                     tipClass="strategyTips"
                 />
 
-                {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1"><Checkbox
-                    class={"form-check form-check-inline m-0 p-0 ml-1 mt-2"}
+                {this.props.enableCheckbox && <div className="row m-0 mb-1 pt-1"><Checkbox
+                    class={"form-check form-check-inline m-0 ml-1 mt-2"}
                     checked={this.props.triple ? "checked" : false}
                     name={"triple"}
                     label={

@@ -40,8 +40,8 @@ class Reconstruction extends React.PureComponent {
 
     render() {
         return (
-            <div className="row m-0 p-0">
-                <div className="col-12 m-0 p-0 text-right">
+            <div className="row m-0">
+                <div className="col-12 p-0 text-right">
                     <ReactTooltip
                         className={"strategyTips"}
                         id={"constructorButton"} effect="solid"
@@ -56,7 +56,7 @@ class Reconstruction extends React.PureComponent {
                         {strings.reconstruction.contructor}
                     </div>
                 </div>
-                <div className="col-12 m-0 p-0">
+                <div className="col-12 p-0">
                     <div className={"timeline " + (this.state.constructor ? "modeon" : "")} tabIndex="0" ref="reconstruction" >
                         <table cellSpacing="0" cellPadding="0" border="0" style={{ width: "100%", justifyContent: "center", }} >
                             <tbody >
