@@ -1,9 +1,19 @@
 import React from "react";
-import EvoCard from "./EvoCard"
-import CardAndSep from "./CardAndSep"
 
+import LocalizedStrings from "react-localization";
+
+import EvoCard from "./EvoCard"
+import Tier from "../../RaidsList/Tier/Tier"
+import { getCookie } from "../../../js/indexFunctions"
+import { dexLocale } from "../../../locale/dexLocale"
+import { ReactComponent as Candy } from "../../../icons/candy.svg";
+
+let strings = new LocalizedStrings(dexLocale);
 
 const EvoBlock = React.memo(function (props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
+
     function generateEvos() {
         let arr = []
         let candies = [0, 0]
@@ -28,7 +38,18 @@ const EvoBlock = React.memo(function (props) {
                 }
             });
         }
-        return arr.map((elem, i) => <CardAndSep key={i + "sep"} i={i} elem={elem} candies={candies[i]} />)
+        return arr.map((elem, i) =>
+            <Tier
+                key={i + "sep"}
+                class="separator dexFont"
+                title={<>
+                    {candies[i] > 0 && <>
+                        <span className="font-weight-bold">{candies[i]}
+                        </span><Candy className="icon18 ml-1 mr-2" />
+                    </>}
+                    {strings.stage + " " + (i + 1)}</>}
+                list={elem}
+            />)
     }
 
     return (

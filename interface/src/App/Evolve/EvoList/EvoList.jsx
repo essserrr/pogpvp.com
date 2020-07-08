@@ -60,16 +60,19 @@ class EvoList extends PureComponent {
         //separates evocard by a separator
         structuredResult.forEach(function (elem, i, arr) {
             if (i === 0) {
-                arr[0] = <div className={"row justify-content-center m-0 mb-2"}>{elem}</div>
+                arr[0] = <Tier
+                    key={i + "sep"}
+                    list={elem}
+                />
                 return
             }
-            arr[i] = [
-                <Tier
-                    key={i + "sep"}
-                    class="separator dexFont my-2"
-                    title={strings.tips.evolveTool}
-                    list={elem}
-                />]
+            arr[i] = <Tier
+                key={i + "sep"}
+                class="separator dexFont my-2"
+                title={strings.tips.evolveTool}
+                list={elem}
+            />
+
         });
         return structuredResult
     }
