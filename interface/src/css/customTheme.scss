@@ -929,7 +929,7 @@ body {
 }
 
 .height400resp {
-    max-height: 400px !important;
+    max-height: 483px !important;
 }
 
 @media (max-width: 877px) { 
@@ -950,16 +950,6 @@ body {
     overflow-x: auto !important; 
     overflow-y: hidden !important; 
 }
-
-.height500resp {
-    max-height: 500px !important;
-}
-
-@media (max-width: 1024px) { 
-    .height500resp {
-        max-height: 90vh !important;
-    }
- }
 
 .width90vw{
     max-width: 90vw   !important;

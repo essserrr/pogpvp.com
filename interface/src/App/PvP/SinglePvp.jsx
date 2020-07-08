@@ -737,29 +737,30 @@ class SinglePvp extends React.PureComponent {
 
                     <div className="overflowing order-3 order-lg-2 col-12 col-lg mt-0 mt-lg-2 px-0" >
                         <div className="row mx-2 h-100"  >
-                            {(this.state.showResult || this.state.isError) && <div className="align-self-start results col order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
-                                <div className="row justify-content-center mx-0"  >
-                                    <div className="order-2 order-lg-1 col-12 ">
-                                        {this.state.showResult &&
-                                            <Result value={this.state.result} />}
-                                        {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {(this.state.showResult || this.state.isError) &&
+                                <div className="align-self-start results col-12 order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
+                                    <div className="row justify-content-center mx-0"  >
+                                        <div className="order-2 order-lg-1 col-12 ">
+                                            {this.state.showResult &&
+                                                <Result value={this.state.result} />}
+                                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                                        </div>
+                                        {this.state.url && this.state.showResult && <div className="order-1 order-lg-2 col-12 col-lg-6" >
+                                            <URL
+                                                label={strings.title.url}
+                                                for="pvpURLLabel"
+                                                tip={<small>
+                                                    {strings.tips.url.first}
+                                                    < br />
+                                                    {strings.tips.url.second}
+                                                </small>}
+                                                place="top"
+                                                message={strings.tips.url.message}
+                                                value={this.state.url}
+                                            />
+                                        </div>}
                                     </div>
-                                    {this.state.url && this.state.showResult && <div className="order-1 order-lg-2 col-12 col-lg-6" >
-                                        <URL
-                                            label={strings.title.url}
-                                            for="pvpURLLabel"
-                                            tip={<small>
-                                                {strings.tips.url.first}
-                                                < br />
-                                                {strings.tips.url.second}
-                                            </small>}
-                                            place="top"
-                                            message={strings.tips.url.message}
-                                            value={this.state.url}
-                                        />
-                                    </div>}
-                                </div>
-                            </div>}
+                                </div>}
                             {this.state.loading &&
                                 <div className="col-12 mt-2 order-lg-2" >
                                     <Loader

@@ -202,7 +202,6 @@ class PokeCard extends React.Component {
         return (
             <>
                 <SiteHelm
-                    url={"https://pogpvp.com/movedex/" + encodeURIComponent(this.props.match.params.id)}
                     header={this.props.match.params.id + strings.mdsdescr + " | PogPvP.com"}
                     descr={this.props.match.params.id + strings.mdsdescr}
                 />

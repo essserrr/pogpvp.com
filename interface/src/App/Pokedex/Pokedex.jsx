@@ -170,7 +170,6 @@ class Movedex extends React.Component {
     }
 
     filterArr(e, filter) {
-        console.log(e.props.value)
         let corresponds = true
         if (filter.type0 || filter.type1 || filter.type2 || filter.type3 || filter.type4 || filter.type5 ||
             filter.type6 || filter.type7 || filter.type8 || filter.type9 || filter.type10 || filter.type11 ||
