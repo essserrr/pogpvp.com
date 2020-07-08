@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(locale);
 const Stats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className={props.class ? props.class : "font95 input-group input-group-sm mt-1 mb-2"} >
+        <>
             <ReactTooltip
                 id={props.attr + "inlvl"} effect="solid">
                 {strings.stats.lvl + ": 1-45"}
@@ -28,40 +28,41 @@ const Stats = React.memo(function (props) {
                 id={props.attr + "insta"} effect="solid">
                 {strings.effStats.sta + " IV: 0-15"}
             </ReactTooltip>
-
-            <Input
-                name="Lvl"
-                attr={props.attr}
-                value={props.Lvl}
-                onChange={props.onChange}
-                place={strings.stats.lvl}
-                for={props.attr + "inlvl"}
-            />
-            <Input
-                name="Atk"
-                attr={props.attr}
-                value={props.Atk}
-                onChange={props.onChange}
-                place={strings.effStats.atk}
-                for={props.attr + "inatk"}
-            />
-            <Input
-                name="Def"
-                attr={props.attr}
-                value={props.Def}
-                onChange={props.onChange}
-                place={strings.effStats.def}
-                for={props.attr + "indef"}
-            />
-            <Input
-                name="Sta"
-                attr={props.attr}
-                value={props.Sta}
-                onChange={props.onChange}
-                place={strings.effStats.sta}
-                for={props.attr + "insta"}
-            />
-        </div>
+            <div className={props.class ? props.class : "font95 input-group input-group-sm mt-1 mb-2"} >
+                <Input
+                    name="Lvl"
+                    attr={props.attr}
+                    value={props.Lvl}
+                    onChange={props.onChange}
+                    place={strings.stats.lvl}
+                    for={props.attr + "inlvl"}
+                />
+                <Input
+                    name="Atk"
+                    attr={props.attr}
+                    value={props.Atk}
+                    onChange={props.onChange}
+                    place={strings.effStats.atk}
+                    for={props.attr + "inatk"}
+                />
+                <Input
+                    name="Def"
+                    attr={props.attr}
+                    value={props.Def}
+                    onChange={props.onChange}
+                    place={strings.effStats.def}
+                    for={props.attr + "indef"}
+                />
+                <Input
+                    name="Sta"
+                    attr={props.attr}
+                    value={props.Sta}
+                    onChange={props.onChange}
+                    place={strings.effStats.sta}
+                    for={props.attr + "insta"}
+                />
+            </div>
+        </>
     )
 
 });

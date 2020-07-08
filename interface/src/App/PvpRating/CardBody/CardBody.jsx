@@ -31,8 +31,8 @@ const CardBody = React.memo(function (props) {
                         value={typeDecoder[props.pokemonTable[props.name].Type[1]]}
                     />}
                 </div>
-                {strings.rating.avgRate} {props.entry.AvgRate} <br />
-                {strings.rating.avgWin} {(props.entry.AvgWinrate * 100).toFixed(0)}%
+                {strings.rating.avgRate + " " + props.entry.AvgRate} <br />
+                {strings.rating.avgWin + " " + (props.entry.AvgWinrate * 100).toFixed(0) + "%"}
             </div>
             <div className="col-2 rating text-center align-self-center p-0 mx-2">
                 {strings.rating.score}<br />

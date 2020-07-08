@@ -179,7 +179,7 @@ class ShinyRates extends React.Component {
                     descr={strings.pagedescriptions.shiny}
                 />
                 <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
+                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
                         <div className="singleNews col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader

@@ -171,7 +171,7 @@ class Evolve extends React.Component {
                                             value={this.state.name}
                                         />
                                     </div>
-                                    <div className="col-12 col-md-12 px-2">
+                                    <div className="col-12 col-md-12 px-2 mt-2">
                                         <ReactTooltip effect="solid" />
                                         <Stats
                                             Lvl={this.state.Lvl}

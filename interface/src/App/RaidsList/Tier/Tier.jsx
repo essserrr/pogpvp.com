@@ -4,8 +4,8 @@ import React from "react";
 const Tier = React.memo(function (props) {
     return (
         <>
-            {<div className="separator capsSeparator" >{props.title}</div>}
-            <div className={"row justify-content-center p-0 m-0 mb-2"}>
+            {<div className={props.class} >{props.title}</div>}
+            <div className={"row justify-content-center m-0 mb-2"}>
                 {props.list}
             </div>
         </>

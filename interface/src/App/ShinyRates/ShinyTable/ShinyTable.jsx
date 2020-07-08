@@ -14,7 +14,7 @@ const ShinyTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <input onChange={props.onChange} className="form-control" type="text" placeholder={strings.shinyrates.searchplaceholder}>
+            <input onChange={props.onChange} className="form-control mb-2" type="text" placeholder={strings.shinyrates.searchplaceholder}>
             </input>
             <table className="table  table-sm text-center">
                 <thead>
@@ -22,14 +22,14 @@ const ShinyTable = React.memo(function (props) {
                         <th coltype="string" className="clickable align-text-top mx-0 mx-sm-2" name="Name" onClick={props.onClick} scope="col">
                             <Header
                                 title={strings.shinyrates.pokname}
-                                class="ml-2 align-self-center " classOut="row  m-0 p-0 justify-content-center justify-content-sm-start"
+                                class="ml-2 align-self-center " classOut="row m-0 justify-content-center justify-content-sm-start"
                                 checked={props.firstColumn}
                             />
                         </th>
                         <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="Odds" onClick={props.onClick} scope="col">
                             <Header
                                 title={<>{strings.shinyrates.rate1}<wbr />{strings.shinyrates.rate2}</>}
-                                class="ml-2 align-self-center " classOut="row m-0 p-0 justify-content-center"
+                                class="ml-2 align-self-center " classOut="row p-0 justify-content-center"
                                 checked={props.secondColumn}
                             />
 
@@ -49,15 +49,14 @@ const ShinyTable = React.memo(function (props) {
                                         </ReactTooltip>}
                                     </i>
                                 </div>}
-                                class="ml-2 align-self-center " classOut="row m-0 p-0 justify-content-center"
+                                class="ml-2 align-self-center " classOut="row p-0 justify-content-center"
                                 checked={props.thirdColumn}
                             />
-
                         </th>
                         <th coltype="number" className="clickable align-text-top mx-0 mx-sm-2" name="Checks" onClick={props.onClick} scope="col">
                             <Header
                                 title={strings.shinyrates.checks}
-                                classOut="row m-0 p-0 justify-content-center" class="ml-2 align-self-center "
+                                classOut="row p-0 justify-content-center" class="ml-2 align-self-center "
                                 checked={props.fourthColumn}
                             />
                         </th>

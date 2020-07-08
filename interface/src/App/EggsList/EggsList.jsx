@@ -149,9 +149,9 @@ class EggsList extends React.Component {
                     return result
                 }
                 result.push(
-                    <div key={name + "wrap"} className={"col-4 col-md-3 px-1 pt-2"}>
+                    <div key={name + "wrap"} className={"col-6 col-sm-4 col-lg-3 d-flex px-1 pt-2 justify-content-center"}>
                         <PokemonCard
-                            class={"pokEggCard  m-0 p-0 pb-1"}
+                            class={"col-12 pokEggCard p-0 pb-1"}
                             name={<div className="text-center">
                                 <>{name}</>
                                 {regionals[name] &&
@@ -173,17 +173,16 @@ class EggsList extends React.Component {
                             >
                                 <PokemonIconer
                                     src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                                    class={"icon48"} />
+                                    class={"icon48 ml-0 ml-sm-1 align-self-center"} />
                             </a>}
 
                             body={<CardBody
                                 name={name}
                                 pokTable={pokTable}
                             />}
-                            classBodyWrap="row justify-content-center justify-content-sm-between m-0 p-0"
-                            classHeader={"cardHeader col-12 m-0 p-0 px-1 mb-1 text-center"}
-                            classIcon={"icon48 m-0 p-0 ml-0 ml-sm-1 align-self-center"}
-                            classBody={"eggCardBody  row  m-0 py-1 justify-content-left"}
+                            classBodyWrap="row justify-content-center justify-content-sm-between m-0"
+                            classHeader={"cardHeader fBolder col-12 px-1 mb-1 text-center"}
+                            classBody={"eggCardBody col  px-1 text-center"}
                         />
                     </div>)
                 return result
@@ -266,29 +265,35 @@ class EggsList extends React.Component {
                                     label={strings.tierlist.regionals}
                                 />
                             </div>}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.eggsList && <>
                                 {this.state.km10 && <Tier
+                                    class="separator capsSeparator"
                                     title={<><Egg10km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 10 km"}</>}
                                     list={this.state.eggsList[0]}
                                 />}
                                 {this.state.km7 && <Tier
+                                    class="separator capsSeparator"
                                     title={<><Egg7km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 7 km"}</>}
                                     list={this.state.eggsList[1]}
                                 />}
                                 {this.state.km5 && <Tier
+                                    class="separator capsSeparator"
                                     title={<><Egg5km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 5 km"}</>}
                                     list={this.state.eggsList[2]}
                                 />}
                                 {this.state.km2 && <Tier
+                                    class="separator capsSeparator"
                                     title={<><Egg2km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 2 km"}</>}
                                     list={this.state.eggsList[3]}
                                 />}
                                 {this.state.km1050 && <Tier
+                                    class="separator capsSeparator"
                                     title={<><Egg10km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 10 km (50 km Adveture Sync)"}</>}
                                     list={this.state.eggsList[4]}
                                 />}
                                 {this.state.km525 && <Tier
+                                    class="separator capsSeparator"
                                     title={<><Egg5km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 5 km (25 km Adveture Sync)"}</>}
                                     list={this.state.eggsList[5]}
                                 />}

@@ -202,54 +202,50 @@ class PvpRating extends React.Component {
                 return result
             }
             result.push(
-                <div key={elem.Name} className={"col-12 px-1 pt-1"}>
-                    <PokemonCard
-                        class={"col-12 cardBig m-0 p-0"}
+                <PokemonCard
+                    key={elem.Name}
+                    class={"col-12 cardBig p-0 mt-2"}
+                    name={<div className="d-flex justify-content-between pl-2">
+                        {"#" + (i + 1)}
+                        <div className=" text-center">
+                            {pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}
+                        </div><div></div>
+                    </div>}
+                    icon={<>
+                        {(pokName !== elem.Name) &&
+                            <Shadow className="posAbsR icon24" />}
+                        <a
+                            className="mx-2 mt-2 align-self-center"
+                            title={strings.dexentr + pokName}
+                            href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
+                                encodeURIComponent(pokName)}
+                        >
+                            <PokemonIconer
+                                src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
+                                class={"icon64"} />
+                        </a>
+                    </>}
+                    body={<CardBody
+                        name={pokName}
+                        pokemonTable={pokemonTable}
+                        maxWeighted={ratingList[0].AvgRateWeighted}
+                        entry={elem}
+                    />}
+                    footer={<Collapsable
+                        pokemonTable={pokemonTable}
+                        moveTable={moveTable}
+                        ratingList={ratingList}
 
-                        name={<div className="d-flex justify-content-between">
-                            <div className="pl-2">{"#" + (i + 1)}</div>
-                            <div className=" text-center">
-                                <>{pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}</>
-                            </div>
-                            <div></div>
-                        </div>}
-                        icon={<>
-                            {(pokName !== elem.Name) &&
-                                <Shadow className="posAbsR icon24" />}
-                            <a
-                                className="link"
-                                title={strings.dexentr + pokName}
-                                href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                                    encodeURIComponent(pokName)}
-                            >
-                                <PokemonIconer
-                                    src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
-                                    class={"icon64"} />
-                            </a>
-                        </>}
-                        body={<CardBody
-                            name={pokName}
-                            pokemonTable={pokemonTable}
-                            maxWeighted={ratingList[0].AvgRateWeighted}
-                            entry={elem}
-                        />}
-                        footer={<Collapsable
-                            pokemonTable={pokemonTable}
-                            moveTable={moveTable}
-                            ratingList={ratingList}
+                        container={elem}
+                        league={this.state.league}
+                        combination={this.state.combination}
+                    />}
 
-                            container={elem}
-                            league={this.state.league}
-                            combination={this.state.combination}
-                        />}
-
-                        classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
-                        classIcon={"icon64  col-auto mx-2 mt-2 p-0 align-self-center"}
-                        classBody={"col align-self-center m-0 p-1 p-0 "}
-                        classBodyWrap={"row justify-content-between  m-0 p-0"}
-                        classFooter="col-12 m-0  mb-2"
-                    />
-                </div>)
+                    classHeader={"bigCardHeader col-12 m-0 p-0 px-1"}
+                    classBody={"col align-self-center m-0 p-1 p-0 "}
+                    classBodyWrap={"row justify-content-between  m-0 p-0"}
+                    classFooter="col-12 m-0  mb-2"
+                />)
             return result;
         }, []);
     }
@@ -436,7 +432,7 @@ class PvpRating extends React.Component {
                                                 </input>
                                             </div>
 
-                                            <div className="row m-0 p-0 justify-content-center">
+                                            <div className="row m-0 p-0 px-2  justify-content-center">
                                                 {this.state.listToShow}
                                             </div>
 

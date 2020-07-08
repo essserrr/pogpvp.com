@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization";
 
 import PokemonCard from "../PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
-import SeparatedBlock from "./SeparatedBlock"
+import Tier from "../../RaidsList/Tier/Tier"
 import CardBody from "./CardBody"
 
 import { locale } from "../../../locale/locale"
@@ -30,10 +30,12 @@ class EvoList extends PureComponent {
                 result.push([])
             }
             result[elem.stage].push(
-                < div key={elem.name + "wrap"} className={"col-4 col-md-3 px-1 pt-1"} >
+                < div key={elem.name + "wrap"} className={"col-5 col-sm-4 col-md-4 d-flex justify-content-center px-1 pt-1"} >
                     <PokemonCard
+                        class={"col-12 pokCard animShiny p-0"}
                         name={elem.name}
                         icon={<a
+                            className="my-1 align-self-center"
                             title={strings.dexentr + elem.name}
                             href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
                                 encodeURIComponent(elem.name)}
@@ -47,11 +49,8 @@ class EvoList extends PureComponent {
                             name={elem.name}
                             state={state}
                         />}
-
-                        class={"pokEggCard animShiny"}
-                        classHeader={"cardHeader col-12 p-0 px-1 text-center"}
-                        classIcon={"icon48 my-1 p-0 align-self-center"}
-                        classBody={"eggCardBody row  m-0 p-1 justify-content-center"}
+                        classHeader={"cardHeader fBolder col-12 px-1 text-center"}
+                        classBody={"cardBody col p-1 justify-content-between"}
                     />
                 </div >
             )
@@ -60,12 +59,16 @@ class EvoList extends PureComponent {
 
         //separates evocard by a separator
         structuredResult.forEach(function (elem, i, arr) {
+            if (i === 0) {
+                arr[0] = <div className={"row justify-content-center m-0 mb-2"}>{elem}</div>
+                return
+            }
             arr[i] = [
-                <SeparatedBlock
+                <Tier
                     key={i + "sep"}
-                    elem={elem}
-                    separator={i < arr.length - 1 ?
-                        <div className="separator fBolder" >{strings.tips.evolveTool}</div> : null}
+                    class="separator dexFont my-2"
+                    title={strings.tips.evolveTool}
+                    list={elem}
                 />]
         });
         return structuredResult
