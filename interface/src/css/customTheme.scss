@@ -1331,12 +1331,6 @@ body {
     position:relative;
 }
 
-
-.w64 {
-    width: 64px;
-}
-
-
 .willow {
     height:260px;
     width: 258px;
@@ -1374,8 +1368,8 @@ body {
 
 
 .bigText {
-    font-size: 115%;
-    font-weight: 450;
+    font-size: 115% !important;
+    font-weight: 450 !important;
 }
 
 
@@ -1649,7 +1643,7 @@ body {
 }
 
 .fBolder {
-    font-weight: 400;
+    font-weight: bolder;
 }
 
 .energyBlock {

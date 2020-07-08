@@ -31,39 +31,44 @@ class AdvisorPanel extends React.PureComponent {
 
     render() {
         return (
-            <div className={"cardBig row m-0 p-0 py-1 justify-content-between"}>
-                <div className={"row m-0 p-0"}>
-                    <div className="ml-2 mr-2 bigText align-self-center ">{"#" + (this.props.i + 1)}</div>
-                    <div className="posRel">
+            <div className={"cardBig bigText row m-0 py-1 justify-content-between"}>
+                <div className={"col-auto p-0"}>
+                    <span className="mx-2 align-self-center ">{"#" + (this.props.i + 1)}</span>
+
+                    <span className="posRel">
                         {(this.props.first.IsShadow === "true") && <Shadow className="posAbs icon16" />}
                         <PokemonIconer
                             src={this.props.pokemonTable[this.props.first.name].Number + (this.props.pokemonTable[this.props.first.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.first.name].Forme : "")}
                             class={"icon48 ml-1 ml-sm-3  mr-2"} />
-                    </div>
-
-                    <div className="posRel">
+                    </span>
+                    <span className="posRel">
                         {(this.props.second.IsShadow === "true") && <Shadow className="posAbs icon16" />}
                         <PokemonIconer
                             src={this.props.pokemonTable[this.props.second.name].Number + (this.props.pokemonTable[this.props.second.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.second.name].Forme : "")}
                             class={"icon48 ml-1 ml-sm-3  mr-2"} />
-                    </div>
-
-                    <div className="posRel">
+                    </span>
+                    <span className="posRel">
                         {(this.props.third.IsShadow === "true") && <Shadow className="posAbs icon16" />}
                         <PokemonIconer
                             src={this.props.pokemonTable[this.props.third.name].Number + (this.props.pokemonTable[this.props.third.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.third.name].Forme : "")}
                             class={"icon48 ml-1 ml-sm-3 mr-2"} />
-                    </div>
-                </div>
-                <div className={"row m-0 p-0"}>
-                    <div className="mr-2 mr-sm-4 w64 bigText text-center align-self-center ">{this.props.list[this.props.i].zeros.length}</div>
-                    <div className="mr-2 mr-sm-4 w64 bigText text-center align-self-center ">{(this.props.list[this.props.i].rate / 3).toFixed(1)}</div>
-                    <div onClick={this.onClick} className="clickable align-self-center m-0 p-0  px-3">
-                        <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
-                    </div>
+                    </span>
+
                 </div>
 
-                <div className={"col-12 m-0 p-0 " + (this.state.showCollapse ? "borderTop" : "")}>
+                <div className="col-auto mx-auto align-self-center ">
+                    <i className="fas fa-skull-crossbones mr-1"></i>
+                    {this.props.list[this.props.i].zeros.length}
+                </div>
+                <div className="col-auto mx-auto align-self-center ">
+                    <i className="fas fa-trophy mr-1"></i>
+                    {(this.props.list[this.props.i].rate / 3).toFixed(1)}
+                </div>
+
+                <i onClick={this.onClick}
+                    className={"clickable align-self-center mr-3 " +
+                        (this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg")}></i>
+                <div className={"col-12 p-0 " + (this.state.showCollapse ? "borderTop" : "")}>
                     <UnmountClosed isOpened={this.state.showCollapse}>
                         {this.state.colElement}
                     </UnmountClosed>

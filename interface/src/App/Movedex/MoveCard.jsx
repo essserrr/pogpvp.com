@@ -170,10 +170,7 @@ class MoveCard extends React.Component {
                                         pokTable={this.state.pokTable}
                                     />
                                 </UnmountClosed>
-
-
-                            </>
-                            }
+                            </>}
                         </div>
                     </div>
                 </div >
