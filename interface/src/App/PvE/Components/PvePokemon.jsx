@@ -35,7 +35,7 @@ class PvePokemon extends React.PureComponent {
                 />}
 
 
-                <p5 className="fBolder">{this.props.title}</p5>
+                <h5 className="fBolder">{this.props.title}</h5>
                 {this.props.pokList && <SearchableSelect
                     value={this.props.value[this.props.attr].Name}
                     list={this.props.pokList}

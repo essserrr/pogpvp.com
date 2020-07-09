@@ -45,15 +45,7 @@ class Pokemon extends React.PureComponent {
                 <option value="false" key="Normal">{strings.options.type.normal}</option>,
                 <option value="true" key="Shadow">{strings.options.type.shadow}</option>,
             ],
-            strategyTip: [
-                <>
-                    {strings.tips.strategy.greedy}
-                    <br />
-                    <br />
-                    {strings.tips.strategy.shieldSaving}
-                </>
 
-            ],
         };
     }
 
@@ -156,7 +148,12 @@ class Pokemon extends React.PureComponent {
 
                             place={this.props.attr === "attacker" ? "right" : (this.props.attr === "defender" ? "left" : "top")}
                             for={((this.props.attr === "attacker") ? "strategyA" : "strategyD")}
-                            tip={this.state.strategyTip}
+                            tip={<>
+                                {strings.tips.strategy.greedy}
+                                <br />
+                                <br />
+                                {strings.tips.strategy.shieldSaving}
+                            </>}
                             tipClass="infoTip"
                         />
 

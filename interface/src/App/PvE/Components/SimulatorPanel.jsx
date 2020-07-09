@@ -148,7 +148,7 @@ class SimulatorPanel extends React.PureComponent {
                     />
                 </div>
                 <div className="order-3 order-sm-2 col-12 col-sm-4 text-center px-1">
-                    <p5 className="fBolder">{pveStrings.raid}</p5>
+                    <h5 className="fBolder">{pveStrings.raid}</h5>
                     <div className="row m-0">
                         <div className="col-6 col-sm-12 p-0 pr-1 pr-sm-0">
                             <SelectGroup
