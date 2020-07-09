@@ -396,7 +396,7 @@ class MatrixPvp extends React.PureComponent {
 
     makeTable(arr) {
         return [
-            <thead key={"thead0"} className="thead thead-light" >
+            <thead key={"thead0"} className="thead" >
                 <tr >
                     {arr[0]}
                 </tr>

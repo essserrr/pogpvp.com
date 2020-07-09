@@ -206,7 +206,7 @@ class PvpRating extends React.Component {
                 <PokemonCard
                     key={elem.Name}
                     class={"col-12 pokCard p-0 mt-2"}
-                    name={<div className="d-flex justify-content-between pl-2">
+                    name={<div className="d-flex dexFont justify-content-between pl-2">
                         {"#" + (i + 1)}
                         <div className=" text-center">
                             {pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}
@@ -373,7 +373,7 @@ class PvpRating extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className="row justify-content-center px-1 px-sm-2 mx-md-3 pb-5">
-                        <div className="col-12 bigWidth p-0">
+                        <div className="col-12 max650 p-0">
                             <div className="row m-0 singleNews mb-2 p-2">
                                 <div className="col-12 col-sm-6 p-1">
                                     <SelectGroup
@@ -415,7 +415,7 @@ class PvpRating extends React.Component {
                                     inClass="row justify-content-center m-0" />
                             </div>
                             <div className="row justify-content-center m-0">
-                                <div className="singleNews bigWidth col-md-12 col-lg-12 p-2 m-0">
+                                <div className="singleNews max650 col-md-12 col-lg-12 p-2 m-0">
                                     {this.state.loading &&
                                         <Loader
                                             color="black"

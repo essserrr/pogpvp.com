@@ -8,7 +8,7 @@ const RRateRow = React.memo(function (props) {
         <div key={props.value.Name}
             name={props.pokName}
             onClick={props.onClickRedirect}
-            className="row rating clickable animRating justify-content-between px-2 mb-1 mx-2 mx-md-3">
+            className="row styleRating fBolder clickable animRating justify-content-between px-2 mb-1 mx-2 mx-md-3">
             <div className="col p-0">
                 <PokemonIconer
                     src={props.pokemonTable[props.pokName].Number +

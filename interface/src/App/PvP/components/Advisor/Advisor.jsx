@@ -86,7 +86,7 @@ class Advisor extends React.PureComponent {
 
     render() {
         return (
-            <div className="results smallWidth px-2 py-2 col-12 ">
+            <div className="results max600 px-2 py-2 col-12 ">
                 <div tabIndex="0" ref="advisor" className="col-12  d-flex justify-content-center p-0">
                     <PokemonIconer
                         src="willow3"

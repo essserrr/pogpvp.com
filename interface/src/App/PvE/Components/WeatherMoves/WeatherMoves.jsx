@@ -13,7 +13,7 @@ const WeatherMoves = React.memo(function (props) {
                     src={props.snapshot.pveObj.Weather}
                     class={"icon18 align-self-center"} />
             }
-            <div className={"mr-1 align-self-center text-center font90 pveMove typeColorC" + props.pokQick.MoveType + " text"}>
+            <div className={"mr-1 align-self-center text-center font90 moveStyle typeColorC" + props.pokQick.MoveType + " text"}>
                 {props.pokQick.Title}
             </div>
             {weatherDecoder[props.pokCh.MoveType] === props.snapshot.pveObj.Weather &&
@@ -22,7 +22,7 @@ const WeatherMoves = React.memo(function (props) {
                     src={props.snapshot.pveObj.Weather}
                     class={"icon18 align-self-center"} />
             }
-            <div className={"align-self-center text-center font90 pveMove typeColorC" + props.pokCh.MoveType + " text"}>
+            <div className={"align-self-center text-center font90 moveStyle typeColorC" + props.pokCh.MoveType + " text"}>
                 {props.pokCh.Title}
             </div>
         </>

@@ -157,7 +157,7 @@ const MatrixDecr = React.memo(function (props) {
             </h6>
 
 
-            <div className={"pokCard row m-0 py-1 mb-3 mt-2 bigText justify-content-between"}>
+            <div className={"pokCard row m-0 py-1 mb-3 mt-2 bigFont justify-content-between"}>
                 <div className={"row m-0"}>
                     <div data-tip data-for={"topnumber"} className="ml-2 mr-2  align-self-center ">{"#1"}</div>
                     <ReactTooltip

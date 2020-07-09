@@ -196,7 +196,7 @@ class AdvisorPanelBody extends React.PureComponent {
         let vun = this.calculateVunerabilities()
         let off = this.calculateOffensiveStats()
         return (
-            <div className="col-12 px-2 bigText fBolder text-center" key={"coll" + this.props.i}>
+            <div className="col-12 px-2 bigFont fBolder text-center" key={"coll" + this.props.i}>
                 {strings.advisor.bad}
                 <div className="row mx-1 mt-1 justify-content-center">
                     {this.makeZerosList()}

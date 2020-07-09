@@ -12,7 +12,7 @@ const HpRemaining = React.memo(function (props) {
         <>
             {props.locale}{(props.tierHP - props.DAvg)}
             {" (" + (props.tierHP - props.DMax) + "-" + (props.tierHP - props.DMin) + ")"}
-            <span className="ml-1 bigText">{props.NOfWins > 0 ? " " + pveStrings.winrate + " " + props.NOfWins + "%" : ""}</span>
+            <span className="ml-1 bigFont">{props.NOfWins > 0 ? " " + pveStrings.winrate + " " + props.NOfWins + "%" : ""}</span>
         </>
     )
 });

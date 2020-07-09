@@ -275,7 +275,7 @@ class PvpPage extends React.Component {
                 />
                 <div className=" container-fluid pt-2 pt-md-2 mb-5">
                     <div className="row justify-content-center px-1">
-                        <div className="col-12 d-flex results bigWidth p-2  m-0">
+                        <div className="col-12 d-flex results max650 p-2  m-0">
                             <div className="col align-self-center m-0 p-0">
                                 <SelectGroup
                                     name="league"
@@ -324,7 +324,7 @@ class PvpPage extends React.Component {
                                 innerClass="col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"
                             />
                         </div>}
-                        <div className="col-12 superBig m-0 p-0">
+                        <div className="col-12 max1200 m-0 p-0">
                             {(this.state.isLoaded && (this.props.match.params.type === "single")) &&
                                 <SinglePvp parentState={this.state}
                                     changeUrl={this.changeUrl} />
@@ -334,8 +334,8 @@ class PvpPage extends React.Component {
                             }
                         </div>
                     </div>
-                    <div className="row justify-content-center px-1 ">
-                        <div className="col-12 superBig-1 results p-0 px-3 py-2" >
+                    <div className="row justify-content-center px-1">
+                        <div className="col-12 max1200-1 results p-0 px-3 py-2" >
                             <DropWithArrow
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}

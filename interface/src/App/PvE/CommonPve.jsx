@@ -305,7 +305,7 @@ class CommonPve extends React.PureComponent {
             < >
                 <div className="row justify-content-center m-0 mb-4"  >
 
-                    <div className="col-12 veryBig results py-1 py-sm-2 px-0 px-sm-1" >
+                    <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
                             className="row justify-content-between m-0"
                             pokemonTable={this.props.parentState.pokemonTable}
@@ -341,7 +341,7 @@ class CommonPve extends React.PureComponent {
                             />
                         </div>}
 
-                    {(this.state.showResult) && <div className="veryBig col-12 col-md-10 col-lg-6 justify-content-center p-0" >
+                    {(this.state.showResult) && <div className="max1000 col-12 col-md-10 col-lg-6 justify-content-center p-0" >
                         <PveResult
                             date={this.state.date}
                             result={this.state.result}

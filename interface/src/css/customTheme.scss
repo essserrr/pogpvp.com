@@ -29,15 +29,15 @@ $rating2: rgb(68, 202, 157);
 $rating-1: rgb(230, 141, 82);
 $rating-2: rgb(224, 86, 32);
 //interface color
-$result-color: rgba(244, 252, 255, 0.95);
-$matrix-background: #e9ecef;
-$single-news: #eff0f1;
-$news-title: #dbdbdb;
-$matrix-list: rgba(228, 228, 228, 0.95);
-$pok-card-back: rgb(255, 255, 255);
 $link-color: #0039e6;
 $slider-button: #59698d;
 $slider-active: #b1dbe2;
+$boost: rgb(211, 165, 14);
+$constr-button: rgba(133, 219, 250, 0.95);
+
+$primary-color: #eff0f1;
+$secondary-color: rgba(179, 179, 179, 0.28);
+$tertiary-color: rgb(255, 255, 255);
 //tips styles
 $tips-padding: 0.2rem;
 $tips-font: 12pt;
@@ -474,7 +474,18 @@ div :focus {
     text-justify: inter-word !important;
     font-weight: bolder;
 }
-
+.dexFont {
+    font-size: 1.1em;
+    font-weight: 400; 
+}
+.dexFontSm {
+    font-size: 0.85em;
+    font-weight: 500; 
+}
+.bigFont {
+    font-size: 115% !important;
+    font-weight: 450 !important;
+}
 
 //body
 body { 
@@ -691,7 +702,7 @@ body {
 
 //single pvp styles
 .results {
-    background-color:$result-color;
+    background-color:$primary-color;
     border-radius: 4px;
     border: 0.5px solid rgba(0, 0, 0, 0.2);
 
@@ -781,6 +792,7 @@ body {
     border-width: 1.2px !important;
     border-color: $slider-button !important;
     &.theadT {
+        background-color: $primary-color;
         font-size: 80%;
         font-weight: bold;
     }
@@ -870,6 +882,30 @@ body {
     border: none;
 }
 
+//constr button
+.constructorButton {
+    background-color:$primary-color;
+    border-radius: 4px;
+    padding: 0rem 0.2rem 0rem 0.2rem;
+    height: fit-content;
+    width: fit-content;
+    user-select: none;
+    font-size: 100%;
+    font-weight: bold;
+    &.on{
+        background-color:$constr-button;
+    }
+}
+
+.modeon {
+    border-color: $constr-button;
+    box-shadow: 
+        0px 0px 16px rgba(0, 187, 255, 0.11),
+        0px 0px 4px rgba(0, 187, 255, 0.774),
+        0px 0px 8px rgba(0, 187, 255, 0.705),
+        0px 0px 16px rgba(0, 187, 255, 0.11);
+}
+
 //news style
 .newsTitle {
     background-color: #958ff1; 
@@ -888,21 +924,21 @@ body {
 }
 
 .newsBody {
-    background-color:$result-color;
+    background-color:$primary-color;
     border-radius: 4px;
 }
 
 .singleNews {
     border-radius: 4px;
-    background-color: $single-news;
+    background-color: $primary-color;
     border: 1px solid #acacac;
    
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 .singleNewsTitle {
     border-radius: 3px 3px 0px 0px;
-    background-color: $news-title;
-    border: solid #d1d1d1;
+    background-color: $secondary-color;
+    border: solid #acacac;
     border-width: 0px 0px 1px 0px;
 
     color: black !important;
@@ -913,13 +949,12 @@ body {
 
 .singleNewsBody {
     font-size: 1rem;
-    font-weight: 400;
     color: black !important;
 }
 
 //navbar style
 .navstyle {
-    background-color: $result-color;
+    background-color: $primary-color;
 }
 
 //magic box related styles
@@ -947,7 +982,7 @@ body {
     width: 300px !important;
     text-align: left;
 
-    background-color:$result-color;
+    background-color:$primary-color;
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.2);
 
@@ -959,7 +994,7 @@ body {
     margin-bottom: 0.5em;
     border-radius: 4px;
     border: 0.5px solid rgba(0, 0, 0, 0.4);
-    background-color: $matrix-list;
+    background-color: $secondary-color;
     text-align: left;
 
     .thead {
@@ -974,13 +1009,13 @@ body {
 }
 
 .matrixColor {
-    background-color:$matrix-background;
+    background-color:$primary-color;
 }
 
 //sticky styles
 .tableFixHead          {  overflow-y: auto; height: 100px;  }
 .tableFixHead thead th { position: sticky; top: 0; z-index: 2; }
-.fixFirstRow {  position: sticky; left: 0; background-color: $matrix-background; z-index: 1;}
+.fixFirstRow {  position: sticky; left: 0; background-color: $primary-color; z-index: 1;}
 
 
 //icons sizes
@@ -1014,6 +1049,19 @@ body {
     height: 64px;
 }
 
+.dexCardIcon {
+    flex: 1;
+    max-width: 220px !important;
+    max-height: 220px !important;
+    object-fit: contain;
+}
+
+.dexEvoIcon {
+    flex: 1;
+    max-width: 128px !important;
+    max-height: 128px !important;
+    object-fit: contain;
+}
 
 //pok card
 .cardHeader {
@@ -1023,7 +1071,7 @@ body {
 .pokCard {
     border: 0.5px solid rgba(0, 0, 0, 0.295);
     border-radius: 6px;
-    background-color: $pok-card-back;
+    background-color: $tertiary-color;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 
     &.raid {
@@ -1082,43 +1130,38 @@ body {
     position:relative;
 }
 
-.willow {
-    height:260px;
-    width: 258px;
-}
 
 
-.bigWidth {
+//width
+.max650 {
     max-width: 650px !important;
 }
 
-.veryBig {
+.max1000 {
     max-width: 1000px !important;
 }
 
-.superBig {
+.max1200 {
     max-width: 1200px !important;
+    &-1{
+        max-width: 1230px !important;
+    }
 }
-.superBig-1 {
-    max-width: 1230px !important;
-}
+
 .width90vw{
     max-width: 90vw   !important;
 }
 
-
-.smallWidth {
-    max-width: 560px !important;
+.max600 {
+    max-width: 600px !important;
+}
+.max110 {
+    max-width: 110px !important;
 }
 
 
 
 
-
-.bigText {
-    font-size: 115% !important;
-    font-weight: 450 !important;
-}
 
 
 //separator style
@@ -1146,27 +1189,15 @@ body {
     margin-left: .25em;
 }
 
-//rating style
-.rating {
-    font-weight: 400;
-    background-color: rgba(179, 179, 179, 0.253);
-    border-radius: 5px;
-    border: 0.5px solid rgba(0, 0, 0, 0.295);
-    
-    height: fit-content;
-}
+
 
 //animations
- .animRating {
-    -webkit-perspective: 1;
-  perspective: 1;
-
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+.animShiny, .animRating {
     -webkit-transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
   
-  .animRating::after {
+.animShiny::after, .animRating::after {
     content: "";
     border-radius: 5px;
     position: absolute;
@@ -1185,87 +1216,19 @@ body {
         -webkit-transform: scale(1.05, 1.05);
         transform: scale(1.05, 1.05);
   }
-  
-  .animRating:hover::after {
-      opacity: 1;
-      display: block;
-  }
-
-  .animShiny {
-    -webkit-transition: all 0.1s linear;
-    transition: all 0.1s linear;
-}
-  
-  .animShiny::after {
-    content: "";
-    border-radius: 5px;
-
-    position: absolute;
-    z-index: -2;
-    top: 0;
-    left: 0;
-    max-height: inherit;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    -webkit-transition: all 0.1s linear;
-    transition: all 0.1s linear;
-  }
-  
   .animShiny:hover {
     transform: scale(1.02, 1.02);
     -webkit-transform: scale(1.02, 1.02);
   }
   
-  .animShiny:hover::after {
-    display: block;
+  .animShiny:hover::after, .animRating:hover::after {
       opacity: 1;
-  }
-
-
-  .clickable {
-    cursor:pointer;
-  }
-
-  .noselect{
-    user-select: none;
+      display: block;
   }
 
 
 
-  .moveStyle {
-      padding: 0rem 0.2rem 0rem 0.2rem;
-      margin: 0.2rem 0rem 0.2rem 0rem;
-      border-radius: 5px;
-  }
-
-
-
-  //stopped here
-  .constructorButton {
-    background-color:$result-color;
-    border-radius: 4px;
-    padding: 0rem 0.2rem 0rem 0.2rem;
-    height: fit-content;
-    width: fit-content;
-    user-select: none;
-    font-size: 100%;
-    font-weight: bold;
-    &.on{
-        background-color:rgba(133, 219, 250, 0.95);
-    }
-}
-
-.modeon {
-    border-color: rgb(0, 187, 255);
-    box-shadow: 
-        0px 0px 16px rgba(0, 187, 255, 0.11),
-        0px 0px 4px rgba(0, 187, 255, 0.774),
-        0px 0px 8px rgba(0, 187, 255, 0.705),
-        0px 0px 16px rgba(0, 187, 255, 0.11);
-}
-
+//404 not found styles
 .window404 {
     position: relative;
     width: 85px; 
@@ -1292,16 +1255,64 @@ body {
 
 }
 
+// other styles
+.clickable {
+    cursor:pointer;
+  }
 
+  .noselect{
+    user-select: none;
+  }
 
-.pveMove {
-    padding: 0rem 0.2rem 0rem 0.2rem;
-    font-weight: bolder;;
-    border-radius: 5px;
+  .fBolder {
+    font-weight: bolder;
 }
 
+.borderTop {
+    border-top: 1px solid rgba(0, 0, 0, 0.295);
+}
+
+.borderLeft{
+    border-left: 2px solid #59698d28
+}
+.boostColor {
+    color: $boost,
+}
+
+.labelPrepend {
+    background-color: $tertiary-color !important;
+}
+
+//bound style
+.hpBound {
+    position: absolute;
+    height: 100%; 
+    border-left: 2px solid red;
+    border-right: 2px solid red;
+    -webkit-transition: all 0.4s linear;
+    transition: all 0.4s linear; 
+
+    background: repeating-linear-gradient(
+        45deg,
+        #606cbc00,
+        #606cbc00 2px,
+        red 2px,
+        red 4px
+    );
+}
+
+  .moveStyle {
+    font-weight: bolder;
+    padding: 0rem 0.2rem 0rem 0.2rem;
+    border-radius: 5px;
+    &.m{
+        font-weight: inherit;
+        margin: 0.2rem 0rem 0.2rem 0rem;
+    }
+}
+
+//pve hp bar
 .hpBack{
-    
     position: relative;
     max-width: 400px; 
     height: 6px; 
@@ -1321,44 +1332,19 @@ body {
     
 }
 
-.hpBound {
-    position: absolute;
-    height: 100%; 
-    border-left: 2px solid red;
-    border-right: 2px solid red;
-    -webkit-transition: all 0.4s linear;
-    transition: all 0.4s linear; 
 
-    background: repeating-linear-gradient(
-        45deg,
-        #606cbc00,
-        #606cbc00 2px,
-        red 2px,
-        red 4px
-    );
-}
-
-
-.pveResult {
-    background-color: #f2f3f4; 
-    border-radius: 4px;
-    border: 1.5px solid rgba(0, 0, 0, 0.25);
+//rating style
+.styleRating {
+    background-color: $secondary-color;
+    border-radius: 5px;
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
     height: fit-content;
 }
 
-.boostColor {
-    color: rgb(211, 165, 14),
-}
-
-
-
+//movecard
 .movecardTitle {
     font-weight: 500;
     border-bottom: 3px solid rgba(0, 0, 0, 0.342);
-}
-
-.fBolder {
-    font-weight: bolder;
 }
 
 .energyBlock {
@@ -1366,30 +1352,21 @@ body {
     border-radius: 2px;
 }
 
-
-.max110 {
-    max-width: 110px !important;
+.shadeEnBlock {
+    height: 7px;
+    border-radius: 2px;
+    background-color: rgba(0, 0, 0, 0.438);
+    &.Dark {
+        background-color: rgba(255, 255, 255, 0.432);
+    }
 }
 
+//pokedex card
 .dexCard {
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: $tertiary-color;
     border: 1px solid #acacac;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-
-.dexCardIcon {
-    flex: 1;
-    max-width: 220px !important;
-    max-height: 220px !important;
-    object-fit: contain;
-}
-
-.dexEvoIcon {
-    flex: 1;
-    max-width: 128px !important;
-    max-height: 128px !important;
-    object-fit: contain;
 }
 
 .dexTitle {
@@ -1398,15 +1375,8 @@ body {
     font-weight: 600;
 }
 
-.dexFont {
-    font-size: 1.1em;
-    font-weight: 400; 
-}
-.dexFontSm {
-    font-size: 0.85em;
-    font-weight: 500; 
-}
 
+//pokedex stats
 .statBarBack{
     -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
@@ -1430,25 +1400,6 @@ body {
     text-align: center;
     line-height: 25px;
 }
-
-.shadeEnBlock {
-    height: 7px;
-    border-radius: 2px;
-    background-color: rgba(0, 0, 0, 0.438);
-    &.Dark {
-        background-color: rgba(255, 255, 255, 0.432);
-    }
-}
-
-
-.borderTop {
-    border-top: 1px solid rgba(0, 0, 0, 0.295);
-}
-
-.borderLeft{
-    border-left: 2px solid #59698d28
-}
-
 
 //links
 .linkText {

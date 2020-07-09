@@ -264,7 +264,7 @@ class PvePage extends React.Component {
                             />}
                         </div>
 
-                        <div className="col-12 veryBig results px-3 py-2" >
+                        <div className="max1000 col-12 col-md-10 col-lg-6 results px-3 py-2" >
                             <DropWithArrow
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}

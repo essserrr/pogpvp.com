@@ -43,6 +43,7 @@ class URL extends React.PureComponent {
                     {this.props.message}
                 </div>}
                 <Input
+                    class="labelPrepend modifiedBorder form-control"
                     value={this.props.value}
                     onClick={this.onClick}
                     onChange={this.onChange}

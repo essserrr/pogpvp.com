@@ -34,7 +34,7 @@ const CardBody = React.memo(function (props) {
                 {strings.rating.avgRate + " " + props.entry.AvgRate} <br />
                 {strings.rating.avgWin + " " + (props.entry.AvgWinrate * 100).toFixed(0) + "%"}
             </div>
-            <div className="col-auto rating text-center align-self-center px-2 mx-2" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
+            <div className="col-auto styleRating text-center align-self-center px-2 mx-2" style={{ fontSize: "1.2rem", fontWeight: "bold" }}>
                 {strings.rating.score}<br />
                 {(props.entry.AvgRateWeighted / props.maxWeighted * 100).toFixed(1)}
             </div>

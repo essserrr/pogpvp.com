@@ -156,7 +156,7 @@ class PveResEntry extends React.PureComponent {
 
     generateCards() {
         return this.props.pokemonRes.map((elem) => {
-            return <div className="col-12 pveResult animShiny m-0 p-0 p-2 my-1 " key={elem.BQ + elem.BCh}>
+            return <div className="col-12 styleRating animShiny m-0 p-0 p-2 my-1 " key={elem.BQ + elem.BCh}>
                 <div className="col-12 d-flex m-0 p-0">
                     <WeatherMoves
                         pokQick={this.props.moveTable[elem.BQ]}
@@ -207,7 +207,7 @@ class PveResEntry extends React.PureComponent {
                 />
                 <div className="col p-0">
                     <div className="col-12 d-flex p-0">
-                        <div className="align-self-center bigText mr-1">
+                        <div className="align-self-center bigFont mr-1">
                             {name.Name}
                         </div>
                         <WeatherMoves
@@ -241,7 +241,7 @@ class PveResEntry extends React.PureComponent {
                                 tierHP={this.props.tables.hp[this.props.snapshot.bossObj.Tier]}
                             />
                         </div>
-                        <div className="col-10 p-0">
+                        <div className="col p-0">
                             <FightStats
                                 locale={pveStrings.s}
                                 tables={this.props.tables}

@@ -96,7 +96,7 @@ class NewsPages extends React.Component {
             return <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
                 "/news/id/" + parsed.ID}>
                 <News
-                    class="singleNews hoverable mx-4 mt-3"
+                    class="singleNews fBolder mx-4 mt-3"
                     title={parsed.Title}
                     date={parsed.Date}
                     description={parsed.ShortDescription}
