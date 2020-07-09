@@ -87,23 +87,19 @@ export const locale = {
             evolution: "Evolution calc  |  PogPvP.com",
             raids: "Raids list  |  PogPvP.com",
             eggs: "Eggs list  |  PogPvP.com",
-            main: "PogPvP.com | Pokemon GO PvP simulator, ratings, shiny rates and more",
+            main: "PogPvP.com | Pokemon GO PvP simulator, raid simulator, PvP ratings, current raids, pokedex, movedex, eggs list, shiny rates, and more",
         },
 
         pagedescriptions: {
-            pvprating: "Pokemon GO PvP Rating, top matchups and counters by league",
-
-
-            evolution: "Pokemon GO evolution calculator. Know your mon's CP after evolution",
-            raids: "Pokemon GO raids list. Don't miss raid tiers update",
-            eggs: "Pokemon GO eggs list. Don't miss eggs pool update",
-            common: "Pokemon GO raid simulator. Find the best counters to the current bosses",
-
-            single: "Pokemon GO single PvP simulator. Battle between two mons",
-            matrix: "Pokemon GO matrix PvP simulator. Battle between two or more mons",
-
-            shiny: "Pokemon GO shiny rates. Daily updates, largest sample size",
-            main: "Pokemon GO PvP simulator, PvP ratings, shiny rates and more",
+            pvprating: "Pokemon GO PvP Rating. All Pokemon GO PvP matchups. Pokemon GO PvP counters by league",
+            evolution: "Pokemon GO evolution calculator. Know your mon's CP after evolution in Pokemon GO",
+            raids: "Pokemon GO raids list. Don't miss Pokemon GO raid tiers update",
+            eggs: "Pokemon GO eggs list. Don't miss Pokemon GO eggs eggs pool update",
+            common: "Pokemon GO raid simulator. Find the best counters to the current raid bosses in Pokemon GO",
+            single: "Pokemon GO single PvP simulator. Pokemon GO PvP battle between two mons",
+            matrix: "Pokemon GO matrix PvP simulator. Pokemon GO PvP battle between two or more mons. Pokemon GO PvP party advisor",
+            shiny: "Pokemon GO shiny rates. Daily shiny rates updates, largest sample size",
+            main: "Pokemon GO PvP simulator, Pokemon GO PvP ratings, Pokemon GO raid simulator, Pokemon GO PvP ratings, Pokemon GO current raids, Pokemon GO pokedex, Pokemon GO movedex, Pokemon GO eggs list, Pokemon GO shiny rates",
         },
 
         effStats: {
@@ -350,21 +346,21 @@ export const locale = {
             evolution: "Калькулятор эволюций  |  PogPvP.com",
             raids: "Список текущих рейдов  |  PogPvP.com",
             eggs: "Список покемонов из яиц  |  PogPvP.com",
-            main: "PogPvP.com | Pokemon GO PvP симулятор, рейтинг, шансы на шайни и многое другое",
+            main: "PogPvP.com | Pokemon GO PvP симулятор, Pokemon GO симулятор рейдов, Pokemon GO PvP рейтинг, Pokemon GO покедекс, Pokemon GO мувдекс, Pokemon GO список текущих рейлов, Pokemon GO список текущих покемонов из яиц, Pokemon GO шансы на шайни",
 
         },
 
         pagedescriptions: {
-            pvprating: "PvP рейтинг пекемонов в Pokemon GO, лучшие матчапы и контры",
-            evolution: "Калькулятор эволюций в Pokemon GO. Знай CP своего покемона после эволюции!",
-            raids: "Список текущих рейдов в Pokemon GO. Узнай об изменениях списка рейдов первым!",
-            eggs: "Список покемонов из яиц в Pokemon GO. Узнай об изменениях списка яиц первым!",
-            common: "Симулятор рейдов в Pokemon GO. Найди лучшего покемона против любого босса",
+            pvprating: "PvP рейтинг пекемонов в Pokemon GO. Все PvP матчапы в Pokemon GO. Лучшие PvP контры в Pokemon GO",
+            evolution: "Калькулятор эволюций в Pokemon GO. Знай CP своего покемона в Pokemon GO после эволюции!",
+            raids: "Список текущих рейдов в Pokemon GO. Узнай об изменениях списка рейдов в Pokemon GO первым!",
+            eggs: "Список покемонов из яиц в Pokemon GO. Узнай об изменениях списка яиц в Pokemon GO первым!",
+            common: "Симулятор рейдов в Pokemon GO. Найди лучшего покемона против любого босса в Pokemon GO",
 
-            single: "Симулятор одиночного PvP в Pokemon GO. Бой между двумя покемонами",
-            matrix: "Симулятор группового PvP  в Pokemon GO. Бой между двумя и более покемонами",
-            shiny: "Шансы на шайни в Pokemon GO. Ежедневные обновления, самая большая выборка",
-            main: "Pokemon GO PvP симулятор, PvP рейтинг, шансы на шайни и многое другое",
+            single: "Симулятор одиночного PvP в Pokemon GO. Симулятор боев между двумя покемонами в Pokemon GO",
+            matrix: "Симулятор группового PvP в Pokemon GO. Симулятор боев между двумя и более покемонами в Pokemon GO",
+            shiny: "Шансы на шайни в Pokemon GO. Ежедневные обновления шансов на шайни, самая большая выборка",
+            main: "Pokemon GO PvP симулятор, Pokemon GO симулятор рейдов, Pokemon GO PvP рейтинг, Pokemon GO покедекс, Pokemon GO мувдекс, Pokemon GO список текущих рейлов, Pokemon GO список текущих покемонов из яиц, Pokemon GO шансы на шайни",
         },
 
         effStats: {
