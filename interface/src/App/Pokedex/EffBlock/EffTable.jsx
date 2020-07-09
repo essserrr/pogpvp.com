@@ -50,20 +50,20 @@ const EffTable = React.memo(function (props) {
 
     return (
         <table className={"table table-sm table-hover text-center"} >
-            <tbody className="modifiedBorderTable ">
+            <tbody className="tableBorder ">
                 {(props.reverse ? weak.length > 0 : effective.length > 0) && <tr>
-                    <th className="modifiedBorderTable align-middle  py-1 dexFont" scope="row" >
+                    <th className="tableBorder align-middle  py-1 dexFont" scope="row" >
                         {props.reverse ? strings.dmore : strings.resist}
                     </th>
-                    <td className="modifiedBorderTable align-middle  py-1" >
+                    <td className="tableBorder align-middle  py-1" >
                         {props.reverse ? weak : effective}
                     </td>
                 </tr>}
                 {(props.reverse ? effective.length > 0 : weak.length > 0) && <tr>
-                    <th className="modifiedBorderTable align-middle  py-1 dexFont" scope="row" >
+                    <th className="tableBorder align-middle  py-1 dexFont" scope="row" >
                         {props.reverse ? strings.dless : strings.weak}
                     </th>
-                    <td className="modifiedBorderTable align-middle  py-1" >
+                    <td className="tableBorder align-middle  py-1" >
                         {props.reverse ? effective : weak}
                     </td>
                 </tr>}

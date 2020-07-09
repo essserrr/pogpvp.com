@@ -222,7 +222,7 @@ class PveResult extends React.PureComponent {
                         snapshot={this.state.breakpObj}
                     />}
                 />}
-                <div className="row m-0 justify-content-center matrixResult p-2" tabIndex="0" ref="pveres">
+                <div className="row m-0 justify-content-center results p-2" tabIndex="0" ref="pveres">
                     <PveWillow
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}

@@ -8,7 +8,7 @@ const TableBody = React.memo(function (props) {
                     {props.value[0]}
                 </tr>
             </thead>
-            <tbody key={"tablebody"} className="modifiedBorderTable">
+            <tbody key={"tablebody"} className="tableBorder">
                 {props.value.slice(1).map((elem, i) => <tr key={"tableline" + i}>{elem}</tr>)}
             </tbody>
         </>

@@ -401,7 +401,7 @@ class MatrixPvp extends React.PureComponent {
                     {arr[0]}
                 </tr>
             </thead>,
-            <tbody key={"tablebody"} className="modifiedBorderTable">
+            <tbody key={"tablebody"} className="tableBorder">
                 {arr.slice(1).map((elem, i) => {
                     return <tr key={"tableline" + i}>
                         {elem}
@@ -421,7 +421,7 @@ class MatrixPvp extends React.PureComponent {
         data.forEach((elem) => {
             let line = elem.I + 1
             let row = elem.K + 1
-            arr[line].push(<td key={line + row} className="modifiedBorderTable matrixColor font80 m-0 p-0 align-middle" >
+            arr[line].push(<td key={line + row} className="tableBorder matrixColor font80 m-0 p-0 align-middle" >
                 <a className={"rateSquare hover rateColor" + returnRateStyle(elem.Rate)[1]}
                     href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                         encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke}>
@@ -433,7 +433,7 @@ class MatrixPvp extends React.PureComponent {
     }
 
     makeTableLines() {
-        return [[<th key={"zero"} className="modifiedBorderTable theadT p-0 px-1" scope="col" />,
+        return [[<th key={"zero"} className="tableBorder theadT p-0 px-1" scope="col" />,
         ...this.state.rightPanel.listForBattle.map((pok, j) => {
             return <TheadElement key={j + pok.name + "thead"} pok={pok} j={j}
                 pokemonTable={this.props.parentState.pokemonTable} addStar={this.addStar} />
@@ -463,25 +463,25 @@ class MatrixPvp extends React.PureComponent {
             let rateOverall = returnRateStyle(rating)
             data[0][i].Rate = rating
 
-            arr[line].push(<td key={line + row} className="matrixCellWidth modifiedBorderTable font80 p-0 m-0 px-1 align-middle" >
-                <div className="matrixCard bor row justify-content-center m-0 p-0 mr-auto ml-auto">
-                    <a className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead rateColor" + rate00[1]}
+            arr[line].push(<td key={line + row} className="tripleWidth tableBorder font80 p-0 m-0 px-1 align-middle" >
+                <div className="matrixTriple row justify-content-center m-0 p-0 mr-auto ml-auto">
+                    <a className={"col-4 m-0 p-0 text-center hover rateColor" + rate00[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke}>
                         {rate00[0]}
                     </a>
-                    <a className={"col-4 m-0 p-0 text-center  hover matrixCardThead borx rateColor" + rate11[1]}
+                    <a className={"col-4 m-0 p-0 text-center  hover  rateColor" + rate11[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + pvpoke}>
                         {rate11[0]}
                     </a>
-                    <a className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead rateColor" + rate22[1]}
+                    <a className={"col-4 m-0 p-0 text-center hover rateColor" + rate22[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + pvpoke}>
                         {rate22[0]}
                     </a>
 
-                    <div className={"matrixCardBody bort cbotlr col-12 m-0 p-0 rateColor" + rateOverall[1]}>
+                    <div className={" col-12 m-0 p-0 rateColor" + rateOverall[1]}>
                         {rating}
                     </div>
 
@@ -789,7 +789,7 @@ class MatrixPvp extends React.PureComponent {
 
                     <div className="overflowing order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
                         <div className="row mx-1 h-100"  >
-                            {(this.state.showResult || this.state.isError) && <div className="align-self-start matrixResult order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
+                            {(this.state.showResult || this.state.isError) && <div className="align-self-start results order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
                                 <div className="row  justify-content-center mx-0"  >
                                     <div className="overflowingxy height400resp order-2 p-0 mx-2 order-lg-1 col-12 ">
                                         {this.state.showResult &&

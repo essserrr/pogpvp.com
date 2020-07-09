@@ -8,7 +8,7 @@ import { returnVunStyle } from "../../..//../js/indexFunctions"
 const SinglePokLine = React.memo(function (props) {
     return (
         <>
-            <td className="modifiedBorderTable text-center theadT fixFirstRow m-0 p-0 px-1" >
+            <td className="tableBorder text-center theadT fixFirstRow m-0 p-0 px-1" >
                 {(props.pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
                 <PokemonIconer
                     src={props.pokemonTable[props.pok.name].Number +
@@ -34,7 +34,7 @@ const SinglePokLine = React.memo(function (props) {
             </td>
             {props.vun[props.i].map((elem, k) => {
                 let rateStyle = returnVunStyle(elem)
-                return <td key={props.i + "defensive" + k} className="modifiedBorderTable matrixColor font80 m-0 p-0 align-middle" >
+                return <td key={props.i + "defensive" + k} className="tableBorder matrixColor font80 m-0 p-0 align-middle" >
                     <div className={"rateSquare hover P  rateColor" + rateStyle}>
                         {elem}
                     </div>

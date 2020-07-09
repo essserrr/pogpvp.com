@@ -17,7 +17,7 @@ const ResultsTable = React.memo(function (props) {
                     NameA={props.value.Attacker.Name}
                     NameD={props.value.Defender.Name}
                 />
-                <tbody className="modifiedBorderTable">
+                <tbody className="tableBorder">
                     <Line
                         title={strings.resultTable.rate}
                         valueA={<div className={"rateSquare rateColor" + returnRateStyle(props.value.Attacker.Rate)[1]}>

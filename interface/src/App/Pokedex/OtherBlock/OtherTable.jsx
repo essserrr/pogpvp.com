@@ -15,38 +15,38 @@ const OtherTable = React.memo(function (props) {
     regions.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
-            <tbody className="modifiedBorderTable ">
+            <tbody className="tableBorder ">
                 {props.value.SecCharge && (props.value.SecCharge.Candy !== 0) && <tr>
-                    <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >
+                    <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >
                         {strings.infot.sec}
                     </th>
-                    <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >
+                    <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >
                         <Candy className="icon18 mr-1" /><span className="align-middle">{props.value.SecCharge.Candy}</span>{" + "}
                         <Dust className="icon18" /><span className="align-middle">{props.value.SecCharge.Dust}</span>
                     </td>
                 </tr>}
                 {props.value.Purification && (props.value.Purification.Candy !== 0) && <tr>
-                    <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >
+                    <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >
                         {strings.infot.pur}
                     </th>
-                    <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >
+                    <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >
                         <Candy className="icon18 mr-1" /><span className="align-middle">{props.value.Purification.Candy}</span>{" + "}
                         <Dust className="icon18 mr-1" /><span className="align-middle">{props.value.Purification.Dust}</span>
                     </td>
                 </tr>}
                 {(props.value.Buddy !== 0) && <tr>
-                    <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >
+                    <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >
                         {strings.infot.bud}
                     </th>
-                    <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >
+                    <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >
                         {props.value.Buddy}
                     </td>
                 </tr>}
                 {props.value.Region !== 0 && <tr>
-                    <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >
+                    <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >
                         {strings.infot.reg}
                     </th>
-                    <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >
+                    <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >
                         {regions[props.value.Region]}
                     </td>
                 </tr>}

@@ -13,16 +13,16 @@ const CommonRaid = React.memo(function (props) {
     return (
         <>
             <tr>
-                <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.pd}</th>
-                <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{props.move.PvpDamage}</td>
+                <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.pd}</th>
+                <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >{props.move.PvpDamage}</td>
             </tr>
             <tr>
-                <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.pe}</th>
-                <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{props.move.PvpEnergy}</td>
+                <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.pe}</th>
+                <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >{props.move.PvpEnergy}</td>
             </tr>
             <tr>
-                <th className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.dr}</th>
-                <td className="modifiedBorderTable align-middle  m-0 p-0 py-1 dexFont" >{props.move.PvpDurationSeconds / 0.5}</td>
+                <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.dr}</th>
+                <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >{props.move.PvpDurationSeconds / 0.5}</td>
             </tr>
         </>
     )

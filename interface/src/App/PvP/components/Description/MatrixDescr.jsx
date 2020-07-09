@@ -29,8 +29,8 @@ const MatrixDecr = React.memo(function (props) {
                     <div className="tipfont text-center">
                         {tips.result}
                     </div>
-                    <div className="matrixCard bor row justify-content-center text-center m-0">
-                        <div data-tip data-for={"0vs0"} className={"col-4 p-0 cupl hover matrixCardThead rateColorR3"} >
+                    <div className="matrixTriple row justify-content-center text-center m-0">
+                        <div data-tip data-for={"0vs0"} className={"col-4 p-0 hover rateColorR3"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"0vs0"} effect="solid"
@@ -40,7 +40,7 @@ const MatrixDecr = React.memo(function (props) {
                             </ReactTooltip>
                             {"+1"}
                         </div>
-                        <div data-tip data-for={"1vs1"} className={"col-4 p-0 hover matrixCardThead borx rateColorR0"}>
+                        <div data-tip data-for={"1vs1"} className={"col-4 p-0 hover  rateColorR0"}>
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"1vs1"} effect="solid"
@@ -50,7 +50,7 @@ const MatrixDecr = React.memo(function (props) {
                             </ReactTooltip>
                             {"0"}
                         </div>
-                        <div data-tip data-for={"2vs2"} className={"col-4 p-0  cupr hover matrixCardThead rateColorR1"} >
+                        <div data-tip data-for={"2vs2"} className={"col-4 p-0  hover rateColorR1"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"2vs2"} effect="solid"
@@ -61,7 +61,7 @@ const MatrixDecr = React.memo(function (props) {
                             {"-1"}
                         </div>
 
-                        <div data-tip data-for={"over"} className={"matrixCardBody bort cbotlr hover col-12 p-0 rateColorR4"}>
+                        <div data-tip data-for={"over"} className={" hover col-12 p-0 rateColorR4"}>
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"over"} effect="solid"
@@ -80,7 +80,7 @@ const MatrixDecr = React.memo(function (props) {
                     </div>
 
                     <div className="d-flex ">
-                        <div data-tip data-for={"pl2color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColorR4"} >
+                        <div data-tip data-for={"pl2color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR4"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"pl2color"} effect="solid"
@@ -90,7 +90,7 @@ const MatrixDecr = React.memo(function (props) {
                             </ReactTooltip>
                             {"+2"}
                         </div>
-                        <div data-tip data-for={"pl1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColorR3"}>
+                        <div data-tip data-for={"pl1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR3"}>
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"pl1color"} effect="solid"
@@ -100,7 +100,7 @@ const MatrixDecr = React.memo(function (props) {
                             </ReactTooltip>
                             {"+1"}
                         </div>
-                        <div data-tip data-for={"pl0color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColorR0"} >
+                        <div data-tip data-for={"pl0color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR0"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"pl0color"} effect="solid"
@@ -110,7 +110,7 @@ const MatrixDecr = React.memo(function (props) {
                             </ReactTooltip>
                             {"0"}
                         </div>
-                        <div data-tip data-for={"mi1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover matrixCardThead bor rateColorR1"} >
+                        <div data-tip data-for={"mi1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR1"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"mi1color"} effect="solid"
@@ -120,7 +120,7 @@ const MatrixDecr = React.memo(function (props) {
                             </ReactTooltip>
                             {"-1"}
                         </div>
-                        <div data-tip data-for={"mi2color"} style={{ width: "30px", height: "25px" }} className={" text-center  hover matrixCardThead bor rateColorR2"} >
+                        <div data-tip data-for={"mi2color"} style={{ width: "30px", height: "25px" }} className={" text-center  hover rateColorR2"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"mi2color"} effect="solid"

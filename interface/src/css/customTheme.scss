@@ -476,14 +476,55 @@ div :focus {
 }
 
 
-//background
+//body
 body { 
     background: url("./background.jpg") no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    padding-bottom: 30px; //height of the footer
 }
+
+  .footer {
+    position: absolute;
+    bottom:0;
+    left: 0;
+
+    padding-bottom: 0px !important;
+    font-style: italic;
+    font-family: "Times New Roman", Times, serif;
+    color: black;
+    text-align: center;
+    width: 100%;
+    font-size: 12px !important;
+  }
+
+  @media (max-width: 1200px) { 
+    body {
+        padding-bottom: 40px;
+    }
+ }
+ @media (max-width: 992px) { 
+    body {
+        padding-bottom: 40px;
+    }
+ }
+ @media (max-width: 768px) { 
+    body {
+        padding-bottom: 50px;
+    }
+ }
+
+ @media (max-width: 576px) { 
+    body {
+        padding-bottom: 95px;
+    }
+ }
 
 //tips style
 .infoTip {
@@ -695,58 +736,39 @@ body {
     }
 }
 
-//matrix styles
-.matrixCardThead{
-    min-width: 22px !important;
-    height: 20px;
-    font-weight: bolder;
-    &.borx{
-        border-left: 1.5px solid $dark-color;
-        border-right: 1.5px solid $dark-color;
-    }
-    &.bor{
-        border: 1.5px solid $dark-color;
-        border-radius: 3px;
-    }
-    &.hover:hover{
-        background-color: white;
-      }
-}
-
-.matrixCardBody {
-    width: 100%;
-    font-weight: 500;
-    &.bort{
-        border-top: 1.5px solid $dark-color;
-    }
-    &.hover:hover{
-        background-color: white;
-      }
-}
-
-
-.matrixCellWidth{
+//matrix triple style
+.tripleWidth{
     min-width: 70px !important;
 }
 
-.matrixCard {
+.matrixTriple {
+    font-weight: 500;
     min-width: 70px !important;
     max-width: 80px !important;
-    &.bor {
-        border: 1.5px solid $dark-color;
-        border-radius: 3px;
-    } 
+    border: 1.5px solid $dark-color;
+    border-radius: 3px;
+    overflow: hidden;
 }
-
-.cupl{
-    border-radius: 2px 0px 0px 0px;
+.matrixTriple a:first-child {
+    border-right: 1.5px solid $dark-color !important;
+    &.hover:hover{
+        background-color: white !important;
+    }
 }
-.cupr{
-    border-radius: 0px 2px 0px 0px;
-
+.matrixTriple a:nth-child(2) {
+    border-right: 1.5px solid $dark-color !important;
+    &.hover:hover{
+        background-color: white !important;
+    }
 }
-.cbotlr{
-    border-radius: 0px 0px 2px 2px;
+.matrixTriple a:nth-child(3) {
+    &.hover:hover{
+        background-color: white !important;
+    }
+}
+.matrixTriple div:last-child {
+    border-top: 1.5px solid $dark-color !important;
+    user-select: none;
 }
 
 //border styles
@@ -755,9 +777,9 @@ body {
     border-color: $slider-button !important;
 }
 
-.modifiedBorderTable {
+.tableBorder {
     border-width: 1.2px !important;
-    border-color: rgba(0, 0, 0, 0.4) !important;
+    border-color: $slider-button !important;
     &.theadT {
         font-size: 80%;
         font-weight: bold;
@@ -769,6 +791,16 @@ body {
     overflow-x: auto !important; 
     overflow-y: hidden !important; 
     max-width: 100vw !important; 
+}
+
+.overflowingy {
+    overflow-x: hidden;
+    overflow-y: auto !important; 
+}
+
+.overflowingx {
+    overflow-x: auto !important; 
+    overflow-y: hidden !important; 
 }
 
 .overflowingxy {
@@ -785,30 +817,9 @@ body {
     .height400resp {
         max-height: 85vh !important;
     }
- }
-
-
-.overflowingy {
-    overflow-x: hidden;
-    overflow-y: auto !important; 
-
 }
-
-
-.overflowingx {
-    overflow-x: auto !important; 
-    overflow-y: hidden !important; 
-}
-
-.width90vw{
-    max-width: 90vw   !important;
-}
-
-
-
 
 //buttons
-
 //matrix panel, matrix-redact, matrix-save
 .matrixButton.btn.btn-primary.btn-sm {
     margin-top: 0rem !important;
@@ -831,19 +842,6 @@ body {
     font-size: 0.65rem !important;
 }
 
-
-//fake button
-.langButton {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 0.1em;
-
-    background-color: transparent;
-    border: none;
-}
-
 //long button
 .longButton.btn.btn-primary.btn-sm {
     margin-top: 0rem !important;
@@ -860,6 +858,17 @@ body {
     }
 }
 
+//fake button
+.langButton {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 0.1em;
+
+    background-color: transparent;
+    border: none;
+}
 
 //news style
 .newsTitle {
@@ -874,7 +883,6 @@ body {
     padding-left: 1rem;
     padding-right: 0.5rem;
 
-    
     border-radius: 2px 2px 0px 0px;
     border: 1.2px solid #748dfa;
 }
@@ -904,14 +912,14 @@ body {
 
 
 .singleNewsBody {
-    font-size: 0.93rem;
+    font-size: 1rem;
+    font-weight: 400;
     color: black !important;
 }
 
 //navbar style
 .navstyle {
-    background-color: rgb(246, 248, 255);
-    font-size: 90%;
+    background-color: $result-color;
 }
 
 //magic box related styles
@@ -947,19 +955,11 @@ body {
 }
 
 //matrix pvp styles
-.matrixPokemonList {
-    overflow-y: auto; 
-    overflow-x: hidden;
-    max-height: 150px;
-}
-
 .matrixListEntry {
     margin-bottom: 0.5em;
-
     border-radius: 4px;
     border: 0.5px solid rgba(0, 0, 0, 0.4);
     background-color: $matrix-list;
-    
     text-align: left;
 
     .thead {
@@ -973,69 +973,14 @@ body {
 
 }
 
-
-
-.matrixResult {
-    background-color:$matrix-background;
-    border-radius: 4px;
-    border: 0.5px solid rgba(0, 0, 0, 0.2);
-
-    height: fit-content;
-}
-
 .matrixColor {
     background-color:$matrix-background;
 }
 
+//sticky styles
 .tableFixHead          {  overflow-y: auto; height: 100px;  }
 .tableFixHead thead th { position: sticky; top: 0; z-index: 2; }
-
 .fixFirstRow {  position: sticky; left: 0; background-color: $matrix-background; z-index: 1;}
-
-
-//footer
-body {
-    min-height: 100vh;
-    position: relative;
-    margin: 0;
-    padding-bottom: 30px; //height of the footer
-  }
-  
-  .footer {
-    position: absolute;
-    bottom:0;
-    left: 0;
-
-    padding-bottom: 0px !important;
-    font-style: italic;
-    font-family: "Times New Roman", Times, serif;
-    color: black;
-    text-align: center;
-    width: 100%;
-    font-size: 12px !important;
-  }
-
-  @media (max-width: 1200px) { 
-    body {
-        padding-bottom: 40px;
-    }
- }
- @media (max-width: 992px) { 
-    body {
-        padding-bottom: 40px;
-    }
- }
- @media (max-width: 768px) { 
-    body {
-        padding-bottom: 50px;
-    }
- }
-
- @media (max-width: 576px) { 
-    body {
-        padding-bottom: 95px;
-    }
- }
 
 
 //icons sizes
@@ -1065,11 +1010,12 @@ body {
 }
 
 .icon64 {
-    width: 64px !important;
-    height: 64px !important;
+    width: 64px;
+    height: 64px;
 }
 
 
+//pok card
 .cardHeader {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
 }
@@ -1155,6 +1101,9 @@ body {
 }
 .superBig-1 {
     max-width: 1230px !important;
+}
+.width90vw{
+    max-width: 90vw   !important;
 }
 
 
