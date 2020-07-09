@@ -4,9 +4,9 @@ const Thead = React.memo(function (props) {
     return (
         <thead className="thead" >
             <tr >
-                <th className="modifiedBorderTable theadT" scope="col" ></th>
-                <th className="modifiedBorderTable theadT" scope="col" >{props.NameA}</th>
-                <th className="modifiedBorderTable theadT" scope="col" >{props.NameD}</th>
+                <th className="modifiedBorderTable font-weight-bold dexFont" scope="col" ></th>
+                <th className="modifiedBorderTable font-weight-bold dexFont" scope="col" >{props.NameA}</th>
+                <th className="modifiedBorderTable font-weight-bold dexFont" scope="col" >{props.NameD}</th>
             </tr>
         </thead>
     )
