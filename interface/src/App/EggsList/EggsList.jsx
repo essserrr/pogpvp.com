@@ -155,16 +155,18 @@ class EggsList extends React.Component {
                             name={<div className="text-center">
                                 <>{name}</>
                                 {regionals[name] &&
-                                    <i data-tip data-for={name} className="fas fa-info-circle ml-1">
-                                        {regionals[name] && <ReactTooltip
+                                    <>
+                                        <ReactTooltip
                                             className={"infoTip"}
                                             id={name} effect="solid"
                                             place={"top"}
                                             multiline={true}
                                         >
                                             {regions[regionals[name]]}
-                                        </ReactTooltip>}
-                                    </i>}
+                                        </ReactTooltip>
+                                        <i data-tip data-for={name} className="fas fa-info-circle ml-1">
+                                        </i>
+                                    </>}
                             </div>}
                             icon={<a
                                 title={strings.dexentr + name}

@@ -13,18 +13,22 @@ const Stats = React.memo(function (props) {
     return (
         <>
             <ReactTooltip
+                className={"infoTip"}
                 id={props.attr + "inlvl"} effect="solid">
                 {strings.stats.lvl + ": 1-45"}
             </ReactTooltip>
             <ReactTooltip
+                className={"infoTip"}
                 id={props.attr + "inatk"} effect="solid">
                 {strings.effStats.atk + " IV: 0-15"}
             </ReactTooltip>
             <ReactTooltip
+                className={"infoTip"}
                 id={props.attr + "indef"} effect="solid">
                 {strings.effStats.def + " IV: 0-15"}
             </ReactTooltip>
             <ReactTooltip
+                className={"infoTip"}
                 id={props.attr + "insta"} effect="solid">
                 {strings.effStats.sta + " IV: 0-15"}
             </ReactTooltip>

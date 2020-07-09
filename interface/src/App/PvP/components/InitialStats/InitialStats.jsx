@@ -14,17 +14,18 @@ const InitialStats = React.memo(function (props) {
     return (
         <>
             <ReactTooltip
+                className={"infoTip"}
                 id={props.attr + "InitialHP"} effect="solid">
                 {"HP: 0-" + strings.initialStats.hpTip + " HP"}
             </ReactTooltip>
             <ReactTooltip
+                className={"infoTip"}
                 id={props.attr + "InitialEnergy"} effect="solid">
                 {strings.initialStats.energyTip + ": 0-100"}
             </ReactTooltip>
             <div className="input-group input-group-sm mt-2">
                 <LabelPrepend
                     label={props.label}
-
                     tipClass="infoTip"
                     for={props.attr + "instats"}
                     place={"top"}

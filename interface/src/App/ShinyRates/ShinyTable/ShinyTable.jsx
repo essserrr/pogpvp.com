@@ -43,15 +43,15 @@ const ShinyTable = React.memo(function (props) {
                             <Header
                                 title={<div className="d-flex">
                                     {strings.shinyrates.rateest}
+                                    <ReactTooltip
+                                        className={"infoTip"}
+                                        id={"shinyrate"} effect="solid"
+                                        place={"top"}
+                                        multiline={true}
+                                    >
+                                        {strings.shinyrates.tip}
+                                    </ReactTooltip>
                                     <i data-tip data-for={"shinyrate"} className="align-self-center fas fa-info-circle ml-1">
-                                        {<ReactTooltip
-                                            className={"infoTip"}
-                                            id={"shinyrate"} effect="solid"
-                                            place={"top"}
-                                            multiline={true}
-                                        >
-                                            {strings.shinyrates.tip}
-                                        </ReactTooltip>}
                                     </i>
                                 </div>}
                                 class="ml-2 align-self-center " classOut="row p-0 justify-content-center"

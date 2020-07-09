@@ -519,15 +519,15 @@ class MatrixPanel extends React.PureComponent {
                     }
                     onChange={this.props.onChange}
                 />
+                    <ReactTooltip
+                        className={"infoTip"}
+                        id={"triple"} effect="solid"
+                        place={"top"}
+                        multiline={true}
+                    >
+                        {strings.tips.tripletip}
+                    </ReactTooltip>
                     <i data-tip data-for={"triple"} className="align-self-center fas fa-info-circle fa-lg ml-auto mt-2">
-                        <ReactTooltip
-                            className={"infoTip"}
-                            id={"triple"} effect="solid"
-                            place={"top"}
-                            multiline={true}
-                        >
-                            {strings.tips.tripletip}
-                        </ReactTooltip>
                     </i>
                 </div>}
                 {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
@@ -540,15 +540,15 @@ class MatrixPanel extends React.PureComponent {
                         label={strings.advisor.adv}
                         onSubmit={this.props.onAdvisorSubmit} />
 
+                    <ReactTooltip
+                        className={"infoTip"}
+                        id={"advisor"} effect="solid"
+                        place={"top"}
+                        multiline={true}
+                    >
+                        {strings.advisor.tip}
+                    </ReactTooltip>
                     <i data-tip data-for={"advisor"} className="align-self-center fas fa-info-circle fa-lg ml-auto">
-                        <ReactTooltip
-                            className={"infoTip"}
-                            id={"advisor"} effect="solid"
-                            place={"top"}
-                            multiline={true}
-                        >
-                            {strings.advisor.tip}
-                        </ReactTooltip>
                     </i>
                 </div>}
 

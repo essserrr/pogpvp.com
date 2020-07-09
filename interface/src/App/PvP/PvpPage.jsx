@@ -300,15 +300,15 @@ class PvpPage extends React.Component {
                                 }
                                 onChange={this.onPvpokeEnable}
                             />
+                            <ReactTooltip
+                                className={"infoTip"}
+                                id={"pvpoke"} effect="solid"
+                                place={"top"}
+                                multiline={true}
+                            >
+                                {strings.tips.pvpoke}
+                            </ReactTooltip>
                             <i data-tip data-for={"pvpoke"} className="align-self-center fas fa-info-circle fa-lg ml-4">
-                                <ReactTooltip
-                                    className={"infoTip"}
-                                    id={"pvpoke"} effect="solid"
-                                    place={"top"}
-                                    multiline={true}
-                                >
-                                    {strings.tips.pvpoke}
-                                </ReactTooltip>
                             </i>
                         </div>
                     </div>
