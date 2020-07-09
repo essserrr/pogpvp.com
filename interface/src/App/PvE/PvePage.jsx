@@ -68,7 +68,9 @@ class PvePage extends React.Component {
             this.props.match.params.obj === prevProps.match.params.obj) {
             return
         }
-
+        if (this.props.history.action === "PUSH") {
+            return
+        }
         this.updateState(
             this.props.match.params.attacker,
             this.props.match.params.boss,
@@ -269,7 +271,8 @@ class PvePage extends React.Component {
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}
                                 title={strings.title.about}
-                                elem={(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonDescr />}
+                                elem={(this.state.isLoaded && (this.props.match.params.type === "common")) &&
+                                    <CommonDescr />}
 
                                 faOpened="align-self-center fas fa-angle-up fa-lg "
                                 faClosed="align-self-center fas fa-angle-down fa-lg"

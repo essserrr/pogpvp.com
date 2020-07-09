@@ -90,6 +90,9 @@ class PvpPage extends React.Component {
             this.props.match.params.simtype === prevProps.match.params.simtype) {
             return
         }
+        if (this.props.history.action === "PUSH") {
+            return
+        }
         this.updateState(
             this.props.match.params.league,
             this.props.match.params.pok1,
@@ -340,7 +343,8 @@ class PvpPage extends React.Component {
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}
                                 title={strings.title.about}
-                                elem={this.state.isLoaded && ((this.props.match.params.type === "matrix") ? <MatrixDescr /> : <SingleDescr />)}
+                                elem={this.state.isLoaded &&
+                                    ((this.props.match.params.type === "matrix") ? <MatrixDescr /> : <SingleDescr />)}
 
                                 faOpened="align-self-center fas fa-angle-up fa-lg "
                                 faClosed="align-self-center fas fa-angle-down fa-lg"

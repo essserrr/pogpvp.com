@@ -48,10 +48,9 @@ class CommonPve extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.parentState.pveResult === prevProps.parentState.pveResult) {
+        if (this.props.parentState === prevProps.parentState) {
             return
         }
-
         this.setState({
             attackerObj: (this.props.parentState.attackerObj) ? this.props.parentState.attackerObj : pveattacker(),
             bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
