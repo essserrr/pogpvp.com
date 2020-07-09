@@ -6,7 +6,7 @@ const SingleMoveLine = React.memo(function (props) {
     return (
         <>
             <td
-                className={"modifiedBorderTable text-center align-middle theadT fixFirstRow  m-0 p-0 px-1 typeColor color" + props.MoveType + " text"} >
+                className={"modifiedBorderTable text-center align-middle theadT fixFirstRow  m-0 p-0 px-1 typeColorC" + props.MoveType + " text"} >
                 {props.name + props.star}
             </td>
             {effectivenessData[props.MoveType].map((elem, i) => {
@@ -15,7 +15,7 @@ const SingleMoveLine = React.memo(function (props) {
 
                 return <td key={props.line + "offensive" + i}
                     className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                    <div className={"rateTyping hover rateColor " + rateStyle} >
+                    <div className={"rateTyping hover rateColor" + rateStyle} >
                         {multipl}
                     </div>
                 </td >

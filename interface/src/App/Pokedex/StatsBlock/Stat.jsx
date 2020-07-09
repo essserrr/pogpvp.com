@@ -15,7 +15,7 @@ const Stat = React.memo(function (props) {
                 {props.label}
             </div>
             <div className="col-9 col-sm-10 p-0 statBarBack">
-                <div className={"statBarFront typeColor color" + props.type + " text"}
+                <div className={"statBarFront typeColorC" + props.type + " text"}
                     style={{ width: props.value / props.max * 100 + "%" }}>
                     {props.value}
                 </div>

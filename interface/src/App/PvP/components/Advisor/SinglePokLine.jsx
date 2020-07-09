@@ -35,7 +35,7 @@ const SinglePokLine = React.memo(function (props) {
             {props.vun[props.i].map((elem, k) => {
                 let rateStyle = returnVunStyle(elem)
                 return <td key={props.i + "defensive" + k} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                    <div className={"rateTyping hover rateColor " + rateStyle}>
+                    <div className={"rateTyping hover rateColor" + rateStyle}>
                         {elem}
                     </div>
                 </td >

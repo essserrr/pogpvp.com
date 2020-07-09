@@ -6,15 +6,15 @@ const RMoveRow = React.memo(function (props) {
             <div className="col p-0">
                 <div className="row justify-content-md-left m-0 p-0">
                     {props.moveTable[props.value.Quick] &&
-                        <div className={"mx-1 moveStyle typeColor color" + props.moveTable[props.value.Quick].MoveType + " text"}>
+                        <div className={"mx-1 moveStyle typeColorC" + props.moveTable[props.value.Quick].MoveType + " text"}>
                             {props.value.Quick}
                         </div>}
                     {props.moveTable[props.value.Charge[0]] &&
-                        <div className={"mx-1  moveStyle typeColor color" + props.moveTable[props.value.Charge[0]].MoveType + " text"}>
+                        <div className={"mx-1  moveStyle typeColorC" + props.moveTable[props.value.Charge[0]].MoveType + " text"}>
                             {props.value.Charge[0]}
                         </div>}
                     {props.moveTable[props.value.Charge[1]] &&
-                        <div className={"mx-1 moveStyle typeColor color" + props.moveTable[props.value.Charge[1]].MoveType + " text"}>
+                        <div className={"mx-1 moveStyle typeColorC" + props.moveTable[props.value.Charge[1]].MoveType + " text"}>
                             {props.value.Charge[1]}
                         </div>}
                 </div>

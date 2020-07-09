@@ -184,7 +184,7 @@ class Pokemon extends React.PureComponent {
                             options={this.props.value.quickMovePool}
                             label={strings.title.quickMove}
                             labelStyle={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
-                                "color" + this.props.moveTable[this.props.value.QuickMove].MoveType + " text" : ""}
+                                this.props.moveTable[this.props.value.QuickMove].MoveType + " text" : ""}
 
                             place={"top"}
                             for={("QuickMove" + this.props.attr)}
@@ -212,7 +212,7 @@ class Pokemon extends React.PureComponent {
                             options={this.props.value.chargeMovePool}
                             label={strings.title.chargeMove}
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
-                                "color" + this.props.moveTable[this.props.value.ChargeMove1].MoveType + " text" : ""}
+                                this.props.moveTable[this.props.value.ChargeMove1].MoveType + " text" : ""}
 
                             place={"top"}
                             for={"ChargeMove1" + this.props.attr}
@@ -241,7 +241,7 @@ class Pokemon extends React.PureComponent {
                             options={this.props.value.chargeMovePool}
                             label={strings.title.chargeMove}
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
-                                "color" + this.props.moveTable[this.props.value.ChargeMove2].MoveType + " text" : ""}
+                                this.props.moveTable[this.props.value.ChargeMove2].MoveType + " text" : ""}
 
                             place={"top"}
                             for={"ChargeMove2" + this.props.attr}

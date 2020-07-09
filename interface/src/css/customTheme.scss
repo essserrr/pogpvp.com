@@ -1,496 +1,459 @@
+//type colors
+$bug-color: #A8B820;
+$dark-color: #42434E;
+$dragon-color: #7038F8;
+$electric-color: #ffcc00;
+$fairy-color: #EE99AC;
+$figting-color: #C02038;
+$fire-color: #ff9933;
+$flying-color: #78C8E4;
+$ghost-color: #7546BB;
+$grass-color: #78C850;
+$ground-color: #B17D4A;
+$ice-color: #98D8D8;
+$normal-color: #9F9F9A;
+$poison-color: #A040A1;
+$psychic-color: #FE6688;
+$rock-color: #adad85;
+$steel-color: #496D92;
+$water-color: #3590D1;
+//stage colors
+$stage-34: red;
+$stage-12: rgb(255, 115, 0);
+$stage12: rgb(108, 167, 0);
+$stage34: green;
+//rating result colors
+$rating0: rgb(181, 182, 182);
+$rating1: rgb(139, 219, 195);
+$rating2: rgb(68, 202, 157);
+$rating-1: rgb(230, 141, 82);
+$rating-2: rgb(224, 86, 32);
+
+
 @mixin energyGlow {
     &.glow0 {
         box-shadow: 
-        0px 0px 0 #A8B820,
-        0px 0px 4px #A8B820,
-        0px 0px 8px #A8B820,
-        0px 0px 16px #A8B820;
+        0px 0px 0 $bug-color, 
+        0px 0px 4px $bug-color, 
+        0px 0px 8px $bug-color, 
+        0px 0px 16px $bug-color;
     }
     &.glow1 {
         box-shadow: 
-        0px 0px 0 #42434E,
-        0px 0px 4px #42434E,
-        0px 0px 8px #42434E,
-        0px 0px 16px #42434E;
+        0px 0px 0 $dark-color, 
+        0px 0px 4px $dark-color, 
+        0px 0px 8px $dark-color, 
+        0px 0px 16px $dark-color;
     }
     &.glow2 {
         box-shadow: 
-        0px 0px 0 #7038F8,
-        0px 0px 4px #7038F8,
-        0px 0px 8px #7038F8,
-        0px 0px 16px #7038F8;
+        0px 0px 0 $dragon-color, 
+        0px 0px 4px $dragon-color, 
+        0px 0px 8px $dragon-color, 
+        0px 0px 16px $dragon-color;
     }
     &.glow3 {
         box-shadow: 
-        0px 0px 0 #ffcc00,
-        0px 0px 4px #ffcc00,
-        0px 0px 8px #ffcc00,
-        0px 0px 16px #ffcc00;
+        0px 0px 0 $electric-color, 
+        0px 0px 4px $electric-color, 
+        0px 0px 8px $electric-color, 
+        0px 0px 16px $electric-color;
     }
     &.glow4 {
         box-shadow: 
-        0px 0px 0 #EE99AC,
-        0px 0px 4px #EE99AC,
-        0px 0px 8px #EE99AC,
-        0px 0px 16px #EE99AC;
+        0px 0px 0 $fairy-color, 
+        0px 0px 4px $fairy-color, 
+        0px 0px 8px $fairy-color, 
+        0px 0px 16px $fairy-color;
     }
     &.glow5 {
         box-shadow: 
-        0px 0px 0 #C02038,
-        0px 0px 4px #C02038,
-        0px 0px 8px #C02038,
-        0px 0px 16px #C02038;
+        0px 0px 0 $figting-color, 
+        0px 0px 4px $figting-color, 
+        0px 0px 8px $figting-color, 
+        0px 0px 16px $figting-color;
     }
     &.glow6 {
         box-shadow: 
-        0px 0px 0 #ff9933,
-        0px 0px 4px #ff9933,
-        0px 0px 8px #ff9933,
-        0px 0px 16px #ff9933;
+        0px 0px 0 $fire-color, 
+        0px 0px 4px $fire-color, 
+        0px 0px 8px $fire-color, 
+        0px 0px 16px $fire-color;
     }
     &.glow7 {
         box-shadow: 
-        0px 0px 0 #78C8E4,
-        0px 0px 4px #78C8E4,
-        0px 0px 8px #78C8E4,
-        0px 0px 16px #78C8E4;
+        0px 0px 0 $flying-color,
+        0px 0px 4px $flying-color,
+        0px 0px 8px $flying-color,
+        0px 0px 16px $flying-color;
     }
     &.glow8 {
         box-shadow: 
-        0px 0px 0 #7546BB,
-        0px 0px 4px #7546BB,
-        0px 0px 8px #7546BB,
-        0px 0px 16px #7546BB;
+        0px 0px 0 $ghost-color,
+        0px 0px 4px $ghost-color,
+        0px 0px 8px $ghost-color,
+        0px 0px 16px $ghost-color;
     }
     &.glow9 {
         box-shadow: 
-        0px 0px 0 #78C850,
-        0px 0px 4px #78C850,
-        0px 0px 8px #78C850,
-        0px 0px 16px #78C850;
+        0px 0px 0 $grass-color,
+        0px 0px 4px $grass-color,
+        0px 0px 8px $grass-color,
+        0px 0px 16px $grass-color;
     }
     &.glow10 {
         box-shadow: 
-        0px 0px 0 #B17D4A,
-        0px 0px 4px #B17D4A,
-        0px 0px 8px #B17D4A,
-        0px 0px 16px #B17D4A;
+        0px 0px 0 $ground-color,
+        0px 0px 4px $ground-color,
+        0px 0px 8px $ground-color,
+        0px 0px 16px $ground-color;
     }
     &.glow11 {
         box-shadow: 
-        0px 0px 0 #98D8D8,
-        0px 0px 4px #98D8D8,
-        0px 0px 8px #98D8D8,
-        0px 0px 16px #98D8D8;
+        0px 0px 0 $ice-color,
+        0px 0px 4px $ice-color,
+        0px 0px 8px $ice-color,
+        0px 0px 16px $ice-color;
     }
     &.glow12 {
         box-shadow: 
-        0px 0px 0 #9F9F9A,
-        0px 0px 4px #9F9F9A,
-        0px 0px 8px #9F9F9A,
-        0px 0px 16px #9F9F9A;
+        0px 0px 0 $normal-color,
+        0px 0px 4px $normal-color,
+        0px 0px 8px $normal-color,
+        0px 0px 16px $normal-color;
     }
     &.glow13 {
         box-shadow: 
-        0px 0px 0 #A040A1,
-        0px 0px 4px #A040A1,
-        0px 0px 8px #A040A1,
-        0px 0px 16px #A040A1;
+        0px 0px 0 $poison-color,
+        0px 0px 4px $poison-color,
+        0px 0px 8px $poison-color,
+        0px 0px 16px $poison-color;
     }
     &.glow14 {
         box-shadow: 
-        0px 0px 0 #FE6688,
-        0px 0px 4px #FE6688,
-        0px 0px 8px #FE6688,
-        0px 0px 16px #FE6688;
+        0px 0px 0 $psychic-color,
+        0px 0px 4px $psychic-color,
+        0px 0px 8px $psychic-color,
+        0px 0px 16px $psychic-color;
     }
     &.glow15 {
         box-shadow: 
-        0px 0px 0 #adad85,
-        0px 0px 4px #adad85,
-        0px 0px 8px #adad85,
-        0px 0px 16px #adad85;
+        0px 0px 0 $rock-color,
+        0px 0px 4px $rock-color,
+        0px 0px 8px $rock-color,
+        0px 0px 16px $rock-color;
     }
     &.glow16 {
         box-shadow: 
-        0px 0px 0 #496D92,
-        0px 0px 4px #496D92,
-        0px 0px 8px #496D92,
-        0px 0px 16px #496D92;
+        0px 0px 0 $steel-color,
+        0px 0px 4px $steel-color,
+        0px 0px 8px $steel-color,
+        0px 0px 16px $steel-color;
     }
     &.glow17 {
         box-shadow: 
-        0px 0px 0 #3590D1,
-        0px 0px 4px #3590D1,
-        0px 0px 8px #3590D1,
-        0px 0px 16px #3590D1;
+        0px 0px 0 $water-color,
+        0px 0px 4px $water-color,
+        0px 0px 8px $water-color,
+        0px 0px 16px $water-color;
     }
-   }
+}
     
 
 
 @mixin backgrounds {
-    &.color0 {
-        background-color: #A8B820;
+    &C0 {
+        background-color: $bug-color !important;
         &.text {
-            background-color: #A8B820;
             color: black;
         }
     }
-    &.color1 {
-        background-color: #42434E;
+    &C1 {
+        background-color: $dark-color !important;
         &.text {
-            background-color: #42434E;
             color: white;
         }
     }
-    &.color2 {
-        background-color: #7038F8;
+    &C2 {
+        background-color: $dragon-color !important;
         &.text {
-            background-color: #7038F8;
             color: white;
         }
     }
-    &.color3 {
-        background-color: #ffcc00;
+    &C3 {
+        background-color: $electric-color !important;
         &.text {
-            background-color: #ffcc00;
             color: black;
         }
     }
-    &.color4 {
-        background-color: #EE99AC;
+    &C4 {
+        background-color: $fairy-color !important;
         &.text {
-            background-color: #EE99AC;
             color: black;
         }
     }
-    &.color5 {
-        background-color: #C02038;
+    &C5 {
+        background-color: $figting-color !important;
         &.text {
-            background-color: #C02038;
             color: rgb(255, 255, 255);
         }
     }
-    &.color6 {
-        background-color: #ff9933;
+    &C6 {
+        background-color: $fire-color !important;
         &.text {
-            background-color: #ff9933;
             color: black;
         }
     }
-    &.color7 {
-        background-color: #78C8E4;
+    &C7 {
+        background-color: $flying-color !important;
         &.text {
-            background-color: #78C8E4;
             color: black;
         }
     }
-    &.color8 {
-        background-color: #7546BB;
+    &C8 {
+        background-color: $ghost-color !important;
         &.text {
-            background-color: #7546BB;
             color: white;
         }
     }
-    &.color9 {
-        background-color: #78C850;
+    &C9 {
+        background-color: $grass-color !important;
         &.text {
-            background-color: #78C850;
             color: black;
         }
     }
-    &.color10 {
-        background-color: #B17D4A;
+    &C10 {
+        background-color: $ground-color !important;
         &.text {
-            background-color: #B17D4A;
             color: black;
         }
     }
-    &.color11 {
-        background-color: #98D8D8;
+    &C11 {
+        background-color: $ice-color !important;
         &.text {
-            background-color: #98D8D8;
             color: black;
         }
     }
-    &.color12 {
-        background-color: #9F9F9A;
+    &C12 {
+        background-color: $normal-color !important;
         &.text {
-            background-color: #9F9F9A;
             color: black;
         }
     }
-    &.color13 {
-        background-color: #A040A1;
+    &C13 {
+        background-color: $poison-color !important;
         &.text {
-            background-color: #A040A1;
             color: black;
         }
     }
-    &.color14 {
-        background-color: #FE6688;
+    &C14 {
+        background-color: $psychic-color !important;
         &.text {
-            background-color: #FE6688;
             color: black;
         }
     }
-    &.color15 {
-        background-color: #adad85;
+    &C15 {
+        background-color: $rock-color !important;
         &.text {
-            background-color: #adad85;
             color: black;
         }
     }
-    &.color16 {
-        background-color: #496D92;
+    &C16 {
+        background-color: $steel-color !important;
         &.text {
-            background-color: #496D92;
             color: white;
         }
     }
-    &.color17 {
-        background-color: #3590D1;
+    &C17 {
+        background-color: $water-color !important;
         &.text {
-            background-color: #3590D1;
             color: black;
         }
     }
    }
 
-   @mixin typeFonts {
-    &.color0 {
-        color: #A8B820;
+@mixin fills {
+    &C0 {
+        fill: $bug-color !important;
+        @include effects;
     }
-    &.color1 {
-        color: #42434E;
+    &C1 {
+        fill: $dark-color !important;
+        @include effects;
     }
-    &.color2 {
-        color: #7038F8;
+    &C2 {
+        fill: $dragon-color !important;
+        @include effects;
     }
-    &.color3 {
-        color: #ffcc00;
+    &C3 {
+        fill: $electric-color !important;
+        @include effects;
     }
-    &.color4 {
-        color: #EE99AC;
+    &C4 {
+        fill: $fairy-color !important;
+        @include effects;
     }
-    &.color5 {
-        color: #C02038;
+    &C5 {
+        fill: $figting-color !important;
+        @include effects;
     }
-    &.color6 {
-        color: #ff9933;
+    &C6 {
+        fill: $fire-color !important;
+        @include effects;
     }
-    &.color7 {
-        color: #78C8E4;
+    &C7 {
+        fill: $flying-color !important;
+        @include effects;
     }
-    &.color8 {
-        color: #7546BB;
+    &C8 {
+        fill: $ghost-color !important;
+        @include effects;
     }
-    &.color9 {
-        color: #78C850;
+    &C9 {
+        fill: $grass-color !important;
+        @include effects;
     }
-    &.color10 {
-        color: #B17D4A;
+    &C10 {
+        fill: $ground-color !important;
+        @include effects;
     }
-    &.color11 {
-        color: #98D8D8;
+    &C11 {
+        fill: $ice-color !important;
+        @include effects;
     }
-    &.color12 {
-        color: #9F9F9A;
+    &C12 {
+        fill: $normal-color !important;
+        @include effects;
     }
-    &.color13 {
-        color: #A040A1;
+    &C13 {
+        fill: $poison-color !important;
+        @include effects;
     }
-    &.color14 {
-        color: #FE6688;
+    &C14 {
+        fill: $psychic-color !important;
+        @include effects;
     }
-    &.color15 {
-        color: #adad85;
+    &C15 {
+        fill: $rock-color !important;
+        @include effects;
     }
-    &.color16 {
-        color: #496D92;
+    &C16 {
+        fill: $steel-color !important;
+        @include effects;
     }
-    &.color17 {
-        color: #3590D1;
+    &C17 {
+        fill: $water-color !important;
+        @include effects;
     }
-   }
+}
+
+
 
 @mixin effects {
     &.attack {
-        filter: drop-shadow( 0px 0px 4px rgba(255, 0, 0, 0.753));
+        filter: drop-shadow( 0px 0px 4px rgba(255, 0, 0, 0.753)) !important;
     }
     &.defence {
-        filter: drop-shadow( 0px 0px 4px rgba(24, 39, 248, 0.753));
+        filter: drop-shadow( 0px 0px 4px rgba(24, 39, 248, 0.753)) !important;
     }
     &.attackdefence {
-        filter: drop-shadow( 0px 0px 4px rgb(255, 166, 0));
+        filter: drop-shadow( 0px 0px 4px rgb(255, 166, 0)) !important;
     }
    }
 
 @mixin stages {
-        &Color0 {
-            color: red;
-            font-weight: bold;
+        &C0 {
+            color: $stage-34 !important;
+            font-weight: bold !important;
         }
-        &Color1 {
-            color:  red ;
-            font-weight:  bold ;
+        &C1 {
+            color:  $stage-34 !important;
+            font-weight:  bold !important;
         }
-        &Color2 {
-            color:  red ;
-            font-weight:  bold ;
+        &C2 {
+            color:  $stage-12 !important;
+            font-weight:  bold !important;
         }
-        &Color3 {
-            color:  red ;
-            font-weight:  bold ;
+        &C3 {
+            color:  $stage-12 !important;
+            font-weight:  bold !important;
         }
-        &Color5 {
-            color:  green ;
-            font-weight:  bold ;
+        &C5 {
+            color:  $stage12 !important;
+            font-weight:  bold !important;
         }
-        &Color6 {
-            color:  green ;
-            font-weight:  bold ;
+        &C6 {
+            color:  $stage12 !important;
+            font-weight:  bold !important;
         }
-        &Color7 {
-            color:  green ;
-            font-weight:  bold ;
+        &C7 {
+            color:  $stage34 !important;
+            font-weight:  bold !important;
         }
-        &Color8 {
-            color:  green ;
-            font-weight:  bold ;
+        &C8 {
+            color:  $stage34 !important;
+            font-weight:  bold !important;
         }
 }
-
-
-   @mixin fills {
-    &.color0 {
-        fill: #A8B820;
-        @include effects;
-    }
-    &.color1 {
-        fill: #42434E;
-        @include effects;
-    }
-    &.color2 {
-        fill: #7038F8;
-        @include effects;
-    }
-    &.color3 {
-        fill: #ffcc00;
-        @include effects;
-    }
-    &.color4 {
-        fill: #EE99AC;
-        @include effects;
-    }
-    &.color5 {
-        fill: #C02038;
-        @include effects;
-    }
-    &.color6 {
-        fill: #ff9933;
-        @include effects;
-    }
-    &.color7 {
-        fill: #78C8E4;
-        @include effects;
-    }
-    &.color8 {
-        fill: #7546BB;
-        @include effects;
-    }
-    &.color9 {
-        fill: #78C850;
-        @include effects;
-    }
-    &.color10 {
-        fill: #B17D4A;
-        @include effects;
-    }
-    &.color11 {
-        fill: #98D8D8;
-        @include effects;
-    }
-    &.color12 {
-        fill: #9F9F9A;
-        @include effects;
-    }
-    &.color13 {
-        fill: #A040A1;
-        @include effects;
-    }
-    &.color14 {
-        fill: #FE6688;
-        @include effects;
-    }
-    &.color15 {
-        fill: #adad85;
-        @include effects;
-    }
-    &.color16 {
-        fill: #496D92;
-        @include effects;
-    }
-    &.color17 {
-        fill: #3590D1;
-        @include effects;
-    }
-   }
-
 
 
 @mixin matrColor {
-    &.res0 {
-        background-color: rgb(181, 182, 182);
-        color: rgba(24, 23, 23, 1);
+    &R0 {
+        background-color: $rating0 !important;
+        color: rgba(24, 23, 23, 1) !important;
     }
-    &.res3 {
-        background-color: rgb(139, 219, 195);
-        color: rgba(24, 23, 23, 1);
+    &R3 {
+        background-color: $rating1 !important;
+        color: rgba(24, 23, 23, 1) !important;
     }
-    &.res4 {
-        background-color: rgb(68, 202, 157);
-        color: rgba(24, 23, 23, 1);
+    &R4 {
+        background-color: $rating2 !important;
+        color: rgba(24, 23, 23, 1) !important;
     }
-    &.res1 {
-        background-color: rgb(230, 141, 82);
-        color: rgba(24, 23, 23, 1);
+    &R1 {
+        background-color: $rating-1 !important;
+        color: rgba(24, 23, 23, 1) !important;
     }
-    &.res2 {
-        background-color: rgb(224, 86, 32);
-        color:rgba(24, 23, 23, 1);
+    &R2 {
+        background-color: $rating-2 !important;
+        color:rgba(24, 23, 23, 1) !important;
     }
 }
 
-.typefont {
-@include typeFonts
+.stage {
+    @include stages;
 }
+
+.svgFills {
+    @include fills;
+}
+
+.rateColor {
+    @include matrColor;
+}
+
+.typeColor {
+    @include backgrounds;
+}
+
+
 
 //global rules
-
-
-.custom-control  {
-    &.custom-radio  {
-        display: grid !important;
-        justify-content: center !important;
-    }
-}
 
 div :focus {
     outline: none;
 }
 
 .__react_component_tooltip {
-    padding-left: 0.4em ;
-    padding-right: 0.4em ;
-    padding-top: 0.3em ;
-    padding-bottom: 0.3em ;
+    padding-left: 0.4em;
+    padding-right: 0.4em;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
 }
 
 .ReactCollapse--collapse {
     transition: height 200ms;
-  }
+}
 
 //fonts
 .defaultFont {
@@ -501,12 +464,6 @@ div :focus {
 }
 .font95 { //stats
     font-size: 95% !important;
-}
-.font100 {
-    font-size: 100% !important;
-}
-.font12 {
-    font-size: 12px !important;
 }
 .tipfont {
     text-align: justify !important;
@@ -662,9 +619,6 @@ body {
     background-color:rgba(252, 252, 252, 0.93);
 }
 
-.svgFills {
-    @include fills;
-}
 
 
 //status bar styles
@@ -764,9 +718,6 @@ body {
 }
 
 
-.stage {
-    @include stages;
-}
 
 .rate {
     padding-left: 3px;
@@ -783,9 +734,7 @@ body {
     font-weight: bold;
 }
 
-.rateColor {
-    @include matrColor;
-}
+
 
 .rateMatrix {
     padding-left: 7px;
@@ -836,11 +785,11 @@ body {
     height: 20px;
     font-weight: bolder;
     &.borx{
-        border-left: 1.5px solid #42434E;
-        border-right: 1.5px solid #42434E;
+        border-left: 1.5px solid $dark-color;
+        border-right: 1.5px solid $dark-color;
     }
     &.bor{
-        border: 1.5px solid #42434E;
+        border: 1.5px solid $dark-color;
         border-radius: 3px;
     }
     &.hover:hover{
@@ -852,7 +801,7 @@ body {
     width: 100%;
     font-weight: 500;
     &.bort{
-        border-top: 1.5px solid #42434E;
+        border-top: 1.5px solid $dark-color;
     }
     &.hover:hover{
         background-color: white;
@@ -868,7 +817,7 @@ body {
     min-width: 70px !important;
     max-width: 80px !important;
     &.bor {
-        border: 1.5px solid #42434E;
+        border: 1.5px solid $dark-color;
         border-radius: 3px;
     } 
 }
@@ -1218,7 +1167,7 @@ body {
     max-width: 200px !important;
 }
 .cardHeader {
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.295) ;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
 }
 
 .cardBody {
@@ -1320,7 +1269,7 @@ body {
 }
 
 .bigCardHeader {
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.295) ;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
     font-size: 110%;
     font-weight: 400;
 }
@@ -1394,8 +1343,8 @@ body {
   }
   
   .animRating:hover {
-        -webkit-transform: scale(1.05, 1.05) ;
-        transform: scale(1.05, 1.05) ;
+        -webkit-transform: scale(1.05, 1.05);
+        transform: scale(1.05, 1.05);
   }
   
   .animRating:hover::after {
@@ -1447,20 +1396,18 @@ body {
 
 
   .moveStyle {
-      padding: 0rem 0.2rem 0rem 0.2rem ;
-      margin: 0.2rem 0rem 0.2rem 0rem ;
+      padding: 0rem 0.2rem 0rem 0.2rem;
+      margin: 0.2rem 0rem 0.2rem 0rem;
       border-radius: 5px;
   }
 
-  .typeColor {
-    @include backgrounds;
-  }
+
 
   //stopped here
   .constructorButton {
     background-color:rgba(244, 252, 255, 0.95);
     border-radius: 4px;
-    padding: 0rem 0.2rem 0rem 0.2rem ;
+    padding: 0rem 0.2rem 0rem 0.2rem;
     height: fit-content;
     width: fit-content;
     user-select: none;
@@ -1519,7 +1466,7 @@ body {
 }
 
 .pveMove {
-    padding: 0rem 0.2rem 0rem 0.2rem ;
+    padding: 0rem 0.2rem 0rem 0.2rem;
     font-weight: bolder;;
     border-radius: 5px;
 }

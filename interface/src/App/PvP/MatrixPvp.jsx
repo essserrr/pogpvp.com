@@ -422,7 +422,7 @@ class MatrixPvp extends React.PureComponent {
             let line = elem.I + 1
             let row = elem.K + 1
             arr[line].push(<td key={line + row} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                <a className={"rateMatrix hover rateColor " + returnRateStyle(elem.Rate)[1]}
+                <a className={"rateMatrix hover rateColor" + returnRateStyle(elem.Rate)[1]}
                     href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                         encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke}>
                     {elem.Rate}
@@ -465,23 +465,23 @@ class MatrixPvp extends React.PureComponent {
 
             arr[line].push(<td key={line + row} className="matrixCellWidth modifiedBorderTable defaultFont p-0 m-0 px-1 align-middle" >
                 <div className="matrixCard bor row justify-content-center m-0 p-0 mr-auto ml-auto">
-                    <a className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead rateColor " + rate00[1]}
+                    <a className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead rateColor" + rate00[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke}>
                         {rate00[0]}
                     </a>
-                    <a className={"col-4 m-0 p-0 text-center  hover matrixCardThead borx rateColor " + rate11[1]}
+                    <a className={"col-4 m-0 p-0 text-center  hover matrixCardThead borx rateColor" + rate11[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + pvpoke}>
                         {rate11[0]}
                     </a>
-                    <a className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead rateColor " + rate22[1]}
+                    <a className={"col-4 m-0 p-0 text-center cupr hover matrixCardThead rateColor" + rate22[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                             encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + pvpoke}>
                         {rate22[0]}
                     </a>
 
-                    <div className={"matrixCardBody bort cbotlr col-12 m-0 p-0 rateColor " + rateOverall[1]}>
+                    <div className={"matrixCardBody bort cbotlr col-12 m-0 p-0 rateColor" + rateOverall[1]}>
                         {rating}
                     </div>
 

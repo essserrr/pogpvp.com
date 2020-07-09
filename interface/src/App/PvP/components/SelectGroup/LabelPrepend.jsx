@@ -7,7 +7,7 @@ const LabelPrepend = React.memo(function (props) {
         <div className="input-group-prepend ">
             <label
                 className={(props.labelStyle) ?
-                    "modifiedBorder noselect input-group-text labelPrepend typeColor " + props.labelStyle :
+                    "modifiedBorder noselect input-group-text labelPrepend typeColorC" + props.labelStyle :
                     "modifiedBorder noselect input-group-text labelPrepend "}
                 id="selectGroup"
 

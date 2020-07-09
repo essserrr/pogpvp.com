@@ -705,34 +705,34 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
 
 export function returnRateStyle(rate) {
     if (rate >= 630) {
-        return ["+2", "res4"]
+        return ["+2", "R4"]
     }
     if (rate > 500) {
-        return ["+1", "res3"]
+        return ["+1", "R3"]
     }
     if (rate === 500) {
-        return ["0", "res0"]
+        return ["0", "R0"]
     }
     if (rate >= 370) {
-        return ["-1", "res1"]
+        return ["-1", "R1"]
     }
-    return ["-2", "res2"]
+    return ["-2", "R2"]
 }
 
 export function returnVunStyle(rate) {
     if (rate > 1.600) {
-        return "res2"
+        return "R2"
     }
     if (rate > 1.000) {
-        return "res1"
+        return "R1"
     }
     if (rate === "1.000") {
-        return "res0"
+        return "R0"
     }
     if (rate > 0.391) {
-        return "res3"
+        return "R3"
     }
-    return "res4"
+    return "R4"
 }
 
 export var levelData = [

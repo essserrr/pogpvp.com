@@ -63,7 +63,7 @@ class PvePokemon extends React.PureComponent {
                     options={this.props.value[this.props.attr].quickMovePool}
                     label={strings.title.quickMove}
                     labelStyle={(this.props.moveTable[this.props.value[this.props.attr].QuickMove] !== undefined) ?
-                        "color" + this.props.moveTable[this.props.value[this.props.attr].QuickMove].MoveType + " text" : ""}
+                        this.props.moveTable[this.props.value[this.props.attr].QuickMove].MoveType + " text" : ""}
 
                     place={"top"}
                     for={"QuickMove" + this.props.attr}
@@ -90,7 +90,7 @@ class PvePokemon extends React.PureComponent {
                     options={this.props.value[this.props.attr].chargeMovePool}
                     label={strings.title.chargeMove}
                     labelStyle={(this.props.moveTable[this.props.value[this.props.attr].ChargeMove] !== undefined) ?
-                        "color" + this.props.moveTable[this.props.value[this.props.attr].ChargeMove].MoveType + " text" : ""}
+                        this.props.moveTable[this.props.value[this.props.attr].ChargeMove].MoveType + " text" : ""}
 
                     place={"top"}
                     for={"ChargeMove" + this.props.attr}
