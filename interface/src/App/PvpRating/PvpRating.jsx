@@ -213,14 +213,14 @@ class PvpRating extends React.Component {
                         </div><div></div>
                     </div>}
                     icon={<>
-                        {(pokName !== elem.Name) &&
-                            <Shadow className="posAbsR icon24" />}
                         <a
-                            className="mx-2 mt-2 align-self-center"
+                            className="ml-2 mr-4 mt-2 align-self-center posRel"
                             title={strings.dexentr + pokName}
                             href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
                                 encodeURIComponent(pokName)}
                         >
+                            {(pokName !== elem.Name) &&
+                                <Shadow className="posAbsR icon24" />}
                             <PokemonIconer
                                 src={pokemonTable[pokName].Number + (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
                                 class={"icon64"} />

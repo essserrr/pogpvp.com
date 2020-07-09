@@ -16,23 +16,25 @@ const TableIcon = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <>
-            {(props.pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
-            <PokemonIconer
-                src={props.pokemonTable[props.pok.name].Number +
-                    (props.pokemonTable[props.pok.name].Forme !== "" ? "-" + props.pokemonTable[props.pok.name].Forme : "")}
-                class={"icon36"}
-                for={props.pok.name + props.j + props.letter}
-            />
-            <ReactTooltip
-                className={"infoTip"}
-                id={props.pok.name + props.j + props.letter} effect="solid"
-                place={"top"}
-                multiline={true}
-            >
-                {props.pok.name + (props.pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
-            </ReactTooltip>
-            <div className="row m-0 p-0 justify-content-center">
+        <div className="row m-0 justify-content-center ">
+            <div className="posRel w70" >
+                {(props.pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
+                <PokemonIconer
+                    src={props.pokemonTable[props.pok.name].Number +
+                        (props.pokemonTable[props.pok.name].Forme !== "" ? "-" + props.pokemonTable[props.pok.name].Forme : "")}
+                    class={"icon36"}
+                    for={props.pok.name + props.j + props.letter}
+                />
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={props.pok.name + props.j + props.letter} effect="solid"
+                    place={"top"}
+                    multiline={true}
+                >
+                    {props.pok.name + (props.pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
+                </ReactTooltip>
+            </div>
+            <div className="col-12 p-0">
                 {props.pok.QuickMove.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.QuickMove)}
 
                 {(props.pok.ChargeMove1 || props.pok.ChargeMove2) ? "+" : ""}
@@ -42,8 +44,9 @@ const TableIcon = React.memo(function (props) {
                 {(props.pok.ChargeMove1 && props.pok.ChargeMove2) ? "/" : ""}
 
                 {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
+
             </div>
-        </>
+        </div>
     )
 
 });

@@ -5,11 +5,9 @@ import { ReactComponent as Shadow } from "../../../icons/shadow.svg";
 
 const RRateRow = React.memo(function (props) {
     return (
-        <div key={props.value.Name}
-            name={props.pokName}
-            onClick={props.onClickRedirect}
+        <div key={props.value.Name} name={props.pokName} onClick={props.onClickRedirect}
             className="row styleRating fBolder clickable animRating justify-content-between px-2 mb-1 mx-2 mx-md-3">
-            <div className="col p-0">
+            <div className="col p-0 posRel">
                 <PokemonIconer
                     src={props.pokemonTable[props.pokName].Number +
                         (props.pokemonTable[props.pokName].Forme !== "" ? "-" + props.pokemonTable[props.pokName].Forme : "")}
