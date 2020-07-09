@@ -749,11 +749,11 @@ class SinglePvp extends React.PureComponent {
                                             <URL
                                                 label={strings.title.url}
                                                 for="pvpURLLabel"
-                                                tip={<small>
+                                                tip={<>
                                                     {strings.tips.url.first}
                                                     < br />
                                                     {strings.tips.url.second}
-                                                </small>}
+                                                </>}
                                                 place="top"
                                                 message={strings.tips.url.message}
                                                 value={this.state.url}

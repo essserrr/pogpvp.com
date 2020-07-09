@@ -67,8 +67,8 @@ class PvePokemon extends React.PureComponent {
 
                     place={"top"}
                     for={"QuickMove" + this.props.attr}
-                    tip={<><small>{strings.tips.quick}</small><br />
-                        {this.props.value[this.props.attr].QuickMove && <small>
+                    tip={<>{strings.tips.quick}<br />
+                        {this.props.value[this.props.attr].QuickMove && <>
                             {strings.move.damage + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Damage)}<br />
                             {strings.move.energy + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy)}<br />
                             {"Cooldown: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)}<br />
@@ -76,7 +76,7 @@ class PvePokemon extends React.PureComponent {
                                 (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
                             {"EPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy /
                                 (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                        </small>}</>}
+                        </>}</>}
                     tipClass="logItems"
                 />
 
@@ -95,8 +95,8 @@ class PvePokemon extends React.PureComponent {
                     place={"top"}
                     for={"ChargeMove" + this.props.attr}
 
-                    tip={<><small>{strings.tips.charge}</small><br />
-                        {(this.props.value[this.props.attr].ChargeMove && this.props.value[this.props.attr].ChargeMove !== "Select...") && <small>
+                    tip={<>{strings.tips.charge}<br />
+                        {(this.props.value[this.props.attr].ChargeMove && this.props.value[this.props.attr].ChargeMove !== "Select...") && <>
                             {strings.move.damage + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].PvpDamage)}<br />
                             {strings.move.energy + (-this.props.moveTable[this.props.value[this.props.attr].ChargeMove].PvpEnergy)}<br />
                             {"Cooldown: " + (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000)}<br />
@@ -105,7 +105,7 @@ class PvePokemon extends React.PureComponent {
                                 (this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Cooldown / 1000) *
                                 this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage /
                                 -this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Energy).toFixed(2)}<br />
-                        </small>}</>}
+                        </>}</>}
                     tipClass="logItems"
                 />
 

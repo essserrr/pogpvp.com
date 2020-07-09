@@ -445,7 +445,7 @@ class MatrixPanel extends React.PureComponent {
                     place={"top"}
                     for={this.props.attr + "partyTips"}
                     tip={strings.tips.saved}
-                    tipClass="strategyTips"
+                    tipClass="infoTip"
                 />
                 <div className="row  justify-content-around m-0 pt-3" >
 
@@ -505,7 +505,7 @@ class MatrixPanel extends React.PureComponent {
                     place={"top"}
                     for={this.props.attr + "startegyTipsMain"}
                     tip={this.state.strategyTip}
-                    tipClass="strategyTips"
+                    tipClass="infoTip"
                 />
 
                 {this.props.enableCheckbox && <div className="row m-0 mb-1 pt-1"><Checkbox

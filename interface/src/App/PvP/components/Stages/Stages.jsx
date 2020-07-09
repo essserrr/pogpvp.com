@@ -16,7 +16,7 @@ const Stages = React.memo(function (props) {
             <LabelPrepend
                 label={props.label}
 
-                tipClass="strategyTips"
+                tipClass="infoTip"
                 for={props.attr + "stagestip"}
                 place={"top"}
                 tip={strings.tips.stages}

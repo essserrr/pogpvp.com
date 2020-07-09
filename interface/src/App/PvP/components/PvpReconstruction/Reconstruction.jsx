@@ -43,7 +43,7 @@ class Reconstruction extends React.PureComponent {
             <div className="row m-0">
                 <div className="col-12 p-0 text-right">
                     <ReactTooltip
-                        className={"strategyTips"}
+                        className={"infoTip"}
                         id={"constructorButton"} effect="solid"
                         place={"top"}
                         multiline={true}>

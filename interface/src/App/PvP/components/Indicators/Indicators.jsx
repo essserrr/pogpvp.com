@@ -35,11 +35,11 @@ const Indicators = React.memo(function (props) {
                     moveName={props.chargeMove1.Title.replace(/[a-z -]/g, "")}
                     moveType={props.chargeMove1.MoveType}
                     for={"ChM1En" + props.attr}
-                    tip={<small>
+                    tip={<>
                         {strings.move.damage + damage1}<br />
                         {strings.move.energy + (-props.chargeMove1.PvpEnergy)}<br />
                         {"DPE: " + (damage1 / (-props.chargeMove1.PvpEnergy)).toFixed(2)}
-                    </small>
+                    </>
                     }
                 />}
                 <EnergyNumber
@@ -55,11 +55,11 @@ const Indicators = React.memo(function (props) {
                     moveName={props.chargeMove2.Title.replace(/[a-z -]/g, "")}
                     moveType={props.chargeMove2.MoveType}
                     for={"ChM2En" + props.attr}
-                    tip={<small>
+                    tip={<>
                         {strings.move.damage + damage2}<br />
                         {strings.move.energy + (-props.chargeMove2.PvpEnergy)}<br />
                         {"DPE: " + (damage2 / (-props.chargeMove2.PvpEnergy)).toFixed(2)}
-                    </small>
+                    </>
                     }
                 />}
             </div>

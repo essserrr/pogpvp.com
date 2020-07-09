@@ -59,7 +59,7 @@ class PvpRating extends React.Component {
             ],
 
             ratingTip: [
-                <small key="ratingTip">
+                <>
                     {strings.rating.firstsent}
                     <br />
                     <br />
@@ -67,7 +67,7 @@ class PvpRating extends React.Component {
                     <br />
                     <br />
                     {strings.rating.thirdsent}
-                </small>
+                </>
             ],
             showDescription: false,
         };
@@ -398,7 +398,7 @@ class PvpRating extends React.Component {
                                         place={"bottom"}
                                         for={"rating"}
                                         tip={this.state.ratingTip}
-                                        tipClass="strategyTips"
+                                        tipClass="infoTip"
                                     />
                                 </div>
                             </div>

@@ -46,12 +46,12 @@ class RedactPokemon extends React.PureComponent {
                 <option value="false" key="Shieldsaving">{strings.options.strategy.shieldSaving}</option>,
             ],
             strategyTip: [
-                <small key="strategyTip">
+                <>
                     {strings.tips.strategy.greedy}
                     <br />
                     <br />
                     {strings.tips.strategy.shieldSaving}
-                </small>
+                </>
             ],
             pokemon: {
                 ...this.props.redact.pokemon,

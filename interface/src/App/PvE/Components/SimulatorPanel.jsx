@@ -144,7 +144,7 @@ class SimulatorPanel extends React.PureComponent {
                         for={"attackerIsShadow"}
 
                         tip={strings.tips.shadow}
-                        tipClass="strategyTips"
+                        tipClass="infoTip"
                     />
                 </div>
                 <div className="order-3 order-sm-2 col-12 col-sm-4 text-center px-1">
@@ -165,7 +165,7 @@ class SimulatorPanel extends React.PureComponent {
                                 for={"pvePlayersNumber"}
 
                                 tip={pveStrings.playernumbTip}
-                                tipClass="strategyTips"
+                                tipClass="infoTip"
                             />
                             <SelectGroup
                                 name="PartySize"
@@ -178,7 +178,7 @@ class SimulatorPanel extends React.PureComponent {
                                 place={"top"}
                                 for={"partySizeTips"}
                                 tip={pveStrings.sizetip}
-                                tipClass="strategyTips"
+                                tipClass="infoTip"
                             />
                             <SelectGroup
                                 name="Weather"
@@ -205,7 +205,7 @@ class SimulatorPanel extends React.PureComponent {
                                 for={"pveDodgeStrategy"}
 
                                 tip={pveStrings.dodgetip}
-                                tipClass="strategyTips"
+                                tipClass="infoTip"
                             />
                             <SelectGroup
                                 name="FriendshipStage"
@@ -248,7 +248,7 @@ class SimulatorPanel extends React.PureComponent {
                         for={"bossTier"}
 
                         tip={this.state.tierTip}
-                        tipClass="strategyTips"
+                        tipClass="infoTip"
                     />
                     <SelectGroup
                         name="IsAggresive"
@@ -263,7 +263,7 @@ class SimulatorPanel extends React.PureComponent {
                         for={"bossIsAggresive"}
 
                         tip={pveStrings.aggresivetip}
-                        tipClass="strategyTips"
+                        tipClass="infoTip"
                     />
                 </div>
 
@@ -291,7 +291,7 @@ class SimulatorPanel extends React.PureComponent {
                             for={"shadow" + this.props.attr}
 
                             tip={strings.tips.shadow}
-                            tipClass="strategyTips"
+                            tipClass="infoTip"
                         />
                     </>}
             </div>

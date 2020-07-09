@@ -439,7 +439,6 @@ $rating-2: rgb(224, 86, 32);
 
 
 //global rules
-
 div :focus {
     outline: none;
 }
@@ -483,21 +482,6 @@ body {
 
 
 //tips styles
-.strategyTips {
-    font-size: 12pt !important;
-        max-width: 13rem !important;
-        text-align: justify !important;
-        text-justify: inter-word !important;
-        color: #ffffff !important;
-        padding: 0.3rem !important;
-        background-color: rgb(0, 0, 0) !important;
-        &.place-top {
-            &:after {
-                border-top: 6px solid rgb(0, 0, 0) !important;
-            }
-        }
-   }
-
 .logItems {
     font-size: 12pt !important;
     text-align: justify !important;
@@ -505,12 +489,6 @@ body {
     color: #ffffff !important;
     padding: 0.2rem !important;
     font-weight: normal !important;
-    background-color: rgb(0, 0, 0) !important;
-    &.place-top {
-        &:after {
-            border-top: 6px solid rgb(0, 0, 0) !important;
-        }
-    }
 }
 
 .infoTip {
@@ -521,12 +499,6 @@ body {
     color: #ffffff !important;
     padding: 0.2rem !important;
     font-weight: normal !important;
-    background-color: rgb(0, 0, 0) !important;
-    &.place-top {
-        &:after {
-            border-top: 6px solid rgb(0, 0, 0) !important;
-        }
-    }
 }
 
 .absoluteTip {

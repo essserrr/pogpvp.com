@@ -25,7 +25,7 @@ const InitialStats = React.memo(function (props) {
                 <LabelPrepend
                     label={props.label}
 
-                    tipClass="strategyTips"
+                    tipClass="infoTip"
                     for={props.attr + "instats"}
                     place={"top"}
                     tip={strings.initialStats.tip}
