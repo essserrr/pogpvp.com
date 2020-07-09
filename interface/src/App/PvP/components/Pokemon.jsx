@@ -199,7 +199,7 @@ class Pokemon extends React.PureComponent {
                                         <br />{strings.move.stage + this.props.moveTable[this.props.value.QuickMove].StageDelta}
                                     </>)}
                                 </>}</>}
-                            tipClass="logItems"
+                            tipClass="infoTip"
                         />
 
                         <SelectGroup
@@ -228,7 +228,7 @@ class Pokemon extends React.PureComponent {
                                             <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove1].StageDelta}
                                         </>)}
                                     </>}</>}
-                            tipClass="logItems"
+                            tipClass="infoTip"
                         />
 
                         <SelectGroup
@@ -257,7 +257,7 @@ class Pokemon extends React.PureComponent {
                                             <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove2].StageDelta}
                                         </>)}
                                     </>}</>}
-                            tipClass="logItems"
+                            tipClass="infoTip"
                         />
                     </>}
             </div>

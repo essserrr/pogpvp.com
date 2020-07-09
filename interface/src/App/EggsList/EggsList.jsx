@@ -151,7 +151,7 @@ class EggsList extends React.Component {
                 result.push(
                     <div key={name + "wrap"} className={"col-6 col-sm-4 col-lg-3 d-flex px-1 pt-2 justify-content-center"}>
                         <PokemonCard
-                            class={"col-12 pokEggCard p-0 pb-1"}
+                            class={"col-12 pokCard eggs p-0 pb-1"}
                             name={<div className="text-center">
                                 <>{name}</>
                                 {regionals[name] &&
@@ -182,7 +182,7 @@ class EggsList extends React.Component {
                             />}
                             classBodyWrap="row justify-content-center justify-content-sm-between m-0"
                             classHeader={"cardHeader fBolder col-12 px-1 mb-1 text-center"}
-                            classBody={"eggCardBody col  px-1 text-center"}
+                            classBody={"cardBody eggs col  px-1 text-center"}
                         />
                     </div>)
                 return result

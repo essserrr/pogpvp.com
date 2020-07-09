@@ -157,7 +157,7 @@ const MatrixDecr = React.memo(function (props) {
             </h6>
 
 
-            <div className={"cardBig row m-0 py-1 mb-3 mt-2 bigText justify-content-between"}>
+            <div className={"pokCard row m-0 py-1 mb-3 mt-2 bigText justify-content-between"}>
                 <div className={"row m-0"}>
                     <div data-tip data-for={"topnumber"} className="ml-2 mr-2  align-self-center ">{"#1"}</div>
                     <ReactTooltip
@@ -209,7 +209,7 @@ const MatrixDecr = React.memo(function (props) {
                 </div>
 
                 <ReactTooltip
-                    className={"logItems"}
+                    className={"infoTip"}
                     id={"zerosn"} effect="solid"
                     place={"top"}
                     multiline={true} >
@@ -236,7 +236,7 @@ const MatrixDecr = React.memo(function (props) {
                     <div data-tip data-for={"more"} className="clickable align-self-center m-0 p-0  px-3">
                         <i className={"fas fa-angle-down fa-lg"}></i>
                         <ReactTooltip
-                            className={"logItems"}
+                            className={"infoTip"}
                             id={"more"} effect="solid"
                             place={"top"}
                             multiline={true} >

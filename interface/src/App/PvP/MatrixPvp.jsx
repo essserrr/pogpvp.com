@@ -421,8 +421,8 @@ class MatrixPvp extends React.PureComponent {
         data.forEach((elem) => {
             let line = elem.I + 1
             let row = elem.K + 1
-            arr[line].push(<td key={line + row} className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                <a className={"rateMatrix hover rateColor" + returnRateStyle(elem.Rate)[1]}
+            arr[line].push(<td key={line + row} className="modifiedBorderTable matrixColor font80 m-0 p-0 align-middle" >
+                <a className={"rateSquare hover rateColor" + returnRateStyle(elem.Rate)[1]}
                     href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
                         encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke}>
                     {elem.Rate}
@@ -463,7 +463,7 @@ class MatrixPvp extends React.PureComponent {
             let rateOverall = returnRateStyle(rating)
             data[0][i].Rate = rating
 
-            arr[line].push(<td key={line + row} className="matrixCellWidth modifiedBorderTable defaultFont p-0 m-0 px-1 align-middle" >
+            arr[line].push(<td key={line + row} className="matrixCellWidth modifiedBorderTable font80 p-0 m-0 px-1 align-middle" >
                 <div className="matrixCard bor row justify-content-center m-0 p-0 mr-auto ml-auto">
                     <a className={"col-4 m-0 p-0 text-center cupl hover matrixCardThead rateColor" + rate00[1]}
                         href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +

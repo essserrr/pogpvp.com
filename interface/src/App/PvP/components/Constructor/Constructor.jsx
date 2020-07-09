@@ -293,10 +293,10 @@ class Constructor extends React.PureComponent {
                         place={"top"}
                         for={"Attacker"}
                         tip={this.props.Attacker.name}
-                        tipClass="logItems"
+                        tipClass="infoTip"
                     />
                 </div>
-                <div className="col-12 defaultFont d-flex p-0 my-1">
+                <div className="col-12 font80 d-flex p-0 my-1">
                     <Checkbox
                         onChange={this.onChange}
                         value={this.state.Attacker.IsShield}
@@ -330,10 +330,10 @@ class Constructor extends React.PureComponent {
                         place={"top"}
                         for={"Defender"}
                         tip={this.props.Defender.name}
-                        tipClass="logItems"
+                        tipClass="infoTip"
                     />
                 </div>
-                <div className="col-12 defaultFont d-flex p-0 my-1 mb-3">
+                <div className="col-12 font80 d-flex p-0 my-1 mb-3">
                     <Checkbox
                         onChange={this.onChange}
                         value={this.state.Defender.IsShield}

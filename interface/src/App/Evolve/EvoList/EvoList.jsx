@@ -32,7 +32,7 @@ class EvoList extends PureComponent {
             result[elem.stage].push(
                 < div key={elem.name + "wrap"} className={"col-5 col-sm-4 col-md-4 d-flex justify-content-center px-1 pt-1"} >
                     <PokemonCard
-                        class={"col-12 pokCard animShiny p-0"}
+                        class={"col-12 pokCard raid animShiny p-0"}
                         name={elem.name}
                         icon={<a
                             className="my-1 align-self-center"

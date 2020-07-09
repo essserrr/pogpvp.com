@@ -12,7 +12,7 @@ const EnergyNumber = React.memo(function (props) {
                 {value}
             </div>
             <ReactTooltip
-                className="logItems"
+                className="infoTip"
                 id={props.for}
                 effect="solid"
                 place="top"

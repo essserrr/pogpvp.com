@@ -120,7 +120,7 @@ class RaidsList extends React.Component {
                     result.push(
                         <div key={name + "wrap"} className={"col-6 col-md-4 d-flex px-1 pt-2 justify-content-center"}>
                             <PokemonCard
-                                class={"col-12 pokCard p-0 animShiny"}
+                                class={"col-12 pokCard raid p-0 animShiny"}
                                 name={name}
                                 icon={
                                     <a title={strings.topcounters + pokTable[name].Title}

@@ -19,7 +19,7 @@ const EnergyIndicator = React.memo(function (props) {
     return (
         <>
             <ReactTooltip
-                className="logItems"
+                className="infoTip"
                 id={props.for}
                 effect="solid"
                 place="top"

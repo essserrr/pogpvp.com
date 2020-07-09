@@ -77,7 +77,7 @@ class PvePokemon extends React.PureComponent {
                             {"EPS: " + (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Energy /
                                 (this.props.moveTable[this.props.value[this.props.attr].QuickMove].Cooldown / 1000)).toFixed(2)}<br />
                         </>}</>}
-                    tipClass="logItems"
+                    tipClass="infoTip"
                 />
 
                 <SelectGroup
@@ -106,7 +106,7 @@ class PvePokemon extends React.PureComponent {
                                 this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Damage /
                                 -this.props.moveTable[this.props.value[this.props.attr].ChargeMove].Energy).toFixed(2)}<br />
                         </>}</>}
-                    tipClass="logItems"
+                    tipClass="infoTip"
                 />
 
             </>

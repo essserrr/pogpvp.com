@@ -31,7 +31,7 @@ class AdvisorPanel extends React.PureComponent {
 
     render() {
         return (
-            <div className={"cardBig bigText row m-0 py-1 justify-content-between"}>
+            <div className={"pokCard bigText row m-0 py-1 justify-content-between"}>
                 <div className={"col-auto p-0"}>
                     <span className="mx-2 align-self-center ">{"#" + (this.props.i + 1)}</span>
 

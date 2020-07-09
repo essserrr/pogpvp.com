@@ -14,8 +14,8 @@ const SingleMoveLine = React.memo(function (props) {
                 let rateStyle = returnVunStyle(multipl === "1.000" ? multipl : (1 / multipl).toFixed(3))
 
                 return <td key={props.line + "offensive" + i}
-                    className="modifiedBorderTable matrixColor defaultFont m-0 p-0 align-middle" >
-                    <div className={"rateTyping hover rateColor" + rateStyle} >
+                    className="modifiedBorderTable matrixColor font80 m-0 p-0 align-middle" >
+                    <div className={"rateSquare hover P  rateColor" + rateStyle} >
                         {multipl}
                     </div>
                 </td >

@@ -275,7 +275,7 @@ class PvpPage extends React.Component {
                 />
                 <div className=" container-fluid pt-2 pt-md-2 mb-5">
                     <div className="row justify-content-center px-1">
-                        <div className="col-12 d-flex results mediumWidth p-2  m-0">
+                        <div className="col-12 d-flex results bigWidth p-2  m-0">
                             <div className="col align-self-center m-0 p-0">
                                 <SelectGroup
                                     name="league"

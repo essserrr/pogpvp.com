@@ -28,7 +28,19 @@ $rating1: rgb(139, 219, 195);
 $rating2: rgb(68, 202, 157);
 $rating-1: rgb(230, 141, 82);
 $rating-2: rgb(224, 86, 32);
-
+//interface color
+$result-color: rgba(244, 252, 255, 0.95);
+$matrix-background: #e9ecef;
+$single-news: #eff0f1;
+$news-title: #dbdbdb;
+$matrix-list: rgba(228, 228, 228, 0.95);
+$pok-card-back: rgb(255, 255, 255);
+$link-color: #0039e6;
+$slider-button: #59698d;
+$slider-active: #b1dbe2;
+//tips styles
+$tips-padding: 0.2rem;
+$tips-font: 12pt;
 
 @mixin energyGlow {
     &.glow0 {
@@ -443,19 +455,12 @@ div :focus {
     outline: none;
 }
 
-.__react_component_tooltip {
-    padding-left: 0.4em;
-    padding-right: 0.4em;
-    padding-top: 0.3em;
-    padding-bottom: 0.3em;
-}
-
 .ReactCollapse--collapse {
     transition: height 200ms;
 }
 
 //fonts
-.defaultFont {
+.font80 {
     font-size: 80% !important;
 }
 .font90 {
@@ -480,24 +485,14 @@ body {
     background-size: cover;
 }
 
-
-//tips styles
-.logItems {
-    font-size: 12pt !important;
-    text-align: justify !important;
-    text-justify: inter-word !important;
-    color: #ffffff !important;
-    padding: 0.2rem !important;
-    font-weight: normal !important;
-}
-
+//tips style
 .infoTip {
     max-width: 15rem !important;
-    font-size: 12pt !important;
+    font-size: $tips-font !important;
     text-align: justify !important;
     text-justify: inter-word !important;
     color: #ffffff !important;
-    padding: 0.2rem !important;
+    padding: $tips-padding !important;
     font-weight: normal !important;
 }
 
@@ -507,10 +502,10 @@ body {
     right: 35%;
     z-index: 900;
     
-    padding-left: 0.2em;
-    padding-right: 0.2em;
+    padding-left: $tips-padding;
+    padding-right: $tips-padding;
 
-    font-size: 12pt !important;
+    font-size: $tips-font !important;
     font-weight: 400;
 
     background-color: rgba(0, 0, 0, 0.836);
@@ -529,11 +524,10 @@ body {
     
     -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
-}
-
-.idle:hover{
-    -webkit-transform: scale(1.50, 1.50);
-    transform: scale(1.50, 1.50);
+    &:hover{
+        -webkit-transform: scale(1.50, 1.50);
+        transform: scale(1.50, 1.50);
+    }
 }
 
 .faint {
@@ -548,11 +542,10 @@ body {
 
     -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
-}
-
-.shield:hover{
-    -webkit-transform: scale(1.15, 1.15);
-    transform: scale(1.15, 1.15);
+    &hover{
+        -webkit-transform: scale(1.15, 1.15);
+        transform: scale(1.15, 1.15);
+    }
 }
 
 .sword {
@@ -560,23 +553,22 @@ body {
     height: 11px;
     -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
-}
-
-.sword:hover{
+    &:hover{
     -webkit-transform: scale(1.30, 1.30);
     transform: scale(1.30, 1.30);
+    }
 }
+
 
 .dsword {
     width: 20px;
     height: 20px;
     -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
-}
-
-.dsword:hover{
-    -webkit-transform: scale(1.15, 1.15);
-    transform: scale(1.15, 1.15);
+    &:hover{
+        -webkit-transform: scale(1.15, 1.15);
+        transform: scale(1.15, 1.15);
+    }
 }
 
 .timeline {
@@ -584,14 +576,11 @@ body {
     border: solid black;
     padding: 0.3rem;
 
-       
     overflow-x: auto; 
     overflow-y: hidden;
     width: 100%; 
     background-color:rgba(252, 252, 252, 0.93);
 }
-
-
 
 //status bar styles
 .hpBar{
@@ -657,9 +646,11 @@ body {
     @include energyGlow;
 }
 
+
+
 //single pvp styles
 .results {
-    background-color:rgba(244, 252, 255, 0.95);
+    background-color:$result-color;
     border-radius: 4px;
     border: 0.5px solid rgba(0, 0, 0, 0.2);
 
@@ -667,52 +658,23 @@ body {
 }
 
 .maximizer {
-    width: 100%;
     border-radius: 4px;
-    border: 0.5px solid rgba(0, 0, 0, 0.4);
-    font-size: 90% !important;
+    border: 1px solid #59698d;
 }
 
 .pokemon {
     width: 13em;
     text-align: center;
-    
     &.large {
         width: 100% !important;
     }
 }
 
-.labelPrepend {
-    padding-left: 0.5em !important;
-    padding-right: 0.5em !important;
-    font-size: 80% !important;
-    text-align: center !important;
-}
-
-
-
-.rate {
-    padding-left: 3px;
-    padding-right: 3px;
-    margin-top: 3px;
-    margin-bottom: 3px;
-
-    display: inline-block;
-    width: fit-content;
-    border: 1px solid black;
-    border-radius: 4px;
-
-    color: white;
-    font-weight: bold;
-}
-
-
-
-.rateMatrix {
-    padding-left: 7px;
-    padding-right: 7px;
-    margin-top: 7px;
-    margin-bottom: 7px;
+.rateSquare {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 
     display: inline-block;
     width: fit-content;
@@ -724,34 +686,16 @@ body {
     font-weight: bold;
     font-size: 110% !important;
     &.hover:hover{
-        background-color: white;
-      }
-
+        user-select: none;
+        background-color: white !important;
+    }
+    &.P {
+        margin-left: 3px;
+        margin-right: 3px;
+    }
 }
 
-.rateTyping {
-    padding-left: 4px;
-    padding-right: 4px;
-    margin-left: 3px;
-    margin-right: 3px;
-    margin-top: 3px;
-    margin-bottom: 3px;
-
-    display: inline-block;
-    width: fit-content;
-    border-radius: 4px;
-    border: 1px solid black;
-
-    color: white;
-    font-weight: bold;
-    font-size: 110% !important;
-    &.hover:hover{
-        cursor: pointer;
-        background-color: white;
-      }
-
-}
-
+//matrix styles
 .matrixCardThead{
     min-width: 22px !important;
     height: 20px;
@@ -808,7 +752,7 @@ body {
 //border styles
 .modifiedBorder {
     border-width: 0.8px !important;
-    border-color: #59698d !important;
+    border-color: $slider-button !important;
 }
 
 .modifiedBorderTable {
@@ -936,20 +880,20 @@ body {
 }
 
 .newsBody {
-    background-color:rgba(244, 252, 255, 0.95);
+    background-color:$result-color;
     border-radius: 4px;
 }
 
 .singleNews {
     border-radius: 4px;
-    background-color: #eff0f1;
+    background-color: $single-news;
     border: 1px solid #acacac;
    
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 .singleNewsTitle {
     border-radius: 3px 3px 0px 0px;
-    background-color: #dbdbdb;
+    background-color: $news-title;
     border: solid #d1d1d1;
     border-width: 0px 0px 1px 0px;
 
@@ -995,9 +939,7 @@ body {
     width: 300px !important;
     text-align: left;
 
- 
-
-    background-color:rgba(244, 252, 255, 0.95);
+    background-color:$result-color;
     border-radius: 4px;
     border: 1px solid rgba(0, 0, 0, 0.2);
 
@@ -1016,7 +958,7 @@ body {
 
     border-radius: 4px;
     border: 0.5px solid rgba(0, 0, 0, 0.4);
-    background-color: rgba(228, 228, 228, 0.95);
+    background-color: $matrix-list;
     
     text-align: left;
 
@@ -1034,7 +976,7 @@ body {
 
 
 .matrixResult {
-    background-color:#e9ecef;
+    background-color:$matrix-background;
     border-radius: 4px;
     border: 0.5px solid rgba(0, 0, 0, 0.2);
 
@@ -1042,13 +984,13 @@ body {
 }
 
 .matrixColor {
-    background-color:#e9ecef;
+    background-color:$matrix-background;
 }
 
 .tableFixHead          {  overflow-y: auto; height: 100px;  }
 .tableFixHead thead th { position: sticky; top: 0; z-index: 2; }
 
-.fixFirstRow {  position: sticky; left: 0; background-color: #e9ecef; z-index: 1;}
+.fixFirstRow {  position: sticky; left: 0; background-color: $matrix-background; z-index: 1;}
 
 
 //footer
@@ -1102,8 +1044,6 @@ body {
     height: 16px;
 }
 
-
-
 .icon18 {
     width: 18px;
     height: 18px;
@@ -1130,49 +1070,33 @@ body {
 }
 
 
+.cardHeader {
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
+}
 
 .pokCard {
     border: 0.5px solid rgba(0, 0, 0, 0.295);
     border-radius: 6px;
-    background-color: #fff;
+    background-color: $pok-card-back;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    max-width: 200px !important;
-}
-.cardHeader {
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
+
+    &.raid {
+        max-width: 200px !important;
+    }
+    &.eggs {
+        max-width: 170px !important;
+    }
 }
 
 .cardBody {
     max-width: 143px !important;
     font-size: 14px;
     font-weight: 400;
+
+    .eggs {
+        max-width: 113px !important;
+    }
 }
-
-.pokEggCard {
-    border: 0.5px solid rgba(0, 0, 0, 0.295);
-    border-radius: 6px;
-    
-    background-color: #fff;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-    
-   max-width: 170px !important;
-
-}
-
-.eggCardBody {
-    max-width: 113px !important;
-    font-size: 14px;
-    font-weight: 400;
-}
-
-
-.cardBig {
-    border: 0.5px solid rgba(0, 0, 0, 0.295);
-    border-radius: 6px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-
 
 .bubbleText {
     border: 0.5px solid rgba(0, 0, 0, 0.295);
@@ -1232,19 +1156,13 @@ body {
 .superBig-1 {
     max-width: 1230px !important;
 }
-.mediumWidth {
-    max-width: 620px !important;
-}
+
 
 .smallWidth {
     max-width: 560px !important;
 }
 
-.bigCardHeader {
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
-    font-size: 110%;
-    font-weight: 400;
-}
+
 
 
 
@@ -1377,7 +1295,7 @@ body {
 
   //stopped here
   .constructorButton {
-    background-color:rgba(244, 252, 255, 0.95);
+    background-color:$result-color;
     border-radius: 4px;
     padding: 0rem 0.2rem 0rem 0.2rem;
     height: fit-content;
@@ -1425,17 +1343,7 @@ body {
 
 }
 
-.linkText {
-    text-decoration: none;
-    color: black;
-}
 
-.linkText:hover 
-{
-     color:#00A0C6; 
-     text-decoration:none; 
-     cursor:pointer;  
-}
 
 .pveMove {
     padding: 0rem 0.2rem 0rem 0.2rem;
@@ -1473,12 +1381,12 @@ body {
     transition: all 0.4s linear; 
 
     background: repeating-linear-gradient(
-  45deg,
-  #606cbc00,
-  #606cbc00 2px,
-  red 2px,
-  red 4px
-);
+        45deg,
+        #606cbc00,
+        #606cbc00 2px,
+        red 2px,
+        red 4px
+    );
 }
 
 
@@ -1493,12 +1401,7 @@ body {
     color: rgb(211, 165, 14),
 }
 
-.link {
-    color: #0039e6 !important;
-    &:hover{
-        text-decoration: underline;
-    }
-}
+
 
 .movecardTitle {
     font-weight: 500;
@@ -1588,7 +1491,36 @@ body {
     }
 }
 
-.sliderGroup {
+
+.borderTop {
+    border-top: 1px solid rgba(0, 0, 0, 0.295);
+}
+
+.borderLeft{
+    border-left: 2px solid #59698d28
+}
+
+
+//links
+.linkText {
+    text-decoration: none;
+    color: black;
+    &:hover {
+        color:$link-color; 
+        text-decoration: underline; 
+        cursor:pointer;  
+   }
+}
+
+.link {
+    color: $link-color !important;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+
+//slider
+.sliderButton {
     font-weight: 500;
     background-color: rgba(255, 255, 255, 0);
 
@@ -1600,46 +1532,34 @@ body {
 
     z-index: 1;
     border-width: 0px 2px 0px 0px;
-    border-right: solid #59698d;
+    border-right: solid $slider-button;
 
     &.active {
-        background-color: #b1dbe2;
+        background-color: $slider-active;
         outline: none;
     }
 }
-
 @media (max-width: 768px) { 
-    .sliderGroup {
+    .sliderButton {
         padding-left: 2px !important;
         padding-right: 2px !important;
     }
  }
-
 @media (max-width: 576px) { 
-    .sliderGroup {
+    .sliderButton {
         padding-left: 1px !important;
         padding-right: 1px !important;
     }
  }
-
-.sliderGroup:focus {
+.sliderButton:focus {
     outline: none;
 }
-
-
-.sliderButton {
+.sliderGroup {
     overflow: hidden;
-    border: 2px solid #59698d !important;
+    border: 2px solid $slider-button !important;
     border-radius: 7px 7px 7px 7px
 }
-.sliderButton button:last-child {
+.sliderGroup button:last-child {
     border: none !important;
 }
 
-.borderTop {
-    border-top: 1px solid rgba(0, 0, 0, 0.295);
-}
-
-.borderLeft{
-    border-left: 2px solid #59698d28
-}

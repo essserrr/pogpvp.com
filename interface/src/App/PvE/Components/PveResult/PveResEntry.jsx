@@ -199,7 +199,7 @@ class PveResEntry extends React.PureComponent {
         let avgStats = this.collect()
 
         return (
-            <div className={"cardBig row m-0 py-1 my-1 px-2 justify-content-start"}
+            <div className={"pokCard row m-0 py-1 my-1 px-2 justify-content-start"}
                 key={name.Name + this.props.pokemonRes[0].AQ + this.props.pokemonRes[0].ACh}>
                 <NumberAndName
                     pok={pok}

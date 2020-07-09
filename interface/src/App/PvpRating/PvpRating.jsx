@@ -205,7 +205,7 @@ class PvpRating extends React.Component {
             result.push(
                 <PokemonCard
                     key={elem.Name}
-                    class={"col-12 cardBig p-0 mt-2"}
+                    class={"col-12 pokCard p-0 mt-2"}
                     name={<div className="d-flex justify-content-between pl-2">
                         {"#" + (i + 1)}
                         <div className=" text-center">
@@ -242,7 +242,7 @@ class PvpRating extends React.Component {
                         combination={this.state.combination}
                     />}
 
-                    classHeader={"bigCardHeader col-12 p-0 px-1"}
+                    classHeader={"cardHeader dexFont col-12 p-0 px-1"}
                     classBody={"col align-self-center p-1 p-0 "}
                     classBodyWrap={"row justify-content-between m-0"}
                     classFooter="col-12 p-0  mb-2"
