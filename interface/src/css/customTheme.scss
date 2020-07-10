@@ -1207,8 +1207,8 @@ body {
     height: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     opacity: 0;
-    -webkit-transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
-    transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+    -webkit-transition: all 0.15s linear;
+    transition: all 0.15s linear;
   }
   
   .animRating:hover {

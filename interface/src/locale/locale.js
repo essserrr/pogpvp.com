@@ -232,7 +232,7 @@ export const locale = {
             savegroup: "Empty field",
         },
         tierlist: {
-            raidtier: "Level",
+            raidtier: "Tier",
             eggs: "Eggs",
             regionals: "Show regionals",
         },
@@ -240,7 +240,7 @@ export const locale = {
         rating: {
             rate: "Rating",
             sheilds: "Shields",
-            ratingType: "Rating type",
+            ratingType: "\xa0Rating type\xa0\xa0",
             type: "Type:",
             avgRate: "Average rating:",
             avgWin: "Average win rate:",

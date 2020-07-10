@@ -281,17 +281,12 @@ class Movedex extends React.Component {
                             {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.showResult &&
                                 <>
-
-
                                     <Input
                                         class="modifiedBorder form-control"
                                         onChange={this.onNameChange}
                                         place={strings.pokplace}
                                         value={this.state.name}
                                     />
-
-
-
                                     <div className="dexFont my-1">{strings.generation + ":"}</div>
                                     <GenRow
                                         filter={this.state.filter}

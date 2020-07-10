@@ -1,14 +1,15 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
+
 import Errors from "../PvP/components/Errors/Errors"
 import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import IconMultiplicator from "./IconMultiplicator/IconMultiplicator"
 import Tier from "./Tier/Tier"
-import Checkbox from "./Checkbox/Checkbox"
 import Loader from "../PvpRating/Loader"
 import CardBody from "./CardBody/CardBody"
+import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 
 import { locale } from "../../locale/locale"
 import { getCookie, capitalizeFirst } from "../../js/indexFunctions"
@@ -26,11 +27,7 @@ class RaidsList extends React.Component {
             error: "",
             loading: false,
 
-            tier5: true,
-            tier4: true,
-            tier3: true,
-            tier2: true,
-            tier1: true,
+            filter: {},
         };
         this.onChange = this.onChange.bind(this);
     }
@@ -89,18 +86,38 @@ class RaidsList extends React.Component {
                 return;
             }
         }
+
+        let list = this.returnRaidsList(results[1], results[0])
         this.setState({
             showResult: true,
             isError: false,
             loading: false,
-            raidsList: this.returnRaidsList(results[1], results[0]),
+            originalList: list,
+            listToShow: list,
         });
     }
 
     onChange(event) {
+        let attr = event.target.getAttribute("attr")
         this.setState({
-            [event.target.name]: !Boolean(this.state[event.target.name]),
+            listToShow: this.state.originalList.filter(elem =>
+                this.filter(elem, { ...this.state.filter, [attr]: !this.state.filter[attr] })),
+            filter: {
+                ...this.state.filter,
+                [attr]: !Boolean(this.state.filter[attr])
+            }
         })
+    }
+
+
+    filter(elem, filter) {
+        if (!filter) {
+            return true
+        }
+        if (!filter.tier1 && !filter.tier2 && !filter.tier3 && !filter.tier4 && !filter.tier5) {
+            return true
+        }
+        return filter[elem.key]
     }
 
     //generator functions
@@ -108,46 +125,51 @@ class RaidsList extends React.Component {
         let raidList = []
         for (let i = 5; i > 0; i--) {
             raidList.push(
-                tierList["Tier " + i].reduce((result, elem) => {
-                    let name = elem.replace("’", "")
-                    if (!pokTable[name]) {
-                        name = capitalizeFirst(name)
-                    }
-                    if (!pokTable[name]) {
-                        console.log(name + " not found")
-                        return result
-                    }
-                    result.push(
-                        <div key={name + "wrap"} className={"col-6 col-md-4 d-flex px-1 pt-2 justify-content-center"}>
-                            <PokemonCard
-                                class={"col-12 pokCard raid p-0 animShiny"}
-                                name={name}
-                                icon={
-                                    <a title={strings.topcounters + pokTable[name].Title}
-                                        href={(navigator.userAgent === "ReactSnap") ? "/" :
-                                            "/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" +
-                                            (encodeURIComponent(pokTable[name].Title)) + "___" + (i - 1) + "/0_0_0_18_3_false"}
-                                        className="align-self-center"
-                                    >
-                                        <PokemonIconer
-                                            src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                                            class={"icon48"} />
-                                    </a>}
-                                body={<CardBody
-                                    name={name}
-                                    pokTable={pokTable}
-                                />}
+                <Tier
+                    key={"tier" + i}
+                    class="separator capsSeparator"
+                    title={<IconMultiplicator title={strings.tierlist.raidtier + " " + i} n={i} />}
+                    list={
+                        tierList["Tier " + i].reduce((result, elem) => {
+                            let name = elem.replace("’", "")
+                            if (!pokTable[name]) {
+                                name = capitalizeFirst(name)
+                            }
+                            if (!pokTable[name]) {
+                                console.log(name + " not found")
+                                return result
+                            }
+                            result.push(
+                                <div key={name + "wrap"} className={"col-6 col-md-4 d-flex px-1 pt-2 justify-content-center"}>
+                                    <PokemonCard
+                                        class={"col-12 pokCard raid p-0 animShiny"}
+                                        name={name}
+                                        icon={
+                                            <a title={strings.topcounters + pokTable[name].Title}
+                                                href={(navigator.userAgent === "ReactSnap") ? "/" :
+                                                    "/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" +
+                                                    (encodeURIComponent(pokTable[name].Title)) + "___" + (i - 1) + "/0_0_0_18_3_false"}
+                                                className="align-self-center"
+                                            >
+                                                <PokemonIconer
+                                                    src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
+                                                    class={"icon48"} />
+                                            </a>}
+                                        body={<CardBody
+                                            name={name}
+                                            pokTable={pokTable}
+                                        />}
 
-                                classHeader={"cardHeader fBolder col-12 px-1 text-center"}
-                                classBody={"cardBody text-center col p-1 justify-content-center"}
-                            />
-                        </div>)
-                    return result
-                }, []))
+                                        classHeader={"cardHeader fBolder col-12 px-1 text-center"}
+                                        classBody={"cardBody text-center col p-1 justify-content-center"}
+                                    />
+                                </div>)
+                            return result
+                        }, [])}
+                />)
         }
         return raidList
     }
-
 
     render() {
         return (
@@ -167,69 +189,15 @@ class RaidsList extends React.Component {
                                     locale={strings.tips.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.raidsList && <div className="row mx-1 justify-content-center font-weight-bolder">
-                                <div className="pr-3">
-                                    {strings.tierlist.raidtier + ":"}
-                                </div>
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    checked={this.state.tier5 ? "checked" : false}
-                                    name={"tier5"}
-                                    label="5"
+
+                            {this.state.listToShow && <>
+                                <ButtonsBlock
+                                    filter={this.state.filter}
+                                    onFilter={this.onChange}
                                 />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    checked={this.state.tier4 ? "checked" : false}
-                                    name={"tier4"}
-                                    label="4"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    checked={this.state.tier3 ? "checked" : false}
-                                    name={"tier3"}
-                                    label="3"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    checked={this.state.tier2 ? "checked" : false}
-                                    name={"tier2"}
-                                    label="2"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    checked={this.state.tier1 ? "checked" : false}
-                                    name={"tier1"}
-                                    label="1"
-                                />
-                            </div>}
-                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
-                            {this.state.raidsList && <>
-                                {this.state.tier5 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<IconMultiplicator title={strings.tierlist.raidtier + " 5"} n={5} />}
-                                    list={this.state.raidsList[0]}
-                                />}
-                                {this.state.tier4 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<IconMultiplicator title={strings.tierlist.raidtier + " 4"} n={4} />}
-                                    list={this.state.raidsList[1]}
-                                />}
-                                {this.state.tier3 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<IconMultiplicator title={strings.tierlist.raidtier + " 3"} n={3} />}
-                                    list={this.state.raidsList[2]}
-                                />}
-                                {this.state.tier2 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<IconMultiplicator title={strings.tierlist.raidtier + " 2"} n={2} />}
-                                    list={this.state.raidsList[3]}
-                                />}
-                                {this.state.tier1 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<IconMultiplicator title={strings.tierlist.raidtier + " 1"} n={1} />}
-                                    list={this.state.raidsList[4]}
-                                />}
                             </>}
+                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                            {this.state.listToShow && this.state.listToShow}
                         </div>
                     </div>
                 </div >
