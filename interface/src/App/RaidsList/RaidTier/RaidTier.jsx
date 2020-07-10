@@ -11,7 +11,6 @@ let strings = new LocalizedStrings(locale);
 
 const RaidTier = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    console.log(props)
     return (
         <>
             {props.title && <div className={props.class} >{props.title}</div>}

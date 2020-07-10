@@ -96,7 +96,6 @@ class PveResult extends React.PureComponent {
     loadMore() {
         let result = this.sortAndFilter(this.state.param, this.state.filter)
         let upperBound = result.length >= (this.state.n + 1) * 25 ? (this.state.n + 1) * 25 : result.length
-        console.log(upperBound)
         this.setState({
             isNextPage: (result.length > (this.state.n + 1) * 25 ? true : false) && ((this.state.n + 1) * 25 < 150),
             n: result.length > (this.state.n + 1) * 25 ? (this.state.n + 1) : this.state.n,
@@ -171,7 +170,6 @@ class PveResult extends React.PureComponent {
     }
 
     filterArr(arr, filter) {
-        console.log(arr)
         switch (filter.unique) {
             case true:
                 let list = {}

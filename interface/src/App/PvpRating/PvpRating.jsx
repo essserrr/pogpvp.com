@@ -58,17 +58,6 @@ class PvpRating extends React.Component {
                 <option value="12" key="12">{strings.rating.sheilds + " 1 x 2"}</option>,
             ],
 
-            ratingTip: [
-                <>
-                    {strings.rating.firstsent}
-                    <br />
-                    <br />
-                    {strings.rating.secondsent}
-                    <br />
-                    <br />
-                    {strings.rating.thirdsent}
-                </>
-            ],
             showDescription: false,
         };
         this.updateState = this.updateState.bind(this);
@@ -397,7 +386,15 @@ class PvpRating extends React.Component {
 
                                         place={"bottom"}
                                         for={"rating"}
-                                        tip={this.state.ratingTip}
+                                        tip={<>
+                                            {strings.rating.firstsent}
+                                            <br />
+                                            <br />
+                                            {strings.rating.secondsent}
+                                            <br />
+                                            <br />
+                                            {strings.rating.thirdsent}
+                                        </>}
                                         tipClass="infoTip"
                                     />
                                 </div>
