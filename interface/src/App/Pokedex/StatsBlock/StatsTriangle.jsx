@@ -13,7 +13,7 @@ class StatsTriangle extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.drawTriangle()
+        // this.drawTriangle()
     }
     drawTriangle() {
         let canvas = this.refs.canvas
@@ -60,10 +60,48 @@ class StatsTriangle extends React.PureComponent {
         context.fill();
 
     }
+
+    returnTriangle() {
+        //initial values
+        const strokeMain = this.props.strokeMain ? this.props.strokeMain : 1.5
+        const strokeSec = this.props.strokeSec ? this.props.strokeSec : 1
+        const width = this.props.width ? this.props.width : 150
+        const height = this.props.width ? this.props.width : 130
+        const triangleHeight = (width - strokeMain * 2) * Math.cos(Math.PI / 6)
+        //triangle points
+        const centerX = width / 2
+        const centerY = (height - triangleHeight) + 2 / 3 * triangleHeight
+        const topY = height - triangleHeight
+        const topX = centerX
+        const leftY = height - strokeMain
+        const leftX = strokeMain
+        const rightY = leftY
+        const rightX = width - strokeMain
+
+        const ratioAtk = this.props.value.Atk / 414
+        const ratioDef = this.props.value.Def / 505
+        const ratioSta = this.props.value.Sta / 496
+
+        return <>
+            <path d={"M" + leftX + " " + leftY + " H " + rightX + " L " + topX + " " + topY + " Z"}
+                fill="transparent" stroke="black" strokeWidth={strokeMain} />
+            <path d={"M" + leftX + " " + leftY + "L " + centerX + " " + centerY + " L " + rightX + " " + rightY +
+                "M" + centerX + " " + centerY + " L " + topX + " " + topY}
+                fill="transparent" stroke="black" strokeWidth={strokeSec} strokeDasharray="5 2" />
+
+            <path className={"statBarXXBack svgFillsC" + this.props.value.Type[0]} style={{ opacity: "0.85" }}
+                d={"M" + (centerX + (leftX - centerX) * ratioAtk) + " " + (centerY + (leftY - centerY) * ratioAtk) +
+                    " L " + (centerX + (rightX - centerX) * ratioDef) + " " + (centerY + (rightY - centerY) * ratioDef) +
+                    " L " + (centerX + (topX - centerX) * ratioDef) + " " + (centerY + (topY - centerY) * ratioSta) + " Z"}
+                fill="transparent" />
+        </>
+    }
     render() {
         return (
             <div className="col-12 m-0 p-0 mt-1 jystify-content-center">
-                <canvas id="myCanvas" ref="canvas" width={150} height={129} />
+                <svg tabIndex="0" ref="canvas" width="150px" height="130px" >
+                    {this.returnTriangle()}
+                </svg>
             </div>
         );
     }

@@ -1388,6 +1388,11 @@ body {
     border-radius: 2px;
 }
 
+.statBarXXBack{
+    -webkit-transition: all 0.4s linear;
+    transition: all 0.4s linear; 
+}
+
 .statBarFront {
     -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
