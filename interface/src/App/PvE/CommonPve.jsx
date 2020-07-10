@@ -44,7 +44,6 @@ class CommonPve extends React.PureComponent {
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.assignSort = this.assignSort.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -290,12 +289,6 @@ class CommonPve extends React.PureComponent {
                 showMenu: false,
                 isSelected: undefined,
             }
-        });
-    }
-
-    assignSort(data) {
-        this.setState({
-            result: data,
         });
     }
 

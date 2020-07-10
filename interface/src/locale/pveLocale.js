@@ -76,6 +76,8 @@ export const pveLocale = {
 
         sortd: "Sort by damage",
         sortdps: "Sort by DPS",
+        unique: "Show the best results",
+
     },
 
     ru: {
@@ -155,5 +157,6 @@ export const pveLocale = {
 
         sortd: "Сортировать по урону",
         sortdps: "Сортировать по DPS",
+        unique: "Показать только лучшие реузльтаты",
     }
 }

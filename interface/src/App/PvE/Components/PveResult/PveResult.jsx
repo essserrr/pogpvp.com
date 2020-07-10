@@ -8,6 +8,7 @@ import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import Breakpoints from "../Breakpoints/Breakpoints"
 import PveWillow from "../PveWillow/PveWillow"
 import DoubleSlider from "../../../Movedex/DoubleSlider/DoubleSlider"
+import Button from "../../../Movedex/Button/Button"
 
 import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
@@ -23,17 +24,18 @@ class PveResult extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            n: 1,
+            n: 0,
             breakpoints: false,
 
             param: "damage",
+            filter: {}
         };
 
 
         this.onClick = this.onClick.bind(this);
         this.showBreakpoints = this.showBreakpoints.bind(this);
         this.onSortChange = this.onSortChange.bind(this);
-
+        this.onFilter = this.onFilter.bind(this);
 
         this.raplace = this.raplace.bind(this);
         this.loadMore = this.loadMore.bind(this);
@@ -60,23 +62,45 @@ class PveResult extends React.PureComponent {
     };
 
     generateList() {
+        let result = this.sortAndFilter(this.state.param, this.state.filter)
+        let upperBound = this.props.result.length >= 25 ? 25 : this.props.result.length
         this.setState({
-            isNextPage: this.props.result.length > 25 ? true : false,
-            n: this.props.result.length > 25 ? 2 : 1,
-
-            listToShow: this.appendFromTo(0, (this.props.result.length >= 25 ? 25 : this.props.result.length), this.props.result),
-            param: "damage",
+            isNextPage: result.length > 25 ? true : false,
+            n: result.length > 25 ? 2 : 1,
+            listToShow: this.generateRes(result.slice(0, upperBound)),
         })
     }
 
-    loadMore() {
-        let upperBound = this.props.result.length >= this.state.n * 25 ? this.state.n * 25 : this.props.result.length
-        let lowerBound = (this.state.n - 1) * 25
-        this.setState({
-            isNextPage: (this.props.result.length > this.state.n * 25 ? true : false) && (this.state.n * 25 < 150),
-            n: this.props.result.length > this.state.n * 25 ? this.state.n + 1 : this.state.n,
+    generateRes(arr) {
+        return arr.map((elem, i) =>
+            <PveResEntry
+                key={i}
 
-            listToShow: [...this.state.listToShow, ...this.appendFromTo(lowerBound, upperBound, this.props.result)],
+                i={i}
+                pokemonRes={elem}
+                snapshot={this.props.snapshot}
+                tables={this.props.tables}
+
+                pokemonTable={this.props.pokemonTable}
+                moveTable={this.props.moveTable}
+                pokList={this.props.pokList}
+                chargeMoveList={this.props.chargeMoveList}
+                quickMoveList={this.props.quickMoveList}
+
+                raplace={this.raplace}
+                showBreakpoints={this.showBreakpoints}
+            />
+        )
+    }
+
+    loadMore() {
+        let result = this.sortAndFilter(this.state.param, this.state.filter)
+        let upperBound = result.length >= (this.state.n + 1) * 25 ? (this.state.n + 1) * 25 : result.length
+        console.log(upperBound)
+        this.setState({
+            isNextPage: (result.length > (this.state.n + 1) * 25 ? true : false) && ((this.state.n + 1) * 25 < 150),
+            n: result.length > (this.state.n + 1) * 25 ? (this.state.n + 1) : this.state.n,
+            listToShow: this.generateRes(result.slice(0, upperBound)),
         })
     }
 
@@ -106,48 +130,63 @@ class PveResult extends React.PureComponent {
         })
     }
 
-    appendFromTo(from, to, res) {
-        let target = []
-        for (let i = from; i < to; i++) {
-            target.push(
-                <PveResEntry
-                    key={i}
-
-                    i={i}
-                    pokemonRes={res[i]}
-                    snapshot={this.props.snapshot}
-                    tables={this.props.tables}
-
-                    pokemonTable={this.props.pokemonTable}
-                    moveTable={this.props.moveTable}
-                    pokList={this.props.pokList}
-                    chargeMoveList={this.props.chargeMoveList}
-                    quickMoveList={this.props.quickMoveList}
-
-                    raplace={this.raplace}
-                    showBreakpoints={this.showBreakpoints}
-                />
-            )
-        }
-        return target
-    }
-
 
     onSortChange(event) {
         let attr = event.target.getAttribute("attr")
-        switch (attr) {
+        let result = this.sortAndFilter(attr, this.state.filter)
+        let upperBound = result.length >= this.state.n * 25 ? this.state.n * 25 : result.length
+        this.setState({
+            listToShow: this.generateRes(result.slice(0, upperBound)),
+            isNextPage: (result.length > this.state.n * 25 ? true : false) && (this.state.n * 25 < 150),
+            n: result.length > this.state.n * 25 ? this.state.n : Math.ceil(result.length / 25),
+            param: attr,
+        })
+    }
+
+    onFilter(event) {
+        let attr = event.target.getAttribute("attr")
+        let result = this.sortAndFilter(this.state.param, { ...this.state.filter, [attr]: !this.state.filter[attr] })
+        let upperBound = result.length >= this.state.n * 25 ? this.state.n * 25 : result.length
+        this.setState({
+            listToShow: this.generateRes(result.slice(0, upperBound)),
+            isNextPage: (result.length > this.state.n * 25 ? true : false) && (this.state.n * 25 < 150),
+            n: result.length > this.state.n * 25 ? this.state.n : Math.ceil(result.length / 25),
+
+            filter: {
+                ...this.state.filter,
+                [attr]: !this.state.filter[attr],
+            },
+        })
+    }
+
+    sortAndFilter(param, filter) {
+        switch (param) {
             case "dps":
-                var data = this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180)
+                var data = this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180,)
                 break
             default:
                 data = this.sortByDamage()
         }
+        return data = this.filterArr(data, filter)
+    }
 
-        this.setState({
-            listToShow: this.appendFromTo(0, this.state.listToShow.length, data),
-            param: attr,
-        })
-        this.props.assignSort(data)
+    filterArr(arr, filter) {
+        console.log(arr)
+        switch (filter.unique) {
+            case true:
+                let list = {}
+                return arr.filter(elem => {
+                    switch (list[elem[0].AName]) {
+                        case true:
+                            return false
+                        default:
+                            list[elem[0].AName] = true
+                            return true
+                    }
+                })
+            default:
+                return arr
+        }
     }
 
     sortByDamage() {
@@ -193,6 +232,7 @@ class PveResult extends React.PureComponent {
             return dpsB - dpsA
         })
     }
+
 
     showBreakpoints(obj) {
         this.setState({
@@ -252,6 +292,15 @@ class PveResult extends React.PureComponent {
                             attr2="dps"
                             title2={pvestrings.sortdps}
                             active2={this.state.param === "dps"}
+                        />
+                    </div>
+                    <div className={"col-12 col-sm-6 p-0 mb-3 text-center sliderGroup justify-content-center"} >
+                        <Button
+                            attr="unique"
+                            title={pvestrings.unique}
+                            class={this.state.filter.unique ?
+                                "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                            onClick={this.onFilter}
                         />
                     </div>
                     <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>

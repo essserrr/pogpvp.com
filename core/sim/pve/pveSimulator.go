@@ -124,10 +124,9 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 
 	switch len(conObj.resArray) > 300 {
 	case true:
-		conObj.resArray = conObj.resArray[:300]
+		conObj.resArray = conObj.resArray[:500]
 	default:
 	}
-
 	return conObj.resArray, nil
 }
 
@@ -241,12 +240,25 @@ func (a byAvgDamage) Less(i, j int) bool {
 	var (
 		avgDamageLeft  int32
 		avgDamageRight int32
+
+		avgTimeLeft  int32
+		avgTimeRight int32
 	)
 	for _, value := range a[i] {
 		avgDamageLeft += value.DAvg
+		avgTimeLeft += value.TAvg
 	}
 	for _, value := range a[j] {
 		avgDamageRight += value.DAvg
+		avgTimeRight += value.TAvg
+	}
+	if avgDamageLeft == avgDamageRight {
+		dpsLeft := float64(avgDamageLeft) / float64(avgTimeLeft/1000)
+		dpsRight := float64(avgDamageRight) / float64(avgTimeRight/1000)
+		if dpsLeft == dpsRight {
+			return avgTimeLeft > avgTimeRight
+		}
+		return dpsLeft < dpsRight
 	}
 	return avgDamageLeft > avgDamageRight
 }
