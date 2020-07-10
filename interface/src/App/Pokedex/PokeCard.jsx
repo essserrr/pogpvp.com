@@ -8,6 +8,7 @@ import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
 import StatsBlock from "./StatsBlock/StatsBlock"
+import StatsTriangle from "./StatsBlock/StatsTriangle"
 import MoveCol from "./MoveBlock/MoveCol"
 import EffTable from "./EffBlock/EffTable"
 import CpBlock from "./CpBlock/CpBlock"
@@ -245,6 +246,12 @@ class PokeCard extends React.Component {
                                 />
                                 {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
                                     <DescrBlock value={this.state.pokMisc.Description} />}
+
+                                <StatsTriangle
+                                    value={this.state.pok}
+                                    moveTable={this.state.moveTable}
+                                    pokTable={this.state.pokTable}
+                                />
                                 <StatsBlock
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}

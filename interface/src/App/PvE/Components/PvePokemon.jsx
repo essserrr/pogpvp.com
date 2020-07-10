@@ -33,9 +33,6 @@ class PvePokemon extends React.PureComponent {
                         onChange={this.props.onChange}
                     />}
                 />}
-
-
-                <h5 className="fBolder">{this.props.title}</h5>
                 {this.props.pokList && <SearchableSelect
                     value={this.props.value[this.props.attr].Name}
                     list={this.props.pokList}

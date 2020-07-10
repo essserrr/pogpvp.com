@@ -106,9 +106,11 @@ class SimulatorPanel extends React.PureComponent {
     render() {
         return (
             <div className={this.props.className}>
+                <div className="order-1 order-sm-1 col-6 col-sm-4 text-center px-1"><h5 className="fBolder">{pveStrings.attacker}</h5></div>
+                <div className="order-1 order-sm-1 col-6 col-sm-4 text-center px-1"><h5 className="fBolder">{pveStrings.raid}</h5></div>
+                <div className="order-1 order-sm-1 col-6 col-sm-4 text-center px-1"><h5 className="fBolder">{pveStrings.boss}</h5></div>
                 <div className="order-1 order-sm-1 col-6 col-sm-4 text-center px-1">
                     <PvePokemon
-                        title={pveStrings.attacker}
                         attr="attackerObj"
 
                         pokemonTable={this.props.pokemonTable}
@@ -148,7 +150,6 @@ class SimulatorPanel extends React.PureComponent {
                     />
                 </div>
                 <div className="order-3 order-sm-2 col-12 col-sm-4 text-center px-1">
-                    <h5 className="fBolder">{pveStrings.raid}</h5>
                     <div className="row m-0">
                         <div className="col-6 col-sm-12 p-0 pr-1 pr-sm-0">
                             <SelectGroup
@@ -223,7 +224,6 @@ class SimulatorPanel extends React.PureComponent {
 
                 <div className="order-2 order-sm-3 col-6 col-sm-4 text-center px-1">
                     <PvePokemon
-                        title={pveStrings.boss}
                         attr="bossObj"
 
                         pokemonTable={this.props.pokemonTable}
