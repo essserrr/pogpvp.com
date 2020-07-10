@@ -97,29 +97,6 @@ class RaidsList extends React.Component {
         });
     }
 
-    onChange(event) {
-        let attr = event.target.getAttribute("attr")
-        this.setState({
-            listToShow: this.state.originalList.filter(elem =>
-                this.filter(elem, { ...this.state.filter, [attr]: !this.state.filter[attr] })),
-            filter: {
-                ...this.state.filter,
-                [attr]: !Boolean(this.state.filter[attr])
-            }
-        })
-    }
-
-
-    filter(elem, filter) {
-        if (!filter) {
-            return true
-        }
-        if (!filter.tier1 && !filter.tier2 && !filter.tier3 && !filter.tier4 && !filter.tier5) {
-            return true
-        }
-        return filter[elem.key]
-    }
-
     //generator functions
     returnRaidsList(tierList, pokTable) {
         let raidList = []
@@ -171,6 +148,32 @@ class RaidsList extends React.Component {
         return raidList
     }
 
+    onChange(event) {
+        let attr = event.target.getAttribute("attr")
+        let newFilter = { ...this.state.filter, [attr]: !this.state.filter[attr] }
+        this.setState({
+            listToShow: this.state.originalList.filter(elem =>
+                this.filter(elem, newFilter)),
+            filter: {
+                ...this.state.filter,
+                [attr]: !Boolean(this.state.filter[attr])
+            }
+        })
+    }
+
+
+    filter(elem, filter) {
+        if (!filter) {
+            return true
+        }
+        if (!filter.tier1 && !filter.tier2 && !filter.tier3 && !filter.tier4 && !filter.tier5) {
+            return true
+        }
+        return filter[elem.key]
+    }
+
+
+
     render() {
         return (
             <>
@@ -181,7 +184,7 @@ class RaidsList extends React.Component {
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews col-sm-12 col-md-11 col-lg-8 py-4">
+                        <div className="singleNews max1200-1 col-sm-12 col-md-11 col-lg-8 py-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"

@@ -1,49 +1,35 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
-import ReactTooltip from "react-tooltip"
 
 import Errors from "../PvP/components/Errors/Errors"
-import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
-import Tier from "../RaidsList/Tier/Tier"
-import Checkbox from "../RaidsList/Checkbox/Checkbox"
+import EggsTier from "./EggsTier/EggsTier"
+import EggsIcon from "./EggsIcon/EggsIcon"
+import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
+import Button from "../Movedex/Button/Button"
 import Loader from "../PvpRating/Loader"
-import CardBody from "./CardBody"
 
-import { getCookie, capitalizeFirst } from "../../js/indexFunctions"
+import { getCookie } from "../../js/indexFunctions"
 import { locale } from "../../locale/locale"
-import { regionLocale } from "../../locale/regionLocale"
-import { ReactComponent as Egg2km } from "../../icons/egg2km.svg";
-import { ReactComponent as Egg5km } from "../../icons/egg5km.svg";
-import { ReactComponent as Egg10km } from "../../icons/egg10km.svg";
-import { ReactComponent as Egg7km } from "../../icons/egg7km.svg";
+
 
 let strings = new LocalizedStrings(locale);
-let regions = new LocalizedStrings(regionLocale);
 
 class EggsList extends React.Component {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        regions.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,
             isError: false,
             error: "",
             loading: false,
 
-            km10: true,
-            km7: true,
-            km5: true,
-            km2: true,
-            km525: true,
-            km1050: true,
-
-            regionals: false,
+            filter: {
+                showReg: false,
+            },
         };
         this.onChange = this.onChange.bind(this);
-        this.onShowRegionals = this.onShowRegionals.bind(this);
     }
 
 
@@ -104,94 +90,46 @@ class EggsList extends React.Component {
             showResult: true,
             isError: false,
             loading: false,
-            eggsList: this.returnRaidsList(results[1], results[0], false),
-            eggsListRaw: results,
+            listToShow: this.returnEggsList(results[1], results[0], this.state.filter),
+            tierList: results[1],
+            pokTable: results[0],
         });
+    }
+
+    returnEggsList(tierList, pokTable, filter) {
+        let matrix = ["10KM Eggs", "7KM Gift Eggs", "5KM Eggs", "2KM Eggs", "10KM Eggs (50KM)", "5KM Eggs (25KM)",]
+        return matrix.map((block, i) => <EggsTier
+            key={"eggs" + i}
+            class="separator capsSeparator"
+            title={<EggsIcon tier={block} />}
+            list={tierList[block]}
+            pokTable={pokTable}
+            showReg={filter.showReg}
+        />);
     }
 
     onChange(event) {
+        let attr = event.target.getAttribute("attr")
+        let newFilter = { ...this.state.filter, [attr]: !this.state.filter[attr] }
+        let list = this.returnEggsList(this.state.tierList, this.state.pokTable, newFilter)
         this.setState({
-            [event.target.name]: !Boolean(this.state[event.target.name]),
+            listToShow: list.filter(elem => this.filter(elem, newFilter)),
+            filter: {
+                ...this.state.filter,
+                [attr]: !Boolean(this.state.filter[attr])
+            }
         })
     }
 
-    onShowRegionals(event) {
-        this.setState({
-            [event.target.name]: !Boolean(this.state[event.target.name]),
-            eggsList: this.returnRaidsList(this.state.eggsListRaw[1], this.state.eggsListRaw[0], !Boolean(this.state[event.target.name])),
-        })
+    filter(elem, filter) {
+        if (!filter) {
+            return true
+        }
+        if (!filter.eggs0 && !filter.eggs1 && !filter.eggs2 && !filter.eggs3 && !filter.eggs4 && !filter.eggs5) {
+            return true
+        }
+        return filter[elem.key]
     }
-
-
-    returnRaidsList(tierList, pokTable, showReg) {
-        let matrix = [
-            "10KM Eggs",
-            "7KM Gift Eggs",
-            "5KM Eggs",
-            "2KM Eggs",
-            "10KM Eggs (50KM)",
-            "5KM Eggs (25KM)",
-        ]
-        //for every matrix entry
-        return matrix.map((block, i) => {
-            return tierList[block].reduce((result, elem) => {
-                //format title string
-                let name = elem.replace("’", "")
-                if (!pokTable[name]) {
-                    name = capitalizeFirst(name)
-                }
-                if (!pokTable[name]) {
-                    console.log(name + " not found")
-                    return result
-                }
-                //skip reginals if regionals are not selected
-                if (!showReg && regionals[name]) {
-                    return result
-                }
-                result.push(
-                    <div key={name + "wrap"} className={"col-6 col-sm-4 col-lg-3 d-flex px-1 pt-2 justify-content-center"}>
-                        <PokemonCard
-                            class={"col-12 pokCard eggs p-0 pb-1"}
-                            name={<div className="text-center">
-                                <>{name}</>
-                                {regionals[name] &&
-                                    <>
-                                        <ReactTooltip
-                                            className={"infoTip"}
-                                            id={name} effect="solid"
-                                            place={"top"}
-                                            multiline={true}
-                                        >
-                                            {regions[regionals[name]]}
-                                        </ReactTooltip>
-                                        <i data-tip data-for={name} className="fas fa-info-circle ml-1">
-                                        </i>
-                                    </>}
-                            </div>}
-                            icon={<a
-                                title={strings.dexentr + name}
-                                href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                                    encodeURIComponent(name)}
-                            >
-                                <PokemonIconer
-                                    src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                                    class={"icon48 ml-0 ml-sm-1 align-self-center"} />
-                            </a>}
-
-                            body={<CardBody
-                                name={name}
-                                pokTable={pokTable}
-                            />}
-                            classBodyWrap="row justify-content-center justify-content-sm-between m-0"
-                            classHeader={"cardHeader fBolder col-12 px-1 mb-1 text-center"}
-                            classBody={"cardBody eggs col  px-1 text-center"}
-                        />
-                    </div>)
-                return result
-            }, [])
-        });
-    }
-
 
     render() {
         return (
@@ -203,7 +141,7 @@ class EggsList extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews col-sm-12 col-md-11 col-lg-8 mx-0 py-4">
+                        <div className="singleNews max1200-1 col-sm-12 col-md-11 col-lg-8 mx-0 py-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
@@ -211,95 +149,26 @@ class EggsList extends React.Component {
                                     locale={strings.tips.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.eggsList && <div className="row mx-1 justify-content-center font-weight-bolder">
-                                <div className="pr-3">
-                                    {strings.tierlist.eggs + ":"}
-                                </div>
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    value={this.state.km10}
-                                    checked={this.state.km10 ? "checked" : false}
-                                    name={"km10"}
-                                    label="10 km"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    value={this.state.km7}
-                                    checked={this.state.km7 ? "checked" : false}
-                                    name={"km7"}
-                                    label="7 km"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    value={this.state.km5}
-                                    checked={this.state.km5 ? "checked" : false}
-                                    name={"km5"}
-                                    label="5 km"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    value={this.state.km2}
-                                    checked={this.state.km2 ? "checked" : false}
-                                    name={"km2"}
-                                    label="2 km"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    value={this.state.km1050}
-                                    checked={this.state.km1050 ? "checked" : false}
-                                    name={"km1050"}
-                                    label="10 km (50 km)"
-                                />
-                                <Checkbox
-                                    onChange={this.onChange}
-                                    value={this.state.km525}
-                                    checked={this.state.km525 ? "checked" : false}
-                                    name={"km525"}
-                                    label="5 km (25 km)"
-                                />
-                            </div>}
-                            {this.state.eggsList && <div className="row mt-1 mx-1 justify-content-center font-weight-bolder">
-                                <Checkbox
-                                    onChange={this.onShowRegionals}
-                                    value={this.state.regionals}
-                                    checked={this.state.regionals ? "checked" : false}
-                                    name={"regionals"}
-                                    label={strings.tierlist.regionals}
-                                />
-                            </div>}
+                            {this.state.listToShow &&
+                                <>
+                                    <ButtonsBlock
+                                        filter={this.state.filter}
+                                        onFilter={this.onChange}
+                                    />
+                                    <div className=" row justify-content-center m-0">
+                                        <div className={"col-12 col-sm-6 p-0 mb-3 text-center sliderGroup justify-content-center"} >
+                                            <Button
+                                                attr="showReg"
+                                                title={strings.tierlist.regionals}
+                                                class={this.state.filter.showReg ?
+                                                    "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                                                onClick={this.onChange}
+                                            />
+                                        </div>
+                                    </div>
+                                </>}
                             {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
-                            {this.state.eggsList && <>
-                                {this.state.km10 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<><Egg10km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 10 km"}</>}
-                                    list={this.state.eggsList[0]}
-                                />}
-                                {this.state.km7 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<><Egg7km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 7 km"}</>}
-                                    list={this.state.eggsList[1]}
-                                />}
-                                {this.state.km5 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<><Egg5km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 5 km"}</>}
-                                    list={this.state.eggsList[2]}
-                                />}
-                                {this.state.km2 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<><Egg2km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 2 km"}</>}
-                                    list={this.state.eggsList[3]}
-                                />}
-                                {this.state.km1050 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<><Egg10km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 10 km (50 km Adveture Sync)"}</>}
-                                    list={this.state.eggsList[4]}
-                                />}
-                                {this.state.km525 && <Tier
-                                    class="separator capsSeparator"
-                                    title={<><Egg5km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 5 km (25 km Adveture Sync)"}</>}
-                                    list={this.state.eggsList[5]}
-                                />}
-                            </>}
+                            {this.state.listToShow && this.state.listToShow}
                         </div>
                     </div>
                 </div >
@@ -315,44 +184,6 @@ export default EggsList
 
 
 
-const regionals = {
-    "Farfetchd": 3,
-    "Kangaskhan": 4,
-    "Mr. Mime": 5,
-    "Tauros": 6,
 
-    "Heracross": 7,
-    "Corsola": 17,
-
-    "Volbeat": 1,
-    "Illumise": 2,
-    "Torkoal": 16,
-    "Zangoose": 1,
-    "Seviper": 2,
-    "Lunatone": 1,
-    "Solrock": 2,
-    "Tropius": 15,
-    "Relicanth": 18,
-
-    "Pachirisu": 19,
-    "Shellos": 12,
-    "Mime Jr.": 5,
-    "Chatot": 9,
-    "Carnivine": 14,
-    "Uxie": 13,
-    "Mesprit": 8,
-    "Azelf": 10,
-
-    "Pansage": 13,
-    "Pansear": 8,
-    "Panpour": 10,
-    "Throh": 2,
-    "Sawk": 1,
-    "Basculin": 12,
-    "Maractus": 7,
-    "Sigilyph": 11,
-    "Heatmor": 2,
-    "Durant": 1,
-}
 
 

@@ -609,7 +609,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//if base aldready exists there is no need to create it again
 	var answer []byte
 
-	//template for firther implementing other types of pve
+	//template for further implementing of other types of pve
 	if answer == nil {
 		//Parse request
 		inDat, err := parser.ParseRaidRequest(attacker, boss, obj)
