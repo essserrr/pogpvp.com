@@ -1437,6 +1437,10 @@ body {
         background-color: $slider-active;
         outline: none;
     }
+    &.hv:hover {
+        background-color: $slider-active;
+        outline: none;   
+    }
 }
 @media (max-width: 768px) { 
     .sliderButton {
@@ -1461,4 +1465,3 @@ body {
 .sliderGroup button:last-child {
     border: none !important;
 }
-

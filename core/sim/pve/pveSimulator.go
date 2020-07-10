@@ -363,10 +363,10 @@ func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBas
 func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 	pokVal, _ := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 	if len(pokVal.QuickMoves) == 0 && inDat.Boss.QuickMove == "" {
-		return []app.BossInfo{}, &customError{"Boss quick movelist is empty and he doesn't have a quick move; select a quick move"}
+		return []app.BossInfo{}, &customError{"Boss quick movelist is empty; select a quick move"}
 	}
 	if len(pokVal.ChargeMoves) == 0 && inDat.Boss.ChargeMove == "" {
-		return []app.BossInfo{}, &customError{"Boss charge movelist is empty and he doesn't have a charge move; select a charge move"}
+		return []app.BossInfo{}, &customError{"Boss charge movelist is empty; select a charge move"}
 	}
 	//create quick move list
 	quickM := make([]string, 0, 1)

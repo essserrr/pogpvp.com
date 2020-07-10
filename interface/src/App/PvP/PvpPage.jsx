@@ -221,7 +221,7 @@ class PvpPage extends React.Component {
         if (extractedData.defender !== undefined) {
             var defender = setUpPokemon(extractPokemon(extractedData.defender), (results[2]) ? results[2].Defender : {}, results[0])
         }
-
+        console.log(league, pok1, pok2, extractedData, attacker)
         this.setState({
             attacker: attacker,
             defender: defender,

@@ -16,6 +16,7 @@ import DescrBlock from "./DescrBlock/DescrBlock"
 import EvoBlock from "./EvoBlock/EvoBlock"
 import NavigationBlock from "./NavigationBlock/NavigationBlock"
 import SliderBlock from "./SliderBlock/SliderBlock"
+import RedirectBlock from "./RedirectBlock/RedirectBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/indexFunctions"
@@ -245,6 +246,11 @@ class PokeCard extends React.Component {
                                 {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
                                     <DescrBlock value={this.state.pokMisc.Description} />}
                                 <StatsBlock
+                                    value={this.state.pok}
+                                    moveTable={this.state.moveTable}
+                                    pokTable={this.state.pokTable}
+                                />
+                                <RedirectBlock
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
                                     pokTable={this.state.pokTable}

@@ -19,6 +19,7 @@ const PvpRouter = () => (
         <Switch>
             <Route path="/pvp/:type(matrix|single)/:league/:pok1/:pok2/:simtype" component={PvpPage} />
             <Route path="/pvp/:type(matrix|single)/:league/:pok1/:pok2" component={PvpPage} />
+            <Route path="/pvp/:type(matrix|single)/:league/:pok1/" component={PvpPage} />
             <Route path="/pvp/:type(matrix|single)/" component={PvpPage} />
             <Route path="/pvp/:type(matrix|single)/*" component={PvpPage} />
             <Route path="*" component={NotFound} />
