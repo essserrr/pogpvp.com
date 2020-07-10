@@ -147,9 +147,10 @@ class Movedex extends React.Component {
             return
         }
         let attr = event.currentTarget.getAttribute("attr")
+        let newFilter = { ...this.state.filter, [attr]: !this.state.filter[attr] }
         let newList = this.state.originalList.filter(e => {
             return (e.key.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1) &&
-                this.filterArr(e, { ...this.state.filter, [attr]: !this.state.filter[attr] })
+                this.filterArr(e, newFilter)
         })
         if (this.state.active.field) {
             newList = this.state.active.type === "number" ?

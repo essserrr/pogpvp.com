@@ -3,16 +3,13 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
 
 import Errors from "../PvP/components/Errors/Errors"
-import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import IconMultiplicator from "./IconMultiplicator/IconMultiplicator"
-import Tier from "./Tier/Tier"
 import Loader from "../PvpRating/Loader"
-import CardBody from "./CardBody/CardBody"
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
+import RaidTier from "./RaidTier/RaidTier"
 
 import { locale } from "../../locale/locale"
-import { getCookie, capitalizeFirst } from "../../js/indexFunctions"
+import { getCookie } from "../../js/indexFunctions"
 
 let strings = new LocalizedStrings(locale);
 
@@ -102,47 +99,13 @@ class RaidsList extends React.Component {
         let raidList = []
         for (let i = 5; i > 0; i--) {
             raidList.push(
-                <Tier
+                <RaidTier
                     key={"tier" + i}
                     class="separator capsSeparator"
                     title={<IconMultiplicator title={strings.tierlist.raidtier + " " + i} n={i} />}
-                    list={
-                        tierList["Tier " + i].reduce((result, elem) => {
-                            let name = elem.replace("’", "")
-                            if (!pokTable[name]) {
-                                name = capitalizeFirst(name)
-                            }
-                            if (!pokTable[name]) {
-                                console.log(name + " not found")
-                                return result
-                            }
-                            result.push(
-                                <div key={name + "wrap"} className={"col-6 col-md-4 d-flex px-1 pt-2 justify-content-center"}>
-                                    <PokemonCard
-                                        class={"col-12 pokCard raid p-0 animShiny"}
-                                        name={name}
-                                        icon={
-                                            <a title={strings.topcounters + pokTable[name].Title}
-                                                href={(navigator.userAgent === "ReactSnap") ? "/" :
-                                                    "/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" +
-                                                    (encodeURIComponent(pokTable[name].Title)) + "___" + (i - 1) + "/0_0_0_18_3_false"}
-                                                className="align-self-center"
-                                            >
-                                                <PokemonIconer
-                                                    src={pokTable[name].Number + (pokTable[name].Forme !== "" ? "-" + pokTable[name].Forme : "")}
-                                                    class={"icon48"} />
-                                            </a>}
-                                        body={<CardBody
-                                            name={name}
-                                            pokTable={pokTable}
-                                        />}
-
-                                        classHeader={"cardHeader fBolder col-12 px-1 text-center"}
-                                        classBody={"cardBody text-center col p-1 justify-content-center"}
-                                    />
-                                </div>)
-                            return result
-                        }, [])}
+                    list={tierList["Tier " + i]}
+                    pokTable={pokTable}
+                    i={i}
                 />)
         }
         return raidList
