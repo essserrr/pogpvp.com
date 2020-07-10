@@ -250,7 +250,7 @@ class Movedex extends React.Component {
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2 mb-3">
+                        <div className="singleNews max1200-1 col-12 col-md-10 col-lg-8 p-1 p-sm-2 mb-3">
                             <DropWithArrow
                                 onShow={this.onShowLegend}
                                 show={this.state.showLegend}
@@ -262,8 +262,9 @@ class Movedex extends React.Component {
                                 outClass="row justify-content-between m-0 clickable"
                                 inClass="row justify-content-start m-0" />
                         </div>
-
-                        <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+                    </div>
+                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
+                        <div className="singleNews max1200-1 col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"

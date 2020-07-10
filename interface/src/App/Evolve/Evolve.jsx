@@ -154,7 +154,7 @@ class Evolve extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews col-sm-12 col-md-10 col-lg-6 mx-0 py-4">
+                        <div className="singleNews max1200-1 col-sm-12 col-md-10 col-lg-6 mx-0 py-4">
                             {this.state.loading && <Loader
                                 color="black"
                                 weight="500"
