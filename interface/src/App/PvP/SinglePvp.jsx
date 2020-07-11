@@ -53,7 +53,7 @@ class SinglePvp extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.parentState === prevProps.parentState) {
+        if (this.props.parentState.pvpResult === prevProps.parentState.pvpResult) {
             return
         }
         this.setState({

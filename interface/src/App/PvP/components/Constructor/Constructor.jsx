@@ -83,7 +83,6 @@ class Constructor extends React.PureComponent {
                     list, role, 2)
                 break
             default:
-                console.log("Unknown action code")
         }
         return { list: list, containCharge: containCharge, }
     }

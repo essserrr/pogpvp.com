@@ -47,7 +47,7 @@ class CommonPve extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.parentState === prevProps.parentState) {
+        if (this.props.parentState.pveResult === prevProps.parentState.pveResult) {
             return
         }
         this.setState({
@@ -296,7 +296,6 @@ class CommonPve extends React.PureComponent {
         return (
             < >
                 <div className="row justify-content-center m-0 mb-4"  >
-
                     <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
                             className="row justify-content-between m-0"
