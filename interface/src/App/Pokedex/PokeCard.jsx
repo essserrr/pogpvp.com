@@ -7,8 +7,6 @@ import { UnmountClosed } from "react-collapse";
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
-import StatsBlock from "./StatsBlock/StatsBlock"
-import StatsTriangle from "./StatsBlock/StatsTriangle"
 import MoveCol from "./MoveBlock/MoveCol"
 import EffTable from "./EffBlock/EffTable"
 import CpBlock from "./CpBlock/CpBlock"
@@ -209,7 +207,7 @@ class PokeCard extends React.Component {
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="dexCard mx-3 mb-2 max650 col-12 col-md-10 col-lg-7 p-2 p-md-4">
+                        <div className="dexCard mx-3 mb-2 max650 col-12 col-md-10 col-lg-8 p-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
@@ -246,17 +244,6 @@ class PokeCard extends React.Component {
                                 />
                                 {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
                                     <DescrBlock value={this.state.pokMisc.Description} />}
-
-                                <StatsTriangle
-                                    value={this.state.pok}
-                                    moveTable={this.state.moveTable}
-                                    pokTable={this.state.pokTable}
-                                />
-                                <StatsBlock
-                                    value={this.state.pok}
-                                    moveTable={this.state.moveTable}
-                                    pokTable={this.state.pokTable}
-                                />
                                 <RedirectBlock
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}

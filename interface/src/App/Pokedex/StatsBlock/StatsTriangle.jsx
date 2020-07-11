@@ -1,5 +1,6 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
+import ReactTooltip from "react-tooltip"
 
 import { getCookie } from "../../../js/indexFunctions"
 import { dexLocale } from "../../../locale/dexLocale"
@@ -63,24 +64,27 @@ class StatsTriangle extends React.PureComponent {
 
     returnTriangle() {
         //initial values
-        const strokeMain = this.props.strokeMain ? this.props.strokeMain : 1.5
-        const strokeSec = this.props.strokeSec ? this.props.strokeSec : 1
-        const width = this.props.width ? this.props.width : 150
-        const height = this.props.width ? this.props.width : 130
-        const triangleHeight = (width - strokeMain * 2) * Math.cos(Math.PI / 6)
+        const strokeMain = this.props.strokeMain
+        const strokeSec = this.props.strokeSec
+        const width = this.props.boxWidth
+        const height = this.props.boxHeight
+        //triangle measures
+        const triangleLength = this.props.length
+        const triangleHeight = (triangleLength) * Math.cos(Math.PI / 6)
+        const padding = (width - triangleLength) > 0 ? (width - triangleLength) / 2 : 0
         //triangle points
         const centerX = width / 2
-        const centerY = (height - triangleHeight) + 2 / 3 * triangleHeight
+        const centerY = height - 1 / 3 * triangleHeight
         const topY = height - triangleHeight
         const topX = centerX
         const leftY = height - strokeMain
-        const leftX = strokeMain
+        const leftX = strokeMain + padding
         const rightY = leftY
-        const rightX = width - strokeMain
+        const rightX = width - strokeMain - padding
 
-        const ratioAtk = this.props.value.Atk / 414
-        const ratioDef = this.props.value.Def / 505
-        const ratioSta = this.props.value.Sta / 496
+        const ratioAtk = this.props.value.Atk / (this.props.value.Atk > 414 ? this.props.value.Atk : 414)
+        const ratioDef = this.props.value.Def / (this.props.value.Def > 420 ? this.props.value.Def : 420)
+        const ratioSta = this.props.value.Sta / (this.props.value.Sta > 420 ? this.props.value.Sta : 420)
 
         return <>
             <path d={"M" + leftX + " " + leftY + " H " + rightX + " L " + topX + " " + topY + " Z"}
@@ -89,20 +93,55 @@ class StatsTriangle extends React.PureComponent {
                 "M" + centerX + " " + centerY + " L " + topX + " " + topY}
                 fill="transparent" stroke="black" strokeWidth={strokeSec} strokeDasharray="5 2" />
 
-            <path className={"statBarXXBack svgFillsC" + this.props.value.Type[0]} style={{ opacity: "0.85" }}
+            <path data-tip data-for={"all"} className={"statBarXXBack svgFillsC" + this.props.value.Type[0]} style={{ opacity: "0.85" }}
                 d={"M" + (centerX + (leftX - centerX) * ratioAtk) + " " + (centerY + (leftY - centerY) * ratioAtk) +
                     " L " + (centerX + (rightX - centerX) * ratioDef) + " " + (centerY + (rightY - centerY) * ratioDef) +
                     " L " + (centerX + (topX - centerX) * ratioDef) + " " + (centerY + (topY - centerY) * ratioSta) + " Z"}
                 fill="transparent" />
+            <text data-tip data-for={"atk"} x={leftX - 25} y={leftY} className="fBolder">Atk</text>
+            <text data-tip data-for={"def"} x={rightX} y={rightY} className="fBolder">Def</text>
+            <text data-tip data-for={"sta"} x={topX - 25 / 2} y={topY - 2} className="fBolder">Sta</text>
         </>
     }
+
     render() {
         return (
-            <div className="col-12 m-0 p-0 mt-1 jystify-content-center">
-                <svg tabIndex="0" ref="canvas" width="150px" height="130px" >
+            <>
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={"sta"} effect="solid"
+                    place={"top"}
+                    multiline={true} >
+                    {strings.staFull + ": " + this.props.value.Sta}
+                </ReactTooltip>
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={"atk"} effect="solid"
+                    place={"top"}
+                    multiline={true} >
+                    {strings.atkFull + ": " + this.props.value.Atk}
+                </ReactTooltip>
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={"def"} effect="solid"
+                    place={"top"}
+                    multiline={true} >
+                    {strings.defFull + ": " + this.props.value.Def}
+                </ReactTooltip>
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={"all"} effect="solid"
+                    place={"top"}
+                    multiline={true} >
+                    {strings.atkFull + ": " + this.props.value.Atk}<br />
+                    {strings.defFull + ": " + this.props.value.Def}<br />
+                    {strings.staFull + ": " + this.props.value.Sta}<br />
+                </ReactTooltip>
+                <svg
+                    width={this.props.boxWidth} height={this.props.boxHeight} >
                     {this.returnTriangle()}
                 </svg>
-            </div>
+            </>
         );
     }
 }
