@@ -84,10 +84,10 @@ class SimulatorPanel extends React.PureComponent {
                 <option value="2" key="2">{pveStrings.friendList.great + " (5%)"}</option>,
                 <option value="3" key="3">{pveStrings.friendList.ultra + " (7%)"}</option>,
                 <option value="4" key="4">{pveStrings.friendList.best + " (10%)"}</option>,
-                <option value="5" key="5">{pveStrings.friendList.good + " (6%)"}</option>,
-                <option value="6" key="6">{pveStrings.friendList.great + " (12%)"}</option>,
-                <option value="7" key="7">{pveStrings.friendList.ultra + " (18%)"}</option>,
-                <option value="8" key="8">{pveStrings.friendList.best + " (25%)"}</option>,
+                <option value="5" key="5">{pveStrings.friendList.good + " (6%)" + pveStrings.friendList.ev}</option>,
+                <option value="6" key="6">{pveStrings.friendList.great + " (12%)" + pveStrings.friendList.ev}</option>,
+                <option value="7" key="7">{pveStrings.friendList.ultra + " (18%)" + pveStrings.friendList.ev}</option>,
+                <option value="8" key="8">{pveStrings.friendList.best + " (25%)" + pveStrings.friendList.ev}</option>,
             ],
             tierTip: [
                 <div key="tiertip">

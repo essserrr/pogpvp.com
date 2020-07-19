@@ -53,7 +53,7 @@ export const pveLocale = {
             great: "Great",
             ultra: "Ultra",
             best: "Best",
-
+            ev: " (Friendship event)"
         },
 
         hprem: "Boss remaining HP: ",
@@ -135,6 +135,7 @@ export const pveLocale = {
             great: "Грейт",
             ultra: "Ультра",
             best: "Бест",
+            ev: " (Ивента на дружбу)"
         },
 
         hprem: "Осталось HP у босса: ",
