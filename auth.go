@@ -7,7 +7,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
+
+	log "github.com/sirupsen/logrus"
+
 	"net/http"
 	"os"
 	"time"
@@ -23,6 +25,35 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 	"golang.org/x/crypto/bcrypt"
 )
+
+type mongoDatabse struct {
+	client *mongo.Client
+}
+
+func (mdb *mongoDatabse) newMongo() error {
+	client, err := connectToMongo()
+	if err != nil {
+		return err
+	}
+	mdb.client = client
+	return nil
+}
+
+func connectToMongo() (*mongo.Client, error) {
+	//start new connection
+	clientOptions := options.Client().ApplyURI(os.Getenv("MONGO_URI"))
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		return nil, err
+	}
+	//test connection
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		log.WithFields(log.Fields{"location": "createApp"}).Errorf("Ping failed")
+		return nil, err
+	}
+	return client, nil
+}
 
 type request struct {
 	GUID      string

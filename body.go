@@ -38,6 +38,7 @@ type App struct {
 	pveDatabase        database
 	newsDatabse        database
 	users              database
+	mongo              mongoDatabse
 
 	metrics pageMetrics
 
@@ -91,19 +92,23 @@ func createApp(withLog *os.File) (*App, error) {
 	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING", "MISC"}
 	//create/open bases
 	if err = app.semistaticDatabase.createDatabase("./semistatic.db", "BOLTDB", app.semistaticBuckets); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.newsDatabse.createDatabase("./news.db", "BOLTDB", []string{"NEWS_HEADERS", "NEWS"}); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.users.createDatabase("./users.db", "BOLTDB", []string{"SUPERADMINS"}); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.pvpDatabase.createDatabase("./pvp.db", "BOLTDB", []string{"PVPRESULTS"}); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.pveDatabase.createDatabase("./pve.db", "BOLTDB", []string{"PVERESULTS"}); err != nil {
-		return &App{}, err
+		return nil, err
+	}
+	//init mongo
+	if err = app.mongo.newMongo(); err != nil {
+		return nil, err
 	}
 
 	//init server
@@ -402,6 +407,18 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	default:
 		http.ServeFile(*w, r, "./interface/build/200.html")
 	}
+	return nil
+}
+
+func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
+	//Check visitor's requests limit
+	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	agent := r.Header.Get("User-Agent")
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
+
+	http.ServeFile(*w, r, "./sendsay/build/index.html")
 	return nil
 }
 
@@ -1156,6 +1173,8 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/pve*", rootHandler{serveIndex, a})
 	router.Handle("/movedex*", rootHandler{serveIndex, a})
 	router.Handle("/pokedex*", rootHandler{serveIndex, a})
+	//sendsay
+	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
