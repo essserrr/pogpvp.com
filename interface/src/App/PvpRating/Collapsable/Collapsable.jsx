@@ -4,6 +4,8 @@ import { checkShadow, getCookie, encodeQueryData, calculateMaximizedStats } from
 import RMoveRow from "../RMoveRow/RMoveRow"
 import RRateRow from "../RRateRow/RRateRow"
 import RowWrap from "../RowWrap/RowWrap"
+import EffTable from "../../Pokedex/EffBlock/EffTable"
+
 
 import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
@@ -118,6 +120,7 @@ class Collapsable extends React.PureComponent {
     }
 
     render() {
+        console.log(this.props.pokemonTable[checkShadow(this.props.container.Name, this.props.pokemonTable)])
         return (
             <>
                 <div onClick={this.onClick} className="row clickable justify-content-end m-0 px-3 pb-1">
@@ -140,6 +143,12 @@ class Collapsable extends React.PureComponent {
                             locale={strings.rating.movesets}
                             value={this.createMovesetList(this.props.container.Movesets)}
                         />
+                        <div className="col-12 col-sm-11 col-md-10 pt-3 text-center">
+                            <EffTable
+                                type={this.props.pokemonTable[checkShadow(this.props.container.Name, this.props.pokemonTable)].Type}
+                                reverse={false}
+                            />
+                        </div>
                     </div>
                 </UnmountClosed>
             </>
