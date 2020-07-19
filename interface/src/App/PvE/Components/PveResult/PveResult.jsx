@@ -104,6 +104,7 @@ class PveResult extends React.PureComponent {
     }
 
     raplace(data, i) {
+        this.props.replaceOriginal(data, i)
         this.setState({
             listToShow: [
                 ...this.state.listToShow.slice(0, i),

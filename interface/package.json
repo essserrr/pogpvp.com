@@ -22,6 +22,7 @@
     "react-helmet": "^6.0.0",
     "react-lazy-images": "^1.1.0",
     "react-localization": "^1.0.15",
+    "react-redux": "^7.2.0",
     "react-responsive": "^8.1.0",
     "react-router-dom": "^5.1.2",
     "react-router-sitemap": "^1.2.0",
@@ -29,7 +30,10 @@
     "react-select": "^3.0.8",
     "react-spinners": "^0.8.1",
     "react-tooltip": "^4.1.0",
-    "react-transition-group": "1.x"
+    "react-transition-group": "1.x",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "sendsay-api": "^2.4.0"
   },
   "reactSnap": {
     "sourceMaps": false,
