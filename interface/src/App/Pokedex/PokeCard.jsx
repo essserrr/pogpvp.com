@@ -45,13 +45,14 @@ class PokeCard extends React.Component {
         //if error input somehow
         if (!this.state.pokTable || this.state.scrollList || this.state.miscTable || this.state.moveTable) {
             this.setState({
-                error: "strings.pokerr",
+                error: strings.pokerr,
                 showResult: false,
                 loading: false,
                 isError: true,
             });
         }
-        if (!this.state.pokTable[this.props.match.params.id]) {
+        let id = decodeURIComponent(this.props.match.params.id)
+        if (!this.state.pokTable[id]) {
             this.setState({
                 error: strings.pokerr,
                 showResult: false,
@@ -61,8 +62,7 @@ class PokeCard extends React.Component {
             return
         }
 
-        let position = this.findPosition(this.props.match.params.id,
-            Number(this.state.pokTable[this.props.match.params.id].Number) - 1, this.state.scrollList)
+        let position = this.findPosition(id, Number(this.state.pokTable[id].Number) - 1, this.state.scrollList)
 
         this.setState({
             showResult: true,
@@ -71,8 +71,8 @@ class PokeCard extends React.Component {
 
             position: position,
 
-            pok: this.state.pokTable[this.props.match.params.id],
-            pokMisc: this.state.miscTable.Misc[this.props.match.params.id],
+            pok: this.state.pokTable[id],
+            pokMisc: this.state.miscTable.Misc[id],
         });
     }
 
@@ -138,7 +138,9 @@ class PokeCard extends React.Component {
             }
         }
         //if error input somehow
-        if (!results[1][this.props.match.params.id]) {
+
+        let id = decodeURIComponent(this.props.match.params.id)
+        if (!results[1][id]) {
             this.setState({
                 error: strings.pokerr,
                 showResult: false,
@@ -151,7 +153,7 @@ class PokeCard extends React.Component {
 
         let scrollList = this.makeList(results[1])
 
-        let position = this.findPosition(this.props.match.params.id, Number(results[1][this.props.match.params.id].Number) - 1,
+        let position = this.findPosition(id, Number(results[1][id].Number) - 1,
             scrollList)
 
         this.setState({
@@ -166,8 +168,8 @@ class PokeCard extends React.Component {
             pokTable: results[1],
             miscTable: results[2],
 
-            pok: results[1][this.props.match.params.id],
-            pokMisc: results[2].Misc[this.props.match.params.id],
+            pok: results[1][id],
+            pokMisc: results[2].Misc[id],
         });
     }
 
@@ -202,8 +204,8 @@ class PokeCard extends React.Component {
         return (
             <>
                 <SiteHelm
-                    header={this.props.match.params.id + strings.mdsdescr + " | PogPvP.com"}
-                    descr={this.props.match.params.id + strings.mdsdescr}
+                    header={decodeURIComponent(this.props.match.params.id) + strings.mdsdescr + " | PogPvP.com"}
+                    descr={decodeURIComponent(this.props.match.params.id) + strings.mdsdescr}
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
