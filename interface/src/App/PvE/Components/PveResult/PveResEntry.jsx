@@ -20,7 +20,6 @@ let pveStrings = new LocalizedStrings(pveLocale);
 
 
 class PveResEntry extends React.PureComponent {
-
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -197,11 +196,11 @@ class PveResEntry extends React.PureComponent {
         let pok = this.props.pokemonTable[this.props.pokemonRes[0].AName]
         let name = extractName(pok.Title)
         let avgStats = this.collect()
-
         return (
             <div className={"pokCard row m-0 py-1 my-1 px-2 justify-content-start"}
                 key={name.Name + this.props.pokemonRes[0].AQ + this.props.pokemonRes[0].ACh}>
                 <NumberAndName
+                    isShadow={this.props.snapshot.attackerObj.IsShadow === "false" ? false : true}
                     pok={pok}
                     i={this.props.i}
                 />

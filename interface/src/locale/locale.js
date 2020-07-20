@@ -215,7 +215,7 @@ export const locale = {
         navbar: {
             single: "Single PvP",
             matrix: "Matrix PvP",
-            shiny: "Sniny Rates",
+            shiny: "Shiny Rates",
             pvpTools: "PvP",
             pveTools: "PvE",
             raidsim: "Raid simulator",
@@ -251,6 +251,7 @@ export const locale = {
             firstsent: "PvP rating answers the question: who will be the best against the current meta.",
             secondsent: "Rating by divided by scenarios depending on the number of shields from each side.",
             thirdsent: "Overall rating shows the best average result across all scenarios.",
+            stats: "PvP best IV's",
         },
 
     },
@@ -513,6 +514,7 @@ export const locale = {
             firstsent: "PvP рейтинг отвечает на вопрос: кто будет лучшим против текущей меты.",
             secondsent: "Рейтинг разделен по сценариям в зависимости от количества щитов скаждой стороны.",
             thirdsent: "Общий ретинг показывает лучший средний результат среди всех сценариев.",
+            stats: "Лучшие параметры в PvP",
         },
     }
 }
