@@ -35,7 +35,6 @@ class Navbar extends React.PureComponent {
                 <a key="Poke Dex" className="dropdown-item " href="/pokedex/">{strings.navbar.pokedex}</a>,
             ],
             dropdownOther: [
-                <a key="Sniny Rates" className="dropdown-item " href="/shinyrates/">{strings.navbar.shiny}</a>,
                 <a key="Evolution Calc" className="dropdown-item " href="/evolution/">{strings.navbar.evo}</a>,
                 <a key="Eggs List" className="dropdown-item " href="/eggs/">{strings.navbar.eggs}</a>,
             ],
