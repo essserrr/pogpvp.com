@@ -1172,13 +1172,6 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/news/{action}", rootHandler{newsAPIHandler, a})
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
-	//test auth
-	router.Handle("/api/auth/login", rootHandler{login, a})
-	router.Handle("/api/auth/refresh", rootHandler{refresh, a})
-	router.Handle("/api/auth/logout/{type}", rootHandler{logout, a})
-
-	router.Handle("/api/auth/retrive", rootHandler{retrive, a})
-	router.Handle("/api/auth/deleteall", rootHandler{deleteAll, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)
