@@ -2,7 +2,6 @@ import React from "react"
 import "./AuthInput.scss"
 
 const AuthInput = React.memo(function (props) {
-    console.log(props.notOk)
     return (
         <div className="col-12 px-0">
             <div className="col-12 px-0 auth-input__text text-left">
@@ -20,6 +19,7 @@ const AuthInput = React.memo(function (props) {
 
                 onChange={props.onChange}
             />
+            {props.notOk !== "" && <div className="col-12 px-0 auth-input__alert-text">{props.notOk}</div>}
         </div>
     )
 })

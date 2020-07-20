@@ -107,9 +107,9 @@ func createApp(withLog *os.File) (*App, error) {
 		return nil, err
 	}
 	//init mongo
-	if err = app.mongo.newMongo(); err != nil {
-		return nil, err
-	}
+	//	if err = app.mongo.newMongo(); err != nil {
+	//		return nil, err
+	//	}
 
 	//init server
 	app.initServer()

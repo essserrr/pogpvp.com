@@ -120,7 +120,6 @@ class Collapsable extends React.PureComponent {
     }
 
     render() {
-        console.log(this.props.pokemonTable[checkShadow(this.props.container.Name, this.props.pokemonTable)])
         return (
             <>
                 <div onClick={this.onClick} className="row clickable justify-content-end m-0 px-3 pb-1">
