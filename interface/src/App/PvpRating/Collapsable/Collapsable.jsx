@@ -18,6 +18,7 @@ class Collapsable extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showCollapse: false,
+            aMaxStats: {},
         };
         this.onClick = this.onClick.bind(this);
         this.onClickRedirect = this.onClickRedirect.bind(this);
@@ -27,9 +28,20 @@ class Collapsable extends React.PureComponent {
 
 
     async onClick(event) {
-        this.setState({
-            showCollapse: !this.state.showCollapse,
-        })
+        switch (!this.state.showCollapse) {
+            case true:
+                this.setState({
+                    showCollapse: !this.state.showCollapse,
+                    aName: checkShadow(this.props.container.Name, this.props.pokemonTable),
+                    aMaxStats: calculateMaximizedStats(checkShadow(this.props.container.Name, this.props.pokemonTable),
+                        40, this.props.pokemonTable)[(this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())].Overall,
+                })
+                break
+            default:
+                this.setState({
+                    showCollapse: !this.state.showCollapse,
+                })
+        }
     }
 
     onClickRedirect(event) {
@@ -64,12 +76,9 @@ class Collapsable extends React.PureComponent {
             this.generatePokObj(defenderName, maxStatsD, shields[1], defenderName !== defenderOriginalName, defender)
         )
 
-        let attackerOriginalName = this.props.container.Name
-        let attackerName = checkShadow(attackerOriginalName, this.props.pokemonTable)
-        let maxStatsA = calculateMaximizedStats(attackerName, 40, this.props.pokemonTable)[league].Overall
-
         let attackerString = encodeQueryData(
-            this.generatePokObj(attackerName, maxStatsA, shields[0], attackerName !== attackerOriginalName, this.props.container)
+            this.generatePokObj(this.state.aName, this.state.aMaxStats, shields[0],
+                this.state.aName !== this.props.container.Name, this.props.container)
         )
 
         window.open("/pvp/single/great/" + attackerString + "/" + defenderString, "_blank")
@@ -120,7 +129,6 @@ class Collapsable extends React.PureComponent {
     }
 
     render() {
-        console.log(this.props.pokemonTable[checkShadow(this.props.container.Name, this.props.pokemonTable)])
         return (
             <>
                 <div onClick={this.onClick} className="row clickable justify-content-end m-0 px-3 pb-1">
@@ -143,7 +151,17 @@ class Collapsable extends React.PureComponent {
                             locale={strings.rating.movesets}
                             value={this.createMovesetList(this.props.container.Movesets)}
                         />
-                        <div className="col-12 col-sm-11 col-md-10 pt-3 text-center">
+                        <RowWrap
+                            disableIcon={true}
+                            outClass="col-12 col-sm-11 col-md-10 p-0 pt-2"
+                            locale={<div className="col-12 p-0 text-center">{strings.rating.stats}</div>}
+                            value={<div className="col-12 p-0 fBolder text-center pt-1">
+                                {strings.effStats.atk + ": " + this.state.aMaxStats.Atk + ", " +
+                                    strings.effStats.def + ": " + this.state.aMaxStats.Def + ", " +
+                                    strings.effStats.sta + ": " + this.state.aMaxStats.Sta + ", " +
+                                    strings.stats.lvl + ": " + this.state.aMaxStats.Level}</div>}
+                        />
+                        <div className="col-12 col-sm-11 col-md-10 pt-2 text-center">
                             <EffTable
                                 type={this.props.pokemonTable[checkShadow(this.props.container.Name, this.props.pokemonTable)].Type}
                                 reverse={false}
