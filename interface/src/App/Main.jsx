@@ -16,6 +16,7 @@ const PvpRatingRouter = lazy(() => import("./PvpRating/PvpRatingRouter"));
 const MovedexRouter = lazy(() => import("./Movedex/MovedexRouter"));
 const PokedexRouter = lazy(() => import("./Pokedex/PokedexRouter"));
 const NotFound = lazy(() => import("./NotFound/NotFound"));
+const Registration = lazy(() => import("./Registration/Registration"));
 
 const Main = () => (
     <main>
@@ -43,6 +44,7 @@ const Main = () => (
                 <Route path="/pvprating" component={PvpRatingRouter} />
                 <Route path="/movedex" component={MovedexRouter} />
                 <Route path="/pokedex" component={PokedexRouter} />
+                <Route path="/register" component={Registration} />
                 <Route path="*" component={NotFound} />
             </Switch>
         </Suspense>
