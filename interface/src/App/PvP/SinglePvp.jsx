@@ -77,9 +77,13 @@ class SinglePvp extends React.PureComponent {
             });
             return
         }
-        if (this.props.parentState.league !== prevProps.parentState.league) {
-            this.statMaximizer({ target: { name: "", value: "" } }, "attacker")
-            this.statMaximizer({ target: { name: "", value: "" } }, "defender")
+        if (this.props.parentState.league !== prevProps.parentState.league && this.props.parentState.pokemonTable) {
+            if (this.props.parentState.pokemonTable[this.state.attacker.name]) {
+                this.statMaximizer({ target: { name: "", value: "" } }, "attacker")
+            }
+            if (this.props.parentState.pokemonTable[this.state.defender.name]) {
+                this.statMaximizer({ target: { name: "", value: "" } }, "defender")
+            }
             return
         }
     }
