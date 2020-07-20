@@ -4,7 +4,7 @@ import SearchableSelect from "./SearchableSelect/SearchableSelect";
 import SelectGroup from "./SelectGroup/SelectGroup";
 import Stages from "./Stages/Stages";
 import InitialStats from "./InitialStats/InitialStats";
-import MaximizerRadio from "./MaximizerRadio/MaximizerRadio"
+import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
 import CpAndTyping from "./CpAndTypes/CpAndTypes"
 import EffectiveStats from "./EffectiveStats/EffectiveStats"
 import MagicBox from "./MagicBox/MagicBox"
@@ -99,16 +99,12 @@ class Pokemon extends React.PureComponent {
                             attr={this.props.attr}
                             onChange={this.props.onChange}
                         />
-
-
-                        <MaximizerRadio
-                            defaultOptions={this.props.maximzierDefaultOptions}
+                        <MaximizerNoSubmit
                             attr={this.props.attr}
-                            maximizerSubmit={this.props.maximizerSubmit}
+                            action={"defaultStatMaximizer"}
+                            value={this.props.value.maximizer}
+                            onChange={this.props.onChange}
                         />
-
-
-
                         <InitialStats
                             InitialHP={this.props.value.InitialHP}
                             InitialEnergy={this.props.value.InitialEnergy}

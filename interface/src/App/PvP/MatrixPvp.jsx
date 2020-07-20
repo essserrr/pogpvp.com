@@ -95,11 +95,19 @@ class MatrixPvp extends React.PureComponent {
         this.addStar = this.addStar.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.parentState.league === prevProps.parentState.league) {
+            return
+        }
+        this.statMaximizer({ target: { name: "", value: "" } }, "rightPanel")
+        this.statMaximizer({ target: { name: "", value: "" } }, "leftPanel")
+    }
 
     statMaximizer(event, role) {
-        event.persist()
-        let max = { ...this.state[role].maximizer }
-        max[event.target.name] = event.target.value
+        let max = {
+            ...this.state[role].maximizer,
+            [event.target.name]: event.target.value,
+        }
 
         let newBattleList = this.state[role].listForBattle.map((pok) => {
             let ivSet = calculateMaximizedStats(pok.name,
@@ -124,13 +132,9 @@ class MatrixPvp extends React.PureComponent {
             [role]: {
                 ...this.state[role],
                 listForBattle: newBattleList,
-                maximizer: {
-                    ...this.state[role].maximizer,
-                    [event.target.name]: event.target.value,
-                },
+                maximizer: max,
             }
         });
-
     }
 
     onPopup(event, role) {

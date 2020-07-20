@@ -572,18 +572,28 @@ export function extractPokemon(array) {
         name: array[5], Lvl: array[1], Atk: array[2], Def: array[3], Sta: array[4], Shields: array[0],
         AtkStage: array[6], DefStage: array[7], InitialHP: array[8], InitialEnergy: array[9], IsGreedy: array[10], IsShadow: array[11],
         QuickMove: array[12], ChargeMove1: array[13], ChargeMove2: array[14],
-        quickMovePool: "", chargeMovePool: "", ivSet: "",
+        quickMovePool: "", chargeMovePool: "",
         effAtk: "", effDef: "", effSta: "",
+        maximizer: {
+            stat: "Overall",
+            level: "40",
+            action: "Default",
+        },
         HP: undefined, Energy: undefined,
     }
 }
 export function pokemon(locale) {
     return {
-        name: locale, Lvl: "", Atk: "", Def: "", Sta: "", Shields: "",
-        AtkStage: "", DefStage: "", InitialHP: "", InitialEnergy: "", IsGreedy: "", IsShadow: "",
+        name: locale, Lvl: "", Atk: "", Def: "", Sta: "", Shields: "0",
+        AtkStage: "0", DefStage: "0", InitialHP: "0", InitialEnergy: "0", IsGreedy: "true", IsShadow: "false",
         QuickMove: "", ChargeMove1: "", ChargeMove2: "",
-        quickMovePool: "", chargeMovePool: "", ivSet: "",
+        quickMovePool: "", chargeMovePool: "",
         effAtk: "", effDef: "", effSta: "",
+        maximizer: {
+            stat: "Overall",
+            level: "40",
+            action: "Default",
+        },
         HP: undefined, Energy: undefined, showMenu: false,
     }
 }

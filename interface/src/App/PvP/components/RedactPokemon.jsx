@@ -57,14 +57,19 @@ class RedactPokemon extends React.PureComponent {
                 ...this.props.redact.pokemon,
                 quickMovePool: moves.quickMovePool,
                 chargeMovePool: moves.chargeMovePool,
-                ivSet: { 40: ivSet },
 
                 effAtk: calculateEffStat(this.props.redact.pokemon.name, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Atk, 0, this.props.pokemonTable, "Atk", "false"),
+                    ivSet[this.props.league][whatToMaximize].Atk, this.props.redact.pokemon.AtkStage,
+                    this.props.pokemonTable, "Atk", this.props.redact.pokemon.IsShadow),
+
                 effDef: calculateEffStat(this.props.redact.pokemon.name, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Def, 0, this.props.pokemonTable, "Def", "false"),
+                    ivSet[this.props.league][whatToMaximize].Def, this.props.redact.pokemon.DefStage,
+                    this.props.pokemonTable, "Def", this.props.redact.pokemon.IsShadow),
+
                 effSta: calculateEffStat(this.props.redact.pokemon.name, ivSet[this.props.league][whatToMaximize].Level,
                     ivSet[this.props.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
+
+                maximizer: this.props.value.maximizer,
 
                 HP: undefined,
                 Energy: undefined,
@@ -72,7 +77,7 @@ class RedactPokemon extends React.PureComponent {
         };
 
         this.onChange = this.onChange.bind(this);
-        this.maximizerSubmit = this.maximizerSubmit.bind(this);
+        this.statMaximizer = this.statMaximizer.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onPokemonSubmit = this.onPokemonSubmit.bind(this);
     }
@@ -94,8 +99,8 @@ class RedactPokemon extends React.PureComponent {
         let quick = selectQuick(moves.quickMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         let charge = selectCharge(moves.chargeMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         //create default iv set
-        let ivSet = calculateMaximizedStats(event.value, this.props.value.maximizer.level, this.props.pokemonTable)
-        let whatToMaximize = (this.props.value.maximizer.action === "Default") ? "Default" : this.props.value.maximizer.stat
+        let ivSet = calculateMaximizedStats(event.value, this.state.pokemon.maximizer.level, this.props.pokemonTable)
+        let whatToMaximize = (this.state.pokemon.maximizer.action === "Default") ? "Default" : this.state.pokemon.maximizer.stat
 
         //set state
         this.setState({
@@ -111,19 +116,15 @@ class RedactPokemon extends React.PureComponent {
                 Atk: ivSet[this.props.league][whatToMaximize].Atk,
                 Def: ivSet[this.props.league][whatToMaximize].Def,
                 Sta: ivSet[this.props.league][whatToMaximize].Sta,
-                AtkStage: this.props.value.AtkStage,
-                DefStage: this.props.value.DefStage,
-                InitialHP: "0",
-                InitialEnergy: "0",
-                ivSet: { 40: ivSet },
-                Shields: this.props.value.Shields,
-                IsGreedy: this.props.value.IsGreedy,
-                IsShadow: "false",
 
                 effAtk: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Atk, 0, this.props.pokemonTable, "Atk", "false"),
+                    ivSet[this.props.league][whatToMaximize].Atk, this.state[name].AtkStage,
+                    this.props.pokemonTable, "Atk", this.state[name].IsShadow),
+
                 effDef: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Def, 0, this.props.pokemonTable, "Def", "false"),
+                    ivSet[this.props.league][whatToMaximize].Def, this.state[name].DefStage,
+                    this.props.pokemonTable, "Def", this.state[name].IsShadow),
+
                 effSta: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
                     ivSet[this.props.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
 
@@ -251,7 +252,12 @@ class RedactPokemon extends React.PureComponent {
             return
         }
         let role = event.target.getAttribute("attr")
+        let action = event.target.getAttribute("action")
         //check if it's an initial stat change
+        if (action === "defaultStatMaximizer") {
+            this.statMaximizer(event, role)
+            return
+        }
         if (event.target.name === "InitialHP" || event.target.name === "InitialEnergy") {
             this.onInitialStatsChange(event, role)
             return
@@ -297,69 +303,40 @@ class RedactPokemon extends React.PureComponent {
 
 
 
-    maximizerSubmit(event) {
-        event.preventDefault();
-
-        let role = event.target.getAttribute("attr")
-        let level = event.target.getAttribute("level")
-        let stat = event.target.getAttribute("stat")
-        let action = event.target.getAttribute("action")
-        let varIVS = {}
-
-        //if there is no data for given level - generate it
-        switch (this.state[role].ivSet[level] === undefined) {
-            case true:
-                let missingLevel = calculateMaximizedStats(this.state[role].name, level, this.props.pokemonTable)
-                switch (action) {
-                    case "Maximize":
-                        varIVS = missingLevel[this.props.league][stat]
-                        break
-                    default:
-                        varIVS = missingLevel[this.props.league][action]
-                }
-                this.setState({
-                    [role]: {
-                        ...this.state[role],
-                        HP: undefined, Energy: undefined,
-
-                        Lvl: varIVS.Level, Atk: varIVS.Atk, Def: varIVS.Def, Sta: varIVS.Sta,
-
-                        effAtk: calculateEffStat(this.state[role].name, varIVS.Level, varIVS.Atk, this.state[role].AtkStage,
-                            this.props.pokemonTable, "Atk", this.state[role].IsShadow),
-                        effDef: calculateEffStat(this.state[role].name, varIVS.Level, varIVS.Def, this.state[role].DefStage,
-                            this.props.pokemonTable, "Def", this.state[role].IsShadow),
-                        effSta: calculateEffStat(this.state[role].name, varIVS.Level, varIVS.Sta, 0, this.props.pokemonTable, "Sta"),
-                        ivSet: {
-                            ...this.state[role].ivSet,
-                            [level]: missingLevel,
-                        }
-                    }
-                });
-                break
-            default:
-                switch (action) {
-                    case "Maximize":
-                        varIVS = this.state[role].ivSet[level][this.props.league][stat]
-                        break
-                    default:
-                        varIVS = this.state[role].ivSet[level][this.props.league][action]
-                        break
-                }
-                this.setState({
-                    [role]: {
-                        ...this.state[role],
-                        HP: undefined, Energy: undefined,
-
-                        effAtk: calculateEffStat(this.state[role].name, varIVS.Level, varIVS.Atk, this.state[role].AtkStage,
-                            this.props.pokemonTable, "Atk", this.state[role].IsShadow),
-                        effDef: calculateEffStat(this.state[role].name, varIVS.Level, varIVS.Def, this.state[role].DefStage,
-                            this.props.pokemonTable, "Def", this.state[role].IsShadow),
-                        effSta: calculateEffStat(this.state[role].name, varIVS.Level, varIVS.Sta, 0, this.props.pokemonTable, "Sta"),
-
-                        Lvl: varIVS.Level, Atk: varIVS.Atk, Def: varIVS.Def, Sta: varIVS.Sta,
-                    }
-                });
+    statMaximizer(event, role) {
+        let max = {
+            ...this.state[role].maximizer,
+            [event.target.name]: event.target.value,
         }
+
+        let ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.pokemonTable)
+        let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
+
+        this.setState({
+            [role]: {
+                ...this.state[role],
+                HP: undefined, Energy: undefined,
+
+                Lvl: ivSet[this.props.league][whatToMaximize].Level,
+                Atk: ivSet[this.props.league][whatToMaximize].Atk,
+                Def: ivSet[this.props.league][whatToMaximize].Def,
+                Sta: ivSet[this.props.league][whatToMaximize].Sta,
+
+                effAtk: calculateEffStat(this.state[role].name, ivSet[this.props.league][whatToMaximize].Level,
+                    ivSet[this.props.league][whatToMaximize].Atk, this.state[role].AtkStage,
+                    this.props.pokemonTable, "Atk", this.state[role].IsShadow),
+
+                effDef: calculateEffStat(this.state[role].name, ivSet[this.props.league][whatToMaximize].Level,
+                    ivSet[this.props.league][whatToMaximize].Def, this.state[role].DefStage,
+                    this.props.pokemonTable, "Def", this.state[role].IsShadow),
+
+                effSta: calculateEffStat(this.state[role].name, ivSet[this.props.league][whatToMaximize].Level,
+                    ivSet[this.props.league][whatToMaximize].Sta, 0,
+                    this.props.pokemonTable, "Sta"),
+
+                maximizer: max,
+            },
+        });
     }
 
     onPokemonSubmit(event) {
@@ -382,15 +359,12 @@ class RedactPokemon extends React.PureComponent {
                         <Pokemon
                             className="pokemon large m-1 mb-3 col-12"
 
-                            maximzierDefaultOptions={this.props.value.maximizer}
-
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.moveTable}
                             value={this.state.pokemon}
                             attr="pokemon"
                             onChange={this.onChange}
                             pokList={this.props.pokList}
-                            maximizerSubmit={this.maximizerSubmit}
 
                             showMenu={this.state.pokemon.showMenu}
 
