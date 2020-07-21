@@ -107,9 +107,9 @@ func createApp(withLog *os.File) (*App, error) {
 		return nil, err
 	}
 	//init mongo
-	//	if err = app.mongo.newMongo(); err != nil {
-	//		return nil, err
-	//	}
+	if err = app.mongo.newMongo(); err != nil {
+		return nil, err
+	}
 
 	//init server
 	app.initServer()
@@ -1227,6 +1227,7 @@ func main() {
 		log.WithFields(log.Fields{"location": "createApp"}).Errorf("An error accured during creating app: %v", err)
 		return
 	}
+	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.mongo.client.Disconnect)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.semistaticDatabase.Close)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.pvpDatabase.Close)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.newsDatabse.Close)

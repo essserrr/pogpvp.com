@@ -7,8 +7,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"regexp"
-	"strings"
+
+	users "Solutions/pvpSimulator/core/users"
+	mongocalls "Solutions/pvpSimulator/core/users/mongocalls"
 
 	log "github.com/sirupsen/logrus"
 
@@ -57,19 +58,6 @@ func connectToMongo() (*mongo.Client, error) {
 	return client, nil
 }
 
-type regForm struct {
-	Username      string
-	Email         string
-	Password      string
-	CheckPassword string
-	Token         string
-}
-
-type captchaResp struct {
-	Success bool
-	Error   []string `json:"error-codes"`
-}
-
 func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodPost {
 		app.metrics.dbCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
@@ -79,20 +67,21 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	form := new(regForm)
+	form := new(users.RegForm)
 	if err := parseBody(r, &form); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
+	if err := form.VerifyRegForm(ip); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Registration form err"), http.StatusBadRequest, err.Error())
+	}
+	if err := mongocalls.CheckUserExistance(app.mongo.client, form); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Registration data err"), http.StatusBadRequest, err.Error())
+	}
 
-	fmt.Println(checkRegexp(form.Username))
-	fmt.Println(checkRegexp(form.Password))
-	fmt.Println(checkRegexp(form.CheckPassword))
-	fmt.Println(checkEmailRegexp(form.Email))
-	fmt.Println(ip)
-
-	fmt.Println(form.verifyCaptcha(ip))
-
+	fmt.Println("Ok")
 	answer, err := json.Marshal("ok")
 	if err != nil {
 		return err
@@ -106,58 +95,15 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	return nil
 }
 
-func downloadAsObj(url string, target interface{}) error {
-	response, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-	pageInBytes, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return err
-	}
-	response.Body.Close()
-
-	err = json.Unmarshal(pageInBytes, &target)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func parseBody(r *http.Request, target interface{}) error {
 	//read req body
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
 	}
-	//parse regForm
+	//parse RegForm
 	if err = json.Unmarshal(body, &target); err != nil {
 		return err
-	}
-	return nil
-}
-func (lf *regForm) verifyRegForm(ip string) error {
-
-	return nil
-}
-
-func checkEmailRegexp(target string) bool {
-	const reg = `^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$`
-	return regexp.MustCompile(reg).MatchString(target)
-}
-
-func checkRegexp(target string) bool {
-	return regexp.MustCompile(`^([A-Za-z0-9@_\\-\\.!$%^&*+=]*)$`).MatchString(target)
-}
-
-func (lf *regForm) verifyCaptcha(ip string) error {
-	captcha := new(captchaResp)
-	if err := downloadAsObj(
-		"https://www.google.com/recaptcha/api/siteverify?secret="+os.Getenv("SECRET_CAPTCHA")+"&response="+lf.Token+"&remoteip="+ip, &captcha); err != nil {
-		return err
-	}
-	if len(captcha.Error) > 0 {
-		return fmt.Errorf(strings.Join(captcha.Error, ", "))
 	}
 	return nil
 }
