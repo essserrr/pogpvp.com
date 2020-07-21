@@ -17,6 +17,8 @@ const MovedexRouter = lazy(() => import("./Movedex/MovedexRouter"));
 const PokedexRouter = lazy(() => import("./Pokedex/PokedexRouter"));
 const NotFound = lazy(() => import("./NotFound/NotFound"));
 const Registration = lazy(() => import("./Registration/Registration"));
+const Privacy = lazy(() => import("./Registration/Privacy/Privacy"));
+const Terms = lazy(() => import("./Registration/Terms/Terms"));
 
 const Main = () => (
     <main>
@@ -45,6 +47,8 @@ const Main = () => (
                 <Route path="/movedex" component={MovedexRouter} />
                 <Route path="/pokedex" component={PokedexRouter} />
                 <Route path="/register" component={Registration} />
+                <Route path="/privacy" component={Privacy} />
+                <Route path="/terms" component={Terms} />
                 <Route path="*" component={NotFound} />
             </Switch>
         </Suspense>

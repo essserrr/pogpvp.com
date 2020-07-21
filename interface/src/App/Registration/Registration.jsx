@@ -11,7 +11,7 @@ import { userLocale } from "../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale);
 
-class Login extends React.Component {
+class Registration extends React.Component {
     constructor(props) {
         super(props)
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -200,4 +200,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+export default Registration

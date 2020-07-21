@@ -95,6 +95,9 @@ class LoginForm extends React.PureComponent {
                     {this.props.notOk.token !== "" &&
                         <div className="col-12 px-0 text-center reg-form__alert-text">{this.props.notOk.token}</div>}
                 </div>
+                <div className="col-12 p-0 pt-2 reg-form--text">
+                    {strings.propc}<a href="/privacy" title={strings.pol.p}>{strings.pol.p}</a> {strings.and} <a href="/terms" title={strings.pol.t}>{strings.pol.t}</a>
+                </div>
                 <div className="row m-0 pt-3 justify-content-center">
                     <AuthButton
                         title={strings.signup.toreg}

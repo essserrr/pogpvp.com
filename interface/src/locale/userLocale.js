@@ -1,5 +1,11 @@
 export const userLocale = {
     en: {
+        propc: "By signing up you agree with ",
+        and: "and",
+        pol: {
+            t: "Terms and Conditions",
+            p: "Privacy Policy",
+        },
         signup: {
             reg: "Sign up",
             toreg: "Sign up",
@@ -27,6 +33,12 @@ export const userLocale = {
     },
 
     ru: {
+        propc: "Регистрируясь вы соглашаетесь с ",
+        and: "и",
+        pol: {
+            t: "Условия и положения",
+            p: "Политика конфиденциальности",
+        },
         signup: {
             reg: "Регистрация",
             toreg: "Подтвердить",
@@ -36,7 +48,7 @@ export const userLocale = {
             email: "Адрес электронной почты",
         },
         err: {
-            token: "Вы должны выполнить проверку",
+            token: "Вы должны пройти проверку",
             ness: "Обязательное поле",
             match: "Пароли не совпадают",
             symb: " содержит запрещенные символы",
