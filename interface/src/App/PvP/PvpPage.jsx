@@ -181,23 +181,6 @@ class PvpPage extends React.Component {
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
-                if (results[i].detail === "PvP error") {
-                    this.setState({
-                        showResult: false,
-                        isLoaded: true,
-                        isError: true,
-                        loading: false,
-                        error: results[i].case.What,
-                        league: (extractedData.league) ? extractedData.league : "great",
-
-                        pokemonTable: (results[0]) ? results[0] : [],
-                        moveTable: (results[1]) ? results[1] : [],
-                        pokList: (pokList) ? pokList : [],
-                        chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
-                        quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
-                    });
-                    return;
-                }
                 this.setState({
                     isError: true,
                     error: results[i].detail,

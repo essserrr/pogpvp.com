@@ -246,15 +246,6 @@ class CommonPve extends React.PureComponent {
         const data = await response.json();
         //if response is not ok, handle error
         if (!response.ok) {
-            if (data.detail === "PvE error") {
-                this.setState({
-                    showResult: false,
-                    isError: true,
-                    loading: false,
-                    error: data.case.What,
-                });
-                return;
-            }
             this.setState({
                 showResult: false,
                 isError: true,

@@ -637,7 +637,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		pveResult, err := sim.CalculteCommonPve(inDat)
 		if err != nil {
 			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
-			return errors.NewHTTPError(err, http.StatusBadRequest, "PvE error")
+			return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
 		}
 		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated raid")
 
@@ -713,7 +713,7 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 		if err != nil {
 			go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-			return errors.NewHTTPError(err, http.StatusBadRequest, "PvP error")
+			return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 		}
 		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated")
 		//Create json answer from pvpResult
@@ -971,7 +971,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 	}
 	//Parse request
 	pokA, pokB, constructor, err := parser.ParseConstructorRequest(body)
@@ -1003,7 +1003,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "PvP error")
+		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 	}
 	log.WithFields(log.Fields{"location": "constructorPvpHandler"}).Println("Calculated")
 	//Create json answer from pvpResult
@@ -1192,6 +1192,8 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
 	//test auth
+	router.Handle("/api/reg", rootHandler{register, a})
+
 	router.Handle("/api/auth/login", rootHandler{login, a})
 	router.Handle("/api/auth/refresh", rootHandler{refresh, a})
 	router.Handle("/api/auth/logout/{type}", rootHandler{logout, a})

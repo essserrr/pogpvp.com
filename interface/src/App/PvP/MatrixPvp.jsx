@@ -338,16 +338,6 @@ class MatrixPvp extends React.PureComponent {
         let data = await response.json();
 
         if (!response.ok) {
-            if (data.detail === "PvP error") {
-                this.setState({
-                    advDisabled: true,
-                    showResult: false,
-                    isError: true,
-                    loading: false,
-                    error: data.case.What
-                });
-                return;
-            }
             this.setState({
                 advDisabled: true,
                 showResult: false,

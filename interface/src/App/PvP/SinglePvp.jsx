@@ -390,18 +390,6 @@ class SinglePvp extends React.PureComponent {
         const data = await response.json();
         //if response is not ok, handle error
         if (!response.ok) {
-            if (data.detail === "PvP error") {
-                this.setState({
-                    showResult: false,
-                    isError: true,
-                    loading: false,
-                    error: data.case.What,
-
-                    lastChangesAt: 0,
-                    stateModified: false,
-                });
-                return;
-            }
             this.setState({
                 showResult: false,
                 isError: true,
