@@ -14,6 +14,9 @@ export const userLocale = {
             cpass: "Confirm Password",
             email: "Email",
         },
+        signin: {
+            log: "Sign in",
+        },
         err: {
             token: "You must check the captcha",
             ness: "Necessary field",
@@ -29,6 +32,16 @@ export const userLocale = {
                 l1: " must be longer than ",
                 l2: " must be longer than ",
             },
+        },
+        pageheaders: {
+            reg: "User sign up form  |  PogPvP.com",
+            usr: "User page  |  PogPvP.com",
+            log: "Sign in form  |  PogPvP.com",
+        },
+        pagedescriptions: {
+            reg: "User sign up form",
+            usr: "User page",
+            log: "Sign in form",
         },
     },
 
@@ -47,6 +60,9 @@ export const userLocale = {
             cpass: "Подтвердите пароль",
             email: "Адрес электронной почты",
         },
+        signin: {
+            log: "Вход",
+        },
         err: {
             token: "Вы должны пройти проверку",
             ness: "Обязательное поле",
@@ -62,6 +78,16 @@ export const userLocale = {
                 l1: " должно быть длиннее, чем ",
                 l2: " должен быть длиннее, чем ",
             },
+        },
+        pageheaders: {
+            reg: "Форма регистрации пользователя  |  PogPvP.com",
+            usr: "Страница пользователя  |  PogPvP.com",
+            log: "Форма входа  |  PogPvP.com",
+        },
+        pagedescriptions: {
+            reg: "Форма регистрации пользователя",
+            usr: "Страница пользователя",
+            log: "Форма входа",
         },
     }
 }
