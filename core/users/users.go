@@ -1,6 +1,8 @@
 package users
 
 import (
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -16,6 +18,7 @@ type RegForm struct {
 	Username      string
 	Email         string
 	Password      string
+	Fingerprint   string
 	CheckPassword string
 	Token         string
 }
@@ -38,7 +41,9 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 		capthcaErr = lf.verifyCaptcha(ip)
 		wg.Done()
 	}()
-
+	if lf.Fingerprint == "" {
+		return fmt.Errorf("Invalid form")
+	}
 	//username
 	if err := checkLength(lf.Username, "Username", 6, 16); err != nil {
 		return err
@@ -128,4 +133,10 @@ func downloadAsObj(url string, target interface{}) error {
 		return err
 	}
 	return nil
+}
+
+//Encode encodes form
+func (lf *RegForm) Encode() {
+	h := sha256.Sum256([]byte(lf.Password))
+	lf.Password = base64.StdEncoding.EncodeToString(h[:])
 }

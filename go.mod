@@ -13,6 +13,7 @@ require (
 	github.com/gorilla/mux v1.7.4
 	github.com/jessevdk/go-flags v1.4.0 // indirect
 	github.com/joncrlsn/dque v2.2.1-0.20200515025108-956d14155fa2+incompatible // indirect
+	github.com/mssola/user_agent v0.5.2
 	github.com/oschwald/geoip2-golang v1.4.0
 	github.com/prometheus/client_golang v1.5.1
 	github.com/sirupsen/logrus v1.5.0

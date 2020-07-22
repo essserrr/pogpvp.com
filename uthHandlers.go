@@ -11,6 +11,7 @@ import (
 	users "Solutions/pvpSimulator/core/users"
 	mongocalls "Solutions/pvpSimulator/core/users/mongocalls"
 
+	"github.com/mssola/user_agent"
 	log "github.com/sirupsen/logrus"
 
 	"net/http"
@@ -76,23 +77,41 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Registration form err"), http.StatusBadRequest, err.Error())
 	}
+	form.Encode()
 	if err := mongocalls.CheckUserExistance(app.mongo.client, form); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Registration data err"), http.StatusBadRequest, err.Error())
 	}
-
-	fmt.Println("Ok")
-	answer, err := json.Marshal("ok")
+	id, err := mongocalls.Signup(app.mongo.client, form)
 	if err != nil {
-		return err
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Registration err"), http.StatusBadRequest, err.Error())
 	}
-	//Write answer
-	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(answer)
+	browser, os := browserAndOs(r.Header.Get("User-Agent"))
+	tokens, err := mongocalls.NewSession(app.mongo.client, mongocalls.Session{
+		SessionFingerprint: form.Fingerprint,
+		Browser:            browser,
+		Os:                 os,
+	}, id)
 	if err != nil {
-		return err
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		log.WithFields(log.Fields{"location": app.metrics.ipLocations}).Errorf("Token creation failed")
+		tokens = &mongocalls.Tokens{}
+	}
+	fmt.Println("New user has just registered " + form.Username)
+	http.SetCookie(*w, &http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Path: "/api/auth", Domain: "localhost",
+		MaxAge: int(tokens.RToken.Expires), Secure: true, HttpOnly: true})
+	if err = respond(w, tokens.AToken); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		return fmt.Errorf("Write response error: %v", err)
 	}
 	return nil
+}
+
+func browserAndOs(agent string) (string, string) {
+	ua := user_agent.New(agent)
+	name, version := ua.Browser()
+	return name + " " + version, ua.OS()
 }
 
 func parseBody(r *http.Request, target interface{}) error {
@@ -103,6 +122,20 @@ func parseBody(r *http.Request, target interface{}) error {
 	}
 	//parse RegForm
 	if err = json.Unmarshal(body, &target); err != nil {
+		return err
+	}
+	return nil
+}
+
+func respond(w *http.ResponseWriter, target interface{}) error {
+	answer, err := json.Marshal(target)
+	if err != nil {
+		return err
+	}
+	//Write answer
+	(*w).Header().Set("Content-Type", "application/json")
+	_, err = (*w).Write(answer)
+	if err != nil {
 		return err
 	}
 	return nil
@@ -168,6 +201,41 @@ func generateTokens(reqBody *request) (*tokenDetails, string, error) {
 		return nil, "", err
 	}
 	return &tokens, refreshHash, nil
+}
+
+type tokenDetails struct {
+	SessionID string
+
+	AccessToken  string
+	RefreshToken string
+
+	AtExpires int64
+	RtExpires int64
+}
+
+func (td *tokenDetails) newRefresh() string {
+	//lifetime
+	td.RtExpires = time.Now().Add(time.Second * 10).Unix()
+	//toke body
+	refresh := uuid.New().String()
+	td.RefreshToken = newBase64(refresh)
+	return refresh
+}
+
+func (td *tokenDetails) newAccess(userid string) error {
+	//lifetime
+	td.AtExpires = time.Now().Add(time.Second * 60).Unix()
+	//token body
+	var err error
+	atClaims := jwt.MapClaims{}
+	atClaims["user_id"] = userid
+	atClaims["exp"] = td.AtExpires
+	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
+	td.AccessToken, err = at.SignedString([]byte("123456"))
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (req *request) check() error {
@@ -281,41 +349,6 @@ func comparePasswords(hashPwd string, plainPwd []byte) error {
 	return nil
 }
 
-type tokenDetails struct {
-	SessionID string
-
-	AccessToken  string
-	RefreshToken string
-
-	AtExpires int64
-	RtExpires int64
-}
-
-func (td *tokenDetails) newRefresh() string {
-	//lifetime
-	td.RtExpires = time.Now().Add(time.Second * 10).Unix()
-	//toke body
-	refresh := uuid.New().String()
-	td.RefreshToken = newBase64(refresh)
-	return refresh
-}
-
-func (td *tokenDetails) newAccess(userid string) error {
-	//lifetime
-	td.AtExpires = time.Now().Add(time.Second * 1).Unix()
-	//token body
-	var err error
-	atClaims := jwt.MapClaims{}
-	atClaims["user_id"] = userid
-	atClaims["exp"] = td.AtExpires
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	td.AccessToken, err = at.SignedString([]byte("123456"))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func newBase64(s string) string {
 	return base64.StdEncoding.EncodeToString([]byte(s))
 }
@@ -353,7 +386,6 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err = tokens.writeResponse(w); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
 		return fmt.Errorf("Write response error: %v", err)
-
 	}
 	return nil
 }
@@ -553,85 +585,34 @@ func logoutAllTransaction(newRequest *request) error {
 
 //help-functions to test functionality
 func retrive(w *http.ResponseWriter, r *http.Request, app *App) error {
-	users, err := retriveAction()
+	users, err := mongocalls.RetriveAction(app.mongo.client)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "retrive_error_count"}).Inc()
 		return fmt.Errorf("Retrive error: %v", err)
 	}
 	answer, err := json.Marshal(users)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "retrive_error_count"}).Inc()
 		return fmt.Errorf("Marshaling response error: %v", err)
 	}
 	(*w).Header().Set("Content-Type", "application/json")
 	_, err = (*w).Write(answer)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "retrive_error_count"}).Inc()
 		return fmt.Errorf("Write response error: %v", err)
 	}
 	return nil
 }
 
-func retriveAction() ([]user, error) {
-	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
-	if err != nil {
-		return nil, err
-	}
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	if err = client.Connect(ctx); err != nil {
-		return nil, err
-	}
-	defer client.Disconnect(ctx)
-
-	database := client.Database("testdb")
-	collection := database.Collection("users")
-
-	cursor, err := collection.Find(ctx, bson.M{})
-	if err != nil {
-		return nil, err
-	}
-	var users []user
-	if err = cursor.All(ctx, &users); err != nil {
-		return nil, err
-	}
-	fmt.Println(users)
-	return users, nil
-}
-
 func deleteAll(w *http.ResponseWriter, r *http.Request, app *App) error {
-	if err := deleteAllAction(); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "delete_all_error_count"}).Inc()
+	if err := mongocalls.DeleteAllAction(app.mongo.client); err != nil {
 		return fmt.Errorf("Delete all error: %v", err)
 	}
 	answer, err := json.Marshal("ok")
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "delete_all_error_count"}).Inc()
 		return fmt.Errorf("Marshaling response error: %v", err)
 	}
 	(*w).Header().Set("Content-Type", "application/json")
 	_, err = (*w).Write(answer)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "delete_all_error_count"}).Inc()
 		return fmt.Errorf("Write response error: %v", err)
-	}
-	return nil
-}
-
-func deleteAllAction() error {
-	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGO_URI")))
-	if err != nil {
-		return err
-	}
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	if err = client.Connect(ctx); err != nil {
-		return err
-	}
-	defer client.Disconnect(ctx)
-
-	database := client.Database("testdb")
-	collection := database.Collection("users")
-	if err = collection.Drop(ctx); err != nil {
-		log.Fatal(err)
 	}
 	return nil
 }

@@ -19,6 +19,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mssola/user_agent"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	log "github.com/sirupsen/logrus"
@@ -46,7 +48,6 @@ type App struct {
 	pvpSrv     *http.Server
 
 	semistaticBuckets []string
-	botsList          []string
 
 	iconVer     string
 	corsEnabled bool
@@ -84,10 +85,6 @@ func createApp(withLog *os.File) (*App, error) {
 		app.corsEnabled = true
 	}
 	app.iconVer = "2"
-
-	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot", "Googlebot",
-		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
-		"telegrambot", "twitterbot"}
 
 	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING", "MISC"}
 	//create/open bases
@@ -337,15 +334,6 @@ func checkLimits(RemoteAddr, limiterType string, ipLocations *prometheus.Counter
 	return nil
 }
 
-func (a *App) checkBot(str string) bool {
-	for _, sub := range a.botsList {
-		if strings.Contains(str, sub) {
-			return true
-		}
-	}
-	return false
-}
-
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check visitor's requests limit
 	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
@@ -355,9 +343,9 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
 	//SEO actions
 	//check if an user if bot
-	isBot := app.checkBot(strings.ToLower(agent))
+	ua := user_agent.New(agent)
 	//if he doesn't serve him usual page
-	if !isBot {
+	if !ua.Bot() {
 		http.ServeFile(*w, r, "./interface/build/200.html")
 		return nil
 	}
@@ -1173,6 +1161,10 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/pve*", rootHandler{serveIndex, a})
 	router.Handle("/movedex*", rootHandler{serveIndex, a})
 	router.Handle("/pokedex*", rootHandler{serveIndex, a})
+	router.Handle("/registration*", rootHandler{serveIndex, a})
+	router.Handle("/login*", rootHandler{serveIndex, a})
+	router.Handle("/userpage*", rootHandler{serveIndex, a})
+
 	//sendsay
 	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
 
@@ -1192,7 +1184,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
 	//test auth
-	router.Handle("/api/reg", rootHandler{register, a})
+	router.Handle("/api/auth/reg", rootHandler{register, a})
 
 	router.Handle("/api/auth/login", rootHandler{login, a})
 	router.Handle("/api/auth/refresh", rootHandler{refresh, a})
@@ -1232,6 +1224,5 @@ func main() {
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.pvpDatabase.Close)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.newsDatabse.Close)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.users.Close)
-
 	app.listen()
 }
