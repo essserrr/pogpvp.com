@@ -1,11 +1,15 @@
 import React from "react"
 import LocalizedStrings from "react-localization";
 import { loadReCaptcha } from 'react-recaptcha-google'
+import { connect } from 'react-redux'
 
+import { setSession } from "../../AppStore/Actions/actions"
 import RegForm from "./RegForm/RegForm"
 import Errors from "../PvP/components/Errors/Errors"
+import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Registration.scss"
 
+import { getFingerprint } from "./Fingerprint"
 import { getCookie } from "../../js/indexFunctions"
 import { userLocale } from "../../locale/userLocale"
 
@@ -32,10 +36,12 @@ class Registration extends React.Component {
         if (this.captchaDemo) {
             this.captchaDemo.reset();
         }
+        if (this.props.session.accessToken !== "") {
+            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/userpage"))
+        }
     }
 
     verifyCallback(recaptchaToken) {
-        console.log(process.env)
         switch (!recaptchaToken) {
             case true:
                 this.setState({
@@ -93,7 +99,7 @@ class Registration extends React.Component {
         }
     }
 
-    checkPass(str, isControl) {
+    checkPass(str, isConf) {
         if (str.length < 6) {
             return strings.signup.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c
         }
@@ -103,7 +109,7 @@ class Registration extends React.Component {
         if (this.checkRegexp(str)) {
             return strings.signup.pass + strings.err.symb
         }
-        if (isControl && str !== this.state.inputs.password) {
+        if (isConf && str !== this.state.inputs.password) {
             return strings.err.match
         }
         return ""
@@ -134,7 +140,7 @@ class Registration extends React.Component {
 
     checkEmailRegexp(email) {
         // eslint-disable-next-line
-        const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+        const expression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return !expression.test(String(email).toLowerCase())
     }
 
@@ -148,7 +154,7 @@ class Registration extends React.Component {
         }
         this.setState({ loading: true, error: "", })
         this.login()
-
+        this.setState({ loading: false, error: "", })
     }
 
 
@@ -172,22 +178,71 @@ class Registration extends React.Component {
 
 
 
-    login() {
+    async login() {
+        let reason = ""
+        this.setState({
+            loading: true,
+            error: "",
+        })
 
+        const fprint = await getFingerprint()
+        const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+            process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/reg", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...this.state.inputs, fingerprint: fprint })
+        }).catch(function (r) {
+            reason = r
+            return
+        });
+        if (reason !== "") {
+            this.setState({
+                loading: false,
+                error: String(reason),
+            });
+            return
+        }
+        //parse answer
+        const data = await response.json();
+        //if response is not ok, handle error
+        if (!response.ok) {
+            this.setState({
+                loading: false,
+                error: data.detail,
+            })
+            return
+        }
 
+        //otherwise set token
+        switch (!data.Token) {
+            case true:
+                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
+                break
+            default:
+                this.props.setSession({ token: data.Token, expires: data.Expires })
+                console.log(this.props.session)
+                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/userpage"))
+        }
     }
 
     render() {
-        console.log(this.state.inputs.token)
         return (
             <div className="container-fluid mb-5">
+                <SiteHelm
+                    url="https://pogpvp.com/registration"
+                    header={strings.pageheaders.reg}
+                    descr={strings.pagedescriptions.reg}
+                    noindex={true}
+                />
                 <div className="row m-0 justify-content-center">
                     <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 registration align-self-center">
                         <div className="col-12 p-0 registration__text text-center">
                             {strings.signup.reg}
                         </div>
-                        {this.state.error && <div className="col-12 p-0">
-                            <Errors value={this.state.error} />
+                        {this.state.error !== "" && <div className="col-12 p-0">
+                            <Errors value={this.state.error} class="alert alert-danger m-2 p-2" />
                         </div>}
                         <div className="col-12 p-0">
                             <RegForm {...this.state.inputs} loading={this.state.loading} notOk={this.state.notOk}
@@ -200,4 +255,17 @@ class Registration extends React.Component {
     }
 }
 
-export default Registration
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setSession: value => dispatch(setSession(value))
+    }
+}
+
+
+export default connect(
+    state => ({
+        session: state.session,
+    }), mapDispatchToProps
+)(Registration)
+
