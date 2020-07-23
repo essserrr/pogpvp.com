@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
@@ -18,9 +19,14 @@ import (
 
 //Session contains user session info
 type Session struct {
-	SessionID          string `bson:"sessId,omitempty"`
-	AccessToken        string `bson:"aToken,omitempty"`
-	RefreshToken       string `bson:"rToken,omitempty"`
+	SessionID string `bson:"sessId,omitempty"`
+
+	AccessToken string `bson:"aToken,omitempty"`
+	AccessExp   int64  `bson:"aExp,omitempty"`
+
+	RefreshToken string `bson:"rToken,omitempty"`
+	RefreshExp   int64  `bson:"rExp,omitempty"`
+
 	SessionFingerprint string `bson:"sessFing,omitempty"`
 	Browser            string `bson:"browser,omitempty"`
 	Os                 string `bson:"os,omitempty"`
@@ -132,6 +138,8 @@ func (s *Session) generateTokens(id string) *Tokens {
 	s.AccessToken = tok.AToken.Token
 	s.RefreshToken = tok.RToken.Token
 	s.SessionID = tok.SessionID
+	s.AccessExp = tok.AToken.Expires
+	s.RefreshExp = tok.RToken.Expires
 	return tok
 }
 
@@ -205,9 +213,6 @@ func Signin(clent *mongo.Client, form *users.RegForm, sess Session) (*Tokens, er
 	if currUser == nil {
 		return nil, fmt.Errorf("Incorrect username and / or password")
 	}
-	if currUser.ID == "" {
-		return nil, fmt.Errorf("Incorrect username and / or password")
-	}
 	tok := sess.generateTokens(currUser.ID)
 	currUser.addSession(sess)
 	if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
@@ -241,6 +246,91 @@ func (u *User) addSession(sess Session) {
 		u.Sessions = u.Sessions[1:5]
 	}
 	u.Sessions = append(u.Sessions, sess)
+}
+
+//Refresh refreshes user session if creditinail are right
+func Refresh(clent *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, string, error) {
+	jwt, err := decodeRefresh(cookie.Value)
+	if err != nil {
+		fmt.Println(err)
+		return nil, "", fmt.Errorf("Invalid auth token")
+	}
+	//check uid
+	uID, ok := (*jwt)["u_id"].(string)
+	if !ok {
+		return nil, "", fmt.Errorf("Invalid auth token")
+	}
+	//find user
+	currUser := lookupUser(clent, bson.M{"_id": uID})
+	if currUser == nil {
+		return nil, "", fmt.Errorf("Invalid auth token")
+	}
+	//check session
+	sID, ok := (*jwt)["s_id"].(string)
+	if !ok {
+		return nil, "", fmt.Errorf("Invalid auth token")
+	}
+	//find session
+	currSession := currUser.deleteSession(sID)
+	if currSession == nil {
+		return nil, "", fmt.Errorf("Session not found")
+	}
+
+	switch currSession.verifyRefresh(sess.SessionFingerprint, cookie.Value) {
+	case true:
+		tok := sess.generateTokens(currUser.ID)
+		currUser.addSession(sess)
+		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+			return nil, "", err
+		}
+		return tok, currUser.Username, nil
+	default:
+		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+			return nil, "", err
+		}
+		return nil, "", fmt.Errorf("Verification failed")
+	}
+}
+
+func (s *Session) verifyRefresh(fPrint, token string) bool {
+	if s.RefreshToken != token {
+		return false
+	}
+	if s.SessionFingerprint != fPrint {
+		return false
+	}
+	if s.RefreshExp < time.Now().Unix() {
+		return false
+	}
+	return true
+}
+
+//deleteSession deletes session from array and return deleted session
+func (u *User) deleteSession(sID string) *Session {
+	if u.Sessions == nil {
+		return nil
+	}
+	if len(u.Sessions) > 5 {
+		u.Sessions = u.Sessions[0:5]
+	}
+	for key, value := range u.Sessions {
+		if value.SessionID == sID {
+			u.Sessions = append(u.Sessions[:key], u.Sessions[key+1:]...)
+			return &value
+		}
+	}
+	return nil
+}
+
+func decodeRefresh(refresh string) (*jwt.MapClaims, error) {
+	claims := jwt.MapClaims{}
+	_, err := jwt.ParseWithClaims(refresh, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_KEY")), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &claims, nil
 }
 
 //help-functions to test functionality *********************************************************************************************

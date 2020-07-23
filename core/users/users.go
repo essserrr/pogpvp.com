@@ -180,3 +180,11 @@ func (lf *RegForm) VerifyLogForm(ip string) error {
 	}
 	return nil
 }
+
+//VerifyUpdForm verifies update form. Returns error if it is invalid
+func (lf *RegForm) VerifyUpdForm() error {
+	if lf.Fingerprint == "" {
+		return fmt.Errorf("Invalid form")
+	}
+	return nil
+}

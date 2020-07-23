@@ -16,11 +16,8 @@ import (
 
 	"net/http"
 	"os"
-	"time"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/go-chi/chi"
-	"github.com/google/uuid"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -100,8 +97,10 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		tokens = &mongocalls.Tokens{}
 	}
 	fmt.Println("New user has just registered " + form.Username)
-	http.SetCookie(*w, &http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Path: "/api/auth", Domain: "localhost",
-		MaxAge: int(tokens.RToken.Expires), Secure: true, HttpOnly: true})
+
+	cookie := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
+		Path: "/api/auth", MaxAge: int(tokens.RToken.Expires), HttpOnly: true}
+	http.SetCookie(*w, &cookie)
 
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
@@ -176,9 +175,60 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 		IP:                 ip,
 	})
 	fmt.Println("New user has just logged in " + form.Username)
-	http.SetCookie(*w, &http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Path: "/api/auth", Domain: "localhost",
-		MaxAge: int(tokens.RToken.Expires), Secure: true, HttpOnly: true})
+
+	cookie := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
+		Path: "/api/auth", MaxAge: int(tokens.RToken.Expires), HttpOnly: true}
+	http.SetCookie(*w, &cookie)
+
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodPost {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	cookie, err := r.Cookie("refToken")
+	if err != nil {
+		return errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
+	}
+	form := new(users.RegForm)
+	if err := parseBody(r, &form); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+	if err := form.VerifyUpdForm(); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Update form err"), http.StatusBadRequest, err.Error())
+	}
+
+	browser, os := browserAndOs(r.Header.Get("User-Agent"))
+	tokens, uname, err := mongocalls.Refresh(app.mongo.client, mongocalls.Session{
+		SessionFingerprint: form.Fingerprint,
+		Browser:            browser,
+		Os:                 os,
+		IP:                 ip,
+	}, cookie)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
+	}
+
+	fmt.Println("New user has just logged in " + form.Username)
+
+	cookieNew := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
+		Path: "/api/auth", MaxAge: int(tokens.RToken.Expires), HttpOnly: true}
+	http.SetCookie(*w, &cookieNew)
+
+	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: uname}); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
@@ -189,30 +239,6 @@ type request struct {
 	GUID      string
 	SessionID string
 	Refresh   string
-}
-
-func loginT(w *http.ResponseWriter, r *http.Request, app *App) error {
-	reqBody, err := processRequestBody(r)
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
-	}
-	tokens, hash, err := generateTokens(reqBody)
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
-		return fmt.Errorf("Generate tokens error: %v", err)
-	}
-	tokens.SessionID = uuid.New().String()
-	err = writeTransaction(user{tokens.SessionID, reqBody.GUID, hash, tokens.RtExpires, tokens.AtExpires})
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
-		return fmt.Errorf("Write transaction error: %v", err)
-	}
-	if err = tokens.writeResponse(w); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
-		return fmt.Errorf("Write response error: %v", err)
-	}
-	return nil
 }
 
 func processRequestBody(r *http.Request) (*request, error) {
@@ -232,56 +258,6 @@ func processRequestBody(r *http.Request) (*request, error) {
 	return &reqBody, nil
 }
 
-func generateTokens(reqBody *request) (*tokenDetails, string, error) {
-	//make new token obj
-	tokens := tokenDetails{}
-	if err := tokens.newAccess(reqBody.GUID); err != nil {
-		return nil, "", err
-	}
-	refresh := tokens.newRefresh()
-	//make new write transaction
-	refreshHash, err := makeHash([]byte(refresh))
-	if err != nil {
-		return nil, "", err
-	}
-	return &tokens, refreshHash, nil
-}
-
-type tokenDetails struct {
-	SessionID string
-
-	AccessToken  string
-	RefreshToken string
-
-	AtExpires int64
-	RtExpires int64
-}
-
-func (td *tokenDetails) newRefresh() string {
-	//lifetime
-	td.RtExpires = time.Now().Add(time.Second * 10).Unix()
-	//toke body
-	refresh := uuid.New().String()
-	td.RefreshToken = newBase64(refresh)
-	return refresh
-}
-
-func (td *tokenDetails) newAccess(userid string) error {
-	//lifetime
-	td.AtExpires = time.Now().Add(time.Second * 60).Unix()
-	//token body
-	var err error
-	atClaims := jwt.MapClaims{}
-	atClaims["user_id"] = userid
-	atClaims["exp"] = td.AtExpires
-	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	td.AccessToken, err = at.SignedString([]byte("123456"))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func (req *request) check() error {
 	if req.GUID == "" {
 		return fmt.Errorf("Zero GUID")
@@ -291,20 +267,6 @@ func (req *request) check() error {
 	}
 	if req.Refresh == "" {
 		return fmt.Errorf("Zero token")
-	}
-	return nil
-}
-
-func (td *tokenDetails) writeResponse(w *http.ResponseWriter) error {
-	answer, err := json.Marshal(*td)
-	if err != nil {
-		return err
-	}
-	//Write answer
-	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(answer)
-	if err != nil {
-		return err
 	}
 	return nil
 }
@@ -344,39 +306,6 @@ func initTransaction() (*tranObj, error) {
 	return &tranObj{collection, txnOpts, client, session}, nil
 }
 
-func writeTransaction(usr user) error {
-	tran, err := initTransaction()
-	if err != nil {
-		return err
-	}
-	defer tran.client.Disconnect(context.TODO())
-	defer tran.session.EndSession(context.Background())
-
-	err = mongo.WithSession(context.Background(), tran.session, func(sessionContext mongo.SessionContext) error {
-		if err = tran.session.StartTransaction(tran.txnOpts); err != nil {
-			return err
-		}
-		_, err := tran.collection.InsertOne(
-			sessionContext,
-			usr,
-		)
-		if err != nil {
-			return err
-		}
-		if err = tran.session.CommitTransaction(sessionContext); err != nil {
-			return err
-		}
-		return nil
-	})
-	if err != nil {
-		if abortErr := tran.session.AbortTransaction(context.Background()); abortErr != nil {
-			return err
-		}
-		return err
-	}
-	return nil
-}
-
 func makeHash(pwd []byte) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
 	if err != nil {
@@ -403,35 +332,6 @@ func decodeBase64(s string) ([]byte, error) {
 		return nil, err
 	}
 	return decoded, nil
-}
-
-func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
-	reqBody, err := processRequestBody(r)
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
-	}
-	if err = checkRefreshToken(reqBody); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusUnauthorized, "Authorization error")
-	}
-	tokens, hash, err := generateTokens(reqBody)
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
-		return fmt.Errorf("Generate tokens error: %v", err)
-	}
-	tokens.SessionID = reqBody.SessionID
-	err = updateTransaction(user{reqBody.SessionID, reqBody.GUID, hash, tokens.RtExpires, tokens.AtExpires})
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
-		return fmt.Errorf("Update transaction error: %v", err)
-	}
-
-	if err = tokens.writeResponse(w); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
-		return fmt.Errorf("Write response error: %v", err)
-	}
-	return nil
 }
 
 func checkRefreshToken(usr *request) error {
@@ -485,47 +385,6 @@ func (u *user) compare(usr *request) error {
 		return err
 	}
 	if err = comparePasswords(u.Refresh, token); err != nil {
-		return err
-	}
-	return nil
-}
-
-func updateTransaction(usr user) error {
-	tran, err := initTransaction()
-	if err != nil {
-		return err
-	}
-	defer tran.client.Disconnect(context.TODO())
-	defer tran.session.EndSession(context.Background())
-
-	err = mongo.WithSession(context.Background(), tran.session, func(sessionContext mongo.SessionContext) error {
-		if err = tran.session.StartTransaction(tran.txnOpts); err != nil {
-			return err
-		}
-
-		_, err := tran.collection.UpdateOne(
-			sessionContext,
-			bson.M{"_id": usr.ID},
-			bson.M{"$set": bson.M{
-				"_id":     usr.ID,
-				"guid":    usr.GUID,
-				"refresh": usr.Refresh,
-				"rexp":    usr.RExpires,
-				"aexp":    usr.AtExpires,
-			}},
-		)
-		if err != nil {
-			return err
-		}
-		if err = tran.session.CommitTransaction(sessionContext); err != nil {
-			return err
-		}
-		return nil
-	})
-	if err != nil {
-		if abortErr := tran.session.AbortTransaction(context.Background()); abortErr != nil {
-			return err
-		}
 		return err
 	}
 	return nil
