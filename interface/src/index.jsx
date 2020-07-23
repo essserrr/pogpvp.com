@@ -8,14 +8,26 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 
 
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
+import { createStore, applyMiddleware } from 'redux'
+import AppReducer from './AppStore/Reducers/Index'
+
+const AppStore = createStore(AppReducer, applyMiddleware(thunk))
+
+
 const rootElement = document.getElementById("root");
 
 if (rootElement.hasChildNodes()) {
-    ReactDom.hydrate(<BrowserRouter>
-        <App />
-    </BrowserRouter >, rootElement);
+    ReactDom.hydrate(
+        <BrowserRouter>
+            <Provider store={AppStore}><App /></Provider>
+        </BrowserRouter >,
+        rootElement);
 } else {
-    ReactDom.render(<BrowserRouter>
-        <App />
-    </BrowserRouter >, rootElement);
+    ReactDom.render(
+        <BrowserRouter>
+            <Provider store={AppStore}><App /></Provider>
+        </BrowserRouter >,
+        rootElement);
 }
