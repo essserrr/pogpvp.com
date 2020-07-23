@@ -1186,7 +1186,6 @@ func (a *App) initPvpSrv() *http.Server {
 	//test auth
 	router.Handle("/api/auth/reg", rootHandler{register, a})
 	router.Handle("/api/auth/login", rootHandler{login, a})
-
 	router.Handle("/api/auth/refresh", rootHandler{refresh, a})
 
 	router.Handle("/api/auth/logout/{type}", rootHandler{logout, a})
