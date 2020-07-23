@@ -341,6 +341,18 @@ func (a *App) checkBot(str string) bool {
 	return false
 }
 
+func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
+	//Check visitor's requests limit
+	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	agent := r.Header.Get("User-Agent")
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Sendsay handler")
+	http.ServeFile(*w, r, "./sendsay/build/index.html")
+	return nil
+}
+
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check visitor's requests limit
 	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
@@ -353,6 +365,11 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	isBot := app.checkBot(strings.ToLower(agent))
 	//if he doesn't serve him usual page
 	if !isBot {
+		if r.RequestURI == "/sendsay/console" || r.RequestURI == "/sendsay/login" {
+			log.WithFields(log.Fields{"location": r.RequestURI}).Println("Sendsay handler")
+			http.ServeFile(*w, r, "./sendsay/build/index.html")
+			return nil
+		}
 		http.ServeFile(*w, r, "./interface/build/200.html")
 		return nil
 	}
@@ -1144,6 +1161,11 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/static/*", http.StripPrefix("/static/", listingblock(http.FileServer(http.Dir("./interface/build/static")))))
 	router.Handle("/images/*", http.StripPrefix("/images/", versioning(http.FileServer(http.Dir("./interface/build/images")), a)))
 	router.Handle("/sitemap/*", http.StripPrefix("/sitemap/", listingblock(http.FileServer(http.Dir("./interface/build/sitemap")))))
+
+	//sendsay
+	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
+	router.Handle("/sendsay/login*", rootHandler{serveSendsay, a})
+	router.Handle("/sendsay/console*", rootHandler{serveSendsay, a})
 
 	router.Handle("/", rootHandler{serveIndex, a})
 	router.Handle("/pvp*", rootHandler{serveIndex, a})
