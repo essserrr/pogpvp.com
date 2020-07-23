@@ -26,3 +26,5 @@ interface/public/images/
 interface/.env.development
 
 interface/.env.production
+
+sendsay/

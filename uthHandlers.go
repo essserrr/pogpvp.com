@@ -80,12 +80,12 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	form.Encode()
 	if err := mongocalls.CheckUserExistance(app.mongo.client, form); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf("Registration data err"), http.StatusBadRequest, err.Error())
+		return errors.NewHTTPError(fmt.Errorf("Registration data err"), http.StatusConflict, err.Error())
 	}
 	id, err := mongocalls.Signup(app.mongo.client, form)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf("Registration err"), http.StatusBadRequest, err.Error())
+		return errors.NewHTTPError(fmt.Errorf("Registration err"), http.StatusInternalServerError, err.Error())
 	}
 	browser, os := browserAndOs(r.Header.Get("User-Agent"))
 	tokens, err := mongocalls.NewSession(app.mongo.client, mongocalls.Session{
@@ -103,7 +103,7 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		MaxAge: int(tokens.RToken.Expires), Secure: true, HttpOnly: true})
 	if err = respond(w, tokens.AToken); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
-		return fmt.Errorf("Write response error: %v", err)
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
 }
