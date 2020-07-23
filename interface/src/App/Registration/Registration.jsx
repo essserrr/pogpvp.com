@@ -9,7 +9,6 @@ import Errors from "../PvP/components/Errors/Errors"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Registration.scss"
 
-import { getFingerprint } from "./Fingerprint"
 import { getCookie } from "../../js/indexFunctions"
 import { userLocale } from "../../locale/userLocale"
 
@@ -180,14 +179,14 @@ class Registration extends React.Component {
             error: "",
         })
 
-        const fprint = await getFingerprint()
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
             process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/reg", {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ...this.state.inputs, fingerprint: fprint })
+            body: JSON.stringify({ ...this.state.inputs, fingerprint: this.props.session.fprint })
         }).catch(function (r) {
             reason = r
             return
@@ -219,7 +218,6 @@ class Registration extends React.Component {
                 break
             default:
                 this.props.setSession({ token: data.Token, expires: data.Expires, uname: data.Username })
-                console.log(this.props.session)
                 this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/userpage"))
         }
     }

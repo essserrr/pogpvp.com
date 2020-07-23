@@ -9,7 +9,6 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Login.scss"
 import LogForm from "./LogForm/LogForm"
 
-import { getFingerprint } from "../Registration/Fingerprint"
 import { getCookie } from "../../js/indexFunctions"
 import { userLocale } from "../../locale/userLocale"
 
@@ -158,14 +157,14 @@ class Login extends React.Component {
             error: "",
         })
 
-        const fprint = await getFingerprint()
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
             process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/login", {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ...this.state.inputs, fingerprint: fprint })
+            body: JSON.stringify({ ...this.state.inputs, fingerprint: this.props.session.fprint })
         }).catch(function (r) {
             reason = r
             return
