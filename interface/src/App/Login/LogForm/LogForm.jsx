@@ -2,9 +2,9 @@ import React from "react"
 import LocalizedStrings from "react-localization";
 import { ReCaptcha } from 'react-recaptcha-google'
 
-import AuthInput from "./AuthInput/AuthInput"
-import AuthButton from "./AuthButton/AuthButton"
-import "./RegForm.scss"
+import AuthInput from "../../Registration/RegForm/AuthInput/AuthInput"
+import AuthButton from "../../Registration/RegForm//AuthButton/AuthButton"
+import "./LogForm.scss"
 
 import { getCookie } from "../../../js/indexFunctions"
 import { userLocale } from "../../../locale/userLocale"
@@ -47,19 +47,6 @@ class LoginForm extends React.PureComponent {
                 </div>
                 <div className="col-12 p-0 pt-2">
                     <AuthInput
-                        labelLeft={strings.signup.email}
-                        place={strings.signup.email}
-                        type="email"
-                        name="email"
-                        aCompleteOff={true}
-
-                        notOk={this.props.notOk.email}
-                        value={this.props.email}
-                        onChange={this.props.onChange}
-                    />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
                         labelLeft={strings.signup.pass}
                         place={strings.signup.pass}
                         type="password"
@@ -68,19 +55,6 @@ class LoginForm extends React.PureComponent {
 
                         notOk={this.props.notOk.password}
                         value={this.props.password}
-                        onChange={this.props.onChange}
-                    />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.cpass}
-                        place={strings.signup.cpass}
-                        type="password"
-                        name="checkPassword"
-                        aCompleteOff={true}
-
-                        notOk={this.props.notOk.checkPassword}
-                        value={this.props.checkPassword}
                         onChange={this.props.onChange}
                     />
                 </div>
@@ -97,14 +71,11 @@ class LoginForm extends React.PureComponent {
                         />
                     </div>
                     {this.props.notOk.token !== "" &&
-                        <div className="col-12 px-0 text-center reg-form__alert-text">{this.props.notOk.token}</div>}
-                </div>
-                <div className="col-12 p-0 pt-2 reg-form--text text-center">
-                    {strings.propc}<a href="/privacy" title={strings.pol.p}>{strings.pol.p}</a> {strings.and} <a href="/terms" title={strings.pol.t}>{strings.pol.t}</a>
+                        <div className="col-12 px-0 text-center log-form__alert-text">{this.props.notOk.token}</div>}
                 </div>
                 <div className="row m-0 pt-3 justify-content-center">
                     <AuthButton
-                        title={strings.signup.toreg}
+                        title={strings.signin.tolog}
                         onClick={this.onSubmit}
                         loading={this.props.loading}
                         disabled={

@@ -45,7 +45,13 @@ class Userpage extends React.Component {
                             <Errors value={this.state.error} class="alert alert-danger m-2 p-2" />
                         </div>}
                         <div className="col-12 p-0">
-                            {this.props.session.accessToken + " : " + this.props.session.expiresAt}
+                            {this.props.session.username}
+                        </div>
+                        <div className="col-12 p-0">
+                            {this.props.session.accessToken}
+                        </div>
+                        <div className="col-12 p-0">
+                            {this.props.session.expiresAt}
                         </div>
                     </div>
                 </div>

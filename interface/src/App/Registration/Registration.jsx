@@ -28,17 +28,14 @@ class Registration extends React.Component {
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.verifyCallback = this.verifyCallback.bind(this)
-
     }
 
     componentDidMount() {
-        loadReCaptcha();
-        if (this.captchaDemo) {
-            this.captchaDemo.reset();
-        }
         if (this.props.session.accessToken !== "") {
             this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/userpage"))
+            return
         }
+        loadReCaptcha();
     }
 
     verifyCallback(recaptchaToken) {
@@ -148,12 +145,12 @@ class Registration extends React.Component {
         return !str.match("^([A-Za-z0-9@_\\-\\.!$%^&*+=]*)$")
     }
 
-    onSubmit() {
+    onSubmit(resetCaptcha) {
         if (!this.validate()) {
             return
         }
         this.setState({ loading: true, error: "", })
-        this.login()
+        this.register(resetCaptcha)
         this.setState({ loading: false, error: "", })
     }
 
@@ -176,9 +173,7 @@ class Registration extends React.Component {
         }
     }
 
-
-
-    async login() {
+    async register(resetCaptcha) {
         let reason = ""
         this.setState({
             loading: true,
@@ -198,6 +193,7 @@ class Registration extends React.Component {
             return
         });
         if (reason !== "") {
+            resetCaptcha()
             this.setState({
                 loading: false,
                 error: String(reason),
@@ -208,6 +204,7 @@ class Registration extends React.Component {
         const data = await response.json();
         //if response is not ok, handle error
         if (!response.ok) {
+            resetCaptcha()
             this.setState({
                 loading: false,
                 error: data.detail,
@@ -221,7 +218,7 @@ class Registration extends React.Component {
                 this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
                 break
             default:
-                this.props.setSession({ token: data.Token, expires: data.Expires })
+                this.props.setSession({ token: data.Token, expires: data.Expires, uname: data.Username })
                 console.log(this.props.session)
                 this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/userpage"))
         }
