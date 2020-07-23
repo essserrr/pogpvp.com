@@ -16,6 +16,7 @@ export const userLocale = {
         },
         signin: {
             log: "Sign in",
+            tolog: "Sign in",
         },
         err: {
             token: "You must check the captcha",
@@ -62,6 +63,7 @@ export const userLocale = {
         },
         signin: {
             log: "Вход",
+            tolog: "Войти",
         },
         err: {
             token: "Вы должны пройти проверку",
