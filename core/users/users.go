@@ -29,7 +29,7 @@ type CaptchaResp struct {
 	Error   []string `json:"error-codes"`
 }
 
-//VerifyRegForm verifies registartion form. return error if it is invalid
+//VerifyRegForm verifies registartion form. Returns error if it is invalid
 func (lf *RegForm) VerifyRegForm(ip string) error {
 	var (
 		wg         sync.WaitGroup
@@ -38,7 +38,9 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 	//check capthca
 	wg.Add(1)
 	go func() {
-		capthcaErr = lf.verifyCaptcha(ip)
+		if err := lf.verifyCaptcha(ip); err != nil {
+			capthcaErr = fmt.Errorf("Invalid captcha")
+		}
 		wg.Done()
 	}()
 	if lf.Fingerprint == "" {
@@ -139,4 +141,42 @@ func downloadAsObj(url string, target interface{}) error {
 func (lf *RegForm) Encode() {
 	h := sha256.Sum256([]byte(lf.Password))
 	lf.Password = base64.StdEncoding.EncodeToString(h[:])
+}
+
+//VerifyLogForm verifies login form. Returns error if it is invalid
+func (lf *RegForm) VerifyLogForm(ip string) error {
+	var (
+		wg         sync.WaitGroup
+		capthcaErr error
+	)
+	//check capthca
+	wg.Add(1)
+	go func() {
+		if err := lf.verifyCaptcha(ip); err != nil {
+			capthcaErr = fmt.Errorf("Invalid captcha")
+		}
+		wg.Done()
+	}()
+	if lf.Fingerprint == "" {
+		return fmt.Errorf("Invalid form")
+	}
+	//username
+	if err := checkLength(lf.Username, "Username", 6, 16); err != nil {
+		return err
+	}
+	if !checkRegexp(lf.Username) {
+		return fmt.Errorf("Wrong username format")
+	}
+	//password
+	if err := checkLength(lf.Password, "Password", 6, 20); err != nil {
+		return err
+	}
+	if !checkRegexp(lf.Password) {
+		return fmt.Errorf("Wrong password format")
+	}
+	wg.Wait()
+	if capthcaErr != nil {
+		return capthcaErr
+	}
+	return nil
 }

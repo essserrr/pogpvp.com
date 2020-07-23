@@ -24,6 +24,7 @@ type Session struct {
 	SessionFingerprint string `bson:"sessFing,omitempty"`
 	Browser            string `bson:"browser,omitempty"`
 	Os                 string `bson:"os,omitempty"`
+	IP                 string `bson:"ip,omitempty"`
 }
 
 //User contains user info
@@ -32,6 +33,7 @@ type User struct {
 	Username string    `bson:"username,omitempty"`
 	Password string    `bson:"password,omitempty"`
 	Email    string    `bson:"email,omitempty"`
+	RegAt    int64     `bson:"regat,omitempty"`
 	Sessions []Session `bson:"session,omitempty"`
 }
 
@@ -88,6 +90,7 @@ func Signup(clent *mongo.Client, form *users.RegForm) (string, error) {
 		Username: form.Username,
 		Password: form.Password,
 		Email:    form.Email,
+		RegAt:    time.Now().Unix(),
 		Sessions: []Session{},
 	})
 	if err != nil {
@@ -98,12 +101,14 @@ func Signup(clent *mongo.Client, form *users.RegForm) (string, error) {
 
 //NewSession creates new session
 func NewSession(clent *mongo.Client, sess Session, id string) (*Tokens, error) {
-	tok := new(Tokens)
-	tok.startSession(id)
-	sess.AccessToken = tok.AToken.Token
-	sess.RefreshToken = tok.RToken.Token
-	sess.SessionID = tok.SessionID
+	tok := sess.generateTokens(id)
+	if err := replaceSession(clent, []Session{sess}, id); err != nil {
+		return nil, err
+	}
+	return tok, nil
+}
 
+func replaceSession(clent *mongo.Client, sessions []Session, id string) error {
 	usersColl := clent.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
@@ -112,14 +117,22 @@ func NewSession(clent *mongo.Client, sess Session, id string) (*Tokens, error) {
 		ctx,
 		bson.M{"_id": id},
 		bson.M{"$set": bson.M{
-			"session": []Session{sess},
+			"session": sessions,
 		}},
 	)
-
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return tok, nil
+	return nil
+}
+
+func (s *Session) generateTokens(id string) *Tokens {
+	tok := new(Tokens)
+	tok.startSession(id)
+	s.AccessToken = tok.AToken.Token
+	s.RefreshToken = tok.RToken.Token
+	s.SessionID = tok.SessionID
+	return tok
 }
 
 //Tokens contains access and refresh tokens
@@ -130,7 +143,7 @@ type Tokens struct {
 	RToken SingleToken
 }
 
-//Tokens contains single token information
+//SingleToken contains single token information
 type SingleToken struct {
 	Token   string
 	Expires int64
@@ -184,6 +197,50 @@ func (t *Tokens) newAccess(uid string) error {
 func newBase64(str string) string {
 	h := sha256.Sum256([]byte(str))
 	return base64.StdEncoding.EncodeToString(h[:])
+}
+
+//Signin creates new session for user if creditinail are right
+func Signin(clent *mongo.Client, form *users.RegForm, sess Session) (*Tokens, error) {
+	currUser := lookupUser(clent, bson.M{"username": form.Username, "password": form.Password})
+	if currUser == nil {
+		return nil, fmt.Errorf("Incorrect username and / or password")
+	}
+	if currUser.ID == "" {
+		return nil, fmt.Errorf("Incorrect username and / or password")
+	}
+	tok := sess.generateTokens(currUser.ID)
+	currUser.addSession(sess)
+	if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+		return nil, err
+	}
+
+	return tok, nil
+}
+
+func lookupUser(clent *mongo.Client, query bson.M) *User {
+	usersColl := clent.Database("pogpvp").Collection("users")
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	filterCursor := usersColl.FindOne(ctx, query)
+	currUser := User{}
+	if err := filterCursor.Decode(&currUser); err != nil {
+		return nil
+	}
+	if currUser.ID == "" {
+		return nil
+	}
+	return &currUser
+}
+
+func (u *User) addSession(sess Session) {
+	if u.Sessions == nil {
+		u.Sessions = make([]Session, 0, 1)
+	}
+	if len(u.Sessions) >= 5 {
+		u.Sessions = u.Sessions[1:5]
+	}
+	u.Sessions = append(u.Sessions, sess)
 }
 
 //help-functions to test functionality *********************************************************************************************

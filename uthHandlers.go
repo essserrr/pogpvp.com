@@ -92,6 +92,7 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		SessionFingerprint: form.Fingerprint,
 		Browser:            browser,
 		Os:                 os,
+		IP:                 ip,
 	}, id)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
@@ -101,11 +102,18 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	fmt.Println("New user has just registered " + form.Username)
 	http.SetCookie(*w, &http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Path: "/api/auth", Domain: "localhost",
 		MaxAge: int(tokens.RToken.Expires), Secure: true, HttpOnly: true})
-	if err = respond(w, tokens.AToken); err != nil {
+
+	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
+}
+
+type authResp struct {
+	Token    string
+	Expires  int64
+	Username string
 }
 
 func browserAndOs(agent string) (string, string) {
@@ -141,13 +149,49 @@ func respond(w *http.ResponseWriter, target interface{}) error {
 	return nil
 }
 
+func login(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodPost {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	form := new(users.RegForm)
+	if err := parseBody(r, &form); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+	if err := form.VerifyLogForm(ip); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Login form err"), http.StatusBadRequest, err.Error())
+	}
+	form.Encode()
+	browser, os := browserAndOs(r.Header.Get("User-Agent"))
+	tokens, err := mongocalls.Signin(app.mongo.client, form, mongocalls.Session{
+		SessionFingerprint: form.Fingerprint,
+		Browser:            browser,
+		Os:                 os,
+		IP:                 ip,
+	})
+	fmt.Println("New user has just logged in " + form.Username)
+	http.SetCookie(*w, &http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Path: "/api/auth", Domain: "localhost",
+		MaxAge: int(tokens.RToken.Expires), Secure: true, HttpOnly: true})
+	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
 type request struct {
 	GUID      string
 	SessionID string
 	Refresh   string
 }
 
-func login(w *http.ResponseWriter, r *http.Request, app *App) error {
+func loginT(w *http.ResponseWriter, r *http.Request, app *App) error {
 	reqBody, err := processRequestBody(r)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
