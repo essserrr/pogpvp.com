@@ -170,7 +170,7 @@ func (t *Tokens) startSession(uid string) error {
 
 func (t *Tokens) newRefresh(uid string) error {
 	//lifetime
-	t.RToken.Expires = time.Now().Add(time.Second * 600).Unix()
+	t.RToken.Expires = time.Now().Add(time.Second * 2592000).Unix()
 	//token body
 	var err error
 	atClaims := jwt.MapClaims{}
@@ -187,7 +187,7 @@ func (t *Tokens) newRefresh(uid string) error {
 
 func (t *Tokens) newAccess(uid string) error {
 	//lifetime
-	t.AToken.Expires = time.Now().Add(time.Second * 60).Unix()
+	t.AToken.Expires = time.Now().Add(time.Second * 7200).Unix()
 	//token body
 	var err error
 	atClaims := jwt.MapClaims{}

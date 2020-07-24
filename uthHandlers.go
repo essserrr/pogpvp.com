@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"time"
 
 	users "Solutions/pvpSimulator/core/users"
 	mongocalls "Solutions/pvpSimulator/core/users/mongocalls"
@@ -98,15 +99,28 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	fmt.Println("New user has just registered " + form.Username)
 
-	cookie := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
-		Path: "/api/auth", MaxAge: int(tokens.RToken.Expires), HttpOnly: true}
-	http.SetCookie(*w, &cookie)
-
+	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
+}
+
+func setCookie(w *http.ResponseWriter, tokens *mongocalls.Tokens) {
+	expiresIn := int(tokens.RToken.Expires - time.Now().Unix())
+	cookie := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
+		Path: "/api/auth", MaxAge: expiresIn, HttpOnly: true, SameSite: http.SameSiteStrictMode}
+	http.SetCookie(*w, &cookie)
+	http.SetCookie(*w, &http.Cookie{Name: "appS", Value: "true", Domain: "localhost", Path: "/", MaxAge: expiresIn})
+}
+
+func discardCookie(w *http.ResponseWriter) {
+	cookie := http.Cookie{Name: "refToken", Value: "", Domain: "localhost",
+		Path: "/api/auth", MaxAge: -1, HttpOnly: true, SameSite: http.SameSiteStrictMode}
+	http.SetCookie(*w, &cookie)
+	http.SetCookie(*w, &http.Cookie{Name: "appS", Value: "false", Domain: "localhost", Path: "/", MaxAge: -1})
 }
 
 type authResp struct {
@@ -174,14 +188,16 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 		Os:                 os,
 		IP:                 ip,
 	})
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Login error"), http.StatusBadRequest, err.Error())
+	}
 	fmt.Println("New user has just logged in " + form.Username)
 
-	cookie := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
-		Path: "/api/auth", MaxAge: int(tokens.RToken.Expires), HttpOnly: true}
-	http.SetCookie(*w, &cookie)
-
+	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
@@ -219,17 +235,16 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}, cookie)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
-	fmt.Println("New user has just logged in " + form.Username)
+	fmt.Println("New user has just refreshed their token " + uname)
 
-	cookieNew := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
-		Path: "/api/auth", MaxAge: int(tokens.RToken.Expires), HttpOnly: true}
-	http.SetCookie(*w, &cookieNew)
-
+	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: uname}); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil

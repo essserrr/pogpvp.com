@@ -1164,7 +1164,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/pokedex*", rootHandler{serveIndex, a})
 	router.Handle("/registration*", rootHandler{serveIndex, a})
 	router.Handle("/login*", rootHandler{serveIndex, a})
-	router.Handle("/userpage*", rootHandler{serveIndex, a})
+	router.Handle("/profile*", rootHandler{serveIndex, a})
 
 	//sendsay
 	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
