@@ -2,6 +2,7 @@ import React from "react";
 import DropdownMenu from "./DropdownMenu"
 import User from "./User/User"
 import { Link } from "react-router-dom"
+import { withRouter } from "react-router";
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../locale/locale"
@@ -18,6 +19,7 @@ import { ReactComponent as Dex } from "../../icons/dex.svg"
 import "./Navbar.scss"
 
 let strings = new LocalizedStrings(locale)
+
 
 class Navbar extends React.PureComponent {
     constructor(props) {
@@ -42,14 +44,6 @@ class Navbar extends React.PureComponent {
                 <Link key="evolutions" className="dropdown-item " to="/evolution">{strings.navbar.evo}</Link>,
                 <Link key="eggsList" className="dropdown-item " to="/eggs">{strings.navbar.eggs}</Link>,
             ],
-            dropdownLangs: [
-                <div key="ru" name="ru" className="langButton clickable" onClick={this.onClick}>
-                    <Ru title={strings.buttons.ru} className="icon24 mx-1"></Ru> {strings.buttons.ru}
-                </div>,
-                <div key="en" name="en" className="langButton clickable" onClick={this.onClick}>
-                    <En title={strings.buttons.en} className="icon24 mx-1"></En> {strings.buttons.en}
-                </div>
-            ],
             expanded: false,
         };
         this.onExpand = this.onExpand.bind(this);
@@ -57,9 +51,8 @@ class Navbar extends React.PureComponent {
     }
 
     onClick(event) {
-        event.preventDefault();
         document.cookie = "appLang=" + event.currentTarget.getAttribute("name") + "; path=/; max-age=31536000"
-        window.location.reload()
+        this.props.history.go()
     }
 
     onExpand(event) {
@@ -120,7 +113,18 @@ class Navbar extends React.PureComponent {
                         <DropdownMenu
                             class="mr-2"
                             dropClass="dropdown-menu-right"
-                            list={this.state.dropdownLangs}
+                            list={
+                                <>
+                                    <div key="ru" name="ru" className="langButton clickable"
+                                        onClick={this.onClick}>
+                                        <Ru title={strings.buttons.ru} className="icon24 mx-1"></Ru> {strings.buttons.ru}
+                                    </div>
+                                    <div key="en" name="en" className="langButton clickable"
+                                        onClick={this.onClick}>
+                                        <En title={strings.buttons.en} className="icon24 mx-1"></En> {strings.buttons.en}
+                                    </div>
+                                </>
+                            }
                             label={<i className="fa fa-globe fa-2x clickable" aria-hidden="true"></i>}
 
                         />
@@ -132,5 +136,5 @@ class Navbar extends React.PureComponent {
     }
 }
 
-export default Navbar
+export default withRouter(Navbar)
 

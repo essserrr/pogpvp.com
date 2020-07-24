@@ -20,7 +20,13 @@ class Userpage extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.session)
+        if (this.props.session.accessToken === "") {
+            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
+            return
+        }
+    }
+
+    componentDidUpdate() {
         if (this.props.session.accessToken === "") {
             this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
             return
