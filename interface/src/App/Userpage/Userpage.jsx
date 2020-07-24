@@ -33,7 +33,7 @@ class Userpage extends React.Component {
         return (
             <div className="container-fluid mb-5">
                 <SiteHelm
-                    url="https://pogpvp.com/userpage"
+                    url="https://pogpvp.com/profile"
                     header={strings.pageheaders.usr}
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
@@ -50,10 +50,11 @@ class Userpage extends React.Component {
                             {this.props.session.username}
                         </div>
                         <div className="col-12 p-0">
-                            {this.props.session.accessToken}
+                            {this.props.session.accessToken ? "We have a token" : "NO TOKEN"}
                         </div>
                         <div className="col-12 p-0">
-                            {this.props.session.expiresAt}
+
+                            {`Token expires in ${(this.props.session.expiresAt - Date.now() / 1000) / 60} minutes`}
                         </div>
                     </div>
                 </div>

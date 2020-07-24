@@ -4,6 +4,9 @@ import { loadReCaptcha } from 'react-recaptcha-google'
 import { connect } from 'react-redux'
 
 import { setSession } from "../../AppStore/Actions/actions"
+import { calcFprint } from "../../AppStore/Actions/refresh"
+
+
 import Errors from "../PvP/components/Errors/Errors"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Login.scss"
@@ -30,9 +33,13 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
+        console.log(this.props.session)
         if (this.props.session.accessToken !== "") {
-            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/userpage"))
+            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile"))
             return
+        }
+        if (!this.props.session.fprint) {
+            this.props.calcFprint()
         }
         loadReCaptcha();
     }
@@ -195,7 +202,7 @@ class Login extends React.Component {
                 break
             default:
                 this.props.setSession({ token: data.Token, expires: data.Expires, uname: data.Username })
-                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/userpage"))
+                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile"))
         }
     }
 
@@ -230,7 +237,8 @@ class Login extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setSession: value => dispatch(setSession(value))
+        setSession: value => dispatch(setSession(value)),
+        calcFprint: () => dispatch(calcFprint())
     }
 }
 
