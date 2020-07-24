@@ -51,7 +51,7 @@ const Main = () => (
                 <Route path="/registration" component={Registration} />
                 <Route path="/privacy" component={Privacy} />
                 <Route path="/terms" component={Terms} />
-                <Route path="/userpage" component={Userpage} />
+                <Route path="/profile" component={Userpage} />
                 <Route path="/login" component={Login} />
                 <Route path="*" component={NotFound} />
             </Switch>
