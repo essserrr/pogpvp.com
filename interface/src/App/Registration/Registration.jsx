@@ -81,7 +81,7 @@ class Registration extends React.Component {
     }
 
     check(str, type) {
-        if (str === "") {
+        if (!str || str === "") {
             return (strings.err.ness)
         }
         switch (type) {

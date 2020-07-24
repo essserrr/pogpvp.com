@@ -329,6 +329,91 @@ func decodeRefresh(refresh string) (*jwt.MapClaims, error) {
 	return &claims, nil
 }
 
+//Logout deketes current session
+func Logout(clent *mongo.Client, cookie *http.Cookie) (string, error) {
+	jwt, err := decodeRefresh(cookie.Value)
+	if err != nil {
+		fmt.Println(err)
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	//check uid
+	uID, ok := (*jwt)["u_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	//find user
+	currUser := lookupUser(clent, bson.M{"_id": uID})
+	if currUser == nil {
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	//check session
+	sID, ok := (*jwt)["s_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	//find session
+	currSession := currUser.deleteSession(sID)
+	if currSession == nil {
+		return "", fmt.Errorf("Session not found")
+	}
+
+	switch currSession.verifyRefresh(cookie.Value) {
+	case true:
+		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+			return currUser.Username, err
+		}
+		return currUser.Username, nil
+	default:
+		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+			return currUser.Username, err
+		}
+		return currUser.Username, fmt.Errorf("Verification failed")
+	}
+}
+
+//LogoutAll stops all user sessions
+func LogoutAll(clent *mongo.Client, cookie *http.Cookie) (string, error) {
+	jwt, err := decodeRefresh(cookie.Value)
+	if err != nil {
+		fmt.Println(err)
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	//check uid
+	uID, ok := (*jwt)["u_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("Invalid auth token")
+	}
+
+	//find user
+	currUser := lookupUser(clent, bson.M{"_id": uID})
+	if currUser == nil {
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	//check session
+	sID, ok := (*jwt)["s_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	//find session
+	currSession := currUser.deleteSession(sID)
+	if currSession == nil {
+		return "", fmt.Errorf("Session not found")
+	}
+	//if user auth failed delete only active session
+	switch currSession.verifyRefresh(cookie.Value) {
+	case true:
+		if err := replaceSession(clent, []Session{}, currUser.ID); err != nil {
+			return currUser.Username, err
+		}
+		return currUser.Username, nil
+	default:
+		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+			return currUser.Username, err
+		}
+		return currUser.Username, fmt.Errorf("Verification failed")
+	}
+}
+
 //help-functions to test functionality *********************************************************************************************
 
 func RetriveAction(clent *mongo.Client) ([]User, error) {

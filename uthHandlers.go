@@ -3,7 +3,6 @@ package main
 import (
 	"Solutions/pvpSimulator/core/errors"
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -18,14 +17,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/go-chi/chi"
 	"github.com/prometheus/client_golang/prometheus"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readconcern"
-	"go.mongodb.org/mongo-driver/mongo/writeconcern"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type mongoDatabse struct {
@@ -226,7 +220,7 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
-	fmt.Println("New user has just refreshed their token " + uname)
+	fmt.Println("User has just refreshed their token " + uname)
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: uname}); err != nil {
@@ -237,253 +231,60 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 	return nil
 }
 
-type request struct {
-	GUID      string
-	SessionID string
-	Refresh   string
-}
-
-func processRequestBody(r *http.Request) (*request, error) {
-	//read req body
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		return nil, err
-	}
-	//parse request obj
-	var reqBody request
-	if err = json.Unmarshal(body, &reqBody); err != nil {
-		return nil, err
-	}
-	if err = reqBody.check(); err != nil {
-		return nil, err
-	}
-	return &reqBody, nil
-}
-
-func (req *request) check() error {
-	if req.GUID == "" {
-		return fmt.Errorf("Zero GUID")
-	}
-	if req.SessionID == "" {
-		return fmt.Errorf("Zero session ID")
-	}
-	if req.Refresh == "" {
-		return fmt.Errorf("Zero token")
-	}
-	return nil
-}
-
-type user struct {
-	ID        string `bson:"_id,omitempty"`
-	GUID      string `bson:guid,omitempty"`
-	Refresh   string `bson:"refresh,omitempty"`
-	RExpires  int64  `bson:"rexp,omitempty"`
-	AtExpires int64  `bson:"aexp,omitempty"`
-}
-
-type tranObj struct {
-	collection *mongo.Collection
-	txnOpts    *options.TransactionOptions
-	client     *mongo.Client
-	session    mongo.Session
-}
-
-func initTransaction() (*tranObj, error) {
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(os.Getenv("MONGO_URI")))
-	if err != nil {
-		return nil, err
-	}
-	database := client.Database("testdb")
-	collection := database.Collection("users")
-	database.RunCommand(context.TODO(), bson.D{{"create", "users"}})
-
-	wc := writeconcern.New(writeconcern.WMajority())
-	rc := readconcern.Snapshot()
-	txnOpts := options.Transaction().SetWriteConcern(wc).SetReadConcern(rc)
-
-	session, err := client.StartSession()
-	if err != nil {
-		return nil, err
-	}
-	return &tranObj{collection, txnOpts, client, session}, nil
-}
-
-func makeHash(pwd []byte) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
-	if err != nil {
-		return "", err
-	}
-	return string(hash), nil
-}
-func comparePasswords(hashPwd string, plainPwd []byte) error {
-	byteHash := []byte(hashPwd)
-	err := bcrypt.CompareHashAndPassword(byteHash, plainPwd)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func newBase64(s string) string {
-	return base64.StdEncoding.EncodeToString([]byte(s))
-}
-
-func decodeBase64(s string) ([]byte, error) {
-	decoded, err := base64.StdEncoding.DecodeString(s)
-	if err != nil {
-		return nil, err
-	}
-	return decoded, nil
-}
-
-func checkRefreshToken(usr *request) error {
-	tran, err := initTransaction()
-	if err != nil {
-		return err
-	}
-	defer tran.client.Disconnect(context.TODO())
-	defer tran.session.EndSession(context.Background())
-
-	err = mongo.WithSession(context.Background(), tran.session, func(sessionContext mongo.SessionContext) error {
-		if err = tran.session.StartTransaction(tran.txnOpts); err != nil {
-			return err
-		}
-
-		filterCursor, err := tran.collection.Find(sessionContext, bson.M{"_id": usr.SessionID})
-		if err != nil {
-			return err
-		}
-		var usersFiltered []user
-		if err = filterCursor.All(sessionContext, &usersFiltered); err != nil {
-			return err
-		}
-		if len(usersFiltered) > 1 {
-			return fmt.Errorf("Oops found dupplicate session")
-		}
-		if len(usersFiltered) < 1 {
-			return fmt.Errorf("Oops Session not found")
-		}
-
-		if err = usersFiltered[0].compare(usr); err != nil {
-			return err
-		}
-		return nil
-	})
-	if err != nil {
-		if abortErr := tran.session.AbortTransaction(context.Background()); abortErr != nil {
-			return err
-		}
-		return err
-	}
-	return nil
-}
-
-func (u *user) compare(usr *request) error {
-	if usr.GUID != u.GUID {
-		return fmt.Errorf("Wrong username")
-	}
-	token, err := decodeBase64(usr.Refresh)
-	if usr.GUID != u.GUID {
-		return err
-	}
-	if err = comparePasswords(u.Refresh, token); err != nil {
-		return err
-	}
-	return nil
-}
-
 func logout(w *http.ResponseWriter, r *http.Request, app *App) error {
-	reqBody, err := processRequestBody(r)
+	if r.Method != http.MethodGet {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	cookie, err := r.Cookie("refToken")
+	if err != nil {
+		return errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
+	}
+	uname, err := mongocalls.Logout(app.mongo.client, cookie)
+	discardCookie(w)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
-	if err = checkRefreshToken(reqBody); err != nil {
+
+	fmt.Println("User has just logged out " + uname)
+
+	if err = respond(w, "Logged out"); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusUnauthorized, "Authorization error")
-	}
-	reqType := chi.URLParam(r, "type")
-	switch reqType {
-	case "one":
-		if err = logoutTransaction(reqBody); err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
-			return fmt.Errorf("Logout transaction error: %v", err)
-		}
-	case "all":
-		if err = logoutAllTransaction(reqBody); err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
-			return fmt.Errorf("Logout all transaction error: %v", err)
-		}
-	default:
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
-		return fmt.Errorf("Unknown path")
-	}
-	//Write answer
-	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write([]byte("Successfully deleted"))
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
-		return fmt.Errorf("Write response error: %v", err)
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
 }
 
-func logoutTransaction(newRequest *request) error {
-	tran, err := initTransaction()
-	if err != nil {
+func logoutAll(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodGet {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	defer tran.client.Disconnect(context.TODO())
-	defer tran.session.EndSession(context.Background())
-
-	err = mongo.WithSession(context.Background(), tran.session, func(sessionContext mongo.SessionContext) error {
-		if err = tran.session.StartTransaction(tran.txnOpts); err != nil {
-			return err
-		}
-		_, err := tran.collection.DeleteOne(sessionContext, bson.M{"_id": newRequest.SessionID})
-		if err != nil {
-			return err
-		}
-		if err = tran.session.CommitTransaction(sessionContext); err != nil {
-			return err
-		}
-		return nil
-	})
+	cookie, err := r.Cookie("refToken")
 	if err != nil {
-		if abortErr := tran.session.AbortTransaction(context.Background()); abortErr != nil {
-			return err
-		}
-		return err
+		return errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
 	}
-	return nil
-}
-
-func logoutAllTransaction(newRequest *request) error {
-	tran, err := initTransaction()
+	uname, err := mongocalls.LogoutAll(app.mongo.client, cookie)
+	discardCookie(w)
 	if err != nil {
-		return err
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
-	defer tran.client.Disconnect(context.TODO())
-	defer tran.session.EndSession(context.Background())
 
-	err = mongo.WithSession(context.Background(), tran.session, func(sessionContext mongo.SessionContext) error {
-		if err = tran.session.StartTransaction(tran.txnOpts); err != nil {
-			return err
-		}
-		_, err := tran.collection.DeleteMany(sessionContext, bson.M{"guid": newRequest.GUID})
-		if err != nil {
-			return err
-		}
-		if err = tran.session.CommitTransaction(sessionContext); err != nil {
-			return err
-		}
-		return nil
-	})
-	if err != nil {
-		if abortErr := tran.session.AbortTransaction(context.Background()); abortErr != nil {
-			return err
-		}
-		return err
+	fmt.Println("User has just ended all their sessions " + uname)
+
+	if err = respond(w, "Logged out"); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
 }
