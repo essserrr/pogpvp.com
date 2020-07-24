@@ -9,7 +9,6 @@ const initialState = {
 const Session = (state = initialState, action) => {
     switch (action.type) {
         case "SET_SESSION":
-            console.log(action)
             return {
                 ...state,
                 accessToken: action.value.token,
@@ -21,6 +20,16 @@ const Session = (state = initialState, action) => {
             return {
                 ...state,
                 fprint: action.value,
+            }
+        case "END_LOADING":
+            return {
+                ...state,
+                isLoading: false,
+            }
+        case "START_LOADING":
+            return {
+                ...state,
+                isLoading: true,
             }
         default:
             return state
