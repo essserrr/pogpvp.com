@@ -1,8 +1,8 @@
 import React from "react";
 import DropdownMenu from "./DropdownMenu"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/indexFunctions"
 
@@ -11,12 +11,12 @@ import { ReactComponent as Ru } from "../../icons/ru.svg"
 import { ReactComponent as Logo } from "../../icons/logo.svg"
 import { ReactComponent as Battle } from "../../icons/battle.svg"
 import { ReactComponent as Others } from "../../icons/others.svg"
-import { ReactComponent as Redgym } from "../../icons/redgym.svg";
-import { ReactComponent as Dex } from "../../icons/dex.svg";
+import { ReactComponent as Redgym } from "../../icons/redgym.svg"
+import { ReactComponent as Dex } from "../../icons/dex.svg"
 
 import "./Navbar.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(locale)
 
 class Navbar extends React.PureComponent {
     constructor(props) {
@@ -24,22 +24,22 @@ class Navbar extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             dropdownPvP: [
-                <Link className="dropdown-item " to="/pvp/single">{strings.navbar.single}</Link>,
-                <Link className="dropdown-item " to="/pvp/matrix">{strings.navbar.matrix}</Link>,
-                <Link className="dropdown-item " to="/pvprating">{strings.navbar.pvprating}</Link>,
+                <Link key="singlePVP" className="dropdown-item " to="/pvp/single">{strings.navbar.single}</Link>,
+                <Link key="matrixPVP" className="dropdown-item " to="/pvp/matrix">{strings.navbar.matrix}</Link>,
+                <Link key="pvpRating" className="dropdown-item " to="/pvprating">{strings.navbar.pvprating}</Link>,
             ],
             dropdownPvE: [
-                <Link className="dropdown-item " to="/raids">{strings.navbar.raids}</Link>,
-                <Link className="dropdown-item " to="/pve/common">{strings.navbar.raidsim}</Link>,
+                <Link key="raidsList" className="dropdown-item " to="/raids">{strings.navbar.raids}</Link>,
+                <Link key="commonRaid" className="dropdown-item " to="/pve/common">{strings.navbar.raidsim}</Link>,
             ],
             dropdownDex: [
-                <Link className="dropdown-item " to="/movedex">{strings.navbar.movedex}</Link>,
-                <Link className="dropdown-item " to="/pokedex">{strings.navbar.pokedex}</Link>,
+                <Link key="movedex" className="dropdown-item " to="/movedex">{strings.navbar.movedex}</Link>,
+                <Link key="pokedex" className="dropdown-item " to="/pokedex">{strings.navbar.pokedex}</Link>,
             ],
             dropdownOther: [
-                <Link className="dropdown-item " to="/shinyrates">{strings.navbar.shiny}</Link>,
-                <Link className="dropdown-item " to="/evolution">{strings.navbar.evo}</Link>,
-                <Link className="dropdown-item " to="/eggs">{strings.navbar.eggs}</Link>,
+                <Link key="shinyRates" className="dropdown-item " to="/shinyrates">{strings.navbar.shiny}</Link>,
+                <Link key="evolutions" className="dropdown-item " to="/evolution">{strings.navbar.evo}</Link>,
+                <Link key="eggsList" className="dropdown-item " to="/eggs">{strings.navbar.eggs}</Link>,
             ],
             dropdownLangs: [
                 <div key="ru" name="ru" className="langButton clickable" onClick={this.onClick}>
@@ -50,7 +50,7 @@ class Navbar extends React.PureComponent {
                 </div>
             ],
             userOpts: [
-                <Link className="dropdown-item " to="/profile"><i className="far fa-address-card fa-lg mr-1"></i>
+                <Link key="profile" className="dropdown-item " to="/profile"><i className="far fa-address-card fa-lg mr-1"></i>
                     {strings.navbar.prof}</Link>,
                 <div key="logout" name="logout" className="dropdown-item navbar--padding"
                     onClick={this.onClick}>

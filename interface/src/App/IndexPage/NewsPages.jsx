@@ -1,6 +1,7 @@
 import React from "react";
 import LocalizedStrings from "react-localization"
 import SiteHelm from "../SiteHelm/SiteHelm"
+import { Link } from "react-router-dom"
 
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
@@ -93,15 +94,15 @@ class NewsPages extends React.Component {
     parseNewsList(list) {
         return list.map((elem, i) => {
             let parsed = JSON.parse(elem)
-            return <a key={i} href={(navigator.userAgent === "ReactSnap") ? "/" :
-                "/news/id/" + parsed.ID}>
+            return <Link key={i}
+                to={(navigator.userAgent === "ReactSnap") ? "/" : "/news/id/" + parsed.ID}>
                 <News
                     class="singleNews fBolder mx-4 mt-3"
                     title={parsed.Title}
                     date={parsed.Date}
                     description={parsed.ShortDescription}
                 />
-            </a>
+            </Link>
         })
     }
 

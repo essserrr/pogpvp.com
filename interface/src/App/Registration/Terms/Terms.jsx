@@ -1,6 +1,7 @@
-import React from "react";
+import React from "react"
+import { Link } from "react-router-dom"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { privacy } from "../../../locale/privacy"
 import { getCookie } from "../../../js/indexFunctions"
 import "./Terms.scss"
@@ -22,7 +23,8 @@ const Terms = React.memo(function (props) {
 
                 <h3>{strings.terms.h3}</h3>
 
-                <p className="terms--text">{strings.terms.p3}<a href="/privacy" title={strings.p}>{strings.p}</a>{strings.terms.p31}</p>
+                <p className="terms--text">{strings.terms.p3}
+                    <Link title={strings.p} to="/privacy">{strings.p}</Link>{strings.terms.p31}</p>
 
                 <h3>{strings.terms.h4}</h3>
 

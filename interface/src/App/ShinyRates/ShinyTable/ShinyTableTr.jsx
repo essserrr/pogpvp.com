@@ -1,11 +1,12 @@
 import React from "react";
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/indexFunctions"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(locale)
 
 const ShinyTableTr = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -48,14 +49,12 @@ const ShinyTableTr = React.memo(function (props) {
                 <PokemonIconer
                     src={props.pokTable[props.pok.Name].Number + (props.pokTable[props.pok.Name].Forme !== "" ? "-" + props.pokTable[props.pok.Name].Forme : "")}
                     class={"icon36 mr-1 "} />
-                <a
-                    className="link"
+
+                <Link className="link"
                     title={strings.dexentr + props.pok.Name}
-                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                        encodeURIComponent(props.pok.Name)}
-                >
+                    to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.pok.Name)}>
                     {props.pok.Name}
-                </a>
+                </Link>
             </th>
             <td className="px-0 align-middle  fBolder" >{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</td>
             <td className="px-0 align-middle  fBolder" >{"1/" + processRate(props.pok.Odds)}</td>

@@ -1,6 +1,7 @@
 import React from "react"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { ReCaptcha } from 'react-recaptcha-google'
+import { Link } from "react-router-dom"
 
 import AuthInput from "./AuthInput/AuthInput"
 import AuthButton from "./AuthButton/AuthButton"
@@ -9,7 +10,7 @@ import "./RegForm.scss"
 import { getCookie } from "../../../js/indexFunctions"
 import { userLocale } from "../../../locale/userLocale"
 
-let strings = new LocalizedStrings(userLocale);
+let strings = new LocalizedStrings(userLocale)
 
 class LoginForm extends React.PureComponent {
     constructor(props) {
@@ -100,7 +101,8 @@ class LoginForm extends React.PureComponent {
                         <div className="col-12 px-0 text-center reg-form__alert-text">{this.props.notOk.token}</div>}
                 </div>
                 <div className="col-12 p-0 pt-2 reg-form--text text-center">
-                    {strings.propc}<a href="/privacy" title={strings.pol.p}>{strings.pol.p}</a> {strings.and} <a href="/terms" title={strings.pol.t}>{strings.pol.t}</a>
+                    {strings.propc}
+                    <Link title={strings.pol.p} to="/privacy">{strings.pol.p}</Link> {strings.and} <Link title={strings.pol.t} to="/terms">{strings.pol.t}</Link>
                 </div>
                 <div className="row m-0 pt-3 justify-content-center">
                     <AuthButton

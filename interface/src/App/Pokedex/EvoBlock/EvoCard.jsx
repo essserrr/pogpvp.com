@@ -1,5 +1,6 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import { getCookie } from "../../../js/indexFunctions"
 import { dexLocale } from "../../../locale/dexLocale"
@@ -10,7 +11,7 @@ import { typeDecoder } from "../../../js/indexFunctions"
 import Type from "../../PvP/components/CpAndTypes/Type"
 
 
-let strings = new LocalizedStrings(dexLocale);
+let strings = new LocalizedStrings(dexLocale)
 
 
 const EvoCard = React.memo(function (props) {
@@ -35,16 +36,14 @@ const EvoCard = React.memo(function (props) {
                 />}
             </div>
             <div className="col-12 p-0 mt-1">
-                <a
-                    title={strings.dexentr + props.name}
-                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + (encodeURIComponent(props.name))}
-                >
+                <Link title={strings.dexentr + props.name}
+                    to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + (encodeURIComponent(props.name))}>
                     <PokemonIconer
                         src={props.pokTable[props.name].Number + (props.pokTable[props.name].Forme !== "" ? "-" + props.pokTable[props.name].Forme : "")}
                         folder="/art/"
                         class={"m-1 dexEvoIcon"}
                     />
-                </a>
+                </Link>
             </div>
         </div>
     )

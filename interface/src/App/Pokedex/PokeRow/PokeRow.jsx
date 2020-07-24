@@ -1,12 +1,13 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import Type from "../../PvP/components/CpAndTypes/Type"
 import { getCookie, typeDecoder } from "../../../js/indexFunctions"
 import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 
-let strings = new LocalizedStrings(dexLocale);
+let strings = new LocalizedStrings(dexLocale)
 
 const PokeRow = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -18,12 +19,11 @@ const PokeRow = React.memo(function (props) {
                 <PokemonIconer
                     src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
                     class={"icon36 mr-1"} />
-                <a title={strings.dexentr + props.value.Title}
+                <Link title={strings.dexentr + props.value.Title}
                     className="link"
-                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.value.Title)}
-                >
+                    to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.value.Title)}>
                     {props.value.Title}
-                </a>
+                </Link>
             </th>
             <td className="align-middle px-0 ">
                 <Type

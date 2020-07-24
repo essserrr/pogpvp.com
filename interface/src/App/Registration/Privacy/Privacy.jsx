@@ -1,6 +1,7 @@
-import React from "react";
+import React from "react"
+import { Link } from "react-router-dom"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { privacy } from "../../../locale/privacy"
 import { getCookie } from "../../../js/indexFunctions"
 import "./Privacy.scss"
@@ -20,7 +21,11 @@ const Privacy = React.memo(function (props) {
 
                 <p className="privacy--text">{strings.priv.p3}</p>
 
-                <p className="privacy--text">{strings.priv.p4}<a href="/terms" title={strings.tandc}>{strings.tandc}</a>{strings.priv.p41}<a href="https://www.privacypolicytemplate.net">Privacy Policy Template</a>{strings.priv.p42}<a href="https://www.disclaimergenerator.org/">Disclaimer Generator</a>.</p>
+                <p className="privacy--text">{strings.priv.p4}
+                    <Link title={strings.tandc} to="/terms">{strings.tandc}</Link>
+                    {strings.priv.p41}
+                    <a href="https://www.privacypolicytemplate.net">Privacy Policy Template</a>
+                    {strings.priv.p42}<a href="https://www.disclaimergenerator.org/">Disclaimer Generator</a>.</p>
 
                 <h3>{strings.priv.h3}</h3>
 

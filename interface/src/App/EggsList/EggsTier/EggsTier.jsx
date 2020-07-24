@@ -1,7 +1,7 @@
 import React from "react";
 import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization";
-
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import PokemonCard from "../../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
@@ -57,16 +57,14 @@ const EggsTier = React.memo(function (props) {
                                             <i data-tip data-for={name} className="fas fa-info-circle ml-1">
                                             </i></>}
                                 </div>}
-                                icon={<a
-                                    title={strings.dexentr + name}
-                                    href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                                        encodeURIComponent(name)}
-                                >
-                                    <PokemonIconer
-                                        src={props.pokTable[name].Number + (props.pokTable[name].Forme !== "" ?
-                                            "-" + props.pokTable[name].Forme : "")}
-                                        class={"icon48 ml-0 ml-sm-1 align-self-center"} />
-                                </a>}
+                                icon={
+                                    <Link title={strings.dexentr + name}
+                                        to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(name)}>
+                                        <PokemonIconer
+                                            src={props.pokTable[name].Number + (props.pokTable[name].Forme !== "" ?
+                                                "-" + props.pokTable[name].Forme : "")}
+                                            class={"icon48 ml-0 ml-sm-1 align-self-center"} />
+                                    </Link>}
                                 body={<CardBody
                                     name={name}
                                     pokTable={props.pokTable}
