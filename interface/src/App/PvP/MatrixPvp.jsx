@@ -1,5 +1,6 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
@@ -19,8 +20,7 @@ import Loader from "../PvpRating/Loader"
 
 import { locale } from "../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
-
+let strings = new LocalizedStrings(locale)
 
 class MatrixPvp extends React.PureComponent {
     constructor(props) {
@@ -412,11 +412,14 @@ class MatrixPvp extends React.PureComponent {
             let line = elem.I + 1
             let row = elem.K + 1
             arr[line].push(<td key={line + row} className="tableBorder matrixColor font80 m-0 p-0 align-middle" >
-                <a className={"rateSquare hover rateColor" + returnRateStyle(elem.Rate)[1]}
-                    href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
-                        encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke}>
+                <Link className={"rateSquare hover rateColor" + returnRateStyle(elem.Rate)[1]}
+                    to={{
+                        pathname: "/pvp/single/" + this.props.parentState.league + "/" +
+                            encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke,
+                        state: { needsUpdate: true }
+                    }}>
                     {elem.Rate}
-                </a>
+                </Link>
             </td >)
         })
         return arr
@@ -455,22 +458,30 @@ class MatrixPvp extends React.PureComponent {
 
             arr[line].push(<td key={line + row} className="tripleWidth tableBorder font80 p-0 m-0 px-1 align-middle" >
                 <div className="matrixTriple row justify-content-center m-0 p-0 mr-auto ml-auto">
-                    <a className={"col-4 m-0 p-0 text-center hover rateColor" + rate00[1]}
-                        href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
-                            encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke}>
+                    <Link className={"col-4 m-0 p-0 text-center hover rateColor" + rate00[1]}
+                        to={{
+                            pathname: "/pvp/single/" + this.props.parentState.league + "/" +
+                                encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke,
+                            state: { needsUpdate: true }
+                        }}>
                         {rate00[0]}
-                    </a>
-                    <a className={"col-4 m-0 p-0 text-center  hover  rateColor" + rate11[1]}
-                        href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
-                            encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + pvpoke}>
+                    </Link>
+                    <Link className={"col-4 m-0 p-0 text-center  hover  rateColor" + rate11[1]}
+                        to={{
+                            pathname: "/pvp/single/" + this.props.parentState.league + "/" +
+                                encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + pvpoke,
+                            state: { needsUpdate: true }
+                        }}>
                         {rate11[0]}
-                    </a>
-                    <a className={"col-4 m-0 p-0 text-center hover rateColor" + rate22[1]}
-                        href={window.location.origin + "/pvp/single/" + this.props.parentState.league + "/" +
-                            encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + pvpoke}>
+                    </Link>
+                    <Link className={"col-4 m-0 p-0 text-center hover rateColor" + rate22[1]}
+                        to={{
+                            pathname: "/pvp/single/" + this.props.parentState.league + "/" +
+                                encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + pvpoke,
+                            state: { needsUpdate: true }
+                        }}>
                         {rate22[0]}
-                    </a>
-
+                    </Link>
                     <div className={" col-12 m-0 p-0 rateColor" + rateOverall[1]}>
                         {rating}
                     </div>
@@ -779,10 +790,10 @@ class MatrixPvp extends React.PureComponent {
 
                     <div className="overflowing order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
                         <div className="row mx-1 h-100"  >
-                            {(this.state.showResult || this.state.isError) && <div className="align-self-start results order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
+                            {(this.state.result || this.state.isError) && <div className="align-self-start results order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
                                 <div className="row  justify-content-center mx-0"  >
                                     <div className="overflowingxy height400resp order-2 p-0 mx-2 order-lg-1 col-12 ">
-                                        {this.state.showResult &&
+                                        {this.state.result &&
                                             <Result
                                                 class="tableFixHead"
                                                 table={this.state.result}

@@ -90,7 +90,10 @@ class PvpPage extends React.Component {
             this.props.match.params.simtype === prevProps.match.params.simtype) {
             return
         }
-        if (this.props.history.action === "PUSH") {
+
+        if (this.props.history.action === "PUSH" &&
+            (this.props.location.state ?
+                !this.props.location.state.needsUpdate : true)) {
             return
         }
         this.updateState(

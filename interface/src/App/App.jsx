@@ -12,10 +12,10 @@ import "./App.scss"
 
 class App extends Component {
     componentDidMount = () => {
-        switch (!this.props.session.token && this.props.session.expiresAt - (Date.now() / 1000) < 5) {
+        switch (!this.props.session.token || this.props.session.expiresAt - (Date.now() / 1000) < 5) {
             case true:
                 this.props.startLoading()
-                this.props.fPrintAndRefresh()
+                this.props.fPrintAndRefresh({ optional: true })
                 return
             default:
                 this.props.endLoading()
@@ -47,7 +47,7 @@ class App extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    fPrintAndRefresh: () => dispatch(fPrintAndRefresh()),
+    fPrintAndRefresh: (prop) => dispatch(fPrintAndRefresh(prop)),
     startLoading: () => dispatch(startLoading()),
     endLoading: () => dispatch(endLoading()),
 })
