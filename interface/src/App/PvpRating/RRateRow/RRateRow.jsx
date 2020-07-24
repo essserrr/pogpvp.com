@@ -1,11 +1,11 @@
 import React from "react";
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import { ReactComponent as Shadow } from "../../../icons/shadow.svg";
-
+import { Link } from "react-router-dom"
 
 const RRateRow = React.memo(function (props) {
     return (
-        <div key={props.value.Name} name={props.pokName} onClick={props.onClickRedirect}
+        <Link style={{ color: "black" }} key={props.value.Name} name={props.pokName} to={props.onClickRedirect(props.value.Name)}
             className="row styleRating fBolder clickable animRating justify-content-between px-2 mb-1 mx-2 mx-md-3">
             <div className="col p-0 posRel">
                 <PokemonIconer
@@ -18,7 +18,7 @@ const RRateRow = React.memo(function (props) {
             <div className="col-auto p-0">
                 {props.value.Rate}
             </div>
-        </div>
+        </Link>
     )
 });
 
