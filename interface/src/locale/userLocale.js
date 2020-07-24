@@ -7,6 +7,7 @@ export const userLocale = {
             p: "Privacy Policy",
         },
         signup: {
+            newlin: "Have an account?",
             reg: "Sign up",
             toreg: "Sign up",
             uname: "Username",
@@ -15,8 +16,9 @@ export const userLocale = {
             email: "Email",
         },
         signin: {
-            log: "Sign in",
-            tolog: "Sign in",
+            newsup: "Don't have an account?",
+            log: "Log in",
+            tolog: "Log in",
         },
         err: {
             token: "You must check the captcha",
@@ -37,12 +39,12 @@ export const userLocale = {
         pageheaders: {
             reg: "User sign up form  |  PogPvP.com",
             usr: "User page  |  PogPvP.com",
-            log: "Sign in form  |  PogPvP.com",
+            log: "Log in form  |  PogPvP.com",
         },
         pagedescriptions: {
             reg: "User sign up form",
             usr: "User page",
-            log: "Sign in form",
+            log: "Log in form",
         },
     },
 
@@ -54,14 +56,16 @@ export const userLocale = {
             p: "Политика конфиденциальности",
         },
         signup: {
+            newlin: "Есть аккаунт?",
             reg: "Регистрация",
-            toreg: "Подтвердить",
+            toreg: "Зарегистрироваться",
             uname: "Имя пользователя",
             pass: "Пароль",
             cpass: "Подтвердите пароль",
             email: "Адрес электронной почты",
         },
         signin: {
+            newsup: "Нет аккаунта?",
             log: "Вход",
             tolog: "Войти",
         },

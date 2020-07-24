@@ -1,49 +1,10 @@
-import { getFingerprint } from "../../App/Registration/Fingerprint"
 import { getCookie } from "../../js/indexFunctions"
-
-export const calcFprint = (prop) => {
-    return (dispatch, getState) => {
-        let state = getState()
-        if (state.session.fprint !== "") {
-            return Promise.resolve()
-        }
-        if (!getCookie("appS") && prop.optional) {
-            console.log("fPrint aborted")
-            dispatch({
-                type: "END_LOADING",
-                value: { token: "", expires: "", uname: "" }
-            })
-            return Promise.resolve()
-        }
-        return getFingerprint()
-            .then(fprint => {
-                if (!fprint) {
-                    return
-                }
-                dispatch({
-                    type: "SET_FINGERPRINT",
-                    value: fprint
-                })
-            })
-            .catch(() => {
-                return
-            })
-    }
-}
-
-
 
 export const refresh = () => {
     return (dispatch, getState) => {
-        let state = getState()
-        if (state.session.fprint === "") {
-            dispatch({
-                type: "END_LOADING",
-                value: { token: "", expires: "", uname: "" }
-            })
-            return
-        }
-        if (!getCookie("appS")) {
+        let state = getState(),
+            appS = getCookie("appS");
+        if (!appS || appS === "false") {
             console.log("refresh aborted")
             dispatch({
                 type: "END_LOADING",
@@ -56,12 +17,11 @@ export const refresh = () => {
             case true:
                 return fetch(((navigator.userAgent !== "ReactSnap") ?
                     process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/refresh", {
-                    method: "POST",
+                    method: "GET",
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ fingerprint: state.session.fprint })
+                    }
                 }).then(resp => {
                     if (!resp) {
                         return
@@ -102,13 +62,5 @@ export const refresh = () => {
                 })
                 return
         }
-    }
-}
-
-export const fPrintAndRefresh = (prop) => {
-    return (dispatch) => {
-        return dispatch(calcFprint(prop)).then(() => {
-            return dispatch(refresh())
-        })
     }
 }

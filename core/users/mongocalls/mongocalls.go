@@ -27,10 +27,9 @@ type Session struct {
 	RefreshToken string `bson:"rToken,omitempty"`
 	RefreshExp   int64  `bson:"rExp,omitempty"`
 
-	SessionFingerprint string `bson:"sessFing,omitempty"`
-	Browser            string `bson:"browser,omitempty"`
-	Os                 string `bson:"os,omitempty"`
-	IP                 string `bson:"ip,omitempty"`
+	Browser string `bson:"browser,omitempty"`
+	Os      string `bson:"os,omitempty"`
+	IP      string `bson:"ip,omitempty"`
 }
 
 //User contains user info
@@ -276,7 +275,7 @@ func Refresh(clent *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, s
 		return nil, "", fmt.Errorf("Session not found")
 	}
 
-	switch currSession.verifyRefresh(sess.SessionFingerprint, cookie.Value) {
+	switch currSession.verifyRefresh(cookie.Value) {
 	case true:
 		tok := sess.generateTokens(currUser.ID)
 		currUser.addSession(sess)
@@ -292,11 +291,8 @@ func Refresh(clent *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, s
 	}
 }
 
-func (s *Session) verifyRefresh(fPrint, token string) bool {
+func (s *Session) verifyRefresh(token string) bool {
 	if s.RefreshToken != token {
-		return false
-	}
-	if s.SessionFingerprint != fPrint {
 		return false
 	}
 	if s.RefreshExp < time.Now().Unix() {

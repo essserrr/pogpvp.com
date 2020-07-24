@@ -87,10 +87,9 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	browser, os := browserAndOs(r.Header.Get("User-Agent"))
 	tokens, err := mongocalls.NewSession(app.mongo.client, mongocalls.Session{
-		SessionFingerprint: form.Fingerprint,
-		Browser:            browser,
-		Os:                 os,
-		IP:                 ip,
+		Browser: browser,
+		Os:      os,
+		IP:      ip,
 	}, id)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
@@ -183,10 +182,9 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 	form.Encode()
 	browser, os := browserAndOs(r.Header.Get("User-Agent"))
 	tokens, err := mongocalls.Signin(app.mongo.client, form, mongocalls.Session{
-		SessionFingerprint: form.Fingerprint,
-		Browser:            browser,
-		Os:                 os,
-		IP:                 ip,
+		Browser: browser,
+		Os:      os,
+		IP:      ip,
 	})
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
@@ -204,7 +202,7 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 }
 
 func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
-	if r.Method != http.MethodPost {
+	if r.Method != http.MethodGet {
 		app.metrics.dbCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
@@ -216,22 +214,11 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err != nil {
 		return errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
 	}
-	form := new(users.RegForm)
-	if err := parseBody(r, &form); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
-	}
-	if err := form.VerifyUpdForm(); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf("Update form err"), http.StatusBadRequest, err.Error())
-	}
-
 	browser, os := browserAndOs(r.Header.Get("User-Agent"))
 	tokens, uname, err := mongocalls.Refresh(app.mongo.client, mongocalls.Session{
-		SessionFingerprint: form.Fingerprint,
-		Browser:            browser,
-		Os:                 os,
-		IP:                 ip,
+		Browser: browser,
+		Os:      os,
+		IP:      ip,
 	}, cookie)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()

@@ -18,7 +18,6 @@ type RegForm struct {
 	Username      string
 	Email         string
 	Password      string
-	Fingerprint   string
 	CheckPassword string
 	Token         string
 }
@@ -43,9 +42,6 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 		}
 		wg.Done()
 	}()
-	if lf.Fingerprint == "" {
-		return fmt.Errorf("Invalid form")
-	}
 	//username
 	if err := checkLength(lf.Username, "Username", 6, 16); err != nil {
 		return err
@@ -157,9 +153,6 @@ func (lf *RegForm) VerifyLogForm(ip string) error {
 		}
 		wg.Done()
 	}()
-	if lf.Fingerprint == "" {
-		return fmt.Errorf("Invalid form")
-	}
 	//username
 	if err := checkLength(lf.Username, "Username", 6, 16); err != nil {
 		return err
@@ -177,14 +170,6 @@ func (lf *RegForm) VerifyLogForm(ip string) error {
 	wg.Wait()
 	if capthcaErr != nil {
 		return capthcaErr
-	}
-	return nil
-}
-
-//VerifyUpdForm verifies update form. Returns error if it is invalid
-func (lf *RegForm) VerifyUpdForm() error {
-	if lf.Fingerprint == "" {
-		return fmt.Errorf("Invalid form")
 	}
 	return nil
 }

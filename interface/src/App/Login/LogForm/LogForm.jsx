@@ -1,6 +1,7 @@
 import React from "react"
 import LocalizedStrings from "react-localization";
 import { ReCaptcha } from 'react-recaptcha-google'
+import { Link } from "react-router-dom"
 
 import AuthInput from "../../Registration/RegForm/AuthInput/AuthInput"
 import AuthButton from "../../Registration/RegForm//AuthButton/AuthButton"
@@ -81,6 +82,9 @@ class LoginForm extends React.PureComponent {
                         disabled={
                             Object.values(this.props.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)} />
 
+                </div>
+                <div className="col-12 p-0 pt-3 text-center">
+                    {strings.signin.newsup} <Link title={strings.signup.toreg} to="/registration">{strings.signup.toreg}</Link>
                 </div>
             </>
         );

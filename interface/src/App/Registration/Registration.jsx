@@ -4,7 +4,6 @@ import { loadReCaptcha } from 'react-recaptcha-google'
 import { connect } from 'react-redux'
 
 import { setSession } from "../../AppStore/Actions/actions"
-import { calcFprint } from "../../AppStore/Actions/refresh"
 
 import RegForm from "./RegForm/RegForm"
 import Errors from "../PvP/components/Errors/Errors"
@@ -35,9 +34,6 @@ class Registration extends React.Component {
         if (this.props.session.accessToken !== "") {
             this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile"))
             return
-        }
-        if (!this.props.session.fprint) {
-            this.props.calcFprint({ optional: false })
         }
         loadReCaptcha();
     }
@@ -191,7 +187,7 @@ class Registration extends React.Component {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ...this.state.inputs, fingerprint: this.props.session.fprint })
+            body: JSON.stringify(this.state.inputs)
         }).catch(function (r) {
             reason = r
             return
@@ -259,7 +255,6 @@ class Registration extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         setSession: value => dispatch(setSession(value)),
-        calcFprint: (optional) => dispatch(calcFprint(optional))
     }
 }
 

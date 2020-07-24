@@ -113,6 +113,9 @@ class LoginForm extends React.PureComponent {
                             Object.values(this.props.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)} />
 
                 </div>
+                <div className="col-12 p-0 pt-3 reg-form--text text-center">
+                    {strings.signup.newlin} <Link title={strings.signin.tolog} to="/registration">{strings.signin.tolog}</Link>
+                </div>
             </>
         );
     }

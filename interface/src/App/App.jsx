@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fPrintAndRefresh } from '../AppStore/Actions/refresh'
+import { refresh } from '../AppStore/Actions/refresh'
 import { endLoading, startLoading } from '../AppStore/Actions/actions'
 import Main from "./Main.jsx"
 import Navbar from "./Navbar/Navbar.jsx"
@@ -15,7 +15,7 @@ class App extends Component {
         switch (!this.props.session.token || this.props.session.expiresAt - (Date.now() / 1000) < 5) {
             case true:
                 this.props.startLoading()
-                this.props.fPrintAndRefresh({ optional: true })
+                this.props.refresh({ optional: true })
                 return
             default:
                 this.props.endLoading()
@@ -47,7 +47,7 @@ class App extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    fPrintAndRefresh: (prop) => dispatch(fPrintAndRefresh(prop)),
+    refresh: () => dispatch(refresh()),
     startLoading: () => dispatch(startLoading()),
     endLoading: () => dispatch(endLoading()),
 })

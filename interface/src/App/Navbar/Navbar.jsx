@@ -1,5 +1,6 @@
 import React from "react";
 import DropdownMenu from "./DropdownMenu"
+import User from "./User/User"
 import { Link } from "react-router-dom"
 
 import LocalizedStrings from "react-localization"
@@ -47,14 +48,6 @@ class Navbar extends React.PureComponent {
                 </div>,
                 <div key="en" name="en" className="langButton clickable" onClick={this.onClick}>
                     <En title={strings.buttons.en} className="icon24 mx-1"></En> {strings.buttons.en}
-                </div>
-            ],
-            userOpts: [
-                <Link key="profile" className="dropdown-item " to="/profile"><i className="far fa-address-card fa-lg mr-1"></i>
-                    {strings.navbar.prof}</Link>,
-                <div key="logout" name="logout" className="dropdown-item navbar--padding"
-                    onClick={this.onClick}>
-                    <i className="fas fa-sign-out-alt fa-lg mr-1"></i>{strings.navbar.sout}
                 </div>
             ],
             expanded: false,
@@ -120,16 +113,7 @@ class Navbar extends React.PureComponent {
 
                 <div className="order-2 order-md-3" >
                     <ul className="navbar-nav flex-row ml-auto ">
-                        <DropdownMenu
-                            class="mr-2"
-                            dropClass="dropdown-menu-right"
-                            list={this.state.userOpts}
-                            label={
-                                <>
-                                    <i className="fas fa-user fa-2x clickable"></i>{"Esser"}
-                                </>}
-
-                        />
+                        <User />
                         <a className="align-self-center" title={"Telegram"} href="https://t.me/pogpvp">
                             <i className="fab fa-telegram fa-2x mr-2 clickable"></i>
                         </a>
