@@ -213,6 +213,8 @@ export const locale = {
         },
 
         navbar: {
+            prof: "User profile",
+            sout: "Sign out",
             single: "Single PvP",
             matrix: "Matrix PvP",
             shiny: "Sniny Rates",
@@ -474,6 +476,8 @@ export const locale = {
         },
 
         navbar: {
+            prof: "Профиль пользователя",
+            sout: "Выйти",
             single: "Одиночное PvP",
             matrix: "Групповое PvP",
             shiny: "Шансы на шайни",
