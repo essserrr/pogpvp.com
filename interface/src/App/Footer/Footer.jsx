@@ -1,5 +1,6 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import { getCookie } from "../../js/indexFunctions"
 import { userLocale } from "../../locale/userLocale"
@@ -15,7 +16,7 @@ class Footer extends React.PureComponent {
     render() {
         return (
             <div data-nosnippet className="footer">
-                <p className="m-0 px-2">©2020 pogPvP.com  <a href="/privacy" title={strings.pol.p}>{strings.pol.p}</a>  <a href="/terms" title={strings.pol.t}>{strings.pol.t}</a></p>
+                <p className="m-0 px-2">©2020 pogPvP.com  <Link to="/privacy" title={strings.pol.p}>{strings.pol.p}</Link>  <Link to="/terms" title={strings.pol.t}>{strings.pol.t}</Link></p>
                 <p className="m-0 px-2">
                     Icons made by <a href="https://www.flaticon.com/authors/roundicons-freebies" title="Roundicons Freebies">Roundicons Freebies</a>
                 </p>
