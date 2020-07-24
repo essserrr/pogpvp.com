@@ -1,11 +1,19 @@
 import { getFingerprint } from "../../App/Registration/Fingerprint"
 import { getCookie } from "../../js/indexFunctions"
 
-export const calcFprint = () => {
+export const calcFprint = (prop) => {
     return (dispatch, getState) => {
         let state = getState()
         if (state.session.fprint !== "") {
-            return
+            return Promise.resolve()
+        }
+        if (!getCookie("appS") && prop.optional) {
+            console.log("fPrint aborted")
+            dispatch({
+                type: "END_LOADING",
+                value: { token: "", expires: "", uname: "" }
+            })
+            return Promise.resolve()
         }
         return getFingerprint()
             .then(fprint => {
@@ -36,6 +44,7 @@ export const refresh = () => {
             return
         }
         if (!getCookie("appS")) {
+            console.log("refresh aborted")
             dispatch({
                 type: "END_LOADING",
                 value: { token: "", expires: "", uname: "" }
@@ -96,9 +105,9 @@ export const refresh = () => {
     }
 }
 
-export const fPrintAndRefresh = () => {
+export const fPrintAndRefresh = (prop) => {
     return (dispatch) => {
-        return dispatch(calcFprint()).then(() => {
+        return dispatch(calcFprint(prop)).then(() => {
             return dispatch(refresh())
         })
     }

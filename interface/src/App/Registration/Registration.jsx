@@ -37,7 +37,7 @@ class Registration extends React.Component {
             return
         }
         if (!this.props.session.fprint) {
-            this.props.calcFprint()
+            this.props.calcFprint({ optional: false })
         }
         loadReCaptcha();
     }
@@ -259,7 +259,7 @@ class Registration extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         setSession: value => dispatch(setSession(value)),
-        calcFprint: () => dispatch(calcFprint())
+        calcFprint: (optional) => dispatch(calcFprint(optional))
     }
 }
 
