@@ -39,6 +39,7 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 	go func() {
 		if err := lf.verifyCaptcha(ip); err != nil {
 			capthcaErr = fmt.Errorf("Invalid captcha")
+			fmt.Println(err)
 		}
 		wg.Done()
 	}()
@@ -120,11 +121,11 @@ func downloadAsObj(url string, target interface{}) error {
 	if err != nil {
 		return err
 	}
+	defer response.Body.Close()
 	pageInBytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return err
 	}
-	response.Body.Close()
 
 	err = json.Unmarshal(pageInBytes, &target)
 	if err != nil {
@@ -150,6 +151,7 @@ func (lf *RegForm) VerifyLogForm(ip string) error {
 	go func() {
 		if err := lf.verifyCaptcha(ip); err != nil {
 			capthcaErr = fmt.Errorf("Invalid captcha")
+			fmt.Println(err)
 		}
 		wg.Done()
 	}()

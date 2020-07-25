@@ -805,7 +805,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write([]byte(answer))
+	_, err = (*w).Write(answer)
 	if err != nil {
 		return fmt.Errorf("Write response error: %v", err)
 	}
@@ -1003,7 +1003,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	}
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write([]byte(answer))
+	_, err = (*w).Write(answer)
 	if err != nil {
 		return fmt.Errorf("Write response error: %v", err)
 	}
