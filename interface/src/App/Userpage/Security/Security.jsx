@@ -8,7 +8,7 @@ import { locale } from "../../../locale/locale"
 let strings = new LocalizedStrings(locale);
 
 
-class Root extends React.PureComponent {
+class Security extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -19,11 +19,11 @@ class Root extends React.PureComponent {
         return (
             <div className="col pt-2 px-2">
                 <div className="col px-0">
-                    Some profile native stuff
+                    Some Security native stuff
                 </div>
             </div>
         );
     }
 }
 
-export default Root
+export default Security

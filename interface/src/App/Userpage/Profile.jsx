@@ -7,7 +7,7 @@ import { setSession } from "../../AppStore/Actions/actions"
 import Errors from "../PvP/components/Errors/Errors"
 import UpageButtons from "./ProfileButtons/ProfileButtons"
 import SiteHelm from "../SiteHelm/SiteHelm"
-import Root from "./Root/Root"
+import UserButtons from "./UserButtons/UserButtons"
 import Pokemon from "./Pokemon/Pokemon"
 import Move from "./Move/Move"
 import Shbroker from "./Shbroker/Shbroker"
@@ -52,7 +52,7 @@ class Userpage extends React.Component {
                                 <Route path="/profile/pokemon" component={Pokemon} />
                                 <Route path="/profile/move" component={Move} />
                                 <Route path="/profile/shinybroker" component={Shbroker} />
-                                <Route path="/profile" component={Root} />
+                                <Route path="/profile/user/:type(info|security)/" component={UserButtons} />
                             </Switch>
                         </div>
                     </div>

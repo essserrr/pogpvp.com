@@ -1,6 +1,6 @@
 import React from "react";
 import DropdownMenu from "./DropdownMenu"
-import User from "./User/User"
+import NavUser from "./NavUser/NavUser"
 import { Link } from "react-router-dom"
 import { withRouter } from "react-router";
 
@@ -106,7 +106,7 @@ class Navbar extends React.PureComponent {
 
                 <div className="order-2 order-md-3" >
                     <ul className="navbar-nav flex-row ml-auto ">
-                        <User />
+                        <NavUser />
                         <a className="align-self-center" title={"Telegram"} href="https://t.me/pogpvp">
                             <i className="fab fa-telegram fa-2x mr-2 clickable"></i>
                         </a>

@@ -1,8 +1,8 @@
-.user--padding {
+.navuser--padding {
     padding-left: 10px !important;
 }
 
-.user__text {
+.navuser__text {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -10,19 +10,19 @@
 }
 
 @media (max-width: 860px) { 
-    .user__text {
+    .navuser__text {
         width: 100px;
     }
  }
 
 @media (max-width: 780px) { 
-    .user__text {
+    .navuser__text {
         width: 80px;
     }
  }
 
 @media (max-width: 767px) { 
-    .user__text {
+    .navuser__text {
         width: 100%;
     }
  }

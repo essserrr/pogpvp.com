@@ -1,12 +1,13 @@
 import React from "react";
 import { getCookie } from "../../../js/getCookie"
+import { Link } from "react-router-dom"
 
 import LocalizedStrings from "react-localization";
-import { locale } from "../../../locale/locale"
+import { userLocale } from "../../../locale/userLocale"
 
 import "./ProfileButtons.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(userLocale);
 
 
 class ProfileButtons extends React.PureComponent {
@@ -26,24 +27,15 @@ class ProfileButtons extends React.PureComponent {
 
         return (
             <div className="col-auto profile-buttons px-0">
-                <div onClick={this.onClick} name="/profile"
-                    className={"col-auto profile__singleb px-0" + (!this.props.activePath ? " active" : "")}>
-                    User info
-                </div>
-                <div onClick={this.onClick} name="/profile/pokemon"
-                    className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "pokemon" ? " active" : "")}>
-                    User's pokemon
-                </div>
-                <div onClick={this.onClick} name="/profile/move"
-                    className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "move" ? " active" : "")}>
-                    User's moves
-                </div>
-                <div onClick={this.onClick} name="/profile/shinybroker"
-                    className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}>
-                    Shiny broker
-                </div>
-            </div>
-
+                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "user" ? " active" : "")}
+                    to="/profile/user/info">{strings.upage.u}</Link>
+                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
+                    to="/profile/pokemon">{strings.upage.p}</Link>
+                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "move" ? " active" : "")}
+                    to="/profile/move">{strings.upage.m}</Link>
+                <Link className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
+                    to="/profile/shinybroker">{strings.upage.shbr}</Link>
+            </div >
         );
     }
 }
