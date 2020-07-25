@@ -4,7 +4,8 @@ import { Link } from "react-router-dom"
 import { connect } from 'react-redux'
 
 import { logout } from "../../../AppStore/Actions/logout"
-import { getCookie } from "../../../js/indexFunctions.js"
+import { getCookie } from "../../../js/getCookie"
+import LoginReg from "./LoginReg/LoginReg"
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
@@ -20,7 +21,8 @@ class User extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             userOpts: [
-                <Link key="profile" className="dropdown-item " to="/profile"><i className="far fa-address-card fa-lg mr-1"></i>
+                <Link key="profile" className="dropdown-item " to="/profile">
+                    <i className="far fa-address-card fa-lg mr-1"></i>
                     {strings.navbar.prof}</Link>,
                 <div key="logout" name="logout" className="dropdown-item user--padding"
                     onClick={this.props.logout}>
@@ -33,19 +35,18 @@ class User extends React.PureComponent {
 
 
     render() {
-        console.log(this.props)
-
         return (
-            <DropdownMenu
-                class="mr-2"
-                dropClass="dropdown-menu-right"
-                list={this.state.userOpts}
-                label={
-                    <>
-                        <i className="fas fa-user fa-2x clickable"></i>{this.props.session.username}
-                    </>}
+            this.props.session.username ?
+                <DropdownMenu
+                    class="mr-2"
+                    dropClass="dropdown-menu-right"
+                    list={this.state.userOpts}
+                    label={
+                        <>
+                            <i className="fas fa-user fa-2x clickable"></i><span className="user__text">{this.props.session.username}</span>
+                        </>}
 
-            />
+                /> : <LoginReg />
         );
     }
 }
