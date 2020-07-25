@@ -213,6 +213,8 @@ export const locale = {
         },
 
         navbar: {
+            lin: "Log in",
+            sup: "Sign up",
             prof: "User profile",
             sout: "Sign out",
             single: "Single PvP",
@@ -476,6 +478,8 @@ export const locale = {
         },
 
         navbar: {
+            lin: "Войти",
+            sup: "Зарегистрироваться",
             prof: "Профиль пользователя",
             sout: "Выйти",
             single: "Одиночное PvP",
