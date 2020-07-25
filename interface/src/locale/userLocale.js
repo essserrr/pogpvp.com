@@ -46,6 +46,9 @@ export const userLocale = {
             usr: "User page",
             log: "Log in form",
         },
+        upage: {
+            prof: "User profile",
+        },
     },
 
     ru: {
@@ -94,6 +97,9 @@ export const userLocale = {
             reg: "Форма регистрации пользователя",
             usr: "Страница пользователя",
             log: "Форма входа",
+        },
+        upage: {
+            prof: "Профиль пользователя",
         },
     }
 }
