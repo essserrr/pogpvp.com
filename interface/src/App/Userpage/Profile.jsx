@@ -1,11 +1,18 @@
 import React from "react"
 import LocalizedStrings from "react-localization";
 import { connect } from 'react-redux'
+import { Switch, Route } from "react-router-dom"
 
 import { setSession } from "../../AppStore/Actions/actions"
 import Errors from "../PvP/components/Errors/Errors"
+import UpageButtons from "./ProfileButtons/ProfileButtons"
 import SiteHelm from "../SiteHelm/SiteHelm"
-import "./Userpage.scss"
+import Root from "./Root/Root"
+import Pokemon from "./Pokemon/Pokemon"
+import Move from "./Move/Move"
+import Shbroker from "./Shbroker/Shbroker"
+
+import "./Profile.scss"
 
 import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
@@ -27,9 +34,9 @@ class Userpage extends React.Component {
 
 
     render() {
-
+        console.log(this.props.match)
         return (
-            <div className="container-fluid mb-5">
+            <div className="container-fluid mb-5 p-2">
                 <SiteHelm
                     url="https://pogpvp.com/profile"
                     header={strings.pageheaders.usr}
@@ -37,22 +44,16 @@ class Userpage extends React.Component {
                     noindex={true}
                 />
                 <div className="row m-0 justify-content-center">
-                    <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 registration align-self-center">
-                        <div className="col-12 p-0 registration__text text-center">
-                            {strings.signup.reg}
-                        </div>
-                        {!!this.state.error && <div className="col-12 p-0">
-                            <Errors value={this.state.error} class="alert alert-danger m-2 p-2" />
-                        </div>}
-                        <div className="col-12 p-0">
-                            {this.props.session.username}
-                        </div>
-                        <div className="col-12 p-0">
-                            {this.props.session.jwt ? "We have a token" : "NO TOKEN"}
-                        </div>
-                        <div className="col-12 p-0">
-
-                            {`Token expires in ${(this.props.session.expiresAt - Date.now() / 1000) / 60} minutes`}
+                    <div className="col-12 col-sm-12 col-md-12 col-lg-10 mt-4 p-0 profile align-self-center">
+                        <div className="row mx-0">
+                            <div className="col-12 px-0 text-center profile__title">{strings.upage.prof}</div>
+                            <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />
+                            <Switch>
+                                <Route path="/profile/pokemon" component={Pokemon} />
+                                <Route path="/profile/move" component={Move} />
+                                <Route path="/profile/shinybroker" component={Shbroker} />
+                                <Route path="/profile" component={Root} />
+                            </Switch>
                         </div>
                     </div>
                 </div>
