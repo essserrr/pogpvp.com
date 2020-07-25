@@ -1,0 +1,43 @@
+.profile-buttons {
+    div:last-child {
+        border-radius: 0px 0px 3px 0px;
+    }
+}
+
+
+.profile__singleb {
+        border: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        border-right: 1px solid rgba(0, 0, 0, 0.25);
+
+        font-size: 1.15rem;
+        font-weight: bolder;
+
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+        padding-left: 20px !important;
+        padding-right: 10px !important;
+
+        display: flex;
+        box-sizing: padding-box;
+        background-color: transparent;
+        width: 100%;
+
+        -webkit-transition: all 0.1s linear;
+        transition: all 0.1s linear;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.07);
+        }
+
+        &.active {
+            outline: none;
+            border-right: 1px solid rgba(0, 0, 0, 0);
+        }
+        &.disabled {
+            pointer-events: none;
+            cursor: none;
+            color: rgba(100, 92, 92, 0.322);
+        }
+}

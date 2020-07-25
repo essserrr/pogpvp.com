@@ -28,7 +28,7 @@ const NotFound = lazy(() => import("./NotFound/NotFound"))
 const Registration = lazy(() => import("./Registration/Registration"))
 const Privacy = lazy(() => import("./Registration/Privacy/Privacy"))
 const Terms = lazy(() => import("./Registration/Terms/Terms"))
-const Userpage = lazy(() => import("./Userpage/Userpage"))
+const ProfileRouter = lazy(() => import("./Userpage/ProfileRouter"))
 const Login = lazy(() => import("./Login/Login"))
 
 class Main extends React.Component {
@@ -68,7 +68,7 @@ class Main extends React.Component {
                         <Route path="/terms" component={Terms} />
 
                         <PrivateRoute authed={this.props.session.jwt === ""} path='/registration' dest="/profile" component={Registration} />
-                        <PrivateRoute authed={this.props.session.jwt !== ""} path='/profile' dest="/login" component={Userpage} />
+                        <PrivateRoute authed={this.props.session.jwt !== ""} path='/profile' dest="/login" component={ProfileRouter} />
                         <PrivateRoute authed={this.props.session.jwt === ""} path='/login' dest="/profile" component={Login} />
                         <Route path="*" component={NotFound} />
                     </Switch>
