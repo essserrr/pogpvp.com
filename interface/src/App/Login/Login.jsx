@@ -11,7 +11,7 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Login.scss"
 import LogForm from "./LogForm/LogForm"
 
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale);
@@ -32,11 +32,6 @@ class Login extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.session)
-        if (this.props.session.accessToken !== "") {
-            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile"))
-            return
-        }
         loadReCaptcha();
     }
 

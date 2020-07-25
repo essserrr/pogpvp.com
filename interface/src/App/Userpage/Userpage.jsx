@@ -7,7 +7,7 @@ import Errors from "../PvP/components/Errors/Errors"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Userpage.scss"
 
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale);
@@ -20,17 +20,9 @@ class Userpage extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.session.accessToken === "") {
-            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
-            return
-        }
     }
 
     componentDidUpdate() {
-        if (this.props.session.accessToken === "") {
-            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
-            return
-        }
     }
 
 
@@ -56,7 +48,7 @@ class Userpage extends React.Component {
                             {this.props.session.username}
                         </div>
                         <div className="col-12 p-0">
-                            {this.props.session.accessToken ? "We have a token" : "NO TOKEN"}
+                            {this.props.session.jwt ? "We have a token" : "NO TOKEN"}
                         </div>
                         <div className="col-12 p-0">
 

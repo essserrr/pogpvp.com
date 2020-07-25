@@ -10,7 +10,7 @@ import Errors from "../PvP/components/Errors/Errors"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Registration.scss"
 
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale);
@@ -31,10 +31,6 @@ class Registration extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.session.accessToken !== "") {
-            this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile"))
-            return
-        }
         loadReCaptcha();
     }
 

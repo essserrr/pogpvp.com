@@ -10,7 +10,8 @@ import Advisor from "./components/Advisor/Advisor"
 import TheadElement from "./components/MetrixTable/TheadElement"
 import LineElement from "./components/MetrixTable/LineElement"
 
-import { encodeQueryData, getCookie, calculateMaximizedStats, returnRateStyle } from "../../js/indexFunctions.js"
+import { encodeQueryData, calculateMaximizedStats, returnRateStyle } from "../../js/indexFunctions.js"
+import { getCookie } from "../../js/getCookie"
 import { great, ultra, master } from "./matrixPresets"
 import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
@@ -379,6 +380,9 @@ class MatrixPvp extends React.PureComponent {
             <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
         ]
         for (let i = 0; i < localStorage.length; i++) {
+            if (localStorage.key(i) === "persist:session") {
+                continue
+            }
             partiesList.push(<option value={localStorage.key(i)} key={localStorage.key(i)}>{localStorage.key(i)}</option>)
         }
         return partiesList
