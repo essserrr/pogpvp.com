@@ -6,7 +6,7 @@ import { withRouter } from "react-router";
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 import { ReactComponent as En } from "../../icons/us.svg"
 import { ReactComponent as Ru } from "../../icons/ru.svg"

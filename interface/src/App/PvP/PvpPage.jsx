@@ -13,9 +13,9 @@ import SingleDescr from "./components/Description/SingleDescr"
 import Loader from "../PvpRating/Loader"
 
 import {
-    getCookie, extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase,
-    calculateEffStat
+    extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase, calculateEffStat
 } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
 

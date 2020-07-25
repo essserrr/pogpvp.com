@@ -16,7 +16,8 @@ import CardBody from "./CardBody/CardBody"
 import Input from "../PvP/components/Input/Input"
 
 import { ReactComponent as Shadow } from "../../icons/shadow.svg"
-import { checkShadow, getCookie, capitalizeFirst } from "../../js/indexFunctions"
+import { checkShadow, capitalizeFirst } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 import { locale } from "../../locale/locale"
 

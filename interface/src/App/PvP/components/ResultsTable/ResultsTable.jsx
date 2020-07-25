@@ -4,7 +4,8 @@ import Thead from "./Thead";
 
 import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
-import { getCookie, returnRateStyle } from "../../../../js/indexFunctions"
+import { returnRateStyle } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 

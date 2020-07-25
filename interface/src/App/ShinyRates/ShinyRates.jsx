@@ -8,7 +8,7 @@ import ShinyTableTr from "./ShinyTable/ShinyTableTr"
 import SiteHelm from "../SiteHelm/SiteHelm"
 
 import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 
 let strings = new LocalizedStrings(locale);

@@ -6,7 +6,7 @@ import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 
 import LocalizedStrings from "react-localization";
 import { matrixTips } from "../../../../locale/matrixTips"
-import { getCookie } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 
 let tips = new LocalizedStrings(matrixTips)
 

@@ -3,9 +3,10 @@ import Pokemon from "./Pokemon";
 import MagicBox from "./MagicBox/MagicBox"
 import SubmitButton from "./SubmitButton/SubmitButton"
 import {
-    getCookie, returnMovePool, calculateMaximizedStats, processInitialStats, checkLvl, checkIV,
+    returnMovePool, calculateMaximizedStats, processInitialStats, checkLvl, checkIV,
     calculateEffStat, selectCharge, selectQuick
 } from "../../../js/indexFunctions.js"
+import { getCookie } from "../../../js/getCookie"
 
 import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"

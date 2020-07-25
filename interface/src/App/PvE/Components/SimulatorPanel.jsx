@@ -6,7 +6,7 @@ import PvePokemon from "./PvePokemon"
 import LocalizedStrings from "react-localization";
 import { locale } from "../../../locale/locale"
 import { pveLocale } from "../../../locale/pveLocale"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 let pveStrings = new LocalizedStrings(pveLocale);

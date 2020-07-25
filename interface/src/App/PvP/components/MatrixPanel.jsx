@@ -5,9 +5,10 @@ import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
 import MagicBox from "./MagicBox/MagicBox"
 import SubmitButton from "./SubmitButton/SubmitButton"
 import {
-    getCookie, returnMovePool, calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat,
+    returnMovePool, calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat,
     pokemon, selectCharge, selectQuick
 } from "../../../js/indexFunctions.js"
+import { getCookie } from "../../../js/getCookie"
 import Stages from "./Stages/Stages";
 import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
 import InputAndSubmit from "./InputAndSubmit/InputAndSubmit"

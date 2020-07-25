@@ -18,7 +18,7 @@ import SliderBlock from "./SliderBlock/SliderBlock"
 import RedirectBlock from "./RedirectBlock/RedirectBlock"
 
 import { dexLocale } from "../../locale/dexLocale"
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 
 let strings = new LocalizedStrings(dexLocale);

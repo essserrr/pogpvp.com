@@ -4,8 +4,9 @@ import Result from "./components/Result";
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import {
     calculateEffStat, pokemon, encodeQueryData, returnMovePool, calculateMaximizedStats, processHP,
-    getCookie, processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
+    processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
 } from "../../js/indexFunctions.js"
+import { getCookie } from "../../js/getCookie"
 import Reconstruction from "./components/PvpReconstruction/Reconstruction.jsx"
 import Errors from "./components/Errors/Errors"
 import Indicators from "./components/Indicators/Indicators"

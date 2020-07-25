@@ -1,6 +1,6 @@
 const initialState = {
     username: "",
-    accessToken: "",
+    jwt: "",
     expiresAt: 0,
     isLoading: true,
 }
@@ -10,7 +10,7 @@ const Session = (state = initialState, action) => {
         case "SET_SESSION":
             return {
                 ...state,
-                accessToken: action.value.token,
+                jwt: action.value.token,
                 expiresAt: action.value.expires,
                 username: action.value.uname,
                 isLoading: false,

@@ -8,7 +8,7 @@ import Tier from "../../RaidsList/Tier/Tier"
 import CardBody from "./CardBody"
 
 import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 
 
 let strings = new LocalizedStrings(locale)

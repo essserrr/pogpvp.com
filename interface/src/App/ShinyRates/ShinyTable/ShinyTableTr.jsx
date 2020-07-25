@@ -4,7 +4,7 @@ import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
 import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale)
 

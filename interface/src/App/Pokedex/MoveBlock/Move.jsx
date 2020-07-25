@@ -3,7 +3,8 @@ import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
 import ChargeEnergy from "./ChargeEnergy"
-import { getCookie, typeDecoder } from "../../../js/indexFunctions"
+import { typeDecoder } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 
 let strings = new LocalizedStrings(dexLocale)

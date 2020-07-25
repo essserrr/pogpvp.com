@@ -7,7 +7,7 @@ import AuthInput from "../../Registration/RegForm/AuthInput/AuthInput"
 import AuthButton from "../../Registration/RegForm//AuthButton/AuthButton"
 import "./LogForm.scss"
 
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { userLocale } from "../../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale);

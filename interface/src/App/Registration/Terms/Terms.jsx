@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 import LocalizedStrings from "react-localization"
 import { privacy } from "../../../locale/privacy"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import "./Terms.scss"
 
 let strings = new LocalizedStrings(privacy)

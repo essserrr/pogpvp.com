@@ -2,7 +2,8 @@ import React from "react";
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
-import { getCookie, encodeQueryData, calculateMaximizedStats, selectCharge, selectQuick } from "../../../js/indexFunctions"
+import { encodeQueryData, calculateMaximizedStats, selectCharge, selectQuick } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 
 let strings = new LocalizedStrings(dexLocale)

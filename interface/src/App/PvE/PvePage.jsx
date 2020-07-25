@@ -3,8 +3,9 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
 
 import {
-    getCookie, extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker
+    extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker
 } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 import CommonPve from "./CommonPve"
 import Loader from "../PvpRating/Loader"

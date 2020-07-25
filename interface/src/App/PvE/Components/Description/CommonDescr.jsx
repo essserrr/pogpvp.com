@@ -4,7 +4,7 @@ import ReactTooltip from "react-tooltip"
 import LocalizedStrings from "react-localization";
 import { commonRaidTips } from "../../../../locale/commonRaidTips"
 
-import { getCookie } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 
 let tips = new LocalizedStrings(commonRaidTips)
 

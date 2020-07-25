@@ -5,7 +5,8 @@ import { Link } from "react-router-dom"
 import PokemonCard from "../../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import CardBody from "../CardBody/CardBody"
-import { getCookie, capitalizeFirst } from "../../../js/indexFunctions"
+import { capitalizeFirst } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { locale } from "../../../locale/locale"
 
 let strings = new LocalizedStrings(locale)

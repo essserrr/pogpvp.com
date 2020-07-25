@@ -7,7 +7,8 @@ import PokemonCard from "../../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import CardBody from "../CardBody"
 
-import { getCookie, capitalizeFirst, regionals } from "../../../js/indexFunctions"
+import { capitalizeFirst, regionals } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { locale } from "../../../locale/locale"
 import { regionLocale } from "../../../locale/regionLocale"
 

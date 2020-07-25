@@ -1,4 +1,4 @@
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 export const refresh = () => {
     return (dispatch, getState) => {
@@ -13,7 +13,7 @@ export const refresh = () => {
             return
         }
 
-        switch (state.session.accessToken === "" || state.session.expiresAt - (Date.now() / 1000) < 5) {
+        switch (state.session.jwt === "" || state.session.expiresAt - (Date.now() / 1000) < 5) {
             case true:
                 return fetch(((navigator.userAgent !== "ReactSnap") ?
                     process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/refresh", {

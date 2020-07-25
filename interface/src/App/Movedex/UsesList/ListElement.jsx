@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
 
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 

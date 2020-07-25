@@ -1,7 +1,8 @@
 import React from "react";
 import {
-    returnMovePool, pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, getCookie, checkLvl, checkIV
+    returnMovePool, pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV
 } from "../../js/indexFunctions.js"
+import { getCookie } from "../../js/getCookie"
 
 import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"

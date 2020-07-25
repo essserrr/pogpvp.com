@@ -11,7 +11,10 @@ import WeatherMoves from "../WeatherMoves/WeatherMoves"
 import FightStats from "../FightStats/FightStats"
 import Loader from "../../../PvpRating/Loader"
 
-import { getCookie, culculateCP, calculateEffStat, extractName, encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../js/indexFunctions"
+import {
+    culculateCP, calculateEffStat, extractName, encodePveAttacker, encodePveBoss, encodePveObj
+} from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 import { pveLocale } from "../../../../locale/pveLocale"
 import { locale } from "../../../../locale/locale"
 

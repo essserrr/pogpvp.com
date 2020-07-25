@@ -9,7 +9,7 @@ import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 import Button from "../Movedex/Button/Button"
 import Loader from "../PvpRating/Loader"
 
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
 

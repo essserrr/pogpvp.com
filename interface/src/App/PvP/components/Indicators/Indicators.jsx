@@ -2,7 +2,8 @@ import React from "react";
 import HPIndicator from "./HPIndicator"
 import EnergyIndicator from "./EnergyIndicator"
 import EnergyNumber from "./EnergyNumber"
-import { calculateDamage, calculateMultiplier, getCookie } from "../../../../js/indexFunctions"
+import { calculateDamage, calculateMultiplier } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 
 import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"

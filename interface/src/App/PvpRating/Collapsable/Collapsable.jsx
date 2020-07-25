@@ -1,6 +1,7 @@
 import React from "react";
 import { UnmountClosed } from "react-collapse";
-import { checkShadow, getCookie, encodeQueryData, calculateMaximizedStats } from "../../../js/indexFunctions"
+import { checkShadow, encodeQueryData, calculateMaximizedStats } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import RMoveRow from "../RMoveRow/RMoveRow"
 import RRateRow from "../RRateRow/RRateRow"
 import RowWrap from "../RowWrap/RowWrap"
