@@ -249,7 +249,7 @@ func (u *User) addSession(sess Session) {
 
 //Refresh refreshes user session if creditinail are right
 func Refresh(clent *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, string, error) {
-	jwt, err := decodeRefresh(cookie.Value)
+	jwt, err := decodeToken(cookie.Value)
 	if err != nil {
 		fmt.Println(err)
 		return nil, "", fmt.Errorf("Invalid auth token")
@@ -301,6 +301,16 @@ func (s *Session) verifyRefresh(token string) bool {
 	return true
 }
 
+func (s *Session) verifyAccess(token string) bool {
+	if s.AccessToken != token {
+		return false
+	}
+	if s.AccessExp < time.Now().Unix() {
+		return false
+	}
+	return true
+}
+
 //deleteSession deletes session from array and return deleted session
 func (u *User) deleteSession(sID string) *Session {
 	if u.Sessions == nil {
@@ -318,7 +328,7 @@ func (u *User) deleteSession(sID string) *Session {
 	return nil
 }
 
-func decodeRefresh(refresh string) (*jwt.MapClaims, error) {
+func decodeToken(refresh string) (*jwt.MapClaims, error) {
 	claims := jwt.MapClaims{}
 	_, err := jwt.ParseWithClaims(refresh, claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(os.Getenv("JWT_KEY")), nil
@@ -331,7 +341,7 @@ func decodeRefresh(refresh string) (*jwt.MapClaims, error) {
 
 //Logout deketes current session
 func Logout(clent *mongo.Client, cookie *http.Cookie) (string, error) {
-	jwt, err := decodeRefresh(cookie.Value)
+	jwt, err := decodeToken(cookie.Value)
 	if err != nil {
 		fmt.Println(err)
 		return "", fmt.Errorf("Invalid auth token")
@@ -373,7 +383,7 @@ func Logout(clent *mongo.Client, cookie *http.Cookie) (string, error) {
 
 //LogoutAll stops all user sessions
 func LogoutAll(clent *mongo.Client, cookie *http.Cookie) (string, error) {
-	jwt, err := decodeRefresh(cookie.Value)
+	jwt, err := decodeToken(cookie.Value)
 	if err != nil {
 		fmt.Println(err)
 		return "", fmt.Errorf("Invalid auth token")
@@ -412,6 +422,63 @@ func LogoutAll(clent *mongo.Client, cookie *http.Cookie) (string, error) {
 		}
 		return currUser.Username, fmt.Errorf("Verification failed")
 	}
+}
+
+//GetUserInfo return users mein info
+func GetUserInfo(clent *mongo.Client, req *users.Request) (*users.UserInfo, error) {
+	user, err := getAccess(clent, req)
+	if err != nil {
+		return nil, err
+	}
+	return &users.UserInfo{Username: user.Username, Email: user.Email, RegAt: user.RegAt}, nil
+}
+
+func getAccess(clent *mongo.Client, req *users.Request) (*User, error) {
+	jwt, err := decodeToken(req.AccessToken)
+	if err != nil {
+		fmt.Println(err)
+		return nil, fmt.Errorf("Invalid auth token")
+	}
+	//check uid
+	uID, ok := (*jwt)["u_id"].(string)
+	if !ok {
+		return nil, fmt.Errorf("Invalid auth token")
+	}
+	//find user
+	currUser := lookupUser(clent, bson.M{"_id": uID})
+	if currUser == nil {
+		return nil, fmt.Errorf("User not found")
+	}
+	//check session
+	sID, ok := (*jwt)["s_id"].(string)
+	if !ok {
+		return nil, fmt.Errorf("Invalid auth token")
+	}
+	//find session
+	currSession := currUser.findSession(sID)
+	if currSession == nil {
+		return nil, fmt.Errorf("Session not found")
+	}
+
+	switch currSession.verifyAccess(req.AccessToken) {
+	case true:
+		return currUser, nil
+	default:
+		return nil, fmt.Errorf("Verification failed")
+	}
+}
+
+//deleteSession deletes session from array and return deleted session
+func (u *User) findSession(sID string) *Session {
+	if u.Sessions == nil {
+		return nil
+	}
+	for _, value := range u.Sessions {
+		if value.SessionID == sID {
+			return &value
+		}
+	}
+	return nil
 }
 
 //help-functions to test functionality *********************************************************************************************

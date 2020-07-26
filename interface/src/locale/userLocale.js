@@ -55,6 +55,11 @@ export const userLocale = {
             inf: "Info",
             sec: "Security",
         },
+        info: {
+            name: "User name",
+            email: "Email",
+            reg: "Registered at",
+        },
     },
 
     ru: {
@@ -112,6 +117,11 @@ export const userLocale = {
             shbr: "Шайни брокер",
             inf: "Информация",
             sec: "Безопасность",
+        },
+        info: {
+            name: "Имя пользователя",
+            email: "Электронная почта",
+            reg: "Зарегистрировался",
         },
     }
 }

@@ -1,0 +1,13 @@
+.user-info__text {
+    font-weight: 400;
+    font-size: 1.15rem;
+
+    &:hover {
+        background-color: rgb(226, 226, 226);
+    }
+}
+
+
+.user-info--border {
+    border-bottom: 1px solid black;
+}

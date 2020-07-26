@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Switch, Route } from "react-router-dom"
 
 import { setSession } from "../../AppStore/Actions/actions"
-import Errors from "../PvP/components/Errors/Errors"
 import UpageButtons from "./ProfileButtons/ProfileButtons"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import UserButtons from "./UserButtons/UserButtons"

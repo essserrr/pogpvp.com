@@ -1151,6 +1151,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/images/*", http.StripPrefix("/images/", versioning(http.FileServer(http.Dir("./interface/build/images")), a)))
 	router.Handle("/sitemap/*", http.StripPrefix("/sitemap/", listingblock(http.FileServer(http.Dir("./interface/build/sitemap")))))
 
+	//pages
 	router.Handle("/", rootHandler{serveIndex, a})
 	router.Handle("/pvp*", rootHandler{serveIndex, a})
 	router.Handle("/news*", rootHandler{serveIndex, a})
@@ -1173,7 +1174,6 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
 	router.Handle("/request/constructor", rootHandler{constructorPvpHandler, a})
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
-
 	router.Handle("/request/common/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
 
 	//bd calls
@@ -1184,7 +1184,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/news/{action}", rootHandler{newsAPIHandler, a})
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
-	//test auth
+	//auth
 	router.Handle("/api/auth/reg", rootHandler{register, a})
 	router.Handle("/api/auth/login", rootHandler{login, a})
 	router.Handle("/api/auth/refresh", rootHandler{refresh, a})
@@ -1194,6 +1194,9 @@ func (a *App) initPvpSrv() *http.Server {
 
 	router.Handle("/api/auth/retrive", rootHandler{retrive, a})
 	router.Handle("/api/auth/deleteall", rootHandler{deleteAll, a})
+
+	//user requests
+	router.Handle("/api/user/info", rootHandler{fetchUinfo, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)

@@ -175,3 +175,15 @@ func (lf *RegForm) VerifyLogForm(ip string) error {
 	}
 	return nil
 }
+
+//Request user api reuest form
+type Request struct {
+	AccessToken string
+}
+
+//UserInfo contains user's main info
+type UserInfo struct {
+	Username string
+	Email    string
+	RegAt    int64
+}
