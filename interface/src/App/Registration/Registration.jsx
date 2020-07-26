@@ -215,7 +215,7 @@ class Registration extends React.Component {
                 break
             default:
                 this.props.setSession({ token: data.Token, expires: data.Expires, uname: data.Username })
-                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile"))
+                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile/user/info"))
         }
     }
 

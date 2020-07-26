@@ -48,7 +48,7 @@ export const userLocale = {
         },
         upage: {
             prof: "User profile",
-            u: "User",
+            u: "Account",
             p: "Pokemon",
             m: "Moves",
             shbr: "Shiny broker",
@@ -106,7 +106,7 @@ export const userLocale = {
         },
         upage: {
             prof: "Профиль пользователя",
-            u: "Пользователь",
+            u: "Аккаунт",
             p: "Покемоны",
             m: "Умения",
             shbr: "Шайни брокер",
