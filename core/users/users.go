@@ -44,7 +44,7 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 		wg.Done()
 	}()
 	//username
-	if err := checkLength(lf.Username, "Username", 6, 16); err != nil {
+	if err := checkLength(lf.Username, "Username", 4, 16); err != nil {
 		return err
 	}
 	if !checkRegexp(lf.Username) {
@@ -156,7 +156,7 @@ func (lf *RegForm) VerifyLogForm(ip string) error {
 		wg.Done()
 	}()
 	//username
-	if err := checkLength(lf.Username, "Username", 6, 16); err != nil {
+	if err := checkLength(lf.Username, "Username", 4, 16); err != nil {
 		return err
 	}
 	if !checkRegexp(lf.Username) {
@@ -186,4 +186,11 @@ type UserInfo struct {
 	Username string
 	Email    string
 	RegAt    int64
+}
+
+//UserSession contains user session info
+type UserSession struct {
+	OS      string
+	IP      string
+	Browser string
 }

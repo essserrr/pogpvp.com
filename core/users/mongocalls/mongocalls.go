@@ -424,13 +424,28 @@ func LogoutAll(clent *mongo.Client, cookie *http.Cookie) (string, error) {
 	}
 }
 
-//GetUserInfo return users mein info
+//GetUserInfo returns users main info
 func GetUserInfo(clent *mongo.Client, req *users.Request) (*users.UserInfo, error) {
 	user, err := getAccess(clent, req)
 	if err != nil {
 		return nil, err
 	}
 	return &users.UserInfo{Username: user.Username, Email: user.Email, RegAt: user.RegAt}, nil
+}
+
+//GetUserSessions returns users sessions info
+func GetUserSessions(clent *mongo.Client, req *users.Request) (*[]users.UserSession, error) {
+	user, err := getAccess(clent, req)
+	if err != nil {
+		return nil, err
+	}
+
+	sessResp := make([]users.UserSession, 0, 5)
+	for _, val := range user.Sessions {
+		sessResp = append(sessResp, users.UserSession{OS: val.Os, IP: val.IP, Browser: val.Browser})
+	}
+
+	return &sessResp, nil
 }
 
 func getAccess(clent *mongo.Client, req *users.Request) (*User, error) {

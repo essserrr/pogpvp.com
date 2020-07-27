@@ -274,12 +274,11 @@ func logoutAll(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
 	}
 	uname, err := mongocalls.LogoutAll(app.mongo.client, cookie)
-	discardCookie(w)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
-
+	discardCookie(w)
 	fmt.Println("User has just ended all their sessions " + uname)
 
 	if err = respond(w, "Logged out"); err != nil {
@@ -310,6 +309,32 @@ func fetchUinfo(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	if err = respond(w, *info); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "unfo_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func fetchUsessions(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodPost {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	req := new(users.Request)
+	if err := parseBody(r, &req); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+	sessions, err := mongocalls.GetUserSessions(app.mongo.client, req)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
+	}
+	if err = respond(w, *sessions); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil

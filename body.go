@@ -336,17 +336,17 @@ func checkLimits(RemoteAddr, limiterType string, ipLocations *prometheus.Counter
 }
 
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
-	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
-		return err
-	}
 	agent := r.Header.Get("User-Agent")
 	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
 	//SEO actions
 	//check if an user if bot
 	ua := user_agent.New(agent)
-	//if he doesn't serve him usual page
+	//if he doesn't serve him usual page and check his limits
 	if !ua.Bot() {
+		//Check visitor's requests limit
+		if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
+			return err
+		}
 		http.ServeFile(*w, r, "./interface/build/200.html")
 		return nil
 	}
@@ -1197,6 +1197,7 @@ func (a *App) initPvpSrv() *http.Server {
 
 	//user requests
 	router.Handle("/api/user/info", rootHandler{fetchUinfo, a})
+	router.Handle("/api/user/sessions", rootHandler{fetchUsessions, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)
