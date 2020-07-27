@@ -109,8 +109,8 @@ class Registration extends React.Component {
     }
 
     checkUname(str) {
-        if (str.length < 6) {
-            return strings.signup.uname + strings.err.longer.l1 + "6" + strings.err.lesseq.c
+        if (str.length < 4) {
+            return strings.signup.uname + strings.err.longer.l1 + "4" + strings.err.lesseq.c
         }
         if (str.length > 16) {
             return strings.signup.uname + strings.err.lesseq.l1 + "16" + strings.err.lesseq.c
@@ -215,7 +215,7 @@ class Registration extends React.Component {
                 break
             default:
                 this.props.setSession({ token: data.Token, expires: data.Expires, uname: data.Username })
-                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile/user/info"))
+                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile/info"))
         }
     }
 
