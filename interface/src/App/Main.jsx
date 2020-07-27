@@ -67,9 +67,9 @@ class Main extends React.Component {
                         <Route path="/privacy" component={Privacy} />
                         <Route path="/terms" component={Terms} />
 
-                        <PrivateRoute authed={this.props.session.jwt === ""} path='/registration' dest="/profile/user/info" component={Registration} />
+                        <PrivateRoute authed={this.props.session.jwt === ""} path='/registration' dest="/profile/info" component={Registration} />
                         <PrivateRoute authed={this.props.session.jwt !== ""} path='/profile' dest="/login" component={ProfileRouter} />
-                        <PrivateRoute authed={this.props.session.jwt === ""} path='/login' dest="/profile/user/info" component={Login} />
+                        <PrivateRoute authed={this.props.session.jwt === ""} path='/login' dest="/profile/info" component={Login} />
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </Suspense>
