@@ -6,7 +6,8 @@ import { Switch, Route } from "react-router-dom"
 import { setSession } from "../../AppStore/Actions/actions"
 import UpageButtons from "./ProfileButtons/ProfileButtons"
 import SiteHelm from "../SiteHelm/SiteHelm"
-import UserButtons from "./UserButtons/UserButtons"
+import Info from "./Info/Info"
+import Security from "./Security/Security"
 import Pokemon from "./Pokemon/Pokemon"
 import Move from "./Move/Move"
 import Shbroker from "./Shbroker/Shbroker"
@@ -33,7 +34,6 @@ class Userpage extends React.Component {
 
 
     render() {
-        console.log(this.props.match)
         return (
             <div className="container-fluid mb-5 p-2">
                 <SiteHelm
@@ -43,7 +43,7 @@ class Userpage extends React.Component {
                     noindex={true}
                 />
                 <div className="row m-0 justify-content-center">
-                    <div className="col-12 col-sm-12 col-md-12 col-lg-10 mt-4 p-0 profile align-self-center">
+                    <div className="col-12 col-lg-10 mt-4 p-0 profile align-self-center">
                         <div className="row mx-0">
                             <div className="col-12 px-0 text-center profile__title">{strings.upage.prof}</div>
                             <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />
@@ -51,7 +51,8 @@ class Userpage extends React.Component {
                                 <Route path="/profile/pokemon" component={Pokemon} />
                                 <Route path="/profile/move" component={Move} />
                                 <Route path="/profile/shinybroker" component={Shbroker} />
-                                <Route path="/profile/user/:type(info|security)/" component={UserButtons} />
+                                <Route path="/profile/info" component={Info} />
+                                <Route path="/profile/security" component={Security} />
                             </Switch>
                         </div>
                     </div>

@@ -19,7 +19,6 @@ class ProfileButtons extends React.PureComponent {
     }
 
     onClick(event) {
-        console.log(event.target.getAttribute("name"))
         this.props.history.push(event.target.getAttribute("name"))
     }
 
@@ -27,8 +26,10 @@ class ProfileButtons extends React.PureComponent {
 
         return (
             <div className="col-auto profile-buttons px-0">
-                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "user" ? " active" : "")}
-                    to="/profile/user/info">{strings.upage.u}</Link>
+                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "info" ? " active" : "")}
+                    to="/profile/info">{strings.upage.inf}</Link>
+                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "security" ? " active" : "")}
+                    to="/profile/security">{strings.upage.sec}</Link>
                 <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
                     to="/profile/pokemon">{strings.upage.p}</Link>
                 <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "move" ? " active" : "")}

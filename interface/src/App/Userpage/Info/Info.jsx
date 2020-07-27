@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import { getCookie } from "../../../js/getCookie"
 import { connect } from 'react-redux'
 
@@ -11,7 +11,7 @@ import { userLocale } from "../../../locale/userLocale"
 
 import "./Info.scss"
 
-let strings = new LocalizedStrings(userLocale);
+let strings = new LocalizedStrings(userLocale)
 
 
 class Info extends React.PureComponent {
@@ -72,22 +72,24 @@ class Info extends React.PureComponent {
                         loading={this.state.loading}
                     />}
                 {this.state.error !== "" && <Errors class="alert alert-danger p-2" value={this.state.error} />}
-                {this.state.error === "" && <>
-                    <div className="col px-0 pt-2 user-info--border">
-                        <span className={"user-info__text"}>{strings.info.name + ": "}</span>
-                        {this.state.uInfo.Username}
+                {this.state.error === "" && <div className="row mx-0 justify-content-center">
+                    <div className="col-12 col-md-8 col-lg-6 px-0">
+                        <div className="col px-0 py-2 user-info--border user-info__goverable-col">
+                            <span className={"user-info__text"}>{strings.info.name + ": "}</span>
+                            <span className={"font-weight-bold"}>{this.state.uInfo.Username}</span>
+                        </div>
+                        <div className="col px-0 py-2 user-info--border user-info__goverable-col">
+                            <span className={"user-info__text"}>{strings.info.email + ": "}</span>
+                            <span className={"font-weight-bold"}>{this.state.uInfo.Email}</span>
+                        </div>
+                        <div className="col px-0 py-2 user-info__goverable-col">
+                            <span className={"user-info__text"}>{strings.info.reg + ": "}</span>
+                            <span className={"font-weight-bold"}><TimeConverter time={this.state.uInfo.RegAt} getTime={false} /></span>
+                        </div>
                     </div>
-                    <div className="col px-0 pt-2 user-info--border">
-                        <span className={"user-info__text"}>{strings.info.email + ": "}</span>
-                        {this.state.uInfo.Email}
-                    </div>
-                    <div className="col px-0 pt-2">
-                        <span className={"user-info__text"}>{strings.info.reg + ": "}</span>
-                        <TimeConverter time={this.state.uInfo.RegAt} getTime={false} />
-                    </div>
-                </>}
+                </div>}
             </div>
-        );
+        )
     }
 }
 
