@@ -3,7 +3,6 @@ import { Redirect, Route } from "react-router-dom";
 
 
 function PrivateRoute({ component: Component, authed, dest, ...rest }) {
-    console.log(authed)
     return (
         <Route
             {...rest}

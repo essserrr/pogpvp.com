@@ -1,5 +1,6 @@
 export const userLocale = {
     en: {
+        loading: "Loading...",
         propc: "By signing up you agree with ",
         and: "and",
         pol: {
@@ -60,9 +61,19 @@ export const userLocale = {
             email: "Email",
             reg: "Registered at",
         },
+        security: {
+            os: "OS",
+            ip: "IP",
+            br: "Browser",
+            acts: "Active sessions",
+            soutall: "Sign out from all sessions",
+            chpass: "Change password",
+            npass: "New password",
+        },
     },
 
     ru: {
+        loading: "Загрузка...",
         propc: "Регистрируясь вы соглашаетесь с ",
         and: "и",
         pol: {
@@ -121,7 +132,16 @@ export const userLocale = {
         info: {
             name: "Имя пользователя",
             email: "Электронная почта",
-            reg: "Зарегистрировался",
+            reg: "Зарегистрирован",
+        },
+        security: {
+            os: "ОС",
+            ip: "IP",
+            br: "Браузер",
+            acts: "Активные сессии",
+            soutall: "Завершить все сессии",
+            chpass: "Изменить пароль",
+            npass: "Новый пароль",
         },
     }
 }

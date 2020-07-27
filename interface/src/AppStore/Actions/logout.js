@@ -14,6 +14,13 @@ export const logout = () => {
                     value: { token: "", expires: 0, uname: "" }
                 })
 
+            })
+            .then(() => {
+                dispatch({
+                    type: "SET_SESSION",
+                    value: { token: "", expires: 0, uname: "" }
+                })
+
             }).catch(() => {
                 dispatch({
                     type: "SET_SESSION",
