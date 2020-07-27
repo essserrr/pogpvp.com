@@ -30,7 +30,7 @@ class ProfileRouter extends React.Component {
                 innerClass="col-auto mt-1  mt-md-2"
             />}>
                 <Switch>
-                    <Route path="/profile/:type(user|pokemon|move|shinybroker)/" component={Profile} />
+                    <Route path="/profile/:type(info|security|pokemon|move|shinybroker)/" component={Profile} />
                     <Route path="*" component={NotFound} />
                 </Switch>
             </Suspense>
