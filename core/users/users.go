@@ -71,7 +71,7 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 	if !checkRegexp(lf.CheckPassword) {
 		return fmt.Errorf("Wrong confirmation password format")
 	}
-	//password equality
+	//passwords equality
 	if lf.CheckPassword != lf.Password {
 		return fmt.Errorf("Passwords don't match")
 	}
@@ -193,4 +193,50 @@ type UserSession struct {
 	OS      string
 	IP      string
 	Browser string
+}
+
+//ChPassForm change password form
+type ChPassForm struct {
+	Password      string
+	CheckPassword string
+	NewPassword   string
+}
+
+//VerifyChPassForm verifies change password form. Returns error if it is invalid
+func (pf *ChPassForm) VerifyChPassForm() error {
+	//password
+	if err := checkLength(pf.Password, "Password", 6, 20); err != nil {
+		return err
+	}
+	if !checkRegexp(pf.Password) {
+		return fmt.Errorf("Wrong password format")
+	}
+	//confirmation password
+	if err := checkLength(pf.CheckPassword, "Confirmation password", 6, 20); err != nil {
+		return err
+	}
+	if !checkRegexp(pf.CheckPassword) {
+		return fmt.Errorf("Wrong confirmation password format")
+	}
+	//passwords equality
+	if pf.CheckPassword != pf.Password {
+		return fmt.Errorf("Passwords don't match")
+	}
+	//New password
+	if err := checkLength(pf.NewPassword, "New password", 6, 20); err != nil {
+		return err
+	}
+	if !checkRegexp(pf.NewPassword) {
+		return fmt.Errorf("Wrong new password password format")
+	}
+	return nil
+}
+
+//Encode encodes form
+func (pf *ChPassForm) Encode() {
+	ph := sha256.Sum256([]byte(pf.Password))
+	pf.Password = base64.StdEncoding.EncodeToString(ph[:])
+
+	nph := sha256.Sum256([]byte(pf.NewPassword))
+	pf.NewPassword = base64.StdEncoding.EncodeToString(nph[:])
 }

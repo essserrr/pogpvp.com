@@ -52,7 +52,6 @@ class Security extends React.PureComponent {
             return
         }
 
-        console.log(data)
         this.setState({
             sessions: data,
             loading: false,
@@ -61,7 +60,6 @@ class Security extends React.PureComponent {
 
 
     render() {
-        console.log(this.props.session)
         return (
             <div className="col px-0 text-center">
                 {this.state.loading &&

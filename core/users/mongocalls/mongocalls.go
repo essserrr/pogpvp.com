@@ -43,10 +43,11 @@ type User struct {
 }
 
 //CheckUserExistance checks user existance
-func CheckUserExistance(clent *mongo.Client, form *users.RegForm) error {
-	usersColl := clent.Database("pogpvp").Collection("users")
+func CheckUserExistance(client *mongo.Client, form *users.RegForm) error {
+	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
+
 	filterCursor, err := usersColl.Find(ctx, bson.M{
 		"$or": []interface{}{
 			bson.M{"username": form.Username},
@@ -84,8 +85,8 @@ func makeErrString(users []User, form *users.RegForm) string {
 }
 
 //Signup creates new user
-func Signup(clent *mongo.Client, form *users.RegForm) (string, error) {
-	usersColl := clent.Database("pogpvp").Collection("users")
+func Signup(client *mongo.Client, form *users.RegForm) (string, error) {
+	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
@@ -105,16 +106,16 @@ func Signup(clent *mongo.Client, form *users.RegForm) (string, error) {
 }
 
 //NewSession creates new session
-func NewSession(clent *mongo.Client, sess Session, id string) (*Tokens, error) {
+func NewSession(client *mongo.Client, sess Session, id string) (*Tokens, error) {
 	tok := sess.generateTokens(id)
-	if err := replaceSession(clent, []Session{sess}, id); err != nil {
+	if err := replaceSession(client, []Session{sess}, id); err != nil {
 		return nil, err
 	}
 	return tok, nil
 }
 
-func replaceSession(clent *mongo.Client, sessions []Session, id string) error {
-	usersColl := clent.Database("pogpvp").Collection("users")
+func replaceSession(client *mongo.Client, sessions []Session, id string) error {
+	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
@@ -207,22 +208,36 @@ func newBase64(str string) string {
 }
 
 //Signin creates new session for user if creditinail are right
-func Signin(clent *mongo.Client, form *users.RegForm, sess Session) (*Tokens, error) {
-	currUser := lookupUser(clent, bson.M{"username": form.Username, "password": form.Password})
+func Signin(client *mongo.Client, form *users.RegForm, sess Session) (*Tokens, error) {
+	currUser := lookupUser(client, bson.M{"username": form.Username, "password": form.Password})
 	if currUser == nil {
 		return nil, fmt.Errorf("Incorrect username and / or password")
 	}
 	tok := sess.generateTokens(currUser.ID)
 	currUser.addSession(sess)
-	if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+	if err := replaceSession(client, currUser.Sessions, currUser.ID); err != nil {
 		return nil, err
 	}
 
 	return tok, nil
 }
 
-func lookupUser(clent *mongo.Client, query bson.M) *User {
-	usersColl := clent.Database("pogpvp").Collection("users")
+func findUserByToken(jwt *jwt.MapClaims, client *mongo.Client) (*User, error) {
+	//check uid
+	uID, ok := (*jwt)["u_id"].(string)
+	if !ok {
+		return nil, fmt.Errorf("Invalid auth token")
+	}
+	//find user
+	currUser := lookupUser(client, bson.M{"_id": uID})
+	if currUser == nil {
+		return nil, fmt.Errorf("Invalid auth token")
+	}
+	return currUser, nil
+}
+
+func lookupUser(client *mongo.Client, query bson.M) *User {
+	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
@@ -248,29 +263,18 @@ func (u *User) addSession(sess Session) {
 }
 
 //Refresh refreshes user session if creditinail are right
-func Refresh(clent *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, string, error) {
+func Refresh(client *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, string, error) {
 	jwt, err := decodeToken(cookie.Value)
 	if err != nil {
 		fmt.Println(err)
 		return nil, "", fmt.Errorf("Invalid auth token")
 	}
-	//check uid
-	uID, ok := (*jwt)["u_id"].(string)
-	if !ok {
-		return nil, "", fmt.Errorf("Invalid auth token")
-	}
-	//find user
-	currUser := lookupUser(clent, bson.M{"_id": uID})
-	if currUser == nil {
-		return nil, "", fmt.Errorf("Invalid auth token")
-	}
-	//check session
-	sID, ok := (*jwt)["s_id"].(string)
-	if !ok {
-		return nil, "", fmt.Errorf("Invalid auth token")
+	currUser, err := findUserByToken(jwt, client)
+	if err != nil {
+		return nil, "", err
 	}
 	//find session
-	currSession := currUser.deleteSession(sID)
+	currSession := currUser.deleteSession(jwt)
 	if currSession == nil {
 		return nil, "", fmt.Errorf("Session not found")
 	}
@@ -279,16 +283,63 @@ func Refresh(clent *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, s
 	case true:
 		tok := sess.generateTokens(currUser.ID)
 		currUser.addSession(sess)
-		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+		if err := replaceSession(client, currUser.Sessions, currUser.ID); err != nil {
 			return nil, "", err
 		}
 		return tok, currUser.Username, nil
 	default:
-		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+		if err := replaceSession(client, currUser.Sessions, currUser.ID); err != nil {
 			return nil, "", err
 		}
 		return nil, "", fmt.Errorf("Verification failed")
 	}
+}
+
+//ChPass changes user's password if creditinail are right
+func ChPass(client *mongo.Client, form *users.ChPassForm, cookie *http.Cookie) (string, error) {
+	jwt, err := decodeToken(cookie.Value)
+	if err != nil {
+		fmt.Println(err)
+		return "", fmt.Errorf("Invalid auth token")
+	}
+	currUser, err := findUserByToken(jwt, client)
+	if err != nil {
+		return "", err
+	}
+	//find session
+	currSession := currUser.findSession(jwt)
+	if currSession == nil {
+		return "", fmt.Errorf("Session not found")
+	}
+
+	switch currSession.verifyRefresh(cookie.Value) {
+	case true:
+		if err := setUpNewPassword(client, currUser.Sessions, form.NewPassword, currUser.ID); err != nil {
+			return "", err
+		}
+		return currUser.Username, nil
+	default:
+		return currUser.Username, fmt.Errorf("Verification failed")
+	}
+}
+
+func setUpNewPassword(client *mongo.Client, sessions []Session, pass, id string) error {
+	usersColl := client.Database("pogpvp").Collection("users")
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	_, err := usersColl.UpdateOne(
+		ctx,
+		bson.M{"_id": id},
+		bson.M{"$set": bson.M{
+			"session":  sessions,
+			"password": pass,
+		}},
+	)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *Session) verifyRefresh(token string) bool {
@@ -312,12 +363,16 @@ func (s *Session) verifyAccess(token string) bool {
 }
 
 //deleteSession deletes session from array and return deleted session
-func (u *User) deleteSession(sID string) *Session {
+func (u *User) deleteSession(jwt *jwt.MapClaims) *Session {
 	if u.Sessions == nil {
 		return nil
 	}
 	if len(u.Sessions) > 5 {
 		u.Sessions = u.Sessions[0:5]
+	}
+	sID, ok := (*jwt)["s_id"].(string)
+	if !ok {
+		return nil
 	}
 	for key, value := range u.Sessions {
 		if value.SessionID == sID {
@@ -340,41 +395,30 @@ func decodeToken(refresh string) (*jwt.MapClaims, error) {
 }
 
 //Logout deketes current session
-func Logout(clent *mongo.Client, cookie *http.Cookie) (string, error) {
+func Logout(client *mongo.Client, cookie *http.Cookie) (string, error) {
 	jwt, err := decodeToken(cookie.Value)
 	if err != nil {
 		fmt.Println(err)
 		return "", fmt.Errorf("Invalid auth token")
 	}
-	//check uid
-	uID, ok := (*jwt)["u_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("Invalid auth token")
-	}
-	//find user
-	currUser := lookupUser(clent, bson.M{"_id": uID})
-	if currUser == nil {
-		return "", fmt.Errorf("Invalid auth token")
-	}
-	//check session
-	sID, ok := (*jwt)["s_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("Invalid auth token")
+	currUser, err := findUserByToken(jwt, client)
+	if err != nil {
+		return "", err
 	}
 	//find session
-	currSession := currUser.deleteSession(sID)
+	currSession := currUser.deleteSession(jwt)
 	if currSession == nil {
 		return "", fmt.Errorf("Session not found")
 	}
 
 	switch currSession.verifyRefresh(cookie.Value) {
 	case true:
-		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+		if err := replaceSession(client, currUser.Sessions, currUser.ID); err != nil {
 			return currUser.Username, err
 		}
 		return currUser.Username, nil
 	default:
-		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+		if err := replaceSession(client, currUser.Sessions, currUser.ID); err != nil {
 			return currUser.Username, err
 		}
 		return currUser.Username, fmt.Errorf("Verification failed")
@@ -382,42 +426,30 @@ func Logout(clent *mongo.Client, cookie *http.Cookie) (string, error) {
 }
 
 //LogoutAll stops all user sessions
-func LogoutAll(clent *mongo.Client, cookie *http.Cookie) (string, error) {
+func LogoutAll(client *mongo.Client, cookie *http.Cookie) (string, error) {
 	jwt, err := decodeToken(cookie.Value)
 	if err != nil {
 		fmt.Println(err)
 		return "", fmt.Errorf("Invalid auth token")
 	}
-	//check uid
-	uID, ok := (*jwt)["u_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("Invalid auth token")
-	}
-
-	//find user
-	currUser := lookupUser(clent, bson.M{"_id": uID})
-	if currUser == nil {
-		return "", fmt.Errorf("Invalid auth token")
-	}
-	//check session
-	sID, ok := (*jwt)["s_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("Invalid auth token")
+	currUser, err := findUserByToken(jwt, client)
+	if err != nil {
+		return "", err
 	}
 	//find session
-	currSession := currUser.deleteSession(sID)
+	currSession := currUser.deleteSession(jwt)
 	if currSession == nil {
 		return "", fmt.Errorf("Session not found")
 	}
 	//if user auth failed delete only active session
 	switch currSession.verifyRefresh(cookie.Value) {
 	case true:
-		if err := replaceSession(clent, []Session{}, currUser.ID); err != nil {
+		if err := replaceSession(client, []Session{}, currUser.ID); err != nil {
 			return currUser.Username, err
 		}
 		return currUser.Username, nil
 	default:
-		if err := replaceSession(clent, currUser.Sessions, currUser.ID); err != nil {
+		if err := replaceSession(client, currUser.Sessions, currUser.ID); err != nil {
 			return currUser.Username, err
 		}
 		return currUser.Username, fmt.Errorf("Verification failed")
@@ -425,8 +457,8 @@ func LogoutAll(clent *mongo.Client, cookie *http.Cookie) (string, error) {
 }
 
 //GetUserInfo returns users main info
-func GetUserInfo(clent *mongo.Client, req *users.Request) (*users.UserInfo, error) {
-	user, err := getAccess(clent, req)
+func GetUserInfo(client *mongo.Client, req *users.Request) (*users.UserInfo, error) {
+	user, err := getAccess(client, req)
 	if err != nil {
 		return nil, err
 	}
@@ -434,8 +466,8 @@ func GetUserInfo(clent *mongo.Client, req *users.Request) (*users.UserInfo, erro
 }
 
 //GetUserSessions returns users sessions info
-func GetUserSessions(clent *mongo.Client, req *users.Request) (*[]users.UserSession, error) {
-	user, err := getAccess(clent, req)
+func GetUserSessions(client *mongo.Client, req *users.Request) (*[]users.UserSession, error) {
+	user, err := getAccess(client, req)
 	if err != nil {
 		return nil, err
 	}
@@ -448,29 +480,18 @@ func GetUserSessions(clent *mongo.Client, req *users.Request) (*[]users.UserSess
 	return &sessResp, nil
 }
 
-func getAccess(clent *mongo.Client, req *users.Request) (*User, error) {
+func getAccess(client *mongo.Client, req *users.Request) (*User, error) {
 	jwt, err := decodeToken(req.AccessToken)
 	if err != nil {
 		fmt.Println(err)
 		return nil, fmt.Errorf("Invalid auth token")
 	}
-	//check uid
-	uID, ok := (*jwt)["u_id"].(string)
-	if !ok {
-		return nil, fmt.Errorf("Invalid auth token")
-	}
-	//find user
-	currUser := lookupUser(clent, bson.M{"_id": uID})
-	if currUser == nil {
-		return nil, fmt.Errorf("User not found")
-	}
-	//check session
-	sID, ok := (*jwt)["s_id"].(string)
-	if !ok {
-		return nil, fmt.Errorf("Invalid auth token")
+	currUser, err := findUserByToken(jwt, client)
+	if err != nil {
+		return nil, err
 	}
 	//find session
-	currSession := currUser.findSession(sID)
+	currSession := currUser.findSession(jwt)
 	if currSession == nil {
 		return nil, fmt.Errorf("Session not found")
 	}
@@ -484,8 +505,12 @@ func getAccess(clent *mongo.Client, req *users.Request) (*User, error) {
 }
 
 //deleteSession deletes session from array and return deleted session
-func (u *User) findSession(sID string) *Session {
+func (u *User) findSession(jwt *jwt.MapClaims) *Session {
 	if u.Sessions == nil {
+		return nil
+	}
+	sID, ok := (*jwt)["s_id"].(string)
+	if !ok {
 		return nil
 	}
 	for _, value := range u.Sessions {
@@ -498,8 +523,8 @@ func (u *User) findSession(sID string) *Session {
 
 //help-functions to test functionality *********************************************************************************************
 
-func RetriveAction(clent *mongo.Client) ([]User, error) {
-	usersColl := clent.Database("pogpvp").Collection("users")
+func RetriveAction(client *mongo.Client) ([]User, error) {
+	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
@@ -514,8 +539,8 @@ func RetriveAction(clent *mongo.Client) ([]User, error) {
 	return users, nil
 }
 
-func DeleteAllAction(clent *mongo.Client) error {
-	usersColl := clent.Database("pogpvp").Collection("users")
+func DeleteAllAction(client *mongo.Client) error {
+	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 

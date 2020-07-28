@@ -64,7 +64,7 @@ class Sessions extends React.PureComponent {
     render() {
         return (
             <div className="row mx-0 p-3 text-center justify-content-center">
-                <div className="col-12 col-md-10 col-lg-9 px-0 sessions__title sessions--bor">
+                <div className="col-12 col-md-10 col-lg-9 px-0 sessions__title">
                     {strings.security.acts}
                 </div>
                 {this.state.error !== "" &&

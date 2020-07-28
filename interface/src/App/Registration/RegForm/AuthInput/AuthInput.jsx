@@ -19,7 +19,7 @@ const AuthInput = React.memo(function (props) {
 
                 onChange={props.onChange}
             />
-            {props.notOk !== "" && <div className="col-12 px-0 auth-input__alert-text">{props.notOk}</div>}
+            {props.notOk !== "" && <div className="col-12 px-0 auth-input__alert-text text-left">{props.notOk}</div>}
         </div>
     )
 })

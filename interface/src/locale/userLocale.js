@@ -69,6 +69,7 @@ export const userLocale = {
             soutall: "Sign out from all sessions",
             chpass: "Change password",
             npass: "New password",
+            ok: "Password has been successfully changed",
         },
     },
 
@@ -142,6 +143,7 @@ export const userLocale = {
             soutall: "Завершить все сессии",
             chpass: "Изменить пароль",
             npass: "Новый пароль",
+            ok: "Пароль успешно изменен",
         },
     }
 }
