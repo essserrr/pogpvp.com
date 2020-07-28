@@ -16,6 +16,7 @@ require (
 	github.com/mssola/user_agent v0.5.2
 	github.com/oschwald/geoip2-golang v1.4.0
 	github.com/prometheus/client_golang v1.5.1
+	github.com/sethvargo/go-password v0.2.0
 	github.com/sirupsen/logrus v1.5.0
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	go.mongodb.org/mongo-driver v1.3.4

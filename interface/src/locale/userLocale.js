@@ -17,6 +17,8 @@ export const userLocale = {
             email: "Email",
         },
         signin: {
+            forg: "Forgot your password?",
+            rest: "Restore",
             newsup: "Don't have an account?",
             log: "Log in",
             tolog: "Log in",
@@ -71,6 +73,10 @@ export const userLocale = {
             npass: "New password",
             ok: "Password has been successfully changed",
         },
+        restore: {
+            res: "Password eeset",
+            ok: "A message has been sent to you by email with instructions on how to reset your password",
+        },
     },
 
     ru: {
@@ -91,6 +97,8 @@ export const userLocale = {
             email: "Адрес электронной почты",
         },
         signin: {
+            forg: "Забыли ваш пароль?",
+            rest: "Восстановить",
             newsup: "Нет аккаунта?",
             log: "Вход",
             tolog: "Войти",
@@ -144,6 +152,10 @@ export const userLocale = {
             chpass: "Изменить пароль",
             npass: "Новый пароль",
             ok: "Пароль успешно изменен",
+        },
+        restore: {
+            res: "Сборс пароля",
+            ok: "Письмо с инструкциями по восстановлению пароля было успешно отправлено на вашу электронную почту",
         },
     }
 }

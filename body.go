@@ -1166,6 +1166,9 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/registration*", rootHandler{serveIndex, a})
 	router.Handle("/login*", rootHandler{serveIndex, a})
 	router.Handle("/profile*", rootHandler{serveIndex, a})
+	router.Handle("/privacy*", rootHandler{serveIndex, a})
+	router.Handle("/terms*", rootHandler{serveIndex, a})
+	router.Handle("/restore*", rootHandler{serveIndex, a})
 
 	//sendsay
 	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
@@ -1191,6 +1194,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/auth/logout", rootHandler{logout, a})
 	router.Handle("/api/auth/logout/all", rootHandler{logoutAll, a})
 	router.Handle("/api/auth/chpass", rootHandler{changePassword, a})
+	router.Handle("/api/auth/restore", rootHandler{restore, a})
 
 	router.Handle("/api/auth/retrive", rootHandler{retrive, a})
 	router.Handle("/api/auth/deleteall", rootHandler{deleteAll, a})

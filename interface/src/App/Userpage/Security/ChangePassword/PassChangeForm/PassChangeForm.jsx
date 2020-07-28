@@ -10,7 +10,7 @@ import { userLocale } from "../../../../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale)
 
-class LoginForm extends React.PureComponent {
+class PassChangeForm extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -72,4 +72,4 @@ class LoginForm extends React.PureComponent {
     }
 }
 
-export default LoginForm
+export default PassChangeForm

@@ -60,7 +60,7 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	form := new(users.RegForm)
+	form := new(users.SubmitForm)
 	if err := parseBody(r, &form); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
@@ -69,7 +69,7 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Registration form err"), http.StatusBadRequest, err.Error())
 	}
-	form.Encode()
+	form.Encode(false)
 	if err := mongocalls.CheckUserExistance(app.mongo.client, form); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Registration data err"), http.StatusConflict, err.Error())
@@ -87,10 +87,11 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}, id)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
-		log.WithFields(log.Fields{"location": app.metrics.ipLocations}).Errorf("Token creation failed")
+		log.WithFields(log.Fields{"location": r.RequestURI}).Errorf("Token creation failed")
 		tokens = &mongocalls.Tokens{}
 	}
-	fmt.Println("New user has just registered " + form.Username)
+
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("New user: %v has just registered\n", form.Username)
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
@@ -155,16 +156,50 @@ func respond(w *http.ResponseWriter, target interface{}) error {
 	return nil
 }
 
-func login(w *http.ResponseWriter, r *http.Request, app *App) error {
+func restore(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodPost {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	form := new(users.RegForm)
+	form := new(users.SubmitForm)
+	if err := parseBody(r, &form); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+	if err := form.VerifyRestoreForm(ip); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Reset pasword form err"), http.StatusBadRequest, err.Error())
+
+	}
+	info, err := mongocalls.RestorePass(app.mongo.client, form)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, err.Error())
+	}
+
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User has just requested password reset %key\n", info.RestoreKey)
+
+	if err := respond(w, "ok"); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func login(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodPost {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	form := new(users.SubmitForm)
 	if err := parseBody(r, &form); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
@@ -173,7 +208,7 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Login form err"), http.StatusBadRequest, err.Error())
 	}
-	form.Encode()
+	form.Encode(false)
 	browser, os := browserAndOs(r.Header.Get("User-Agent"))
 	tokens, err := mongocalls.Signin(app.mongo.client, form, mongocalls.Session{
 		Browser: browser,
@@ -185,7 +220,8 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Login error"), http.StatusBadRequest, err.Error())
 	}
-	fmt.Println("New user has just logged in " + form.Username)
+
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has logged in\n", form.Username)
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
@@ -204,7 +240,7 @@ func changePassword(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	form := new(users.ChPassForm)
+	form := new(users.SubmitForm)
 	if err := parseBody(r, &form); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "chpass_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
@@ -217,13 +253,14 @@ func changePassword(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err != nil {
 		return errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
 	}
-	form.Encode()
+	form.Encode(true)
 	uname, err := mongocalls.ChPass(app.mongo.client, form, cookie)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "chpass_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Login error"), http.StatusBadRequest, err.Error())
 	}
-	fmt.Println("New user has just chached their password " + uname)
+
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just chached their password\n", uname)
 
 	if err = respond(w, "Ok"); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "chpass_error_count"}).Inc()
@@ -257,7 +294,7 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
-	fmt.Println("User has just refreshed their token " + uname)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just refreshed their token\n", uname)
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: uname}); err != nil {
@@ -287,7 +324,7 @@ func logout(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
-	fmt.Println("User has just logged out " + uname)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just just logged out\n", uname)
 
 	if err = respond(w, "Logged out"); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
@@ -314,8 +351,9 @@ func logoutAll(w *http.ResponseWriter, r *http.Request, app *App) error {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
+
 	discardCookie(w)
-	fmt.Println("User has just ended all their sessions " + uname)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just ended all their sessions\n", uname)
 
 	if err = respond(w, "Logged out"); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()

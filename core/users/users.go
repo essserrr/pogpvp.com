@@ -14,12 +14,13 @@ import (
 )
 
 //RegForm user registration form
-type RegForm struct {
+type SubmitForm struct {
 	Username      string
 	Email         string
 	Password      string
 	CheckPassword string
 	Token         string
+	NewPassword   string
 }
 
 //CaptchaResp google recaptcha verification response
@@ -29,7 +30,7 @@ type CaptchaResp struct {
 }
 
 //VerifyRegForm verifies registartion form. Returns error if it is invalid
-func (lf *RegForm) VerifyRegForm(ip string) error {
+func (lf *SubmitForm) VerifyRegForm(ip string) error {
 	var (
 		wg         sync.WaitGroup
 		capthcaErr error
@@ -39,7 +40,6 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 	go func() {
 		if err := lf.verifyCaptcha(ip); err != nil {
 			capthcaErr = fmt.Errorf("Invalid captcha")
-			fmt.Println(err)
 		}
 		wg.Done()
 	}()
@@ -82,6 +82,36 @@ func (lf *RegForm) VerifyRegForm(ip string) error {
 	return nil
 }
 
+//VerifyChPassForm verifies change password form. Returns error if it is invalid
+func (lf *SubmitForm) VerifyChPassForm() error {
+	//password
+	if err := checkLength(lf.Password, "Password", 6, 20); err != nil {
+		return err
+	}
+	if !checkRegexp(lf.Password) {
+		return fmt.Errorf("Wrong password format")
+	}
+	//confirmation password
+	if err := checkLength(lf.CheckPassword, "Confirmation password", 6, 20); err != nil {
+		return err
+	}
+	if !checkRegexp(lf.CheckPassword) {
+		return fmt.Errorf("Wrong confirmation password format")
+	}
+	//passwords equality
+	if lf.CheckPassword != lf.Password {
+		return fmt.Errorf("Passwords don't match")
+	}
+	//New password
+	if err := checkLength(lf.NewPassword, "New password", 6, 20); err != nil {
+		return err
+	}
+	if !checkRegexp(lf.NewPassword) {
+		return fmt.Errorf("Wrong new password password format")
+	}
+	return nil
+}
+
 func checkLength(str, strType string, minLen, maxLen int) error {
 	if str == "" {
 		return fmt.Errorf("%v is reqired", str)
@@ -104,7 +134,7 @@ func checkRegexp(target string) bool {
 	return regexp.MustCompile(`^([A-Za-z0-9@_\\-\\.!$%^&*+=]*)$`).MatchString(target)
 }
 
-func (lf *RegForm) verifyCaptcha(ip string) error {
+func (lf *SubmitForm) verifyCaptcha(ip string) error {
 	captcha := new(CaptchaResp)
 	if err := downloadAsObj(
 		"https://www.google.com/recaptcha/api/siteverify?secret="+os.Getenv("SECRET_CAPTCHA")+"&response="+lf.Token+"&remoteip="+ip, &captcha); err != nil {
@@ -135,13 +165,18 @@ func downloadAsObj(url string, target interface{}) error {
 }
 
 //Encode encodes form
-func (lf *RegForm) Encode() {
+func (lf *SubmitForm) Encode(additional bool) {
 	h := sha256.Sum256([]byte(lf.Password))
 	lf.Password = base64.StdEncoding.EncodeToString(h[:])
+
+	if additional {
+		nph := sha256.Sum256([]byte(lf.NewPassword))
+		lf.NewPassword = base64.StdEncoding.EncodeToString(nph[:])
+	}
 }
 
 //VerifyLogForm verifies login form. Returns error if it is invalid
-func (lf *RegForm) VerifyLogForm(ip string) error {
+func (lf *SubmitForm) VerifyLogForm(ip string) error {
 	var (
 		wg         sync.WaitGroup
 		capthcaErr error
@@ -151,7 +186,6 @@ func (lf *RegForm) VerifyLogForm(ip string) error {
 	go func() {
 		if err := lf.verifyCaptcha(ip); err != nil {
 			capthcaErr = fmt.Errorf("Invalid captcha")
-			fmt.Println(err)
 		}
 		wg.Done()
 	}()
@@ -195,48 +229,30 @@ type UserSession struct {
 	Browser string
 }
 
-//ChPassForm change password form
-type ChPassForm struct {
-	Password      string
-	CheckPassword string
-	NewPassword   string
-}
-
-//VerifyChPassForm verifies change password form. Returns error if it is invalid
-func (pf *ChPassForm) VerifyChPassForm() error {
-	//password
-	if err := checkLength(pf.Password, "Password", 6, 20); err != nil {
+//VerifyRestoreForm verifies restore password form. Returns error if it is invalid
+func (lf *SubmitForm) VerifyRestoreForm(ip string) error {
+	var (
+		wg         sync.WaitGroup
+		capthcaErr error
+	)
+	//check capthca
+	wg.Add(1)
+	go func() {
+		if err := lf.verifyCaptcha(ip); err != nil {
+			capthcaErr = fmt.Errorf("Invalid captcha")
+		}
+		wg.Done()
+	}()
+	//email
+	if err := checkLength(lf.Email, "Email", 0, 320); err != nil {
 		return err
 	}
-	if !checkRegexp(pf.Password) {
-		return fmt.Errorf("Wrong password format")
+	if !checkEmailRegexp(lf.Email) {
+		return fmt.Errorf("Wrong email format")
 	}
-	//confirmation password
-	if err := checkLength(pf.CheckPassword, "Confirmation password", 6, 20); err != nil {
-		return err
-	}
-	if !checkRegexp(pf.CheckPassword) {
-		return fmt.Errorf("Wrong confirmation password format")
-	}
-	//passwords equality
-	if pf.CheckPassword != pf.Password {
-		return fmt.Errorf("Passwords don't match")
-	}
-	//New password
-	if err := checkLength(pf.NewPassword, "New password", 6, 20); err != nil {
-		return err
-	}
-	if !checkRegexp(pf.NewPassword) {
-		return fmt.Errorf("Wrong new password password format")
+	wg.Wait()
+	if capthcaErr != nil {
+		return capthcaErr
 	}
 	return nil
-}
-
-//Encode encodes form
-func (pf *ChPassForm) Encode() {
-	ph := sha256.Sum256([]byte(pf.Password))
-	pf.Password = base64.StdEncoding.EncodeToString(ph[:])
-
-	nph := sha256.Sum256([]byte(pf.NewPassword))
-	pf.NewPassword = base64.StdEncoding.EncodeToString(nph[:])
 }

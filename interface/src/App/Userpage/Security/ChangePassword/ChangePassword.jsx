@@ -108,6 +108,7 @@ class ChangePassword extends React.PureComponent {
         this.setState({
             loading: true,
             error: "",
+            ok: false,
         })
 
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
