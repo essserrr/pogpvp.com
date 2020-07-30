@@ -42,13 +42,13 @@ class Security extends React.PureComponent {
             return
         });
         if (reason !== "") {
-            this.setState({ error: String(reason), })
+            this.setState({ error: String(reason), loading: false, })
             return
         }
 
         let data = await response.json()
         if (!response.ok) {
-            this.setState({ error: data.detail, });
+            this.setState({ error: data.detail, loading: false, });
             return
         }
 
@@ -74,9 +74,9 @@ class Security extends React.PureComponent {
                     <div className="col-12 px-0">
                         <ChangePassword />
                     </div>
-                    <div className="col-12 px-0">
+                    {this.state.sessions.length > 0 && <div className="col-12 px-0">
                         <Sessions list={this.state.sessions} />
-                    </div>
+                    </div>}
                 </div>}
             </div>
         )

@@ -74,8 +74,9 @@ export const userLocale = {
             ok: "Password has been successfully changed",
         },
         restore: {
-            res: "Password eeset",
+            res: "Password reset",
             ok: "A message has been sent to you by email with instructions on how to reset your password",
+            tores: "Reset",
         },
     },
 
@@ -156,6 +157,7 @@ export const userLocale = {
         restore: {
             res: "Сборс пароля",
             ok: "Письмо с инструкциями по восстановлению пароля было успешно отправлено на вашу электронную почту",
+            tores: "Сбросить",
         },
     }
 }

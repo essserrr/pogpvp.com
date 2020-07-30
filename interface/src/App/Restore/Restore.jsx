@@ -170,7 +170,7 @@ class Restore extends React.Component {
                 <div className="row m-0 justify-content-center">
                     <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 registration align-self-center">
                         <div className="col-12 p-0 registration__text text-center">
-                            {strings.signup.reg}
+                            {strings.restore.res}
                         </div>
                         {this.state.error !== "" && <div className="col-12 p-0">
                             <Errors value={this.state.error} class="alert alert-danger m-2 p-2" />

@@ -62,7 +62,7 @@ class RestorePassForm extends React.PureComponent {
                 </div>
                 <div className="row m-0 pt-3 justify-content-center">
                     <AuthButton
-                        title={strings.signup.toreg}
+                        title={strings.restore.tores}
                         onClick={this.onSubmit}
                         loading={this.props.loading}
                         disabled={
