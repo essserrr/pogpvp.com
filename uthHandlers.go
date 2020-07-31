@@ -96,6 +96,7 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 
 	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("New user: %v has just registered", form.Username)
+	app.metrics.userCounters.With(prometheus.Labels{"type": "new_users"}).Inc()
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Token: tokens.AToken.Token, Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
@@ -184,8 +185,6 @@ func reset(w *http.ResponseWriter, r *http.Request, app *App) error {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, err.Error())
 	}
-
-	fmt.Println(*info)
 
 	if err := SendResetEmail(info); err != nil {
 		log.WithFields(log.Fields{"location": r.RequestURI}).Printf("Send email error %v", err)

@@ -54,11 +54,12 @@ type App struct {
 }
 
 type pageMetrics struct {
-	appCounters *prometheus.GaugeVec
-	dbCounters  *prometheus.GaugeVec
-	apiCounters *prometheus.GaugeVec
-	ipLocations *prometheus.CounterVec
-	histogram   *prometheus.SummaryVec
+	appCounters  *prometheus.GaugeVec
+	dbCounters   *prometheus.GaugeVec
+	apiCounters  *prometheus.GaugeVec
+	userCounters *prometheus.CounterVec
+	ipLocations  *prometheus.CounterVec
+	histogram    *prometheus.SummaryVec
 }
 
 type database struct {
@@ -265,7 +266,7 @@ func byteToUint(byteArray []byte) uint64 {
 }
 
 func setupCors(w *http.ResponseWriter, req *http.Request) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:45678")
 	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Pvp-Type, Pvp-Shields")
@@ -1053,6 +1054,13 @@ func (a *App) initMetrics() *http.Server {
 		prometheus.GaugeOpts{
 			Name: "api_calls",
 			Help: "Number of api calls by type",
+		},
+		[]string{"type"},
+	)
+	a.metrics.userCounters = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "user",
+			Help: "User related metrics",
 		},
 		[]string{"type"},
 	)

@@ -629,7 +629,6 @@ func getAccess(client *mongo.Client, req *users.Request, ids *idObject) error {
 	//currSession := new(Session)  session := []Session{}
 	obj := []accessObj{}
 	if err = sessionCursor.All(ctx, &obj); err != nil {
-		fmt.Println(err)
 		return fmt.Errorf("Invalid auth token")
 	}
 	if len(obj) != 1 {
