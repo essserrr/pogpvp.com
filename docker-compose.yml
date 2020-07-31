@@ -10,7 +10,7 @@ volumes:
     mongodb_backups: {}
 
 services:
-mongo1:
+  mongo1:
     container_name: pogmongo
     image: mongo:latest
     environment: 
@@ -24,7 +24,7 @@ mongo1:
     restart: always
     labels:
         - "traefik.enable=false"
-simulator:
+  simulator:
     container_name: simulator
     volumes:
         - bolt_data:/app/boltDB
@@ -46,7 +46,7 @@ simulator:
       - "traefik.port=8080"
     depends_on:
       - mongo1
-prometheus:
+  prometheus:
     image: "prom/prometheus"
     container_name: prometheus
     labels:
@@ -76,7 +76,7 @@ prometheus:
             memory: 45M
     depends_on:
       - simulator
-grafana:
+  grafana:
     image: "grafana/grafana:latest"
     container_name: grafana
     #environment:
