@@ -8,7 +8,6 @@ const initialState = {
 const Session = (state = initialState, action) => {
     switch (action.type) {
         case "SET_SESSION":
-            console.log(action)
             return {
                 ...state,
                 jwt: action.value.token,

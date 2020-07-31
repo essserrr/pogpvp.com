@@ -29,15 +29,14 @@ class Sessions extends React.PureComponent {
     async onClick() {
         this.setState({
             loading: true,
+            error: "",
         })
 
         fetch(((navigator.userAgent !== "ReactSnap") ?
             process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/logout/all", {
             method: "GET",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            }
+            headers: { "Content-Type": "application/json", }
         }).then((resp) => resp.json())
             .then((data) => {
                 switch (!data.detail) {
@@ -52,7 +51,6 @@ class Sessions extends React.PureComponent {
                 }
             })
             .catch((e) => {
-                console.log(e)
                 this.setState({
                     error: e,
                     loading: false,

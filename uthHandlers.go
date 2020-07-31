@@ -2,19 +2,23 @@ package main
 
 import (
 	"Solutions/pvpSimulator/core/errors"
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"time"
 
 	users "Solutions/pvpSimulator/core/users"
 	mongocalls "Solutions/pvpSimulator/core/users/mongocalls"
 
+	"github.com/go-chi/chi"
 	"github.com/mssola/user_agent"
 	log "github.com/sirupsen/logrus"
 
 	"net/http"
+	"net/smtp"
 	"os"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -158,7 +162,7 @@ func respond(w *http.ResponseWriter, target interface{}) error {
 
 func restore(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodPost {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -167,23 +171,94 @@ func restore(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	form := new(users.SubmitForm)
 	if err := parseBody(r, &form); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	if err := form.VerifyRestoreForm(ip); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword form err"), http.StatusBadRequest, err.Error())
 
 	}
 	info, err := mongocalls.RestorePass(app.mongo.client, form)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, err.Error())
 	}
 
 	fmt.Println(*info)
 
+	if err := SendResetEmail(info); err != nil {
+		log.WithFields(log.Fields{"location": r.RequestURI}).Printf("Send email error %v", err)
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, "Error while sending email")
+	}
+
 	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User has just requested password reset %key", info.RestoreKey)
+
+	if err := respond(w, "ok"); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+//SendResetEmail sends email to a user
+func SendResetEmail(info *mongocalls.RestoreInfo) error {
+	const (
+		source = "pogpvpsupp@gmail.com"
+		adr    = "smtp.gmail.com:587"
+		host   = "smtp.gmail.com"
+
+		from = "From: pogpvpsupp@gmail.com\n"
+		mime = "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+		subj = "Subject: Reset your password\n"
+	)
+	to := "To: " + source + "\n"
+
+	info.RestoreKey = "pogpvp.com/restore/confirm/" + info.RestoreKey
+	body, err := parseTemplate("./templates/message_en.html", info)
+	if err != nil {
+		return err
+	}
+
+	msg := []byte(from + to + subj + mime + body)
+	if err := smtp.SendMail(adr, smtp.PlainAuth("", source, os.Getenv("GMAIL_PASS"), host), source, []string{info.Email}, msg); err != nil {
+		return err
+	}
+	return nil
+}
+
+func parseTemplate(templateFileName string, data interface{}) (string, error) {
+	templ, err := template.ParseFiles(templateFileName)
+	if err != nil {
+		return "", err
+	}
+	buf := new(bytes.Buffer)
+	if err = templ.Execute(buf, data); err != nil {
+		return "", err
+	}
+	return buf.String(), nil
+}
+
+func restoreConfirm(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodGet {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	idKey := chi.URLParam(r, "id")
+
+	username, err := mongocalls.ConfirmRestorePass(app.mongo.client, idKey)
+	if err != nil {
+		log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User %v got an error while resetting their password %v", username, err)
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, err.Error())
+	}
+
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User %v has just reseted their password", username)
 
 	if err := respond(w, "ok"); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()

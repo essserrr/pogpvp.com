@@ -21,27 +21,14 @@ class PassChangeForm extends React.PureComponent {
             <>
                 <div className="col-12 p-0 pt-2">
                     <AuthInput
-                        labelLeft={strings.signup.pass}
-                        place={strings.signup.pass}
+                        labelLeft={strings.security.oldpass}
+                        place={strings.security.oldpass}
                         type="password"
                         name="password"
                         aCompleteOff={true}
 
                         notOk={this.props.notOk.password}
                         value={this.props.password}
-                        onChange={this.props.onChange}
-                    />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.cpass}
-                        place={strings.signup.cpass}
-                        type="password"
-                        name="checkPassword"
-                        aCompleteOff={true}
-
-                        notOk={this.props.notOk.checkPassword}
-                        value={this.props.checkPassword}
                         onChange={this.props.onChange}
                     />
                 </div>
@@ -55,6 +42,19 @@ class PassChangeForm extends React.PureComponent {
 
                         notOk={this.props.notOk.newPassword}
                         value={this.props.newPassword}
+                        onChange={this.props.onChange}
+                    />
+                </div>
+                <div className="col-12 p-0 pt-2">
+                    <AuthInput
+                        labelLeft={strings.security.confnpass}
+                        place={strings.security.confnpass}
+                        type="password"
+                        name="checkPassword"
+                        aCompleteOff={true}
+
+                        notOk={this.props.notOk.checkPassword}
+                        value={this.props.checkPassword}
                         onChange={this.props.onChange}
                     />
                 </div>

@@ -13,7 +13,7 @@ export const userLocale = {
             toreg: "Sign up",
             uname: "Username",
             pass: "Password",
-            cpass: "Confirm Password",
+            cpass: "Confirm password",
             email: "Email",
         },
         signin: {
@@ -72,11 +72,17 @@ export const userLocale = {
             chpass: "Change password",
             npass: "New password",
             ok: "Password has been successfully changed",
+            oldpass: "Old password",
+            confnpass: "Confirm new password",
         },
         restore: {
             res: "Password reset",
-            ok: "A message has been sent to you by email with instructions on how to reset your password",
+            ok: `A message has been sent to you by email with instructions on how to reset your password. If you haven't recieved our message, try to check "Spam" or contact the site administrator`,
             tores: "Reset",
+
+            confok: "New password has been successfully activated. Now you can log in using your new password",
+            confnotok: "Password activation failed. Please try to reset your password once again or contact the site administrator",
+
         },
     },
 
@@ -153,11 +159,16 @@ export const userLocale = {
             chpass: "Изменить пароль",
             npass: "Новый пароль",
             ok: "Пароль успешно изменен",
+            oldpass: "Старый пароль",
+            confnpass: "Подтвердите новый пароль",
         },
         restore: {
             res: "Сборс пароля",
-            ok: "Письмо с инструкциями по восстановлению пароля было успешно отправлено на вашу электронную почту",
+            ok: `Письмо с инструкциями по восстановлению пароля было успешно отправлено на вашу электронную почту. Если вы не получили письмо, проверьте папку "Спам" или свяжитесь с администрацией сайта`,
             tores: "Сбросить",
+
+            confok: "Новый пароль успешно активирован, теперь вы можете войти в на сайт под своим новым паролем",
+            confnotok: "Активация пароля закончилась ошибкой. Пожалуйста повторите процедуру сброса пароля или свяжитесь с администрацией сайта",
         },
     }
 }

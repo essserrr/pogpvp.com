@@ -67,7 +67,7 @@ class ChangePassword extends React.PureComponent {
         if (this.checkRegexp(str)) {
             return strings.signup.pass + strings.err.symb
         }
-        if (isConf && str !== this.state.form.password) {
+        if (isConf && str !== this.state.form.newPassword) {
             return strings.err.match
         }
         return ""
@@ -77,13 +77,10 @@ class ChangePassword extends React.PureComponent {
 
 
     onSubmit() {
-        console.log(this.state.form)
         if (!this.validate()) {
             return
         }
-        this.setState({ loading: true, error: "", })
         this.chPass()
-        this.setState({ loading: false, error: "", })
     }
 
 
@@ -142,6 +139,7 @@ class ChangePassword extends React.PureComponent {
         }
 
         this.setState({
+            loading: false,
             ok: true,
             form: {
                 password: "",
@@ -170,15 +168,14 @@ class ChangePassword extends React.PureComponent {
                     <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
                         <Errors class="alert alert-danger p-2" value={this.state.error} />
                     </div>}
-                {this.state.error === "" &&
-                    <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                        <PassChangeForm
-                            {...this.state.form}
-                            notOk={this.state.notOk}
-                            onChange={this.onChange}
-                            onSubmit={this.onSubmit}
-                        />
-                    </div>}
+                <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
+                    <PassChangeForm
+                        {...this.state.form}
+                        notOk={this.state.notOk}
+                        onChange={this.onChange}
+                        onSubmit={this.onSubmit}
+                    />
+                </div>
                 {this.state.ok &&
                     <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
                         <Errors

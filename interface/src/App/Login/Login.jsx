@@ -126,9 +126,7 @@ class Login extends React.Component {
         if (!this.validate()) {
             return
         }
-        this.setState({ loading: true, error: "", })
         this.login(resetCaptcha)
-        this.setState({ loading: false, error: "", })
     }
 
 

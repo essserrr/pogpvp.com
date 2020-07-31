@@ -30,9 +30,9 @@ class ProfileButtons extends React.PureComponent {
                     to="/profile/info">{strings.upage.inf}</Link>
                 <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "security" ? " active" : "")}
                     to="/profile/security">{strings.upage.sec}</Link>
-                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
+                <Link className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
                     to="/profile/pokemon">{strings.upage.p}</Link>
-                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "move" ? " active" : "")}
+                <Link className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "move" ? " active" : "")}
                     to="/profile/move">{strings.upage.m}</Link>
                 <Link className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
                     to="/profile/shinybroker">{strings.upage.shbr}</Link>

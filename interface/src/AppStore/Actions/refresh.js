@@ -5,7 +5,6 @@ export const refresh = () => {
         let state = getState(),
             appS = getCookie("appS");
         if (!appS || appS === "false") {
-            console.log("refresh aborted")
             dispatch({
                 type: "END_LOADING",
                 value: { token: "", expires: "", uname: "" }

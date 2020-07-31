@@ -92,9 +92,7 @@ class Restore extends React.Component {
         if (!this.validate()) {
             return
         }
-        this.setState({ loading: true, error: "", })
         this.restorePass(resetCaptcha)
-        this.setState({ loading: false, error: "", })
     }
 
 
@@ -118,6 +116,7 @@ class Restore extends React.Component {
         this.setState({
             loading: true,
             error: "",
+            ok: false,
         })
 
         const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
@@ -152,8 +151,10 @@ class Restore extends React.Component {
             return
         }
 
+        resetCaptcha()
         this.setState({
             ok: true,
+            loading: false,
             inputs: { email: "", token: "" },
         })
     }
@@ -168,8 +169,8 @@ class Restore extends React.Component {
                     noindex={true}
                 />
                 <div className="row m-0 justify-content-center">
-                    <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 registration align-self-center">
-                        <div className="col-12 p-0 registration__text text-center">
+                    <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 restore align-self-center">
+                        <div className="col-12 p-0 restore__text text-center">
                             {strings.restore.res}
                         </div>
                         {this.state.error !== "" && <div className="col-12 p-0">

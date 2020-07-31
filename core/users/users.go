@@ -99,7 +99,7 @@ func (lf *SubmitForm) VerifyChPassForm() error {
 		return fmt.Errorf("Wrong confirmation password format")
 	}
 	//passwords equality
-	if lf.CheckPassword != lf.Password {
+	if lf.CheckPassword != lf.NewPassword {
 		return fmt.Errorf("Passwords don't match")
 	}
 	//New password
@@ -114,7 +114,7 @@ func (lf *SubmitForm) VerifyChPassForm() error {
 
 func checkLength(str, strType string, minLen, maxLen int) error {
 	if str == "" {
-		return fmt.Errorf("%v is reqired", str)
+		return fmt.Errorf("%v is reqired", strType)
 	}
 	if len(str) < minLen {
 		return fmt.Errorf("%v must be longer than %v", strType, minLen)

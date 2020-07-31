@@ -30,7 +30,7 @@ const Privacy = lazy(() => import("./Registration/Privacy/Privacy"))
 const Terms = lazy(() => import("./Registration/Terms/Terms"))
 const ProfileRouter = lazy(() => import("./Userpage/ProfileRouter"))
 const Login = lazy(() => import("./Login/Login"))
-const Restore = lazy(() => import("./Restore/Restore"))
+const RestoreRouter = lazy(() => import("./Restore/RestoreRouter"))
 
 class Main extends React.Component {
     constructor(props) {
@@ -71,7 +71,7 @@ class Main extends React.Component {
                         <PrivateRoute authed={this.props.session.jwt === ""} path='/registration' dest="/profile/info" component={Registration} />
                         <PrivateRoute authed={this.props.session.jwt !== ""} path='/profile' dest="/login" component={ProfileRouter} />
                         <PrivateRoute authed={this.props.session.jwt === ""} path='/login' dest="/profile/info" component={Login} />
-                        <PrivateRoute authed={this.props.session.jwt === ""} path='/restore' dest="/profile/info" component={Restore} />
+                        <PrivateRoute authed={this.props.session.jwt === ""} path='/restore' dest="/profile/info" component={RestoreRouter} />
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </Suspense>

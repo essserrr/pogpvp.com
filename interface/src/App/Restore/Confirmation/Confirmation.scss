@@ -1,6 +1,6 @@
 $primary-color: #eff0f1;
 
-.restore {
+.confirmation {
     max-width: 700px;
 
     background: $primary-color;
@@ -10,7 +10,6 @@ $primary-color: #eff0f1;
     padding: 40px 30px;
 }
 
-.restore__text {
-    font-size: 1.5rem;
+.confirmation__text {
     font-weight: 400;
 }

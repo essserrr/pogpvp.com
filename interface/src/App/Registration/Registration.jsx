@@ -145,9 +145,7 @@ class Registration extends React.Component {
         if (!this.validate()) {
             return
         }
-        this.setState({ loading: true, error: "", })
         this.register(resetCaptcha)
-        this.setState({ loading: false, error: "", })
     }
 
 
