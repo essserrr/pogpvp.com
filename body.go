@@ -346,6 +346,7 @@ func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
 	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Sendsay handler")
 	return nil
 }
+
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	agent := r.Header.Get("User-Agent")
 	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
@@ -407,18 +408,6 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	default:
 		http.ServeFile(*w, r, "./interface/build/200.html")
 	}
-	return nil
-}
-
-func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
-	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
-		return err
-	}
-	agent := r.Header.Get("User-Agent")
-	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
-
-	http.ServeFile(*w, r, "./sendsay/build/index.html")
 	return nil
 }
 
