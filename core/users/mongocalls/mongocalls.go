@@ -448,29 +448,30 @@ func ChPass(client *mongo.Client, form *users.SubmitForm, cookie *http.Cookie) (
 	}
 }
 
-type RestoreInfo struct {
+//ResetInfo contains user pasword reset information
+type ResetInfo struct {
 	Email       string
 	RestorePass string
 	RestoreKey  string
 	ExpiresAt   int64
 }
 
-//RestorePass creates new password for user and sends email
-func RestorePass(client *mongo.Client, form *users.SubmitForm) (*RestoreInfo, error) {
-	info, err := createRestoreInfo()
+//ResetPass creates new password for user and sends email
+func ResetPass(client *mongo.Client, form *users.SubmitForm) (*ResetInfo, error) {
+	info, err := createResetInfo()
 	if err != nil {
 		return nil, fmt.Errorf("Cannot create a new password")
 	}
 
-	if err = setRestoreSession(client, form, info); err != nil {
+	if err = setResetSession(client, form, info); err != nil {
 		return nil, err
 	}
 	info.Email = form.Email
 	return info, nil
 }
 
-func createRestoreInfo() (*RestoreInfo, error) {
-	obj := new(RestoreInfo)
+func createResetInfo() (*ResetInfo, error) {
+	obj := new(ResetInfo)
 	var err error
 	//pass
 	obj.RestorePass, err = password.Generate(8, 4, 0, true, false)
@@ -484,7 +485,7 @@ func createRestoreInfo() (*RestoreInfo, error) {
 	return obj, nil
 }
 
-func setRestoreSession(client *mongo.Client, form *users.SubmitForm, info *RestoreInfo) error {
+func setResetSession(client *mongo.Client, form *users.SubmitForm, info *ResetInfo) error {
 	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
@@ -651,33 +652,4 @@ func (s *Session) verifyAccess(token string) bool {
 		return false
 	}
 	return true
-}
-
-//help-functions to test functionality *********************************************************************************************
-
-func RetriveAction(client *mongo.Client) ([]User, error) {
-	usersColl := client.Database("pogpvp").Collection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	cursor, err := usersColl.Find(ctx, bson.M{})
-	if err != nil {
-		return nil, err
-	}
-	var users []User
-	if err = cursor.All(ctx, &users); err != nil {
-		return nil, err
-	}
-	return users, nil
-}
-
-func DeleteAllAction(client *mongo.Client) error {
-	usersColl := client.Database("pogpvp").Collection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
-
-	if err := usersColl.Drop(ctx); err != nil {
-		return err
-	}
-	return nil
 }

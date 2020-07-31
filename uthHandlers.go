@@ -108,17 +108,17 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 func setCookie(w *http.ResponseWriter, tokens *mongocalls.Tokens) {
 	expiresIn := int(tokens.RToken.Expires - time.Now().Unix())
-	cookie := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: "localhost",
+	cookie := http.Cookie{Name: "refToken", Value: tokens.RToken.Token, Domain: os.Getenv("COOKIE_DOMAIN"),
 		Path: "/api/auth", MaxAge: expiresIn, HttpOnly: true, SameSite: http.SameSiteStrictMode}
 	http.SetCookie(*w, &cookie)
-	http.SetCookie(*w, &http.Cookie{Name: "appS", Value: "true", Domain: "localhost", Path: "/", MaxAge: expiresIn})
+	http.SetCookie(*w, &http.Cookie{Name: "appS", Value: "true", Domain: os.Getenv("COOKIE_DOMAIN"), Path: "/", MaxAge: expiresIn})
 }
 
 func discardCookie(w *http.ResponseWriter) {
-	cookie := http.Cookie{Name: "refToken", Value: "", Domain: "localhost",
+	cookie := http.Cookie{Name: "refToken", Value: "", Domain: os.Getenv("COOKIE_DOMAIN"),
 		Path: "/api/auth", MaxAge: -1, HttpOnly: true, SameSite: http.SameSiteStrictMode}
 	http.SetCookie(*w, &cookie)
-	http.SetCookie(*w, &http.Cookie{Name: "appS", Value: "false", Domain: "localhost", Path: "/", MaxAge: -1})
+	http.SetCookie(*w, &http.Cookie{Name: "appS", Value: "false", Domain: os.Getenv("COOKIE_DOMAIN"), Path: "/", MaxAge: -1})
 }
 
 type authResp struct {
@@ -160,7 +160,7 @@ func respond(w *http.ResponseWriter, target interface{}) error {
 	return nil
 }
 
-func restore(w *http.ResponseWriter, r *http.Request, app *App) error {
+func reset(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodPost {
 		app.metrics.dbCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
@@ -174,12 +174,12 @@ func restore(w *http.ResponseWriter, r *http.Request, app *App) error {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
-	if err := form.VerifyRestoreForm(ip); err != nil {
+	if err := form.VerifyResetForm(ip); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword form err"), http.StatusBadRequest, err.Error())
 
 	}
-	info, err := mongocalls.RestorePass(app.mongo.client, form)
+	info, err := mongocalls.ResetPass(app.mongo.client, form)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, err.Error())
@@ -203,7 +203,7 @@ func restore(w *http.ResponseWriter, r *http.Request, app *App) error {
 }
 
 //SendResetEmail sends email to a user
-func SendResetEmail(info *mongocalls.RestoreInfo) error {
+func SendResetEmail(info *mongocalls.ResetInfo) error {
 	const (
 		source = "pogpvpsupp@gmail.com"
 		adr    = "smtp.gmail.com:587"
@@ -489,40 +489,6 @@ func fetchUsessions(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err = respond(w, *sessions); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
-	}
-	return nil
-}
-
-//help-functions to test functionality
-func retrive(w *http.ResponseWriter, r *http.Request, app *App) error {
-	users, err := mongocalls.RetriveAction(app.mongo.client)
-	if err != nil {
-		return fmt.Errorf("Retrive error: %v", err)
-	}
-	answer, err := json.Marshal(users)
-	if err != nil {
-		return fmt.Errorf("Marshaling response error: %v", err)
-	}
-	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(answer)
-	if err != nil {
-		return fmt.Errorf("Write response error: %v", err)
-	}
-	return nil
-}
-
-func deleteAll(w *http.ResponseWriter, r *http.Request, app *App) error {
-	if err := mongocalls.DeleteAllAction(app.mongo.client); err != nil {
-		return fmt.Errorf("Delete all error: %v", err)
-	}
-	answer, err := json.Marshal("ok")
-	if err != nil {
-		return fmt.Errorf("Marshaling response error: %v", err)
-	}
-	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(answer)
-	if err != nil {
-		return fmt.Errorf("Write response error: %v", err)
 	}
 	return nil
 }

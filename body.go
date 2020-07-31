@@ -1199,11 +1199,8 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/auth/logout", rootHandler{logout, a})
 	router.Handle("/api/auth/logout/all", rootHandler{logoutAll, a})
 	router.Handle("/api/auth/chpass", rootHandler{changePassword, a})
-	router.Handle("/api/auth/restore", rootHandler{restore, a})
+	router.Handle("/api/auth/restore", rootHandler{reset, a})
 	router.Handle("/api/auth/confirm/{id}", rootHandler{restoreConfirm, a})
-
-	router.Handle("/api/auth/retrive", rootHandler{retrive, a})
-	router.Handle("/api/auth/deleteall", rootHandler{deleteAll, a})
 
 	//user requests
 	router.Handle("/api/user/info", rootHandler{fetchUinfo, a})

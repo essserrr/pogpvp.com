@@ -229,8 +229,8 @@ type UserSession struct {
 	Browser string
 }
 
-//VerifyRestoreForm verifies restore password form. Returns error if it is invalid
-func (lf *SubmitForm) VerifyRestoreForm(ip string) error {
+//VerifyResetForm verifies restore password form. Returns error if it is invalid
+func (lf *SubmitForm) VerifyResetForm(ip string) error {
 	var (
 		wg         sync.WaitGroup
 		capthcaErr error
