@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 
 import LocalizedStrings from "react-localization";
 import { locale } from "../../locale/locale";
-import { getCookie } from "../../js/indexFunctions";
+import { getCookie } from "../../js/getCookie";
 import Loader from "../PvpRating/Loader"
 import News from "./News/News"
 

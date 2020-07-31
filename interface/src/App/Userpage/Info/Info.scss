@@ -1,0 +1,15 @@
+.user-info__text {
+    font-weight: 400;
+    font-size: 1.15rem;
+}
+
+.user-info__goverable-col {
+    &:hover {
+        background-color: rgb(226, 226, 226);
+    }
+}
+
+
+.user-info--border {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}

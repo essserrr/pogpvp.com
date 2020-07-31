@@ -13,6 +13,9 @@
     "@types/react-transition-group": "^4.2.4",
     "bootstrap": "^4.4.1",
     "css-split-webpack-plugin": "^0.2.6",
+    "fingerprintjs2": "^2.1.0",
+    "geoip-country": "^4.0.28",
+    "geoip-lite": "^1.4.2",
     "mdbreact": "^4.25.3",
     "node-sass": "^4.14.1",
     "react": "^16.13.0",
@@ -22,6 +25,7 @@
     "react-helmet": "^6.0.0",
     "react-lazy-images": "^1.1.0",
     "react-localization": "^1.0.15",
+    "react-recaptcha-google": "^1.1.1",
     "react-redux": "^7.2.0",
     "react-responsive": "^8.1.0",
     "react-router-dom": "^5.1.2",
@@ -32,8 +36,10 @@
     "react-tooltip": "^4.1.0",
     "react-transition-group": "1.x",
     "redux": "^4.0.5",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "sendsay-api": "^2.4.0"
+    "sendsay-api": "^2.4.0",
+    "ua-parser-js": "^0.7.21"
   },
   "reactSnap": {
     "sourceMaps": false,

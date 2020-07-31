@@ -15,6 +15,8 @@ const SiteHelm = React.memo(function (props) {
             <meta property="twitter:title" content={props.header} />
             <meta property="twitter:url" content={props.url}></meta>
             <meta property="twitter:description" content={props.descr} />
+
+            {props.noindex && <meta name="robots" content="noindex"></meta>}
         </Helmet>
     )
 

@@ -1,7 +1,8 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
 
-import { getCookie, typeDecoder } from "../../../js/indexFunctions"
+import { typeDecoder } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import Type from "../../PvP/components/CpAndTypes/Type"
 

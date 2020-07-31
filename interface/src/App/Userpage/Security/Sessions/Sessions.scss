@@ -1,0 +1,27 @@
+.sessions {
+    div {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    }
+    div:last-child {
+        border-bottom: none;
+    }
+}
+
+.sessions__title {
+    font-weight: 400;
+    font-size: 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+}
+
+.sessions__text {
+    font-weight: 400;
+    font-size: 1.15rem;
+}
+
+.sessions__hoverable-col {
+    &:hover {
+        background-color: rgb(226, 226, 226);
+    }
+}
+
+

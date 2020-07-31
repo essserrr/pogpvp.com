@@ -1,13 +1,22 @@
 import React from "react";
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
+import { getCookie } from "../../js/getCookie"
+import { userLocale } from "../../locale/userLocale"
+
+let strings = new LocalizedStrings(userLocale);
 
 class Footer extends React.PureComponent {
-
+    constructor(props) {
+        super(props)
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    }
 
     render() {
         return (
             <div data-nosnippet className="footer">
-                <p className="m-0 px-2">©2020 pogPvP.com</p>
+                <p className="m-0 px-2">©2020 pogPvP.com  <Link to="/privacy" title={strings.pol.p}>{strings.pol.p}</Link>  <Link to="/terms" title={strings.pol.t}>{strings.pol.t}</Link></p>
                 <p className="m-0 px-2">
                     Icons made by <a href="https://www.flaticon.com/authors/roundicons-freebies" title="Roundicons Freebies">Roundicons Freebies</a>
                 </p>

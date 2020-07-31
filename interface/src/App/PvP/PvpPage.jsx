@@ -13,9 +13,9 @@ import SingleDescr from "./components/Description/SingleDescr"
 import Loader from "../PvpRating/Loader"
 
 import {
-    getCookie, extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase,
-    calculateEffStat
+    extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase, calculateEffStat
 } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
 
@@ -90,7 +90,10 @@ class PvpPage extends React.Component {
             this.props.match.params.simtype === prevProps.match.params.simtype) {
             return
         }
-        if (this.props.history.action === "PUSH") {
+
+        if (this.props.history.action === "PUSH" &&
+            (this.props.location.state ?
+                !this.props.location.state.needsUpdate : true)) {
             return
         }
         this.updateState(
@@ -181,23 +184,6 @@ class PvpPage extends React.Component {
 
         for (let i = 0; i < responses.length; i++) {
             if (!responses[i].ok) {
-                if (results[i].detail === "PvP error") {
-                    this.setState({
-                        showResult: false,
-                        isLoaded: true,
-                        isError: true,
-                        loading: false,
-                        error: results[i].case.What,
-                        league: (extractedData.league) ? extractedData.league : "great",
-
-                        pokemonTable: (results[0]) ? results[0] : [],
-                        moveTable: (results[1]) ? results[1] : [],
-                        pokList: (pokList) ? pokList : [],
-                        chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
-                        quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
-                    });
-                    return;
-                }
                 this.setState({
                     isError: true,
                     error: results[i].detail,

@@ -12,7 +12,7 @@ import QuickMove from "./CardBody/QuickMove"
 import EffTable from "../Pokedex/EffBlock/EffTable"
 import UsesList from "./UsesList/UsesList"
 import { dexLocale } from "../../locale/dexLocale"
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import DoubleSlider from "./DoubleSlider/DoubleSlider"
 
 

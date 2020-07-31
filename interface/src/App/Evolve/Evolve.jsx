@@ -11,7 +11,8 @@ import EvoList from "./EvoList/EvoList"
 import Loader from "../PvpRating/Loader"
 
 import { locale } from "../../locale/locale"
-import { getCookie, checkLvl, checkIV, } from "../../js/indexFunctions"
+import { checkLvl, checkIV, } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 

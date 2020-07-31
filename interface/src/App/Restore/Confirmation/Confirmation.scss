@@ -1,0 +1,15 @@
+$primary-color: #eff0f1;
+
+.confirmation {
+    max-width: 700px;
+
+    background: $primary-color;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    
+    padding: 40px 30px;
+}
+
+.confirmation__text {
+    font-weight: 400;
+}

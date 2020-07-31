@@ -6,7 +6,8 @@ import { ReactComponent as Candy } from "../../../../icons/candy.svg";
 import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup";
 import { candyCost, dustCost } from "./powerupCost"
 import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie, tierMult, calculateDamage, returnEffAtk, getPveMultiplier } from "../../../../js/indexFunctions"
+import { tierMult, calculateDamage, returnEffAtk, getPveMultiplier } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 import BreakpointsList from "./BreakpointsList"
 import Counter from "../Counter/Counter"
 import RangeInput from "../RangeInput/RangeInput"

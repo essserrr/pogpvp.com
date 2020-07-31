@@ -12,8 +12,8 @@ import SinglePokLine from "./SinglePokLine"
 
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 import { locale } from "../../../../locale/locale"
-import { getCookie, typeDecoder, effectivenessData } from "../../../../js/indexFunctions"
-
+import { typeDecoder, effectivenessData } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 

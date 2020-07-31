@@ -29,15 +29,17 @@ export default class DropdownMenu extends React.PureComponent {
 
     render() {
         return (
-            <li className="nav-item dropdown clickable noselect" ref={this.setWrapperRef} onClick={this.onClick}>
-                <div className="nav-link dropdown-toggle  fBolder"
+            <li className={"nav-item dropdown clickable noselect " + (this.props.class ? this.props.class : "")}
+                ref={this.setWrapperRef} onClick={this.onClick}>
+                <div className="nav-link dropdown-toggle d-flex fBolder align-items-center"
                     id="navbarDropdownMenuLink"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
                     {this.props.label}
                 </div>
-                <div className={(this.state.showDropdown) ? "dropdown-menu show" : "dropdown-menu"}
+                <div className={(this.props.dropClass ? this.props.dropClass : "")
+                    + ((this.state.showDropdown) ? " dropdown-menu show" : " dropdown-menu")}
                     aria-labelledby="navbarDropdownMenuLink"
                     onClick={this.onClick}
                 >

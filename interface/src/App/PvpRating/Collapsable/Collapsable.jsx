@@ -1,6 +1,7 @@
 import React from "react";
 import { UnmountClosed } from "react-collapse";
-import { checkShadow, getCookie, encodeQueryData, calculateMaximizedStats } from "../../../js/indexFunctions"
+import { checkShadow, encodeQueryData, calculateMaximizedStats } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import RMoveRow from "../RMoveRow/RMoveRow"
 import RRateRow from "../RRateRow/RRateRow"
 import RowWrap from "../RowWrap/RowWrap"
@@ -44,8 +45,7 @@ class Collapsable extends React.PureComponent {
         }
     }
 
-    onClickRedirect(event) {
-        let defenderOriginalName = event.currentTarget.getAttribute("name")
+    onClickRedirect(defenderOriginalName) {
         let defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
         let league = (this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())
         let maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall
@@ -80,8 +80,7 @@ class Collapsable extends React.PureComponent {
             this.generatePokObj(this.state.aName, this.state.aMaxStats, shields[0],
                 this.state.aName !== this.props.container.Name, this.props.container)
         )
-
-        window.open("/pvp/single/great/" + attackerString + "/" + defenderString, "_blank")
+        return "/pvp/single/great/" + attackerString + "/" + defenderString
     }
 
     generatePokObj(name, stat, shields, isShadow, movelist) {

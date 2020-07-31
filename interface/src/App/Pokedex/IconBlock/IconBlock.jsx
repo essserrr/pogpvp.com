@@ -3,7 +3,8 @@ import LocalizedStrings from "react-localization";
 import { useMediaQuery } from 'react-responsive'
 
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { getCookie, typeDecoder, culculateCP } from "../../../js/indexFunctions"
+import { typeDecoder, culculateCP } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import StatsTriangle from "../StatsBlock/StatsTriangle"

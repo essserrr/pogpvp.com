@@ -1,11 +1,13 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { getCookie, typeDecoder } from "../../../js/indexFunctions"
+import { typeDecoder } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 
-let strings = new LocalizedStrings(dexLocale);
+let strings = new LocalizedStrings(dexLocale)
 
 const MoveRow = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -25,13 +27,11 @@ const MoveRow = React.memo(function (props) {
         <>
             <tr className="animShiny">
                 <th className="align-middle text-center px-sm-1 max110 " scope="row">
-                    <a title={strings.dexentr + props.value.Title}
+                    <Link title={strings.dexentr + props.value.Title}
                         className="link"
-                        href={(navigator.userAgent === "ReactSnap") ? "/" : "/movedex/id/" + encodeURIComponent(props.value.Title)}
-                    >
+                        to={(navigator.userAgent === "ReactSnap") ? "/" : "/movedex/id/" + encodeURIComponent(props.value.Title)}>
                         {props.value.Title}
-                    </a>
-
+                    </Link>
                 </th>
                 <td className="align-middle px-0 " >
                     <Type

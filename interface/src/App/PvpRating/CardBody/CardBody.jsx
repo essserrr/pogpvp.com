@@ -3,7 +3,8 @@ import LocalizedStrings from "react-localization";
 
 
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { typeDecoder, getCookie } from "../../../js/indexFunctions"
+import { typeDecoder } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 
 import { locale } from "../../../locale/locale"
 

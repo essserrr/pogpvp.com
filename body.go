@@ -19,6 +19,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mssola/user_agent"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	log "github.com/sirupsen/logrus"
@@ -38,6 +40,7 @@ type App struct {
 	pveDatabase        database
 	newsDatabse        database
 	users              database
+	mongo              mongoDatabse
 
 	metrics pageMetrics
 
@@ -45,7 +48,6 @@ type App struct {
 	pvpSrv     *http.Server
 
 	semistaticBuckets []string
-	botsList          []string
 
 	iconVer     string
 	corsEnabled bool
@@ -84,26 +86,26 @@ func createApp(withLog *os.File) (*App, error) {
 	}
 	app.iconVer = "2"
 
-	app.botsList = []string{"aolbuild", "bingbot", "bingpreview", "msnbot", "duckduckgo", "adsbot-google", "googlebot", "Googlebot",
-		"mediapartners-google", "teoma", "slurp", "yandex", "facebookexternalhit", "facebookexternalhit/1.1", "twitterbot/1.0", "twitterbot/0.1",
-		"telegrambot", "twitterbot"}
-
 	app.semistaticBuckets = []string{"POKEMONS", "MOVES", "LEVELS", "MULTIPLIERS", "SHINY", "RAIDS", "EGGS", "RATING", "MISC"}
 	//create/open bases
 	if err = app.semistaticDatabase.createDatabase("./semistatic.db", "BOLTDB", app.semistaticBuckets); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.newsDatabse.createDatabase("./news.db", "BOLTDB", []string{"NEWS_HEADERS", "NEWS"}); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.users.createDatabase("./users.db", "BOLTDB", []string{"SUPERADMINS"}); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.pvpDatabase.createDatabase("./pvp.db", "BOLTDB", []string{"PVPRESULTS"}); err != nil {
-		return &App{}, err
+		return nil, err
 	}
 	if err = app.pveDatabase.createDatabase("./pve.db", "BOLTDB", []string{"PVERESULTS"}); err != nil {
-		return &App{}, err
+		return nil, err
+	}
+	//init mongo
+	if err = app.mongo.newMongo(); err != nil {
+		return nil, err
 	}
 
 	//init server
@@ -263,7 +265,8 @@ func byteToUint(byteArray []byte) uint64 {
 }
 
 func setupCors(w *http.ResponseWriter, req *http.Request) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Pvp-Type, Pvp-Shields")
 }
@@ -332,15 +335,6 @@ func checkLimits(RemoteAddr, limiterType string, ipLocations *prometheus.Counter
 	return nil
 }
 
-func (a *App) checkBot(str string) bool {
-	for _, sub := range a.botsList {
-		if strings.Contains(str, sub) {
-			return true
-		}
-	}
-	return false
-}
-
 func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Check visitor's requests limit
 	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
@@ -348,27 +342,21 @@ func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	agent := r.Header.Get("User-Agent")
 	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
-	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Sendsay handler")
 	http.ServeFile(*w, r, "./sendsay/build/index.html")
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Sendsay handler")
 	return nil
 }
-
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
-	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
-		return err
-	}
 	agent := r.Header.Get("User-Agent")
 	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
 	//SEO actions
 	//check if an user if bot
-	isBot := app.checkBot(strings.ToLower(agent))
-	//if he doesn't serve him usual page
-	if !isBot {
-		if r.RequestURI == "/sendsay/console" || r.RequestURI == "/sendsay/login" {
-			log.WithFields(log.Fields{"location": r.RequestURI}).Println("Sendsay handler")
-			http.ServeFile(*w, r, "./sendsay/build/index.html")
-			return nil
+	ua := user_agent.New(agent)
+	//if he doesn't serve him usual page and check his limits
+	if !ua.Bot() {
+		//Check visitor's requests limit
+		if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
+			return err
 		}
 		http.ServeFile(*w, r, "./interface/build/200.html")
 		return nil
@@ -419,6 +407,18 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	default:
 		http.ServeFile(*w, r, "./interface/build/200.html")
 	}
+	return nil
+}
+
+func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
+	//Check visitor's requests limit
+	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	agent := r.Header.Get("User-Agent")
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
+
+	http.ServeFile(*w, r, "./sendsay/build/index.html")
 	return nil
 }
 
@@ -637,7 +637,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		pveResult, err := sim.CalculteCommonPve(inDat)
 		if err != nil {
 			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
-			return errors.NewHTTPError(err, http.StatusBadRequest, "PvE error")
+			return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
 		}
 		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated raid")
 
@@ -713,7 +713,7 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 		if err != nil {
 			go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-			return errors.NewHTTPError(err, http.StatusBadRequest, "PvP error")
+			return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 		}
 		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated")
 		//Create json answer from pvpResult
@@ -816,7 +816,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write([]byte(answer))
+	_, err = (*w).Write(answer)
 	if err != nil {
 		return fmt.Errorf("Write response error: %v", err)
 	}
@@ -971,7 +971,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 	}
 	//Parse request
 	pokA, pokB, constructor, err := parser.ParseConstructorRequest(body)
@@ -1003,7 +1003,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(err, http.StatusBadRequest, "PvP error")
+		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 	}
 	log.WithFields(log.Fields{"location": "constructorPvpHandler"}).Println("Calculated")
 	//Create json answer from pvpResult
@@ -1014,7 +1014,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	}
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write([]byte(answer))
+	_, err = (*w).Write(answer)
 	if err != nil {
 		return fmt.Errorf("Write response error: %v", err)
 	}
@@ -1162,6 +1162,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/images/*", http.StripPrefix("/images/", versioning(http.FileServer(http.Dir("./interface/build/images")), a)))
 	router.Handle("/sitemap/*", http.StripPrefix("/sitemap/", listingblock(http.FileServer(http.Dir("./interface/build/sitemap")))))
 
+	//pages
 	//sendsay
 	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
 	router.Handle("/sendsay/login*", rootHandler{serveSendsay, a})
@@ -1178,12 +1179,20 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/pve*", rootHandler{serveIndex, a})
 	router.Handle("/movedex*", rootHandler{serveIndex, a})
 	router.Handle("/pokedex*", rootHandler{serveIndex, a})
+	router.Handle("/registration*", rootHandler{serveIndex, a})
+	router.Handle("/login*", rootHandler{serveIndex, a})
+	router.Handle("/profile*", rootHandler{serveIndex, a})
+	router.Handle("/privacy*", rootHandler{serveIndex, a})
+	router.Handle("/terms*", rootHandler{serveIndex, a})
+	router.Handle("/restore*", rootHandler{serveIndex, a})
+
+	//sendsay
+	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
 	router.Handle("/request/constructor", rootHandler{constructorPvpHandler, a})
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
-
 	router.Handle("/request/common/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
 
 	//bd calls
@@ -1194,6 +1203,22 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/news/{action}", rootHandler{newsAPIHandler, a})
 	router.Handle("/api/log/{action}", rootHandler{logAPIHandler, a})
 	router.Handle("/api/dbupdate/{action}", rootHandler{dbUpdateAPIHandler, a})
+	//auth
+	router.Handle("/api/auth/reg", rootHandler{register, a})
+	router.Handle("/api/auth/login", rootHandler{login, a})
+	router.Handle("/api/auth/refresh", rootHandler{refresh, a})
+	router.Handle("/api/auth/logout", rootHandler{logout, a})
+	router.Handle("/api/auth/logout/all", rootHandler{logoutAll, a})
+	router.Handle("/api/auth/chpass", rootHandler{changePassword, a})
+	router.Handle("/api/auth/restore", rootHandler{restore, a})
+	router.Handle("/api/auth/confirm/{id}", rootHandler{restoreConfirm, a})
+
+	router.Handle("/api/auth/retrive", rootHandler{retrive, a})
+	router.Handle("/api/auth/deleteall", rootHandler{deleteAll, a})
+
+	//user requests
+	router.Handle("/api/user/info", rootHandler{fetchUinfo, a})
+	router.Handle("/api/user/sessions", rootHandler{fetchUsessions, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)
@@ -1221,10 +1246,10 @@ func main() {
 		log.WithFields(log.Fields{"location": "createApp"}).Errorf("An error accured during creating app: %v", err)
 		return
 	}
+	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.mongo.client.Disconnect)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.semistaticDatabase.Close)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.pvpDatabase.Close)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.newsDatabse.Close)
 	defer log.WithFields(log.Fields{"location": "datbase"}).Error(app.users.Close)
-
 	app.listen()
 }

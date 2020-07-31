@@ -2,8 +2,8 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 import AdvisorPanel from "./AdvisorPanel"
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
-import { locale } from "../../../..//locale/locale"
-import { getCookie, } from "../../..//../js/indexFunctions"
+import { locale } from "../../../../locale/locale"
+import { getCookie, } from "../../../../js/getCookie"
 import SubmitButton from "../SubmitButton/SubmitButton"
 
 
