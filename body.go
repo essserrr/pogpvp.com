@@ -335,6 +335,17 @@ func checkLimits(RemoteAddr, limiterType string, ipLocations *prometheus.Counter
 	return nil
 }
 
+func serveSendsay(w *http.ResponseWriter, r *http.Request, app *App) error {
+	//Check visitor's requests limit
+	if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	agent := r.Header.Get("User-Agent")
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
+	http.ServeFile(*w, r, "./sendsay/build/index.html")
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Sendsay handler")
+	return nil
+}
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	agent := r.Header.Get("User-Agent")
 	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
@@ -1152,6 +1163,11 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/sitemap/*", http.StripPrefix("/sitemap/", listingblock(http.FileServer(http.Dir("./interface/build/sitemap")))))
 
 	//pages
+	//sendsay
+	router.Handle("/sendsay*", rootHandler{serveSendsay, a})
+	router.Handle("/sendsay/login*", rootHandler{serveSendsay, a})
+	router.Handle("/sendsay/console*", rootHandler{serveSendsay, a})
+
 	router.Handle("/", rootHandler{serveIndex, a})
 	router.Handle("/pvp*", rootHandler{serveIndex, a})
 	router.Handle("/news*", rootHandler{serveIndex, a})

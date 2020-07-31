@@ -27,13 +27,13 @@ const CommonDescr = React.memo(function (props) {
                     multiline={true} >
                     {tips.damage}
                 </ReactTooltip>
-                <i data-tip data-for={"time"} className="far fa-clock mr-3 fa-2x"></i>
+                <i data-tip data-for={"players"} className="fas fa-users mr-3 fa-2x"></i>
                 <ReactTooltip
                     className={"infoTip"}
-                    id={"time"} effect="solid"
+                    id={"players"} effect="solid"
                     place={"top"}
                     multiline={true} >
-                    {tips.time}
+                    {tips.pl}
                 </ReactTooltip>
                 <i data-tip data-for={"dps"} className="fab fa-cloudscale mr-3 fa-2x"></i>
                 <ReactTooltip
@@ -43,13 +43,29 @@ const CommonDescr = React.memo(function (props) {
                     multiline={true} >
                     {"DPS"}
                 </ReactTooltip>
-                <i data-tip data-for={"fainted"} className="fas fa-skull-crossbones fa-2x"></i>
+                <i data-tip data-for={"fainted"} className="fas fa-skull-crossbones mr-3 fa-2x"></i>
                 <ReactTooltip
                     className={"infoTip"}
                     id={"fainted"} effect="solid"
                     place={"top"}
                     multiline={true} >
                     {tips.fainted}
+                </ReactTooltip>
+                <i data-tip data-for={"time"} className="far fa-clock mr-3 fa-2x"></i>
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={"time"} effect="solid"
+                    place={"top"}
+                    multiline={true} >
+                    {tips.time}
+                </ReactTooltip>
+                <i data-tip data-for={"ttw"} className="far fa-hourglass fa-2x"></i>
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={"ttw"} effect="solid"
+                    place={"top"}
+                    multiline={true} >
+                    {tips.ttw}
                 </ReactTooltip>
             </div>
 

@@ -23,6 +23,8 @@ interface/public/images/
 
 .env
 
+sendsay/
+
 interface/.env.development
 
 interface/.env.production

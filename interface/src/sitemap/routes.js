@@ -15,9 +15,6 @@ const routes = [
         path: '/pvprating',
     },
     {
-        path: '/shinyrates',
-    },
-    {
         path: '/evolution',
     },
     {

@@ -10,7 +10,7 @@ let strings = new LocalizedStrings(locale);
 const EffectiveStats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        < div className="row justify-content-between m-0 mt-2" >
+        < div className="row justify-content-between m-0 mt-2" style={{ fontSize: "92%" }}>
             <ReactTooltip
                 id={props.attr + "effatk"} effect="solid">
                 {strings.effStats.atkTip}

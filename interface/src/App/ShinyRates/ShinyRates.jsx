@@ -188,6 +188,7 @@ class ShinyRates extends React.Component {
                                     locale={strings.tips.loading}
                                     loading={this.state.loading}
                                 />}
+                            <Errors class="alert alert-danger m-0 p-2 mb-2" value={"Function will be depricated soon."} />
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                             {this.state.showResult && <ShinyTable
                                 onClick={this.onClick}

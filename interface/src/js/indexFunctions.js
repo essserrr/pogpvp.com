@@ -403,16 +403,18 @@ export function encodeQueryData(data) {
 
 export function extractName(name) {
     let splitted = name.split(" ")
+
     if (splitted.length === 1) {
         return { Name: name, Additional: "" }
     }
     if (splitted[0] === "Galarian" || splitted[0] === "Alolan" || splitted[0] === "Black" || splitted[0] === "White" ||
-        splitted[0] === "Armored") {
+        splitted[0] === "Armored" || splitted[0] === "Mega") {
         return {
             Name: splitted[1],
             Additional: splitted[0] + ((splitted.length > 2) ? ", " + splitted.slice(2).join(" ").replace(/[()]/g, "") : "")
         }
     }
+    console.log(splitted)
     return { Name: splitted[0], Additional: splitted.slice(1).join(" ").replace(/[()]/g, "") }
 }
 
@@ -565,18 +567,28 @@ export function extractPokemon(array) {
         name: array[5], Lvl: array[1], Atk: array[2], Def: array[3], Sta: array[4], Shields: array[0],
         AtkStage: array[6], DefStage: array[7], InitialHP: array[8], InitialEnergy: array[9], IsGreedy: array[10], IsShadow: array[11],
         QuickMove: array[12], ChargeMove1: array[13], ChargeMove2: array[14],
-        quickMovePool: "", chargeMovePool: "", ivSet: "",
+        quickMovePool: "", chargeMovePool: "",
         effAtk: "", effDef: "", effSta: "",
+        maximizer: {
+            stat: "Overall",
+            level: "40",
+            action: "Default",
+        },
         HP: undefined, Energy: undefined,
     }
 }
 export function pokemon(locale) {
     return {
-        name: locale, Lvl: "", Atk: "", Def: "", Sta: "", Shields: "",
-        AtkStage: "", DefStage: "", InitialHP: "", InitialEnergy: "", IsGreedy: "", IsShadow: "",
+        name: locale, Lvl: "", Atk: "", Def: "", Sta: "", Shields: "0",
+        AtkStage: "0", DefStage: "0", InitialHP: "0", InitialEnergy: "0", IsGreedy: "true", IsShadow: "false",
         QuickMove: "", ChargeMove1: "", ChargeMove2: "",
-        quickMovePool: "", chargeMovePool: "", ivSet: "",
+        quickMovePool: "", chargeMovePool: "",
         effAtk: "", effDef: "", effSta: "",
+        maximizer: {
+            stat: "Overall",
+            level: "40",
+            action: "Default",
+        },
         HP: undefined, Energy: undefined, showMenu: false,
     }
 }

@@ -36,7 +36,8 @@ export const commonRaidTips = {
         damage: "Damage",
         time: "Time left",
         fainted: "Pokemon fainted",
-
+        pl: "Players to bet a boss",
+        ttw: "Time to win",
     },
     ru: {
         par1: `Рейдовый симулятор создает список лучших покемонов против выбранного босса.`,
@@ -75,5 +76,7 @@ export const commonRaidTips = {
         damage: "Нанесенный урон",
         time: "Времени осталось",
         fainted: "Покемонов погибло",
+        pl: "Игроков необходимо для победы над боссом",
+        ttw: "Времени на победу",
     }
 }
