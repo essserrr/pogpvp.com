@@ -47,7 +47,7 @@ class RestorePassForm extends React.PureComponent {
                 </div>
                 <div className="row m-0 pt-3 justify-content-center ">
                     <div className={"col-auto px-0"}>
-                        <ReCaptcha
+                        {navigator.userAgent !== "ReactSnap" && <ReCaptcha
                             ref={(el) => { this.pogCaptcha = el }}
                             hl={getCookie("appLang")}
                             data-theme="dark"
@@ -55,7 +55,7 @@ class RestorePassForm extends React.PureComponent {
                             sitekey={process.env.REACT_APP_CAPTCHA_KEY}
                             onloadCallback={this.onLoadRecaptcha}
                             verifyCallback={this.props.verifyCallback}
-                        />
+                        />}
                     </div>
                     {this.props.notOk.token !== "" &&
                         <div className="col-12 px-0 text-center reg-form__alert-text">{this.props.notOk.token}</div>}

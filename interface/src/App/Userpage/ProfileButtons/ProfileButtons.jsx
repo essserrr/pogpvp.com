@@ -1,6 +1,8 @@
 import React from "react";
 import { getCookie } from "../../../js/getCookie"
 import { Link } from "react-router-dom"
+import ReactTooltip from "react-tooltip";
+
 
 import LocalizedStrings from "react-localization";
 import { userLocale } from "../../../locale/userLocale"
@@ -25,22 +27,37 @@ class ProfileButtons extends React.PureComponent {
     render() {
 
         return (
-            <div className="col-auto profile-buttons px-0">
-                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "info" ? " active" : "")}
+            <div className="col-auto px-0">
+                <Link className={"col-auto single-button px-0" + (this.props.activePath === "info" ? " active" : "")}
                     to="/profile/info">{strings.upage.inf}</Link>
-                <Link className={"col-auto profile__singleb px-0" + (this.props.activePath === "security" ? " active" : "")}
+                <Link className={"col-auto single-button px-0" + (this.props.activePath === "security" ? " active" : "")}
                     to="/profile/security">{strings.upage.sec}</Link>
-                <Link className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
-                    to="/profile/pokemon">{strings.upage.p}</Link>
-                <Link className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "move" ? " active" : "")}
-                    to="/profile/move">{strings.upage.m}</Link>
-                <Link className={"col-auto profile__singleb disabled px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
-                    to="/profile/shinybroker">{strings.upage.shbr}</Link>
+                <div className={"col-auto single-button--fake  px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
+                    data-tip data-for={"broker"}>{strings.upage.p}</div>
+                <div className={"col-auto single-button--fake  px-0" + (this.props.activePath === "move" ? " active" : "")}
+                    data-tip data-for={"broker"}>{strings.upage.m}</div>
+                <div className={"col-auto single-button--fake px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
+                    data-tip data-for={"broker"}>{strings.upage.shbr}</div>
+                <ReactTooltip
+                    className={"infoTip"}
+                    id={"broker"} effect="solid"
+                    place={"top"}
+                    multiline={true}
+                >
+                    {strings.soon}
+                </ReactTooltip>
             </div >
         );
     }
 }
 
-
+/*
+<Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
+                    to="/profile/pokemon" data-tip data-for={"broker"}>{strings.upage.p}</Link>
+                <Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "move" ? " active" : "")}
+                    to="/profile/move" data-tip data-for={"broker"}>{strings.upage.m}</Link>
+                <Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
+                    to="/profile/shinybroker" data-tip data-for={"broker"}>{strings.upage.shbr}</Link>
+*/
 
 export default ProfileButtons

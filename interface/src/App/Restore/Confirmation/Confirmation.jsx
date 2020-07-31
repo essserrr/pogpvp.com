@@ -35,7 +35,6 @@ class Confirmation extends React.Component {
             reason = r
             return
         });
-        console.log(reason, response.ok)
         if (reason !== "") {
             this.setState({ loading: false, error: true, })
             return
