@@ -4,7 +4,7 @@ import LocalizedStrings from "react-localization";
 import ReactTooltip from "react-tooltip"
 
 import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import Header from "../../Movedex/Header/Header"
 import Input from "../../PvP/components/Input/Input"
 

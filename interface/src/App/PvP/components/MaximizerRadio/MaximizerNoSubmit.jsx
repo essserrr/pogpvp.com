@@ -3,7 +3,7 @@ import SingleRadio from "./SingleRadio"
 
 import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 

@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import PokemonCard from "../PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
@@ -7,10 +8,10 @@ import Tier from "../../RaidsList/Tier/Tier"
 import CardBody from "./CardBody"
 
 import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(locale)
 
 class EvoList extends PureComponent {
     constructor(props) {
@@ -34,17 +35,15 @@ class EvoList extends PureComponent {
                     <PokemonCard
                         class={"col-12 pokCard raid animShiny p-0"}
                         name={elem.name}
-                        icon={<a
-                            className="my-1 align-self-center"
-                            title={strings.dexentr + elem.name}
-                            href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" +
-                                encodeURIComponent(elem.name)}
-                        >
-                            <PokemonIconer
-                                src={state.pokemonTable[elem.name].Number + (state.pokemonTable[elem.name].Forme !== "" ?
-                                    "-" + state.pokemonTable[elem.name].Forme : "")}
-                                class={"icon48"} />
-                        </a>}
+                        icon={
+                            <Link className="my-1 align-self-center"
+                                title={strings.dexentr + elem.name}
+                                to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(elem.name)}>
+                                <PokemonIconer
+                                    src={state.pokemonTable[elem.name].Number + (state.pokemonTable[elem.name].Forme !== "" ?
+                                        "-" + state.pokemonTable[elem.name].Forme : "")}
+                                    class={"icon48"} />
+                            </Link>}
                         body={<CardBody
                             name={elem.name}
                             state={state}

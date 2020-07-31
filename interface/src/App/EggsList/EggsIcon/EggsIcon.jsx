@@ -6,7 +6,7 @@ import { ReactComponent as Egg5km } from "../../../icons/egg5km.svg";
 import { ReactComponent as Egg10km } from "../../../icons/egg10km.svg";
 import { ReactComponent as Egg7km } from "../../../icons/egg7km.svg";
 
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { locale } from "../../../locale/locale"
 
 

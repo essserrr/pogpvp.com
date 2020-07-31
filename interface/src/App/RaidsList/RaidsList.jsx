@@ -9,7 +9,7 @@ import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 import RaidTier from "./RaidTier/RaidTier"
 
 import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 

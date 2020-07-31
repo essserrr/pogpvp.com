@@ -4,7 +4,7 @@ import LocalizedStrings from "react-localization";
 
 import Button from "../../Movedex/Button/Button"
 import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 

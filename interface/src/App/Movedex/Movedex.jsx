@@ -14,7 +14,7 @@ import TypeRow from "./TypeRow/TypeRow"
 import Input from "../PvP/components/Input/Input"
 
 import { dexLocale } from "../../locale/dexLocale"
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 
 
 let strings = new LocalizedStrings(dexLocale);

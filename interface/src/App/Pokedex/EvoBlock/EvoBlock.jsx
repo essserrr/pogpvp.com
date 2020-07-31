@@ -4,7 +4,7 @@ import LocalizedStrings from "react-localization";
 
 import EvoCard from "./EvoCard"
 import Tier from "../../RaidsList/Tier/Tier"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import { ReactComponent as Candy } from "../../../icons/candy.svg";
 

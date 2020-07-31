@@ -872,14 +872,18 @@ body {
 
 //fake button
 .langButton {
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     padding-left: 0px;
     padding-right: 0px;
     margin-left: 0.1em;
 
     background-color: transparent;
     border: none;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05); 
+    }
 }
 
 //constr button
@@ -950,11 +954,6 @@ body {
 .singleNewsBody {
     font-size: 1rem;
     color: black !important;
-}
-
-//navbar style
-.navstyle {
-    background-color: $primary-color;
 }
 
 //magic box related styles
@@ -1462,11 +1461,19 @@ body {
 .sliderButton:focus {
     outline: none;
 }
+
 .sliderGroup {
     overflow: hidden;
     border: 2px solid $slider-button !important;
-    border-radius: 7px 7px 7px 7px
+    border-radius: 7px 7px 7px 7px;
+
+ 
 }
+
 .sliderGroup button:last-child {
+    border: none !important;
+}
+
+.sliderGroup a:last-child {
     border: none !important;
 }

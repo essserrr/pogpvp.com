@@ -2,7 +2,7 @@ import React from "react";
 import { effectivenessData } from "../../../js/indexFunctions"
 import LocalizedStrings from "react-localization";
 
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import EffIcon from "./EffIcon"
 

@@ -1,12 +1,14 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
-import { getCookie } from "../../../js/indexFunctions"
+
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 
 
-let strings = new LocalizedStrings(dexLocale);
+let strings = new LocalizedStrings(dexLocale)
 
 const ListElement = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -17,10 +19,11 @@ const ListElement = React.memo(function (props) {
                 src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
                 class={"icon36 mr-2"}
             />
-            <a title={strings.dexentr + props.name}
+            <Link title={strings.dexentr + props.name}
                 className="dexFont link"
-                href={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.name)}
-            >{props.name}</a>
+                to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.name)}>
+                {props.name}
+            </Link>
         </div>
     )
 

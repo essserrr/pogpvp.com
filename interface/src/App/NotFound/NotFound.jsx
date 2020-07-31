@@ -1,14 +1,14 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization";
-
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(locale)
 
 
 class NotFound extends React.Component {
@@ -61,11 +61,12 @@ class NotFound extends React.Component {
                                     {strings.notfound}
                                 </h5>
                                 <div tabIndex="0" ref="notfound"></div>
-                                <a title={strings.buttons.home} className="row ml-2 mr-1 linkText font-weight-bold text-center" href="/">
+                                <Link title={strings.buttons.home}
+                                    className="row ml-2 mr-1 linkText font-weight-bold text-center"
+                                    to={"/"}>
                                     <i className="fas fa-angle-double-left align-self-center  mr-1"></i>
                                     {strings.return}
-                                </a>
-
+                                </Link>
                             </div>
                         </div>
                     </div>

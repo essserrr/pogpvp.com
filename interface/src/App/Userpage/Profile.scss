@@ -1,0 +1,26 @@
+$primary-color: #eff0f1;
+
+.profile {
+    max-width: 1200px;
+
+    background: $primary-color;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    
+    padding: 40px 30px;
+
+    overflow: hidden;
+}
+
+.profile__text {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.profile__title {
+    font-size: 1.4rem;
+    font-weight: 400;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

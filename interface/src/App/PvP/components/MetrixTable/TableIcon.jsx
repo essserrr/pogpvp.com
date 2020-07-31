@@ -5,7 +5,7 @@ import LocalizedStrings from "react-localization";
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 
-import { getCookie } from "../../../../js/indexFunctions.js"
+import { getCookie } from "../../../../js/getCookie"
 import { locale } from "../../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);

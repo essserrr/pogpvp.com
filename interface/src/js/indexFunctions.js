@@ -4,13 +4,6 @@ import PokemonIconer from "../App/PvP/components/PokemonIconer/PokemonIconer"
 export const capitalizeFirst = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|[""([{])+\S/g, match => match.toUpperCase());
 
-export function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([$?*|{}\]\\^])/g, "\\$1") + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
 export function checkShadow(name, pokTable) {
     if (!pokTable[name]) {
         let index = name.indexOf(" (Shadow)")

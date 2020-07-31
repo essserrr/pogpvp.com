@@ -2,7 +2,7 @@ import React from "react";
 
 import LocalizedStrings from "react-localization";
 import { singleTips } from "../../../locale/ratingTips"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 
 let tips = new LocalizedStrings(singleTips)
 

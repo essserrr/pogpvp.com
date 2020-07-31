@@ -12,7 +12,7 @@ import Button from "../../../Movedex/Button/Button"
 
 import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
 
 
 let strings = new LocalizedStrings(locale);

@@ -1,13 +1,15 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
+import { Link } from "react-router-dom"
 
 import PokemonCard from "../../Evolve/PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import CardBody from "../CardBody/CardBody"
-import { getCookie, capitalizeFirst } from "../../../js/indexFunctions"
+import { capitalizeFirst } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { locale } from "../../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(locale)
 
 const RaidTier = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -30,16 +32,17 @@ const RaidTier = React.memo(function (props) {
                                 class={"col-12 pokCard raid p-0 animShiny"}
                                 name={name}
                                 icon={
-                                    <a title={strings.topcounters + props.pokTable[name].Title}
-                                        href={(navigator.userAgent === "ReactSnap") ? "/" :
-                                            "/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" +
-                                            (encodeURIComponent(props.pokTable[name].Title)) + "___" + (props.i - 1) + "/0_0_0_18_3_false"}
+                                    <Link title={strings.topcounters + props.pokTable[name].Title}
                                         className="align-self-center"
-                                    >
+                                        to={(navigator.userAgent === "ReactSnap") ? "/" :
+                                            "/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" +
+                                            (encodeURIComponent(props.pokTable[name].Title)) + "___" + (props.i - 1) +
+                                            "/0_0_0_18_3_false"}>
                                         <PokemonIconer
-                                            src={props.pokTable[name].Number + (props.pokTable[name].Forme !== "" ? "-" + props.pokTable[name].Forme : "")}
+                                            src={props.pokTable[name].Number +
+                                                (props.pokTable[name].Forme !== "" ? "-" + props.pokTable[name].Forme : "")}
                                             class={"icon48"} />
-                                    </a>}
+                                    </Link>}
                                 body={<CardBody
                                     name={name}
                                     pokTable={props.pokTable}

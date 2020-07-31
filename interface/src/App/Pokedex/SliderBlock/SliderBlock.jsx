@@ -2,7 +2,7 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 
 import Button from "../../Movedex/Button/Button"
-import { getCookie } from "../../../js/indexFunctions"
+import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 
 let strings = new LocalizedStrings(dexLocale);

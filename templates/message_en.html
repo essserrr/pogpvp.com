@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <style>
+        body {
+            background-color: whitesmoke;
+            padding: 20px;
+        }
+
+        .html__text {
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        Hello dear user!
+    </h1>
+    <p class=html__text>
+        Someone has just requested password reset for your account at <b>pogpvp.com</b>. If it wasn't you just ignore
+        this message.
+    </p>
+    <p class=html__text>
+        Otherwise here is your new password: <b>{{.RestorePass}}</b>
+    </p>
+    <p class=html__text>
+        To activate this password please follow the link below
+    </p>
+    <a href="{{.RestoreKey}}" class=html__text>
+        {{.RestoreKey}}
+    </a>
+</body>
+
+</html>
