@@ -6,15 +6,35 @@ volumes:
     bolt_data: {}
     log_data: {}
     letsencrypt: {}
+    mongodb_data: {}
+    mongodb_backups: {}
 
 services:
-  simulator:
+mongo1:
+    container_name: pogmongo
+    image: mongo:latest
+    environment: 
+      - MONGO_INITDB_DATABASE=${MONGO_DB}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PWD}
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb_data:/data/db
+      - mongodb_backups:/backups
+    restart: always
+    labels:
+        - "traefik.enable=false"
+simulator:
     container_name: simulator
     volumes:
         - bolt_data:/app/boltDB
         - log_data:/app/logs/
     environment:
         - MONGO_URI=${MONGO_URI}
+        - SECRET_CAPTCHA=${SECRET_CAPTCHA}
+        - GMAIL_PASS=${GMAIL_PASS}
+        - JWT_KEY=${JWT_KEY}
+        - COOKIE_DOMAIN=${COOKIE_DOMAIN}
     build: .
     restart: always
     labels:
@@ -24,67 +44,9 @@ services:
       - "traefik.http.routers.simulator.tls=true"
       - "traefik.http.routers.simulator.tls.certresolver=myresolver"
       - "traefik.port=8080"
-  mongo1:
-      container_name: mongo1
-      image: mongo
-      command:
-        - mongod
-        - "--bind_ip_all"
-        - "--replSet"
-        - "rs0"
-        - "--auth"
-        - "--keyFile"
-        - "/mongo/key/keyfile"
-      volumes:
-        - ./mongo/db1:/data/db
-        - ./mongo/backups:/backups
-        - ./mongo/key/keyfile:/mongo/key/keyfile
-      restart: always
-      labels:
-        - "traefik.enable=false"
-      depends_on:
-        - grafana
-  mongo2:
-      container_name: mongo2
-      image: mongo
-      command: 
-        - mongod
-        - "--bind_ip_all"
-        - "--replSet"
-        - "rs0"
-        - "--auth"
-        - "--keyFile"
-        - "/mongo/key/keyfile"
-      volumes:
-        - ./mongo/db2:/data/db
-        - ./mongo/backups:/backups
-        - ./mongo/key/keyfile:/mongo/key/keyfile
-      restart: always
-      depends_on:
-        - mongo1
-      labels:
-        - "traefik.enable=false"
-  mongo3:
-      container_name: mongo3
-      image: mongo
-      command: 
-        - mongod
-        - "--bind_ip_all"
-        - "--replSet"
-        - "rs0"
-        - "--auth"
-        - "--keyFile"
-        - "/mongo/key/keyfile"
-      volumes:
-        - ./mongo/db3:/data/db
-        - ./mongo/backups:/backups
-        - ./mongo/key/keyfile:/mongo/key/keyfile
-      restart: always
-      depends_on:
-        - mongo2
-      labels:
-        - "traefik.enable=false"
-  prometheus:
+    depends_on:
+      - mongo1
+prometheus:
     image: "prom/prometheus"
     container_name: prometheus
     labels:
@@ -114,7 +76,7 @@ services:
             memory: 45M
     depends_on:
       - simulator
-  grafana:
+grafana:
     image: "grafana/grafana:latest"
     container_name: grafana
     #environment:
@@ -173,4 +135,4 @@ services:
               max-size: '25m'
               max-file: '3'
         depends_on:
-            - mongo3
+            - grafana
