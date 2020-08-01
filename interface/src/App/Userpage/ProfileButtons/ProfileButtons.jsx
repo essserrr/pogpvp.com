@@ -34,8 +34,8 @@ class ProfileButtons extends React.PureComponent {
                     to="/profile/security">{strings.upage.sec}</Link>
                 <div className={"col-auto single-button--fake  px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
                     data-tip data-for={"broker"}>{strings.upage.p}</div>
-                <div className={"col-auto single-button--fake  px-0" + (this.props.activePath === "move" ? " active" : "")}
-                    data-tip data-for={"broker"}>{strings.upage.m}</div>
+                <Link className={"col-auto single-button px-0" + (this.props.activePath === "move" ? " active" : "")}
+                    to="/profile/move" data-tip data-for={"broker"}>{strings.upage.m}</Link>
                 <div className={"col-auto single-button--fake px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
                     data-tip data-for={"broker"}>{strings.upage.shbr}</div>
                 <ReactTooltip
@@ -54,8 +54,7 @@ class ProfileButtons extends React.PureComponent {
 /*
 <Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
                     to="/profile/pokemon" data-tip data-for={"broker"}>{strings.upage.p}</Link>
-                <Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "move" ? " active" : "")}
-                    to="/profile/move" data-tip data-for={"broker"}>{strings.upage.m}</Link>
+                
                 <Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
                     to="/profile/shinybroker" data-tip data-for={"broker"}>{strings.upage.shbr}</Link>
 */

@@ -43,7 +43,7 @@ class Userpage extends React.Component {
                     noindex={true}
                 />
                 <div className="row m-0 justify-content-center">
-                    <div className="col-12 col-lg-10 mt-4 p-0 profile align-self-center">
+                    <div className="col-12 col-lg-12 mt-4 p-0 profile align-self-center">
                         <div className="row mx-0">
                             <div className="col-12 px-0 text-center profile__title">{strings.upage.prof}</div>
                             <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />

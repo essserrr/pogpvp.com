@@ -266,12 +266,13 @@ func byteToUint(byteArray []byte) uint64 {
 }
 
 func setupCors(w *http.ResponseWriter, req *http.Request) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:45678")
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Pvp-Type, Pvp-Shields")
 }
 
+//45678
 //rootHandler implements http.Handler interface
 type rootHandler struct {
 	function func(*http.ResponseWriter, *http.Request, *App) error
@@ -1081,6 +1082,7 @@ func (a *App) initMetrics() *http.Server {
 	prometheus.MustRegister(a.metrics.apiCounters)
 	prometheus.MustRegister(a.metrics.ipLocations)
 	prometheus.MustRegister(a.metrics.histogram)
+	prometheus.MustRegister(a.metrics.userCounters)
 
 	metrics := chi.NewRouter()
 	metrics.Handle("/metrics", promhttp.Handler())

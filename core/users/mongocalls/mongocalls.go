@@ -408,13 +408,13 @@ func LogoutAll(client *mongo.Client, cookie *http.Cookie) (string, error) {
 	//if user auth failed delete only active session
 	switch currSession.verifyRefresh(cookie.Value) {
 	case true:
-		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": currUser.Sessions}}); err != nil {
+		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": []Session{}}}); err != nil {
 			return currUser.Username, err
 		}
 		return currUser.Username, nil
 	default:
-		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": currUser.Sessions}}); err != nil {
-			return currUser.Username, err
+		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": []Session{}}}); err != nil {
+			return currUser.Username, fmt.Errorf("Verification failed")
 		}
 		return currUser.Username, fmt.Errorf("Verification failed")
 	}
