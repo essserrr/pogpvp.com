@@ -83,7 +83,86 @@ export const userLocale = {
 
             confok: "New password has been successfully activated. Now you can log in using your new password",
             confnotok: "Password activation failed. Please try to reset your password once again or contact the site administrator",
+        },
+        moveconstr: {
+            err: {
+                wrong: "Wrong fromat of ",
+                larzero: " must be larger than zero",
+                larzerofem: " must be larger than zero",
+                integr: "  must be an integral value",
+                integrfem: "  must be an integral value",
+                neg: " must be negative",
+                pos: " must be postive",
+                poszer: " must be positive or zero",
+                allowed: "Allowed energy value is from -100 to 100",
+                sumwind: "Cooldown must be larger than Damage window + Dodge window",
+                hundred: "Probability cannont be more than 100%",
 
+                d1: "damage",
+                d2: "Damage",
+
+                e1: "energy",
+                e2: "Energy",
+
+                cd1: "cooldown",
+                cd2: "Cooldown",
+
+                pr1: "probability",
+                pr2: "Probability",
+
+                mt: "\xa0\xa0\xa0\xa0\xa0\xa0Move title\xa0\xa0\xa0\xa0\xa0\xa0",
+            },
+            category: "\xa0\xa0Move category\xa0",
+            type: "\xa0\xa0\xa0\xa0\xa0Move type\xa0\xa0\xa0\xa0\xa0\xa0",
+            catopt: {
+                q: "Quick move",
+                ch: "Charge move",
+            },
+            statopt: {
+                n: "None",
+                a: "Atk",
+                d: "Def",
+                ad: "Atk + Def",
+            },
+            subjopt: {
+                n: "None",
+                s: "Self",
+                o: "Opponent",
+            },
+            pve: {
+                title: "PvE stats",
+                d: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0Damage\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                e: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Energy\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                cd: "\xa0\xa0\xa0\xa0\xa0\xa0Cooldown\xa0\xa0\xa0\xa0\xa0\xa0",
+                dmgwd: "Damage window",
+                dwd: "\xa0\xa0Dodge window\xa0\xa0",
+                tips: {
+                    d: "Damage must be a positive integral number or zero",
+                    e: "Energy must be a positive (for quick moves) / negative (for charge moves) integral number or zero. Cannot exceed 100 points",
+                    cd: "Cooldown duration in seconds. Must be a postive number",
+                    dmgwd: "Damage window (seconds) is a moment when the damge window starts. (Damage window + Dodge window) must be less then (Cooldown). Damage window must be a postive number",
+                    dwd: "Dodge window duration in seconds. Damage window + Dodge window must be less then Cooldown. Dodge window must be a postive number",
+                },
+            },
+            pvp: {
+                title: "PvP stats",
+                d: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0Damage\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                e: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Energy\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                cd: "\xa0\xa0\xa0\xa0\xa0\xa0Cooldown\xa0\xa0\xa0\xa0\xa0\xa0",
+                prob: "\xa0\xa0\xa0\xa0\xa0\xa0Probability\xa0\xa0\xa0\xa0\xa0",
+                stat: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Stat\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                stage: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Stage\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                subj: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Subject\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                tips: {
+                    d: "Damage must be a positive integral number or zero",
+                    e: "Energy must be a positive (for quick moves) / negative (for charge moves) integral number or zero. Cannot exceed 100 points",
+                    cd: "Cooldown duration in rounds",
+                    prob: "Probability to activate effect of a move",
+                    stat: "Stats to change after activation",
+                    stage: "Number of stages",
+                    subj: "Subject of effect",
+                },
+            },
         },
     },
 
@@ -171,6 +250,87 @@ export const userLocale = {
 
             confok: "Новый пароль успешно активирован, теперь вы можете войти в на сайт под своим новым паролем",
             confnotok: "Активация пароля закончилась ошибкой. Пожалуйста повторите процедуру сброса пароля или свяжитесь с администрацией сайта",
+        },
+        moveconstr: {
+            err: {
+
+                wrong: "Неверный формат ",
+                larzero: " должен быть больше нуля",
+                larzerofem: " должна быть больше нуля",
+                integr: "  должен быть целым числом",
+                integrfem: "  должна быть целым числом",
+                neg: " должна быть отрицательной",
+                pos: " должна быть положительной",
+                poszer: " должна быть положительной или нулем",
+                allowed: "Энергия должна быть от -100 до 100",
+                sumwind: "Перезарядка должна быть больше, чем (Окно урона + Окно уклонения)",
+                hundred: "Вероятность не может быть больше 100%",
+
+                d1: "урона",
+                d2: "Урон",
+
+                e1: "энергии",
+                e2: "Энергия",
+
+                cd1: "перезарядки",
+                cd2: "Перезарядка",
+
+                pr1: "вероятности",
+                pr2: "Вероятность",
+
+                mt: "\xa0\xa0\xa0Имя умения\xa0\xa0\xa0",
+            },
+            category: "\xa0\xa0\xa0\xa0\xa0Категория\xa0\xa0\xa0\xa0\xa0",
+            type: "\xa0\xa0\xa0\xa0Тип умения\xa0\xa0\xa0\xa0",
+            catopt: {
+                q: "Быстрое умение",
+                ch: "Заряжаемое умение",
+            },
+            statopt: {
+                n: "Нет",
+                a: "Атк",
+                d: "Защ",
+                ad: "Атк + Защ",
+            },
+            subjopt: {
+                n: "Нет",
+                s: "На себя",
+                o: "На противника",
+            },
+            pve: {
+                title: "Параметры в PvE",
+                d: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Урон\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                e: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0Энергия\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                cd: "\xa0\xa0\xa0Перезарядка\xa0\xa0\xa0",
+                dmgwd: "\xa0\xa0\xa0\xa0Окно урона\xa0\xa0\xa0\xa0\xa0",
+                dwd: "Окно уклонения",
+                tips: {
+                    d: "Урон должен быть равен целому положительному числому или нулю",
+                    e: "Энергия должна быть равно целому положительному (для быстрых умений) / отрицательному (для заряжаемых умений) числу или нулю. Не может превышать 100 единиц",
+                    cd: "Продолжительность перезарядки в секундах. Должна быть положительным числом.",
+                    dmgwd: "Окно урона (в секундах) - это оммент, когда окно урона начинается. (Окно урона + Окно уклонения) должно быть меньше, чем (Перезарядка). Окно урона должно быть положительным числом",
+                    dwd: "Длительность укна уклонения в секундах. (Окно урона + Окно уклонения) должно быть меньше, чем (Перезарядка). Окно уклонения должно быть положительным числом",
+                },
+            },
+            pvp: {
+                title: "Параметры в PvP",
+                d: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Урон\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                e: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0Энергия\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                cd: "\xa0\xa0\xa0Перезарядка\xa0\xa0\xa0",
+                prob: "\xa0\xa0\xa0Вероятность\xa0\xa0\xa0",
+                stat: "\xa0\xa0\xa0\xa0\xa0\xa0Параметр\xa0\xa0\xa0\xa0\xa0",
+                stage: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Стадия\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                subj: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Цель\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+                tips: {
+                    d: "Урон должен быть равен целому положительному числому или нулю",
+                    e: "Энергия должна быть равно целому положительному (для быстрых умений) / отрицательному (для заряжаемых умений) числу или нулю. Не может превышать 100 единиц",
+                    cd: "Продолжительность перезарядки в раундах.",
+                    prob: "Вероятность активировать эффект умения",
+                    stat: "Параметры, которые изменятся после активации",
+                    stage: "Количество стадий",
+                    subj: "Цель, на которую накладывается эффект",
+                },
+            },
         },
     }
 }
