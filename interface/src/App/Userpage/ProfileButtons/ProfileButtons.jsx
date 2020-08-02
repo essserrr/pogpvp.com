@@ -35,13 +35,13 @@ class ProfileButtons extends React.PureComponent {
                 <div className={"col-auto single-button--fake  px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
                     data-tip data-for={"broker"}>{strings.upage.p}</div>
                 <Link className={"col-auto single-button px-0" + (this.props.activePath === "move" ? " active" : "")}
-                    to="/profile/move" data-tip data-for={"broker"}>{strings.upage.m}</Link>
+                    to="/profile/move">{strings.upage.m}</Link>
                 <div className={"col-auto single-button--fake px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
                     data-tip data-for={"broker"}>{strings.upage.shbr}</div>
                 <ReactTooltip
                     className={"infoTip"}
                     id={"broker"} effect="solid"
-                    place={"top"}
+                    place={"right"}
                     multiline={true}
                 >
                     {strings.soon}

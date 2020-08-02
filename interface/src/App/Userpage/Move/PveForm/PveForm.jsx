@@ -18,15 +18,14 @@ class PveForm extends React.PureComponent {
     render() {
         return (
             <>
-                <div className="col-12 px-0 pt-2 text-center">PvP stats</div>
+                <div className="col-12 px-0 py-1 text-center font-weight-bold">{strings.moveconstr.pve.title}</div>
                 <div className="col-12 p-0 ">
                     <LabelAndInput
-                        label={"Damage"}
-                        lTip={"Damage"}
+                        label={strings.moveconstr.pve.d}
+                        lTip={strings.moveconstr.pve.tips.d}
 
                         attr={"pve"}
                         name={"damage"}
-                        place={"Damage"}
 
                         value={this.props.damage}
                         notOk={this.props.notOk.damage}
@@ -36,52 +35,50 @@ class PveForm extends React.PureComponent {
                         onChange={this.props.onChange}
                     />
                 </div>
-                <div className="col-12 p-0 pt-2">
-                    {this.props.moveCategory === "Fast Move" ?
-                        <LabelAndInput
-                            label={"Energy"}
-                            lTip={"Energy"}
+                {this.props.moveCategory === "Fast Move" && <div className="col-12 p-0 pt-2">
+                    <LabelAndInput
+                        label={strings.moveconstr.pve.e}
+                        lTip={strings.moveconstr.pve.tips.e}
 
-                            attr={"pve"}
-                            name={"energy"}
-                            place={"Energy"}
+                        attr={"pve"}
+                        name={"energy"}
 
-                            value={this.props.energy}
-                            notOk={this.props.notOk.energy}
+                        value={this.props.energy}
+                        notOk={this.props.notOk.energy}
 
-                            type={"text"}
+                        type={"text"}
 
-                            onChange={this.props.onChange}
-                        /> :
-                        <SelectGroup
-                            label={"Energy"}
+                        onChange={this.props.onChange}
+                    /></div>}
+                {this.props.moveCategory === "Charge Move" && <div className="col-12 p-0">
+                    <SelectGroup
+                        label={strings.moveconstr.pve.e}
 
-                            attr={"pve"}
-                            name="energy"
+                        attr={"pve"}
+                        name="energy"
 
-                            options={<>
-                                <option value="-33" >-33</option>
-                                <option value="-50" >-50</option>
-                                <option value="-100" >-100</option>
-                            </>}
-                            value={this.props.energy}
+                        options={<>
+                            <option value="-33" >-33</option>
+                            <option value="-50" >-50</option>
+                            <option value="-100" >-100</option>
+                        </>}
+                        value={this.props.energy}
 
-                            onChange={this.props.onChange}
+                        onChange={this.props.onChange}
 
-                            place={"top"}
-                            for={"pveenergy"}
-                            tip={"Energy"}
-                            tipClass="infoTip"
-                        />}
-                </div>
+                        place={"top"}
+                        for={"pveenergych"}
+                        tip={strings.moveconstr.pve.tips.e}
+                        tipClass="infoTip"
+                    /></div>}
+
                 <div className="col-12 p-0 pt-2">
                     <LabelAndInput
-                        label={"Cooldown"}
-                        lTip={"Cooldown"}
+                        label={strings.moveconstr.pve.cd}
+                        lTip={strings.moveconstr.pve.tips.cd}
 
                         attr={"pve"}
                         name={"cooldown"}
-                        place={"Cooldown"}
 
                         value={this.props.cooldown}
                         notOk={this.props.notOk.cooldown}
@@ -93,12 +90,11 @@ class PveForm extends React.PureComponent {
                 </div>
                 <div className="col-12 p-0 pt-2">
                     <LabelAndInput
-                        label={"Damage window"}
-                        lTip={"Damage window"}
+                        label={strings.moveconstr.pve.dmgwd}
+                        lTip={strings.moveconstr.pve.tips.dmgwd}
 
                         attr={"pve"}
                         name={"damageWindow"}
-                        place={"Damage window"}
 
                         value={this.props.damageWindow}
                         notOk={this.props.notOk.damageWindow}
@@ -110,12 +106,11 @@ class PveForm extends React.PureComponent {
                 </div>
                 <div className="col-12 p-0 pt-2">
                     <LabelAndInput
-                        label={"Dodge window"}
-                        lTip={"Dodge window"}
+                        label={strings.moveconstr.pve.dwd}
+                        lTip={strings.moveconstr.pve.tips.dwd}
 
                         attr={"pve"}
                         name={"dodgeWindow"}
-                        place={"Dodge window"}
 
                         value={this.props.dodgeWindow}
                         notOk={this.props.notOk.dodgeWindow}

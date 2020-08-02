@@ -1,0 +1,174 @@
+import React from "react"
+import LocalizedStrings from "react-localization"
+
+import LabelAndInput from "../LabelAndInput/LabelAndInput"
+import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup"
+
+import { getCookie } from "../../../../js/getCookie"
+import { userLocale } from "../../../../locale/userLocale"
+
+let strings = new LocalizedStrings(userLocale)
+
+class PvpForm extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    }
+
+    render() {
+        return (
+            <>
+                <div className="col-12 px-0 pt-2 text-center font-weight-bold">{strings.moveconstr.pvp.title}</div>
+                <div className="col-12 p-0 ">
+                    <LabelAndInput
+                        label={strings.moveconstr.pvp.d}
+                        lTip={strings.moveconstr.pvp.tips.d}
+
+                        attr={"pvp"}
+                        name={"pvpDamage"}
+
+                        value={this.props.pvpDamage}
+                        notOk={this.props.notOk.pvpDamage}
+
+                        type={"text"}
+
+                        onChange={this.props.onChange}
+                    />
+                </div>
+                <div className="col-12 p-0 pt-2">
+                    <LabelAndInput
+                        label={strings.moveconstr.pvp.e}
+                        lTip={strings.moveconstr.pvp.tips.e}
+
+                        attr={"pvp"}
+                        name={"pvpEnergy"}
+
+                        value={this.props.pvpEnergy}
+                        notOk={this.props.notOk.pvpEnergy}
+
+                        type={"text"}
+
+                        onChange={this.props.onChange}
+                    />
+                </div>
+                <div className="col-12 p-0">
+                    {this.props.moveCategory === "Fast Move" && <SelectGroup
+                        label={strings.moveconstr.pvp.cd}
+
+                        attr={"pvp"}
+                        name="pvpDurationSeconds"
+
+                        options={<>
+                            <option value="0.5" >1</option>
+                            <option value="1" >2</option>
+                            <option value="1.5" >3</option>
+                            <option value="2" >4</option>
+                        </>}
+                        value={this.props.pvpDurationSeconds}
+
+                        onChange={this.props.onChange}
+
+                        place={"top"}
+                        for={"pvpDurationSeconds"}
+                        tip={strings.moveconstr.pvp.tips.cd}
+                        tipClass="infoTip"
+                    />}
+                </div>
+                {this.props.moveCategory === "Charge Move" && <>
+                    <div className="col-12 p-0 pt-2">
+                        <LabelAndInput
+                            label={strings.moveconstr.pvp.prob}
+                            lTip={strings.moveconstr.pvp.tips.prob}
+
+                            attr={"pvp"}
+                            name={"probability"}
+
+                            value={this.props.probability}
+                            notOk={this.props.notOk.probability}
+
+                            type={"text"}
+
+                            onChange={this.props.onChange}
+                        />
+                    </div>
+                    <div className="col-12 p-0">
+                        <SelectGroup
+                            label={strings.moveconstr.pvp.stat}
+
+                            attr={"pvp"}
+                            name="stat"
+
+                            options={<>
+                                <option value="" >{strings.moveconstr.statopt.n}</option>
+                                <option value="Atk" >{strings.moveconstr.statopt.a}</option>
+                                <option value="Def" >{strings.moveconstr.statopt.d}</option>
+                                <option value="Atk,Def" >{strings.moveconstr.statopt.ad}</option>
+                            </>}
+                            value={this.props.stat}
+
+                            onChange={this.props.onChange}
+
+                            place={"top"}
+                            for={"stat"}
+                            tip={strings.moveconstr.pvp.tips.stat}
+                            tipClass="infoTip"
+                        />
+                    </div>
+                    <div className="col-12 p-0">
+                        <SelectGroup
+                            label={strings.moveconstr.pvp.stage}
+
+                            attr={"pvp"}
+                            name="stageDelta"
+
+                            options={<>
+                                <option value="-4" >-4</option>
+                                <option value="-3" >-3</option>
+                                <option value="-2" >-2</option>
+                                <option value="-1" >-1</option>
+                                <option value="0" >0</option>
+                                <option value="1" >1</option>
+                                <option value="2" >2</option>
+                                <option value="3" >3</option>
+                                <option value="4" >4</option>
+
+                            </>}
+                            value={this.props.stageDelta}
+
+                            onChange={this.props.onChange}
+
+                            place={"top"}
+                            for={"stageDelta"}
+                            tip={strings.moveconstr.pvp.tips.stage}
+                            tipClass="infoTip"
+                        />
+                    </div>
+                    <div className="col-12 p-0">
+                        <SelectGroup
+                            label={strings.moveconstr.pvp.subj}
+
+                            attr={"pvp"}
+                            name="subject"
+
+                            options={<>
+                                <option value="" >{strings.moveconstr.subjopt.n}</option>
+                                <option value="Opponent" >{strings.moveconstr.subjopt.o}</option>
+                                <option value="Self" >{strings.moveconstr.subjopt.s}</option>
+                            </>}
+                            value={this.props.subject}
+
+                            onChange={this.props.onChange}
+
+                            place={"top"}
+                            for={"subject"}
+                            tip={strings.moveconstr.pvp.tips.subj}
+                            tipClass="infoTip"
+                        />
+                    </div>
+                </>}
+            </>
+        );
+    }
+}
+
+export default PvpForm

@@ -287,7 +287,7 @@ func (rh rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		setupCors(&w, r)
 	}
 	//handle options method
-	if (*r).Method == "OPTIONS" {
+	if (*r).Method == "OPTIONS" && rh.app.corsEnabled {
 		w.WriteHeader(200)
 		return
 	}

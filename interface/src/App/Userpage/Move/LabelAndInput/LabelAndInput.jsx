@@ -14,11 +14,11 @@ const LabelAndInput = React.memo(function (props) {
     return (
 
         <div className="col-12 px-0">
-            <div className="input-group input-group-sm mt-2">
+            <div className="input-group input-group-sm">
                 <LabelPrepend
                     label={props.label}
                     tipClass="infoTip"
-                    for={props.attr + props.name}
+                    for={props.lTip ? props.attr + props.name : ""}
                     place={"top"}
                     tip={props.lTip}
                 />
