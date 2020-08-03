@@ -12,39 +12,29 @@ import { userLocale } from "../../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale);
 
-
 class Move extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            title: "SomeName",
+            title: "",
             moveCategory: "Charge Move",
             moveType: "0",
 
             inputs: {
                 pvpDamage: 1, pvpEnergy: -50,
-
                 damage: 1, energy: -50,
-
                 cooldown: 1, damageWindow: 0.5, dodgeWindow: 0.4,
-
-                pvpDurationSeconds: 1, pvpDuration: 1,
-
+                pvpDurationSeconds: 0, pvpDuration: 0,
                 probability: 0, stat: "", subject: "", stageDelta: 0,
             },
 
             notOk: {
                 title: "",
-
                 pvpDamage: "", pvpEnergy: "",
-
                 damage: "", energy: "",
-
                 cooldown: "", damageWindow: "", dodgeWindow: "",
-
                 pvpDurationSeconds: "", pvpDuration: "",
-
                 probability: "", stat: "", subject: "", stageDelta: "",
             },
 
@@ -55,11 +45,36 @@ class Move extends React.PureComponent {
     }
 
     onChange(event) {
+        switch (event.target.name) {
+            case "moveCategory":
+                this.onCategoryChange(event)
+                return
+            default:
+        }
         this.setState({
             [event.target.name]: event.target.value,
             notOk: {
                 ...this.state.notOk,
                 [event.target.name]: this.check(event.target.value, event.target.name)
+            }
+        })
+    }
+
+    onCategoryChange(event) {
+        const chargeDefault = { pvpEnergy: "-50", energy: "-50", stat: "", subject: "", probability: "0", stageDelta: "0", pvpDurationSeconds: "0", pvpDuration: "0", }
+        const quickDefault = { pvpEnergy: "1", energy: "1", stat: "", subject: "", probability: "0", stageDelta: "0", pvpDurationSeconds: "0.5", pvpDuration: "0", }
+        const okDefault = { pvpEnergy: "", energy: "", stat: "", subject: "", probability: "", stageDelta: "", pvpDurationSeconds: "", pvpDuration: "", }
+
+        this.setState({
+            [event.target.name]: event.target.value,
+            inputs: {
+                ...this.state.inputs,
+                ...(event.target.value === "Charge Move" ? chargeDefault : quickDefault),
+            },
+            notOk: {
+                ...this.state.notOk,
+                ...okDefault,
+                [event.target.name]: this.check(event.target.value, event.target.name),
             }
         })
     }
@@ -90,6 +105,7 @@ class Move extends React.PureComponent {
     }
 
     setInputs(event) {
+        console.log(event.target.name, event.target.value)
         this.setState({
             inputs: {
                 ...this.state.inputs,

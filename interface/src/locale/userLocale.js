@@ -278,7 +278,7 @@ export const userLocale = {
                 pr1: "вероятности",
                 pr2: "Вероятность",
 
-                mt: "\xa0\xa0\xa0Имя умения\xa0\xa0\xa0",
+                mt: "Название умения",
             },
             category: "\xa0\xa0\xa0\xa0\xa0Категория\xa0\xa0\xa0\xa0\xa0",
             type: "\xa0\xa0\xa0\xa0Тип умения\xa0\xa0\xa0\xa0",

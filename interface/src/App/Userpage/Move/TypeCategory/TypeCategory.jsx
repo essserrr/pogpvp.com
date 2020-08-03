@@ -30,7 +30,7 @@ class TypeCategory extends React.PureComponent {
                         </>}
                         value={this.props.moveCategory}
 
-                        onChange={this.props.onTypingChange}
+                        onChange={this.props.onChange}
 
                         for={""}
                     />
@@ -66,7 +66,7 @@ class TypeCategory extends React.PureComponent {
 
                         value={this.props.moveType}
 
-                        onChange={this.props.onTypingChange}
+                        onChange={this.props.onChange}
 
                         for={""}
                     />
