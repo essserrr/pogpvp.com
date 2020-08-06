@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { typeDecoder } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
@@ -30,12 +29,10 @@ const PokeRow = React.memo(function (props) {
                 <Type
                     class={"mx-1 icon18"}
                     code={props.value.Type[0]}
-                    value={typeDecoder[props.value.Type[0]]}
                 />
                 {props.value.Type.length > 1 && <Type
                     class={"mr-1 icon18"}
                     code={props.value.Type[1]}
-                    value={typeDecoder[props.value.Type[1]]}
                 />}
             </td>
             <td className="align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.Generation}</td>

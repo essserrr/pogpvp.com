@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 const Input = React.memo(function (props) {
     return (
@@ -22,4 +22,4 @@ const Input = React.memo(function (props) {
     )
 });
 
-export default Input;
+export default Input

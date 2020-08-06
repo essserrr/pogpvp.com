@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { typeDecoder } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 
@@ -37,7 +36,6 @@ const MoveRow = React.memo(function (props) {
                     <Type
                         class={"mx-1 icon18"}
                         code={props.value.MoveType}
-                        value={typeDecoder[props.value.MoveType]}
                     /></td>
                 <td className="align-middle fBolder px-0 borderLeft px-sm-1 px-md-3 " >{props.value.Damage}</td>
                 <td className="align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.Energy}</td>

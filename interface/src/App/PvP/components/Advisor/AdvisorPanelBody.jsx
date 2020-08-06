@@ -12,7 +12,7 @@ import SinglePokLine from "./SinglePokLine"
 
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
 import { locale } from "../../../../locale/locale"
-import { typeDecoder, effectivenessData } from "../../../../js/indexFunctions"
+import { effectivenessData } from "../../../../js/indexFunctions"
 import { getCookie } from "../../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
@@ -49,7 +49,6 @@ class AdvisorPanelBody extends React.PureComponent {
                         key={"strongDef" + i}
                         class={"icon24 m-1"}
                         code={i}
-                        value={typeDecoder[i]}
                     />)
                     break
                 case multipl > 1:
@@ -57,7 +56,6 @@ class AdvisorPanelBody extends React.PureComponent {
                         key={"weakDef" + i}
                         class={"icon24 m-1"}
                         code={i}
-                        value={typeDecoder[i]}
                     />)
                     break
                 default:
@@ -104,7 +102,6 @@ class AdvisorPanelBody extends React.PureComponent {
                         key={"zeroOff" + i}
                         class={"icon24 m-1"}
                         code={i}
-                        value={typeDecoder[i]}
                     />)
                     break
                 case cumulative.toFixed(1) > 1:
@@ -112,7 +109,6 @@ class AdvisorPanelBody extends React.PureComponent {
                         key={"strongOff" + i}
                         class={"icon24 m-1"}
                         code={i}
-                        value={typeDecoder[i]}
                     />)
                     break
                 default:

@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization";
 import { useMediaQuery } from 'react-responsive'
 
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { typeDecoder, culculateCP } from "../../../js/indexFunctions"
+import { culculateCP } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
@@ -41,15 +41,13 @@ const IconBlock = React.memo(function (props) {
                         <div className="col-12 d-flex p-0 mt-1 dexFont">
                             <span className="dexFont align-self-center">{strings.mt.tp + ":"}</span>
                             <Type
-                                abbrStyle="initialism align-self-center"
-                                class={"ml-2  mr-1 icon24"}
+                                class={"ml-2  mr-1 icon24 align-self-center"}
                                 code={props.value.Type[0]}
-                                value={typeDecoder[props.value.Type[0]]} />
+                            />
                             {props.value.Type.length > 1 && <Type
-                                abbrStyle="initialism align-self-center"
-                                class={"ml-2  mr-1 icon24"}
+                                class={"ml-2  mr-1 icon24 align-self-center"}
                                 code={props.value.Type[1]}
-                                value={typeDecoder[props.value.Type[1]]} />}
+                            />}
                         </div>
                         <div className="col-12 dexFont p-0 mt-1">
                             {"Max CP: "}

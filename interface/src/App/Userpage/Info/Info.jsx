@@ -1,6 +1,6 @@
 import React from "react"
 import { getCookie } from "../../../js/getCookie"
-import { connect } from 'react-redux'
+import { connect } from "react-redux"
 
 import TimeConverter from "./TimeConverter"
 import Loader from "../../PvpRating/Loader"

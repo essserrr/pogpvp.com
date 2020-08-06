@@ -7,7 +7,6 @@ import { dexLocale } from "../../../locale/dexLocale"
 
 
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
-import { typeDecoder } from "../../../js/indexFunctions"
 import Type from "../../PvP/components/CpAndTypes/Type"
 
 
@@ -27,12 +26,10 @@ const EvoCard = React.memo(function (props) {
                 <Type
                     class={"icon18"}
                     code={props.pokTable[props.name].Type[0]}
-                    value={typeDecoder[props.pokTable[props.name].Type[0]]}
                 />
                 {props.pokTable[props.name].Type.length > 1 && <Type
                     class={"ml-2 icon18"}
                     code={props.pokTable[props.name].Type[1]}
-                    value={typeDecoder[props.pokTable[props.name].Type[1]]}
                 />}
             </div>
             <div className="col-12 p-0 mt-1">

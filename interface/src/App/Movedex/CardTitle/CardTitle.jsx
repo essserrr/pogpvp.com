@@ -1,7 +1,6 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
 
-import { typeDecoder } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import Type from "../../PvP/components/CpAndTypes/Type"
@@ -14,10 +13,9 @@ const CardTitle = React.memo(function (props) {
     return (
         <div className="row m-0 p-0 pb-1 mb-2 movecardTitle">
             <Type
-                abbrStyle="initialism align-self-center"
-                class={"ml-2  mr-1 icon24"}
+                class={"ml-2  mr-1 icon24 align-self-center"}
                 code={props.move.MoveType}
-                value={typeDecoder[props.move.MoveType]} />
+            />
             <h3 className={"align-self-center m-0"}>
                 {props.move.Title}
             </h3>

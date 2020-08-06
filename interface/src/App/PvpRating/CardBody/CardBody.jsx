@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization";
 
 
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { typeDecoder } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 
 import { locale } from "../../../locale/locale"
@@ -24,12 +23,10 @@ const CardBody = React.memo(function (props) {
                     {(props.pokemonTable[props.name].Type[0] !== undefined) && <Type
                         class={"icon18"}
                         code={props.pokemonTable[props.name].Type[0]}
-                        value={typeDecoder[props.pokemonTable[props.name].Type[0]]}
                     />}
                     {(props.pokemonTable[props.name].Type[1] !== undefined) && <Type
                         class={"ml-2 icon18"}
                         code={props.pokemonTable[props.name].Type[1]}
-                        value={typeDecoder[props.pokemonTable[props.name].Type[1]]}
                     />}
                 </div>
                 {strings.rating.avgRate + " " + props.entry.AvgRate} <br />
