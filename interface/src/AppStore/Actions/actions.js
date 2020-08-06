@@ -8,3 +8,9 @@ export const startLoading = () => ({
 export const endLoading = () => ({
     type: "END_LOADING",
 })
+
+
+export const setCustomMoves = value => ({
+    type: "SET_CUSTOM_MOVES",
+    value
+})
