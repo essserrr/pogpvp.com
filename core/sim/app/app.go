@@ -45,10 +45,11 @@ type PokemonsBaseEntry struct {
 type MoveBaseEntry struct {
 	PvpDurationSeconds float32
 
-	Stat     []string
-	Subject  string
-	Title    string
-	MoveType int
+	Stat         []string
+	MoveCategory string
+	Subject      string
+	Title        string
+	MoveType     int
 
 	PvpDamage   float32
 	Probability float32

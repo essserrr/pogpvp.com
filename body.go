@@ -1215,6 +1215,7 @@ func (a *App) initPvpSrv() *http.Server {
 	//user requests
 	router.Handle("/api/user/info", rootHandler{fetchUinfo, a})
 	router.Handle("/api/user/sessions", rootHandler{fetchUsessions, a})
+	router.Handle("/api/user/getmoves", rootHandler{getUserMoves, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)

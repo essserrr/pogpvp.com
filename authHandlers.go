@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"time"
 
+	appl "Solutions/pvpSimulator/core/sim/app"
 	users "Solutions/pvpSimulator/core/users"
 	mongocalls "Solutions/pvpSimulator/core/users/mongocalls"
 
@@ -486,6 +487,73 @@ func fetchUsessions(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
 	}
 	if err = respond(w, *sessions); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodPost {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	req := new(users.Request)
+	if err := parseBody(r, &req); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+	/*	sessions, err := mongocalls.GetUserSessions(app.mongo.client, req)
+		if err != nil {
+			go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+			discardCookie(w)
+			return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
+		}*/
+
+	pbj := appl.MoveBaseEntry{
+		Stat:               []string{},
+		Subject:            "",
+		Title:              "Tackle",
+		MoveCategory:       "Fast Move",
+		MoveType:           12,
+		PvpDamage:          3,
+		Probability:        0,
+		Cooldown:           500,
+		DamageWindow:       300,
+		DodgeWindow:        200,
+		PvpDurationSeconds: 0.5,
+		Damage:             5,
+		PvpEnergy:          2,
+		Energy:             5,
+		StageDelta:         0,
+		PvpDuration:        0,
+	}
+	/*obj := {
+		"Stat": [
+		 ""
+		],
+		"Subject": "",
+		"Title": "Tackle",
+		"MoveCategory": "Fast Move",
+		"MoveType": 12,
+		"PvpDamage": 3,
+		"Probability": 0,
+		"Cooldown": 500,
+		"DamageWindow": 300,
+		"DodgeWindow": 200,
+		"PvpDurationSeconds": 0.5,
+		"Damage": 5,
+		"PvpEnergy": 2,
+		"Energy": 5,
+		"StageDelta": 0,
+		"PvpDuration": 0
+	   }*/
+
+	if err := respond(w, map[string]appl.MoveBaseEntry{"Tackle": pbj}); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
