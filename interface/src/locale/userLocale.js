@@ -85,6 +85,10 @@ export const userLocale = {
             confnotok: "Password activation failed. Please try to reset your password once again or contact the site administrator",
         },
         moveconstr: {
+            add: "Add move",
+            changes: "Save changes",
+            umoves: "User moves",
+            constr: "Move constructor",
             err: {
                 wrong: "Wrong fromat of ",
                 larzero: " must be larger than zero",
@@ -252,6 +256,10 @@ export const userLocale = {
             confnotok: "Активация пароля закончилась ошибкой. Пожалуйста повторите процедуру сброса пароля или свяжитесь с администрацией сайта",
         },
         moveconstr: {
+            add: "Добавить умение",
+            changes: "Сохранить изменения",
+            umoves: "Умения пользователя",
+            constr: "Конструктор умений",
             err: {
 
                 wrong: "Неверный формат ",
