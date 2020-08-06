@@ -12,20 +12,12 @@ export const getMoves = () => {
                     headers: { "Content-Type": "application/json", },
                     body: JSON.stringify({ AccessToken: state.session.jwt })
                 }).then(resp => {
-                    if (!resp) {
-                        return
-                    }
+                    if (!resp) { throw new Error("No response") }
                     return resp.json()
                 })
                     .then(data => {
-                        if (!data) {
-                            dispatch({ type: "SET_CUSTOM_MOVES", value: {}, })
-                            return
-                        }
-                        if (data.detail) {
-                            dispatch({ type: "SET_CUSTOM_MOVES", value: {}, })
-                            return
-                        }
+                        if (!data) { throw new Error("No response") }
+                        if (data.detail) { throw data.detail }
                         dispatch({ type: "SET_CUSTOM_MOVES", value: data })
 
                     }).catch(r => {

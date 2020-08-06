@@ -212,6 +212,7 @@ class CommonPve extends React.PureComponent {
 
 
     submitForm = async event => {
+        event.preventDefault()
         //make server pvp request
         let snapshot = {
             attackerObj: { ...this.state.attackerObj },
@@ -219,56 +220,42 @@ class CommonPve extends React.PureComponent {
             pveObj: { ...this.state.pveObj },
         }
         let url = encodePveAttacker(this.state.attackerObj) + "/" + encodePveBoss(this.state.bossObj) + "/" + encodePveObj(this.state.pveObj)
-        event.preventDefault();
         this.setState({
             loading: true,
-        });
-        let reason = ""
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-            },
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+        })
+
+
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
+
+            this.props.changeUrl("/pve/common/" + url)
+            this.setState({
+                showResult: true,
+                isError: false,
+                loading: false,
+
+                date: Date.now(),
+                result: result,
+                snapshot: snapshot,
+
+                url: window.location.href,
+            })
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason),
-            });
-            return
+                error: String(e),
+            })
         }
-        //parse answer
-        const data = await response.json();
-        //if response is not ok, handle error
-        if (!response.ok) {
-            this.setState({
-                showResult: false,
-                isError: true,
-                loading: false,
-                error: data.detail,
-            });
-            return;
-        }
-        //otherwise set state
-        this.props.changeUrl("/pve/common/" + url)
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-
-            date: Date.now(),
-            result: data,
-            snapshot: snapshot,
-
-            url: window.location.href,
-        });
-    };
+    }
 
     onClick(event) {
         let role = event.target.getAttribute("attr")

@@ -112,51 +112,38 @@ class Restore extends React.Component {
     }
 
     async restorePass(resetCaptcha) {
-        let reason = ""
         this.setState({
             loading: true,
             error: "",
             ok: false,
         })
 
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
-            process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/restore", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(this.state.inputs)
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
-            resetCaptcha()
-            this.setState({
-                loading: false,
-                error: String(reason),
-            });
-            return
-        }
-        //parse answer
-        const data = await response.json();
-        //if response is not ok, handle error
-        if (!response.ok) {
-            resetCaptcha()
-            this.setState({
-                loading: false,
-                error: data.detail,
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/restore", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify(this.state.inputs)
             })
-            return
-        }
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
 
-        resetCaptcha()
-        this.setState({
-            ok: true,
-            loading: false,
-            inputs: { email: "", token: "" },
-        })
+            resetCaptcha()
+            this.setState({
+                ok: true,
+                loading: false,
+                inputs: { email: "", token: "" },
+            })
+        } catch (e) {
+            resetCaptcha()
+            this.setState({
+                loading: false,
+                error: String(e),
+            })
+        }
     }
 
     render() {

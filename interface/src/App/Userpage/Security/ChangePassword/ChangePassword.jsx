@@ -101,54 +101,43 @@ class ChangePassword extends React.PureComponent {
     }
 
     async chPass() {
-        let reason = ""
         this.setState({
             loading: true,
             error: "",
             ok: false,
         })
 
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
-            process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/chpass", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(this.state.form)
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
-            this.setState({
-                loading: false,
-                error: String(reason),
-            });
-            return
-        }
-        //parse answer
-        const data = await response.json();
-        //if response is not ok, handle error
-        if (!response.ok) {
-            this.setState({
-                loading: false,
-                error: data.detail,
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/chpass", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify(this.state.form)
             })
-            return
-        }
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
 
-        this.setState({
-            loading: false,
-            ok: true,
-            form: {
-                password: "",
-                checkPassword: "",
-                newPassword: "",
-            },
-        })
-        await new Promise(res => setTimeout(res, 2500));
-        this.setState({ ok: false })
+            this.setState({
+                loading: false,
+                ok: true,
+                form: {
+                    password: "",
+                    checkPassword: "",
+                    newPassword: "",
+                },
+            })
+            await new Promise(res => setTimeout(res, 2500));
+            this.setState({ ok: false })
+
+        } catch (e) {
+            this.setState({
+                loading: false,
+                error: String(e),
+            })
+        }
     }
 
 

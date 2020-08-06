@@ -18,30 +18,14 @@ export const refresh = () => {
                     process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/refresh", {
                     method: "GET",
                     credentials: "include",
-                    headers: {
-                        "Content-Type": "application/json",
-                    }
+                    headers: { "Content-Type": "application/json", }
                 }).then(resp => {
-                    if (!resp) {
-                        return
-                    }
+                    if (!resp) { return }
                     return resp.json()
                 })
                     .then(data => {
-                        if (!data) {
-                            dispatch({
-                                type: "SET_SESSION",
-                                value: { token: "", expires: "", uname: "" }
-                            })
-                            return
-                        }
-                        if (data.detail) {
-                            dispatch({
-                                type: "SET_SESSION",
-                                value: { token: "", expires: "", uname: "" }
-                            })
-                            return
-                        }
+                        if (!data) { throw new Error("No response") }
+                        if (data.detail) { throw data.detail }
                         dispatch({
                             type: "SET_SESSION",
                             value: { token: data.Token, expires: data.Expires, uname: data.Username }
@@ -57,7 +41,6 @@ export const refresh = () => {
             default:
                 dispatch({
                     type: "END_LOADING",
-                    value: { token: "", expires: "", uname: "" }
                 })
                 return
         }

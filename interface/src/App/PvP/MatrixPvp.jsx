@@ -316,63 +316,55 @@ class MatrixPvp extends React.PureComponent {
             advDisabled: true,
             loading: true,
         })
-        let reason = ""
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/matrix", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-                "Pvp-Type": pvpoke ? "pvpoke" : "normal",
-                "Pvp-Shields": triple ? "triple" : "normal",
-            },
-            body: JSON.stringify({ Party1: this.state.leftPanel.listForBattle, Party2: this.state.rightPanel.listForBattle, })
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/matrix", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
+                    "Pvp-Type": pvpoke ? "pvpoke" : "normal",
+                    "Pvp-Shields": triple ? "triple" : "normal",
+                },
+                body: JSON.stringify({ Party1: this.state.leftPanel.listForBattle, Party2: this.state.rightPanel.listForBattle, })
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
+
+            //otherwise set state
+            switch (triple) {
+                case true:
+                    var arr = this.pvpTriple(result, pvpoke ? "/pvpoke" : "")
+                    break
+                default:
+                    arr = this.pvpSingle(result[0], pvpoke ? "/pvpoke" : "")
+            }
+            let tableBody = this.makeTable(arr)
+
+            this.setState({
+                showResult: true,
+                isError: false,
+                loading: false,
+                result: tableBody,
+                rawResult: arr,
+                pvpData: result,
+
+                advisorList: undefined,
+                advDisabled: advDisabled,
+            })
+
+        } catch (e) {
             this.setState({
                 advDisabled: true,
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason)
-            });
-            return
+                error: String(e)
+            })
         }
-        let data = await response.json();
-
-        if (!response.ok) {
-            this.setState({
-                advDisabled: true,
-                showResult: false,
-                isError: true,
-                loading: false,
-                error: data.detail
-            });
-            return;
-        }
-        switch (triple) {
-            case true:
-                var arr = this.pvpTriple(data, pvpoke ? "/pvpoke" : "")
-                break
-            default:
-                arr = this.pvpSingle(data[0], pvpoke ? "/pvpoke" : "")
-        }
-        let tableBody = this.makeTable(arr)
-
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-            result: tableBody,
-            rawResult: arr,
-            pvpData: data,
-
-            advisorList: undefined,
-            advDisabled: advDisabled,
-        });
-    };
+    }
 
 
 

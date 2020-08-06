@@ -30,46 +30,31 @@ class NewsWrap extends React.Component {
         this.setState({
             loading: true,
         })
-        let reason = ""
-        let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/id/" + this.props.match.params.id, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-            },
-        }).catch(function (r) {
-            reason = r
-            return
-        });
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/id/" + this.props.match.params.id, {
+                method: "GET",
+                headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
 
-        if (reason !== "") {
+            //otherwise set state
+            this.setState({
+                showResult: true,
+                isError: false,
+                loading: false,
+                news: JSON.parse(result[0]),
+            })
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason)
-            });
-            return
+                error: String(e)
+            })
         }
-
-        let result = await response.json()
-        if (!response.ok) {
-            this.setState({
-                error: result.detail,
-                showResult: false,
-                isError: true,
-                loading: false,
-            });
-            return;
-        }
-
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-            news: JSON.parse(result[0]),
-        });
-
     }
 
 

@@ -40,64 +40,47 @@ class ShinyRates extends React.Component {
         this.setState({
             loading: true,
         })
-        let fetches = [
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/shiny", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-        ];
-        let reason = ""
-        let responses = await Promise.all(fetches).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+        try {
+            let fetches = [
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/shiny", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+            ]
+
+            let responses = await Promise.all(fetches)
+
+            let parses = [
+                responses[0].json(),
+                responses[1].json(),
+            ]
+
+            let results = await Promise.all(parses)
+
+            for (let i = 0; i < responses.length; i++) { if (!responses[i].ok) { throw results[i].detail } }
+
+            let list = this.parseShinyRates(results[1], results[0])
+            this.setState({
+                showResult: true,
+                isError: false,
+                loading: false,
+                pokTable: results[0],
+                shinyRates: list,
+                pokList: list,
+            })
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason)
-            });
-            return
+                error: String(e)
+            })
         }
 
-        let parses = [
-            responses[0].json(),
-            responses[1].json(),
-        ]
-        let results = await Promise.all(parses)
-
-        for (let i = 0; i < responses.length; i++) {
-            if (!responses[i].ok) {
-                this.setState({
-                    error: results[i].detail,
-                    showResult: false,
-                    loading: false,
-                    isError: true,
-                });
-                return;
-            }
-        }
-
-        let list = this.parseShinyRates(results[1], results[0])
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-            pokTable: results[0],
-            shinyRates: list,
-            pokList: list,
-        });
     }
 
     //generator function

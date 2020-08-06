@@ -25,27 +25,22 @@ class Confirmation extends React.Component {
     }
 
     async componentDidMount() {
-        let reason = ""
 
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
-            process.env.REACT_APP_LOCALHOST :
-            process.env.REACT_APP_PRERENDER) + "/api/auth/confirm/" + this.props.match.params.type, {
-            method: "GET",
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
-            this.setState({ loading: false, error: true, })
-            return
-        }
-        //if response is not ok, handle error
-        if (!response.ok) {
-            this.setState({ loading: false, error: true, })
-            return
-        }
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST :
+                process.env.REACT_APP_PRERENDER) + "/api/auth/confirm/" + this.props.match.params.type, {
+                method: "GET",
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
 
-        this.setState({ ok: true, loading: false, })
+            this.setState({ ok: true, loading: false, })
+        } catch (e) {
+            this.setState({ loading: false, error: true, })
+        }
     }
 
 

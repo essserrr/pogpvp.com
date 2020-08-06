@@ -32,31 +32,26 @@ class Sessions extends React.PureComponent {
             error: "",
         })
 
-        fetch(((navigator.userAgent !== "ReactSnap") ?
-            process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/logout/all", {
-            method: "GET",
-            credentials: "include",
-            headers: { "Content-Type": "application/json", }
-        }).then((resp) => resp.json())
-            .then((data) => {
-                switch (!data.detail) {
-                    case true:
-                        this.props.setSession({ token: "", expires: 0, uname: "" })
-                        return
-                    default:
-                        this.setState({
-                            error: data.detail,
-                            loading: false,
-                        })
-                }
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/logout/all", {
+                method: "GET",
+                credentials: "include",
+                headers: { "Content-Type": "application/json", }
             })
-            .catch((e) => {
-                this.setState({
-                    error: e,
-                    loading: false,
-                })
-            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
 
+            this.props.setSession({ token: "", expires: 0, uname: "" })
+
+        } catch (e) {
+            this.setState({
+                error: e,
+                loading: false,
+            })
+        }
     }
 
     render() {

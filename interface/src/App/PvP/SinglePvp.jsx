@@ -340,73 +340,58 @@ class SinglePvp extends React.PureComponent {
 
 
     submitForm = async event => {
-        //make server pvp request
+        event.preventDefault()
         let url = this.props.parentState.league + "/" + encodeQueryData(this.state.attacker) + "/" + encodeQueryData(this.state.defender)
-        event.preventDefault();
         this.setState({
             loading: true,
         });
-        let reason = ""
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/single/" + url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-                "Pvp-Type": this.props.parentState.pvpoke ? "pvpoke" : "normal",
-            },
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+        try {
+            const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/single/" + url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
+                    "Pvp-Type": this.props.parentState.pvpoke ? "pvpoke" : "normal",
+                },
+            })
+            //parse answer
+            const data = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw data.detail }
+
+            //otherwise set state
+            this.props.changeUrl("/pvp/single/" + url + (this.props.parentState.pvpoke ? "/pvpoke" : ""))
+            this.setState({
+                showResult: true,
+                isError: false,
+                loading: false,
+                result: data,
+                attacker: {
+                    ...this.state.attacker,
+                    HP: processHP(data.Attacker.HP),
+                    Energy: data.Attacker.EnergyRemained,
+                },
+                defender: {
+                    ...this.state.defender,
+                    HP: processHP(data.Defender.HP),
+                    Energy: data.Defender.EnergyRemained,
+                },
+                url: window.location.href,
+                lastChangesAt: 0,
+                stateModified: false,
+            });
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason),
+                error: String(e),
 
                 lastChangesAt: 0,
                 stateModified: false,
-            });
-            return
+            })
         }
-        //parse answer
-        const data = await response.json();
-        //if response is not ok, handle error
-        if (!response.ok) {
-            this.setState({
-                showResult: false,
-                isError: true,
-                loading: false,
-                error: data.detail,
-
-                lastChangesAt: 0,
-                stateModified: false,
-            });
-            return;
-        }
-        //otherwise set state
-        this.props.changeUrl("/pvp/single/" + url + (this.props.parentState.pvpoke ? "/pvpoke" : ""))
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-            result: data,
-            attacker: {
-                ...this.state.attacker,
-                HP: processHP(data.Attacker.HP),
-                Energy: data.Attacker.EnergyRemained,
-            },
-            defender: {
-                ...this.state.defender,
-                HP: processHP(data.Defender.HP),
-                Energy: data.Defender.EnergyRemained,
-            },
-            url: window.location.href,
-            lastChangesAt: 0,
-            stateModified: false,
-        });
-    };
+    }
 
     onMouseEnter(event) {
         let dataFor = event.target.getAttribute("data-for")
@@ -529,40 +514,58 @@ class SinglePvp extends React.PureComponent {
                 ...this.state.constructor,
                 showMenu: false,
             },
-        });
+        })
 
-        let requestObj = {
-            Attacker: { ...this.state.attacker },
-            Defender: { ...this.state.defender },
-            Constructor: constr,
-        }
+        let requestObj = { Attacker: { ...this.state.attacker }, Defender: { ...this.state.defender }, Constructor: constr, }
+        this.setUpConstructorObj(requestObj.Attacker, this.state.constructor.agregatedParams.Attacker, this.state.result.Log[this.state.constructor.isSelected - 1].Attacker)
+        this.setUpConstructorObj(requestObj.Defender, this.state.constructor.agregatedParams.Defender, this.state.result.Log[this.state.constructor.isSelected - 1].Defender)
 
-        this.setUpConstructorObj(requestObj.Attacker,
-            this.state.constructor.agregatedParams.Attacker,
-            this.state.result.Log[this.state.constructor.isSelected - 1].Attacker);
-        this.setUpConstructorObj(requestObj.Defender,
-            this.state.constructor.agregatedParams.Defender,
-            this.state.result.Log[this.state.constructor.isSelected - 1].Defender);
+        try {
+            const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/constructor", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
+                    "Pvp-Type": this.props.parentState.pvpoke ? "pvpoke" : "normal",
+                },
+                body: JSON.stringify(requestObj)
+            })
+            //parse answer
+            const data = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw data.detail }
 
-        let reason = ""
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/constructor", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-                "Pvp-Type": this.props.parentState.pvpoke ? "pvpoke" : "normal",
-            },
-            body: JSON.stringify(requestObj)
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+            data.Log = [...this.state.result.Log.slice(0, this.state.constructor.isSelected), ...data.Log.slice(1)]
+
+            this.setState({
+                showResult: true,
+                isError: false,
+                loading: false,
+                result: data,
+                attacker: {
+                    ...this.state.attacker,
+                    HP: processHP(data.Attacker.HP),
+                    Energy: data.Attacker.EnergyRemained,
+                },
+                defender: {
+                    ...this.state.defender,
+                    HP: processHP(data.Defender.HP),
+                    Energy: data.Defender.EnergyRemained,
+                },
+                constructor: {
+                    ...this.state.constructor,
+                    showMenu: false,
+                    isSelected: undefined,
+                    agregatedParams: {},
+                },
+                lastChangesAt: this.state.constructor.isSelected,
+            })
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason),
+                error: String(e),
                 constructor: {
                     ...this.state.constructor,
                     showMenu: false,
@@ -570,67 +573,7 @@ class SinglePvp extends React.PureComponent {
                     agregatedParams: {},
                 },
             });
-            return
         }
-        let data = await response.json();
-
-        if (!response.ok) {
-            if (data.detail === "PvP error") {
-                this.setState({
-                    showResult: false,
-                    isError: true,
-                    loading: false,
-                    error: data.case.What,
-                    constructor: {
-                        ...this.state.constructor,
-                        showMenu: false,
-                        isSelected: undefined,
-                        agregatedParams: {},
-                    },
-                });
-                return;
-            }
-            this.setState({
-                showResult: false,
-                isError: true,
-                loading: false,
-                error: data.detail,
-                constructor: {
-                    ...this.state.constructor,
-                    showMenu: false,
-                    isSelected: undefined,
-                    agregatedParams: {},
-                },
-            });
-            return;
-        }
-
-
-        data.Log = [...this.state.result.Log.slice(0, this.state.constructor.isSelected), ...data.Log.slice(1)]
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-            result: data,
-            attacker: {
-                ...this.state.attacker,
-                HP: processHP(data.Attacker.HP),
-                Energy: data.Attacker.EnergyRemained,
-            },
-            defender: {
-                ...this.state.defender,
-                HP: processHP(data.Defender.HP),
-                Energy: data.Defender.EnergyRemained,
-            },
-            constructor: {
-                ...this.state.constructor,
-                showMenu: false,
-                isSelected: undefined,
-                agregatedParams: {},
-            },
-            lastChangesAt: this.state.constructor.isSelected,
-        });
-
     }
 
     onClick(event) {

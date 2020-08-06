@@ -32,31 +32,26 @@ class Info extends React.PureComponent {
         })
         await this.props.refresh()
 
-        let reason = ""
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
-            process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/info", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", },
-            body: JSON.stringify({ AccessToken: this.props.session.jwt })
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
-            this.setState({ error: String(reason), loading: false, })
-            return
-        }
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/info", {
+                method: "POST",
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify({ AccessToken: this.props.session.jwt })
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
 
-        let data = await response.json()
-        if (!response.ok) {
-            this.setState({ error: data.detail, loading: false, });
-            return
-        }
+            this.setState({
+                uInfo: result,
+                loading: false,
+            })
 
-        this.setState({
-            uInfo: data,
-            loading: false,
-        })
+        } catch (e) {
+            this.setState({ error: String(e), loading: false, })
+        }
     }
 
 

@@ -168,52 +168,40 @@ class Registration extends React.Component {
     }
 
     async register(resetCaptcha) {
-        let reason = ""
         this.setState({
             loading: true,
             error: "",
         })
 
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
-            process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/reg", {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(this.state.inputs)
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
-            resetCaptcha()
-            this.setState({
-                loading: false,
-                error: String(reason),
-            });
-            return
-        }
-        //parse answer
-        const data = await response.json();
-        //if response is not ok, handle error
-        if (!response.ok) {
-            resetCaptcha()
-            this.setState({
-                loading: false,
-                error: data.detail,
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/reg", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify(this.state.inputs)
             })
-            return
-        }
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
 
-        //otherwise set token
-        switch (!data.Token) {
-            case true:
-                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
-                break
-            default:
-                this.props.setSession({ token: data.Token, expires: data.Expires, uname: data.Username })
-                this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile/info"))
+            //otherwise set token
+            switch (!result.Token) {
+                case true:
+                    this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
+                    break
+                default:
+                    this.props.setSession({ token: result.Token, expires: result.Expires, uname: result.Username })
+                    this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile/info"))
+            }
+
+        } catch (e) {
+            resetCaptcha()
+            this.setState({
+                loading: false,
+                error: String(e),
+            })
         }
     }
 

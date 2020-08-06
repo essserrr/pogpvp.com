@@ -98,45 +98,32 @@ class PveResEntry extends React.PureComponent {
         this.setState({
             loading: true,
         });
-        let reason = ""
-        const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-            },
-        })
-            .catch(function (r) {
-                reason = r
-                return
+
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
+                method: "GET",
+                headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
+
+            //otherwise set state
+            this.setState({
+                isError: false,
+                loading: false,
             });
-        if (reason !== "") {
+
+            this.props.raplace(result, this.props.i)
+
+        } catch (e) {
             this.setState({
                 isError: true,
                 loading: false,
-                error: String(reason),
-            });
-            return
+                error: String(e),
+            })
         }
-        //parse answer
-        const data = await response.json();
-        //if response is not ok, handle error
-        if (!response.ok) {
-            this.setState({
-                isError: true,
-                loading: false,
-                error: data.detail,
-            });
-            return;
-        }
-
-        //otherwise set state
-        this.setState({
-            isError: false,
-            loading: false,
-        });
-
-        this.props.raplace(data, this.props.i)
     }
 
     defineBreakpoints() {

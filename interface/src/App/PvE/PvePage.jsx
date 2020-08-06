@@ -85,45 +85,98 @@ class PvePage extends React.Component {
         this.setState({
             loading: true,
         })
-
         let extrData = extractRaidData(party, boss, obj)
         //after opening the page get pokemonBase
-        let fetches = [
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-        ];
-        if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
-            fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST :
-                process.env.REACT_APP_PRERENDER) + window.location.pathname.replace("pve", "request"), {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }))
-        }
-        let reason = ""
-        let responses = await Promise.all(fetches).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
 
+        try {
+            let fetches = [
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+            ]
+            if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
+                fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST :
+                    process.env.REACT_APP_PRERENDER) + window.location.pathname.replace("pve", "request"), {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }))
+            }
+
+            let responses = await Promise.all(fetches)
+
+            let parses = [
+                responses[0].json(),
+                responses[1].json(),
+            ]
+            if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
+                parses.push(responses[2].json())
+            }
+
+            let results = await Promise.all(parses)
+
+            let pokList = []
+            if (results[0]) { pokList = returnPokList(results[0], true, strings.options.moveSelect.none) }
+
+            let movebaseSeparated = []
+            if (results[1]) { movebaseSeparated = separateMovebase(results[1]) }
+
+
+            for (let i = 0; i < responses.length; i++) {
+                if (!responses[i].ok) {
+                    this.setState({
+                        isError: true,
+                        error: results[i].detail,
+                        isLoaded: true,
+                        showResult: false,
+                        loading: false,
+
+                        pokemonTable: (results[0]) ? results[0] : [],
+                        moveTable: (results[1]) ? results[1] : [],
+                        pokList: (pokList) ? pokList : [],
+                        chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
+                        quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
+                    })
+                    return
+                }
+            }
+
+            if (extrData.attackerObj !== undefined) {
+                var attackerObj = this.setUpPokemon(extractPveAttacker(extrData.attackerObj), results[0])
+            }
+            if (extrData.bossObj !== undefined) {
+                var bossObj = this.setUpPokemon(extractPveBoss(extrData.bossObj), results[0], true)
+            }
+            if (extrData.pveObj !== undefined) {
+                var pveObj = extractPveObj(extrData.pveObj)
+            }
+            this.setState({
+                attackerObj: attackerObj,
+                bossObj: bossObj,
+                pveObj: pveObj,
+
+                date: (results[2]) ? Date.now() : 1,
+                pveResult: results[2],
+                showResult: (results[2]) ? true : false,
+                url: window.location.href,
+
+                pokemonTable: results[0],
+                moveTable: results[1],
+                pokList: pokList,
+                chargeMoveList: movebaseSeparated.chargeMoveList,
+                quickMoveList: movebaseSeparated.quickMoveList,
+                isLoaded: true,
+                loading: false,
+            })
+
+        } catch (e) {
             this.setState({
                 isError: true,
-                error: String(reason),
+                error: String(e),
                 isLoaded: true,
                 showResult: false,
                 loading: false,
@@ -133,76 +186,8 @@ class PvePage extends React.Component {
                 pokList: [],
                 chargeMoveList: [],
                 quickMoveList: [],
-            });
-            return
+            })
         }
-
-        let parses = [
-            responses[0].json(),
-            responses[1].json(),
-        ]
-        if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
-            parses.push(responses[2].json())
-        }
-        let results = await Promise.all(parses)
-
-        let pokList = [];
-        if (results[0]) {
-            pokList = returnPokList(results[0], true, strings.options.moveSelect.none)
-
-        }
-
-        let movebaseSeparated = [];
-        if (results[1]) {
-            movebaseSeparated = separateMovebase(results[1])
-        }
-
-        for (let i = 0; i < responses.length; i++) {
-            if (!responses[i].ok) {
-                this.setState({
-                    isError: true,
-                    error: results[i].detail,
-                    isLoaded: true,
-                    showResult: false,
-                    loading: false,
-
-                    pokemonTable: (results[0]) ? results[0] : [],
-                    moveTable: (results[1]) ? results[1] : [],
-                    pokList: (pokList) ? pokList : [],
-                    chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
-                    quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
-                });
-                return;
-            }
-        }
-
-        if (extrData.attackerObj !== undefined) {
-            var attackerObj = this.setUpPokemon(extractPveAttacker(extrData.attackerObj), results[0])
-        }
-        if (extrData.bossObj !== undefined) {
-            var bossObj = this.setUpPokemon(extractPveBoss(extrData.bossObj), results[0], true)
-        }
-        if (extrData.pveObj !== undefined) {
-            var pveObj = extractPveObj(extrData.pveObj)
-        }
-        this.setState({
-            attackerObj: attackerObj,
-            bossObj: bossObj,
-            pveObj: pveObj,
-
-            date: (results[2]) ? Date.now() : 1,
-            pveResult: results[2],
-            showResult: (results[2]) ? true : false,
-            url: window.location.href,
-
-            pokemonTable: results[0],
-            moveTable: results[1],
-            pokList: pokList,
-            chargeMoveList: movebaseSeparated.chargeMoveList,
-            quickMoveList: movebaseSeparated.quickMoveList,
-            isLoaded: true,
-            loading: false,
-        });
     }
 
     setUpPokemon(pok, pokemonTable, isBoss) {

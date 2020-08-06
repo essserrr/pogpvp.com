@@ -38,75 +38,50 @@ class MoveCard extends React.Component {
         this.setState({
             loading: true,
         })
-        let fetches = [
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-        ];
-        let reason = ""
-        let responses = await Promise.all(fetches).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
-            this.setState({
-                showResult: false,
-                isError: true,
-                loading: false,
-                error: String(reason)
-            });
-            return
-        }
+        try {
+            let fetches = [
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+            ];
 
-        let parses = [
-            responses[0].json(),
-            responses[1].json(),
-        ]
-        let results = await Promise.all(parses)
+            let responses = await Promise.all(fetches)
 
-        for (let i = 0; i < responses.length; i++) {
-            if (!responses[i].ok) {
-                this.setState({
-                    error: results[i].detail,
-                    showResult: false,
-                    loading: false,
-                    isError: true,
-                });
-                return;
+            let parses = [
+                responses[0].json(),
+                responses[1].json(),
+            ]
+            let results = await Promise.all(parses)
+
+            for (let i = 0; i < responses.length; i++) {
+                if (!responses[i].ok) { throw results[i].detail }
             }
-        }
+            //if error input somehow
+            if (!results[0][this.props.match.params.id]) { throw strings.moveerr }
 
-        //if error imput somehow
-        if (!results[0][this.props.match.params.id]) {
             this.setState({
-                error: strings.moveerr,
-                showResult: false,
+                showResult: true,
+                isError: false,
                 loading: false,
+
+                pokTable: results[1],
+                moveTable: results[0],
+                move: results[0][this.props.match.params.id],
+            })
+
+        } catch (e) {
+            this.setState({
+                showResult: false,
                 isError: true,
-            });
-            return
+                loading: false,
+                error: String(e)
+            })
         }
-
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-
-            pokTable: results[1],
-            moveTable: results[0],
-            move: results[0][this.props.match.params.id],
-        });
     }
 
     onClick(event) {

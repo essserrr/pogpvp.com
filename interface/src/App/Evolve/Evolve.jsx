@@ -44,48 +44,33 @@ class Evolve extends React.Component {
         this.setState({
             loading: true,
         })
-        //get pok base
-        let reason = ""
-        let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-            },
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                method: "GET",
+                headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+            })
+            //parse answer
+            const data = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw data.detail }
+
+            //otherwise set state
+            this.setState({
+                showResult: true,
+                isError: false,
+                loading: false,
+                pokCanEvolve: this.pokWithEvo(data),
+                pokemonTable: data,
+            })
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason)
-            });
-            return
+                error: String(e)
+            })
         }
-
-        let result = await response.json()
-
-        if (!response.ok) {
-            this.setState({
-                error: result.detail,
-                showResult: false,
-                loading: false,
-                isError: true,
-            });
-            return;
-        }
-
-
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-            pokCanEvolve: this.pokWithEvo(result),
-            pokemonTable: result,
-        });
     }
 
     pokWithEvo(result) {

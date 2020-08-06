@@ -81,96 +81,67 @@ class PokeCard extends React.Component {
         this.setState({
             loading: true,
         })
-        let fetches = [
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/misc", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-        ];
-        let reason = ""
-        let responses = await Promise.all(fetches).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
-            this.setState({
-                showResult: false,
-                isError: true,
-                loading: false,
-                error: String(reason)
-            });
-            return
-        }
+        try {
+            let fetches = [
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/misc", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+            ];
 
-        let parses = [
-            responses[0].json(),
-            responses[1].json(),
-            responses[2].json(),
-        ]
-        let results = await Promise.all(parses)
+            let responses = await Promise.all(fetches)
 
-        for (let i = 0; i < responses.length; i++) {
-            if (!responses[i].ok) {
-                this.setState({
-                    error: results[i].detail,
-                    showResult: false,
-                    loading: false,
-                    isError: true,
-                });
-                return;
+            let parses = [
+                responses[0].json(),
+                responses[1].json(),
+                responses[2].json(),
+            ]
+            let results = await Promise.all(parses)
+
+            for (let i = 0; i < responses.length; i++) {
+                if (!responses[i].ok) { throw results[i].detail }
             }
-        }
-        //if error input somehow
 
-        let id = decodeURIComponent(this.props.match.params.id)
-        if (!results[1][id]) {
+            //if error input somehow
+            let id = decodeURIComponent(this.props.match.params.id)
+            if (!results[1][id]) { throw strings.pokerr }
+
+            //otherwise process results
+            let scrollList = this.makeList(results[1])
+            let position = this.findPosition(id, Number(results[1][id].Number) - 1, scrollList)
+
             this.setState({
-                error: strings.pokerr,
-                showResult: false,
+                showResult: true,
+                isError: false,
                 loading: false,
-                isError: true,
+
+                scrollList: scrollList,
+                position: position,
+
+                moveTable: results[0],
+                pokTable: results[1],
+                miscTable: results[2],
+
+                pok: results[1][id],
+                pokMisc: results[2].Misc[id],
             });
-            return
+
+        } catch (e) {
+            this.setState({
+                showResult: false,
+                isError: true,
+                loading: false,
+                error: String(e)
+            })
         }
-
-
-        let scrollList = this.makeList(results[1])
-
-        let position = this.findPosition(id, Number(results[1][id].Number) - 1,
-            scrollList)
-
-        this.setState({
-            showResult: true,
-            isError: false,
-            loading: false,
-
-            scrollList: scrollList,
-            position: position,
-
-            moveTable: results[0],
-            pokTable: results[1],
-            miscTable: results[2],
-
-            pok: results[1][id],
-            pokMisc: results[2].Misc[id],
-        });
     }
 
     findPosition(name, number, list) {

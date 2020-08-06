@@ -4,9 +4,7 @@ export const logout = () => {
             process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/logout", {
             method: "GET",
             credentials: "include",
-            headers: {
-                "Content-Type": "application/json",
-            }
+            headers: { "Content-Type": "application/json", }
         })
             .then(() => {
                 dispatch({
@@ -15,13 +13,7 @@ export const logout = () => {
                 })
 
             })
-            .then(() => {
-                dispatch({
-                    type: "SET_SESSION",
-                    value: { token: "", expires: 0, uname: "" }
-                })
-
-            }).catch(() => {
+            .catch(() => {
                 dispatch({
                     type: "SET_SESSION",
                     value: { token: "", expires: 0, uname: "" }

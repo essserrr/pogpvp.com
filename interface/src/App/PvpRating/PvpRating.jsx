@@ -108,80 +108,62 @@ class PvpRating extends React.Component {
             combination: defaultType,
             loading: true,
         })
+        try {
+            let fetches = [
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + defaultPath, {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                }),
+            ]
 
-        let fetches = [
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + defaultPath, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-            fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept-Encoding": "gzip",
-                },
-            }),
-        ];
-        let reason = ""
-        let responses = await Promise.all(fetches).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+            let responses = await Promise.all(fetches)
+
+            let parses = [
+                responses[0].json(),
+                responses[1].json(),
+                responses[2].json(),
+            ]
+
+            let results = await Promise.all(parses)
+
+            for (let i = 0; i < responses.length; i++) {
+                if (!responses[i].ok) { throw results[i].detail }
+
+                let ratingList = this.returnRatingList(results[1], results[0], results[2])
+                this.setState({
+                    n: 75,
+                    isNextPage: results[1].length - 75 > 0,
+
+                    showResult: true,
+                    isError: false,
+                    loading: false,
+
+                    pokemonTable: results[0],
+                    rawData: results[1],
+                    moveTable: results[2],
+
+                    ratingList: ratingList,
+                    listToShow: ratingList.slice(0, 75),
+                })
+            }
+
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason)
-            });
-            return
+                error: String(e)
+            })
         }
 
-        let parses = [
-            responses[0].json(),
-            responses[1].json(),
-            responses[2].json(),
-        ]
-        let results = await Promise.all(parses)
-
-        for (let i = 0; i < responses.length; i++) {
-            if (!responses[i].ok) {
-                this.setState({
-                    error: results[i].detail,
-                    showResult: false,
-                    loading: false,
-                    isError: true,
-                });
-                return
-            }
-        }
-
-        let ratingList = this.returnRatingList(results[1], results[0], results[2])
-        this.setState({
-            n: 75,
-            isNextPage: results[1].length - 75 > 0,
-
-            showResult: true,
-            isError: false,
-            loading: false,
-
-            pokemonTable: results[0],
-            rawData: results[1],
-            moveTable: results[2],
-
-            ratingList: ratingList,
-            listToShow: ratingList.slice(0, 75),
-        });
     }
 
 
@@ -296,54 +278,46 @@ class PvpRating extends React.Component {
 
         });
 
-        let reason = ""
-        //fecth for new rating result
-        let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + typeOfrating, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-            },
-        }).catch(function (r) {
-            reason = r
-            return
-        });
-        if (reason !== "") {
+
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + typeOfrating, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "gzip",
+                },
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
+
+            let ratingList = this.returnRatingList(result, this.state.pokemonTable, this.state.moveTable)
+
+            this.props.history.push("/pvprating/" + leaguePath.toLowerCase() + "/" + typePath)
+            this.setState({
+                n: 75,
+                isNextPage: result.length - 75 > 0,
+
+                showResult: true,
+                isError: false,
+                loading: false,
+                searchState: false,
+
+                ratingList: ratingList,
+                listToShow: ratingList.slice(0, 75),
+            })
+
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason)
-            });
-            return
+                error: String(e)
+            })
         }
-        let data = await response.json();
-        if (!response.ok) {
-            this.setState({
-                error: data.detail,
-                showResult: false,
-                loading: false,
-                isError: true,
-            });
-            return
-        }
-
-        let ratingList = this.returnRatingList(data, this.state.pokemonTable, this.state.moveTable)
-
-        this.props.history.push("/pvprating/" + leaguePath.toLowerCase() + "/" + typePath)
-        this.setState({
-            n: 75,
-            isNextPage: data.length - 75 > 0,
-
-            showResult: true,
-            isError: false,
-            loading: false,
-            searchState: false,
-
-            ratingList: ratingList,
-            listToShow: ratingList.slice(0, 75),
-        });
     }
+
 
     onShowDescr() {
         this.setState({

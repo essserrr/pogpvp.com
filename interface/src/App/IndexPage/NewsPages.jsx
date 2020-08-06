@@ -43,51 +43,38 @@ class NewsPages extends React.Component {
         this.setState({
             loading: true,
         })
-        let reason = ""
         let pageNumber = 1
         if (this.props.match.params.number) {
             pageNumber = this.props.match.params.number
         }
-        let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/page/" + pageNumber, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept-Encoding": "gzip",
-            },
-        }).catch(function (r) {
-            reason = r
-            return
-        });
 
-        if (reason !== "") {
+        try {
+            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/page/" + pageNumber, {
+                method: "GET",
+                headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+            })
+            //parse answer
+            let result = await response.json()
+            //if response is not ok, handle error
+            if (!response.ok) { throw result.detail }
+
+            //otherwise set state
+            this.setState({
+                prevPageExists: (pageNumber - 1 > 0) ? true : false,
+                nextPageExists: (result[0] === "yes") ? true : false,
+                showResult: true,
+                isError: false,
+                loading: false,
+                newsList: this.parseNewsList(result.slice(1)),
+            })
+        } catch (e) {
             this.setState({
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(reason)
-            });
-            return
+                error: String(e)
+            })
         }
-
-        let result = await response.json()
-        if (!response.ok) {
-            this.setState({
-                error: result.detail,
-                showResult: false,
-                isError: true,
-                loading: false,
-            });
-            return;
-        }
-
-        this.setState({
-            prevPageExists: (pageNumber - 1 > 0) ? true : false,
-            nextPageExists: (result[0] === "yes") ? true : false,
-            showResult: true,
-            isError: false,
-            loading: false,
-            newsList: this.parseNewsList(result.slice(1)),
-        });
     }
 
 
