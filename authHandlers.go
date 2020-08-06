@@ -559,3 +559,32 @@ func getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	return nil
 }
+
+type Request struct {
+	AccessToken string
+	Moves       map[string]appl.MoveBaseEntry
+}
+
+func setUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodPost {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	req := new(Request)
+	if err := parseBody(r, &req); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+
+	fmt.Println(req.Moves)
+
+	if err := respond(w, "Ok"); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
