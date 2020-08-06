@@ -141,11 +141,6 @@ class ChangePassword extends React.PureComponent {
     }
 
 
-
-
-
-
-
     render() {
         return (
             <div className="row mx-0 p-3 text-center justify-content-center">

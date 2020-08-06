@@ -11,10 +11,11 @@ export const getMoves = () => {
                     method: "POST",
                     headers: { "Content-Type": "application/json", },
                     body: JSON.stringify({ AccessToken: state.session.jwt })
-                }).then(resp => {
-                    if (!resp) { throw new Error("No response") }
-                    return resp.json()
                 })
+                    .then(resp => {
+                        if (!resp) { throw new Error("No response") }
+                        return resp.json()
+                    })
                     .then(data => {
                         if (!data) { throw new Error("No response") }
                         if (data.detail) { throw data.detail }

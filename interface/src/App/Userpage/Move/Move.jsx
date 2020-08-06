@@ -7,6 +7,8 @@ import MoveList from "./MoveList/MoveList"
 import Loader from "../../PvpRating/Loader"
 import { getMoves } from "../../../AppStore/Actions/getMoves"
 import { refresh } from "../../../AppStore/Actions/refresh"
+import { setCustomMoves } from "../../../AppStore/Actions/actions"
+
 import LabelAndInput from "./LabelAndInput/LabelAndInput"
 import TypeCategory from "./TypeCategory/TypeCategory"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
@@ -51,6 +53,8 @@ class Move extends React.PureComponent {
         }
         this.onChange = this.onChange.bind(this)
         this.onInputsChange = this.onInputsChange.bind(this)
+
+        this.onSaveChanges = this.onSaveChanges.bind(this)
         this.onMoveAdd = this.onMoveAdd.bind(this)
         this.onMoveOpen = this.onMoveOpen.bind(this)
         this.onMoveDelete = this.onMoveDelete.bind(this)
@@ -260,9 +264,9 @@ class Move extends React.PureComponent {
         return !Object.values(notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
     }
 
-    async onSaveChanges(move) {
+    async onSaveChanges() {
         this.setState({
-            loading: true, error: "", ok: false,
+            submitting: true, error: "", ok: false,
         })
         try {
             await this.props.refresh()
@@ -271,19 +275,21 @@ class Move extends React.PureComponent {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json", },
-                body: JSON.stringify(this.state.moves)
+                body: JSON.stringify({ Moves: this.state.moves, AccessToken: this.props.session.jwt })
             })
             //parse answer
             const data = await response.json();
             //if response is not ok, handle error
             if (!response.ok) { throw data.detail }
-
-            this.setState({ loading: false, ok: true, })
+            //set global movelist
+            this.props.setCustomMoves(this.state.moves)
+            //show ok
+            this.setState({ submitting: false, ok: true, })
             await new Promise(res => setTimeout(res, 2500));
             this.setState({ ok: false })
         } catch (e) {
             this.setState({
-                loading: false,
+                submitting: false,
                 error: String(e),
             });
         }
@@ -309,8 +315,9 @@ class Move extends React.PureComponent {
                     <div className="col-12 px-1">
                         <div className="row m-0 py-2 justify-content-center">
                             <AuthButton
-                                title={strings.moveconstr.changes}
-                                onClick={this.onMoveAdd}
+                                loading={this.state.submitting}
+                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
+                                onClick={this.onSaveChanges}
                             />
                         </div>
                     </div>
@@ -367,11 +374,13 @@ const mapDispatchToProps = dispatch => {
     return {
         refresh: () => dispatch(refresh()),
         getMoves: () => dispatch(getMoves()),
+        setCustomMoves: moves => dispatch(setCustomMoves(moves))
     }
 }
 
 export default connect(
     state => ({
         customMoves: state.customMoves,
+        session: state.session,
     }), mapDispatchToProps
 )(Move)
