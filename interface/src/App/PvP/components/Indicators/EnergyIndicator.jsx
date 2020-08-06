@@ -31,7 +31,7 @@ const EnergyIndicator = React.memo(function (props) {
                 data-tip data-for={props.for}
                 className={(value < maxValue) ? "energyBar" : "energyBar glow" + props.moveType}
             >
-                <div className="textOnBar noselect" >
+                <div className={"textOnBar noselect textColorT" + props.moveType} >
                     {props.moveName}
                 </div>
                 <div className={"energyIndicator typeColorC" + props.moveType} style={{ height: ((value / maxValue * 100)) + "%" }}></div>
