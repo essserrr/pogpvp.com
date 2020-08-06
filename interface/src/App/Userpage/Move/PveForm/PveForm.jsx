@@ -25,10 +25,10 @@ class PveForm extends React.PureComponent {
                         lTip={strings.moveconstr.pve.tips.d}
 
                         attr={"pve"}
-                        name={"damage"}
+                        name={"Damage"}
 
-                        value={this.props.damage}
-                        notOk={this.props.notOk.damage}
+                        value={this.props.Damage}
+                        notOk={this.props.notOk.Damage}
 
                         type={"text"}
 
@@ -41,10 +41,10 @@ class PveForm extends React.PureComponent {
                         lTip={strings.moveconstr.pve.tips.e}
 
                         attr={"pve"}
-                        name={"energy"}
+                        name={"Energy"}
 
-                        value={this.props.energy}
-                        notOk={this.props.notOk.energy}
+                        value={this.props.Energy}
+                        notOk={this.props.notOk.Energy}
 
                         type={"text"}
 
@@ -55,14 +55,14 @@ class PveForm extends React.PureComponent {
                         label={strings.moveconstr.pve.e}
 
                         attr={"pve"}
-                        name="energy"
+                        name="Energy"
 
                         options={<>
                             <option value="-33" >-33</option>
                             <option value="-50" >-50</option>
                             <option value="-100" >-100</option>
                         </>}
-                        value={this.props.energy}
+                        value={this.props.Energy}
 
                         onChange={this.props.onChange}
 
@@ -78,10 +78,10 @@ class PveForm extends React.PureComponent {
                         lTip={strings.moveconstr.pve.tips.cd}
 
                         attr={"pve"}
-                        name={"cooldown"}
+                        name={"Cooldown"}
 
-                        value={this.props.cooldown}
-                        notOk={this.props.notOk.cooldown}
+                        value={this.props.Cooldown}
+                        notOk={this.props.notOk.Cooldown}
 
                         type={"text"}
 
@@ -94,10 +94,10 @@ class PveForm extends React.PureComponent {
                         lTip={strings.moveconstr.pve.tips.dmgwd}
 
                         attr={"pve"}
-                        name={"damageWindow"}
+                        name={"DamageWindow"}
 
-                        value={this.props.damageWindow}
-                        notOk={this.props.notOk.damageWindow}
+                        value={this.props.DamageWindow}
+                        notOk={this.props.notOk.DamageWindow}
 
                         type={"text"}
 
@@ -110,10 +110,10 @@ class PveForm extends React.PureComponent {
                         lTip={strings.moveconstr.pve.tips.dwd}
 
                         attr={"pve"}
-                        name={"dodgeWindow"}
+                        name={"DodgeWindow"}
 
-                        value={this.props.dodgeWindow}
-                        notOk={this.props.notOk.dodgeWindow}
+                        value={this.props.DodgeWindow}
+                        notOk={this.props.notOk.DodgeWindow}
 
                         type={"text"}
 

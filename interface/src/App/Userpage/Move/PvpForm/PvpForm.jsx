@@ -25,10 +25,10 @@ class PvpForm extends React.PureComponent {
                         lTip={strings.moveconstr.pvp.tips.d}
 
                         attr={"pvp"}
-                        name={"pvpDamage"}
+                        name={"PvpDamage"}
 
-                        value={this.props.pvpDamage}
-                        notOk={this.props.notOk.pvpDamage}
+                        value={this.props.PvpDamage}
+                        notOk={this.props.notOk.PvpDamage}
 
                         type={"text"}
 
@@ -41,10 +41,10 @@ class PvpForm extends React.PureComponent {
                         lTip={strings.moveconstr.pvp.tips.e}
 
                         attr={"pvp"}
-                        name={"pvpEnergy"}
+                        name={"PvpEnergy"}
 
-                        value={this.props.pvpEnergy}
-                        notOk={this.props.notOk.pvpEnergy}
+                        value={this.props.PvpEnergy}
+                        notOk={this.props.notOk.PvpEnergy}
 
                         type={"text"}
 
@@ -56,7 +56,7 @@ class PvpForm extends React.PureComponent {
                         label={strings.moveconstr.pvp.cd}
 
                         attr={"pvp"}
-                        name="pvpDurationSeconds"
+                        name="PvpDurationSeconds"
 
                         options={<>
                             <option value="0.5" >1</option>
@@ -64,12 +64,12 @@ class PvpForm extends React.PureComponent {
                             <option value="1.5" >3</option>
                             <option value="2" >4</option>
                         </>}
-                        value={this.props.pvpDurationSeconds}
+                        value={this.props.PvpDurationSeconds}
 
                         onChange={this.props.onChange}
 
                         place={"top"}
-                        for={"pvpDurationSeconds"}
+                        for={"PvpDurationSeconds"}
                         tip={strings.moveconstr.pvp.tips.cd}
                         tipClass="infoTip"
                     />}
@@ -81,10 +81,10 @@ class PvpForm extends React.PureComponent {
                             lTip={strings.moveconstr.pvp.tips.prob}
 
                             attr={"pvp"}
-                            name={"probability"}
+                            name={"Probability"}
 
-                            value={this.props.probability}
-                            notOk={this.props.notOk.probability}
+                            value={this.props.Probability}
+                            notOk={this.props.notOk.Probability}
 
                             type={"text"}
 
@@ -96,7 +96,7 @@ class PvpForm extends React.PureComponent {
                             label={strings.moveconstr.pvp.stat}
 
                             attr={"pvp"}
-                            name="stat"
+                            name="Stat"
 
                             options={<>
                                 <option value="" >{strings.moveconstr.statopt.n}</option>
@@ -104,12 +104,12 @@ class PvpForm extends React.PureComponent {
                                 <option value="Def" >{strings.moveconstr.statopt.d}</option>
                                 <option value="Atk,Def" >{strings.moveconstr.statopt.ad}</option>
                             </>}
-                            value={this.props.stat}
+                            value={this.props.Stat}
 
                             onChange={this.props.onChange}
 
                             place={"top"}
-                            for={"stat"}
+                            for={"Stat"}
                             tip={strings.moveconstr.pvp.tips.stat}
                             tipClass="infoTip"
                         />
@@ -119,7 +119,7 @@ class PvpForm extends React.PureComponent {
                             label={strings.moveconstr.pvp.stage}
 
                             attr={"pvp"}
-                            name="stageDelta"
+                            name="StageDelta"
 
                             options={<>
                                 <option value="-4" >-4</option>
@@ -133,12 +133,12 @@ class PvpForm extends React.PureComponent {
                                 <option value="4" >4</option>
 
                             </>}
-                            value={this.props.stageDelta}
+                            value={this.props.StageDelta}
 
                             onChange={this.props.onChange}
 
                             place={"top"}
-                            for={"stageDelta"}
+                            for={"StageDelta"}
                             tip={strings.moveconstr.pvp.tips.stage}
                             tipClass="infoTip"
                         />
@@ -148,19 +148,19 @@ class PvpForm extends React.PureComponent {
                             label={strings.moveconstr.pvp.subj}
 
                             attr={"pvp"}
-                            name="subject"
+                            name="Subject"
 
                             options={<>
                                 <option value="" >{strings.moveconstr.subjopt.n}</option>
                                 <option value="Opponent" >{strings.moveconstr.subjopt.o}</option>
                                 <option value="Self" >{strings.moveconstr.subjopt.s}</option>
                             </>}
-                            value={this.props.subject}
+                            value={this.props.Subject}
 
                             onChange={this.props.onChange}
 
                             place={"top"}
-                            for={"subject"}
+                            for={"Subject"}
                             tip={strings.moveconstr.pvp.tips.subj}
                             tipClass="infoTip"
                         />

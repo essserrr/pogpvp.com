@@ -22,7 +22,7 @@ class TypeCategory extends React.PureComponent {
                         label={strings.moveconstr.category}
 
                         attr={""}
-                        name="moveCategory"
+                        name="MoveCategory"
 
                         options={<>
                             <option value="Fast Move" >{strings.moveconstr.catopt.q}</option>
@@ -40,7 +40,7 @@ class TypeCategory extends React.PureComponent {
                         label={strings.moveconstr.type}
 
                         attr={""}
-                        name="moveType"
+                        name="MoveType"
 
                         options={<>
                             <option value="0" >Bug</option>
