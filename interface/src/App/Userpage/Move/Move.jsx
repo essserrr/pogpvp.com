@@ -9,6 +9,7 @@ import { getMoves } from "../../../AppStore/Actions/getMoves"
 import { refresh } from "../../../AppStore/Actions/refresh"
 import { setCustomMoves } from "../../../AppStore/Actions/actions"
 
+import Errors from "../../PvP/components/Errors/Errors"
 import LabelAndInput from "./LabelAndInput/LabelAndInput"
 import TypeCategory from "./TypeCategory/TypeCategory"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
@@ -175,6 +176,7 @@ class Move extends React.PureComponent {
         if (Number.isNaN(damageNumb)) { return strings.moveconstr.err.wrong + strings.moveconstr.err.d1 }
         if (damageNumb < 0) { return strings.moveconstr.err.d2 + strings.moveconstr.err.larzero }
         if (!Number.isInteger(damageNumb)) { return strings.moveconstr.err.d2 + strings.moveconstr.err.integr }
+        if (Math.abs(damageNumb) > 65000) { return strings.moveconstr.err.damageallowed }
         return ""
     }
 
@@ -193,6 +195,7 @@ class Move extends React.PureComponent {
         let cooldownNumb = Number(cooldown)
         if (Number.isNaN(cooldownNumb)) { return strings.moveconstr.err.wrong + strings.moveconstr.err.cd1 }
         if (cooldownNumb <= 0) { return strings.moveconstr.err.cd2 + strings.moveconstr.err.larzerofem }
+        if (Math.abs(cooldown) > 60) { return strings.moveconstr.err.cdallowed }
 
         let newCd = { ...this.state.inputs }
         newCd[name] = cooldown
@@ -221,12 +224,21 @@ class Move extends React.PureComponent {
                 [this.state.Title]: {
                     Title: this.state.Title,
                     MoveCategory: this.state.MoveCategory,
-                    MoveType: this.state.MoveType,
+                    MoveType: Number(this.state.MoveType),
                     ...this.state.inputs,
+
+                    StageDelta: Number(this.state.inputs.StageDelta),
+                    PvpDurationSeconds: Number(this.state.inputs.PvpDurationSeconds),
+                    PvpDuration: Number(this.state.inputs.PvpDuration),
+                    PvpDamage: Number(this.state.inputs.PvpDamage),
+                    PvpEnergy: Number(this.state.inputs.PvpEnergy),
+                    Damage: Number(this.state.inputs.Damage),
+                    Energy: Number(this.state.inputs.Energy),
+                    Probability: Number(this.state.inputs.Probability),
                     Stat: this.state.inputs.Stat.split(","),
-                    Cooldown: this.state.inputs.Cooldown * 1000,
-                    DamageWindow: this.state.inputs.DamageWindow * 1000,
-                    DodgeWindow: this.state.inputs.DodgeWindow * 1000
+                    Cooldown: Number(this.state.inputs.Cooldown) * 1000,
+                    DamageWindow: Number(this.state.inputs.DamageWindow) * 1000,
+                    DodgeWindow: Number(this.state.inputs.DodgeWindow) * 1000
                 }
             }
         })
@@ -269,6 +281,7 @@ class Move extends React.PureComponent {
             submitting: true, error: "", ok: false,
         })
         try {
+            console.log(this.state.moves)
             await this.props.refresh()
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/setmoves", {
@@ -280,7 +293,10 @@ class Move extends React.PureComponent {
             //parse answer
             const data = await response.json();
             //if response is not ok, handle error
-            if (!response.ok) { throw data.detail }
+            if (!response.ok) {
+                console.log(data)
+                throw data.detail
+            }
             //set global movelist
             this.props.setCustomMoves(this.state.moves)
             //show ok
@@ -305,13 +321,18 @@ class Move extends React.PureComponent {
                         locale={strings.loading}
                         loading={this.state.loading}
                     />}
-                {!this.state.loading && <div className="row mx-0">
+                {!this.state.loading && <div className="row mx-0 justify-content-center">
                     <div className="col-12 px-0">
                         <MoveList moves={Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))}
                             onMoveOpen={this.onMoveOpen}
                             onMoveDelete={this.onMoveDelete}
                         />
                     </div>
+                    {this.state.error !== "" &&
+                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
+                            <Errors class="alert alert-danger p-2" value={this.state.error} />
+
+                        </div>}
                     <div className="col-12 px-1">
                         <div className="row m-0 py-2 justify-content-center">
                             <AuthButton

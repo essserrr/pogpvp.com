@@ -13,7 +13,6 @@ let strings = new LocalizedStrings(userLocale)
 
 const UserMove = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
     return (
         <div className={"col-auto px-0 mr-2 my-1 usermove"} onClick={() => props.onMoveOpen(props.move)}>
             <div className="row mx-0 p-1">

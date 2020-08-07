@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"time"
 
-	appl "Solutions/pvpSimulator/core/sim/app"
 	users "Solutions/pvpSimulator/core/users"
 	mongocalls "Solutions/pvpSimulator/core/users/mongocalls"
 
@@ -96,7 +95,7 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		tokens = &mongocalls.Tokens{}
 	}
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("New user: %v has just registered", form.Username)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("New user: %v has just registered", id)
 	app.metrics.userCounters.With(prometheus.Labels{"type": "new_users"}).Inc()
 
 	setCookie(w, tokens)
@@ -193,7 +192,7 @@ func reset(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, "Error while sending email")
 	}
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User has just requested password reset %key", info.RestoreKey)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User with email %v has just requested password reset %v", info.Email, info.RestoreKey)
 
 	if err := respond(w, "ok"); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
@@ -249,9 +248,9 @@ func restoreConfirm(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	idKey := chi.URLParam(r, "id")
+	restoreKey := chi.URLParam(r, "id")
 
-	username, err := mongocalls.ConfirmRestorePass(app.mongo.client, idKey)
+	username, err := mongocalls.ConfirmRestorePass(app.mongo.client, restoreKey)
 	if err != nil {
 		log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User %v got an error while resetting their password %v", username, err)
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
@@ -507,62 +506,18 @@ func getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
-	/*	sessions, err := mongocalls.GetUserSessions(app.mongo.client, req)
-		if err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
-			discardCookie(w)
-			return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
-		}*/
-
-	pbj := appl.MoveBaseEntry{
-		Stat:               []string{},
-		Subject:            "",
-		Title:              "Tackle",
-		MoveCategory:       "Fast Move",
-		MoveType:           12,
-		PvpDamage:          3,
-		Probability:        0,
-		Cooldown:           500,
-		DamageWindow:       300,
-		DodgeWindow:        200,
-		PvpDurationSeconds: 0.5,
-		Damage:             5,
-		PvpEnergy:          2,
-		Energy:             5,
-		StageDelta:         0,
-		PvpDuration:        0,
+	moves, err := mongocalls.GetUserMoves(app.mongo.client, req)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		discardCookie(w)
+		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
 	}
-	/*obj := {
-		"Stat": [
-		 ""
-		],
-		"Subject": "",
-		"Title": "Tackle",
-		"MoveCategory": "Fast Move",
-		"MoveType": 12,
-		"PvpDamage": 3,
-		"Probability": 0,
-		"Cooldown": 500,
-		"DamageWindow": 300,
-		"DodgeWindow": 200,
-		"PvpDurationSeconds": 0.5,
-		"Damage": 5,
-		"PvpEnergy": 2,
-		"Energy": 5,
-		"StageDelta": 0,
-		"PvpDuration": 0
-	   }*/
 
-	if err := respond(w, map[string]appl.MoveBaseEntry{"Tackle": pbj}); err != nil {
+	if err := respond(w, *moves); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
-}
-
-type Request struct {
-	AccessToken string
-	Moves       map[string]appl.MoveBaseEntry
 }
 
 func setUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
@@ -574,13 +529,17 @@ func setUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	req := new(Request)
+	req := new(mongocalls.MovesRequest)
 	if err := parseBody(r, &req); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
-
-	fmt.Println(req.Moves)
+	err := mongocalls.SetUserMoves(app.mongo.client, req)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		discardCookie(w)
+		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
+	}
 
 	if err := respond(w, "Ok"); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()

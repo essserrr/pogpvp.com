@@ -99,6 +99,8 @@ export const userLocale = {
                 pos: " must be postive",
                 poszer: " must be positive or zero",
                 allowed: "Allowed energy value is from -100 to 100",
+                damageallowed: "Damage must be less than 65000",
+                cdallowed: "Cooldown must be less than 60 seconds",
                 sumwind: "Cooldown must be larger than Damage window + Dodge window",
                 hundred: "Probability cannont be more than 100%",
 
@@ -271,6 +273,8 @@ export const userLocale = {
                 pos: " должна быть положительной",
                 poszer: " должна быть положительной или нулем",
                 allowed: "Энергия должна быть от -100 до 100",
+                damageallowed: "Урон должен быть меньше, чем 65000",
+                cdallowed: "Перезарядка должна быть меньше, чем 60 секунд",
                 sumwind: "Перезарядка должна быть больше, чем (Окно урона + Окно уклонения)",
                 hundred: "Вероятность не может быть больше 100%",
 

@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	appl "Solutions/pvpSimulator/core/sim/app"
 	users "Solutions/pvpSimulator/core/users"
 
 	"github.com/sethvargo/go-password/password"
@@ -31,6 +32,8 @@ type User struct {
 	RestorePassword string `bson:"rpass,omitempty"`
 	RestoreKey      string `bson:"rkey,omitempty"`
 	RestoreExpireAt int64  `bson:"rexp,omitempty"`
+
+	Moves map[string]appl.MoveBaseEntry `bson:"umoves,omitempty"`
 }
 
 //Session contains user session info
@@ -358,14 +361,14 @@ func Logout(client *mongo.Client, cookie *http.Cookie) (string, error) {
 	switch currSession.verifyRefresh(cookie.Value) {
 	case true:
 		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": currUser.Sessions}}); err != nil {
-			return currUser.Username, err
+			return currUser.ID, err
 		}
-		return currUser.Username, nil
+		return currUser.ID, nil
 	default:
 		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": currUser.Sessions}}); err != nil {
-			return currUser.Username, err
+			return currUser.ID, err
 		}
-		return currUser.Username, fmt.Errorf("Verification failed")
+		return currUser.ID, fmt.Errorf("Verification failed")
 	}
 }
 
@@ -409,14 +412,14 @@ func LogoutAll(client *mongo.Client, cookie *http.Cookie) (string, error) {
 	switch currSession.verifyRefresh(cookie.Value) {
 	case true:
 		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": []Session{}}}); err != nil {
-			return currUser.Username, err
+			return currUser.ID, err
 		}
-		return currUser.Username, nil
+		return currUser.ID, nil
 	default:
 		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": []Session{}}}); err != nil {
-			return currUser.Username, fmt.Errorf("Verification failed")
+			return currUser.ID, fmt.Errorf("Verification failed")
 		}
-		return currUser.Username, fmt.Errorf("Verification failed")
+		return currUser.ID, fmt.Errorf("Verification failed")
 	}
 }
 
@@ -442,9 +445,9 @@ func ChPass(client *mongo.Client, form *users.SubmitForm, cookie *http.Cookie) (
 			bson.M{"$set": bson.M{"session": currUser.Sessions, "password": form.NewPassword}}); err != nil {
 			return "", err
 		}
-		return currUser.Username, nil
+		return currUser.ID, nil
 	default:
-		return currUser.Username, fmt.Errorf("Verification failed")
+		return currUser.ID, fmt.Errorf("Verification failed")
 	}
 }
 
@@ -540,10 +543,10 @@ func ConfirmRestorePass(client *mongo.Client, restoreKey string) (string, error)
 			return "", err
 		}
 	}
-	return currUser.Username, nil
+	return currUser.ID, nil
 }
 
-//GetUserInfo returns users main info !!!!!!!!!!!!!!!
+//GetUserInfo returns users main info
 func GetUserInfo(client *mongo.Client, req *users.Request) (*users.UserInfo, error) {
 	ids, err := parseFromToken(req.AccessToken)
 	if err != nil {
@@ -555,9 +558,68 @@ func GetUserInfo(client *mongo.Client, req *users.Request) (*users.UserInfo, err
 
 	currUser := new(users.UserInfo)
 	if err := lookupUser(client, bson.M{"_id": ids.uid}, currUser); err != nil {
-		return nil, fmt.Errorf("Auth token")
+		return nil, fmt.Errorf("Wrong auth token")
 	}
 	return currUser, nil
+}
+
+type movesResponse struct {
+	Moves map[string]appl.MoveBaseEntry `bson:"umoves,omitempty"`
+}
+
+//GetUserMoves returns custom moves of a user
+func GetUserMoves(client *mongo.Client, req *users.Request) (*map[string]appl.MoveBaseEntry, error) {
+	ids, err := parseFromToken(req.AccessToken)
+	if err != nil {
+		return nil, err
+	}
+	if err = getAccess(client, req, ids); err != nil {
+		return nil, err
+	}
+
+	currUser := new(movesResponse)
+	if err := lookupUser(client, bson.M{"_id": ids.uid}, currUser); err != nil {
+		return nil, fmt.Errorf("Wrong auth token")
+	}
+	return &currUser.Moves, nil
+}
+
+type MovesRequest struct {
+	AccessToken string
+	Moves       map[string]appl.MoveBaseEntry
+}
+
+//SetUserMoves sets custom moves of a user
+func SetUserMoves(client *mongo.Client, req *MovesRequest) error {
+	ids, err := parseFromToken(req.AccessToken)
+	if err != nil {
+		return err
+	}
+	if err = getAccess(client, &users.Request{AccessToken: req.AccessToken}, ids); err != nil {
+		return err
+	}
+
+	if err := updateUser(client, ids.uid,
+		bson.M{"$set": bson.M{"umoves": limitMovelist(req.Moves)}}); err != nil {
+		return fmt.Errorf("Wrong auth token")
+	}
+	return err
+}
+
+func limitMovelist(movelist map[string]appl.MoveBaseEntry) map[string]appl.MoveBaseEntry {
+	if len(movelist) <= 50 {
+		return movelist
+	}
+	newMovelist := make(map[string]appl.MoveBaseEntry)
+	counter := 0
+	for key, value := range movelist {
+		if counter > 50 {
+			break
+		}
+		newMovelist[key] = value
+		counter++
+	}
+	return newMovelist
 }
 
 type sessionResponse struct {
@@ -576,7 +638,7 @@ func GetUserSessions(client *mongo.Client, req *users.Request) (*[]users.UserSes
 
 	currUser := new(sessionResponse)
 	if err := lookupUser(client, bson.M{"_id": ids.uid}, currUser); err != nil {
-		return nil, fmt.Errorf("Auth token")
+		return nil, fmt.Errorf("Wrong auth token")
 	}
 	return &currUser.Sessions, nil
 }
