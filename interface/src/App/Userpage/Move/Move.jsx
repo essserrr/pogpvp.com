@@ -3,11 +3,12 @@ import { getCookie } from "../../../js/getCookie"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
-import MoveList from "./MoveList/MoveList"
-import Loader from "../../PvpRating/Loader"
-import { getMoves } from "../../../AppStore/Actions/getMoves"
+import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
 import { refresh } from "../../../AppStore/Actions/refresh"
 import { setCustomMoves } from "../../../AppStore/Actions/actions"
+import MoveList from "./MoveList/MoveList"
+import Loader from "../../PvpRating/Loader"
+
 
 import Errors from "../../PvP/components/Errors/Errors"
 import LabelAndInput from "./LabelAndInput/LabelAndInput"
@@ -64,7 +65,7 @@ class Move extends React.PureComponent {
     async componentDidMount() {
         this.setState({ loading: true })
         await this.props.refresh()
-        await this.props.getMoves()
+        await this.props.getCustomMoves()
         this.setState({ loading: false, moves: this.props.customMoves.moves })
     }
 
@@ -390,7 +391,7 @@ class Move extends React.PureComponent {
 const mapDispatchToProps = dispatch => {
     return {
         refresh: () => dispatch(refresh()),
-        getMoves: () => dispatch(getMoves()),
+        getCustomMoves: () => dispatch(getCustomMoves()),
         setCustomMoves: moves => dispatch(setCustomMoves(moves))
     }
 }
@@ -398,6 +399,5 @@ const mapDispatchToProps = dispatch => {
 export default connect(
     state => ({
         customMoves: state.customMoves,
-        session: state.session,
     }), mapDispatchToProps
 )(Move)

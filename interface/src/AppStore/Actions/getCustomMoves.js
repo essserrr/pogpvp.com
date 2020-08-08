@@ -1,11 +1,15 @@
 
 import { getCookie } from "../../js/getCookie"
 
-export const getMoves = () => {
+export const getCustomMoves = () => {
     return (dispatch, getState) => {
         let state = getState()
-        if (state.customMoves.moves.length > 0) { return }
+        if (Object.keys(state.customMoves.moves).length > 0) {
+            console.log("Custom Moves skipped")
+            return { ok: true }
+        }
 
+        console.log("Custom Moves fetched")
         switch (!!getCookie("sid")) {
             case true:
                 return fetch(((navigator.userAgent !== "ReactSnap") ?
@@ -22,13 +26,13 @@ export const getMoves = () => {
                         if (!data) { throw new Error("No response") }
                         if (data.detail) { throw data.detail }
                         dispatch({ type: "SET_CUSTOM_MOVES", value: data })
-
+                        return { ok: true }
                     }).catch(r => {
-                        dispatch({ type: "SET_CUSTOM_MOVES", value: {}, })
-                        return
+                        dispatch({ type: "SET_CUSTOM_MOVES_ERROR", value: String(r), })
+                        return { ok: false }
                     })
             default:
-                return
+                return { ok: true }
         }
     }
 }
