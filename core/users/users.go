@@ -165,11 +165,11 @@ func downloadAsObj(url string, target interface{}) error {
 }
 
 //Encode encodes form
-func (lf *SubmitForm) Encode(additional bool) {
+func (lf *SubmitForm) Encode(additionalEncoding bool) {
 	h := sha256.Sum256([]byte(lf.Password))
 	lf.Password = base64.StdEncoding.EncodeToString(h[:])
 
-	if additional {
+	if additionalEncoding {
 		nph := sha256.Sum256([]byte(lf.NewPassword))
 		lf.NewPassword = base64.StdEncoding.EncodeToString(nph[:])
 	}
