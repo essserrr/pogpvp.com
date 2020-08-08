@@ -1,6 +1,6 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
-import AdvisorPanel from "./AdvisorPanel"
+import AdvisorPanel from "./AdvisorPanel/AdvisorPanel"
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import { locale } from "../../../../locale/locale"
 import { getCookie, } from "../../../../js/getCookie"
@@ -64,8 +64,8 @@ class Advisor extends React.PureComponent {
     }
 
     returnRatingList() {
-        return this.props.list.map((elem, i) => {
-            return <div key={i} className={"col-12 p-0 m-0 mb-1"}>
+        return this.props.list.map((elem, i) =>
+            <div key={i} className={"col-12 p-0 m-0 mb-1"}>
                 <AdvisorPanel
                     first={this.props.leftPanel.listForBattle[elem.first]}
                     second={this.props.leftPanel.listForBattle[elem.second]}
@@ -81,7 +81,7 @@ class Advisor extends React.PureComponent {
                     moveTable={this.props.moveTable}
                 />
             </div>
-        });
+        );
     }
 
     render() {

@@ -2,18 +2,18 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 import ReactTooltip from "react-tooltip";
 
-import PokemonIconer from "../PokemonIconer/PokemonIconer"
-import Result from "../Result"
-import Type from "../CpAndTypes/Type"
-import TableBody from "./TableBody"
-import TypingThead from "./TypingThead"
-import SingleMoveLine from "./SingleMoveLine"
-import SinglePokLine from "./SinglePokLine"
+import PokemonIconer from "../../PokemonIconer/PokemonIconer"
+import Result from "../../Result"
+import Type from "../../CpAndTypes/Type"
+import TableBody from "../TableBody"
+import TypingThead from "../TypingThead"
+import SingleMoveLine from "../SingleMoveLine"
+import SinglePokLine from "../SinglePokLine"
 
-import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
-import { locale } from "../../../../locale/locale"
-import { effectivenessData } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
+import { ReactComponent as Shadow } from "../../../../../icons/shadow.svg";
+import { locale } from "../../../../../locale/locale"
+import { effectivenessData } from "../../../../../js/indexFunctions"
+import { getCookie } from "../../../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 
