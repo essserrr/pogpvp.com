@@ -2,8 +2,10 @@ import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
 import { UnmountClosed } from "react-collapse";
+import { connect } from "react-redux"
 
-
+import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
@@ -83,14 +85,8 @@ class PokeCard extends React.Component {
         })
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getPokemonBase(),
+                this.props.getMoveBase(),
                 fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/misc", {
                     method: "GET",
                     headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
@@ -99,24 +95,19 @@ class PokeCard extends React.Component {
 
             let responses = await Promise.all(fetches)
 
-            let parses = [
-                responses[0].json(),
-                responses[1].json(),
-                responses[2].json(),
-            ]
-            let results = await Promise.all(parses)
+            let result = await responses[2].json()
 
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw results[i].detail }
+                if (!responses[i].ok) { throw (i === 2 ? result.detail : this.props.bases.error) }
             }
 
             //if error input somehow
             let id = decodeURIComponent(this.props.match.params.id)
-            if (!results[1][id]) { throw strings.pokerr }
+            if (!this.props.bases.pokemonBase[id]) { throw strings.pokerr }
 
             //otherwise process results
-            let scrollList = this.makeList(results[1])
-            let position = this.findPosition(id, Number(results[1][id].Number) - 1, scrollList)
+            let scrollList = this.makeList(this.props.bases.pokemonBase)
+            let position = this.findPosition(id, Number(this.props.bases.pokemonBase[id].Number) - 1, scrollList)
 
             this.setState({
                 showResult: true,
@@ -126,12 +117,12 @@ class PokeCard extends React.Component {
                 scrollList: scrollList,
                 position: position,
 
-                moveTable: results[0],
-                pokTable: results[1],
-                miscTable: results[2],
+                moveTable: this.props.bases.moveBase,
+                pokTable: this.props.bases.pokemonBase,
+                miscTable: result,
 
-                pok: results[1][id],
-                pokMisc: results[2].Misc[id],
+                pok: this.props.bases.pokemonBase[id],
+                pokMisc: result.Misc[id],
             });
 
         } catch (e) {
@@ -295,4 +286,15 @@ class PokeCard extends React.Component {
     }
 }
 
-export default PokeCard
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+        getMoveBase: () => dispatch(getMoveBase()),
+    }
+}
+
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(PokeCard)

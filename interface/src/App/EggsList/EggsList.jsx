@@ -1,7 +1,9 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+import { connect } from "react-redux"
 
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import EggsTier from "./EggsTier/EggsTier"
 import EggsIcon from "./EggsIcon/EggsIcon"
@@ -40,10 +42,7 @@ class EggsList extends React.Component {
         //get pok and eggs db
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getPokemonBase(),
                 fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/eggs", {
                     method: "GET",
                     headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
@@ -51,24 +50,19 @@ class EggsList extends React.Component {
             ];
 
             let responses = await Promise.all(fetches)
-
-            let parses = [
-                responses[0].json(),
-                responses[1].json(),
-            ]
-            let results = await Promise.all(parses)
+            let result = await responses[1].json()
 
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw results[i].detail }
+                if (!responses[i].ok) { throw (i === 1 ? result.detail : this.props.bases.error) }
             }
 
             this.setState({
                 showResult: true,
                 isError: false,
                 loading: false,
-                listToShow: this.returnEggsList(results[1], results[0], this.state.filter),
-                tierList: results[1],
-                pokTable: results[0],
+                listToShow: this.returnEggsList(result, this.props.bases.pokemonBase, this.state.filter),
+                tierList: result,
+                pokTable: this.props.bases.pokemonBase,
             })
 
         } catch (e) {
@@ -162,10 +156,17 @@ class EggsList extends React.Component {
     }
 }
 
-export default EggsList
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+    }
+}
 
-
-
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(EggsList)
 
 
 

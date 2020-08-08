@@ -2,8 +2,10 @@ import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
 import { UnmountClosed } from "react-collapse";
+import { connect } from "react-redux"
 
-
+import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import CardTitle from "./CardTitle/CardTitle"
@@ -40,38 +42,26 @@ class MoveCard extends React.Component {
         })
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getPokemonBase(),
+                this.props.getMoveBase(),
             ];
 
             let responses = await Promise.all(fetches)
 
-            let parses = [
-                responses[0].json(),
-                responses[1].json(),
-            ]
-            let results = await Promise.all(parses)
-
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw results[i].detail }
+                if (!responses[i].ok) { throw this.props.bases.error }
             }
             //if error input somehow
-            if (!results[0][this.props.match.params.id]) { throw strings.moveerr }
+            if (!this.props.bases.moveBase[this.props.match.params.id]) { throw strings.moveerr }
 
             this.setState({
                 showResult: true,
                 isError: false,
                 loading: false,
 
-                pokTable: results[1],
-                moveTable: results[0],
-                move: results[0][this.props.match.params.id],
+                pokTable: this.props.bases.pokemonBase,
+                moveTable: this.props.bases.moveBase,
+                move: this.props.bases.moveBase[this.props.match.params.id],
             })
 
         } catch (e) {
@@ -153,4 +143,15 @@ class MoveCard extends React.Component {
     }
 }
 
-export default MoveCard
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+        getMoveBase: () => dispatch(getMoveBase()),
+    }
+}
+
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(MoveCard)

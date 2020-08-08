@@ -3,6 +3,7 @@ export const getPokemonBase = () => {
         let state = getState()
         if (Object.keys(state.bases.moveBase).length > 0) {
             console.log("Pokemon skipped")
+            dispatch({ type: "SET_BASES_ERROR", value: "", })
             return { ok: true }
         }
 

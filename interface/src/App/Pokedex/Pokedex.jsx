@@ -1,7 +1,9 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
+import { connect } from "react-redux"
 
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import PokeRow from "./PokeRow/PokeRow"
 import TableThead from "./TableThead/TableThead"
@@ -16,7 +18,7 @@ import { getCookie } from "../../js/getCookie"
 
 let strings = new LocalizedStrings(dexLocale);
 
-class Movedex extends React.Component {
+class Pokedex extends React.Component {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -43,30 +45,16 @@ class Movedex extends React.Component {
             loading: true,
         })
         try {
-            let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
-            ];
-
-            let responses = await Promise.all(fetches)
-
-            let parses = [
-                responses[0].json(),
-            ]
-            let results = await Promise.all(parses)
-
-            for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw results[i].detail }
-            }
+            let response = await this.props.getPokemonBase()
+            //if response is not ok, handle error
+            if (!response.ok) { throw this.props.bases.error }
 
             //otherwise process results
             let arr = []
-            for (const [key, value] of Object.entries(results[0])) {
+            for (const [key, value] of Object.entries(this.props.bases.pokemonBase)) {
                 value.Generation = Number(value.Generation)
                 value.Number = Number(value.Number)
-                value.CP = culculateCP(value.Title, 40, 15, 15, 15, results[0])
+                value.CP = culculateCP(value.Title, 40, 15, 15, 15, this.props.bases.pokemonBase)
                 arr.push(
                     <PokeRow
                         key={key}
@@ -78,7 +66,7 @@ class Movedex extends React.Component {
                 showResult: true,
                 isError: false,
                 loading: false,
-                moveTable: results[0],
+                moveTable: this.props.bases.pokemonBase,
                 originalList: arr,
             });
 
@@ -310,5 +298,14 @@ class Movedex extends React.Component {
     }
 }
 
-export default Movedex
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+    }
+}
 
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(Pokedex)

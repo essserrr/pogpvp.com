@@ -1,7 +1,9 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
+import { connect } from "react-redux"
 
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import IconMultiplicator from "./IconMultiplicator/IconMultiplicator"
 import Loader from "../PvpRating/Loader"
@@ -36,10 +38,7 @@ class RaidsList extends React.Component {
         })
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getPokemonBase(),
                 fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/raids", {
                     method: "GET",
                     headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
@@ -47,17 +46,13 @@ class RaidsList extends React.Component {
             ]
 
             let responses = await Promise.all(fetches)
+            let result = await responses[1].json()
 
-            let parses = [
-                responses[0].json(),
-                responses[1].json(),
-            ]
+            for (let i = 0; i < responses.length; i++) {
+                if (!responses[i].ok) { throw (i === 1 ? result.detail : this.props.bases.error) }
+            }
 
-            let results = await Promise.all(parses)
-
-            for (let i = 0; i < responses.length; i++) { if (!responses[i].ok) { throw results[i].detail } }
-
-            let list = this.returnRaidsList(results[1], results[0])
+            let list = this.returnRaidsList(result, this.props.bases.pokemonBase)
             this.setState({
                 showResult: true,
                 isError: false,
@@ -154,5 +149,14 @@ class RaidsList extends React.Component {
     }
 }
 
-export default RaidsList
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+    }
+}
 
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(RaidsList)

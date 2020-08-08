@@ -1,8 +1,9 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
+import { connect } from "react-redux"
 
-
+import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import Errors from "../PvP/components/Errors/Errors"
 import MoveRow from "./MoveRow/MoveRow"
 import TableThead from "./TableThead/TableThead"
@@ -49,25 +50,17 @@ class Movedex extends React.Component {
 
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getMoveBase(),
             ];
 
             let responses = await Promise.all(fetches)
 
-            let parses = [
-                responses[0].json(),
-            ]
-            let results = await Promise.all(parses)
-
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw results[i].detail }
+                if (!responses[i].ok) { throw this.props.bases.error }
             }
 
             let arr = []
-            for (const [key, value] of Object.entries(results[0])) {
+            for (const [key, value] of Object.entries(this.props.bases.moveBase)) {
                 arr.push(<MoveRow
                     key={key}
                     value={value}
@@ -78,7 +71,7 @@ class Movedex extends React.Component {
                 showResult: true,
                 isError: false,
                 loading: false,
-                moveTable: results[0],
+                moveTable: this.props.bases.moveBase,
                 originalList: arr,
             });
 
@@ -302,5 +295,14 @@ class Movedex extends React.Component {
     }
 }
 
-export default Movedex
+const mapDispatchToProps = dispatch => {
+    return {
+        getMoveBase: () => dispatch(getMoveBase()),
+    }
+}
 
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(Movedex)

@@ -1,6 +1,8 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
+import { connect } from "react-redux"
 
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import ShinyTable from "./ShinyTable/ShinyTable"
 import Loader from "../PvpRating/Loader"
@@ -42,10 +44,7 @@ class ShinyRates extends React.Component {
         })
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getPokemonBase(),
                 fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/shiny", {
                     method: "GET",
                     headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
@@ -53,22 +52,18 @@ class ShinyRates extends React.Component {
             ]
 
             let responses = await Promise.all(fetches)
+            let result = await responses[1].json()
 
-            let parses = [
-                responses[0].json(),
-                responses[1].json(),
-            ]
+            for (let i = 0; i < responses.length; i++) {
+                if (!responses[i].ok) { throw (i === 1 ? result.detail : this.props.bases.error) }
+            }
 
-            let results = await Promise.all(parses)
-
-            for (let i = 0; i < responses.length; i++) { if (!responses[i].ok) { throw results[i].detail } }
-
-            let list = this.parseShinyRates(results[1], results[0])
+            let list = this.parseShinyRates(result, this.props.bases.pokemonBase)
             this.setState({
                 showResult: true,
                 isError: false,
                 loading: false,
-                pokTable: results[0],
+                pokTable: this.props.bases.pokemonBase,
                 shinyRates: list,
                 pokList: list,
             })
@@ -192,8 +187,17 @@ class ShinyRates extends React.Component {
     }
 }
 
-export default ShinyRates
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+    }
+}
 
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(ShinyRates)
 
 
 

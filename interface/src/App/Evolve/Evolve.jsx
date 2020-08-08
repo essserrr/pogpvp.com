@@ -2,7 +2,9 @@ import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import ReactTooltip from "react-tooltip"
 import LocalizedStrings from "react-localization";
+import { connect } from "react-redux"
 
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SearchableSelect from "../PvP/components/SearchableSelect/SearchableSelect"
 import Stats from "../PvP/components/Stats/Stats"
@@ -46,22 +48,17 @@ class Evolve extends React.Component {
         })
 
         try {
-            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                method: "GET",
-                headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-            })
-            //parse answer
-            const data = await response.json()
+            let response = await this.props.getPokemonBase()
             //if response is not ok, handle error
-            if (!response.ok) { throw data.detail }
+            if (!response.ok) { throw this.props.bases.error }
 
             //otherwise set state
             this.setState({
                 showResult: true,
                 isError: false,
                 loading: false,
-                pokCanEvolve: this.pokWithEvo(data),
-                pokemonTable: data,
+                pokCanEvolve: this.pokWithEvo(this.props.bases.pokemonBase),
+                pokemonTable: this.props.bases.pokemonBase,
             })
         } catch (e) {
             this.setState({
@@ -183,4 +180,14 @@ class Evolve extends React.Component {
     }
 }
 
-export default Evolve
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+    }
+}
+
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(Evolve)

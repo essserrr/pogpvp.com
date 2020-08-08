@@ -2,7 +2,10 @@ import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
+import { connect } from "react-redux"
 
+import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Collapsable from "./Collapsable/Collapsable"
@@ -110,15 +113,9 @@ class PvpRating extends React.Component {
         })
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getPokemonBase(),
+                this.props.getMoveBase(),
                 fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/rating/" + defaultPath, {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
                     method: "GET",
                     headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
                 }),
@@ -126,34 +123,28 @@ class PvpRating extends React.Component {
 
             let responses = await Promise.all(fetches)
 
-            let parses = [
-                responses[0].json(),
-                responses[1].json(),
-                responses[2].json(),
-            ]
-
-            let results = await Promise.all(parses)
+            let result = await responses[2].json()
 
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw results[i].detail }
-
-                let ratingList = this.returnRatingList(results[1], results[0], results[2])
-                this.setState({
-                    n: 75,
-                    isNextPage: results[1].length - 75 > 0,
-
-                    showResult: true,
-                    isError: false,
-                    loading: false,
-
-                    pokemonTable: results[0],
-                    rawData: results[1],
-                    moveTable: results[2],
-
-                    ratingList: ratingList,
-                    listToShow: ratingList.slice(0, 75),
-                })
+                if (!responses[i].ok) { throw (i === 2 ? result.detail : this.props.bases.error) }
             }
+
+            let ratingList = this.returnRatingList(result, this.props.bases.pokemonBase, this.props.bases.moveBase)
+            this.setState({
+                n: 75,
+                isNextPage: result.length - 75 > 0,
+
+                showResult: true,
+                isError: false,
+                loading: false,
+
+                pokemonTable: this.props.bases.pokemonBase,
+                rawData: result,
+                moveTable: this.props.bases.moveBase,
+
+                ratingList: ratingList,
+                listToShow: ratingList.slice(0, 75),
+            })
 
         } catch (e) {
             this.setState({
@@ -428,6 +419,15 @@ class PvpRating extends React.Component {
     }
 }
 
-export default PvpRating
+const mapDispatchToProps = dispatch => {
+    return {
+        getPokemonBase: () => dispatch(getPokemonBase()),
+        getMoveBase: () => dispatch(getMoveBase()),
+    }
+}
 
-
+export default connect(
+    state => ({
+        bases: state.bases,
+    }), mapDispatchToProps
+)(PvpRating)
