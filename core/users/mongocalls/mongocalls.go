@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
@@ -286,8 +287,45 @@ func updateUser(client *mongo.Client, id string, query bson.M) error {
 	return nil
 }
 
+func parseFromToken(token string) (*AccessSession, error) {
+	jwt, err := decodeToken(token)
+	if err != nil {
+		return nil, fmt.Errorf("Invalid token format")
+	}
+	ids := new(AccessSession)
+	var ok bool
+	//check uid
+	ids.UserID, ok = (*jwt)["u_id"].(string)
+	if !ok {
+		return nil, fmt.Errorf("Invalid token format")
+	}
+	//check session
+	ids.SessionID, ok = (*jwt)["s_id"].(string)
+	if !ok {
+		return nil, fmt.Errorf("Invalid token format")
+	}
+	ids.AccessToken = token
+
+	return ids, nil
+}
+
+func decodeToken(refresh string) (*jwt.MapClaims, error) {
+	claims := jwt.MapClaims{}
+	_, err := jwt.ParseWithClaims(refresh, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("JWT_KEY")), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &claims, nil
+}
+
 //Refresh refreshes user session if creditinails are right
-func Refresh(client *mongo.Client, sess Session, refSession *RefreshSession) (*Tokens, string, error) {
+func Refresh(client *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, string, error) {
+	refSession, err := parseFromToken(cookie.Value)
+	if err != nil {
+		return nil, "", fmt.Errorf("Invalid auth token")
+	}
 	currUser, err := findUserSessions(refSession.UserID, client)
 	if err != nil {
 		return nil, "", err
@@ -298,7 +336,7 @@ func Refresh(client *mongo.Client, sess Session, refSession *RefreshSession) (*T
 		return nil, "", fmt.Errorf("Session not found")
 	}
 
-	switch currSession.verifyRefresh(refSession.RefreshToken) {
+	switch currSession.verifyRefresh(cookie.Value) {
 	case true:
 		tok := sess.generateTokens(currUser.ID)
 		currUser.addSession(sess)
@@ -331,12 +369,6 @@ type AccessSession struct {
 	AccessToken string
 	UserID      string
 	SessionID   string
-}
-
-type RefreshSession struct {
-	RefreshToken string
-	UserID       string
-	SessionID    string
 }
 
 //Logout deketes current session
@@ -373,17 +405,6 @@ func (s *Session) verifyRefresh(token string) bool {
 		return false
 	}
 	return true
-}
-
-func decodeToken(refresh string) (*jwt.MapClaims, error) {
-	claims := jwt.MapClaims{}
-	_, err := jwt.ParseWithClaims(refresh, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_KEY")), nil
-	})
-	if err != nil {
-		return nil, err
-	}
-	return &claims, nil
 }
 
 //LogoutAll stops all user sessions
@@ -606,31 +627,6 @@ func GetUserSessions(client *mongo.Client, accSession *AccessSession) (*[]users.
 		return nil, fmt.Errorf("Wrong auth token")
 	}
 	return &currUser.Sessions, nil
-}
-
-type idObject struct {
-	uid string
-	sid string
-}
-
-func parseFromToken(token string) (*idObject, error) {
-	jwt, err := decodeToken(token)
-	if err != nil {
-		return nil, fmt.Errorf("Invalid token format")
-	}
-	ids := new(idObject)
-	var ok bool
-	//check uid
-	ids.uid, ok = (*jwt)["u_id"].(string)
-	if !ok {
-		return nil, fmt.Errorf("Invalid token format")
-	}
-	//check session
-	ids.sid, ok = (*jwt)["s_id"].(string)
-	if !ok {
-		return nil, fmt.Errorf("Invalid token format")
-	}
-	return ids, nil
 }
 
 type accessObj struct {

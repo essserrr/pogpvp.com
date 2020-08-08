@@ -342,29 +342,6 @@ func newAccessSession(r *http.Request) (*mongocalls.AccessSession, error) {
 	return acc, nil
 }
 
-func newRefreshSession(r *http.Request) (*mongocalls.RefreshSession, error) {
-	ref := new(mongocalls.RefreshSession)
-	rCookie, err := r.Cookie("__rjwt")
-	if err != nil {
-		return nil, errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
-	}
-	ref.RefreshToken = rCookie.Value
-
-	uidCookie, err := r.Cookie("uid")
-	if err != nil {
-		return nil, errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
-	}
-	ref.UserID = uidCookie.Value
-
-	sidCookie, err := r.Cookie("sid")
-	if err != nil {
-		return nil, errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
-	}
-	ref.SessionID = sidCookie.Value
-
-	return ref, nil
-}
-
 func changePassword(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodPost {
 		app.metrics.dbCounters.With(prometheus.Labels{"type": "chpass_error_count"}).Inc()
@@ -412,24 +389,23 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	refSession, err := newRefreshSession(r)
+	rCookie, err := r.Cookie("__rjwt")
 	if err != nil {
-		discardCookie(w)
-		return err
+		return errors.NewHTTPError(nil, http.StatusUnauthorized, "No session")
 	}
 	browser, os := browserAndOs(r.Header.Get("User-Agent"))
 	tokens, uname, err := mongocalls.Refresh(app.mongo.client, mongocalls.Session{
 		Browser: browser,
 		Os:      os,
 		IP:      ip,
-	}, refSession)
+	}, rCookie)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just refreshed their token", uname)
+	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just refreshed their token", tokens.UserID)
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Expires: tokens.AToken.Expires, Username: uname}); err != nil {
