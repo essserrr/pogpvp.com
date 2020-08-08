@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
-	"net/http"
 	"os"
 	"time"
 
@@ -128,6 +127,7 @@ func NewSession(client *mongo.Client, sess Session, id string) (*Tokens, error) 
 
 //Tokens contains access and refresh tokens
 type Tokens struct {
+	UserID    string
 	SessionID string
 
 	AToken SingleToken
@@ -152,7 +152,9 @@ func (s *Session) generateTokens(id string) *Tokens {
 }
 
 func (t *Tokens) startTokenSession(uid string) error {
+	t.UserID = uid
 	t.SessionID = uuid.New().String()
+
 	if err := t.newAccess(uid); err != nil {
 		return err
 	}
@@ -214,16 +216,12 @@ func (u *UserSessions) addSession(sess Session) {
 }
 
 //deleteSession deletes session from array and return deleted session
-func (u *UserSessions) findSession(jwt *jwt.MapClaims) *Session {
+func (u *UserSessions) findSession(sid string) *Session {
 	if u.Sessions == nil {
 		return nil
 	}
-	sID, ok := (*jwt)["s_id"].(string)
-	if !ok {
-		return nil
-	}
 	for _, value := range u.Sessions {
-		if value.SessionID == sID {
+		if value.SessionID == sid {
 			return &value
 		}
 	}
@@ -231,19 +229,15 @@ func (u *UserSessions) findSession(jwt *jwt.MapClaims) *Session {
 }
 
 //deleteSession deletes session from array and return deleted session
-func (u *UserSessions) deleteSession(jwt *jwt.MapClaims) *Session {
+func (u *UserSessions) deleteSession(sid string) *Session {
 	if u.Sessions == nil {
 		return nil
 	}
 	if len(u.Sessions) > 5 {
 		u.Sessions = u.Sessions[0:5]
 	}
-	sID, ok := (*jwt)["s_id"].(string)
-	if !ok {
-		return nil
-	}
 	for key, value := range u.Sessions {
-		if value.SessionID == sID {
+		if value.SessionID == sid {
 			u.Sessions = append(u.Sessions[:key], u.Sessions[key+1:]...)
 			return &value
 		}
@@ -293,22 +287,18 @@ func updateUser(client *mongo.Client, id string, query bson.M) error {
 }
 
 //Refresh refreshes user session if creditinails are right
-func Refresh(client *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, string, error) {
-	jwt, err := decodeToken(cookie.Value)
-	if err != nil {
-		return nil, "", fmt.Errorf("Invalid auth token")
-	}
-	currUser, err := findSesionsByToken(jwt, client)
+func Refresh(client *mongo.Client, sess Session, refSession *RefreshSession) (*Tokens, string, error) {
+	currUser, err := findUserSessions(refSession.UserID, client)
 	if err != nil {
 		return nil, "", err
 	}
 	//find session
-	currSession := currUser.deleteSession(jwt)
+	currSession := currUser.deleteSession(refSession.SessionID)
 	if currSession == nil {
 		return nil, "", fmt.Errorf("Session not found")
 	}
 
-	switch currSession.verifyRefresh(cookie.Value) {
+	switch currSession.verifyRefresh(refSession.RefreshToken) {
 	case true:
 		tok := sess.generateTokens(currUser.ID)
 		currUser.addSession(sess)
@@ -325,15 +315,10 @@ func Refresh(client *mongo.Client, sess Session, cookie *http.Cookie) (*Tokens, 
 	}
 }
 
-func findSesionsByToken(jwt *jwt.MapClaims, client *mongo.Client) (*UserSessions, error) {
-	//check uid
-	uID, ok := (*jwt)["u_id"].(string)
-	if !ok {
-		return nil, fmt.Errorf("Invalid auth token")
-	}
+func findUserSessions(uid string, client *mongo.Client) (*UserSessions, error) {
 	//find user
 	currUser := new(UserSessions)
-	if err := lookupUser(client, bson.M{"_id": uID}, currUser); err != nil {
+	if err := lookupUser(client, bson.M{"_id": uid}, currUser); err != nil {
 		return nil, fmt.Errorf("Invalid auth token")
 	}
 	if currUser.ID == "" {
@@ -342,33 +327,41 @@ func findSesionsByToken(jwt *jwt.MapClaims, client *mongo.Client) (*UserSessions
 	return currUser, nil
 }
 
+type AccessSession struct {
+	AccessToken string
+	UserID      string
+	SessionID   string
+}
+
+type RefreshSession struct {
+	RefreshToken string
+	UserID       string
+	SessionID    string
+}
+
 //Logout deketes current session
-func Logout(client *mongo.Client, cookie *http.Cookie) (string, error) {
-	jwt, err := decodeToken(cookie.Value)
+func Logout(client *mongo.Client, accSession *AccessSession) error {
+	currUser, err := findUserSessions(accSession.UserID, client)
 	if err != nil {
-		return "", fmt.Errorf("Invalid auth token")
-	}
-	currUser, err := findSesionsByToken(jwt, client)
-	if err != nil {
-		return "", err
+		return err
 	}
 	//find session
-	currSession := currUser.deleteSession(jwt)
+	currSession := currUser.deleteSession(accSession.SessionID)
 	if currSession == nil {
-		return "", fmt.Errorf("Session not found")
+		return fmt.Errorf("Session not found")
 	}
 
-	switch currSession.verifyRefresh(cookie.Value) {
+	switch currSession.verifyAccess(accSession.AccessToken) {
 	case true:
 		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": currUser.Sessions}}); err != nil {
-			return currUser.ID, err
+			return err
 		}
-		return currUser.ID, nil
+		return nil
 	default:
 		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": currUser.Sessions}}); err != nil {
-			return currUser.ID, err
+			return err
 		}
-		return currUser.ID, fmt.Errorf("Verification failed")
+		return fmt.Errorf("Verification failed")
 	}
 }
 
@@ -394,61 +387,52 @@ func decodeToken(refresh string) (*jwt.MapClaims, error) {
 }
 
 //LogoutAll stops all user sessions
-func LogoutAll(client *mongo.Client, cookie *http.Cookie) (string, error) {
-	jwt, err := decodeToken(cookie.Value)
+func LogoutAll(client *mongo.Client, accSession *AccessSession) error {
+	currUser, err := findUserSessions(accSession.UserID, client)
 	if err != nil {
-		return "", fmt.Errorf("Invalid auth token")
-	}
-	currUser, err := findSesionsByToken(jwt, client)
-	if err != nil {
-		return "", err
+		return err
 	}
 	//find session
-	currSession := currUser.deleteSession(jwt)
+	currSession := currUser.deleteSession(accSession.SessionID)
 	if currSession == nil {
-		return "", fmt.Errorf("Session not found")
+		return fmt.Errorf("Session not found")
 	}
 	//if user auth failed delete only active session
-	switch currSession.verifyRefresh(cookie.Value) {
+	switch currSession.verifyAccess(accSession.AccessToken) {
 	case true:
 		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": []Session{}}}); err != nil {
-			return currUser.ID, err
+			return err
 		}
-		return currUser.ID, nil
+		return nil
 	default:
-		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": []Session{}}}); err != nil {
-			return currUser.ID, fmt.Errorf("Verification failed")
+		if err := updateUser(client, currUser.ID, bson.M{"$set": bson.M{"session": currUser.Sessions}}); err != nil {
+			return err
 		}
-		return currUser.ID, fmt.Errorf("Verification failed")
+		return fmt.Errorf("Verification failed")
 	}
 }
 
-//ChPass changes user's password if creditinail are right
-func ChPass(client *mongo.Client, form *users.SubmitForm, cookie *http.Cookie) (string, error) {
-	jwt, err := decodeToken(cookie.Value)
-	if err != nil {
-		return "", fmt.Errorf("Invalid auth token")
-	}
-	currUser, err := findSesionsByToken(jwt, client)
-	if err != nil {
-		return "", err
-	}
-	//find session
-	currSession := currUser.findSession(jwt)
-	if currSession == nil {
-		return "", fmt.Errorf("Session not found")
-	}
+type userPass struct {
+	Password string `bson:"password,omitempty"`
+}
 
-	switch currSession.verifyRefresh(cookie.Value) {
-	case true:
-		if err := updateUser(client, currUser.ID,
-			bson.M{"$set": bson.M{"session": currUser.Sessions, "password": form.NewPassword}}); err != nil {
-			return "", err
-		}
-		return currUser.ID, nil
-	default:
-		return currUser.ID, fmt.Errorf("Verification failed")
+//ChPass changes user's password if creditinail are right
+func ChPass(client *mongo.Client, form *users.SubmitForm, accSession *AccessSession) error {
+	if err := getAccess(client, accSession); err != nil {
+		return err
 	}
+	currUser := new(userPass)
+	if err := lookupUser(client, bson.M{"_id": accSession.UserID}, currUser); err != nil {
+		return fmt.Errorf("Password change failed")
+	}
+	if currUser.Password != form.Password {
+		return fmt.Errorf("Wrong old password")
+	}
+	if err := updateUser(client, accSession.UserID,
+		bson.M{"$set": bson.M{"password": form.NewPassword}}); err != nil {
+		return err
+	}
+	return nil
 }
 
 //ResetInfo contains user pasword reset information
@@ -547,17 +531,12 @@ func ConfirmRestorePass(client *mongo.Client, restoreKey string) (string, error)
 }
 
 //GetUserInfo returns users main info
-func GetUserInfo(client *mongo.Client, req *users.Request) (*users.UserInfo, error) {
-	ids, err := parseFromToken(req.AccessToken)
-	if err != nil {
+func GetUserInfo(client *mongo.Client, accSession *AccessSession) (*users.UserInfo, error) {
+	if err := getAccess(client, accSession); err != nil {
 		return nil, err
 	}
-	if err = getAccess(client, req, ids); err != nil {
-		return nil, err
-	}
-
 	currUser := new(users.UserInfo)
-	if err := lookupUser(client, bson.M{"_id": ids.uid}, currUser); err != nil {
+	if err := lookupUser(client, bson.M{"_id": accSession.UserID}, currUser); err != nil {
 		return nil, fmt.Errorf("Wrong auth token")
 	}
 	return currUser, nil
@@ -568,42 +547,32 @@ type movesResponse struct {
 }
 
 //GetUserMoves returns custom moves of a user
-func GetUserMoves(client *mongo.Client, req *users.Request) (*map[string]appl.MoveBaseEntry, error) {
-	ids, err := parseFromToken(req.AccessToken)
-	if err != nil {
-		return nil, err
-	}
-	if err = getAccess(client, req, ids); err != nil {
+func GetUserMoves(client *mongo.Client, accSession *AccessSession) (*map[string]appl.MoveBaseEntry, error) {
+	if err := getAccess(client, accSession); err != nil {
 		return nil, err
 	}
 
 	currUser := new(movesResponse)
-	if err := lookupUser(client, bson.M{"_id": ids.uid}, currUser); err != nil {
+	if err := lookupUser(client, bson.M{"_id": accSession.UserID}, currUser); err != nil {
 		return nil, fmt.Errorf("Wrong auth token")
 	}
 	return &currUser.Moves, nil
 }
 
 type MovesRequest struct {
-	AccessToken string
-	Moves       map[string]appl.MoveBaseEntry
+	Moves map[string]appl.MoveBaseEntry
 }
 
 //SetUserMoves sets custom moves of a user
-func SetUserMoves(client *mongo.Client, req *MovesRequest) error {
-	ids, err := parseFromToken(req.AccessToken)
-	if err != nil {
+func SetUserMoves(client *mongo.Client, req *MovesRequest, accSession *AccessSession) error {
+	if err := getAccess(client, accSession); err != nil {
 		return err
 	}
-	if err = getAccess(client, &users.Request{AccessToken: req.AccessToken}, ids); err != nil {
-		return err
-	}
-
-	if err := updateUser(client, ids.uid,
+	if err := updateUser(client, accSession.UserID,
 		bson.M{"$set": bson.M{"umoves": limitMovelist(req.Moves)}}); err != nil {
 		return fmt.Errorf("Wrong auth token")
 	}
-	return err
+	return nil
 }
 
 func limitMovelist(movelist map[string]appl.MoveBaseEntry) map[string]appl.MoveBaseEntry {
@@ -627,17 +596,13 @@ type sessionResponse struct {
 }
 
 //GetUserSessions returns users sessions info
-func GetUserSessions(client *mongo.Client, req *users.Request) (*[]users.UserSession, error) {
-	ids, err := parseFromToken(req.AccessToken)
-	if err != nil {
-		return nil, err
-	}
-	if err = getAccess(client, req, ids); err != nil {
+func GetUserSessions(client *mongo.Client, accSession *AccessSession) (*[]users.UserSession, error) {
+	if err := getAccess(client, accSession); err != nil {
 		return nil, err
 	}
 
 	currUser := new(sessionResponse)
-	if err := lookupUser(client, bson.M{"_id": ids.uid}, currUser); err != nil {
+	if err := lookupUser(client, bson.M{"_id": accSession.UserID}, currUser); err != nil {
 		return nil, fmt.Errorf("Wrong auth token")
 	}
 	return &currUser.Sessions, nil
@@ -673,22 +638,22 @@ type accessObj struct {
 	Sessions Session `bson:"session,omitempty"`
 }
 
-func getAccess(client *mongo.Client, req *users.Request, ids *idObject) error {
+func getAccess(client *mongo.Client, accSession *AccessSession) error {
 	//find user
 	usersColl := client.Database("pogpvp").Collection("users")
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	matchStage1 := bson.D{{"$match", bson.D{{"_id", ids.uid}}}}
+	matchStage1 := bson.D{{"$match", bson.D{{"_id", accSession.UserID}}}}
 	unwindStage := bson.D{{"$unwind", bson.D{{"path", "$session"}, {"preserveNullAndEmptyArrays", false}}}}
-	matchStage2 := bson.D{{"$match", bson.D{{"session.sessId", ids.sid}}}}
+	matchStage2 := bson.D{{"$match", bson.D{{"session.sessId", accSession.SessionID}}}}
 	project := bson.D{{"$project", bson.D{{"session", 1}}}}
 
 	sessionCursor, err := usersColl.Aggregate(ctx, mongo.Pipeline{matchStage1, unwindStage, matchStage2, project})
 	if err != nil {
 		return fmt.Errorf("Invalid auth token")
 	}
-	//currSession := new(Session)  session := []Session{}
+
 	obj := []accessObj{}
 	if err = sessionCursor.All(ctx, &obj); err != nil {
 		return fmt.Errorf("Invalid auth token")
@@ -697,7 +662,7 @@ func getAccess(client *mongo.Client, req *users.Request, ids *idObject) error {
 		return fmt.Errorf("Invalid auth token")
 	}
 
-	switch obj[0].Sessions.verifyAccess(req.AccessToken) {
+	switch obj[0].Sessions.verifyAccess(accSession.AccessToken) {
 	case true:
 		return nil
 	default:
