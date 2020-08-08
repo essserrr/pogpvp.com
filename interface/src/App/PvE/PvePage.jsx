@@ -1,7 +1,12 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization";
+import { connect } from "react-redux"
 
+import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
+import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
+import { refresh } from "../../AppStore/Actions/refresh"
 import {
     extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker
 } from "../../js/indexFunctions"
@@ -88,16 +93,12 @@ class PvePage extends React.Component {
         let extrData = extractRaidData(party, boss, obj)
         //after opening the page get pokemonBase
 
+        await this.props.refresh()
         try {
             let fetches = [
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
-                fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/moves", {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                }),
+                this.props.getPokemonBase(),
+                this.props.getMoveBase(),
+                this.props.getCustomMoves()
             ]
             if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
                 fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST :
@@ -109,34 +110,28 @@ class PvePage extends React.Component {
 
             let responses = await Promise.all(fetches)
 
-            let parses = [
-                responses[0].json(),
-                responses[1].json(),
-            ]
             if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
-                parses.push(responses[2].json())
+                var pveResult = await responses[responses.length - 1].json()
             }
 
-            let results = await Promise.all(parses)
-
             let pokList = []
-            if (results[0]) { pokList = returnPokList(results[0], true, strings.options.moveSelect.none) }
+            if (!!this.props.bases.pokemonBase) { pokList = returnPokList(this.props.bases.pokemonBase) }
 
             let movebaseSeparated = []
-            if (results[1]) { movebaseSeparated = separateMovebase(results[1]) }
+            if (!!this.props.bases.moveBase) { movebaseSeparated = separateMovebase(this.props.bases.moveBase) }
 
 
             for (let i = 0; i < responses.length; i++) {
                 if (!responses[i].ok) {
                     this.setState({
                         isError: true,
-                        error: results[i].detail,
+                        error: i <= 1 ? this.props.bases.error : (i === 2 ? this.props.customMoves.error : pveResult.detail),
                         isLoaded: true,
                         showResult: false,
                         loading: false,
 
-                        pokemonTable: (results[0]) ? results[0] : [],
-                        moveTable: (results[1]) ? results[1] : [],
+                        pokemonTable: (!!this.props.bases.pokemonBase) ? this.props.bases.pokemonBase : [],
+                        moveTable: (!!this.props.bases.moveBase) ? this.props.bases.moveBase : [],
                         pokList: (pokList) ? pokList : [],
                         chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
                         quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
@@ -146,10 +141,10 @@ class PvePage extends React.Component {
             }
 
             if (extrData.attackerObj !== undefined) {
-                var attackerObj = this.setUpPokemon(extractPveAttacker(extrData.attackerObj), results[0])
+                var attackerObj = this.setUpPokemon(extractPveAttacker(extrData.attackerObj), this.props.bases.pokemonBase)
             }
             if (extrData.bossObj !== undefined) {
-                var bossObj = this.setUpPokemon(extractPveBoss(extrData.bossObj), results[0], true)
+                var bossObj = this.setUpPokemon(extractPveBoss(extrData.bossObj), this.props.bases.pokemonBase, true)
             }
             if (extrData.pveObj !== undefined) {
                 var pveObj = extractPveObj(extrData.pveObj)
@@ -159,13 +154,13 @@ class PvePage extends React.Component {
                 bossObj: bossObj,
                 pveObj: pveObj,
 
-                date: (results[2]) ? Date.now() : 1,
-                pveResult: results[2],
-                showResult: (results[2]) ? true : false,
+                date: (!!pveResult) ? Date.now() : 1,
+                pveResult: pveResult,
+                showResult: !!pveResult,
                 url: window.location.href,
 
-                pokemonTable: results[0],
-                moveTable: results[1],
+                pokemonTable: this.props.bases.pokemonBase,
+                moveTable: this.props.bases.moveBase,
                 pokList: pokList,
                 chargeMoveList: movebaseSeparated.chargeMoveList,
                 quickMoveList: movebaseSeparated.quickMoveList,
@@ -256,4 +251,18 @@ class PvePage extends React.Component {
     }
 }
 
-export default PvePage
+const mapDispatchToProps = dispatch => {
+    return {
+        refresh: () => dispatch(refresh()),
+        getCustomMoves: () => dispatch(getCustomMoves()),
+        getPokemonBase: () => dispatch(getPokemonBase()),
+        getMoveBase: () => dispatch(getMoveBase()),
+    }
+}
+
+export default connect(
+    state => ({
+        customMoves: state.customMoves,
+        bases: state.bases,
+    }), mapDispatchToProps
+)(PvePage)

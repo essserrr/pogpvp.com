@@ -18,7 +18,6 @@ class App extends Component {
                 console.log("App starts refreshing")
                 this.props.startLoading()
                 this.props.refresh()
-                this.props.endLoading()
                 return
             default:
                 this.props.endLoading()
