@@ -121,6 +121,9 @@ class Collapsable extends React.PureComponent {
         }
         return (array.length > 3 ? array.slice(0, 3) : array).map((elem) =>
             <RMoveRow
+                pokName={checkShadow(this.props.container.Name, this.props.pokemonTable)}
+                pokemonTable={this.props.pokemonTable}
+
                 key={elem.Quick + elem.Charge[0] + elem.Charge[1]}
                 moveTable={this.props.moveTable}
                 value={elem}

@@ -1,21 +1,26 @@
 import React from "react";
 
 const RMoveRow = React.memo(function (props) {
+    function addStar(moveName) {
+        return (props.pokemonTable[props.pokName].EliteMoves[moveName] === 1 ? "*" : "")
+
+    }
+
     return (
         <div className="row justify-content-between styleRating fBolder animRating mb-1 mx-2 mx-md-3">
             <div className="col p-0">
                 <div className="row justify-content-md-left m-0 p-0">
                     {props.moveTable[props.value.Quick] &&
                         <div className={"mx-1 moveStyle m typeColorC" + props.moveTable[props.value.Quick].MoveType + " text"}>
-                            {props.value.Quick}
+                            {props.value.Quick + addStar(props.value.Quick)}
                         </div>}
                     {props.moveTable[props.value.Charge[0]] &&
                         <div className={"mx-1  moveStyle m typeColorC" + props.moveTable[props.value.Charge[0]].MoveType + " text"}>
-                            {props.value.Charge[0]}
+                            {props.value.Charge[0] + addStar(props.value.Charge[0])}
                         </div>}
                     {props.moveTable[props.value.Charge[1]] &&
                         <div className={"mx-1 moveStyle m typeColorC" + props.moveTable[props.value.Charge[1]].MoveType + " text"}>
-                            {props.value.Charge[1]}
+                            {props.value.Charge[1] + addStar(props.value.Charge[1])}
                         </div>}
                 </div>
             </div>
