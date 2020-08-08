@@ -165,12 +165,12 @@ class Login extends React.Component {
             //if response is not ok, handle error
             if (!response.ok) { throw result.detail }
 
-            switch (!result.Token) {
+            switch (!result.Username) {
                 case true:
                     this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
                     break
                 default:
-                    this.props.setSession({ token: result.Token, expires: result.Expires, uname: result.Username })
+                    this.props.setSession({ expires: result.Expires, uname: result.Username })
                     this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile/info"))
             }
         } catch (e) {
@@ -184,7 +184,6 @@ class Login extends React.Component {
 
 
     render() {
-        console.log(this.state.error)
         return (
             <div className="container-fluid my-5">
                 <SiteHelm

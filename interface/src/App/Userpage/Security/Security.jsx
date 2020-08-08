@@ -34,9 +34,9 @@ class Security extends React.PureComponent {
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/sessions", {
-                method: "POST",
+                method: "GET",
+                credentials: "include",
                 headers: { "Content-Type": "application/json", },
-                body: JSON.stringify({ AccessToken: this.props.session.jwt })
             })
             //parse answer
             let result = await response.json()

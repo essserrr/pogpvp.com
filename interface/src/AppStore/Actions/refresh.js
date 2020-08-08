@@ -2,17 +2,16 @@ import { getCookie } from "../../js/getCookie"
 
 export const refresh = () => {
     return (dispatch, getState) => {
-        let state = getState(),
-            appS = getCookie("appS");
-        if (!appS || appS === "false") {
+        let state = getState()
+        if (!getCookie("uid")) {
             dispatch({
-                type: "END_LOADING",
-                value: { token: "", expires: "", uname: "" }
+                type: "SET_SESSION",
+                value: { expires: 0, uname: "" }
             })
             return
         }
 
-        switch (state.session.jwt === "" || state.session.expiresAt - (Date.now() / 1000) < 5) {
+        switch (!getCookie("sid") || state.session.expiresAt - (Date.now() / 1000) < 5) {
             case true:
                 return fetch(((navigator.userAgent !== "ReactSnap") ?
                     process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/refresh", {
@@ -28,20 +27,17 @@ export const refresh = () => {
                         if (data.detail) { throw data.detail }
                         dispatch({
                             type: "SET_SESSION",
-                            value: { token: data.Token, expires: data.Expires, uname: data.Username }
+                            value: { expires: data.Expires, uname: data.Username }
                         })
 
                     }).catch(r => {
                         dispatch({
                             type: "SET_SESSION",
-                            value: { token: "", expires: "", uname: "" }
+                            value: { expires: 0, uname: "" }
                         })
                         return
                     })
             default:
-                dispatch({
-                    type: "END_LOADING",
-                })
                 return
         }
     }

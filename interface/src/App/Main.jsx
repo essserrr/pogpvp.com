@@ -68,10 +68,10 @@ class Main extends React.Component {
                         <Route path="/privacy" component={Privacy} />
                         <Route path="/terms" component={Terms} />
 
-                        <PrivateRoute authed={this.props.session.jwt === ""} path='/registration' dest="/profile/info" component={Registration} />
-                        <PrivateRoute authed={this.props.session.jwt !== ""} path='/profile' dest="/login" component={ProfileRouter} />
-                        <PrivateRoute authed={this.props.session.jwt === ""} path='/login' dest="/profile/info" component={Login} />
-                        <PrivateRoute authed={this.props.session.jwt === ""} path='/restore' dest="/profile/info" component={RestoreRouter} />
+                        <PrivateRoute authed={!getCookie("sid")} path='/registration' dest="/profile/info" component={Registration} />
+                        <PrivateRoute authed={!!getCookie("sid")} path='/profile' dest="/login" component={ProfileRouter} />
+                        <PrivateRoute authed={!getCookie("sid")} path='/login' dest="/profile/info" component={Login} />
+                        <PrivateRoute authed={!getCookie("sid")} path='/restore' dest="/profile/info" component={RestoreRouter} />
                         <Route path="*" component={NotFound} />
                     </Switch>
                 </Suspense>

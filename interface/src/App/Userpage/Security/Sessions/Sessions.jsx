@@ -31,6 +31,7 @@ class Sessions extends React.PureComponent {
             loading: true,
             error: "",
         })
+        await this.props.refresh()
 
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
@@ -44,7 +45,7 @@ class Sessions extends React.PureComponent {
             //if response is not ok, handle error
             if (!response.ok) { throw result.detail }
 
-            this.props.setSession({ token: "", expires: 0, uname: "" })
+            this.props.setSession({ expires: 0, uname: "" })
 
         } catch (e) {
             this.setState({
@@ -95,7 +96,6 @@ const mapDispatchToProps = dispatch => {
     return {
         refresh: () => dispatch(refresh()),
         setSession: (value) => dispatch(setSession(value)),
-
     }
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { getCookie } from "../js/getCookie"
 import { refresh } from '../AppStore/Actions/refresh'
 import { endLoading, startLoading } from '../AppStore/Actions/actions'
 import Main from "./Main.jsx"
@@ -12,10 +13,12 @@ import "./App.scss"
 
 class App extends Component {
     componentDidMount = () => {
-        switch (!this.props.session.token || this.props.session.expiresAt - (Date.now() / 1000) < 5) {
+        switch (!getCookie("sid") || this.props.session.expiresAt - (Date.now() / 1000) < 5) {
             case true:
+                console.log("App starts refreshing")
                 this.props.startLoading()
-                this.props.refresh({ optional: true })
+                this.props.refresh()
+                this.props.endLoading()
                 return
             default:
                 this.props.endLoading()

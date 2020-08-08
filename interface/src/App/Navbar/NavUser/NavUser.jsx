@@ -3,7 +3,8 @@ import DropdownMenu from "../DropdownMenu"
 import { Link } from "react-router-dom"
 import { connect } from 'react-redux'
 
-import { logout } from "../../../AppStore/Actions/logout"
+import { refresh } from "../../../AppStore/Actions/refresh"
+import { setSession } from "../../../AppStore/Actions/actions"
 import { getCookie } from "../../../js/getCookie"
 import LoginReg from "./LoginReg/LoginReg"
 
@@ -19,19 +20,25 @@ class User extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        this.state = {
-            userOpts: [
-                <Link key="profile" className="dropdown-item " to="/profile/info">
-                    <i className="far fa-address-card fa-lg mr-1"></i>
-                    {strings.navbar.prof}</Link>,
-                <div key="logout" name="logout" className="dropdown-item navuser--padding"
-                    onClick={this.props.logout}>
-                    <i className="fas fa-sign-out-alt fa-lg mr-1"></i>{strings.navbar.sout}
-                </div>
-            ],
-        };
+
+        this.onClick = this.onClick.bind(this)
     }
 
+    async onClick() {
+        await this.props.refresh()
+        try {
+            await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/logout", {
+                method: "GET",
+                credentials: "include",
+                headers: { "Content-Type": "application/json", }
+            })
+            this.props.setSession({ expires: 0, uname: "" })
+
+        } catch (e) {
+            this.props.setSession({ expires: 0, uname: "" })
+        }
+    }
 
 
     render() {
@@ -40,7 +47,17 @@ class User extends React.PureComponent {
                 <DropdownMenu
                     class="mr-2"
                     dropClass="dropdown-menu-right"
-                    list={this.state.userOpts}
+                    list={
+                        <>
+                            <Link key="profile" className="dropdown-item " to="/profile/info">
+                                <i className="far fa-address-card fa-lg mr-1"></i>
+                                {strings.navbar.prof}</Link>,
+                            <div key="logout" name="logout" className="dropdown-item navuser--padding"
+                                onClick={this.onClick}>
+                                <i className="fas fa-sign-out-alt fa-lg mr-1"></i>{strings.navbar.sout}
+                            </div>
+                        </>
+                    }
                     label={
                         <>
                             <i className="fas fa-user fa-2x clickable"></i><span className="navuser__text">{this.props.session.username}</span>
@@ -53,7 +70,8 @@ class User extends React.PureComponent {
 
 const mapDispatchToProps = dispatch => {
     return {
-        logout: () => dispatch(logout()),
+        refresh: () => dispatch(refresh()),
+        setSession: (value) => dispatch(setSession(value)),
     }
 }
 

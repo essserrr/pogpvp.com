@@ -187,12 +187,12 @@ class Registration extends React.Component {
             if (!response.ok) { throw result.detail }
 
             //otherwise set token
-            switch (!result.Token) {
+            switch (!result.Username) {
                 case true:
                     this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/login"))
                     break
                 default:
-                    this.props.setSession({ token: result.Token, expires: result.Expires, uname: result.Username })
+                    this.props.setSession({ expires: result.Expires, uname: result.Username })
                     this.props.history.push(((navigator.userAgent === "ReactSnap") ? "/" : "/profile/info"))
             }
 

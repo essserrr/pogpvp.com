@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom"
-import { connect } from 'react-redux'
 
-import { logout } from "../../../../AppStore/Actions/logout"
 import { getCookie } from "../../../../js/getCookie"
 
 import LocalizedStrings from "react-localization"
@@ -21,8 +19,6 @@ class LoginReg extends React.PureComponent {
         }
     }
 
-
-
     render() {
         return (
             <>
@@ -37,14 +33,5 @@ class LoginReg extends React.PureComponent {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        logout: () => dispatch(logout()),
-    }
-}
 
-export default connect(
-    state => ({
-        session: state.session,
-    }), mapDispatchToProps
-)(LoginReg)
+export default LoginReg

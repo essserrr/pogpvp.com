@@ -1,6 +1,5 @@
 const initialState = {
     username: "",
-    jwt: "",
     expiresAt: 0,
     isLoading: true,
 }
@@ -8,9 +7,9 @@ const initialState = {
 const Session = (state = initialState, action) => {
     switch (action.type) {
         case "SET_SESSION":
+            console.log(action.value)
             return {
                 ...state,
-                jwt: action.value.token,
                 expiresAt: action.value.expires,
                 username: action.value.uname,
                 isLoading: false,

@@ -1,16 +1,18 @@
 
+import { getCookie } from "../../js/getCookie"
+
 export const getMoves = () => {
     return (dispatch, getState) => {
         let state = getState()
         if (state.customMoves.moves.length > 0) { return }
 
-        switch (state.session.jwt !== "" && state.session.expiresAt - (Date.now() / 1000) > 5) {
+        switch (!!getCookie("sid")) {
             case true:
                 return fetch(((navigator.userAgent !== "ReactSnap") ?
                     process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/getmoves", {
-                    method: "POST",
+                    method: "GET",
+                    credentials: "include",
                     headers: { "Content-Type": "application/json", },
-                    body: JSON.stringify({ AccessToken: state.session.jwt })
                 })
                     .then(resp => {
                         if (!resp) { throw new Error("No response") }

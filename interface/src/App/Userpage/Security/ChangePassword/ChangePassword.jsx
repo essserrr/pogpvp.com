@@ -1,7 +1,9 @@
 import React from "react"
 import { getCookie } from "../../../../js/getCookie"
 import LocalizedStrings from "react-localization"
+import { connect } from 'react-redux'
 
+import { refresh } from "../../../../AppStore/Actions/refresh"
 import { userLocale } from "../../../../locale/userLocale"
 import Errors from "../../../PvP/components/Errors/Errors"
 
@@ -106,7 +108,7 @@ class ChangePassword extends React.PureComponent {
             error: "",
             ok: false,
         })
-
+        await this.props.refresh()
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/chpass", {
@@ -155,6 +157,8 @@ class ChangePassword extends React.PureComponent {
                 <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
                     <PassChangeForm
                         {...this.state.form}
+
+                        loading={this.state.loading}
                         notOk={this.state.notOk}
                         onChange={this.onChange}
                         onSubmit={this.onSubmit}
@@ -171,5 +175,12 @@ class ChangePassword extends React.PureComponent {
     }
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        refresh: () => dispatch(refresh()),
+    }
+}
 
-export default ChangePassword
+export default connect(
+    null, mapDispatchToProps
+)(ChangePassword)

@@ -129,7 +129,6 @@ class Move extends React.PureComponent {
     }
 
     setInputs(event) {
-        console.log(event.target.name, event.target.value)
         this.setState({
             inputs: {
                 ...this.state.inputs,
@@ -245,7 +244,6 @@ class Move extends React.PureComponent {
     }
 
     onMoveOpen(move) {
-        console.log(move)
         this.setState({
             Title: move.Title,
             MoveCategory: move.MoveCategory,
@@ -281,20 +279,18 @@ class Move extends React.PureComponent {
             submitting: true, error: "", ok: false,
         })
         try {
-            console.log(this.state.moves)
             await this.props.refresh()
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/setmoves", {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json", },
-                body: JSON.stringify({ Moves: this.state.moves, AccessToken: this.props.session.jwt })
+                body: JSON.stringify({ Moves: this.state.moves })
             })
             //parse answer
             const data = await response.json();
             //if response is not ok, handle error
             if (!response.ok) {
-                console.log(data)
                 throw data.detail
             }
             //set global movelist
