@@ -5,6 +5,7 @@ import (
 	"Solutions/pvpSimulator/core/limiter"
 	sim "Solutions/pvpSimulator/core/sim"
 	appl "Solutions/pvpSimulator/core/sim/app"
+	useractions "Solutions/pvpSimulator/core/users/userActions"
 	"bytes"
 	"encoding/binary"
 	"encoding/json"
@@ -611,37 +612,29 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_count"}).Inc()
 
-	attacker := chi.URLParam(r, "attacker")
-	boss := chi.URLParam(r, "boss")
-	obj := chi.URLParam(r, "obj")
-	//if base aldready exists there is no need to create it again
-	var answer []byte
-
-	//template for further implementing of other types of pve
-	if answer == nil {
-		//Parse request
-		inDat, err := parser.ParseRaidRequest(attacker, boss, obj)
-		if err != nil {
-			return err
-		}
-		//Start new raid
-		pveResult, err := sim.CalculteCommonPve(inDat)
-		if err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
-			return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
-		}
-		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated raid")
-
-		//Create json answer from pvpResult
-		answer, err = json.Marshal(pveResult)
-		if err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
-			return fmt.Errorf("PvE result marshal error: %v", err)
-		}
+	//Parse request
+	inDat, err := parser.ParseRaidRequest(chi.URLParam(r, "attacker"), chi.URLParam(r, "boss"), chi.URLParam(r, "obj"))
+	if err != nil {
+		return err
 	}
+	//Start new raid
+	pveResult, err := sim.CalculteCommonPve(inDat)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
+	}
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated raid")
+
+	//Create json answer from pvpResult
+	answer, err := json.Marshal(pveResult)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_error_count"}).Inc()
+		return fmt.Errorf("PvE result marshal error: %v", err)
+	}
+
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err := (*w).Write(answer)
+	_, err = (*w).Write(answer)
 	if err != nil {
 		return fmt.Errorf("Write response error: %v", err)
 	}
@@ -661,78 +654,119 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_count"}).Inc()
-	pok1 := chi.URLParam(r, "pok1")
-	pok2 := chi.URLParam(r, "pok2")
-	isPvpoke := r.Header.Get("Pvp-Type")
+
+	//Parse request
+	attacker, defender, err := parser.ParsePvpRequest(chi.URLParam(r, "pok1"), chi.URLParam(r, "pok2"))
+	if err != nil {
+		return err
+	}
+
+	pvpReq := singlePvpReq{
+		answer:     []byte{},
+		attacker:   attacker,
+		defender:   defender,
+		isPvpoke:   r.Header.Get("Pvp-Type"),
+		pvpBaseKey: chi.URLParam(r, "pok1") + chi.URLParam(r, "pok2"),
+		constr:     appl.Constructor{},
+	}
 
 	//if we have pvp in the base, there is no need to create it again
-	pvpBaseKey := pok1 + pok2
-	var answer []byte
-	switch isPvpoke {
+	switch pvpReq.isPvpoke {
 	case "pvpoke":
-		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey+"pvpoke")
+		pvpReq.answer = app.pvpDatabase.readBase("PVPRESULTS", pvpReq.pvpBaseKey+"pvpoke")
 		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Pvpoke enabled")
 	default:
-		answer = app.pvpDatabase.readBase("PVPRESULTS", pvpBaseKey)
+		pvpReq.answer = app.pvpDatabase.readBase("PVPRESULTS", pvpReq.pvpBaseKey)
 	}
-	if answer != nil {
+
+	switch pvpReq.answer {
+	case nil:
+		if err := pvpReq.singlePvpWrap(app, r); err != nil {
+			return err
+		}
+	default:
 		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Got from pvp base")
 	}
 
-	if answer == nil {
-		//Parse request
-		attacker, defender, err := parser.ParsePvpRequest(pok1, pok2)
-		if err != nil {
-			return err
-		}
-		//Start new PvP
-		var pvpResult appl.PvpResults
-		switch isPvpoke {
-		case "pvpoke":
-			pvpResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
-				AttackerData: attacker,
-				DefenderData: defender,
-				Constr:       appl.Constructor{},
-				Logging:      true})
-		default:
-			pvpResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
-				AttackerData: attacker,
-				DefenderData: defender,
-				Constr:       appl.Constructor{},
-				Logging:      true})
-		}
-
-		if err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-			return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
-		}
-		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated")
-		//Create json answer from pvpResult
-		answer, err = json.Marshal(pvpResult)
-		if err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-			return fmt.Errorf("PvP result marshal error: %v", err)
-		}
-		if !pvpResult.IsRandom {
-			switch isPvpoke {
-			case "pvpoke":
-				go app.writePvp(answer, pvpBaseKey+"pvpoke")
-			default:
-				go app.writePvp(answer, pvpBaseKey)
-			}
-		}
-		if err != nil {
-			go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
-			return err
-		}
-	}
 	//Write answer
 	(*w).Header().Set("Content-Type", "application/json")
-	_, err := (*w).Write(answer)
+	_, err = (*w).Write(pvpReq.answer)
 	if err != nil {
 		return fmt.Errorf("Write response error: %v", err)
 	}
 	return nil
+}
+
+type singlePvpReq struct {
+	attacker    appl.InitialData
+	defender    appl.InitialData
+	constr      appl.Constructor
+	customMoves *map[string]appl.MoveBaseEntry
+
+	answer     []byte
+	isPvpoke   string
+	pvpBaseKey string
+}
+
+func (spr *singlePvpReq) singlePvpWrap(app *App, r *http.Request) error {
+	//Start new PvP
+	var (
+		pvpResult appl.PvpResults
+		err       error
+	)
+	switch spr.isPvpoke {
+	case "pvpoke":
+		pvpResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
+			AttackerData: spr.attacker,
+			DefenderData: spr.defender,
+			Constr:       spr.constr,
+			Logging:      true})
+	default:
+		pvpResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
+			AttackerData: spr.attacker,
+			DefenderData: spr.defender,
+			Constr:       spr.constr,
+			Logging:      true})
+	}
+
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
+	}
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated")
+	//Create json answer from pvpResult
+	spr.answer, err = json.Marshal(pvpResult)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
+		return fmt.Errorf("PvP result marshal error: %v", err)
+	}
+	if !pvpResult.IsRandom {
+		switch spr.isPvpoke {
+		case "pvpoke":
+			go app.writePvp(spr.answer, spr.pvpBaseKey+"pvpoke")
+		default:
+			go app.writePvp(spr.answer, spr.pvpBaseKey)
+		}
+	}
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_error_count"}).Inc()
+		return err
+	}
+	return nil
+}
+
+func (spr *singlePvpReq) getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) {
+	accSession, err := newAccessSession(r)
+	if err != nil {
+		discardCookie(w)
+		return
+	}
+	moves, err := useractions.GetUserMoves(app.mongo.client, accSession)
+	if err != nil {
+		discardCookie(w)
+		return
+	}
+	spr.customMoves = moves
 }
 
 func (a *App) writePvp(battleRes []byte, key string) {
@@ -743,6 +777,77 @@ func (a *App) writePvp(battleRes []byte, key string) {
 		log.WithFields(log.Fields{"location": "writePvp"}).Error(err)
 		return
 	}
+}
+
+func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
+	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("constructor_pvp"))
+	defer timer.ObserveDuration().Milliseconds()
+	//Check if method is allowed
+	if r.Method != http.MethodPost {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
+	}
+
+	//Check visitor's requests limit
+	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp"}).Inc()
+
+	//Read request body
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
+	}
+
+	pvpReq := singlePvpReq{isPvpoke: r.Header.Get("Pvp-Type")}
+
+	//Parse request
+	pvpReq.attacker, pvpReq.defender, pvpReq.constr, err = parser.ParseConstructorRequest(body)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		return err
+	}
+
+	//Start new PvP
+	var pvpResult appl.PvpResults
+	switch pvpReq.isPvpoke {
+	case "pvpoke":
+		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Pvpoke enabled")
+		pvpResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
+			AttackerData: pvpReq.attacker,
+			DefenderData: pvpReq.defender,
+			Constr:       pvpReq.constr,
+			Logging:      true,
+		})
+	default:
+		pvpResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
+			AttackerData: pvpReq.attacker,
+			DefenderData: pvpReq.defender,
+			Constr:       pvpReq.constr,
+			Logging:      true,
+		})
+	}
+
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
+	}
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated")
+	//Create json answer from pvpResult
+	answer, err := json.Marshal(pvpResult)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		return fmt.Errorf("PvP result marshal error: %v", err)
+	}
+	//Write answer
+	(*w).Header().Set("Content-Type", "application/json")
+	_, err = (*w).Write(answer)
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
+	return nil
 }
 
 func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
@@ -766,7 +871,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	//Parse request
-	matrixObj := matrixPvP{}
+	matrixObj := matrixPvpReq{}
 	matrixObj.rowA, matrixObj.rowB, err = parser.ParseMatrixRequest(body)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
@@ -814,7 +919,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	return nil
 }
 
-type matrixPvP struct {
+type matrixPvpReq struct {
 	rowA []appl.InitialData
 	rowB []appl.InitialData
 
@@ -831,7 +936,7 @@ type matrixPvP struct {
 	k        int
 }
 
-func (mp *matrixPvP) calculateMatrix(shields uint8) error {
+func (mp *matrixPvpReq) calculateMatrix(shields uint8) error {
 	mp.errChan = make(appl.ErrorChan, len(mp.rowA)*len(mp.rowB))
 	singleMatrixResults := make([]appl.MatrixResult, 0, len(mp.rowA)*len(mp.rowB))
 	for mp.i, mp.pokA = range mp.rowA {
@@ -855,7 +960,7 @@ func (mp *matrixPvP) calculateMatrix(shields uint8) error {
 	return nil
 }
 
-func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
+func (mp *matrixPvpReq) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 	//if pokemons are the same, it should be tie without any calculations
 	if mp.pokA.Query == mp.pokB.Query {
 		*singleMatrixResults = append(*singleMatrixResults, appl.MatrixResult{
@@ -942,74 +1047,6 @@ func (mp *matrixPvP) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 	matrixBattleResult.I = mp.i
 	matrixBattleResult.K = mp.k
 	*singleMatrixResults = append(*singleMatrixResults, matrixBattleResult)
-}
-
-func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
-	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("constructor_pvp"))
-	defer timer.ObserveDuration().Milliseconds()
-	//Check if method is allowed
-	if r.Method != http.MethodPost {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
-	}
-
-	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
-		return err
-	}
-	go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp"}).Inc()
-	//Read request body
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
-	}
-	//Parse request
-	pokA, pokB, constructor, err := parser.ParseConstructorRequest(body)
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return err
-	}
-	isPvpoke := r.Header.Get("Pvp-Type")
-
-	//Start new PvP
-	var pvpResult appl.PvpResults
-	switch isPvpoke {
-	case "pvpoke":
-		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Pvpoke enabled")
-		pvpResult, err = sim.NewPvpBetweenPvpoke(appl.SinglePvpInitialData{
-			AttackerData: pokA,
-			DefenderData: pokB,
-			Constr:       constructor,
-			Logging:      true,
-		})
-	default:
-		pvpResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
-			AttackerData: pokA,
-			DefenderData: pokB,
-			Constr:       constructor,
-			Logging:      true,
-		})
-	}
-
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
-	}
-	log.WithFields(log.Fields{"location": "constructorPvpHandler"}).Println("Calculated")
-	//Create json answer from pvpResult
-	answer, err := json.Marshal(pvpResult)
-	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
-		return fmt.Errorf("PvP result marshal error: %v", err)
-	}
-	//Write answer
-	(*w).Header().Set("Content-Type", "application/json")
-	_, err = (*w).Write(answer)
-	if err != nil {
-		return fmt.Errorf("Write response error: %v", err)
-	}
-	return nil
 }
 
 func (dbs *database) Close() error {
@@ -1213,8 +1250,8 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/auth/confirm/{id}", rootHandler{restoreConfirm, a})
 
 	//user requests
-	router.Handle("/api/user/info", rootHandler{fetchUinfo, a})
-	router.Handle("/api/user/sessions", rootHandler{fetchUsessions, a})
+	router.Handle("/api/user/info", rootHandler{getUserInfo, a})
+	router.Handle("/api/user/sessions", rootHandler{getUserUsessions, a})
 	router.Handle("/api/user/getmoves", rootHandler{getUserMoves, a})
 	router.Handle("/api/user/setmoves", rootHandler{setUserMoves, a})
 
