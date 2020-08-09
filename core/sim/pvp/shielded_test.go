@@ -297,7 +297,7 @@ func BenchmarkShieldedPVP(b *testing.B) {
 	b.ResetTimer()
 
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(app.SinglePvpInitialData{Medicham, Kingdra, app.Constructor{}, true, testApp})
+		NewPvpBetween(app.SinglePvpInitialData{Medicham, Kingdra, &map[string]app.MoveBaseEntry{}, app.Constructor{}, true, testApp})
 	}
 
 }
@@ -326,6 +326,6 @@ func BenchmarkShieldedPvpLong(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(app.SinglePvpInitialData{GiratinaA, Snorlax, app.Constructor{}, true, testApp})
+		NewPvpBetween(app.SinglePvpInitialData{GiratinaA, Snorlax, &map[string]app.MoveBaseEntry{}, app.Constructor{}, true, testApp})
 	}
 }

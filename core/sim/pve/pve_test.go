@@ -30,6 +30,7 @@ func TestSetOfRuns(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	//Zekrom 18-3
 	res, err := setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
@@ -72,6 +73,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Zekrom 12-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
@@ -114,6 +116,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Zekrom 6-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
@@ -156,6 +159,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Reshiram 18-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -198,6 +202,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Reshiram 12-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -240,6 +245,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Reshiram 6-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -282,6 +288,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Terrakion 12-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Mewtwo",
 
@@ -324,6 +331,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Terrakion 6-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Mewtwo",
 
@@ -366,6 +374,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Marowak 6-3
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Darkrai",
 
@@ -408,6 +417,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Rayquaza 12-3-0
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -450,6 +460,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Rayquaza 12-3-4
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -492,6 +503,7 @@ func TestSetOfRuns(t *testing.T) {
 
 	//Rayquaza 12-3-4-w
 	res, err = setOfRuns(commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Mamoswine",
 
@@ -562,6 +574,7 @@ func checkRes(res *app.CommonResult, checkName string, tier int) error {
 func TestWrapper(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	res, err := ReturnCommonRaid(&app.IntialDataPve{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
@@ -606,6 +619,7 @@ func TestWrapper(t *testing.T) {
 func TestAggressive(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	res, err := ReturnCommonRaid(&app.IntialDataPve{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
@@ -651,6 +665,7 @@ func TestAggressive(t *testing.T) {
 func TestDodge(t *testing.T) {
 	rand.Seed(time.Now().UnixNano())
 	res, err := ReturnCommonRaid(&app.IntialDataPve{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
@@ -726,7 +741,8 @@ func checkWrapperRes(res [][]app.CommonResult, checkName []string, tier int) err
 
 func TestMoveLimit(t *testing.T) {
 	mewlist, err := generateBossRow(&app.IntialDataPve{
-		App: testApp,
+		CustomMoves: &map[string]app.MoveBaseEntry{},
+		App:         testApp,
 		Boss: app.BossInfo{
 			Name: "Mew",
 			Tier: 4,
@@ -742,7 +758,8 @@ func TestMoveLimit(t *testing.T) {
 	porygon := testApp.PokemonStatsBase["Porygon"]
 
 	porygonList, err := limitMoves(&porygon, porygon.QuickMoves, &app.IntialDataPve{
-		App: testApp,
+		CustomMoves: &map[string]app.MoveBaseEntry{},
+		App:         testApp,
 		Boss: app.BossInfo{
 			Name: "Porygon",
 			Tier: 4,
@@ -760,7 +777,8 @@ func TestMoveLimit(t *testing.T) {
 
 func TestAllList(t *testing.T) {
 	allList := createAllMovesets(&app.IntialDataPve{
-		App: testApp,
+		CustomMoves: &map[string]app.MoveBaseEntry{},
+		App:         testApp,
 		Pok: app.PokemonInitialData{
 			AttackIV: 15,
 			Level:    40,
@@ -845,6 +863,7 @@ var checks = map[string]app.CommonResult{
 func BenchmarkSingleRun2000(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
 	data := commonPvpInData{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Rayquaza",
 
@@ -887,6 +906,7 @@ func BenchmarkSingleRun2000(b *testing.B) {
 func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
 	data := app.IntialDataPve{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "Palkia",
 
@@ -928,6 +948,7 @@ func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 func BenchmarkAllVsAllMoveset(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
 	data := app.IntialDataPve{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
 			Name: "",
 

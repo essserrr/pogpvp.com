@@ -86,7 +86,7 @@ func TestPvpoke(t *testing.T) {
 }
 
 func checkPpvpoke(atatcker, defender app.InitialData, checkName string, constr app.Constructor) error {
-	currentRes, err := NewPvpBetweenPvpoke(app.SinglePvpInitialData{atatcker, defender, constr, true, testApp})
+	currentRes, err := NewPvpBetweenPvpoke(app.SinglePvpInitialData{atatcker, defender, &map[string]app.MoveBaseEntry{}, constr, true, testApp})
 	if err != nil {
 		return err
 	}
@@ -193,7 +193,7 @@ func BenchmarkMakepPvpokePVP(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetweenPvpoke(app.SinglePvpInitialData{Dewgong, Dewgong, app.Constructor{}, true, testApp})
+		NewPvpBetweenPvpoke(app.SinglePvpInitialData{Dewgong, Dewgong, &map[string]app.MoveBaseEntry{}, app.Constructor{}, true, testApp})
 	}
 }
 
@@ -210,6 +210,6 @@ func BenchmarkMakepPVPwithSwitch(b *testing.B) {
 	}
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		NewPvpBetween(app.SinglePvpInitialData{Dewgong, Dewgong, app.Constructor{}, true, testApp})
+		NewPvpBetween(app.SinglePvpInitialData{Dewgong, Dewgong, &map[string]app.MoveBaseEntry{}, app.Constructor{}, true, testApp})
 	}
 }

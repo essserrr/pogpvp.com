@@ -159,11 +159,12 @@ func checkMatrixes(attacker, defender []app.InitialData, checkName string) error
 			//otherwise check pvp results in base
 
 			singleBattleResult, err := NewPvpBetween(app.SinglePvpInitialData{
+				App:          testApp,
+				CustomMoves:  &map[string]app.MoveBaseEntry{},
 				AttackerData: pokA,
 				DefenderData: pokB,
 				Constr:       app.Constructor{},
 				Logging:      false,
-				App:          testApp,
 			})
 
 			if err != nil {
@@ -366,6 +367,8 @@ func BenchmarkMatrixPvp(b *testing.B) {
 				//otherwise check pvp results in base
 
 				singleBattleResult, err := NewPvpBetween(app.SinglePvpInitialData{
+					App:          testApp,
+					CustomMoves:  &map[string]app.MoveBaseEntry{},
 					AttackerData: pokA,
 					DefenderData: pokB,
 					Constr:       app.Constructor{},
