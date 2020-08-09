@@ -352,7 +352,7 @@
  {
   "Round": 14,
   "Attacker": {
-   "HP": 114,
+   "HP": 175,
    "Energy": 44,
    "ActionName": "",
    "ActionCode": 0,
@@ -364,9 +364,9 @@
   },
   "Defender": {
    "HP": 116,
-   "Energy": 0,
-   "ActionName": "Flash Cannon",
-   "ActionCode": 11,
+   "Energy": 70,
+   "ActionName": "Lock-On",
+   "ActionCode": 1,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -389,9 +389,9 @@
   },
   "Defender": {
    "HP": 112,
-   "Energy": 5,
-   "ActionName": "Lock-On",
-   "ActionCode": 1,
+   "Energy": 0,
+   "ActionName": "Flash Cannon",
+   "ActionCode": 11,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -414,7 +414,7 @@
   },
   "Defender": {
    "HP": 112,
-   "Energy": 10,
+   "Energy": 5,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -428,6 +428,31 @@
   "Round": 17,
   "Attacker": {
    "HP": 111,
+   "Energy": 55,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 112,
+   "Energy": 10,
+   "ActionName": "Lock-On",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 18,
+  "Attacker": {
+   "HP": 110,
    "Energy": 66,
    "ActionName": "Bubble",
    "ActionCode": 1,
@@ -450,9 +475,9 @@
   }
  },
  {
-  "Round": 18,
+  "Round": 19,
   "Attacker": {
-   "HP": 110,
+   "HP": 109,
    "Energy": 6,
    "ActionName": "Play Rough",
    "ActionCode": 11,
@@ -465,31 +490,6 @@
   "Defender": {
    "HP": 86,
    "Energy": 20,
-   "ActionName": "Lock-On",
-   "ActionCode": 1,
-   "StageA": 0,
-   "StageD": 0,
-   "IsSelf": false,
-   "Order": false,
-   "ShieldIsUsed": false
-  }
- },
- {
-  "Round": 19,
-  "Attacker": {
-   "HP": 109,
-   "Energy": 6,
-   "ActionName": "",
-   "ActionCode": 0,
-   "StageA": 0,
-   "StageD": 0,
-   "IsSelf": false,
-   "Order": false,
-   "ShieldIsUsed": false
-  },
-  "Defender": {
-   "HP": 86,
-   "Energy": 25,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -514,7 +514,7 @@
   },
   "Defender": {
    "HP": 86,
-   "Energy": 30,
+   "Energy": 25,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -528,9 +528,9 @@
   "Round": 21,
   "Attacker": {
    "HP": 107,
-   "Energy": 17,
-   "ActionName": "Bubble",
-   "ActionCode": 1,
+   "Energy": 6,
+   "ActionName": "",
+   "ActionCode": 0,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -538,8 +538,8 @@
    "ShieldIsUsed": false
   },
   "Defender": {
-   "HP": 82,
-   "Energy": 35,
+   "HP": 86,
+   "Energy": 30,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -554,8 +554,8 @@
   "Attacker": {
    "HP": 106,
    "Energy": 17,
-   "ActionName": "",
-   "ActionCode": 0,
+   "ActionName": "Bubble",
+   "ActionCode": 1,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -564,7 +564,7 @@
   },
   "Defender": {
    "HP": 82,
-   "Energy": 40,
+   "Energy": 35,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -589,7 +589,7 @@
   },
   "Defender": {
    "HP": 82,
-   "Energy": 45,
+   "Energy": 40,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -603,9 +603,9 @@
   "Round": 24,
   "Attacker": {
    "HP": 104,
-   "Energy": 28,
-   "ActionName": "Bubble",
-   "ActionCode": 1,
+   "Energy": 17,
+   "ActionName": "",
+   "ActionCode": 0,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -613,8 +613,8 @@
    "ShieldIsUsed": false
   },
   "Defender": {
-   "HP": 78,
-   "Energy": 50,
+   "HP": 82,
+   "Energy": 45,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -629,8 +629,8 @@
   "Attacker": {
    "HP": 103,
    "Energy": 28,
-   "ActionName": "",
-   "ActionCode": 0,
+   "ActionName": "Bubble",
+   "ActionCode": 1,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -639,7 +639,7 @@
   },
   "Defender": {
    "HP": 78,
-   "Energy": 55,
+   "Energy": 50,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -664,7 +664,7 @@
   },
   "Defender": {
    "HP": 78,
-   "Energy": 60,
+   "Energy": 55,
    "ActionName": "Lock-On",
    "ActionCode": 1,
    "StageA": 0,
@@ -678,6 +678,31 @@
   "Round": 27,
   "Attacker": {
    "HP": 101,
+   "Energy": 28,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 78,
+   "Energy": 60,
+   "ActionName": "Lock-On",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 28,
+  "Attacker": {
+   "HP": 100,
    "Energy": 39,
    "ActionName": "Bubble",
    "ActionCode": 1,
@@ -700,9 +725,34 @@
   }
  },
  {
-  "Round": 28,
+  "Round": 29,
   "Attacker": {
-   "HP": 39,
+   "HP": 99,
+   "Energy": 39,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 74,
+   "Energy": 70,
+   "ActionName": "Lock-On",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 30,
+  "Attacker": {
+   "HP": 37,
    "Energy": 39,
    "ActionName": "",
    "ActionCode": 0,
@@ -725,9 +775,9 @@
   }
  },
  {
-  "Round": 29,
+  "Round": 31,
   "Attacker": {
-   "HP": 38,
+   "HP": 36,
    "Energy": 50,
    "ActionName": "Bubble",
    "ActionCode": 1,
@@ -750,9 +800,9 @@
   }
  },
  {
-  "Round": 30,
+  "Round": 32,
   "Attacker": {
-   "HP": 37,
+   "HP": 35,
    "Energy": 50,
    "ActionName": "",
    "ActionCode": 0,
@@ -775,9 +825,9 @@
   }
  },
  {
-  "Round": 31,
+  "Round": 33,
   "Attacker": {
-   "HP": 36,
+   "HP": 34,
    "Energy": 61,
    "ActionName": "Bubble",
    "ActionCode": 1,
@@ -800,9 +850,9 @@
   }
  },
  {
-  "Round": 32,
+  "Round": 34,
   "Attacker": {
-   "HP": 35,
+   "HP": 33,
    "Energy": 1,
    "ActionName": "Play Rough",
    "ActionCode": 11,
@@ -825,9 +875,9 @@
   }
  },
  {
-  "Round": 33,
+  "Round": 35,
   "Attacker": {
-   "HP": 34,
+   "HP": 32,
    "Energy": 1,
    "ActionName": "",
    "ActionCode": 0,
@@ -850,9 +900,9 @@
   }
  },
  {
-  "Round": 34,
+  "Round": 36,
   "Attacker": {
-   "HP": 33,
+   "HP": 31,
    "Energy": 1,
    "ActionName": "",
    "ActionCode": 0,
@@ -875,9 +925,9 @@
   }
  },
  {
-  "Round": 35,
+  "Round": 37,
   "Attacker": {
-   "HP": 32,
+   "HP": 30,
    "Energy": 12,
    "ActionName": "Bubble",
    "ActionCode": 1,
@@ -900,9 +950,9 @@
   }
  },
  {
-  "Round": 36,
+  "Round": 38,
   "Attacker": {
-   "HP": 31,
+   "HP": 29,
    "Energy": 12,
    "ActionName": "",
    "ActionCode": 0,
@@ -925,9 +975,9 @@
   }
  },
  {
-  "Round": 37,
+  "Round": 39,
   "Attacker": {
-   "HP": 30,
+   "HP": 28,
    "Energy": 12,
    "ActionName": "",
    "ActionCode": 0,
@@ -950,9 +1000,9 @@
   }
  },
  {
-  "Round": 38,
+  "Round": 40,
   "Attacker": {
-   "HP": 29,
+   "HP": 27,
    "Energy": 23,
    "ActionName": "Bubble",
    "ActionCode": 1,
@@ -975,9 +1025,9 @@
   }
  },
  {
-  "Round": 39,
+  "Round": 41,
   "Attacker": {
-   "HP": 28,
+   "HP": 26,
    "Energy": 23,
    "ActionName": "",
    "ActionCode": 0,
@@ -1000,9 +1050,9 @@
   }
  },
  {
-  "Round": 40,
+  "Round": 42,
   "Attacker": {
-   "HP": 27,
+   "HP": 25,
    "Energy": 23,
    "ActionName": "",
    "ActionCode": 0,
@@ -1025,9 +1075,9 @@
   }
  },
  {
-  "Round": 41,
+  "Round": 43,
   "Attacker": {
-   "HP": 26,
+   "HP": 24,
    "Energy": 34,
    "ActionName": "Bubble",
    "ActionCode": 1,
@@ -1050,9 +1100,34 @@
   }
  },
  {
-  "Round": 42,
+  "Round": 44,
   "Attacker": {
-   "HP": -36,
+   "HP": 23,
+   "Energy": 34,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 32,
+   "Energy": 70,
+   "ActionName": "Lock-On",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 45,
+  "Attacker": {
+   "HP": -39,
    "Energy": 34,
    "ActionName": "",
    "ActionCode": 0,
@@ -1075,9 +1150,9 @@
   }
  },
  {
-  "Round": 43,
+  "Round": 46,
   "Attacker": {
-   "HP": -36,
+   "HP": -39,
    "Energy": 34,
    "ActionName": "",
    "ActionCode": 0,

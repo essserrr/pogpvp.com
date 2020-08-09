@@ -653,7 +653,7 @@
   "Round": 26,
   "Attacker": {
    "HP": 35,
-   "Energy": 16,
+   "Energy": 11,
    "ActionName": "Flash Cannon",
    "ActionCode": 11,
    "StageA": 0,
@@ -678,7 +678,7 @@
   "Round": 27,
   "Attacker": {
    "HP": 35,
-   "Energy": 16,
+   "Energy": 11,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -703,7 +703,7 @@
   "Round": 28,
   "Attacker": {
    "HP": 31,
-   "Energy": 16,
+   "Energy": 11,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -728,7 +728,7 @@
   "Round": 29,
   "Attacker": {
    "HP": 31,
-   "Energy": 25,
+   "Energy": 20,
    "ActionName": "Air Slash",
    "ActionCode": 1,
    "StageA": 0,
@@ -753,7 +753,7 @@
   "Round": 30,
   "Attacker": {
    "HP": 31,
-   "Energy": 25,
+   "Energy": 20,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,

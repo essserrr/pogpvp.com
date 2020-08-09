@@ -9,6 +9,8 @@ import (
 	"path"
 )
 
+var testApp = app.InitApp()
+
 var links = map[string]string{
 	"knockQuickQuick":    (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockQuickQuick.json")),
 	"knockChargeQuick":   (path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenLogs/knockChargeQuick.json")),
@@ -553,9 +555,7 @@ func updateShielded2CM() error {
 }
 
 func writeGoldenLog(atatcker, defender app.InitialData, logName string, constr app.Constructor) error {
-	result, err := pvp.NewPvpBetween(app.SinglePvpInitialData{AttackerData: atatcker,
-		DefenderData: defender,
-		Constr:       constr, Logging: true})
+	result, err := pvp.NewPvpBetween(app.SinglePvpInitialData{atatcker, defender, &map[string]app.MoveBaseEntry{}, constr, true, testApp})
 	if err != nil {
 		return err
 	}

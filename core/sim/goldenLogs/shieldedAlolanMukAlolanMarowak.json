@@ -89,7 +89,7 @@
   },
   "Defender": {
    "HP": 112,
-   "Energy": 11,
+   "Energy": 12,
    "ActionName": "Hex",
    "ActionCode": 1,
    "StageA": 0,
@@ -114,7 +114,7 @@
   },
   "Defender": {
    "HP": 108,
-   "Energy": 11,
+   "Energy": 12,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -139,7 +139,7 @@
   },
   "Defender": {
    "HP": 104,
-   "Energy": 11,
+   "Energy": 12,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -164,7 +164,7 @@
   },
   "Defender": {
    "HP": 100,
-   "Energy": 22,
+   "Energy": 24,
    "ActionName": "Hex",
    "ActionCode": 1,
    "StageA": 0,
@@ -189,7 +189,7 @@
   },
   "Defender": {
    "HP": 96,
-   "Energy": 22,
+   "Energy": 24,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -214,7 +214,7 @@
   },
   "Defender": {
    "HP": 92,
-   "Energy": 22,
+   "Energy": 24,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -239,7 +239,7 @@
   },
   "Defender": {
    "HP": 88,
-   "Energy": 33,
+   "Energy": 36,
    "ActionName": "Hex",
    "ActionCode": 1,
    "StageA": 0,
@@ -252,7 +252,7 @@
  {
   "Round": 10,
   "Attacker": {
-   "HP": 140,
+   "HP": 100,
    "Energy": 20,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -264,9 +264,9 @@
   },
   "Defender": {
    "HP": 84,
-   "Energy": 33,
-   "ActionName": "",
-   "ActionCode": 0,
+   "Energy": 1,
+   "ActionName": "Bone Club",
+   "ActionCode": 11,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -277,7 +277,7 @@
  {
   "Round": 11,
   "Attacker": {
-   "HP": 140,
+   "HP": 100,
    "Energy": 22,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -289,7 +289,7 @@
   },
   "Defender": {
    "HP": 80,
-   "Energy": 33,
+   "Energy": 1,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -302,7 +302,7 @@
  {
   "Round": 12,
   "Attacker": {
-   "HP": 137,
+   "HP": 100,
    "Energy": 24,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -314,9 +314,9 @@
   },
   "Defender": {
    "HP": 76,
-   "Energy": 44,
-   "ActionName": "Hex",
-   "ActionCode": 1,
+   "Energy": 1,
+   "ActionName": "",
+   "ActionCode": 0,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -339,9 +339,9 @@
   },
   "Defender": {
    "HP": 72,
-   "Energy": 9,
-   "ActionName": "Bone Club",
-   "ActionCode": 11,
+   "Energy": 13,
+   "ActionName": "Hex",
+   "ActionCode": 1,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -364,7 +364,7 @@
   },
   "Defender": {
    "HP": 68,
-   "Energy": 9,
+   "Energy": 13,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -389,7 +389,7 @@
   },
   "Defender": {
    "HP": 64,
-   "Energy": 9,
+   "Energy": 13,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -414,7 +414,7 @@
   },
   "Defender": {
    "HP": 60,
-   "Energy": 20,
+   "Energy": 25,
    "ActionName": "Hex",
    "ActionCode": 1,
    "StageA": 0,
@@ -439,7 +439,7 @@
   },
   "Defender": {
    "HP": 56,
-   "Energy": 20,
+   "Energy": 25,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -464,7 +464,7 @@
   },
   "Defender": {
    "HP": 52,
-   "Energy": 20,
+   "Energy": 25,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -489,7 +489,7 @@
   },
   "Defender": {
    "HP": 48,
-   "Energy": 31,
+   "Energy": 37,
    "ActionName": "Hex",
    "ActionCode": 1,
    "StageA": 0,
@@ -502,7 +502,7 @@
  {
   "Round": 20,
   "Attacker": {
-   "HP": 91,
+   "HP": 90,
    "Energy": 40,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -510,13 +510,13 @@
    "StageD": 0,
    "IsSelf": false,
    "Order": false,
-   "ShieldIsUsed": false
+   "ShieldIsUsed": true
   },
   "Defender": {
    "HP": 44,
-   "Energy": 31,
-   "ActionName": "",
-   "ActionCode": 0,
+   "Energy": 2,
+   "ActionName": "Bone Club",
+   "ActionCode": 11,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -527,7 +527,7 @@
  {
   "Round": 21,
   "Attacker": {
-   "HP": 91,
+   "HP": 90,
    "Energy": 42,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -539,7 +539,7 @@
   },
   "Defender": {
    "HP": 40,
-   "Energy": 31,
+   "Energy": 2,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -552,7 +552,7 @@
  {
   "Round": 22,
   "Attacker": {
-   "HP": 88,
+   "HP": 90,
    "Energy": 44,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -564,9 +564,9 @@
   },
   "Defender": {
    "HP": 36,
-   "Energy": 42,
-   "ActionName": "Hex",
-   "ActionCode": 1,
+   "Energy": 2,
+   "ActionName": "",
+   "ActionCode": 0,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -577,7 +577,7 @@
  {
   "Round": 23,
   "Attacker": {
-   "HP": 48,
+   "HP": 87,
    "Energy": 46,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -589,9 +589,9 @@
   },
   "Defender": {
    "HP": 32,
-   "Energy": 7,
-   "ActionName": "Bone Club",
-   "ActionCode": 11,
+   "Energy": 14,
+   "ActionName": "Hex",
+   "ActionCode": 1,
    "StageA": 0,
    "StageD": 0,
    "IsSelf": false,
@@ -602,7 +602,7 @@
  {
   "Round": 24,
   "Attacker": {
-   "HP": 48,
+   "HP": 87,
    "Energy": 48,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -614,7 +614,7 @@
   },
   "Defender": {
    "HP": 28,
-   "Energy": 7,
+   "Energy": 14,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -627,7 +627,7 @@
  {
   "Round": 25,
   "Attacker": {
-   "HP": 48,
+   "HP": 87,
    "Energy": 50,
    "ActionName": "Bite",
    "ActionCode": 1,
@@ -639,7 +639,7 @@
   },
   "Defender": {
    "HP": 24,
-   "Energy": 7,
+   "Energy": 14,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -652,7 +652,7 @@
  {
   "Round": 26,
   "Attacker": {
-   "HP": 45,
+   "HP": 84,
    "Energy": 0,
    "ActionName": "Dark Pulse",
    "ActionCode": 11,
@@ -663,8 +663,83 @@
    "ShieldIsUsed": false
   },
   "Defender": {
-   "HP": -53,
-   "Energy": 18,
+   "HP": 23,
+   "Energy": 26,
+   "ActionName": "Hex",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": true
+  }
+ },
+ {
+  "Round": 27,
+  "Attacker": {
+   "HP": 84,
+   "Energy": 2,
+   "ActionName": "Bite",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 19,
+   "Energy": 26,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 28,
+  "Attacker": {
+   "HP": 84,
+   "Energy": 4,
+   "ActionName": "Bite",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 15,
+   "Energy": 26,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 29,
+  "Attacker": {
+   "HP": 81,
+   "Energy": 6,
+   "ActionName": "Bite",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 11,
+   "Energy": 38,
    "ActionName": "Hex",
    "ActionCode": 1,
    "StageA": 0,
@@ -675,10 +750,85 @@
   }
  },
  {
-  "Round": 27,
+  "Round": 30,
   "Attacker": {
-   "HP": 45,
-   "Energy": 0,
+   "HP": 41,
+   "Energy": 8,
+   "ActionName": "Bite",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 7,
+   "Energy": 3,
+   "ActionName": "Bone Club",
+   "ActionCode": 11,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 31,
+  "Attacker": {
+   "HP": 41,
+   "Energy": 10,
+   "ActionName": "Bite",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": 3,
+   "Energy": 3,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 32,
+  "Attacker": {
+   "HP": 41,
+   "Energy": 12,
+   "ActionName": "Bite",
+   "ActionCode": 1,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  },
+  "Defender": {
+   "HP": -1,
+   "Energy": 3,
+   "ActionName": "",
+   "ActionCode": 0,
+   "StageA": 0,
+   "StageD": 0,
+   "IsSelf": false,
+   "Order": false,
+   "ShieldIsUsed": false
+  }
+ },
+ {
+  "Round": 33,
+  "Attacker": {
+   "HP": 41,
+   "Energy": 12,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
@@ -688,8 +838,8 @@
    "ShieldIsUsed": false
   },
   "Defender": {
-   "HP": -53,
-   "Energy": 18,
+   "HP": -1,
+   "Energy": 3,
    "ActionName": "",
    "ActionCode": 0,
    "StageA": 0,
