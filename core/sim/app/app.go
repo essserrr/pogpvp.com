@@ -455,7 +455,8 @@ type SinglePvpInitialData struct {
 	AttackerData InitialData
 	DefenderData InitialData
 
-	Constr  Constructor
-	Logging bool
-	App     *SimApp
+	CustomMoves *map[string]MoveBaseEntry
+	Constr      Constructor
+	Logging     bool
+	App         *SimApp
 }
