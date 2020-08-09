@@ -21,6 +21,7 @@ class PvpForm extends React.PureComponent {
                 <div className="col-12 px-0 pt-2 text-center font-weight-bold">{strings.moveconstr.pvp.title}</div>
                 <div className="col-12 p-0 ">
                     <LabelAndInput
+                        labelWidth="125px"
                         label={strings.moveconstr.pvp.d}
                         lTip={strings.moveconstr.pvp.tips.d}
 
@@ -37,6 +38,7 @@ class PvpForm extends React.PureComponent {
                 </div>
                 <div className="col-12 p-0 pt-2">
                     <LabelAndInput
+                        labelWidth="125px"
                         label={strings.moveconstr.pvp.e}
                         lTip={strings.moveconstr.pvp.tips.e}
 
@@ -53,6 +55,7 @@ class PvpForm extends React.PureComponent {
                 </div>
                 <div className="col-12 p-0">
                     {this.props.moveCategory === "Fast Move" && <SelectGroup
+                        labelWidth="125px"
                         label={strings.moveconstr.pvp.cd}
 
                         attr={"pvp"}
@@ -77,6 +80,7 @@ class PvpForm extends React.PureComponent {
                 {this.props.moveCategory === "Charge Move" && <>
                     <div className="col-12 p-0 pt-2">
                         <LabelAndInput
+                            labelWidth="125px"
                             label={strings.moveconstr.pvp.prob}
                             lTip={strings.moveconstr.pvp.tips.prob}
 
@@ -93,6 +97,7 @@ class PvpForm extends React.PureComponent {
                     </div>
                     <div className="col-12 p-0">
                         <SelectGroup
+                            labelWidth="125px"
                             label={strings.moveconstr.pvp.stat}
 
                             attr={"pvp"}
@@ -116,6 +121,7 @@ class PvpForm extends React.PureComponent {
                     </div>
                     <div className="col-12 p-0">
                         <SelectGroup
+                            labelWidth="125px"
                             label={strings.moveconstr.pvp.stage}
 
                             attr={"pvp"}
@@ -145,6 +151,7 @@ class PvpForm extends React.PureComponent {
                     </div>
                     <div className="col-12 p-0">
                         <SelectGroup
+                            labelWidth="125px"
                             label={strings.moveconstr.pvp.subj}
 
                             attr={"pvp"}

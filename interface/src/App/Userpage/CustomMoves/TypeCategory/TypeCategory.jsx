@@ -19,6 +19,7 @@ class TypeCategory extends React.PureComponent {
             <>
                 <div className="col-12 col-md-6 px-1">
                     <SelectGroup
+                        labelWidth="125px"
                         label={strings.moveconstr.category}
 
                         attr={""}
@@ -37,6 +38,7 @@ class TypeCategory extends React.PureComponent {
                 </div>
                 <div className="col-12 col-md-6 px-1">
                     <SelectGroup
+                        labelWidth="125px"
                         label={strings.moveconstr.type}
 
                         attr={""}

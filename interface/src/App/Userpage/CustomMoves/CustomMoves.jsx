@@ -346,6 +346,7 @@ class Move extends React.PureComponent {
                         <div className="row mx-0 justify-content-center">
                             <div className="col-12 col-md-6 px-1">
                                 <LabelAndInput
+                                    labelWidth="125px"
                                     label={strings.moveconstr.err.mt}
 
                                     attr={""}

@@ -16,6 +16,7 @@ const LabelAndInput = React.memo(function (props) {
         <div className="col-12 px-0">
             <div className="input-group input-group-sm">
                 <LabelPrepend
+                    labelWidth={props.labelWidth}
                     label={props.label}
                     tipClass="infoTip"
                     for={props.lTip ? props.attr + props.name : ""}

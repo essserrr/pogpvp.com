@@ -21,6 +21,7 @@ class PveForm extends React.PureComponent {
                 <div className="col-12 px-0 py-1 text-center font-weight-bold">{strings.moveconstr.pve.title}</div>
                 <div className="col-12 p-0 ">
                     <LabelAndInput
+                        labelWidth="125px"
                         label={strings.moveconstr.pve.d}
                         lTip={strings.moveconstr.pve.tips.d}
 
@@ -37,6 +38,7 @@ class PveForm extends React.PureComponent {
                 </div>
                 {this.props.moveCategory === "Fast Move" && <div className="col-12 p-0 pt-2">
                     <LabelAndInput
+                        labelWidth="125px"
                         label={strings.moveconstr.pve.e}
                         lTip={strings.moveconstr.pve.tips.e}
 
@@ -52,6 +54,7 @@ class PveForm extends React.PureComponent {
                     /></div>}
                 {this.props.moveCategory === "Charge Move" && <div className="col-12 p-0">
                     <SelectGroup
+                        labelWidth="125px"
                         label={strings.moveconstr.pve.e}
 
                         attr={"pve"}
@@ -74,6 +77,7 @@ class PveForm extends React.PureComponent {
 
                 <div className="col-12 p-0 pt-2">
                     <LabelAndInput
+                        labelWidth="125px"
                         label={strings.moveconstr.pve.cd}
                         lTip={strings.moveconstr.pve.tips.cd}
 
@@ -90,6 +94,7 @@ class PveForm extends React.PureComponent {
                 </div>
                 <div className="col-12 p-0 pt-2">
                     <LabelAndInput
+                        labelWidth="125px"
                         label={strings.moveconstr.pve.dmgwd}
                         lTip={strings.moveconstr.pve.tips.dmgwd}
 
@@ -106,6 +111,7 @@ class PveForm extends React.PureComponent {
                 </div>
                 <div className="col-12 p-0 pt-2">
                     <LabelAndInput
+                        labelWidth="125px"
                         label={strings.moveconstr.pve.dwd}
                         lTip={strings.moveconstr.pve.tips.dwd}
 
