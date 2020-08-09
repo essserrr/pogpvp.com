@@ -15,7 +15,6 @@ class App extends Component {
     componentDidMount = () => {
         switch (!getCookie("sid") || this.props.session.expiresAt - (Date.now() / 1000) < 5) {
             case true:
-                console.log("App starts refreshing")
                 this.props.startLoading()
                 this.props.refresh()
                 return
