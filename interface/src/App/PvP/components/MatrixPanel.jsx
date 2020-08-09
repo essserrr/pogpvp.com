@@ -438,6 +438,8 @@ class MatrixPanel extends React.PureComponent {
                     attr={this.props.attr}
                     onChange={this.props.onChange}
                     options={this.props.savedParties}
+
+                    labelWidth={strings.stats.lvl === "Ур" ? "100px" : "86px"}
                     label={strings.title.savedparties}
 
                     place={"top"}
@@ -479,6 +481,8 @@ class MatrixPanel extends React.PureComponent {
                     attr={this.props.attr}
                     onChange={this.props.onChange}
                     options={this.state.stagesList}
+
+                    labelWidth={strings.stats.lvl === "Ур" ? "100px" : "86px"}
                     label={strings.title.initialStages}
                     for=""
                 />
@@ -489,6 +493,8 @@ class MatrixPanel extends React.PureComponent {
                     attr={this.props.attr}
                     onChange={this.props.onChange}
                     options={this.state.shieldsList}
+
+                    labelWidth={strings.stats.lvl === "Ур" ? "100px" : "86px"}
                     label={strings.title.shields}
                     for=""
                 />
@@ -498,6 +504,8 @@ class MatrixPanel extends React.PureComponent {
                     attr={this.props.attr}
                     onChange={this.props.onChange}
                     options={this.state.stratigiesList}
+
+                    labelWidth={strings.stats.lvl === "Ур" ? "100px" : "86px"}
                     label={strings.title.strategy}
 
                     place={"top"}

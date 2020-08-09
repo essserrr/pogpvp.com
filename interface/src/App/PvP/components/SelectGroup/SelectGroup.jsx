@@ -7,6 +7,7 @@ const SelectGroup = React.memo(function (props) {
         <div className={props.class ? props.class : "input-group input-group-sm mt-2"}>
             {props.label && <LabelPrepend
                 label={props.label}
+                labelWidth={props.labelWidth}
                 labelStyle={props.labelStyle}
 
                 tipClass={props.tipClass}

@@ -9,7 +9,7 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import Info from "./Info/Info"
 import Security from "./Security/Security"
 import Pokemon from "./Pokemon/Pokemon"
-import Move from "./Move/Move"
+import CustomMoves from "./CustomMoves/CustomMoves"
 import Shbroker from "./Shbroker/Shbroker"
 
 import "./Profile.scss"
@@ -49,7 +49,7 @@ class Userpage extends React.Component {
                             <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />
                             <Switch>
                                 <Route path="/profile/pokemon" component={Pokemon} />
-                                <Route path="/profile/move" component={Move} />
+                                <Route path="/profile/move" component={CustomMoves} />
                                 <Route path="/profile/shinybroker" component={Shbroker} />
                                 <Route path="/profile/info" component={Info} />
                                 <Route path="/profile/security" component={Security} />

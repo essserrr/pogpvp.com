@@ -140,6 +140,8 @@ class SimulatorPanel extends React.PureComponent {
                         attr={"attackerObj"}
                         onChange={this.props.onChange}
                         options={this.state.IsShadow}
+
+                        labelWidth="88px"
                         label={strings.title.type}
 
                         place={"top"}
@@ -159,6 +161,8 @@ class SimulatorPanel extends React.PureComponent {
                                 attr={"pveObj"}
                                 onChange={this.props.onChange}
                                 options={this.state.PlayersNumber}
+
+                                labelWidth="88px"
                                 label={pveStrings.playernumb}
 
 
@@ -174,6 +178,8 @@ class SimulatorPanel extends React.PureComponent {
                                 attr={"pveObj"}
                                 onChange={this.props.onChange}
                                 options={this.state.PartySize}
+
+                                labelWidth="88px"
                                 label={pveStrings.partysize}
 
                                 place={"top"}
@@ -187,6 +193,8 @@ class SimulatorPanel extends React.PureComponent {
                                 attr={"pveObj"}
                                 onChange={this.props.onChange}
                                 options={this.state.Weather}
+
+                                labelWidth="88px"
                                 label={pveStrings.weather}
 
                                 for={""}
@@ -199,6 +207,8 @@ class SimulatorPanel extends React.PureComponent {
                                 attr={"pveObj"}
                                 onChange={this.props.onChange}
                                 options={this.state.DodgeStrategy}
+
+                                labelWidth="88px"
                                 label={pveStrings.dodge}
 
 
@@ -214,6 +224,8 @@ class SimulatorPanel extends React.PureComponent {
                                 attr={"pveObj"}
                                 onChange={this.props.onChange}
                                 options={this.state.FriendshipStage}
+
+                                labelWidth="88px"
                                 label={pveStrings.friend}
 
                                 for={""}
@@ -242,6 +254,8 @@ class SimulatorPanel extends React.PureComponent {
                         attr={"bossObj"}
                         onChange={this.props.onChange}
                         options={this.state.Tier}
+
+                        labelWidth="88px"
                         label={pveStrings.tier}
 
                         place={"top"}
@@ -256,6 +270,8 @@ class SimulatorPanel extends React.PureComponent {
                         attr={"pveObj"}
                         onChange={this.props.onChange}
                         options={this.state.IsAggresive}
+
+                        labelWidth="88px"
                         label={pveStrings.aggreasive}
 
 
@@ -284,6 +300,8 @@ class SimulatorPanel extends React.PureComponent {
                             attr={this.props.attr}
                             onChange={this.props.onChange}
                             options={this.state.IsShadow}
+
+                            labelWidth="88px"
                             label={strings.title.type}
 
 

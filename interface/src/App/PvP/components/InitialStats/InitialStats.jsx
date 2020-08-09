@@ -25,6 +25,7 @@ const InitialStats = React.memo(function (props) {
             </ReactTooltip>
             <div className="input-group input-group-sm mt-2">
                 <LabelPrepend
+                    labelWidth={props.labelWidth}
                     label={props.label}
                     tipClass="infoTip"
                     for={props.attr + "instats"}

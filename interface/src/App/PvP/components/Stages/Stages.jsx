@@ -14,6 +14,7 @@ const Stages = React.memo(function (props) {
     return (
         <div className="input-group input-group-sm mt-2">
             <LabelPrepend
+                labelWidth={props.labelWidth}
                 label={props.label}
 
                 tipClass="infoTip"
