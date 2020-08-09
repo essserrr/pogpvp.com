@@ -201,7 +201,8 @@ func (en *Energy) AddEnergy(energyValue int16) {
 
 //IntialDataPve contains data to start common raid
 type IntialDataPve struct {
-	App *SimApp
+	App         *SimApp
+	CustomMoves *map[string]MoveBaseEntry
 
 	NumberOfRuns  int
 	FriendStage   int

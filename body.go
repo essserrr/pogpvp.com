@@ -617,6 +617,8 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if err != nil {
 		return err
 	}
+	inDat.CustomMoves = getUserMovelist(w, r, app)
+
 	//Start new raid
 	pveResult, err := sim.CalculteCommonPve(inDat)
 	if err != nil {
@@ -662,12 +664,13 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 
 	pvpReq := singlePvpReq{
-		answer:     []byte{},
-		attacker:   attacker,
-		defender:   defender,
-		isPvpoke:   r.Header.Get("Pvp-Type"),
-		pvpBaseKey: chi.URLParam(r, "pok1") + chi.URLParam(r, "pok2"),
-		constr:     appl.Constructor{},
+		answer:      []byte{},
+		attacker:    attacker,
+		defender:    defender,
+		isPvpoke:    r.Header.Get("Pvp-Type"),
+		pvpBaseKey:  chi.URLParam(r, "pok1") + chi.URLParam(r, "pok2"),
+		constr:      appl.Constructor{},
+		customMoves: getUserMovelist(w, r, app),
 	}
 
 	//if we have pvp in the base, there is no need to create it again
@@ -720,12 +723,14 @@ func (spr *singlePvpReq) singlePvpWrap(app *App, r *http.Request) error {
 			AttackerData: spr.attacker,
 			DefenderData: spr.defender,
 			Constr:       spr.constr,
+			CustomMoves:  spr.customMoves,
 			Logging:      true})
 	default:
 		pvpResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
 			AttackerData: spr.attacker,
 			DefenderData: spr.defender,
 			Constr:       spr.constr,
+			CustomMoves:  spr.customMoves,
 			Logging:      true})
 	}
 
@@ -755,18 +760,24 @@ func (spr *singlePvpReq) singlePvpWrap(app *App, r *http.Request) error {
 	return nil
 }
 
-func (spr *singlePvpReq) getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) {
+func getUserMovelist(w *http.ResponseWriter, r *http.Request, app *App) *map[string]appl.MoveBaseEntry {
 	accSession, err := newAccessSession(r)
 	if err != nil {
-		discardCookie(w)
-		return
+		emptyMap := make(map[string]appl.MoveBaseEntry)
+		return &emptyMap
 	}
 	moves, err := useractions.GetUserMoves(app.mongo.client, accSession)
 	if err != nil {
-		discardCookie(w)
-		return
+		emptyMap := make(map[string]appl.MoveBaseEntry)
+		return &emptyMap
 	}
-	spr.customMoves = moves
+	switch moves {
+	case nil:
+		emptyMap := make(map[string]appl.MoveBaseEntry)
+		return &emptyMap
+	default:
+		return moves
+	}
 }
 
 func (a *App) writePvp(battleRes []byte, key string) {
@@ -819,6 +830,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 			AttackerData: pvpReq.attacker,
 			DefenderData: pvpReq.defender,
 			Constr:       pvpReq.constr,
+			CustomMoves:  getUserMovelist(w, r, app),
 			Logging:      true,
 		})
 	default:
@@ -826,6 +838,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 			AttackerData: pvpReq.attacker,
 			DefenderData: pvpReq.defender,
 			Constr:       pvpReq.constr,
+			CustomMoves:  getUserMovelist(w, r, app),
 			Logging:      true,
 		})
 	}
@@ -886,6 +899,8 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	matrixObj.isPvpoke = r.Header.Get("Pvp-Type")
 	matrixObj.app = app
 	matrixObj.result = make([][]appl.MatrixResult, 0, 1)
+	matrixObj.customMoves = getUserMovelist(w, r, app)
+
 	switch shieldsNumber {
 	case "triple":
 		if err = matrixObj.calculateMatrix(0); err != nil {
@@ -926,7 +941,8 @@ type matrixPvpReq struct {
 	pokA appl.InitialData
 	pokB appl.InitialData
 
-	errChan appl.ErrorChan
+	errChan     appl.ErrorChan
+	customMoves *map[string]appl.MoveBaseEntry
 
 	result [][]appl.MatrixResult
 	app    *App
@@ -997,12 +1013,14 @@ func (mp *matrixPvpReq) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
 				Constr:       appl.Constructor{},
+				CustomMoves:  mp.customMoves,
 				Logging:      true})
 		default:
 			singleBattleResult, err = sim.NewPvpBetween(appl.SinglePvpInitialData{
 				AttackerData: mp.pokA,
 				DefenderData: mp.pokB,
 				Constr:       appl.Constructor{},
+				CustomMoves:  mp.customMoves,
 				Logging:      true})
 		}
 
@@ -1231,7 +1249,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
 	router.Handle("/request/common/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
 
-	//bd calls
+	//db calls
 	router.Handle("/db/{type}", rootHandler{dbCallHandler, a})
 	router.Handle("/db/{type}/{value}", rootHandler{dbCallHandler, a})
 	router.Handle("/newsdb/{type}/{id}", rootHandler{newsHandler, a})
