@@ -5,11 +5,8 @@ export const getCustomMoves = () => {
     return (dispatch, getState) => {
         let state = getState()
         if (Object.keys(state.customMoves.moves).length > 0) {
-            console.log("Custom Moves skipped")
             return { ok: true }
         }
-
-        console.log("Custom Moves fetched")
         switch (!!getCookie("sid")) {
             case true:
                 return fetch(((navigator.userAgent !== "ReactSnap") ?

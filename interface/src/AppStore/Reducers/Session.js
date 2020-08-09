@@ -7,7 +7,6 @@ const initialState = {
 const Session = (state = initialState, action) => {
     switch (action.type) {
         case "SET_SESSION":
-            console.log(action.value)
             return {
                 ...state,
                 expiresAt: action.value.expires,
