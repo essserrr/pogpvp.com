@@ -128,6 +128,7 @@ class PvpPage extends React.Component {
             if (extractedData.attacker !== undefined && extractedData.defender !== undefined) {
                 fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + window.location.pathname.replace("pvp", "request").replace("/pvpoke", ""), {
                     method: "GET",
+                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json", "Accept-Encoding": "gzip", "Pvp-Type": simtype === "pvpoke" ? "pvpoke" : "normal",
                     },
@@ -147,7 +148,6 @@ class PvpPage extends React.Component {
 
             let movebaseSeparated = []
             let mergedMovebase = { ...this.props.customMoves.moves, ...this.props.bases.moveBase }
-            console.log(this.props.customMoves.moves)
             if (!!this.props.bases.moveBase) { movebaseSeparated = separateMovebase(mergedMovebase) }
 
 

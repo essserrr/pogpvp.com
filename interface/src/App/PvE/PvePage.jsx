@@ -104,6 +104,7 @@ class PvePage extends React.Component {
                 fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST :
                     process.env.REACT_APP_PRERENDER) + window.location.pathname.replace("pve", "request"), {
                     method: "GET",
+                    credentials: "include",
                     headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
                 }))
             }
@@ -115,7 +116,7 @@ class PvePage extends React.Component {
             }
 
             let pokList = []
-            if (!!this.props.bases.pokemonBase) { pokList = returnPokList(this.props.bases.pokemonBase) }
+            if (!!this.props.bases.pokemonBase) { pokList = returnPokList(this.props.bases.pokemonBase, true, strings.options.moveSelect.none) }
 
             let mergedMovebase = { ...this.props.customMoves.moves, ...this.props.bases.moveBase }
             let movebaseSeparated = []

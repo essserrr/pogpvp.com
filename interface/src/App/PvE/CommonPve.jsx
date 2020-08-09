@@ -228,6 +228,7 @@ class CommonPve extends React.PureComponent {
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
                 method: "GET",
+                credentials: "include",
                 headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
             })
             //parse answer

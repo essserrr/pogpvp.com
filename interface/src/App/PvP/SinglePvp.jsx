@@ -348,6 +348,7 @@ class SinglePvp extends React.PureComponent {
         try {
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/single/" + url, {
                 method: "GET",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept-Encoding": "gzip",
@@ -523,6 +524,7 @@ class SinglePvp extends React.PureComponent {
         try {
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/constructor", {
                 method: "POST",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json",
                     "Accept-Encoding": "gzip",
