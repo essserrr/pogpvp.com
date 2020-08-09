@@ -61,6 +61,7 @@ type TreeInitialData struct {
 	AttackerData app.InitialData
 	DefenderData app.InitialData
 	WG           *sync.WaitGroup
+	CustomMoves  *map[string]app.MoveBaseEntry
 
 	Tree   *Tree
 	Constr app.Constructor
@@ -75,6 +76,7 @@ func NewPvpBetween(inData app.SinglePvpInitialData) (app.PvpResults, error) {
 	tree := &Tree{}
 
 	switchTo, err := MakeTree(TreeInitialData{
+		CustomMoves:  inData.CustomMoves,
 		AttackerData: inData.AttackerData,
 		DefenderData: inData.DefenderData,
 		WG:           &wg,
@@ -116,12 +118,12 @@ func NewPvpBetween(inData app.SinglePvpInitialData) (app.PvpResults, error) {
 	//PrintTreeVal(os.Stdout, tree, 0, 'M')
 	//PrintTreeRate(os.Stdout, tree, 0, 'M')
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData, inData.CustomMoves)
 	if err != nil {
 		return app.PvpResults{}, err
 	}
 
-	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData, inData.CustomMoves)
 	if err != nil {
 		return app.PvpResults{}, err
 	}
@@ -142,7 +144,7 @@ func NewPvpBetween(inData app.SinglePvpInitialData) (app.PvpResults, error) {
 	result := app.PvpResults{
 		Log:       pvpData.log,
 		CreatedAt: time.Now(),
-		IsRandom:  checkResultRandomness(pvpData),
+		IsRandom:  notToSaveResult(pvpData, inData.CustomMoves),
 		Attacker: app.SingleResult{
 			Name: inData.AttackerData.Name,
 			Rate: uint16((500*(float32(pvpData.defender.maxHP)-processHP(pvpData.defender.hp))/float32(pvpData.defender.maxHP) + 500*processHP(pvpData.attacker.hp)/float32(pvpData.attacker.maxHP))),
@@ -169,17 +171,32 @@ func NewPvpBetween(inData app.SinglePvpInitialData) (app.PvpResults, error) {
 	return result, nil
 }
 
-func checkResultRandomness(obj *PvpObject) bool {
+func notToSaveResult(obj *PvpObject, customMoves *map[string]app.MoveBaseEntry) bool {
 	for _, value := range obj.attacker.chargeMove {
-		if value.probability != 0 && value.probability != 1 {
-			return true
+		if notOk := value.checkMove(customMoves); notOk {
+			return notOk
 		}
 	}
+	if notOk := obj.attacker.quickMove.checkMove(customMoves); notOk {
+		return notOk
+	}
 	for _, value := range obj.defender.chargeMove {
-		if value.probability != 0 && value.probability != 1 {
-			return true
+		if notOk := value.checkMove(customMoves); notOk {
+			return notOk
 		}
+	}
+	if notOk := obj.defender.quickMove.checkMove(customMoves); notOk {
+		return notOk
+	}
+	return false
+}
 
+func (m *move) checkMove(customMoves *map[string]app.MoveBaseEntry) bool {
+	if m.probability != 0 && m.probability != 1 {
+		return true
+	}
+	if _, ok := (*customMoves)[m.title]; ok {
+		return ok
 	}
 	return false
 }
@@ -1013,12 +1030,12 @@ func RatingPvp(attackerData, defenderData *app.InitialData, application *app.Sim
 	pvpData.isTree = false
 	pvpData.logging = false
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(attackerData, pvpData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(attackerData, pvpData, &map[string]app.MoveBaseEntry{})
 	if err != nil {
 		return app.RatingResult{}, err
 	}
 
-	defenderTypes, err := pvpData.defender.makeNewCharacter(defenderData, pvpData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(defenderData, pvpData, &map[string]app.MoveBaseEntry{})
 	if err != nil {
 		return app.RatingResult{}, err
 	}

@@ -85,7 +85,7 @@ type move struct {
 	subjectExists bool
 }
 
-func (pok *pokemon) makeNewCharacter(pokemonData *app.InitialData, obj *PvpObject) ([]int, error) {
+func (pok *pokemon) makeNewCharacter(pokemonData *app.InitialData, obj *PvpObject, customMoves *map[string]app.MoveBaseEntry) ([]int, error) {
 	err := pok.setLevel(pokemonData, obj)
 	if err != nil {
 		return []int{}, err
@@ -99,13 +99,13 @@ func (pok *pokemon) makeNewCharacter(pokemonData *app.InitialData, obj *PvpObjec
 		return []int{}, err
 	}
 
-	err = pok.setQuickMove(pokemonData, obj)
+	err = pok.setQuickMove(pokemonData, obj, customMoves)
 	if err != nil {
 		return []int{}, err
 	}
 	pok.chargeMove = make([]move, 0, 2)
 	for i := 0; i < len(pokemonData.ChargeMove); i++ {
-		err = pok.setChargeMove(pokemonData.ChargeMove[i], obj)
+		err = pok.setChargeMove(pokemonData.ChargeMove[i], obj, customMoves)
 		if err != nil {
 			return []int{}, err
 		}
@@ -169,8 +169,8 @@ func isInteger(floatNumber float32) bool { // sheck if the float is integer
 	return math.Mod(float64(floatNumber), 1.0) == 0
 }
 
-func (pok *pokemon) setQuickMove(pokemonData *app.InitialData, obj *PvpObject) error { // setst up quick move
-	moveEntry, ok := obj.app.PokemonMovesBase[pokemonData.QuickMove]
+func (pok *pokemon) setQuickMove(pokemonData *app.InitialData, obj *PvpObject, customMoves *map[string]app.MoveBaseEntry) error { // setst up quick move
+	moveEntry, ok := findMove(pokemonData.QuickMove, obj, customMoves)
 	if !ok {
 		return &customError{
 			"Quick move not found in the database",
@@ -183,11 +183,19 @@ func (pok *pokemon) setQuickMove(pokemonData *app.InitialData, obj *PvpObject) e
 	return nil
 }
 
-func (pok *pokemon) setChargeMove(chargeMove string, obj *PvpObject) error { // setst up charge move
+func findMove(move string, obj *PvpObject, customMoves *map[string]app.MoveBaseEntry) (app.MoveBaseEntry, bool) {
+	moveEntry, ok := obj.app.PokemonMovesBase[move]
+	if !ok {
+		moveEntry, ok = (*customMoves)[move]
+	}
+	return moveEntry, ok
+}
+
+func (pok *pokemon) setChargeMove(chargeMove string, obj *PvpObject, customMoves *map[string]app.MoveBaseEntry) error { // setst up charge move
 	if chargeMove == "" {
 		return nil
 	}
-	moveEntry, ok := obj.app.PokemonMovesBase[chargeMove]
+	moveEntry, ok := findMove(chargeMove, obj, customMoves)
 	if !ok {
 		return &customError{
 			"Charge move not found in the database",

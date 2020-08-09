@@ -12,7 +12,8 @@ import (
 )
 
 type pveObject struct {
-	app *app.SimApp
+	app         *app.SimApp
+	CustomMoves *map[string]app.MoveBaseEntry
 
 	DodgeStrategy int
 	ActivePok     int
@@ -31,7 +32,8 @@ type pveObject struct {
 }
 
 type commonPvpInData struct {
-	App *app.SimApp
+	App         *app.SimApp
+	CustomMoves *map[string]app.MoveBaseEntry
 
 	NumberOfRuns  int
 	FriendStage   int
@@ -66,17 +68,31 @@ func setUpRunsNumber(inDat *app.IntialDataPve) {
 		inDat.NumberOfRuns = 10
 		return
 	}
-	_, ok = inDat.App.PokemonMovesBase[inDat.Pok.QuickMove]
-	if !ok {
+
+	if _, ok = findMove(inDat, inDat.Pok.QuickMove); !ok {
 		inDat.NumberOfRuns = 100
 		return
 	}
-	_, ok = inDat.App.PokemonMovesBase[inDat.Pok.ChargeMove]
-	if !ok {
+
+	if _, ok = findMove(inDat, inDat.Pok.ChargeMove); !ok {
 		inDat.NumberOfRuns = 100
 		return
 	}
+
 	inDat.NumberOfRuns = 500
+}
+
+func findMove(inDat *app.IntialDataPve, moveName string) (app.MoveBaseEntry, bool) {
+	//if a move not found in the main databse
+	move, ok := inDat.App.PokemonMovesBase[moveName]
+	if !ok {
+		//try to search in the custom database
+		move, ok = (*inDat.CustomMoves)[moveName]
+		if !ok {
+			return move, ok
+		}
+	}
+	return move, ok
 }
 
 //ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
@@ -148,7 +164,8 @@ func (co *conStruct) startForAll(inDat *app.IntialDataPve) {
 			go func(currBoss app.BossInfo, p, q, ch string, i int) {
 				defer co.wg.Done()
 				singleResult, err := setOfRuns(commonPvpInData{
-					App: inDat.App,
+					CustomMoves: inDat.CustomMoves,
+					App:         inDat.App,
 					Pok: app.PokemonInitialData{
 						Name: p,
 
@@ -206,8 +223,9 @@ func (co *conStruct) startWithAttackerRow(inDat *app.IntialDataPve) {
 			go func(currPok app.PokemonInitialData, currBoss app.BossInfo, i int) {
 				defer co.wg.Done()
 				singleResult, err := setOfRuns(commonPvpInData{
-					App: inDat.App,
-					Pok: currPok,
+					CustomMoves: inDat.CustomMoves,
+					App:         inDat.App,
+					Pok:         currPok,
 
 					PartySize:     inDat.PartySize,
 					PlayersNumber: inDat.PlayersNumber,
@@ -370,7 +388,8 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 	}
 	//create quick move list
 	quickM := make([]string, 0, 1)
-	moveVal, ok := inDat.App.PokemonMovesBase[inDat.Boss.QuickMove]
+
+	moveVal, ok := findMove(inDat, inDat.Boss.QuickMove)
 	switch ok {
 	case true:
 		quickM = append(quickM, moveVal.Title)
@@ -385,7 +404,7 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 	}
 	//make charge move list
 	chargeM := make([]string, 0, 1)
-	moveVal, ok = inDat.App.PokemonMovesBase[inDat.Boss.ChargeMove]
+	moveVal, ok = findMove(inDat, inDat.Boss.ChargeMove)
 	switch ok {
 	case true:
 		chargeM = append(chargeM, moveVal.Title)
@@ -453,7 +472,7 @@ func limitMoves(pok *app.PokemonsBaseEntry, moves []string, inDat *app.IntialDat
 
 	//calculate dps / pds*dpe for every move
 	for _, moveTitle := range moves {
-		moveBody := inDat.App.PokemonMovesBase[moveTitle]
+		moveBody, _ := findMove(inDat, moveTitle)
 		stab := 1.0
 		weatherMult := 1.0
 
@@ -550,7 +569,7 @@ func generateAttackersRow(inDat *app.IntialDataPve) []app.PokemonInitialData {
 
 	//get quick moves list
 	quickM := make([]string, 0, 1)
-	moveVal, ok := inDat.App.PokemonMovesBase[inDat.Pok.QuickMove]
+	moveVal, ok := findMove(inDat, inDat.Pok.QuickMove)
 	switch ok {
 	case true:
 		quickM = append(quickM, moveVal.Title)
@@ -561,7 +580,7 @@ func generateAttackersRow(inDat *app.IntialDataPve) []app.PokemonInitialData {
 	}
 	//get charge moves list
 	chargeM := make([]string, 0, 1)
-	moveVal, ok = inDat.App.PokemonMovesBase[inDat.Pok.ChargeMove]
+	moveVal, ok = findMove(inDat, inDat.Pok.ChargeMove)
 	switch ok {
 	case true:
 		chargeM = append(chargeM, moveVal.Title)
@@ -658,7 +677,7 @@ func collect(cr *app.CommonResult, run *runResult) {
 
 //simulatorRun makes a single raid simulator run (battle)
 func simulatorRun(inDat *commonPvpInData) (runResult, error) {
-	obj := pveObject{}
+	obj := pveObject{CustomMoves: inDat.CustomMoves}
 
 	obj.app = inDat.App
 

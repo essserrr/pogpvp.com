@@ -18,12 +18,12 @@ func NewPvpBetweenPvpoke(inData app.SinglePvpInitialData) (app.PvpResults, error
 	pvpData.log = make([]app.LogValue, 0, 32)
 	pvpData.app = inData.App
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData, inData.CustomMoves)
 	if err != nil {
 		return app.PvpResults{}, err
 	}
 
-	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData, inData.CustomMoves)
 	if err != nil {
 		return app.PvpResults{}, err
 	}
@@ -46,7 +46,7 @@ func NewPvpBetweenPvpoke(inData app.SinglePvpInitialData) (app.PvpResults, error
 	result := app.PvpResults{
 		Log:       pvpData.log,
 		CreatedAt: time.Now(),
-		IsRandom:  checkResultRandomness(pvpData),
+		IsRandom:  notToSaveResult(pvpData, inData.CustomMoves),
 		Attacker: app.SingleResult{
 			Name: inData.AttackerData.Name,
 			Rate: uint16((500*(float32(pvpData.defender.maxHP)-processHP(pvpData.defender.hp))/float32(pvpData.defender.maxHP) + 500*processHP(pvpData.attacker.hp)/float32(pvpData.attacker.maxHP))),

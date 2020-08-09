@@ -125,11 +125,11 @@ func MakeTree(inData TreeInitialData) (bool, error) {
 
 	pvpData.branchPointer = inData.Tree
 
-	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData)
+	attackerTypes, err := pvpData.attacker.makeNewCharacter(&inData.AttackerData, pvpData, inData.CustomMoves)
 	if err != nil {
 		return false, err
 	}
-	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData)
+	defenderTypes, err := pvpData.defender.makeNewCharacter(&inData.DefenderData, pvpData, inData.CustomMoves)
 	if err != nil {
 		return false, err
 	}
