@@ -173,8 +173,6 @@ export const locale = {
             prevpage: "Old news",
             loadmore: "Load more",
             home: "Main page",
-            en: "English",
-            ru: "Russian",
             submitchange: "Submit changes",
         },
 
@@ -213,6 +211,10 @@ export const locale = {
         },
 
         navbar: {
+            patr: "Support on Patreon",
+            tlg: "Telegram channel",
+
+
             lin: "Log in",
             sup: "Sign up",
             prof: "User profile",
@@ -439,8 +441,6 @@ export const locale = {
             prevpage: "К новостям старше",
             loadmore: "Загрузить еще",
             home: "Главная страница",
-            en: "Английский",
-            ru: "Русский",
             submitchange: "Подвердить изменения",
         },
 
@@ -479,6 +479,10 @@ export const locale = {
         },
 
         navbar: {
+            patr: "Поддержать на Patreon",
+            tlg: "Канал в Telegram",
+
+
             lin: "Войти",
             sup: "Зарегистрироваться",
             prof: "Профиль пользователя",

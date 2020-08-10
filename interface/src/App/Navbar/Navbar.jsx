@@ -105,27 +105,38 @@ class Navbar extends React.PureComponent {
 
                 <div className="order-2 order-md-3" >
                     <ul className="navbar-nav flex-row ml-auto ">
+
                         <NavUser />
-                        <a className="align-self-center" title={"Telegram"} href="https://t.me/pogpvp">
-                            <i className="fab fa-telegram fa-2x mr-2 clickable"></i>
-                        </a>
+
+                        <DropdownMenu
+                            dropClass="dropdown-menu-right"
+                            label={<i className="fas fa-hashtag fa-2x clickable" aria-hidden="true"></i>}
+                            list={
+                                <>
+                                    <a className="dropdown-item d-flex align-items-center" title={"Telegram"} href="https://t.me/pogpvp">
+                                        <i className="fab fa-telegram fa-2x mr-2 clickable"></i><span>{strings.navbar.tlg}</span>
+                                    </a>
+                                    <a className="dropdown-item d-flex align-items-center" title={"Patreon"} href="https://www.patreon.com/pogpvp">
+                                        <i className="fab fa-patreon fa-2x mr-2 clickable"></i><span>{strings.navbar.patr}</span>
+                                    </a>
+                                </>}
+                        />
+
                         <DropdownMenu
                             class="mr-2"
                             dropClass="dropdown-menu-right"
+                            label={<i className="fa fa-globe fa-2x clickable" aria-hidden="true"></i>}
                             list={
                                 <>
                                     <div key="ru" name="ru" className="langButton clickable"
                                         onClick={this.onClick}>
-                                        <Ru title={strings.buttons.ru} className="icon24 mx-1"></Ru> {strings.buttons.ru}
+                                        <Ru title={"Русский"} className="icon24 mx-1"></Ru> {"Русский"}
                                     </div>
                                     <div key="en" name="en" className="langButton clickable"
                                         onClick={this.onClick}>
-                                        <En title={strings.buttons.en} className="icon24 mx-1"></En> {strings.buttons.en}
+                                        <En title={"English"} className="icon24 mx-1"></En> {"English"}
                                     </div>
-                                </>
-                            }
-                            label={<i className="fa fa-globe fa-2x clickable" aria-hidden="true"></i>}
-
+                                </>}
                         />
                     </ul>
                 </div>
