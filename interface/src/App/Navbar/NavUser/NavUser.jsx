@@ -45,7 +45,7 @@ class User extends React.PureComponent {
         return (
             this.props.session.username ?
                 <DropdownMenu
-                    class="mr-2"
+                    class="mr-1"
                     dropClass="dropdown-menu-right"
                     list={
                         <>

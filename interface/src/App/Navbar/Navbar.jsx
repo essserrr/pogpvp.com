@@ -7,6 +7,7 @@ import { withRouter } from "react-router";
 import LocalizedStrings from "react-localization"
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/getCookie"
+import Search from "./Search/Search"
 
 import { ReactComponent as En } from "../../icons/us.svg"
 import { ReactComponent as Ru } from "../../icons/ru.svg"
@@ -63,7 +64,7 @@ class Navbar extends React.PureComponent {
 
     render() {
         return (
-            <nav className="navbar-style navbar navbar-expand-md navbar-light px-0 pt-1 pb-1">
+            <nav className="navbar-style navbar navbar-expand-lg navbar-light px-0 pt-1 pb-1">
 
                 <Link title={strings.buttons.home} className="navbar-brand ml-2 mr-1" to="/"><Logo id="logoicon" className={"icon48"} /></Link>
 
@@ -78,8 +79,8 @@ class Navbar extends React.PureComponent {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className={"order-3  order-md-2 collapse navbar-collapse " + (this.state.expanded ? "show" : "")} id="navbarSupportedContent">
-                    <ul className="navbar-nav ml-1 ml-md-0 mr-auto">
+                <div className={"order-3  order-lg-2 collapse navbar-collapse " + (this.state.expanded ? "show" : "")} id="navbarSupportedContent">
+                    <ul className="navbar-nav ml-1 ml-lg-0 mr-auto">
                         <DropdownMenu
                             list={this.state.dropdownPvP}
                             label={<><Battle id="battleicon" className={"icon36 mr-1"} />{strings.navbar.pvpTools}</>}
@@ -103,12 +104,13 @@ class Navbar extends React.PureComponent {
                     </ul>
                 </div>
 
-                <div className="order-2 order-md-3" >
+                <div className="order-2 order-lg-3" >
                     <ul className="navbar-nav flex-row ml-auto ">
 
                         <NavUser />
 
                         <DropdownMenu
+                            class="mr-1"
                             dropClass="dropdown-menu-right"
                             label={<i className="fas fa-hashtag fa-2x clickable" aria-hidden="true"></i>}
                             list={
@@ -123,7 +125,7 @@ class Navbar extends React.PureComponent {
                         />
 
                         <DropdownMenu
-                            class="mr-2"
+                            class="mr-1"
                             dropClass="dropdown-menu-right"
                             label={<i className="fa fa-globe fa-2x clickable" aria-hidden="true"></i>}
                             list={
@@ -138,6 +140,7 @@ class Navbar extends React.PureComponent {
                                     </div>
                                 </>}
                         />
+                        <Search class="mr-2" />
                     </ul>
                 </div>
             </nav>
