@@ -75,14 +75,14 @@ class Move extends React.PureComponent {
                 this.onCategoryChange(event)
                 return
             default:
+                this.setState({
+                    [event.target.name]: event.target.value,
+                    notOk: {
+                        ...this.state.notOk,
+                        [event.target.name]: this.check(event.target.value, event.target.name)
+                    }
+                })
         }
-        this.setState({
-            [event.target.name]: event.target.value,
-            notOk: {
-                ...this.state.notOk,
-                [event.target.name]: this.check(event.target.value, event.target.name)
-            }
-        })
     }
 
     onCategoryChange(event) {
@@ -160,14 +160,15 @@ class Move extends React.PureComponent {
     }
 
     checkTitle(str) {
-        if (str.length < 2) { return strings.moveconstr.err.mt + strings.err.longer.l1 + "2" + strings.err.lesseq.c }
-        if (str.length > 20) { return strings.moveconstr.err.mt + strings.err.lesseq.l1 + "20" + strings.err.lesseq.c }
-        if (this.checkRegexp(str)) { return strings.moveconstr.err.mt + strings.err.symb }
+        if (str.length < 2) { return strings.moveconstr.err.mt1 + strings.err.longer.l1 + "2" + strings.err.lesseq.c }
+        if (str.length > 20) { return strings.moveconstr.err.mt1 + strings.err.lesseq.l1 + "20" + strings.err.lesseq.c }
+        if (this.checkRegexp(str)) { return strings.moveconstr.err.mt1 + strings.err.symb }
+        if (!str.replace(/\s/g, '').length) { return strings.moveconstr.err.wrong + strings.moveconstr.err.mt2 }
         return ""
     }
 
     checkRegexp(str) {
-        return !str.match("^([A-Za-z0-9@_\\-\\.!$%^&*+=]*)$")
+        return !str.match("^([A-Za-z0-9@_\\-\\.!$%^&*+= ]*)$")
     }
 
     checkDamage(damage) {
@@ -222,7 +223,7 @@ class Move extends React.PureComponent {
             moves: {
                 ...this.state.moves,
                 [this.state.Title]: {
-                    Title: this.state.Title,
+                    Title: this.state.Title.trim(),
                     MoveCategory: this.state.MoveCategory,
                     MoveType: Number(this.state.MoveType),
                     ...this.state.inputs,
@@ -347,7 +348,7 @@ class Move extends React.PureComponent {
                             <div className="col-12 col-md-6 px-1">
                                 <LabelAndInput
                                     labelWidth="125px"
-                                    label={strings.moveconstr.err.mt}
+                                    label={strings.moveconstr.title}
 
                                     attr={""}
                                     name={"Title"}
