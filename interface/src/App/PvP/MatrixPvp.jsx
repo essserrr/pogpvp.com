@@ -12,7 +12,7 @@ import LineElement from "./components/MetrixTable/LineElement"
 
 import { encodeQueryData, calculateMaximizedStats, returnRateStyle } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
-import { great, ultra, master } from "./matrixPresets"
+import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
 import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
 import PokemonIconer from "./components/PokemonIconer/PokemonIconer"
@@ -181,6 +181,15 @@ class MatrixPvp extends React.PureComponent {
                 break
             case event.target.value === "Preset3":
                 newListForBattle = master.map(pok => Object.assign({}, pok));
+                break
+            case event.target.value === "Preset4":
+                newListForBattle = greatPremier.map(pok => Object.assign({}, pok));
+                break
+            case event.target.value === "Preset5":
+                newListForBattle = ultraPremier.map(pok => Object.assign({}, pok));
+                break
+            case event.target.value === "Preset6":
+                newListForBattle = masterPremier.map(pok => Object.assign({}, pok));
                 break
             default:
                 newListForBattle = JSON.parse(localStorage.getItem(event.target.value));
@@ -375,6 +384,9 @@ class MatrixPvp extends React.PureComponent {
             <option value="Preset1" key="Preset1">{strings.options.matrixpreset.great}</option>,
             <option value="Preset2" key="Preset2">{strings.options.matrixpreset.ultra}</option>,
             <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
+            <option value="Preset4" key="Preset4">{strings.options.matrixpreset.great + strings.options.matrixpreset.pr}</option>,
+            <option value="Preset5" key="Preset5">{strings.options.matrixpreset.ultra + strings.options.matrixpreset.pr}</option>,
+            <option value="Preset6" key="Preset6">{strings.options.matrixpreset.master + strings.options.matrixpreset.pr}</option>,
         ]
         for (let i = 0; i < localStorage.length; i++) {
             if (localStorage.key(i) === "persist:session") {
