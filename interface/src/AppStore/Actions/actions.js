@@ -32,3 +32,17 @@ export const setBasesError = value => ({
     type: "SET_BASES_ERROR",
     value
 })
+
+
+export const startPokemonBaseFetching = () => ({
+    type: "START_POKEMON_BASE",
+})
+export const startMoveBaseFetching = () => ({
+    type: "START_MOVE_BASE",
+})
+export const endPokemonBaseFetching = () => ({
+    type: "END_POKEMON_BASE",
+})
+export const endMoveBaseFetching = () => ({
+    type: "END_MOVE_BASE",
+})

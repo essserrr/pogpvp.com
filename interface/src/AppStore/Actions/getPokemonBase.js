@@ -1,10 +1,13 @@
 export const getPokemonBase = () => {
     return (dispatch, getState) => {
         let state = getState()
-        if (Object.keys(state.bases.moveBase).length > 0) {
+        if (Object.keys(state.bases.moveBase).length > 0 || state.bases.pokemonFetching) {
             dispatch({ type: "SET_BASES_ERROR", value: "", })
             return { ok: true }
         }
+
+        dispatch({ type: "START_POKEMON_BASE" })
+
         return fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/db/pokemons", {
             method: "GET",
             headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
@@ -20,6 +23,7 @@ export const getPokemonBase = () => {
                 return { ok: true }
             }).catch(r => {
                 dispatch({ type: "SET_BASES_ERROR", value: String(r), })
+                dispatch({ type: "END_POKEMON_BASE" })
                 return { ok: false }
             })
     }
