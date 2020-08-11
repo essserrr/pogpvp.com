@@ -1,5 +1,7 @@
 export const locale = {
     en: {
+        search: "Search...",
+
         dexentr: "View dex for ",
         topcounters: "Find top counters against ",
 
@@ -72,9 +74,10 @@ export const locale = {
                 shadow: "Shadow",
             },
             matrixpreset: {
-                great: "Great league meta",
-                ultra: "Ultra league meta",
-                master: "Master league meta",
+                great: "Great league",
+                ultra: "Ultra league",
+                master: "Master league",
+                pr: ". Premier",
             },
         },
 
@@ -129,6 +132,7 @@ export const locale = {
         },
 
         tips: {
+            search: "Please, enter more than 3 characters",
             strategy: {
                 greedy: "When greedy mode is on, pokemon uses shields whenever it results in higher battle rating",
                 shieldSaving: "When shieldsaving mode is on, pokemon prioritizes shields number over battle rating if it doesn't lead him to guaranteed victory",
@@ -266,6 +270,8 @@ export const locale = {
 
 
     ru: {
+        search: "Поиск...",
+
         dexentr: "Открыть декс для ",
         topcounters: "Найти лучших покемонов против ",
 
@@ -338,9 +344,10 @@ export const locale = {
                 shadow: "Теневой",
             },
             matrixpreset: {
-                great: "Мета грейт лиги",
-                ultra: "Мета ультра лиги",
-                master: "Мета мастер лиги",
+                great: "Грейт лига",
+                ultra: "Ультра лига",
+                master: "Мастер лига",
+                pr: ". Премьер",
             },
         },
 
@@ -398,6 +405,7 @@ export const locale = {
         },
 
         tips: {
+            search: "Введите более 3 символов",
             strategy: {
                 greedy: "Когда жадный режим включен, покемон использует щиты каждый раз, когда это приводит к более высокому итоговому рейтингу",
                 shieldSaving: "Когда включен режим сохранения щитов, покемон будет использовать щит только тогда, когда это приводит его к гарантированной победе",

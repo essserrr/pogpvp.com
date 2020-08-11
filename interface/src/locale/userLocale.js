@@ -116,8 +116,10 @@ export const userLocale = {
                 pr1: "probability",
                 pr2: "Probability",
 
-                mt: "\xa0\xa0\xa0\xa0\xa0\xa0Move title\xa0\xa0\xa0\xa0\xa0\xa0",
+                mt1: "Move title",
+                mt2: "move title",
             },
+            title: "\xa0\xa0\xa0\xa0\xa0\xa0Move title\xa0\xa0\xa0\xa0\xa0\xa0",
             category: "\xa0\xa0Move category\xa0",
             type: "\xa0\xa0\xa0\xa0\xa0Move type\xa0\xa0\xa0\xa0\xa0\xa0",
             catopt: {
@@ -290,8 +292,10 @@ export const userLocale = {
                 pr1: "вероятности",
                 pr2: "Вероятность",
 
-                mt: "Название умения",
+                mt1: "Название умения",
+                mt2: "названия умения",
             },
+            title: "Название умения",
             category: "\xa0\xa0\xa0\xa0\xa0Категория\xa0\xa0\xa0\xa0\xa0",
             type: "\xa0\xa0\xa0\xa0Тип умения\xa0\xa0\xa0\xa0",
             catopt: {
