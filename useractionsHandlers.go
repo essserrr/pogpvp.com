@@ -77,7 +77,7 @@ func changePassword(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 func getUserInfo(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "unfo_error_count"}).Inc()
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "uinfo_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -91,12 +91,12 @@ func getUserInfo(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	info, err := useractions.GetUserInfo(app.mongo.client, accSession)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "unfo_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "uinfo_error_count"}).Inc()
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
 	}
 	if err = respond(w, *info); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "unfo_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "uinfo_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
@@ -131,7 +131,7 @@ func getUserUsessions(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 func getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "get_umoves_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -145,13 +145,13 @@ func getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	moves, err := useractions.GetUserMoves(app.mongo.client, accSession)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_umoves_error_count"}).Inc()
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
 	}
 
 	if err := respond(w, *moves); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_umoves_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
@@ -159,7 +159,7 @@ func getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 func setUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodPost {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -168,7 +168,7 @@ func setUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	req := new(users.SetMovesRequest)
 	if err := parseBody(r, &req); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	accSession, err := newAccessSession(r)
@@ -177,13 +177,13 @@ func setUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return err
 	}
 	if err = useractions.SetUserMoves(app.mongo.client, req, accSession); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
 	}
 
 	if err := respond(w, "Ok"); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "usess_error_count"}).Inc()
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil

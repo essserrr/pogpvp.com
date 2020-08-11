@@ -280,7 +280,7 @@ func restoreConfirm(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 	if r.Method != http.MethodPost {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
