@@ -50,9 +50,10 @@ class PvpRating extends React.Component {
 
             leagueList: [
                 <option value="Great" key="Great">{strings.options.league.great}</option>,
-                <option value="Ultra" key="ultra">{strings.options.league.ultra}</option>,
-                <option value="Master" key="master">{strings.options.league.master}</option>,
-                <option value="Premier" key="premier">{strings.options.league.premier}</option>,
+                <option value="Ultra" key="Ultra">{strings.options.league.ultra}</option>,
+                <option value="Master" key="Master">{strings.options.league.master}</option>,
+                <option value="Premierultra" key="Premierultra">{strings.options.league.premierUltra}</option>,
+                <option value="Premier" key="Premier">{strings.options.league.premier}</option>,
             ],
             combinationList: [
                 <option value="overall" key="overall">{strings.maximizer.overall}</option>,

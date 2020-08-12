@@ -35,7 +35,8 @@ class Collapsable extends React.PureComponent {
                     showCollapse: !this.state.showCollapse,
                     aName: checkShadow(this.props.container.Name, this.props.pokemonTable),
                     aMaxStats: calculateMaximizedStats(checkShadow(this.props.container.Name, this.props.pokemonTable),
-                        40, this.props.pokemonTable)[(this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())].Overall,
+                        40, this.props.pokemonTable)[(this.props.league === "Premier" ? "master" : this.props.league === "Premierultra" ? "ultra" :
+                            this.props.league.toLowerCase())].Overall,
                 })
                 break
             default:
@@ -47,7 +48,8 @@ class Collapsable extends React.PureComponent {
 
     onClickRedirect(defenderOriginalName) {
         let defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
-        let league = (this.props.league === "Premier" ? "master" : this.props.league.toLowerCase())
+        let league = (this.props.league === "Premier" ? "master" : this.props.league === "Premierultra" ? "ultra" :
+            this.props.league.toLowerCase())
         let maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall
 
         switch (this.props.combination) {

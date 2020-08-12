@@ -60,6 +60,7 @@ export const locale = {
             },
             league: {
                 great: "Great (CP 1500)",
+                premierUltra: "Premier Ultra (CP 2500)",
                 ultra: "Ultra (CP 2500)",
                 master: "Master (Unlimited)",
                 premier: "Premier (Unlimited)",
@@ -331,6 +332,7 @@ export const locale = {
             },
             league: {
                 great: "Грейт (CP 1500)",
+                premierUltra: "Премьер Ультра (CP 2500)",
                 ultra: "Ультра (CP 2500)",
                 master: "Мастер (Не ограничена)",
                 premier: "Премьер (Не ограничена)",
