@@ -962,6 +962,7 @@ func RatingPvp(attackerData, defenderData *app.InitialData, application *app.Sim
 	tree := &Tree{}
 
 	switchTo, err := MakeTree(TreeInitialData{
+		CustomMoves:  &map[string]app.MoveBaseEntry{},
 		AttackerData: *attackerData,
 		DefenderData: *defenderData,
 		WG:           &wg,
@@ -975,6 +976,7 @@ func RatingPvp(attackerData, defenderData *app.InitialData, application *app.Sim
 	if switchTo {
 		log.Println("Switched to PvPoke")
 		res, err := NewPvpBetweenPvpoke(app.SinglePvpInitialData{
+			CustomMoves:  &map[string]app.MoveBaseEntry{},
 			AttackerData: *attackerData,
 			DefenderData: *defenderData,
 			Constr:       app.Constructor{},
