@@ -480,6 +480,10 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	//return base
 	base := app.semistaticDatabase.readBase(bucketName, value)
+	if base == nil {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Base not exists")
+	}
 	//set up etag
 	(*w).Header().Set("Etag", ver)
 	(*w).Header().Set("Content-Type", "application/json")
