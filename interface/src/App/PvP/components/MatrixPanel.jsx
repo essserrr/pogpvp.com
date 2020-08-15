@@ -77,9 +77,21 @@ class MatrixPanel extends React.PureComponent {
             && this.props.value.maximizer === prevProps.value.maximizer) {
             return
         }
+
+
+        let statCanUpd = this.props.pokemonTable && this.props.pokemonTable[this.state.pokemon.name]
+        if (statCanUpd) {
+            var ivSet = calculateMaximizedStats(this.state.pokemon.name, this.props.value.maximizer.level, this.props.pokemonTable)
+            var whatToMaximize = (this.props.value.maximizer.action === "Default") ? "Default" : this.props.value.maximizer.stat
+        }
+
         this.setState({
             pokemon: {
                 ...this.state.pokemon,
+                Lvl: statCanUpd ? ivSet[this.props.league][whatToMaximize].Level : "",
+                Atk: statCanUpd ? ivSet[this.props.league][whatToMaximize].Atk : "",
+                Def: statCanUpd ? ivSet[this.props.league][whatToMaximize].Def : "",
+                Sta: statCanUpd ? ivSet[this.props.league][whatToMaximize].Sta : "",
                 Shields: this.props.value.Shields,
                 IsGreedy: this.props.value.IsGreedy,
                 AtkStage: this.props.value.AtkStage,

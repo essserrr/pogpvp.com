@@ -50,6 +50,7 @@ class NewsPages extends React.Component {
 
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/newsdb/page/" + pageNumber, {
+                credentials: "include",
                 method: "GET",
                 headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
             })

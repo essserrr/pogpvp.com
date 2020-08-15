@@ -93,7 +93,7 @@ func createApp(withLog *os.File) (*App, error) {
 	if err = app.semistaticDatabase.createDatabase("./semistatic.db", "BOLTDB", app.semistaticBuckets); err != nil {
 		return nil, err
 	}
-	if err = app.newsDatabse.createDatabase("./news.db", "BOLTDB", []string{"NEWS_HEADERS", "NEWS"}); err != nil {
+	if err = app.newsDatabse.createDatabase("./news.db", "BOLTDB", []string{"NEWS_HEADERS", "NEWS", "RU_NEWS_HEADERS", "RU_NEWS"}); err != nil {
 		return nil, err
 	}
 	if err = app.users.createDatabase("./users.db", "BOLTDB", []string{"SUPERADMINS"}); err != nil {
@@ -511,11 +511,18 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		bucketName string
 		bucketKey  = chi.URLParam(r, "id")
 	)
+
+	lang := ""
+	rCookie, _ := r.Cookie("appLang")
+	if rCookie != nil && rCookie.Value == "ru" {
+		lang = "RU_"
+	}
+
 	switch chi.URLParam(r, "type") {
 	case "page":
-		bucketName = "NEWS_HEADERS"
+		bucketName = lang + "NEWS_HEADERS"
 	case "id":
-		bucketName = "NEWS"
+		bucketName = lang + "NEWS"
 	default:
 		return errors.NewHTTPError(nil, http.StatusBadRequest, "Unsupported method")
 	}
@@ -563,7 +570,7 @@ func (dbs *database) readNews(bucket, page string) ([]string, error) {
 			return errors.NewHTTPError(err, http.StatusBadRequest, "Key cannot be negative")
 		}
 		//process news request
-		if bucket == "NEWS" {
+		if bucket == "NEWS" || bucket == "RU_NEWS" {
 			if int64(requstedKey) > lastKey {
 				return errors.NewHTTPError(err, http.StatusNotFound, "News not found")
 			}

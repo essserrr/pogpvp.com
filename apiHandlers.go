@@ -18,7 +18,7 @@ import (
 )
 
 type newsRequest struct {
-	News rawNews
+	News []rawNews
 	Auth authForm
 	ID   uint64
 }
@@ -90,11 +90,13 @@ func newsAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	switch action {
 	case "delete":
 		err = app.newsDatabse.deleteNews(newsRequest.ID, []string{"NEWS_HEADERS", "NEWS"})
+		err = app.newsDatabse.deleteNews(newsRequest.ID, []string{"RU_NEWS_HEADERS", "RU_NEWS"})
 		if err != nil {
 			return errors.NewHTTPError(err, http.StatusBadRequest, "Error while deleting news page")
 		}
 	case "update":
-		err = app.newsDatabse.updateNews(newsRequest.ID, newsRequest.News, []string{"NEWS_HEADERS", "NEWS"})
+		err = app.newsDatabse.updateNews(newsRequest.ID, newsRequest.News[0], []string{"NEWS_HEADERS", "NEWS"})
+		err = app.newsDatabse.updateNews(newsRequest.ID, newsRequest.News[1], []string{"RU_NEWS_HEADERS", "RU_NEWS"})
 		if err != nil {
 			return errors.NewHTTPError(err, http.StatusBadRequest, "Error while putting news page")
 		}
@@ -129,7 +131,11 @@ func (dbs *database) updateNews(newsKey uint64, news rawNews, bucketName []strin
 			switch value {
 			case "NEWS_HEADERS":
 				page.Description = ""
+			case "RU_NEWS_HEADERS":
+				page.Description = ""
 			case "NEWS":
+				page.ShortDescription = ""
+			case "RU_NEWS":
 				page.ShortDescription = ""
 			}
 			value, err := json.Marshal(page)
