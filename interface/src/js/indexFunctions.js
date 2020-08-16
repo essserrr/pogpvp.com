@@ -2,7 +2,7 @@ import React from "react";
 import PokemonIconer from "../App/PvP/components/PokemonIconer/PokemonIconer"
 
 export const capitalizeFirst = (str, lower = false) =>
-    (lower ? str.toLowerCase() : str).replace(/(?:^|\s|[""([{])+\S/g, match => match.toUpperCase());
+    (lower ? str.toLowerCase() : str).replace(/(?:^|\s|-|["'([{])+\S/g, match => match.toUpperCase());
 
 export function checkShadow(name, pokTable) {
     if (!pokTable[name]) {
