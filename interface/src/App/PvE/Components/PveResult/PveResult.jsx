@@ -21,6 +21,8 @@ let pvestrings = new LocalizedStrings(pveLocale);
 class PveResult extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.pveres = React.createRef();
+
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
@@ -58,7 +60,7 @@ class PveResult extends React.PureComponent {
     };
 
     focusDiv() {
-        this.refs.pveres.focus();
+        this.pveres.current.focus();
     };
 
     generateList() {
@@ -261,7 +263,7 @@ class PveResult extends React.PureComponent {
                         snapshot={this.state.breakpObj}
                     />}
                 />}
-                <div className="row m-0 justify-content-center results p-2" tabIndex="0" ref="pveres">
+                <div className="row m-0 justify-content-center results p-2" tabIndex="0" ref={this.pveres}>
                     <PveWillow
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}

@@ -11,6 +11,8 @@ let strings = new LocalizedStrings(locale);
 class Reconstruction extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.reconstruction = React.createRef();
+
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {
@@ -28,8 +30,7 @@ class Reconstruction extends React.PureComponent {
         this.focusDiv();
     };
     focusDiv() {
-        //strings.reconstruction
-        this.refs.reconstruction.focus();
+        this.reconstruction.current.focus();
     };
 
     onEnableConstructor(event) {
@@ -57,7 +58,7 @@ class Reconstruction extends React.PureComponent {
                     </div>
                 </div>
                 <div className="col-12 p-0">
-                    <div className={"timeline " + (this.state.constructor ? "modeon" : "")} tabIndex="0" ref="reconstruction" >
+                    <div className={"timeline " + (this.state.constructor ? "modeon" : "")} tabIndex="0" ref={this.reconstruction} >
                         <table cellSpacing="0" cellPadding="0" border="0" style={{ width: "100%", justifyContent: "center", }} >
                             <tbody >
                                 <TimelineGenerator

@@ -10,9 +10,10 @@ import SubmitButton from "../SubmitButton/SubmitButton"
 let strings = new LocalizedStrings(locale);
 
 class Advisor extends React.PureComponent {
-
     constructor(props) {
         super(props);
+        this.advisor = React.createRef();
+
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {
@@ -50,7 +51,7 @@ class Advisor extends React.PureComponent {
     }
 
     focusDiv() {
-        this.refs.advisor.focus();
+        this.advisor.current.focus();
     };
 
     loadMore() {
@@ -87,7 +88,7 @@ class Advisor extends React.PureComponent {
     render() {
         return (
             <div className="results max600 px-2 py-2 col-12 ">
-                <div tabIndex="0" ref="advisor" className="col-12  d-flex justify-content-center p-0">
+                <div tabIndex="0" ref={this.advisor} className="col-12  d-flex justify-content-center p-0">
                     <PokemonIconer
                         src="willow3"
                         folder="/"

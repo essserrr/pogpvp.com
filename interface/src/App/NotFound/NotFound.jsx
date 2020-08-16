@@ -14,11 +14,12 @@ let strings = new LocalizedStrings(locale)
 class NotFound extends React.Component {
     constructor(props) {
         super(props);
+        this.notFound = React.createRef();
+
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
         };
         this.focusDiv = this.focusDiv.bind(this);
-
     }
 
     componentDidMount() {
@@ -29,7 +30,7 @@ class NotFound extends React.Component {
     };
 
     focusDiv() {
-        this.refs.notfound.focus();
+        this.notFound.current.focus();
     };
 
 
@@ -60,7 +61,7 @@ class NotFound extends React.Component {
                                 <h5 className="col-12 font-weight-bold align-self-center text-center ">
                                     {strings.notfound}
                                 </h5>
-                                <div tabIndex="0" ref="notfound"></div>
+                                <div tabIndex="0" ref={this.notFound}></div>
                                 <Link title={strings.buttons.home}
                                     className="row ml-2 mr-1 linkText font-weight-bold text-center"
                                     to={"/"}>

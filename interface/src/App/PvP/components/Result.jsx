@@ -5,6 +5,7 @@ class Result extends React.PureComponent {
 
     constructor(props) {
         super(props);
+        this.matrixres = React.createRef();
         this.focusDiv = this.focusDiv.bind(this);
     }
 
@@ -16,12 +17,12 @@ class Result extends React.PureComponent {
     };
 
     focusDiv() {
-        this.refs.matrixres.focus();
+        this.matrixres.current.focus();
     };
 
     render() {
         return (
-            <div tabIndex="0" ref="matrixres">
+            <div tabIndex="0" ref={this.matrixres}>
                 <ResultsTable
                     value={this.props.value}
                     table={this.props.table}

@@ -3,10 +3,11 @@ import React from "react";
 export default class DropdownMenu extends React.PureComponent {
     constructor(props) {
         super(props);
+        this.wrapperRef = React.createRef();
+
         this.state = {
             showDropdown: false,
         };
-        this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
     }
 
@@ -17,11 +18,8 @@ export default class DropdownMenu extends React.PureComponent {
     componentWillUnmount() {
         document.removeEventListener("mousedown", this.handleClickOutside);
     }
-    setWrapperRef(node) {
-        this.wrapperRef = node;
-    }
     handleClickOutside(event) {
-        if (this.state.showDropdown && this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+        if (this.state.showDropdown && this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
             this.setState({ showDropdown: false });
         }
     }
@@ -30,7 +28,7 @@ export default class DropdownMenu extends React.PureComponent {
     render() {
         return (
             <li className={"nav-item dropdown clickable noselect " + (this.props.class ? this.props.class : "")}
-                ref={this.setWrapperRef} onClick={this.onClick}>
+                ref={this.wrapperRef} onClick={this.onClick}>
                 <div className="nav-link dropdown-toggle d-flex fBolder align-items-center"
                     id="navbarDropdownMenuLink"
                     data-toggle="dropdown"
