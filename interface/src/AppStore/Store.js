@@ -1,15 +1,15 @@
-import { createStore, applyMiddleware } from 'redux'
-import { persistStore, persistReducer } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
-import thunk from 'redux-thunk'
+import { createStore, applyMiddleware } from "redux"
+import { persistStore, persistReducer } from "redux-persist"
+import storage from "redux-persist/lib/storage"
+import thunk from "redux-thunk"
 
 
-import AppReducer from './Reducers/Index'
+import AppReducer from "./Reducers/Index"
 
 const persistConfig = {
-    key: 'session',
+    key: "session",
     storage: storage,
-    whitelist: ['session']
+    whitelist: ["session", "parties"]
 }
 
 const persistedReducer = persistReducer(persistConfig, AppReducer)

@@ -46,3 +46,13 @@ export const endPokemonBaseFetching = () => ({
 export const endMoveBaseFetching = () => ({
     type: "END_MOVE_BASE",
 })
+
+
+export const addParty = value => ({
+    type: "ADD_PARTY",
+    value
+})
+export const deleteParty = value => ({
+    type: "DELETE_PARTY",
+    value
+})
