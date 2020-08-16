@@ -1,7 +1,10 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
+import { connect } from "react-redux"
 
+import { addParty } from "../../AppStore/Actions/actions"
+import { deleteParty } from "../../AppStore/Actions/actions"
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
 import Errors from "./components/Errors/Errors"
@@ -10,7 +13,7 @@ import Advisor from "./components/Advisor/Advisor"
 import TheadElement from "./components/MetrixTable/TheadElement"
 import LineElement from "./components/MetrixTable/LineElement"
 
-import { encodeQueryData, calculateMaximizedStats, returnRateStyle } from "../../js/indexFunctions.js"
+import { encodeQueryData, calculateMaximizedStats, returnRateStyle, capitalizeFirst } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
 import Result from "./components/Result"
@@ -41,6 +44,7 @@ class MatrixPvp extends React.PureComponent {
 
                 showPokSelect: false,
                 showSavePanel: false,
+                showImportExportPanel: false,
 
                 listForBattle: [],
                 listToDisplay: [],
@@ -60,6 +64,7 @@ class MatrixPvp extends React.PureComponent {
 
                 showPokSelect: false,
                 showSavePanel: false,
+                showImportExportPanel: false,
 
                 listForBattle: [],
                 listToDisplay: [],
@@ -87,6 +92,8 @@ class MatrixPvp extends React.PureComponent {
         this.onClick = this.onClick.bind(this);
         this.onPokemonAdd = this.onPokemonAdd.bind(this);
         this.onPokemonDelete = this.onPokemonDelete.bind(this);
+
+        this.onImport = this.onImport.bind(this)
         this.onPartySave = this.onPartySave.bind(this);
         this.onPokRedact = this.onPokRedact.bind(this);
         this.onPokRedactOff = this.onPokRedactOff.bind(this);
@@ -122,10 +129,10 @@ class MatrixPvp extends React.PureComponent {
             let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
 
             return Object.assign({}, pok, {
-                "Lvl": ivSet[this.props.parentState.league][whatToMaximize].Level,
-                "Atk": ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                "Def": ivSet[this.props.parentState.league][whatToMaximize].Def,
-                "Sta": ivSet[this.props.parentState.league][whatToMaximize].Sta,
+                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
+                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
+                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
+                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
             })
         });
 
@@ -136,6 +143,20 @@ class MatrixPvp extends React.PureComponent {
                 maximizer: max,
             }
         });
+    }
+
+    readParties() {
+        let partiesList = [
+            <option value="" key="">{""}</option>,
+            <option value="Preset1" key="Preset1">{strings.options.matrixpreset.great}</option>,
+            <option value="Preset2" key="Preset2">{strings.options.matrixpreset.ultra}</option>,
+            <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
+            <option value="Preset4" key="Preset4">{strings.options.matrixpreset.great + strings.options.matrixpreset.pr}</option>,
+            <option value="Preset5" key="Preset5">{strings.options.matrixpreset.ultra + strings.options.matrixpreset.pr}</option>,
+            <option value="Preset6" key="Preset6">{strings.options.matrixpreset.master + strings.options.matrixpreset.pr}</option>,
+            ...Object.keys(this.props.parties.parties).map((key) => <option value={key} key={key}>{key}</option>)
+        ]
+        return partiesList
     }
 
     onPopup(event, role) {
@@ -151,22 +172,73 @@ class MatrixPvp extends React.PureComponent {
     }
 
     onPartyDelete(event, role) {
-        event.preventDefault();
         let key = this.state[role].selectedParty
         if (key === "") {
             return
         }
-        let newParties = this.state.savedParties.filter((value) => value.key !== key);
-        localStorage.removeItem(key)
+        //delete entry
+        this.props.deleteParty(key)
+        //make new parties list
+        let newParties = this.state.savedParties.filter((value) => value.key !== key)
+        //make new key list of saved parties
+        let keysList = Object.keys(this.props.parties.parties).filter((value) => value !== key)
+
+        //create update variables
+        let selectedLeft = this.state.leftPanel.selectedParty
+        let selectedRight = this.state.rightPanel.selectedParty
+
+        let listForBattleLeft = this.state.leftPanel.listForBattle
+        let listForBattleRight = this.state.rightPanel.listForBattle
+
+        let listToDisplayLeft = this.state.leftPanel.listToDisplay
+        let listToDisplayRight = this.state.rightPanel.listToDisplay
+
+        //check if there some user created parties remained
+        switch (keysList.length > 0) {
+            case true:
+                //if left panel has been affected redefine active party
+                if (selectedLeft === key) {
+                    selectedLeft = keysList[0]
+                    listForBattleLeft = [...this.props.parties.parties[keysList[0]]]
+                    listToDisplayLeft = this.createListToDisplay(listForBattleLeft, "leftPanel")
+
+                }
+                //if right panel has been affected redefine active party
+                if (selectedRight === key) {
+                    selectedRight = keysList[0]
+                    listForBattleRight = [...this.props.parties.parties[keysList[0]]]
+                    listToDisplayRight = this.createListToDisplay(listForBattleRight, "rightPanel")
+                }
+                break
+            //if none parties remained, erase active values
+            default:
+                //if left panel has been affected redefine active party
+                if (selectedLeft === key) {
+                    selectedLeft = ""
+                    listForBattleLeft = []
+                    listToDisplayLeft = []
+                }
+                //if right panel has been affected redefine active party
+                if (selectedRight === key) {
+                    selectedRight = ""
+                    listForBattleRight = []
+                    listToDisplayRight = []
+                }
+        }
+
         this.setState({
             savedParties: newParties,
             leftPanel: {
                 ...this.state.leftPanel,
-                selectedParty: (localStorage.key(0) !== null) ? localStorage.key(0) : "",
+                selectedParty: selectedLeft,
+                listForBattle: listForBattleLeft,
+                listToDisplay: listToDisplayLeft,
             },
             rightPanel: {
                 ...this.state.rightPanel,
-                selectedParty: (localStorage.key(0) !== null) ? localStorage.key(0) : "",
+                selectedParty: selectedRight,
+                listForBattle: listForBattleRight,
+                listToDisplay: listToDisplayRight,
             }
         })
     }
@@ -192,7 +264,7 @@ class MatrixPvp extends React.PureComponent {
                 newListForBattle = masterPremier.map(pok => Object.assign({}, pok));
                 break
             default:
-                newListForBattle = JSON.parse(localStorage.getItem(event.target.value));
+                newListForBattle = [...this.props.parties.parties[event.target.value]]
                 break
         }
 
@@ -200,9 +272,25 @@ class MatrixPvp extends React.PureComponent {
             return
         }
 
-        let currentListToDisplay = newListForBattle.map((elem, i) => {
+        let currentListToDisplay = this.createListToDisplay(newListForBattle, role)
+
+        this.setState({
+            advisorList: undefined,
+            advDisabled: true,
+            [role]: {
+                ...this.state[role],
+                [event.target.name]: event.target.value,
+                listToDisplay: currentListToDisplay,
+                listForBattle: newListForBattle,
+            }
+        });
+
+    }
+
+    createListToDisplay(arr, role) {
+        return arr.map((elem, i) => {
             let key = elem.name + i
-            newListForBattle[i].key = key
+            arr[i].key = key
             return <ListEntry
                 onPokemonDelete={this.onPokemonDelete}
                 attr={role}
@@ -223,19 +311,95 @@ class MatrixPvp extends React.PureComponent {
                 }
             />
         });
+    }
 
+    onImport(obj) {
+        let listForBattle = this.extractPokemon(obj.value.split("\n"), obj.attr)
+        let listToRight = this.createListToDisplay(listForBattle, obj.attr)
+        console.log(listForBattle)
         this.setState({
             advisorList: undefined,
             advDisabled: true,
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: event.target.value,
-                listToDisplay: currentListToDisplay,
-                listForBattle: newListForBattle,
+            [obj.attr]: {
+                ...this.state[obj.attr],
+                listForBattle: listForBattle,
+                listToDisplay: listToRight,
+                showImportExportPanel: false,
             }
         });
 
     }
+
+    extractPokemon(stringArray, role) {
+        let pokArr = []
+        stringArray.forEach((value) => {
+            let pok = value.split(",")
+
+            if (!pok[0]) { return }
+
+            let nameAndType = pok[0].split("!")
+            let name = capitalizeFirst(nameAndType[0].replace("_", " "), true)
+            if (!this.props.parentState.pokemonTable[name]) {
+                return
+            }
+
+            let QuickMove = ""
+            if (!!pok[1]) {
+                QuickMove = capitalizeFirst(pok[1].replace("_", " "), true)
+                if (!this.props.parentState.moveTable[QuickMove]) {
+                    return
+                }
+            }
+
+            let ChargeMove1 = ""
+            if (!!pok[2]) {
+                ChargeMove1 = capitalizeFirst(pok[2].replace("_", " "), true)
+                if (!this.props.parentState.moveTable[ChargeMove1]) { ChargeMove1 = "" }
+            }
+
+            let ChargeMove2 = ""
+            if (!!pok[3]) {
+                ChargeMove2 = capitalizeFirst(pok[3].replace("_", " "), true)
+                if (!this.props.parentState.moveTable[ChargeMove2]) { ChargeMove2 = "" }
+            }
+
+
+            let ivSet = calculateMaximizedStats(name, this.state[role].maximizer.level, this.props.parentState.pokemonTable,
+                {
+                    great: this.props.parentState.league === "great" ? true : false,
+                    ultra: this.props.parentState.league === "ultra" ? true : false,
+                    master: this.props.parentState.league === "master" ? true : false
+                })
+            let whatToMaximize = (this.state[role].maximizer.action === "Default") ? "Default" : this.state[role].maximizer.stat
+
+            console.log({
+                name, QuickMove, ChargeMove1, ChargeMove2,
+
+                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
+                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
+                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
+                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
+
+                Shields: String(this.state[role].Shields), AtkStage: String(this.state[role].AtkStage), DefStage: String(this.state[role].DefStage),
+                InitialHP: "0", InitialEnergy: "0", IsGreedy: String(this.state[role].IsGreedy), IsShadow: nameAndType.length > 1 ? "true" : "false",
+            })
+            pokArr.push({
+                name, QuickMove, ChargeMove1, ChargeMove2,
+
+                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
+                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
+                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
+                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
+
+                Shields: String(this.state[role].Shields), AtkStage: String(this.state[role].AtkStage), DefStage: String(this.state[role].DefStage),
+                InitialHP: "0", InitialEnergy: "0", IsGreedy: String(this.state[role].IsGreedy), IsShadow: nameAndType.length > 1 ? "true" : "false",
+            })
+
+        })
+
+        return pokArr
+    }
+
 
     onChange(event) {
         //otherwise follow general pattern
@@ -245,7 +409,7 @@ class MatrixPvp extends React.PureComponent {
             this.statMaximizer(event, role)
             return
         }
-        if (action === "Add pokemon" || action === "Save") {
+        if (action === "Add pokemon" || action === "Save" || action === "Import/Export") {
             this.onPopup(event, role)
             return
         }
@@ -284,6 +448,7 @@ class MatrixPvp extends React.PureComponent {
                 ...this.state[role],
                 showPokSelect: false,
                 showSavePanel: false,
+                showImportExportPanel: false,
             }
         });
     }
@@ -376,26 +541,6 @@ class MatrixPvp extends React.PureComponent {
         }
     }
 
-
-
-    readParties() {
-        let partiesList = [
-            <option value="" key=""></option>,
-            <option value="Preset1" key="Preset1">{strings.options.matrixpreset.great}</option>,
-            <option value="Preset2" key="Preset2">{strings.options.matrixpreset.ultra}</option>,
-            <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
-            <option value="Preset4" key="Preset4">{strings.options.matrixpreset.great + strings.options.matrixpreset.pr}</option>,
-            <option value="Preset5" key="Preset5">{strings.options.matrixpreset.ultra + strings.options.matrixpreset.pr}</option>,
-            <option value="Preset6" key="Preset6">{strings.options.matrixpreset.master + strings.options.matrixpreset.pr}</option>,
-        ]
-        for (let i = 0; i < localStorage.length; i++) {
-            if (localStorage.key(i) === "persist:session") {
-                continue
-            }
-            partiesList.push(<option value={localStorage.key(i)} key={localStorage.key(i)}>{localStorage.key(i)}</option>)
-        }
-        return partiesList
-    }
 
     makeTable(arr) {
         return [
@@ -574,7 +719,7 @@ class MatrixPvp extends React.PureComponent {
     }
 
     onPartySave(event) {
-        if (localStorage.getItem(event.value) === null) {
+        if (!this.props.parties.parties[event.value]) {
             var newList = [...this.state.savedParties]
             newList.push(<option value={event.value} key={event.value}>{event.value}</option>)
             this.setState({
@@ -586,7 +731,7 @@ class MatrixPvp extends React.PureComponent {
                 },
             })
 
-            localStorage.setItem(event.value, JSON.stringify(this.state[event.attr].listForBattle));
+            this.props.addParty({ [event.value]: this.state[event.attr].listForBattle })
             return
         }
 
@@ -597,7 +742,8 @@ class MatrixPvp extends React.PureComponent {
                 showSavePanel: false,
             }
         })
-        localStorage.setItem(event.value, JSON.stringify(this.state[event.attr].listForBattle));
+
+        this.props.addParty({ [event.value]: this.state[event.attr].listForBattle })
     }
 
     onPokRedact(event) {
@@ -796,6 +942,7 @@ class MatrixPvp extends React.PureComponent {
                             onPokemonDelete={this.onPokemonDelete}
 
                             onPartySave={this.onPartySave}
+                            onImport={this.onImport}
                         />
                     </div>
 
@@ -854,7 +1001,9 @@ class MatrixPvp extends React.PureComponent {
                             onClick={this.onClick}
                             onPokemonAdd={this.onPokemonAdd}
                             onPokemonDelete={this.onPokemonDelete}
+
                             onPartySave={this.onPartySave}
+                            onImport={this.onImport}
                         />
                     </div>
 
@@ -879,8 +1028,19 @@ class MatrixPvp extends React.PureComponent {
 }
 
 
+const mapDispatchToProps = dispatch => {
+    return {
+        addParty: (value) => dispatch(addParty(value)),
+        deleteParty: (value) => dispatch(deleteParty(value)),
+    }
+}
 
-export default MatrixPvp
+export default connect(
+    state => ({
+        parties: state.parties,
+    }), mapDispatchToProps
+)(MatrixPvp)
+
 
 
 

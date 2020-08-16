@@ -133,6 +133,21 @@ export const locale = {
         },
 
         tips: {
+            importtips: {
+                form: "Pokemon string format (comma separated without spaces):",
+                p1: "Pokemon1,",
+                q1: "Quick Move,",
+                ch1: "Charge Move1,",
+                ch2: "Charge Move2",
+
+                ent: "(hit Enter)",
+
+                p2: "Pokemon2!shadow,",
+
+                imp: "Import is partilly compatable with Pvpoke export",
+
+            },
+            impExp: "Enter or copy your Pokemon",
             search: "Please, enter more than 3 characters",
             strategy: {
                 greedy: "When greedy mode is on, pokemon uses shields whenever it results in higher battle rating",
@@ -168,6 +183,9 @@ export const locale = {
         },
 
         buttons: {
+            copy: "Copy",
+            impExp: "Import/Export",
+            imp: "Import",
             calculate: "Calculate",
             letsbattle: "Let's Battle",
             addpokemon: "Add pokemon",
@@ -407,6 +425,21 @@ export const locale = {
         },
 
         tips: {
+            importtips: {
+                form: "Формат покемонов (через запятую без пробелов):",
+                p1: "Покемон1,",
+                q1: "Быстрое Умение,",
+                ch1: "Заряжаемое Умение1,",
+                ch2: "Заряжаемое Умение2",
+
+                ent: "(нажать Enter)",
+
+                p2: "Покемон2!теневой,",
+
+                imp: "Импорт частично совместим с Pvppoke",
+
+            },
+            impExp: "Введите или скопируйте ваших покемонов",
             search: "Введите более 3 символов",
             strategy: {
                 greedy: "Когда жадный режим включен, покемон использует щиты каждый раз, когда это приводит к более высокому итоговому рейтингу",
@@ -441,6 +474,9 @@ export const locale = {
             stage: "Модификатор: ",
         },
         buttons: {
+            copy: "Скопировать",
+            impExp: "Импорт/Экспорт",
+            imp: "Импорт",
             calculate: "Посчитать",
             letsbattle: "В бой!",
             addpokemon: "Добавить покемона",

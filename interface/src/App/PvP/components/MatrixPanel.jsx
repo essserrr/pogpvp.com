@@ -1,6 +1,6 @@
-import React from "react";
-import Pokemon from "./Pokemon";
-import SelectGroup from "./SelectGroup/SelectGroup";
+import React from "react"
+import Pokemon from "./Pokemon"
+import SelectGroup from "./SelectGroup/SelectGroup"
 import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
 import MagicBox from "./MagicBox/MagicBox"
 import SubmitButton from "./SubmitButton/SubmitButton"
@@ -9,14 +9,16 @@ import {
     pokemon, selectCharge, selectQuick
 } from "../../../js/indexFunctions.js"
 import { getCookie } from "../../../js/getCookie"
-import Stages from "./Stages/Stages";
+
+import ImportExport from "./ImportExport/ImportExport"
+import Stages from "./Stages/Stages"
 import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
 import InputAndSubmit from "./InputAndSubmit/InputAndSubmit"
 import Counter from "./Counter/Counter"
 import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
-import ReactTooltip from "react-tooltip";
-import LocalizedStrings from "react-localization";
+import ReactTooltip from "react-tooltip"
+import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -424,6 +426,20 @@ class MatrixPanel extends React.PureComponent {
                         />
                     }
                 />}
+
+                {this.props.value.showImportExportPanel && <MagicBox
+                    onClick={this.props.onClick}
+                    attr={this.props.attr}
+                    element={
+                        <ImportExport
+                            value={this.props.value.listForBattle}
+                            action="Import/Export"
+                            attr={this.props.attr}
+                            onChange={this.props.onImport}
+                        />
+                    }
+                />}
+
                 <Counter
                     class="fBolder"
                     value={this.props.value.listToDisplay.length}
@@ -476,6 +492,15 @@ class MatrixPanel extends React.PureComponent {
                         attr={this.props.attr}
                         action={"Delete"}
                         label={strings.buttons.delete}
+                        onSubmit={this.props.onChange} />
+                </div>
+                <div className="row  justify-content-center m-0 pt-2" >
+                    <SubmitButton
+                        class="longButton btn btn-primary btn-sm mx-0"
+                        attr={this.props.attr}
+                        stat="showImportExportPanel"
+                        action={"Import/Export"}
+                        label={strings.buttons.impExp}
                         onSubmit={this.props.onChange} />
                 </div>
                 <div className="fBolder">
