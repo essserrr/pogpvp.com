@@ -316,7 +316,6 @@ class MatrixPvp extends React.PureComponent {
     onImport(obj) {
         let listForBattle = this.extractPokemon(obj.value.split("\n"), obj.attr)
         let listToRight = this.createListToDisplay(listForBattle, obj.attr)
-        console.log(listForBattle)
         this.setState({
             advisorList: undefined,
             advDisabled: true,
@@ -372,17 +371,6 @@ class MatrixPvp extends React.PureComponent {
                 })
             let whatToMaximize = (this.state[role].maximizer.action === "Default") ? "Default" : this.state[role].maximizer.stat
 
-            console.log({
-                name, QuickMove, ChargeMove1, ChargeMove2,
-
-                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
-
-                Shields: String(this.state[role].Shields), AtkStage: String(this.state[role].AtkStage), DefStage: String(this.state[role].DefStage),
-                InitialHP: "0", InitialEnergy: "0", IsGreedy: String(this.state[role].IsGreedy), IsShadow: nameAndType.length > 1 ? "true" : "false",
-            })
             pokArr.push({
                 name, QuickMove, ChargeMove1, ChargeMove2,
 
