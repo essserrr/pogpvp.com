@@ -371,7 +371,7 @@ func (pok *pokemon) checkAvalabilityOfChargeMovesPvpoke(obj *PvpObject) {
 	//if there is only move
 	if len(pok.chargeMove) == 1 {
 		//use it if energy is enough
-		if int16(pok.energy) < -pok.chargeMove[0].pvpEnergy {
+		if int16(pok.energy) >= -pok.chargeMove[0].pvpEnergy {
 			pok.results.chargeName = 1
 			defender.skipShield = skipped
 			pok.isTriggered = pok.chargeMove[0].activateTrigger()
@@ -412,7 +412,7 @@ func (pok *pokemon) checkAvalabilityOfChargeMovesPvpoke(obj *PvpObject) {
 		pok.isTriggered = pok.chargeMove[1].activateTrigger()
 		return
 	}
-	//mind feint
+	//mind faint
 	waitPrimary := checkFaint(defender, pok, bonusMove)
 	if waitPrimary {
 		pok.results.chargeName = 0
