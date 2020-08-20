@@ -848,10 +848,6 @@ class MatrixPvp extends React.PureComponent {
 
         let parties = []
 
-        this.state.leftPanel.listForBattle.forEach((pokA) => {
-
-        });
-
         for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
             for (let j = i + 1; j < this.state.leftPanel.listForBattle.length; j++) {
                 for (let k = j + 1; k < this.state.leftPanel.listForBattle.length; k++) {
@@ -863,10 +859,7 @@ class MatrixPvp extends React.PureComponent {
                 }
             }
         }
-        parties.sort((a, b) => {
-            if (a.zeros.length === b.zeros.length) { return b.rate - a.rate }
-            return a.zeros.length - b.zeros.length
-        });
+
         this.setState({
             advisorList: parties,
         })

@@ -102,18 +102,3 @@ class AdvisorPanel extends React.PureComponent {
 };
 
 export default AdvisorPanel;
-/*
-<div className="col-auto px-0">
-                            {this.props.third.QuickMove.replace(/[a-z -]/g, "")}
-                            {(this.props.third.ChargeMove1 || this.props.third.ChargeMove2) ? "+" : ""}
-                            {this.props.third.ChargeMove1 ? (this.props.third.ChargeMove1.replace(/[a-z -]/g, "")) : ""}
-                            {(this.props.third.ChargeMove1 && this.props.third.ChargeMove2) ? "/" : ""}
-                            {this.props.third.ChargeMove2 ? (this.props.third.ChargeMove2.replace(/[a-z -]/g, "")) : ""}
-                        </div>
-{this.props.third.QuickMove.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.QuickMove)}
-{(props.pok.ChargeMove1 || props.pok.ChargeMove2) ? "+" : ""}
-{props.pok.ChargeMove1 ? (props.pok.ChargeMove1.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove1)) : ""}
-{(props.pok.ChargeMove1 && props.pok.ChargeMove2) ? "/" : ""}
-{props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
-
-*/

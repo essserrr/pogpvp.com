@@ -183,6 +183,8 @@ export const locale = {
         },
 
         buttons: {
+            byrating: "Sort by rating",
+            byzeros: "Sort by bad matchups",
             copy: "Copy",
             impExp: "Import/Export",
             imp: "Import",
@@ -474,6 +476,8 @@ export const locale = {
             stage: "Модификатор: ",
         },
         buttons: {
+            byrating: "Сортировать по рейтингу",
+            byzeros: "Сортировать по уязвимостям",
             copy: "Скопировать",
             impExp: "Импорт/Экспорт",
             imp: "Импорт",
