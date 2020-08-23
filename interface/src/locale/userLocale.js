@@ -29,15 +29,19 @@ export const userLocale = {
             ness: "Necessary field",
             match: "Passwords don't match",
             symb: " contains prohibited symbols",
+            symb2: " contain prohibited symbols",
+
             emailf: "Incorrect Email format",
             lesseq: {
                 l1: " must be less than or equal ",
                 l2: " must be less than or equal ",
+                l3: " must be less than or equal ",
                 c: " characters",
             },
             longer: {
                 l1: " must be longer than ",
                 l2: " must be longer than ",
+                l3: " must be longer than ",
             },
         },
         pageheaders: {
@@ -172,6 +176,30 @@ export const userLocale = {
                 },
             },
         },
+        shbroker: {
+            have: "Pokemon you have",
+            want: "Pokemon you want",
+
+            region: "Region",
+            rPlace: "Select your region",
+
+            country: "Country",
+            cPlace: "Select your country",
+
+            city: "City",
+            cityPlace: "Enter your city name",
+
+            cont: "Contact details",
+            contPlace: "Enter your contact details",
+
+            err: {
+                c1: "City name",
+                c2: "city name",
+
+                cd1: "Contact details",
+                cd2: "contact details",
+            }
+        },
     },
 
     ru: {
@@ -204,15 +232,19 @@ export const userLocale = {
             ness: "Обязательное поле",
             match: "Пароли не совпадают",
             symb: " содержит запрещенные символы",
+            symb2: " содержат запрещенные символы",
+
             emailf: "Неверный формат адреса электронной почты",
             lesseq: {
                 l1: " должно быть меньше либо равно ",
                 l2: " должен быть меньше либо равен ",
+                l3: " должны быть меньше либо равны ",
                 c: " символов",
             },
             longer: {
                 l1: " должно быть длиннее, чем ",
                 l2: " должен быть длиннее, чем ",
+                l3: " должны быть длиннее, чем ",
             },
         },
         pageheaders: {
@@ -347,6 +379,30 @@ export const userLocale = {
                     subj: "Цель, на которую накладывается эффект",
                 },
             },
+        },
+        shbroker: {
+            have: "Ваши покемоны",
+            want: "Нужные вам покемоны",
+
+            country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Страна\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            cPlace: "Выберите свою страну",
+
+            region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Регион\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            rPlace: "Выберите свой регион",
+
+            city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Город\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            cityPlace: "Введите название вашего города",
+
+            cont: "Контактные данные",
+            contPlace: "Введите ваши контактные данные",
+
+            err: {
+                c1: "Название города",
+                c2: "названия города",
+
+                cd1: "Контактные данные",
+                cd2: "контактных данных",
+            }
         },
     }
 }

@@ -36,8 +36,9 @@ class ProfileButtons extends React.PureComponent {
                     data-tip data-for={"broker"}>{strings.upage.p}</div>
                 <Link className={"col-auto single-button px-0" + (this.props.activePath === "move" ? " active" : "")}
                     to="/profile/move">{strings.upage.m}</Link>
-                <div className={"col-auto single-button--fake px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
-                    data-tip data-for={"broker"}>{strings.upage.shbr}</div>
+
+                <Link className={"col-auto single-button px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
+                    to="/profile/shinybroker" >{strings.upage.shbr}</Link>
                 <ReactTooltip
                     className={"infoTip"}
                     id={"broker"} effect="solid"
@@ -54,9 +55,6 @@ class ProfileButtons extends React.PureComponent {
 /*
 <Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
                     to="/profile/pokemon" data-tip data-for={"broker"}>{strings.upage.p}</Link>
-                
-                <Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "shinybroker" ? " active" : "")}
-                    to="/profile/shinybroker" data-tip data-for={"broker"}>{strings.upage.shbr}</Link>
 */
 
 export default ProfileButtons
