@@ -51,7 +51,7 @@ class User extends React.PureComponent {
                         <>
                             <Link key="profile" className="dropdown-item " to="/profile/info">
                                 <i className="far fa-address-card fa-lg mr-1"></i>
-                                {strings.navbar.prof}</Link>,
+                                {strings.navbar.prof}</Link>
                             <div key="logout" name="logout" className="dropdown-item navuser--padding"
                                 onClick={this.onClick}>
                                 <i className="fas fa-sign-out-alt fa-lg mr-1"></i>{strings.navbar.sout}

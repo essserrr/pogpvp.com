@@ -1,5 +1,5 @@
 import React from "react"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { connect } from 'react-redux'
 import { Switch, Route } from "react-router-dom"
 
@@ -23,13 +23,6 @@ class Userpage extends React.Component {
     constructor(props) {
         super(props)
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        this.state = {}
-    }
-
-    componentDidMount() {
-    }
-
-    componentDidUpdate() {
     }
 
 

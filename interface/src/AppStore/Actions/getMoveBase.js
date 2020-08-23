@@ -1,7 +1,7 @@
 export const getMoveBase = () => {
     return (dispatch, getState) => {
         let state = getState()
-        if (Object.keys(state.bases.moveBase).length > 0 || state.bases.moveFetching) {
+        if (Object.keys(state.bases.moveBase).length > 0) {
             dispatch({ type: "SET_BASES_ERROR", value: "", })
             return { ok: true }
         }

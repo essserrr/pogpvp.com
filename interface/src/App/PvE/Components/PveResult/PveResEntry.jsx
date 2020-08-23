@@ -2,6 +2,7 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 import { UnmountClosed } from "react-collapse";
 import HpBar from "../PhBar/HpBar"
+import Loader from "../../../Registration/RegForm/AuthButton/Loader/Loader"
 
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../../../PvP/components/Errors/Errors"
@@ -9,7 +10,6 @@ import NumberAndName from "../NumberAndName/NumberAndName"
 import HpRemaining from "../HpRemaining/HpRemaining"
 import WeatherMoves from "../WeatherMoves/WeatherMoves"
 import FightStats from "../FightStats/FightStats"
-import Loader from "../../../PvpRating/Loader"
 
 import {
     culculateCP, calculateEffStat, extractName, encodePveAttacker, encodePveBoss, encodePveObj
@@ -238,20 +238,12 @@ class PveResEntry extends React.PureComponent {
                     <div className={"col-12 p-0 " + (this.state.showCollapse ? "borderTop" : "")}>
                         <UnmountClosed isOpened={this.state.showCollapse}>
                             <div className="row m-0  mt-1">
-                                {this.state.loading &&
-                                    <div className="col-12 mt-2 mb-3" style={{ fontWeight: "500", color: "black" }} >
-                                        <Loader
-                                            color="black"
-                                            weight="500"
-                                            locale={strings.tips.loading}
-                                            loading={this.state.loading}
-                                        />
-                                    </div>}
+
                                 {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
                                     <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
                                 <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"pres"}>
                                     <SubmitButton
-                                        label={pveStrings.pres}
+                                        label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
                                         action="Precision"
                                         onSubmit={this.rerunWithPrecision}
                                         class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
