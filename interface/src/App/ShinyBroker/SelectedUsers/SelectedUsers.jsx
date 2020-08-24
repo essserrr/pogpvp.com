@@ -18,13 +18,25 @@ class SelectedUsers extends React.PureComponent {
 
     render() {
         return (
-            <div className="ushiny row mx-0  p-2 justify-content-start">
+            <div className="seluser row mx-0  p-1 justify-content-start">
+                <div className="col-12 px-0">
+                    <div className="usercard-broker row my-1 mx-0 px-2 py-1 align-items-center justify-content-between text-center">
+                        <div className="col-2 px-1 text-left">{"Name"}</div>
+                        <div className="col-3 px-1">{"Country"}</div>
+                        <div className="col-3 px-1">{"Region"}</div>
+                        <div className="col-2 px-1">{"City"}</div>
+                        <div className="col-1 px-1">{"Have"}</div>
+                        <div className="col-1 px-1">{"Want"}</div>
+                    </div>
+                </div>
                 {Object.values(this.props.list).map((value) =>
-                    <UserCard
-                        key={value.Username}
-                        value={value}
-                        pokemonTable={this.props.pokemonTable}
-                    />)}
+                    <div className="col-12 px-0">
+                        <UserCard
+                            key={value.Username}
+                            value={value}
+                            pokemonTable={this.props.pokemonTable}
+                        />
+                    </div>)}
             </div>
         );
     }

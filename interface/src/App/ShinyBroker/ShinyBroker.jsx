@@ -14,6 +14,7 @@ import SelectedUsers from "./SelectedUsers/SelectedUsers"
 import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
 
+import "./ShinyBroker.scss"
 
 let strings = new LocalizedStrings(userLocale);
 
@@ -217,7 +218,7 @@ class ShinyBroker extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews max1200-1 col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 py-2">
+                        <div className="shbroker-body max1200-1 col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 py-2">
                             <div className=" row justify-content-center">
 
                                 {this.state.loading &&
@@ -239,7 +240,7 @@ class ShinyBroker extends React.Component {
                                         notOk={this.state.notOk}
                                     />
                                     <div className="col-12 px-1">
-                                        <div className="row m-0 py-3 justify-content-center">
+                                        <div className="row m-0 pt-3 justify-content-center">
                                             <AuthButton
                                                 loading={this.state.submitting}
                                                 title={this.state.ok ? "Ok" : strings.shbroker.find}
@@ -253,10 +254,13 @@ class ShinyBroker extends React.Component {
                                     <div className="col-12 col-md-10 col-lg-9 px-0">
                                         <Errors class="alert alert-danger p-2" value={this.state.error} />
                                     </div>}
-                                {!this.state.error && !!this.props.bases.pokemonBase && !!this.state.selectedUsers && <SelectedUsers
-                                    list={this.state.selectedUsers}
-                                    pokemonTable={this.props.bases.pokemonBase}
-                                />}
+                                {!!this.props.bases.pokemonBase && this.state.selectedUsers.length > 0 &&
+                                    <div className="col-12 p-3">
+                                        <SelectedUsers
+                                            list={this.state.selectedUsers}
+                                            pokemonTable={this.props.bases.pokemonBase}
+                                        />
+                                    </div>}
 
                             </div>
                         </div>
