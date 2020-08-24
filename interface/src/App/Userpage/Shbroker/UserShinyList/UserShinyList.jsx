@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization"
 
 import UserShinyCard from "./UserShinyCard/UserShinyCard"
 
-
 import { getCookie } from "../../../../js/getCookie"
 import { userLocale } from "../../../../locale/userLocale"
 

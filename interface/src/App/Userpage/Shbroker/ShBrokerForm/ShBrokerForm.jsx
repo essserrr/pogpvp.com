@@ -37,7 +37,7 @@ class ShBrokerForm extends React.PureComponent {
                         Country={this.props.value.Country}
                         Region={this.props.value.Region}
                         onChange={this.props.selectRegion}
-                        notOk={this.props.notOk.Country}
+                        notOk={this.props.notOk.Region}
                     />
                 </div>
                 <div className="col-12 col-md-10 col-lg-6 px-1 py-1">
@@ -58,6 +58,7 @@ class ShBrokerForm extends React.PureComponent {
 
                 <div className="col-12 col-md-10 col-lg-6 px-1 py-1">
                     <LabelAndInput
+                        labelWidth="151px"
                         label={strings.shbroker.cont}
                         place={strings.shbroker.contPlace}
 

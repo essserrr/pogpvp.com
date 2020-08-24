@@ -180,17 +180,19 @@ export const userLocale = {
             have: "Pokemon you have",
             want: "Pokemon you want",
 
-            region: "Region",
+            region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Region\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             rPlace: "Select your region",
 
-            country: "Country",
+            country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Country\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             cPlace: "Select your country",
 
-            city: "City",
+            city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0City\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             cityPlace: "Enter your city name",
 
-            cont: "Contact details",
+            cont: "\xa0\xa0\xa0\xa0\xa0Contact details\xa0\xa0\xa0\xa0\xa0\xa0",
             contPlace: "Enter your contact details",
+
+            amount: "Amount",
 
             err: {
                 c1: "City name",
@@ -395,6 +397,8 @@ export const userLocale = {
 
             cont: "Контактные данные",
             contPlace: "Введите ваши контактные данные",
+
+            amount: "Количество",
 
             err: {
                 c1: "Название города",

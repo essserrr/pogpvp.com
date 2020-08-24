@@ -320,26 +320,6 @@ class Move extends React.PureComponent {
                         loading={this.state.loading}
                     />}
                 {!this.state.loading && <div className="row mx-0 justify-content-center">
-                    <div className="col-12 px-0">
-                        <MoveList moves={Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))}
-                            onMoveOpen={this.onMoveOpen}
-                            onMoveDelete={this.onMoveDelete}
-                        />
-                    </div>
-                    {this.state.error !== "" &&
-                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Errors class="alert alert-danger p-2" value={this.state.error} />
-
-                        </div>}
-                    <div className="col-12 px-1">
-                        <div className="row m-0 py-2 justify-content-center">
-                            <AuthButton
-                                loading={this.state.submitting}
-                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
-                                onClick={this.onSaveChanges}
-                            />
-                        </div>
-                    </div>
                     <div className="col-12 px-0 py-1 text-center moveconstr__title">
                         {strings.moveconstr.constr}
                     </div>
@@ -381,6 +361,27 @@ class Move extends React.PureComponent {
                                 onClick={this.onMoveAdd}
                                 disabled={
                                     Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="col-12 px-0 mt-4">
+                        <MoveList moves={Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))}
+                            onMoveOpen={this.onMoveOpen}
+                            onMoveDelete={this.onMoveDelete}
+                        />
+                    </div>
+                    {this.state.error !== "" &&
+                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
+                            <Errors class="alert alert-danger p-2" value={this.state.error} />
+
+                        </div>}
+                    <div className="col-12 px-1">
+                        <div className="row m-0 py-2 justify-content-center">
+                            <AuthButton
+                                loading={this.state.submitting}
+                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
+                                onClick={this.onSaveChanges}
                             />
                         </div>
                     </div>
