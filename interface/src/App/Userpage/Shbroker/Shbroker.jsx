@@ -38,6 +38,7 @@ class Shbroker extends React.PureComponent {
             loading: false,
             error: "",
             ok: false,
+            submitting: false,
         }
 
         this.selectCountry = this.selectCountry.bind(this)
@@ -70,8 +71,9 @@ class Shbroker extends React.PureComponent {
             let userBroker = await responses[1].json()
 
             //if response is not ok, handle error
-            if (!responses[0].ok) { throw this.props.bases.error }
-            if (!responses[1].ok) { throw userBroker.detail }
+            for (let i = 0; i < responses.length; i++) {
+                if (!responses[i].ok) { throw (i === 1 ? userBroker.detail : this.props.bases.error) }
+            }
 
             this.setState({
                 loading: false,
@@ -171,7 +173,7 @@ class Shbroker extends React.PureComponent {
     }
 
     checkSelect(str, name) {
-        if (str === "") { return name === "Country" ? strings.shbroker.rPlace : strings.shbroker.cPlace }
+        if (str === "") { return name === "Region" ? strings.shbroker.rPlace : strings.shbroker.cPlace }
         return ""
     }
 
@@ -229,7 +231,7 @@ class Shbroker extends React.PureComponent {
     }
 
     validate() {
-        let notOk = { Title: this.check(this.state.Title, "Title") }
+        let notOk = {}
         for (const [key, value] of Object.entries(this.state.inputs)) {
             notOk[key] = this.check(value, key)
         }
