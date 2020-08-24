@@ -19,7 +19,7 @@ const UserShinyCard = React.memo(function (props) {
                 />
                 {props.value.Type === "Shiny" ? <Shiny className="posAbs icon18" style={{ right: "-3px" }} /> : null}
             </div>
-            <CloseButton attr={props.attr} index={props.value.Name} className="close" onClick={props.onLick} />
+            <CloseButton attr={props.attr} index={props.value.Name} className="close" onClick={props.onClick} />
         </div>
     )
 })
