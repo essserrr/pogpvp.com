@@ -21,7 +21,7 @@ class ShBrokerSelectPanel extends React.PureComponent {
     render() {
         return (
             <>
-                <div className="shiny-selpanel__text">{`${this.props.label} (${Object.keys(this.props.userList).length}/250):`}</div>
+                <div className="shiny-selpanel__text">{`${this.props.label} (${Object.keys(this.props.userList).length}/400):`}</div>
                 <SearchableSelect
                     attr={this.props.attr}
                     list={this.props.pokList}

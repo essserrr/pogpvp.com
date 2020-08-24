@@ -1233,6 +1233,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/privacy*", rootHandler{serveIndex, a})
 	router.Handle("/terms*", rootHandler{serveIndex, a})
 	router.Handle("/restore*", rootHandler{serveIndex, a})
+	router.Handle("/shbroker*", rootHandler{serveIndex, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
@@ -1261,8 +1262,10 @@ func (a *App) initPvpSrv() *http.Server {
 	//user requests
 	router.Handle("/api/user/info", rootHandler{getUserInfo, a})
 	router.Handle("/api/user/sessions", rootHandler{getUserUsessions, a})
-	router.Handle("/api/user/getmoves", rootHandler{getUserMoves, a})
 	router.Handle("/api/user/setmoves", rootHandler{setUserMoves, a})
+	router.Handle("/api/user/getmoves", rootHandler{getUserMoves, a})
+	router.Handle("/api/user/setbroker", rootHandler{setUserBroker, a})
+	router.Handle("/api/user/getbroker", rootHandler{getUserBroker, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)
