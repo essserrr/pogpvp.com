@@ -12,7 +12,6 @@ import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
 import { refresh } from "../../../AppStore/Actions/refresh"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
 import { getCookie } from "../../../js/getCookie"
-import { returnPokList } from "../../../js/indexFunctions"
 import { userLocale } from "../../../locale/userLocale"
 
 
@@ -33,8 +32,8 @@ class Shbroker extends React.PureComponent {
                 Country: "", Region: "", City: "", Contacts: "",
             },
             pokList: null,
-            Have: { Charmander: { Name: "Charmander", Type: "Shiny", Amount: "1", }, Pikachu: { Name: "Pikachu", Type: "Shiny", Amount: "1", } },
-            Want: { Metwo: { Name: "Mewtwo", Type: "Shiny", Amount: "1", }, Reshiram: { Name: "Reshiram", Type: "Shiny", Amount: "1", } },
+            Have: {},
+            Want: {},
 
             loading: false,
             error: "",
@@ -54,15 +53,42 @@ class Shbroker extends React.PureComponent {
         this.setState({
             loading: true,
         })
+
+        await this.props.refresh()
         try {
-            let response = await this.props.getPokemonBase()
+            let fetches = [
+                this.props.getPokemonBase(),
+                fetch(((navigator.userAgent !== "ReactSnap") ?
+                    process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/getbroker", {
+                    method: "GET",
+                    credentials: "include",
+                })
+            ]
+
+            let responses = await Promise.all(fetches)
+
+            let userBroker = await responses[1].json()
+
             //if response is not ok, handle error
-            if (!response.ok) { throw this.props.bases.error }
+            if (!responses[0].ok) { throw this.props.bases.error }
+            if (!responses[1].ok) { throw userBroker.detail }
 
             this.setState({
                 loading: false,
                 error: "",
-                pokList: returnPokList(this.props.bases.pokemonBase)
+                pokList: this.returnPokList(this.props.bases.pokemonBase),
+
+                inputs: {
+                    ...this.state.inputs,
+                    Country: userBroker.Country,
+                    Region: userBroker.Region,
+                    City: userBroker.City,
+                    Contacts: userBroker.Contacts,
+                },
+
+
+                Have: !!userBroker.Have ? userBroker.Have : {},
+                Want: !!userBroker.Want ? userBroker.Want : {},
             })
 
         } catch (e) {
@@ -71,6 +97,20 @@ class Shbroker extends React.PureComponent {
                 error: String(e)
             })
         }
+    }
+
+    returnPokList(pokBase) {
+        let pokList = []
+        //create pokemons list
+        for (const [key] of Object.entries(pokBase)) {
+            pokList.push({
+                value: key,
+                label: <div style={{ textAlign: "left" }}>
+                    {key}
+                </div>,
+            });
+        }
+        return pokList
     }
 
 
@@ -156,7 +196,7 @@ class Shbroker extends React.PureComponent {
     }
 
     onPokemonAdd(event, args) {
-        if (Object.keys(this.state[args.name[0]]).length >= 250) { return }
+        if (Object.keys(this.state[args.name[0]]).length > 400) { return }
 
         this.setState({
             [args.name[0]]: {
@@ -206,7 +246,6 @@ class Shbroker extends React.PureComponent {
             this.setState({ submitting: false, })
             return
         }
-
         try {
             await this.props.refresh()
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
@@ -250,7 +289,7 @@ class Shbroker extends React.PureComponent {
                             locale={strings.loading}
                             loading={this.state.loading}
                         />}
-                    <div className="col-12 pt-3">
+                    {!this.state.loading && <div className="col-12 pt-3">
                         <ShBrokerForm
                             onChange={this.onChange}
                             selectCountry={this.selectCountry}
@@ -259,7 +298,7 @@ class Shbroker extends React.PureComponent {
                             value={this.state.inputs}
                             notOk={this.state.notOk}
                         />
-                    </div>
+                    </div>}
                     {this.state.pokList && <div className="col-6 py-2">
                         <ShBrokerSelectPanel
                             label={strings.shbroker.have}
