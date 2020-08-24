@@ -28,12 +28,12 @@ const CountryAndRegion = React.memo(function (props) {
                 />
                 {props.type === "Country" ?
                     <CountryDropdown
-                        classes={"form-control countreg-input " + (props.notOk !== "" ? "countreg-input--alert" : "")}
+                        classes={"custom-select countreg-input " + (props.notOk !== "" ? "countreg-input--alert" : "")}
                         defaultOptionLabel={strings.shbroker.cPlace}
                         value={props.Country}
                         onChange={props.onChange} /> :
                     <RegionDropdown
-                        classes={"form-control countreg-input " + (props.notOk !== "" ? "countreg-input--alert" : "")}
+                        classes={"custom-select countreg-input " + (props.notOk !== "" ? "countreg-input--alert" : "")}
                         defaultOptionLabel={strings.shbroker.rPlace}
 
                         country={props.Country}

@@ -1,4 +1,5 @@
 import React from "react"
+import ReactTooltip from "react-tooltip"
 
 import PokemonIconer from "../../../../../App/PvP/components/PokemonIconer/PokemonIconer"
 import CloseButton from "../../../../PvP/components/MagicBox/CloseButton"
@@ -11,7 +12,14 @@ const UserShinyCard = React.memo(function (props) {
     return (
         <div className="ushinycard col-auto my-1 mx-1 d-flex align-items-center">
             {`${props.value.Amount}X`}
-            <div className="col-auto p-0 posRel">
+            <ReactTooltip
+                className={"infoTip"}
+                id={props.attr + props.value.Name} effect="solid"
+                place={"top"}
+                multiline={true} >
+                {props.value.Name}
+            </ReactTooltip>
+            <div data-tip data-for={props.attr + props.value.Name} className="col-auto p-0 posRel">
                 <PokemonIconer
                     src={props.pokemonTable[props.value.Name].Number +
                         (props.pokemonTable[props.value.Name].Forme !== "" ? "-" + props.pokemonTable[props.value.Name].Forme : "")}
