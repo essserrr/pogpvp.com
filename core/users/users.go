@@ -261,6 +261,8 @@ type User struct {
 	RestoreExpireAt int64  `bson:"rexp,omitempty"`
 
 	Moves map[string]appl.MoveBaseEntry `bson:"umoves,omitempty"`
+
+	Broker SetBrokerRequest `bson:"ubroker,omitempty"`
 }
 
 //Session contains user session info
@@ -352,6 +354,85 @@ func (t *Tokens) newAccess(uid string) error {
 	return nil
 }
 
+//GetFilteredBrokerRequest contains filter options
+type GetFilteredBrokerRequest struct {
+	Country  string
+	Region   string
+	City     string
+	Contacts string
+
+	Have string
+	Want string
+}
+
+func (gbr *GetFilteredBrokerRequest) MakeSearchQuery() (*mongo.Pipeline, error) {
+	if gbr.Country == "" {
+		return nil, fmt.Errorf("You need to specify country")
+	}
+	matchCountry := bson.D{{"$match", bson.D{{"ubroker.country", gbr.Country}}}}
+
+	matchRegion := bson.D{{"$match", bson.D{{"ubroker.region", bson.M{"$exists": true}}}}}
+	if gbr.Region != "" {
+		matchRegion = bson.D{{"$match", bson.D{{"ubroker.region", gbr.Region}}}}
+	}
+
+	matchCity := bson.D{{"$match", bson.D{{"ubroker.city", bson.M{"$exists": true}}}}}
+	if gbr.City != "" {
+		matchCity = bson.D{{"$match", bson.D{{"ubroker.city", gbr.City}}}}
+	}
+
+	matchContacts := bson.D{{"$match", bson.D{{"ubroker.cont", bson.M{"$exists": true}}}}}
+	if gbr.Contacts != "" {
+		matchContacts = bson.D{{"$match", bson.D{{"ubroker.cont", gbr.Contacts}}}}
+	}
+
+	project := bson.D{{"$project", bson.D{{"ubroker", 1}, {"username", 1}}}}
+
+	return &mongo.Pipeline{matchCountry, matchRegion, matchCity, matchContacts, project}, nil
+}
+
+//SetBrokerRequest contains user location info and user's shynies
+type SetBrokerRequest struct {
+	Country  string                   `bson:"country,omitempty"`
+	Region   string                   `bson:"region,omitempty"`
+	City     string                   `bson:"city,omitempty"`
+	Contacts string                   `bson:"cont,omitempty"`
+	Have     map[string]BrokerPokemon `bson:"have,omitempty"`
+	Want     map[string]BrokerPokemon `bson:"want,omitempty"`
+}
+
+func (sbr *SetBrokerRequest) Limit() {
+	haveLen := len(sbr.Have)
+	if haveLen > 400 {
+		delta := haveLen - 400
+		for key := range sbr.Have {
+			if delta < 1 {
+				break
+			}
+			delete(sbr.Have, key)
+			delta--
+		}
+	}
+	wantLen := len(sbr.Want)
+	if wantLen > 400 {
+		delta := wantLen - 400
+		for key := range sbr.Want {
+			if delta < 1 {
+				break
+			}
+			delete(sbr.Want, key)
+			delta--
+		}
+	}
+}
+
+//BrokerPokemon is a single user pokemon which is sent to broker
+type BrokerPokemon struct {
+	Name   string `bson:"name,omitempty"`
+	Type   string `bson:"type,omitempty"`
+	Amount string `bson:"amount,omitempty"`
+}
+
 //SetMovesRequest vontains user moves to set
 type SetMovesRequest struct {
 	Moves map[string]appl.MoveBaseEntry
@@ -433,6 +514,23 @@ func LookupUser(client *mongo.Client, query bson.M, target interface{}) error {
 	filterCursor := usersColl.FindOne(ctx, query)
 	if err := filterCursor.Decode(target); err != nil {
 		return err
+	}
+	return nil
+}
+
+//FindMany searches for users specified bu given query
+func FindMany(client *mongo.Client, query *mongo.Pipeline, target interface{}) error {
+	usersColl := client.Database("pogpvp").Collection("users")
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	filterCursor, err := usersColl.Aggregate(ctx, *query)
+	if err != nil {
+		return fmt.Errorf("Invalid search query")
+	}
+
+	if err = filterCursor.All(ctx, target); err != nil {
+		return fmt.Errorf("Invalid search query")
 	}
 	return nil
 }
