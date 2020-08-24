@@ -177,6 +177,8 @@ export const userLocale = {
             },
         },
         shbroker: {
+            find: "Find trainers",
+
             have: "Pokemon you have",
             want: "Pokemon you want",
 
@@ -383,14 +385,16 @@ export const userLocale = {
             },
         },
         shbroker: {
+            find: "Найти тренеров",
+
             have: "Ваши покемоны",
             want: "Нужные вам покемоны",
 
             country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Страна\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            cPlace: "Выберите свою страну",
+            cPlace: "Выберите вашу страну",
 
             region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Регион\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            rPlace: "Выберите свой регион",
+            rPlace: "Выберите ваш регион",
 
             city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Город\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             cityPlace: "Введите название вашего города",
