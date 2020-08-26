@@ -21,13 +21,13 @@ class ShBrokerSelectPanel extends React.PureComponent {
     render() {
         return (
             <>
-                <div className="shiny-selpanel__text">{`${this.props.label} (${Object.keys(this.props.userList).length}/400):`}</div>
+                <div className="shiny-selpanel__text">{`${this.props.label} (${Object.keys(this.props.userList).length}/${this.props.limit})`}</div>
                 <SearchableSelect
                     attr={this.props.attr}
                     list={this.props.pokList}
                     onChange={this.props.onPokemonAdd}
                 />
-                <SelectGroup
+                {this.props.onAmountChange && <SelectGroup
                     label={strings.shbroker.amount}
 
                     attr={this.props.attr}
@@ -46,7 +46,7 @@ class ShBrokerSelectPanel extends React.PureComponent {
 
                     onChange={this.props.onAmountChange}
                     for=""
-                />
+                />}
 
 
                 <div className="col-12 px-0 pt-3 pb-2">

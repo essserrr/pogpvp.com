@@ -18,7 +18,7 @@ import { userLocale } from "../../../locale/userLocale"
 let strings = new LocalizedStrings(userLocale);
 
 
-class Shbroker extends React.PureComponent {
+class UserShinyBroker extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -102,17 +102,7 @@ class Shbroker extends React.PureComponent {
     }
 
     returnPokList(pokBase) {
-        let pokList = []
-        //create pokemons list
-        for (const [key] of Object.entries(pokBase)) {
-            pokList.push({
-                value: key,
-                label: <div style={{ textAlign: "left" }}>
-                    {key}
-                </div>,
-            });
-        }
-        return pokList
+        return Object.entries(pokBase).map((value) => ({ value: value[0], label: <div style={{ textAlign: "left" }}>{value[0]}</div>, }))
     }
 
 
@@ -303,6 +293,7 @@ class Shbroker extends React.PureComponent {
                     </div>}
                     {this.state.pokList && <div className="col-6 py-2">
                         <ShBrokerSelectPanel
+                            limit={400}
                             label={strings.shbroker.have}
                             attr="Have"
                             pokList={this.state.pokList}
@@ -316,6 +307,7 @@ class Shbroker extends React.PureComponent {
                     </div>}
                     {this.state.pokList && <div className="col-6 py-2">
                         <ShBrokerSelectPanel
+                            limit={400}
                             label={strings.shbroker.want}
                             attr="Want"
                             pokList={this.state.pokList}
@@ -361,4 +353,4 @@ export default connect(
     state => ({
         bases: state.bases,
     }), mapDispatchToProps
-)(Shbroker)
+)(UserShinyBroker)
