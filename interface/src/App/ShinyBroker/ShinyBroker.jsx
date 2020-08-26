@@ -7,7 +7,9 @@ import { refresh } from "../../AppStore/Actions/refresh"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
-import ShBrokerForm from "../Userpage/Shbroker/ShBrokerForm/ShBrokerForm"
+import ShBrokerForm from "../Userpage/UserShinyBroker/ShBrokerForm/ShBrokerForm"
+import ShBrokerSelectPanel from "../Userpage/UserShinyBroker/ShBrokerSelectPanel/ShBrokerSelectPanel"
+
 import AuthButton from "../Registration/RegForm/AuthButton/AuthButton"
 import SelectedUsers from "./SelectedUsers/SelectedUsers"
 
@@ -30,10 +32,12 @@ class ShinyBroker extends React.Component {
             notOk: {
                 Country: "", Region: "", City: "", Contacts: "",
             },
-            Have: "",
-            Want: "",
 
             selectedUsers: [],
+            pokList: [],
+            Have: {},
+            Want: {},
+
 
             loading: false,
             error: "",
@@ -45,6 +49,8 @@ class ShinyBroker extends React.Component {
         this.selectRegion = this.selectRegion.bind(this)
         this.onChange = this.onChange.bind(this)
         this.onSubmitFilter = this.onSubmitFilter.bind(this)
+        this.onPokemonAdd = this.onPokemonAdd.bind(this)
+        this.onPokemonDelete = this.onPokemonDelete.bind(this)
     }
 
     async componentDidMount() {
@@ -52,6 +58,7 @@ class ShinyBroker extends React.Component {
             loading: true,
         })
         //get pok and eggs db
+        await this.props.refresh()
         try {
             let fetches = [this.props.getPokemonBase(),]
             let responses = await Promise.all(fetches)
@@ -60,10 +67,14 @@ class ShinyBroker extends React.Component {
                 if (!responses[i].ok) { throw this.props.bases.error }
             }
 
-            this.setState({ loading: false, error: "", })
+            this.setState({ loading: false, error: "", pokList: this.returnPokList(this.props.bases.pokemonBase), })
         } catch (e) {
             this.setState({ loading: false, error: String(e) })
         }
+    }
+
+    returnPokList(pokBase) {
+        return Object.entries(pokBase).map((value) => ({ value: value[0], label: <div style={{ textAlign: "left" }}>{value[0]}</div>, }))
     }
 
 
@@ -111,7 +122,6 @@ class ShinyBroker extends React.Component {
     }
 
     selectRegion(val) {
-        console.log(val)
         this.setState({
             inputs: {
                 ...this.state.inputs,
@@ -208,6 +218,29 @@ class ShinyBroker extends React.Component {
         }
     }
 
+    onPokemonAdd(event, args) {
+        if (Object.keys(this.state[args.name[0]]).length > 10) { return }
+
+        this.setState({
+            [args.name[0]]: {
+                ...this.state[args.name[0]],
+                [event.value]: { Name: event.value, Type: "Shiny", },
+            }
+        })
+    }
+
+    onPokemonDelete(event) {
+        let attr = event.target.getAttribute("attr")
+        let index = event.target.getAttribute("index")
+
+        let updatedObj = { ...this.state[attr] }
+        delete updatedObj[index]
+
+        this.setState({
+            [attr]: updatedObj,
+        })
+    }
+
     render() {
         return (
             <>
@@ -239,6 +272,37 @@ class ShinyBroker extends React.Component {
                                         value={this.state.inputs}
                                         notOk={this.state.notOk}
                                     />
+
+                                    {this.state.pokList && <div className="row mx-0">
+                                        <div className="col-6 py-2">
+                                            <ShBrokerSelectPanel
+                                                limit={10}
+                                                label={strings.shbroker.want}
+                                                attr="Want"
+                                                pokList={this.state.pokList}
+                                                onPokemonAdd={this.onPokemonAdd}
+                                                onPokemonDelete={this.onPokemonDelete}
+
+                                                pokemonTable={this.props.bases.pokemonBase}
+                                                userList={this.state.Want}
+                                            />
+                                        </div>
+
+                                        <div className="col-6 py-2">
+                                            <ShBrokerSelectPanel
+                                                limit={10}
+                                                label={strings.shbroker.have}
+                                                attr="Have"
+                                                pokList={this.state.pokList}
+                                                onPokemonAdd={this.onPokemonAdd}
+                                                onPokemonDelete={this.onPokemonDelete}
+
+                                                pokemonTable={this.props.bases.pokemonBase}
+                                                userList={this.state.Have}
+                                            />
+                                        </div>
+                                    </div>}
+
                                     <div className="col-12 px-1">
                                         <div className="row m-0 pt-3 justify-content-center">
                                             <AuthButton
