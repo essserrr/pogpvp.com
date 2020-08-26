@@ -361,34 +361,37 @@ type GetFilteredBrokerRequest struct {
 	City     string
 	Contacts string
 
-	Have string
-	Want string
+	Have map[string]string
+	Want map[string]string
 }
 
 func (gbr *GetFilteredBrokerRequest) MakeSearchQuery() (*mongo.Pipeline, error) {
 	if gbr.Country == "" {
 		return nil, fmt.Errorf("You need to specify country")
 	}
-	matchCountry := bson.D{{"$match", bson.D{{"ubroker.country", gbr.Country}}}}
-
-	matchRegion := bson.D{{"$match", bson.D{{"ubroker.region", bson.M{"$exists": true}}}}}
-	if gbr.Region != "" {
-		matchRegion = bson.D{{"$match", bson.D{{"ubroker.region", gbr.Region}}}}
-	}
-
-	matchCity := bson.D{{"$match", bson.D{{"ubroker.city", bson.M{"$exists": true}}}}}
-	if gbr.City != "" {
-		matchCity = bson.D{{"$match", bson.D{{"ubroker.city", gbr.City}}}}
-	}
-
-	matchContacts := bson.D{{"$match", bson.D{{"ubroker.cont", bson.M{"$exists": true}}}}}
-	if gbr.Contacts != "" {
-		matchContacts = bson.D{{"$match", bson.D{{"ubroker.cont", gbr.Contacts}}}}
+	matchFormStage := bson.D{
+		{"$match",
+			bson.D{
+				{"ubroker.country", gbr.Country},
+				{"ubroker.region", checkQueryValue(gbr.Region)},
+				{"ubroker.city", checkQueryValue(gbr.City)},
+				{"ubroker.cont", checkQueryValue(gbr.Contacts)},
+			},
+		},
 	}
 
 	project := bson.D{{"$project", bson.D{{"ubroker", 1}, {"username", 1}}}}
 
-	return &mongo.Pipeline{matchCountry, matchRegion, matchCity, matchContacts, project}, nil
+	return &mongo.Pipeline{matchFormStage, project}, nil
+}
+
+func checkQueryValue(queryValue string) interface{} {
+	switch queryValue {
+	case "":
+		return bson.M{"$exists": true}
+	default:
+		return queryValue
+	}
 }
 
 //SetBrokerRequest contains user location info and user's shynies
