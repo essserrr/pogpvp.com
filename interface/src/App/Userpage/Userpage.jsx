@@ -10,9 +10,9 @@ import Info from "./Info/Info"
 import Security from "./Security/Security"
 import Pokemon from "./Pokemon/Pokemon"
 import CustomMoves from "./CustomMoves/CustomMoves"
-import Shbroker from "./Shbroker/Shbroker"
+import UserShinyBroker from "./UserShinyBroker/UserShinyBroker"
 
-import "./Profile.scss"
+import "./Userpage.scss"
 
 import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
@@ -43,7 +43,7 @@ class Userpage extends React.Component {
                             <Switch>
                                 <Route path="/profile/pokemon" component={Pokemon} />
                                 <Route path="/profile/move" component={CustomMoves} />
-                                <Route path="/profile/shinybroker" component={Shbroker} />
+                                <Route path="/profile/shinybroker" component={UserShinyBroker} />
                                 <Route path="/profile/info" component={Info} />
                                 <Route path="/profile/security" component={Security} />
                             </Switch>
