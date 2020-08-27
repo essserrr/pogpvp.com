@@ -63,14 +63,30 @@ class ShinyBroker extends React.Component {
         //get pok and eggs db
         await this.props.refresh()
         try {
-            let fetches = [this.props.getPokemonBase(),]
+            let fetches = [this.props.getPokemonBase(),
+            fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/getbroker", {
+                method: "GET",
+                credentials: "include",
+            })]
+
             let responses = await Promise.all(fetches)
 
-            for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw this.props.bases.error }
-            }
+            let userBroker = await responses[1].json()
 
-            this.setState({ loading: false, error: "", pokList: this.returnPokList(this.props.bases.pokemonBase), })
+            if (!responses[0].ok) { throw this.props.bases.error }
+
+            this.setState({
+                loading: false, error: "",
+                pokList: this.returnPokList(this.props.bases.pokemonBase),
+
+                inputs: {
+                    ...this.state.inputs,
+                    Country: userBroker.Country ? userBroker.Country : "",
+                    Region: userBroker.Region ? userBroker.Region : "",
+                    City: userBroker.City ? userBroker.City : "",
+                }
+            })
         } catch (e) {
             this.setState({ loading: false, error: String(e) })
         }
@@ -114,11 +130,12 @@ class ShinyBroker extends React.Component {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                Country: val
+                Country: val.value,
+                Region: "",
             },
             notOk: {
                 ...this.state.notOk,
-                Country: this.check(val, "Country"),
+                Country: this.check(val.value, "Country"),
             }
 
         });
@@ -128,11 +145,11 @@ class ShinyBroker extends React.Component {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                Region: val
+                Region: val.value
             },
             notOk: {
                 ...this.state.notOk,
-                Region: this.check(val, "Region"),
+                Region: this.check(val.value, "Region"),
             }
         });
     }
