@@ -258,6 +258,7 @@ export const locale = {
             dex: "Dexes",
             movedex: "Movedex",
             pokedex: "Pokedex",
+            shbroker: "Shiny broker",
         },
         errors: {
             savegroup: "Empty field",
@@ -551,6 +552,7 @@ export const locale = {
             dex: "Дексы",
             movedex: "Мувдекс",
             pokedex: "Покедекс",
+            shbroker: "Шайни брокер",
         },
         errors: {
             savegroup: "Нет имени",

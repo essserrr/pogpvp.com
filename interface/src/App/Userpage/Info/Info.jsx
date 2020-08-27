@@ -2,6 +2,7 @@ import React from "react"
 import { getCookie } from "../../../js/getCookie"
 import { connect } from "react-redux"
 
+import SiteHelm from "../../SiteHelm/SiteHelm"
 import TimeConverter from "./TimeConverter"
 import Loader from "../../PvpRating/Loader"
 import Errors from "../../PvP/components/Errors/Errors"
@@ -59,6 +60,12 @@ class Info extends React.PureComponent {
     render() {
         return (
             <div className="col p-3 text-center">
+                <SiteHelm
+                    url="https://pogpvp.com/profile/info"
+                    header={strings.pageheaders.usrinfo}
+                    descr={strings.pagedescriptions.usr}
+                    noindex={true}
+                />
                 {this.state.loading &&
                     <Loader
                         color="black"
@@ -66,6 +73,7 @@ class Info extends React.PureComponent {
                         locale={strings.loading}
                         loading={this.state.loading}
                     />}
+                <div className="user-info__title col-12 px-0 mb-2 tetx-center">{strings.info.title}</div>
                 {this.state.error !== "" && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                 {this.state.error === "" && this.state.uInfo.Username &&
                     <div className="row mx-0 justify-content-center">

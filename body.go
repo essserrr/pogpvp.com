@@ -396,6 +396,18 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 		http.ServeFile(*w, r, "./interface/build/raids/index.html")
 	case "eggs":
 		http.ServeFile(*w, r, "./interface/build/eggs/index.html")
+	case "shinybroker":
+		http.ServeFile(*w, r, "./interface/build/shinybroker/index.html")
+	case "privacy":
+		http.ServeFile(*w, r, "./interface/build/privacy/index.html")
+	case "terms":
+		http.ServeFile(*w, r, "./interface/build/terms/index.html")
+	case "login":
+		http.ServeFile(*w, r, "./interface/build/login/index.html")
+	case "registration":
+		http.ServeFile(*w, r, "./interface/build/registration/index.html")
+	case "restore":
+		http.ServeFile(*w, r, "./interface/build/restore/index.html")
 	default:
 		http.ServeFile(*w, r, "./interface/build/200.html")
 	}
@@ -1233,6 +1245,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/privacy*", rootHandler{serveIndex, a})
 	router.Handle("/terms*", rootHandler{serveIndex, a})
 	router.Handle("/restore*", rootHandler{serveIndex, a})
+	router.Handle("/shinybroker*", rootHandler{serveIndex, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})
@@ -1261,8 +1274,11 @@ func (a *App) initPvpSrv() *http.Server {
 	//user requests
 	router.Handle("/api/user/info", rootHandler{getUserInfo, a})
 	router.Handle("/api/user/sessions", rootHandler{getUserUsessions, a})
-	router.Handle("/api/user/getmoves", rootHandler{getUserMoves, a})
 	router.Handle("/api/user/setmoves", rootHandler{setUserMoves, a})
+	router.Handle("/api/user/getmoves", rootHandler{getUserMoves, a})
+	router.Handle("/api/user/setbroker", rootHandler{setUserBroker, a})
+	router.Handle("/api/user/getbroker", rootHandler{getUserBroker, a})
+	router.Handle("/api/user/filterbrokers", rootHandler{getFilteredBrokers, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)

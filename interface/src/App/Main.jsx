@@ -28,9 +28,11 @@ const NotFound = lazy(() => import("./NotFound/NotFound"))
 const Registration = lazy(() => import("./Registration/Registration"))
 const Privacy = lazy(() => import("./Registration/Privacy/Privacy"))
 const Terms = lazy(() => import("./Registration/Terms/Terms"))
-const ProfileRouter = lazy(() => import("./Userpage/ProfileRouter"))
+const UserpageRouter = lazy(() => import("./Userpage/UserpageRouter"))
 const Login = lazy(() => import("./Login/Login"))
 const RestoreRouter = lazy(() => import("./Restore/RestoreRouter"))
+const ShinyBroker = lazy(() => import("./ShinyBroker/ShinyBroker"))
+
 
 class Main extends React.Component {
     constructor(props) {
@@ -67,9 +69,10 @@ class Main extends React.Component {
                         <Route path="/pokedex" component={PokedexRouter} />
                         <Route path="/privacy" component={Privacy} />
                         <Route path="/terms" component={Terms} />
+                        <Route path="/shinybroker" component={ShinyBroker} />
 
                         <PrivateRoute authed={!getCookie("sid")} path='/registration' dest="/profile/info" component={Registration} />
-                        <PrivateRoute authed={!!getCookie("sid")} path='/profile' dest="/login" component={ProfileRouter} />
+                        <PrivateRoute authed={!!getCookie("sid")} path='/profile' dest="/login" component={UserpageRouter} />
                         <PrivateRoute authed={!getCookie("sid")} path='/login' dest="/profile/info" component={Login} />
                         <PrivateRoute authed={!getCookie("sid")} path='/restore' dest="/profile/info" component={RestoreRouter} />
                         <Route path="*" component={NotFound} />

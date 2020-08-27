@@ -261,6 +261,8 @@ type User struct {
 	RestoreExpireAt int64  `bson:"rexp,omitempty"`
 
 	Moves map[string]appl.MoveBaseEntry `bson:"umoves,omitempty"`
+
+	Broker SetBrokerRequest `bson:"ubroker,omitempty"`
 }
 
 //Session contains user session info
@@ -352,6 +354,173 @@ func (t *Tokens) newAccess(uid string) error {
 	return nil
 }
 
+//FilteredBrokerRequest contains filter options
+type FilteredBrokerRequest struct {
+	Country  string
+	Region   string
+	City     string
+	Contacts string
+
+	Have       PokDesires
+	HaveCustom bool
+	Want       PokDesires
+	WantCustom bool
+}
+
+func (fbr *FilteredBrokerRequest) Limit() {
+	haveLen := len(fbr.Have)
+	if haveLen > 400 {
+		delta := haveLen - 400
+		for key := range fbr.Have {
+			if delta < 1 {
+				break
+			}
+			delete(fbr.Have, key)
+			delta--
+		}
+	}
+	wantLen := len(fbr.Want)
+	if wantLen > 400 {
+		delta := wantLen - 400
+		for key := range fbr.Want {
+			if delta < 1 {
+				break
+			}
+			delete(fbr.Want, key)
+			delta--
+		}
+	}
+}
+
+//PokDesires contains pokemon deasires of an user
+type PokDesires map[string]BrokerPokemon
+
+//MakeSearchPipline creates broker search pipe line
+func (fbr *FilteredBrokerRequest) MakeSearchPipline() (*mongo.Pipeline, error) {
+	//country is a required field
+	if fbr.Country == "" {
+		return nil, fmt.Errorf("You need to specify country")
+	}
+	//match trainers stage
+	matchFormStage := bson.D{{"$match", bson.D(fbr.matchForm())}}
+	//match create project stage
+	project := bson.D{{"$project", bson.D(fbr.makePokemonProject())}}
+	return &mongo.Pipeline{matchFormStage, project}, nil
+}
+
+func (fbr *FilteredBrokerRequest) matchForm() []bson.E {
+	formQuery := make([]bson.E, 0, 6)
+	formQuery = append(formQuery,
+		bson.E{"ubroker.country", fbr.Country},
+		etypeQueryIfExists("ubroker.region", fbr.Region),
+		etypeQueryIfExists("ubroker.city", fbr.City),
+		etypeQueryIfExists("ubroker.cont", fbr.Contacts))
+
+	formQuery = append(formQuery, fbr.Have.makeMatchPokFilter("ubroker.want")...)
+	formQuery = append(formQuery, fbr.Want.makeMatchPokFilter("ubroker.have")...)
+
+	return formQuery
+}
+
+func etypeQueryIfExists(queryKey, queryValue string) bson.E {
+	//if value is no "" match this value, otherwise check if field exists
+	switch queryValue {
+	case "":
+		return bson.E{queryKey, bson.M{"$exists": true}}
+
+	default:
+		return bson.E{queryKey, queryValue}
+	}
+}
+
+func (pd *PokDesires) makeMatchPokFilter(queryKey string) []bson.E {
+	pokemonQuery := make([]bson.E, 0, 1)
+	//if map is not set or is empty check if field exists
+	if pd == nil || len(*pd) == 0 {
+		pokemonQuery = append(pokemonQuery, bson.E{queryKey, bson.M{"$exists": true}})
+		return pokemonQuery
+	}
+	//otherwise create "or" query
+	orQuery := make([]interface{}, 0, 1)
+	for key, value := range *pd {
+		orQuery = append(orQuery, bson.D{{queryKey + "." + key + ".name", value.Name}})
+	}
+	pokemonQuery = append(pokemonQuery, bson.E{"$or", orQuery})
+	return pokemonQuery
+}
+
+func (fbr *FilteredBrokerRequest) makePokemonProject() []bson.E {
+	var pokemonQuery = make([]bson.E, 0, 4)
+	pokemonQuery = append(pokemonQuery,
+		bson.E{"username", 1},
+		bson.E{"ubroker.country", 1},
+		bson.E{"ubroker.region", 1},
+		bson.E{"ubroker.city", 1},
+		bson.E{"ubroker.cont", 1})
+
+	pokemonQuery = append(pokemonQuery, fbr.Have.makeProjectPokFilter("ubroker.want")...)
+	pokemonQuery = append(pokemonQuery, fbr.Want.makeProjectPokFilter("ubroker.have")...)
+
+	return pokemonQuery
+
+}
+
+func (pd *PokDesires) makeProjectPokFilter(queryKey string) []bson.E {
+	var pokemonQuery = make([]bson.E, 0, 1)
+	//if map is not set or is empty select the whole filed
+	if pd == nil || len(*pd) == 0 {
+		pokemonQuery = append(pokemonQuery, bson.E{queryKey, 1})
+		return pokemonQuery
+	}
+	//otherwise select only desired fields
+	for _, value := range *pd {
+		pokemonQuery = append(pokemonQuery, bson.E{queryKey + "." + value.Name, 1})
+	}
+	return pokemonQuery
+}
+
+//SetBrokerRequest contains user location info and user's shynies
+type SetBrokerRequest struct {
+	Country  string                   `bson:"country,omitempty"`
+	Region   string                   `bson:"region,omitempty"`
+	City     string                   `bson:"city,omitempty"`
+	Contacts string                   `bson:"cont,omitempty"`
+	Have     map[string]BrokerPokemon `bson:"have,omitempty"`
+	Want     map[string]BrokerPokemon `bson:"want,omitempty"`
+}
+
+func (sbr *SetBrokerRequest) Limit() {
+	haveLen := len(sbr.Have)
+	if haveLen > 400 {
+		delta := haveLen - 400
+		for key := range sbr.Have {
+			if delta < 1 {
+				break
+			}
+			delete(sbr.Have, key)
+			delta--
+		}
+	}
+	wantLen := len(sbr.Want)
+	if wantLen > 400 {
+		delta := wantLen - 400
+		for key := range sbr.Want {
+			if delta < 1 {
+				break
+			}
+			delete(sbr.Want, key)
+			delta--
+		}
+	}
+}
+
+//BrokerPokemon is a single user pokemon which is sent to broker
+type BrokerPokemon struct {
+	Name   string `bson:"name,omitempty"`
+	Type   string `bson:"type,omitempty"`
+	Amount string `bson:"amount,omitempty"`
+}
+
 //SetMovesRequest vontains user moves to set
 type SetMovesRequest struct {
 	Moves map[string]appl.MoveBaseEntry
@@ -433,6 +602,23 @@ func LookupUser(client *mongo.Client, query bson.M, target interface{}) error {
 	filterCursor := usersColl.FindOne(ctx, query)
 	if err := filterCursor.Decode(target); err != nil {
 		return err
+	}
+	return nil
+}
+
+//FindMany searches for users specified bu given query
+func FindMany(client *mongo.Client, query *mongo.Pipeline, target interface{}) error {
+	usersColl := client.Database("pogpvp").Collection("users")
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	filterCursor, err := usersColl.Aggregate(ctx, *query)
+	if err != nil {
+		return fmt.Errorf("Invalid search query")
+	}
+
+	if err = filterCursor.All(ctx, target); err != nil {
+		return fmt.Errorf("Invalid search query")
 	}
 	return nil
 }
