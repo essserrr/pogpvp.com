@@ -41,7 +41,6 @@ class ShinyBroker extends React.Component {
 
             loading: false,
             error: "",
-            ok: false,
             submitting: false,
         };
 
@@ -179,7 +178,7 @@ class ShinyBroker extends React.Component {
 
     async onSubmitFilter() {
         this.setState({
-            submitting: true, error: "", ok: false,
+            submitting: true, submittingError: "", ok: false,
         })
         if (!this.validate()) {
             this.setState({ submitting: false, })
@@ -207,13 +206,11 @@ class ShinyBroker extends React.Component {
             }
 
             //show ok
-            this.setState({ submitting: false, ok: true, selectedUsers: data })
-            await new Promise(res => setTimeout(res, 2500));
-            this.setState({ ok: false })
+            this.setState({ submitting: false, selectedUsers: data })
         } catch (e) {
             this.setState({
                 submitting: false,
-                error: String(e),
+                submittingError: String(e),
             });
         }
     }
@@ -245,13 +242,13 @@ class ShinyBroker extends React.Component {
         return (
             <>
                 <SiteHelm
-                    url="https://pogpvp.com/eggs"
-                    header={strings.pageheaders.eggs}
-                    descr={strings.pagedescriptions.eggs}
+                    url="https://pogpvp.com/shinybroker"
+                    header={strings.pageheaders.broker}
+                    descr={strings.pagedescriptions.broker}
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="shbroker-body max1200-1 col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 py-2">
+                        <div className="shinybroker-body max1200-1 col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 py-2">
                             <div className=" row justify-content-center">
 
                                 {this.state.loading &&
@@ -264,7 +261,15 @@ class ShinyBroker extends React.Component {
                                         /></div>}
 
                                 {!this.state.loading && !this.state.error && <div className="col-12 pt-3">
+                                    <div className="shinybroker__title col-12 px-0 mb-2 text-center">
+                                        {strings.shbroker.int.title}
+                                    </div>
                                     <ShBrokerForm
+                                        placeholders={{
+                                            cPlace: strings.shbroker.cPlace, rPlace: strings.shbroker.rPlace,
+                                            cityPlace: strings.shbroker.cityPlace, contPlace: strings.shbroker.contPlace
+                                        }}
+
                                         onChange={this.onChange}
                                         selectCountry={this.selectCountry}
                                         selectRegion={this.selectRegion}
@@ -314,8 +319,12 @@ class ShinyBroker extends React.Component {
                                         </div>
                                     </div>
                                 </div>}
+                                {!!this.state.submittingError &&
+                                    <div className="col-12 col-md-10 col-lg-9 px-0 mt-3">
+                                        <Errors class="alert alert-danger p-2" value={this.state.submittingError} />
+                                    </div>}
                                 {!!this.state.error &&
-                                    <div className="col-12 col-md-10 col-lg-9 px-0">
+                                    <div className="col-12 col-md-10 col-lg-9 px-0 mt-3">
                                         <Errors class="alert alert-danger p-2" value={this.state.error} />
                                     </div>}
                                 {!!this.props.bases.pokemonBase && this.state.selectedUsers.length > 0 &&
