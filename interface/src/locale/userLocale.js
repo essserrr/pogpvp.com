@@ -46,13 +46,22 @@ export const userLocale = {
         },
         pageheaders: {
             reg: "User sign up form  |  PogPvP.com",
-            usr: "User page  |  PogPvP.com",
+
             log: "Log in form  |  PogPvP.com",
+
+            usr: "User page  |  PogPvP.com",
+            usrinfo: "User page: User info  |  PogPvP.com",
+            usrsec: "User page: Security  |  PogPvP.com",
+            usrmoves: "User page: User's moves  |  PogPvP.com",
+            usrbroker: "User page: Shiny broker  |  PogPvP.com",
+            broker: "Shiny broker  |  PogPvP.com",
         },
         pagedescriptions: {
             reg: "User sign up form",
             usr: "User page",
             log: "Log in form",
+
+            broker: "Shiny broker: helps you to trade your shiny pokemon in помощь Pokemon go",
         },
         upage: {
             prof: "User profile",
@@ -64,6 +73,7 @@ export const userLocale = {
             sec: "Security",
         },
         info: {
+            title: "User information",
             name: "User name",
             email: "Email",
             reg: "Registered at",
@@ -177,22 +187,42 @@ export const userLocale = {
             },
         },
         shbroker: {
+            int: {
+                title: "Shiny Broker: Trainers Search",
+
+                name: "Name",
+                country: "Country",
+                region: "Region",
+                city: "City",
+                have: "Have",
+                want: "Want",
+                details: "Details",
+
+                detcont: "Contact details:",
+                dethave: "Can offer:",
+                detwant: "Wants:",
+            },
+
             find: "Find trainers",
 
             have: "Pokemon you have",
             want: "Pokemon you want",
 
             region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Region\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            rPlace: "Select your region",
+            rPlaceYours: "Select your region",
+            rPlace: "Select your region (optional)",
 
             country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Country\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            cPlace: "Select your country",
+            cPlaceYours: "Select your country",
+            cPlace: "Select your country (required)",
 
             city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0City\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            cityPlace: "Enter your city name",
+            cityPlaceYours: "Enter your city name",
+            cityPlace: "Enter city name (optional)",
 
             cont: "\xa0\xa0\xa0\xa0\xa0Contact details\xa0\xa0\xa0\xa0\xa0\xa0",
-            contPlace: "Enter your contact details",
+            contPlaceYours: "Enter your contact details",
+            contPlace: "Enter contact details (optional)",
 
             amount: "Amount",
 
@@ -253,13 +283,22 @@ export const userLocale = {
         },
         pageheaders: {
             reg: "Форма регистрации пользователя  |  PogPvP.com",
-            usr: "Страница пользователя  |  PogPvP.com",
             log: "Форма входа  |  PogPvP.com",
+
+            usr: "Страница пользователя  |  PogPvP.com",
+            usrinfo: "Страница пользователя: Информация о пользователе  |  PogPvP.com",
+            usrsec: "Страница пользователя: Безопасность  |  PogPvP.com",
+            usrmoves: "Страница пользователя: Умения пользователя  |  PogPvP.com",
+            usrbroker: "Страница пользователя: Шайни брокер  |  PogPvP.com",
+
+            broker: "Шайни брокер  |  PogPvP.com",
         },
         pagedescriptions: {
             reg: "Форма регистрации пользователя",
             usr: "Страница пользователя",
             log: "Форма входа",
+
+            broker: "Шайни брокер: помощь в поиске шайни для обмена в Pokemon go",
         },
         upage: {
             prof: "Профиль пользователя",
@@ -271,6 +310,7 @@ export const userLocale = {
             sec: "Безопасность",
         },
         info: {
+            title: "Информация о пользователе",
             name: "Имя пользователя",
             email: "Электронная почта",
             reg: "Зарегистрирован",
@@ -385,22 +425,43 @@ export const userLocale = {
             },
         },
         shbroker: {
+            int: {
+                title: "Шайни брокер: Поиск тренеров",
+
+                name: "Имя",
+                country: "Страна",
+                region: "Регион",
+                city: "Город",
+                have: "Нужно",
+                want: "Есть",
+                details: "Детали",
+
+                detcont: "Контактные данные:",
+                dethave: "Может предложить:",
+                detwant: "Хочет взамен:",
+            },
+
+
             find: "Найти тренеров",
 
             have: "Ваши покемоны",
             want: "Нужные вам покемоны",
 
             country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Страна\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            cPlace: "Выберите вашу страну",
+            cPlaceYours: "Выберите вашу страну",
+            cPlace: "Выберите страну (обязательно)",
 
             region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Регион\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            rPlace: "Выберите ваш регион",
+            rPlaceYours: "Выберите ваш регион",
+            rPlace: "Выберите регион (опционально)",
 
             city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Город\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
-            cityPlace: "Введите название вашего города",
+            cityPlaceYours: "Введите название вашего города",
+            cityPlace: "Введите вашего города (опционально)",
 
             cont: "Контактные данные",
-            contPlace: "Введите ваши контактные данные",
+            contPlaceYours: "Введите ваши контактные данные",
+            contPlace: "Введите контактные данные (опционально)",
 
             amount: "Количество",
 
