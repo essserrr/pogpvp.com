@@ -29,6 +29,9 @@ const routes = [
     {
         path: '/pokedex',
     },
+    {
+        path: '/shinybroker',
+    },
 ]
 
 export default routes;
