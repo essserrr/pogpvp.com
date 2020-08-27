@@ -36,7 +36,7 @@ class ShBrokerSelectPanel extends React.PureComponent {
                     />
                 </div>}
                 {this.props.onAmountChange && <SelectGroup
-                    class="input-group input-group-sm my-2"
+                    class="input-group input-group-sm mt-2 mb-3"
                     label={strings.shbroker.amount}
                     attr={this.props.attr}
                     name="Amount"
