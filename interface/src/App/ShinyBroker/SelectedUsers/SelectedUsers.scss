@@ -7,3 +7,9 @@ $slider-button: #59698d;
     -webkit-transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
+
+
+.seluser__cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
