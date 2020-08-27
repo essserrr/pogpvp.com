@@ -274,6 +274,14 @@ func getFilteredBrokers(w *http.ResponseWriter, r *http.Request, app *App) error
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 
+	if req.HaveCustom || req.WantCustom {
+		if err = setCustomBroker(w, r, app, req); err != nil {
+			go app.metrics.appCounters.With(prometheus.Labels{"type": "get_ubroker_error_count"}).Inc()
+			discardCookie(w)
+			return err
+		}
+	}
+
 	query, err := req.MakeSearchPipline()
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_ufilteredbroker_error_count"}).Inc()
@@ -289,6 +297,24 @@ func getFilteredBrokers(w *http.ResponseWriter, r *http.Request, app *App) error
 	if err := respond(w, *brokers); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_ufilteredbroker_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func setCustomBroker(w *http.ResponseWriter, r *http.Request, app *App, req *users.GetFilteredBrokerRequest) error {
+	accSession, err := newAccessSession(r)
+	if err != nil {
+		return err
+	}
+	broker, err := useractions.GetSelfBroker(app.mongo.client, accSession)
+	if err != nil {
+		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
+	}
+	if req.HaveCustom {
+		req.Have = broker.Have
+	}
+	if req.WantCustom {
+		req.Want = broker.Want
 	}
 	return nil
 }

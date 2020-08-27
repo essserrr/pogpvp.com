@@ -361,8 +361,10 @@ type GetFilteredBrokerRequest struct {
 	City     string
 	Contacts string
 
-	Have PokDesires
-	Want PokDesires
+	Have       PokDesires
+	HaveCustom bool
+	Want       PokDesires
+	WantCustom bool
 }
 
 //PokDesires contains pokemon deasires of an user
