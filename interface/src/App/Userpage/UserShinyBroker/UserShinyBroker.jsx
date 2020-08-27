@@ -111,7 +111,8 @@ class UserShinyBroker extends React.PureComponent {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                Country: val
+                Country: val.value,
+                Region: ""
             },
             notOk: {
                 ...this.state.notOk,
@@ -125,7 +126,7 @@ class UserShinyBroker extends React.PureComponent {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                Region: val
+                Region: val.value,
             },
             notOk: {
                 ...this.state.notOk,
@@ -164,7 +165,7 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     checkSelect(str, name) {
-        if (str === "") { return name === "Region" ? strings.shbroker.rPlace : strings.shbroker.cPlace }
+        if (str === "") { return name === "Region" ? strings.shbroker.rPlaceYours : strings.shbroker.cPlaceYours }
         return ""
     }
 
