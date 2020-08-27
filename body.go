@@ -396,6 +396,18 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 		http.ServeFile(*w, r, "./interface/build/raids/index.html")
 	case "eggs":
 		http.ServeFile(*w, r, "./interface/build/eggs/index.html")
+	case "shinybroker":
+		http.ServeFile(*w, r, "./interface/build/shinybroker/index.html")
+	case "privacy":
+		http.ServeFile(*w, r, "./interface/build/privacy/index.html")
+	case "terms":
+		http.ServeFile(*w, r, "./interface/build/terms/index.html")
+	case "login":
+		http.ServeFile(*w, r, "./interface/build/login/index.html")
+	case "registration":
+		http.ServeFile(*w, r, "./interface/build/registration/index.html")
+	case "restore":
+		http.ServeFile(*w, r, "./interface/build/restore/index.html")
 	default:
 		http.ServeFile(*w, r, "./interface/build/200.html")
 	}
@@ -1233,7 +1245,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/privacy*", rootHandler{serveIndex, a})
 	router.Handle("/terms*", rootHandler{serveIndex, a})
 	router.Handle("/restore*", rootHandler{serveIndex, a})
-	router.Handle("/shbroker*", rootHandler{serveIndex, a})
+	router.Handle("/shinybroker*", rootHandler{serveIndex, a})
 
 	//dynamic content requsts
 	router.Handle("/request/single/{league}/{pok1}/{pok2}", rootHandler{pvpHandler, a})

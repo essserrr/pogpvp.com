@@ -18,7 +18,6 @@ RUN mkdir /app/logs/
 
 ADD pvpSimulator /app/
 ADD interface/build /app/interface/build
-ADD sendsay/build /app/sendsay/build
 ADD templates /app/templates
 ADD bases /app/bases
 # Create WORKDIR (working directory) for app

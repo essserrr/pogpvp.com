@@ -213,6 +213,9 @@ func setUserBroker(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 
+	//limit map length
+	req.Limit()
+
 	if err = useractions.SetUserBroker(app.mongo.client, req, accSession); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_ubroker_error_count"}).Inc()
 		discardCookie(w)
@@ -263,24 +266,21 @@ func getFilteredBrokers(w *http.ResponseWriter, r *http.Request, app *App) error
 	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
 		return err
 	}
-	accSession, err := newAccessSession(r)
-	if err != nil {
-		discardCookie(w)
-		return err
-	}
-	req := new(users.GetFilteredBrokerRequest)
+	req := new(users.FilteredBrokerRequest)
 	if err := parseBody(r, &req); err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_ufilteredbroker_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 
 	if req.HaveCustom || req.WantCustom {
-		if err = setCustomBroker(w, r, app, req); err != nil {
+		if err := setCustomBroker(w, r, app, req); err != nil {
 			go app.metrics.appCounters.With(prometheus.Labels{"type": "get_ubroker_error_count"}).Inc()
 			discardCookie(w)
 			return err
 		}
 	}
+	//limit req length
+	req.Limit()
 
 	query, err := req.MakeSearchPipline()
 	if err != nil {
@@ -288,7 +288,7 @@ func getFilteredBrokers(w *http.ResponseWriter, r *http.Request, app *App) error
 		return errors.NewHTTPError(fmt.Errorf("Query error"), http.StatusBadRequest, err.Error())
 	}
 
-	brokers, err := useractions.GetFilteredBrokers(app.mongo.client, query, accSession)
+	brokers, err := useractions.GetFilteredBrokers(app.mongo.client, query)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_ufilteredbroker_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
@@ -301,7 +301,7 @@ func getFilteredBrokers(w *http.ResponseWriter, r *http.Request, app *App) error
 	return nil
 }
 
-func setCustomBroker(w *http.ResponseWriter, r *http.Request, app *App, req *users.GetFilteredBrokerRequest) error {
+func setCustomBroker(w *http.ResponseWriter, r *http.Request, app *App, req *users.FilteredBrokerRequest) error {
 	accSession, err := newAccessSession(r)
 	if err != nil {
 		return err

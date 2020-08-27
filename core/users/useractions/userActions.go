@@ -131,8 +131,6 @@ func SetUserBroker(client *mongo.Client, req *users.SetBrokerRequest, accSession
 	if err := users.GetAccess(client, accSession); err != nil {
 		return err
 	}
-	//limit map length
-	req.Limit()
 	if err := users.UpdateUser(client, accSession.UserID,
 		bson.M{"$set": bson.M{"ubroker": req}}); err != nil {
 		return fmt.Errorf("Wrong auth token")
@@ -160,11 +158,7 @@ type FilteredBrokersResponse struct {
 }
 
 //GetFilteredBrokers returns filtered user FilteredBrokersResponse
-func GetFilteredBrokers(client *mongo.Client, query *mongo.Pipeline, accSession *users.AccessSession) (*[]FilteredBrokersResponse, error) {
-	if err := users.GetAccess(client, accSession); err != nil {
-		return nil, err
-	}
-
+func GetFilteredBrokers(client *mongo.Client, query *mongo.Pipeline) (*[]FilteredBrokersResponse, error) {
 	var userBrokers []FilteredBrokersResponse
 	if err := users.FindMany(client, query, &userBrokers); err != nil {
 		return nil, fmt.Errorf("Invalid search query")
