@@ -2,17 +2,9 @@ import React from "react";
 import LabelPrepend from "../../../../PvP/components/SelectGroup/LabelPrepend"
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector'
 
-import LocalizedStrings from "react-localization";
-import { userLocale } from "../../../../../locale/userLocale"
-import { getCookie } from "../../../../../js/getCookie"
-
 import "./CountryAndRegion.scss"
 
-let strings = new LocalizedStrings(userLocale);
-
 const CountryAndRegion = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
     return (
 
         <div className="col-12 px-0">
@@ -29,12 +21,12 @@ const CountryAndRegion = React.memo(function (props) {
                 {props.type === "Country" ?
                     <CountryDropdown
                         classes={"custom-select countreg-input " + (props.notOk !== "" ? "countreg-input--alert" : "")}
-                        defaultOptionLabel={strings.shbroker.cPlace}
+                        defaultOptionLabel={props.place}
                         value={props.Country}
                         onChange={props.onChange} /> :
                     <RegionDropdown
                         classes={"custom-select countreg-input " + (props.notOk !== "" ? "countreg-input--alert" : "")}
-                        defaultOptionLabel={strings.shbroker.rPlace}
+                        defaultOptionLabel={props.place}
 
                         country={props.Country}
                         value={props.Region}

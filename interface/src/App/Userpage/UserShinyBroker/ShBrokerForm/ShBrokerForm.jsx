@@ -23,6 +23,8 @@ class ShBrokerForm extends React.PureComponent {
                         type="Country"
                         labelWidth="151px"
                         label={strings.shbroker.country}
+                        place={this.props.placeholders.cPlace}
+
                         Country={this.props.value.Country}
                         onChange={this.props.selectCountry}
                         notOk={this.props.notOk.Country}
@@ -34,6 +36,8 @@ class ShBrokerForm extends React.PureComponent {
                         type="Region"
                         labelWidth="151px"
                         label={strings.shbroker.region}
+                        place={this.props.placeholders.rPlace}
+
                         Country={this.props.value.Country}
                         Region={this.props.value.Region}
                         onChange={this.props.selectRegion}
@@ -44,7 +48,7 @@ class ShBrokerForm extends React.PureComponent {
                     <LabelAndInput
                         labelWidth="151px"
                         label={strings.shbroker.city}
-                        place={strings.shbroker.cityPlace}
+                        place={this.props.placeholders.cityPlace}
 
                         name="City"
                         type={"text"}
@@ -60,7 +64,7 @@ class ShBrokerForm extends React.PureComponent {
                     <LabelAndInput
                         labelWidth="151px"
                         label={strings.shbroker.cont}
-                        place={strings.shbroker.contPlace}
+                        place={this.props.placeholders.contPlace}
 
                         name="Contacts"
                         type={"text"}
