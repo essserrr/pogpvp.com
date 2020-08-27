@@ -189,6 +189,7 @@ export const userLocale = {
         shbroker: {
             int: {
                 title: "Shiny Broker: Trainers Search",
+                choose: "Choose pokemon from your profile",
 
                 name: "Name",
                 country: "Country",
@@ -210,15 +211,15 @@ export const userLocale = {
 
             region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Region\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             rPlaceYours: "Select your region",
-            rPlace: "Select your region (optional)",
+            rPlace: "Select region (optional)",
 
             country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Country\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             cPlaceYours: "Select your country",
-            cPlace: "Select your country (required)",
+            cPlace: "Select country (required)",
 
             city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0City\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             cityPlaceYours: "Enter your city name",
-            cityPlace: "Enter city name (optional)",
+            cityPlace: "Enter name (optional)",
 
             cont: "\xa0\xa0\xa0\xa0\xa0Contact details\xa0\xa0\xa0\xa0\xa0\xa0",
             contPlaceYours: "Enter your contact details",
@@ -427,6 +428,7 @@ export const userLocale = {
         shbroker: {
             int: {
                 title: "Шайни брокер: Поиск тренеров",
+                choose: "Выбрать покемонов из вашего профиля",
 
                 name: "Имя",
                 country: "Страна",
@@ -457,7 +459,7 @@ export const userLocale = {
 
             city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Город\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
             cityPlaceYours: "Введите название вашего города",
-            cityPlace: "Введите вашего города (опционально)",
+            cityPlace: "Введите название города (опционально)",
 
             cont: "Контактные данные",
             contPlaceYours: "Введите ваши контактные данные",

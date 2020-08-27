@@ -35,6 +35,9 @@ class ShinyBroker extends React.Component {
 
             selectedUsers: [],
             pokList: [],
+
+            HaveCustom: false,
+            WantCustom: false,
             Have: {},
             Want: {},
 
@@ -50,6 +53,7 @@ class ShinyBroker extends React.Component {
         this.onSubmitFilter = this.onSubmitFilter.bind(this)
         this.onPokemonAdd = this.onPokemonAdd.bind(this)
         this.onPokemonDelete = this.onPokemonDelete.bind(this)
+        this.onCheckboxChange = this.onCheckboxChange.bind(this)
     }
 
     async componentDidMount() {
@@ -196,6 +200,8 @@ class ShinyBroker extends React.Component {
                         Country: this.state.inputs.Country, Region: this.state.inputs.Region, City: this.state.inputs.City, Contacts: this.state.inputs.Contacts,
                         Have: this.state.Have,
                         Want: this.state.Want,
+                        HaveCustom: this.state.HaveCustom,
+                        WantCustom: this.state.WantCustom,
                     })
             })
             //parse answer
@@ -238,6 +244,13 @@ class ShinyBroker extends React.Component {
         })
     }
 
+    onCheckboxChange(event) {
+        let attr = event.target.getAttribute("attr")
+        this.setState({
+            [attr]: !this.state[attr]
+        })
+    }
+
     render() {
         return (
             <>
@@ -248,8 +261,8 @@ class ShinyBroker extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="shinybroker-body max1200-1 col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 py-2">
-                            <div className=" row justify-content-center">
+                        <div className="shinybroker-body max1200-1 col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 p-3">
+                            <div className="row mx-0 justify-content-center">
 
                                 {this.state.loading &&
                                     <div className="col-12 px-1">
@@ -260,7 +273,7 @@ class ShinyBroker extends React.Component {
                                             loading={this.state.loading}
                                         /></div>}
 
-                                {!this.state.loading && !this.state.error && <div className="col-12 pt-3">
+                                {!this.state.loading && !this.state.error && <div className="col-12 px-0">
                                     <div className="shinybroker__title col-12 px-0 mb-2 text-center">
                                         {strings.shbroker.int.title}
                                     </div>
@@ -279,8 +292,11 @@ class ShinyBroker extends React.Component {
                                     />
 
                                     {this.state.pokList && <div className="row mx-0">
-                                        <div className="col-6 py-2">
+                                        <div className="col-6 py-2 px-1">
                                             <ShBrokerSelectPanel
+                                                checked={this.state.WantCustom}
+                                                onCheckboxChange={this.onCheckboxChange}
+
                                                 limit={10}
                                                 label={strings.shbroker.want}
                                                 attr="Want"
@@ -293,8 +309,11 @@ class ShinyBroker extends React.Component {
                                             />
                                         </div>
 
-                                        <div className="col-6 py-2">
+                                        <div className="col-6 py-2 px-1">
                                             <ShBrokerSelectPanel
+                                                checked={this.state.HaveCustom}
+                                                onCheckboxChange={this.onCheckboxChange}
+
                                                 limit={10}
                                                 label={strings.shbroker.have}
                                                 attr="Have"
@@ -309,7 +328,7 @@ class ShinyBroker extends React.Component {
                                     </div>}
 
                                     <div className="col-12 px-1">
-                                        <div className="row m-0 pt-3 justify-content-center">
+                                        <div className="row m-0 pt-2 justify-content-center">
                                             <AuthButton
                                                 loading={this.state.submitting}
                                                 title={this.state.ok ? "Ok" : strings.shbroker.find}

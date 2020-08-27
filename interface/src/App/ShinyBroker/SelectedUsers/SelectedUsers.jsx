@@ -27,7 +27,7 @@ class SelectedUsers extends React.PureComponent {
                         <div className="seluser__cell col-2 px-0 px-sm-1">{strings.shbroker.int.city}</div>
                         <div className="seluser__cell col-1 px-0 px-sm-1">{strings.shbroker.int.have}</div>
                         <div className="seluser__cell col-1 px-0 px-sm-1">{strings.shbroker.int.want}</div>
-                        <div className="seluser__cell col-1 px-0 px-sm-1">{strings.shbroker.int.details}</div>
+                        <div className="seluser__cell col-1 px-0 px-sm-1"></div>
                     </div>
                 </div>
                 {Object.values(this.props.list).map((value) =>
