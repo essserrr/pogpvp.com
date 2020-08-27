@@ -3,6 +3,7 @@ import { getCookie } from "../../../js/getCookie"
 import { connect } from 'react-redux'
 import LocalizedStrings from "react-localization"
 
+import SiteHelm from "../../SiteHelm/SiteHelm"
 import ChangePassword from "./ChangePassword/ChangePassword"
 import Sessions from "./Sessions/Sessions"
 import { userLocale } from "../../../locale/userLocale"
@@ -57,6 +58,12 @@ class Security extends React.PureComponent {
     render() {
         return (
             <div className="col px-0 text-center">
+                <SiteHelm
+                    url="https://pogpvp.com/profile/security"
+                    header={strings.pageheaders.usrsec}
+                    descr={strings.pagedescriptions.usr}
+                    noindex={true}
+                />
                 {this.state.loading &&
                     <Loader
                         color="black"

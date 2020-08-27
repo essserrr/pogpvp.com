@@ -1,0 +1,14 @@
+$slider-button: #59698d;
+
+.usercard-broker {
+    border-bottom: 0.5px solid $slider-button;
+    font-weight: 400;
+
+    -webkit-transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.usercard-broker__cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

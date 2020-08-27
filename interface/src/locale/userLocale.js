@@ -29,26 +29,39 @@ export const userLocale = {
             ness: "Necessary field",
             match: "Passwords don't match",
             symb: " contains prohibited symbols",
+            symb2: " contain prohibited symbols",
+
             emailf: "Incorrect Email format",
             lesseq: {
                 l1: " must be less than or equal ",
                 l2: " must be less than or equal ",
+                l3: " must be less than or equal ",
                 c: " characters",
             },
             longer: {
                 l1: " must be longer than ",
                 l2: " must be longer than ",
+                l3: " must be longer than ",
             },
         },
         pageheaders: {
             reg: "User sign up form  |  PogPvP.com",
-            usr: "User page  |  PogPvP.com",
+
             log: "Log in form  |  PogPvP.com",
+
+            usr: "User page  |  PogPvP.com",
+            usrinfo: "User page: User info  |  PogPvP.com",
+            usrsec: "User page: Security  |  PogPvP.com",
+            usrmoves: "User page: User's moves  |  PogPvP.com",
+            usrbroker: "User page: Shiny broker  |  PogPvP.com",
+            broker: "Shiny broker  |  PogPvP.com",
         },
         pagedescriptions: {
             reg: "User sign up form",
             usr: "User page",
             log: "Log in form",
+
+            broker: "Shiny broker: helps you to trade your shiny pokemon in Pokemon go",
         },
         upage: {
             prof: "User profile",
@@ -60,6 +73,7 @@ export const userLocale = {
             sec: "Security",
         },
         info: {
+            title: "User information",
             name: "User name",
             email: "Email",
             reg: "Registered at",
@@ -172,6 +186,55 @@ export const userLocale = {
                 },
             },
         },
+        shbroker: {
+            int: {
+                title: "Shiny Broker: Trainers Search",
+                choose: "Choose pokemon from my profile",
+
+                name: "Name",
+                country: "Country",
+                region: "Region",
+                city: "City",
+                have: "Have",
+                want: "Want",
+                details: "Details",
+
+                detcont: "Contact details:",
+                dethave: "Can offer:",
+                detwant: "Wants:",
+            },
+
+            find: "Find trainers",
+
+            have: "Pokemon you have",
+            want: "Pokemon you want",
+
+            region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Region\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            rPlaceYours: "Select your region",
+            rPlace: "Select region (optional)",
+
+            country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Country\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            cPlaceYours: "Select your country",
+            cPlace: "Select country (required)",
+
+            city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0City\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            cityPlaceYours: "Enter your city name",
+            cityPlace: "Enter name (optional)",
+
+            cont: "\xa0\xa0\xa0\xa0\xa0Contact details\xa0\xa0\xa0\xa0\xa0\xa0",
+            contPlaceYours: "Enter your contact details",
+            contPlace: "Enter contact details (optional)",
+
+            amount: "Amount",
+
+            err: {
+                c1: "City name",
+                c2: "city name",
+
+                cd1: "Contact details",
+                cd2: "contact details",
+            }
+        },
     },
 
     ru: {
@@ -204,26 +267,39 @@ export const userLocale = {
             ness: "Обязательное поле",
             match: "Пароли не совпадают",
             symb: " содержит запрещенные символы",
+            symb2: " содержат запрещенные символы",
+
             emailf: "Неверный формат адреса электронной почты",
             lesseq: {
                 l1: " должно быть меньше либо равно ",
                 l2: " должен быть меньше либо равен ",
+                l3: " должны быть меньше либо равны ",
                 c: " символов",
             },
             longer: {
                 l1: " должно быть длиннее, чем ",
                 l2: " должен быть длиннее, чем ",
+                l3: " должны быть длиннее, чем ",
             },
         },
         pageheaders: {
             reg: "Форма регистрации пользователя  |  PogPvP.com",
-            usr: "Страница пользователя  |  PogPvP.com",
             log: "Форма входа  |  PogPvP.com",
+
+            usr: "Страница пользователя  |  PogPvP.com",
+            usrinfo: "Страница пользователя: Информация о пользователе  |  PogPvP.com",
+            usrsec: "Страница пользователя: Безопасность  |  PogPvP.com",
+            usrmoves: "Страница пользователя: Умения пользователя  |  PogPvP.com",
+            usrbroker: "Страница пользователя: Шайни брокер  |  PogPvP.com",
+
+            broker: "Шайни брокер  |  PogPvP.com",
         },
         pagedescriptions: {
             reg: "Форма регистрации пользователя",
             usr: "Страница пользователя",
             log: "Форма входа",
+
+            broker: "Шайни брокер: помощь в поиске шайни для обмена в Pokemon go",
         },
         upage: {
             prof: "Профиль пользователя",
@@ -235,6 +311,7 @@ export const userLocale = {
             sec: "Безопасность",
         },
         info: {
+            title: "Информация о пользователе",
             name: "Имя пользователя",
             email: "Электронная почта",
             reg: "Зарегистрирован",
@@ -347,6 +424,56 @@ export const userLocale = {
                     subj: "Цель, на которую накладывается эффект",
                 },
             },
+        },
+        shbroker: {
+            int: {
+                title: "Шайни брокер: Поиск тренеров",
+                choose: "Выбрать покемонов из моего профиля",
+
+                name: "Имя",
+                country: "Страна",
+                region: "Регион",
+                city: "Город",
+                have: "Есть",
+                want: "Нужно",
+                details: "Детали",
+
+                detcont: "Контактные данные:",
+                dethave: "Может предложить:",
+                detwant: "Хочет взамен:",
+            },
+
+
+            find: "Найти тренеров",
+
+            have: "Ваши покемоны",
+            want: "Нужные вам покемоны",
+
+            country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Страна\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            cPlaceYours: "Выберите вашу страну",
+            cPlace: "Выберите страну (обязательно)",
+
+            region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Регион\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            rPlaceYours: "Выберите ваш регион",
+            rPlace: "Выберите регион (опционально)",
+
+            city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Город\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            cityPlaceYours: "Введите название вашего города",
+            cityPlace: "Введите название города (опционально)",
+
+            cont: "Контактные данные",
+            contPlaceYours: "Введите ваши контактные данные",
+            contPlace: "Введите контактные данные (опционально)",
+
+            amount: "Количество",
+
+            err: {
+                c1: "Название города",
+                c2: "названия города",
+
+                cd1: "Контактные данные",
+                cd2: "контактных данных",
+            }
         },
     }
 }

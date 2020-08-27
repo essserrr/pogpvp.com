@@ -43,6 +43,7 @@ class Navbar extends React.PureComponent {
             dropdownOther: [
                 <Link key="evolutions" className="dropdown-item " to="/evolution">{strings.navbar.evo}</Link>,
                 <Link key="eggsList" className="dropdown-item " to="/eggs">{strings.navbar.eggs}</Link>,
+                <Link key="shinyBroker" className="dropdown-item " to="/shinybroker">{strings.navbar.shbroker}</Link>,
             ],
             expanded: false,
         };

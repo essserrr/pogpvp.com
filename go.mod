@@ -18,6 +18,7 @@ require (
 	github.com/prometheus/client_golang v1.5.1
 	github.com/sethvargo/go-password v0.2.0
 	github.com/sirupsen/logrus v1.5.0
+	github.com/sqs/goreturns v0.0.0-20181028201513-538ac6014518 // indirect
 	github.com/technoweenie/multipartstreamer v1.0.1 // indirect
 	go.mongodb.org/mongo-driver v1.3.4
 	go.uber.org/zap v1.14.1 // indirect

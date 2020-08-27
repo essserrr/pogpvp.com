@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import ReactTooltip from "react-tooltip"
 
 const Stat = React.memo(function (props) {

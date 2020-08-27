@@ -10,9 +10,9 @@ import { loaderLocale } from "../../locale/loaderLocale"
 let strings = new LocalizedStrings(loaderLocale)
 
 const NotFound = lazy(() => import("../NotFound/NotFound"))
-const Profile = lazy(() => import("./Profile"))
+const Userpage = lazy(() => import("./Userpage"))
 
-class ProfileRouter extends React.Component {
+class UserpageRouter extends React.Component {
     constructor(props) {
         super(props)
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -30,7 +30,7 @@ class ProfileRouter extends React.Component {
                 innerClass="col-auto mt-1  mt-md-2"
             />}>
                 <Switch>
-                    <Route path="/profile/:type(info|security|pokemon|move|shinybroker)/" component={Profile} />
+                    <Route path="/profile/:type(info|security|pokemon|move|shinybroker)/" component={Userpage} />
                     <Route path="*" component={NotFound} />
                 </Switch>
             </Suspense>
@@ -38,4 +38,4 @@ class ProfileRouter extends React.Component {
     }
 }
 
-export default ProfileRouter
+export default UserpageRouter

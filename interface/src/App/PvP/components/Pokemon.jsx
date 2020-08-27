@@ -1,16 +1,16 @@
-import React from "react";
-import Stats from "./Stats/Stats";
-import SearchableSelect from "./SearchableSelect/SearchableSelect";
-import SelectGroup from "./SelectGroup/SelectGroup";
-import Stages from "./Stages/Stages";
-import InitialStats from "./InitialStats/InitialStats";
+import React from "react"
+import Stats from "./Stats/Stats"
+import SearchableSelect from "./SearchableSelect/SearchableSelect"
+import SelectGroup from "./SelectGroup/SelectGroup"
+import Stages from "./Stages/Stages"
+import InitialStats from "./InitialStats/InitialStats"
 import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
 import CpAndTyping from "./CpAndTypes/CpAndTypes"
 import EffectiveStats from "./EffectiveStats/EffectiveStats"
 import MagicBox from "./MagicBox/MagicBox"
 
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/getCookie"
 

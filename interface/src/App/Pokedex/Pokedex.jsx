@@ -1,6 +1,6 @@
 import React from "react";
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"

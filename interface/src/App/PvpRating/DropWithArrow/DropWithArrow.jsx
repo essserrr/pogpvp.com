@@ -1,5 +1,5 @@
-import React from "react";
-import { UnmountClosed } from "react-collapse";
+import React from "react"
+import { UnmountClosed } from "react-collapse"
 
 const DropWithArrow = React.memo(function (props) {
     return (
