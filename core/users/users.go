@@ -361,37 +361,95 @@ type GetFilteredBrokerRequest struct {
 	City     string
 	Contacts string
 
-	Have map[string]string
-	Want map[string]string
+	Have PokDesires
+	Want PokDesires
 }
 
-func (gbr *GetFilteredBrokerRequest) MakeSearchQuery() (*mongo.Pipeline, error) {
+//PokDesires contains pokemon deasires of an user
+type PokDesires map[string]BrokerPokemon
+
+//MakeSearchPipline creates broker search pipe line
+func (gbr *GetFilteredBrokerRequest) MakeSearchPipline() (*mongo.Pipeline, error) {
+	//country is a required field
 	if gbr.Country == "" {
 		return nil, fmt.Errorf("You need to specify country")
 	}
-	matchFormStage := bson.D{
-		{"$match",
-			bson.D{
-				{"ubroker.country", gbr.Country},
-				{"ubroker.region", checkQueryValue(gbr.Region)},
-				{"ubroker.city", checkQueryValue(gbr.City)},
-				{"ubroker.cont", checkQueryValue(gbr.Contacts)},
-			},
-		},
-	}
-
-	project := bson.D{{"$project", bson.D{{"ubroker", 1}, {"username", 1}}}}
-
+	//match trainers stage
+	matchFormStage := bson.D{{"$match", bson.D(gbr.matchForm())}}
+	//match create project stage
+	project := bson.D{{"$project", bson.D(gbr.makePokemonProject())}}
 	return &mongo.Pipeline{matchFormStage, project}, nil
 }
 
-func checkQueryValue(queryValue string) interface{} {
+func (gbr *GetFilteredBrokerRequest) matchForm() []bson.E {
+	formQuery := make([]bson.E, 0, 6)
+	formQuery = append(formQuery,
+		bson.E{"ubroker.country", gbr.Country},
+		etypeQueryIfExists("ubroker.region", gbr.Region),
+		etypeQueryIfExists("ubroker.city", gbr.City),
+		etypeQueryIfExists("ubroker.cont", gbr.Contacts))
+
+	formQuery = append(formQuery, gbr.Have.makeMatchPokFilter("ubroker.want")...)
+	formQuery = append(formQuery, gbr.Want.makeMatchPokFilter("ubroker.have")...)
+
+	return formQuery
+}
+
+func etypeQueryIfExists(queryKey, queryValue string) bson.E {
+	//if value is no "" match this value, otherwise check if field exists
 	switch queryValue {
 	case "":
-		return bson.M{"$exists": true}
+		return bson.E{queryKey, bson.M{"$exists": true}}
+
 	default:
-		return queryValue
+		return bson.E{queryKey, queryValue}
 	}
+}
+
+func (pd *PokDesires) makeMatchPokFilter(queryKey string) []bson.E {
+	pokemonQuery := make([]bson.E, 0, 1)
+	//if map is not set or is empty check if field exists
+	if pd == nil || len(*pd) == 0 {
+		pokemonQuery = append(pokemonQuery, bson.E{queryKey, bson.M{"$exists": true}})
+		return pokemonQuery
+	}
+	//otherwise create "or" query
+	orQuery := make([]interface{}, 0, 1)
+	for key, value := range *pd {
+		orQuery = append(orQuery, bson.D{{queryKey + "." + key + ".name", value.Name}})
+	}
+	pokemonQuery = append(pokemonQuery, bson.E{"$or", orQuery})
+	return pokemonQuery
+}
+
+func (gbr *GetFilteredBrokerRequest) makePokemonProject() []bson.E {
+	var pokemonQuery = make([]bson.E, 0, 4)
+	pokemonQuery = append(pokemonQuery,
+		bson.E{"username", 1},
+		bson.E{"ubroker.country", 1},
+		bson.E{"ubroker.region", 1},
+		bson.E{"ubroker.city", 1},
+		bson.E{"ubroker.cont", 1})
+
+	pokemonQuery = append(pokemonQuery, gbr.Have.makeProjectPokFilter("ubroker.want")...)
+	pokemonQuery = append(pokemonQuery, gbr.Want.makeProjectPokFilter("ubroker.have")...)
+
+	return pokemonQuery
+
+}
+
+func (pd *PokDesires) makeProjectPokFilter(queryKey string) []bson.E {
+	var pokemonQuery = make([]bson.E, 0, 1)
+	//if map is not set or is empty select the whole filed
+	if pd == nil || len(*pd) == 0 {
+		pokemonQuery = append(pokemonQuery, bson.E{queryKey, 1})
+		return pokemonQuery
+	}
+	//otherwise select only desired fields
+	for _, value := range *pd {
+		pokemonQuery = append(pokemonQuery, bson.E{queryKey + "." + value.Name, 1})
+	}
+	return pokemonQuery
 }
 
 //SetBrokerRequest contains user location info and user's shynies

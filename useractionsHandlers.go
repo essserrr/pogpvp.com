@@ -274,7 +274,7 @@ func getFilteredBrokers(w *http.ResponseWriter, r *http.Request, app *App) error
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 
-	query, err := req.MakeSearchQuery()
+	query, err := req.MakeSearchPipline()
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_ufilteredbroker_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Query error"), http.StatusBadRequest, err.Error())
