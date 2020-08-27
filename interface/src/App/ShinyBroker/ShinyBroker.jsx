@@ -26,7 +26,7 @@ class ShinyBroker extends React.Component {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             inputs: {
-                Country: "Russian Federation", Region: "", City: "", Contacts: "",
+                Country: "", Region: "", City: "", Contacts: "",
             },
 
             notOk: {
