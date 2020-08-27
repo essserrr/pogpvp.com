@@ -354,8 +354,8 @@ func (t *Tokens) newAccess(uid string) error {
 	return nil
 }
 
-//GetFilteredBrokerRequest contains filter options
-type GetFilteredBrokerRequest struct {
+//FilteredBrokerRequest contains filter options
+type FilteredBrokerRequest struct {
 	Country  string
 	Region   string
 	City     string
@@ -367,32 +367,57 @@ type GetFilteredBrokerRequest struct {
 	WantCustom bool
 }
 
+func (fbr *FilteredBrokerRequest) Limit() {
+	haveLen := len(fbr.Have)
+	if haveLen > 400 {
+		delta := haveLen - 400
+		for key := range fbr.Have {
+			if delta < 1 {
+				break
+			}
+			delete(fbr.Have, key)
+			delta--
+		}
+	}
+	wantLen := len(fbr.Want)
+	if wantLen > 400 {
+		delta := wantLen - 400
+		for key := range fbr.Want {
+			if delta < 1 {
+				break
+			}
+			delete(fbr.Want, key)
+			delta--
+		}
+	}
+}
+
 //PokDesires contains pokemon deasires of an user
 type PokDesires map[string]BrokerPokemon
 
 //MakeSearchPipline creates broker search pipe line
-func (gbr *GetFilteredBrokerRequest) MakeSearchPipline() (*mongo.Pipeline, error) {
+func (fbr *FilteredBrokerRequest) MakeSearchPipline() (*mongo.Pipeline, error) {
 	//country is a required field
-	if gbr.Country == "" {
+	if fbr.Country == "" {
 		return nil, fmt.Errorf("You need to specify country")
 	}
 	//match trainers stage
-	matchFormStage := bson.D{{"$match", bson.D(gbr.matchForm())}}
+	matchFormStage := bson.D{{"$match", bson.D(fbr.matchForm())}}
 	//match create project stage
-	project := bson.D{{"$project", bson.D(gbr.makePokemonProject())}}
+	project := bson.D{{"$project", bson.D(fbr.makePokemonProject())}}
 	return &mongo.Pipeline{matchFormStage, project}, nil
 }
 
-func (gbr *GetFilteredBrokerRequest) matchForm() []bson.E {
+func (fbr *FilteredBrokerRequest) matchForm() []bson.E {
 	formQuery := make([]bson.E, 0, 6)
 	formQuery = append(formQuery,
-		bson.E{"ubroker.country", gbr.Country},
-		etypeQueryIfExists("ubroker.region", gbr.Region),
-		etypeQueryIfExists("ubroker.city", gbr.City),
-		etypeQueryIfExists("ubroker.cont", gbr.Contacts))
+		bson.E{"ubroker.country", fbr.Country},
+		etypeQueryIfExists("ubroker.region", fbr.Region),
+		etypeQueryIfExists("ubroker.city", fbr.City),
+		etypeQueryIfExists("ubroker.cont", fbr.Contacts))
 
-	formQuery = append(formQuery, gbr.Have.makeMatchPokFilter("ubroker.want")...)
-	formQuery = append(formQuery, gbr.Want.makeMatchPokFilter("ubroker.have")...)
+	formQuery = append(formQuery, fbr.Have.makeMatchPokFilter("ubroker.want")...)
+	formQuery = append(formQuery, fbr.Want.makeMatchPokFilter("ubroker.have")...)
 
 	return formQuery
 }
@@ -424,7 +449,7 @@ func (pd *PokDesires) makeMatchPokFilter(queryKey string) []bson.E {
 	return pokemonQuery
 }
 
-func (gbr *GetFilteredBrokerRequest) makePokemonProject() []bson.E {
+func (fbr *FilteredBrokerRequest) makePokemonProject() []bson.E {
 	var pokemonQuery = make([]bson.E, 0, 4)
 	pokemonQuery = append(pokemonQuery,
 		bson.E{"username", 1},
@@ -433,8 +458,8 @@ func (gbr *GetFilteredBrokerRequest) makePokemonProject() []bson.E {
 		bson.E{"ubroker.city", 1},
 		bson.E{"ubroker.cont", 1})
 
-	pokemonQuery = append(pokemonQuery, gbr.Have.makeProjectPokFilter("ubroker.want")...)
-	pokemonQuery = append(pokemonQuery, gbr.Want.makeProjectPokFilter("ubroker.have")...)
+	pokemonQuery = append(pokemonQuery, fbr.Have.makeProjectPokFilter("ubroker.want")...)
+	pokemonQuery = append(pokemonQuery, fbr.Want.makeProjectPokFilter("ubroker.have")...)
 
 	return pokemonQuery
 

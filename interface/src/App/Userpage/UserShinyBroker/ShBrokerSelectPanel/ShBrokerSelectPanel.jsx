@@ -35,12 +35,8 @@ class ShBrokerSelectPanel extends React.PureComponent {
                         onChange={this.props.onCheckboxChange}
                     />
                 </div>}
-                {!this.props.checked && <SearchableSelect
-                    attr={this.props.attr}
-                    list={this.props.pokList}
-                    onChange={this.props.onPokemonAdd}
-                />}
                 {this.props.onAmountChange && <SelectGroup
+                    class="input-group input-group-sm my-2"
                     label={strings.shbroker.amount}
                     attr={this.props.attr}
                     name="Amount"
@@ -60,6 +56,14 @@ class ShBrokerSelectPanel extends React.PureComponent {
                     for=""
                 />}
 
+                {!this.props.checked &&
+                    <div className="col-12 px-0 my-2">
+                        <SearchableSelect
+                            attr={this.props.attr}
+                            list={this.props.pokList}
+                            onChange={this.props.onPokemonAdd}
+                        />
+                    </div>}
 
                 {!this.props.checked && <div className="col-12 px-0 mt-3 mb-2">
                     <UserShinyList

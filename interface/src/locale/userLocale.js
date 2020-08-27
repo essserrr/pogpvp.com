@@ -61,7 +61,7 @@ export const userLocale = {
             usr: "User page",
             log: "Log in form",
 
-            broker: "Shiny broker: helps you to trade your shiny pokemon in помощь Pokemon go",
+            broker: "Shiny broker: helps you to trade your shiny pokemon in Pokemon go",
         },
         upage: {
             prof: "User profile",
@@ -189,7 +189,7 @@ export const userLocale = {
         shbroker: {
             int: {
                 title: "Shiny Broker: Trainers Search",
-                choose: "Choose pokemon from your profile",
+                choose: "Choose pokemon from my profile",
 
                 name: "Name",
                 country: "Country",
@@ -428,14 +428,14 @@ export const userLocale = {
         shbroker: {
             int: {
                 title: "Шайни брокер: Поиск тренеров",
-                choose: "Выбрать покемонов из вашего профиля",
+                choose: "Выбрать покемонов из моего профиля",
 
                 name: "Имя",
                 country: "Страна",
                 region: "Регион",
                 city: "Город",
-                have: "Нужно",
-                want: "Есть",
+                have: "Есть",
+                want: "Нужно",
                 details: "Детали",
 
                 detcont: "Контактные данные:",
