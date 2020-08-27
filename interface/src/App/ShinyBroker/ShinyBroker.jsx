@@ -64,15 +64,15 @@ class ShinyBroker extends React.Component {
         await this.props.refresh()
         try {
             let fetches = [this.props.getPokemonBase(),
-            fetch(((navigator.userAgent !== "ReactSnap") ?
-                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/getbroker", {
+            (navigator.userAgent !== "ReactSnap") && navigator.userAgent !== "ReactSnap" && fetch(
+                process.env.REACT_APP_LOCALHOST + "/api/user/getbroker", {
                 method: "GET",
                 credentials: "include",
             })]
 
             let responses = await Promise.all(fetches)
 
-            let userBroker = await responses[1].json()
+            let userBroker = (navigator.userAgent !== "ReactSnap") ? await responses[1].json() : {}
 
             if (!responses[0].ok) { throw this.props.bases.error }
 

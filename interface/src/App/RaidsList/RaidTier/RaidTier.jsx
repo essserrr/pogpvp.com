@@ -22,6 +22,7 @@ const RaidTier = React.memo(function (props) {
                     if (!props.pokTable[name]) {
                         name = capitalizeFirst(name)
                     }
+                    if (name === "Mime Jr.") { name = "Mime Jr" }
                     if (!props.pokTable[name]) {
                         console.log(name + " not found")
                         return result
