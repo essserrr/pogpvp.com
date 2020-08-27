@@ -9,7 +9,7 @@ import { setCustomMoves } from "../../../AppStore/Actions/actions"
 import MoveList from "./MoveList/MoveList"
 import Loader from "../../PvpRating/Loader"
 
-
+import SiteHelm from "../../SiteHelm/SiteHelm"
 import Errors from "../../PvP/components/Errors/Errors"
 import LabelAndInput from "./LabelAndInput/LabelAndInput"
 import TypeCategory from "./TypeCategory/TypeCategory"
@@ -312,6 +312,12 @@ class Move extends React.PureComponent {
     render() {
         return (
             <div className="col p-2 p-md-3">
+                <SiteHelm
+                    url="https://pogpvp.com/profile/move"
+                    header={strings.pageheaders.usrmoves}
+                    descr={strings.pagedescriptions.usr}
+                    noindex={true}
+                />
                 {this.state.loading &&
                     <Loader
                         color="black"
@@ -320,7 +326,7 @@ class Move extends React.PureComponent {
                         loading={this.state.loading}
                     />}
                 {!this.state.loading && <div className="row mx-0 justify-content-center">
-                    <div className="col-12 px-0 py-1 text-center moveconstr__title">
+                    <div className="col-12 px-0 mb-2 text-center moveconstr__title">
                         {strings.moveconstr.constr}
                     </div>
                     <div className="col-12 px-0">

@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
-
+import SiteHelm from "../../SiteHelm/SiteHelm"
 import ShBrokerForm from "./ShBrokerForm/ShBrokerForm"
 import Errors from "../../PvP/components/Errors/Errors"
 import Loader from "../../PvpRating/Loader"
@@ -14,6 +14,7 @@ import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
 import { getCookie } from "../../../js/getCookie"
 import { userLocale } from "../../../locale/userLocale"
 
+import "./UserShinyBroker.scss"
 
 let strings = new LocalizedStrings(userLocale);
 
@@ -273,6 +274,12 @@ class UserShinyBroker extends React.PureComponent {
     render() {
         return (
             <div className="col pt-2 px-2">
+                <SiteHelm
+                    url="https://pogpvp.com/profile/shinybroker"
+                    header={strings.pageheaders.usrbroker}
+                    descr={strings.pagedescriptions.usr}
+                    noindex={true}
+                />
                 <div className="row mx-0 justify-content-center" >
                     {this.state.loading &&
                         <Loader
@@ -281,16 +288,26 @@ class UserShinyBroker extends React.PureComponent {
                             locale={strings.loading}
                             loading={this.state.loading}
                         />}
-                    {!this.state.loading && <div className="col-12 pt-3">
-                        <ShBrokerForm
-                            onChange={this.onChange}
-                            selectCountry={this.selectCountry}
-                            selectRegion={this.selectRegion}
+                    {!this.state.loading &&
+                        <>
+                            <div className="user-shinybroker__title col-12 pt-2 text-center">{strings.upage.shbr}</div>
+                            <div className="col-12 pt-3">
+                                <ShBrokerForm
+                                    placeholders={{
+                                        cPlace: strings.shbroker.cPlaceYours, rPlace: strings.shbroker.rPlaceYours,
+                                        cityPlace: strings.shbroker.cityPlaceYours, contPlace: strings.shbroker.contPlaceYours
+                                    }}
 
-                            value={this.state.inputs}
-                            notOk={this.state.notOk}
-                        />
-                    </div>}
+
+                                    onChange={this.onChange}
+                                    selectCountry={this.selectCountry}
+                                    selectRegion={this.selectRegion}
+
+                                    value={this.state.inputs}
+                                    notOk={this.state.notOk}
+                                />
+                            </div>
+                        </>}
                     {this.state.pokList && <div className="col-6 py-2">
                         <ShBrokerSelectPanel
                             limit={400}
