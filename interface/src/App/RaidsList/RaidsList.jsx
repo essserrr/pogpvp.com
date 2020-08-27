@@ -73,19 +73,18 @@ class RaidsList extends React.Component {
 
     //generator functions
     returnRaidsList(tierList, pokTable) {
-        let raidList = []
-        for (let i = 5; i > 0; i--) {
-            raidList.push(
-                <RaidTier
-                    key={"tier" + i}
-                    class="separator capsSeparator"
-                    title={<IconMultiplicator title={strings.tierlist.raidtier + " " + i} n={i} />}
-                    list={tierList["Tier " + i]}
-                    pokTable={pokTable}
-                    i={i}
-                />)
-        }
-        return raidList
+        const tiers = ["5", "3", "1"]
+
+        return tiers.map((value) => <RaidTier
+            key={"tier" + value}
+            class="separator capsSeparator"
+
+            title={<IconMultiplicator title={strings.tierlist.raidtier + " " + value} n={value} />}
+            list={tierList["Tier " + value]}
+            pokTable={pokTable}
+            n={value}
+        />
+        )
     }
 
     onChange(event) {
