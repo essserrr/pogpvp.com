@@ -32,6 +32,21 @@ const routes = [
     {
         path: '/shinybroker',
     },
+    {
+        path: '/privacy',
+    },
+    {
+        path: '/terms',
+    },
+    {
+        path: '/login',
+    },
+    {
+        path: '/registration',
+    },
+    {
+        path: '/restore',
+    },
 ]
 
 export default routes;
