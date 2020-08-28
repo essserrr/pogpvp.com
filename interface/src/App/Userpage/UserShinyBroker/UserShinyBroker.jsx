@@ -33,8 +33,11 @@ class UserShinyBroker extends React.PureComponent {
                 Country: "", Region: "", City: "", Contacts: "",
             },
             pokList: null,
+
             Have: {},
+            HaveImport: false,
             Want: {},
+            WantImport: false,
 
             loading: false,
             error: "",
@@ -49,6 +52,8 @@ class UserShinyBroker extends React.PureComponent {
         this.onPokemonDelete = this.onPokemonDelete.bind(this)
         this.onAmountChange = this.onAmountChange.bind(this)
         this.onSaveChanges = this.onSaveChanges.bind(this)
+        this.onTurnOnImport = this.onTurnOnImport.bind(this)
+        this.onImport = this.onImport.bind(this)
     }
 
     async componentDidMount() {
@@ -272,6 +277,38 @@ class UserShinyBroker extends React.PureComponent {
         }
     }
 
+    onTurnOnImport(event) {
+        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
+            return
+        }
+        let role = event.target.getAttribute("attr")
+        this.setState({
+            [role + "Import"]: !this.state[role + "Import"]
+        });
+    }
+
+    onImport(obj) {
+        this.setState({
+            [obj.attr + "Import"]: !this.state[obj.attr + "Import"],
+            [obj.attr]: this.createImportedList(obj.value)
+        });
+    }
+
+    createImportedList(str) {
+        let importedList = str.split(",")
+
+        let idBase = {}
+
+        // eslint-disable-next-line
+        for (const [key, value] of Object.entries(this.props.bases.pokemonBase)) {
+            idBase[value.Number + (value.Forme ? "-" + value.Forme : "")] = value
+        }
+
+        return importedList.filter((value) => !!idBase[value]).map((value) => {
+            return { Name: idBase[value].Title, Type: "Shiny", Amount: 1 }
+        })
+    }
+
     render() {
         return (
             <div className="col pt-2 px-2">
@@ -314,6 +351,12 @@ class UserShinyBroker extends React.PureComponent {
                             limit={400}
                             label={strings.shbroker.have}
                             attr="Have"
+
+                            onImport={this.onImport}
+                            onTurnOnImport={this.onTurnOnImport}
+                            showImportExportPanel={this.state.HaveImport}
+
+
                             pokList={this.state.pokList}
                             onPokemonAdd={this.onPokemonAdd}
                             onPokemonDelete={this.onPokemonDelete}
@@ -328,6 +371,11 @@ class UserShinyBroker extends React.PureComponent {
                             limit={400}
                             label={strings.shbroker.want}
                             attr="Want"
+
+                            onImport={this.onImport}
+                            onTurnOnImport={this.onTurnOnImport}
+                            showImportExportPanel={this.state.WantImport}
+
                             pokList={this.state.pokList}
                             onPokemonAdd={this.onPokemonAdd}
                             onPokemonDelete={this.onPokemonDelete}
@@ -339,7 +387,7 @@ class UserShinyBroker extends React.PureComponent {
                     </div>}
 
                     {this.state.pokList && <div className="col-12 px-1">
-                        <div className="row m-0 py-2 justify-content-center">
+                        <div className="row m-0 py-2 mb-2 justify-content-center">
                             <AuthButton
                                 loading={this.state.submitting}
                                 title={this.state.ok ? "Ok" : strings.moveconstr.changes}

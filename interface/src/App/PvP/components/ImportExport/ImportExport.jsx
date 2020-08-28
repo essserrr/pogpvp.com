@@ -16,7 +16,7 @@ class ImportExport extends React.PureComponent {
 
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            value: this.formatActiveList(this.props.value),
+            value: this.formatActiveList(this.props.initialValue),
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -24,13 +24,26 @@ class ImportExport extends React.PureComponent {
     }
 
     formatActiveList(list) {
-        return list.reduce(((result, elem, i, arr) => {
-            result += (`${elem.name}${elem.IsShadow === "false" ? "" : "!shadow"},${elem.QuickMove},${elem.ChargeMove1},${elem.ChargeMove2}`)
-            if (i + 1 < arr.length) {
-                result += "\n"
-            }
-            return result
-        }), "")
+        switch (this.props.type) {
+            case "matrix":
+                return list.reduce(((result, elem, i, arr) => {
+                    result += (`${elem.name}${elem.IsShadow === "false" ? "" : "!shadow"},${elem.QuickMove},${elem.ChargeMove1},${elem.ChargeMove2}`)
+                    if (i + 1 < arr.length) {
+                        result += "\n"
+                    }
+                    return result
+                }), "")
+            case "shiny":
+                return list.reduce(((result, elem, i, arr) => {
+                    result += (this.props.pokemonTable[elem.Name].Number +
+                        (this.props.pokemonTable[elem.Name].Forme ? "-" + this.props.pokemonTable[elem.Name].Forme : ""))
+                    if (i + 1 < arr.length) { result += "," }
+                    return result
+                }), "")
+            default:
+
+        }
+
     }
 
     onSubmit(event) {
@@ -57,13 +70,31 @@ class ImportExport extends React.PureComponent {
                     place={"bottom"}
                     multiline={true}
                 >
-                    {strings.tips.importtips.form}<br />
-                    {strings.tips.importtips.p1}<br />{strings.tips.importtips.q1}<br />{strings.tips.importtips.ch1}<br />
-                    {strings.tips.importtips.ch2}<br />{strings.tips.importtips.ent}<br />
-                    {strings.tips.importtips.pok2}{strings.tips.importtips.q1}<br />{strings.tips.importtips.ch1}<br />
-                    {strings.tips.importtips.ch2}
-                    <br /><br />
-                    {strings.tips.importtips.imp}
+                    {this.props.type === "matrix" ? <>
+                        {strings.tips.importtips.matrix.form}<br />
+                        {strings.tips.importtips.matrix.p1}<br />
+                        {strings.tips.importtips.matrix.q1}<br />
+                        {strings.tips.importtips.matrix.ch1}<br />
+                        {strings.tips.importtips.matrix.ch2}<br />
+                        {strings.tips.importtips.matrix.ent}<br />
+                        {strings.tips.importtips.matrix.p2}<br />
+                        {strings.tips.importtips.matrix.q1}<br />
+                        {strings.tips.importtips.matrix.ch1}<br />
+                        {strings.tips.importtips.matrix.ch2}<br /><br />
+
+                        {strings.tips.importtips.matrix.imp}
+                    </> :
+                        <>
+                            {strings.tips.importtips.shiny.form}<br />
+                            {strings.tips.importtips.shiny.pok1}<br />
+                            {strings.tips.importtips.shiny.pok2}<br />
+                            {strings.tips.importtips.shiny.ex}<br />
+                            {strings.tips.importtips.shiny.expok}<br /><br />
+
+                            {strings.tips.importtips.shiny.forms}<br /><br />
+
+                            {strings.tips.importtips.shiny.shcheck}
+                        </>}
                 </ReactTooltip>
 
                 <div className="row mx-0 justify-content-between">{strings.tips.impExp}</div>

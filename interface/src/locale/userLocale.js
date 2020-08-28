@@ -1,5 +1,7 @@
 export const userLocale = {
     en: {
+        impExp: "Import/Export",
+
         soon: "This feature will be implemented soon, please come back and check later",
         loading: "Loading...",
         propc: "By signing up you agree with ",
@@ -238,6 +240,8 @@ export const userLocale = {
     },
 
     ru: {
+        impExp: "Импорт/Экспорт",
+
         soon: "Эта функция скоро будет реализована. Пожалуйста, следите за обновлениями",
         loading: "Загрузка...",
         propc: "Регистрируясь вы соглашаетесь с ",

@@ -134,17 +134,29 @@ export const locale = {
 
         tips: {
             importtips: {
-                form: "Pokemon string format (comma separated without spaces):",
-                p1: "Pokemon1,",
-                q1: "Quick Move,",
-                ch1: "Charge Move1,",
-                ch2: "Charge Move2",
+                matrix: {
+                    form: "Pokemon string format (comma separated without spaces):",
+                    p1: "Pokemon1,",
+                    q1: "Quick Move,",
+                    ch1: "Charge Move1,",
+                    ch2: "Charge Move2",
 
-                ent: "(hit Enter)",
+                    ent: "(hit Enter)",
 
-                p2: "Pokemon2!shadow,",
+                    p2: "Pokemon2!shadow,",
 
-                imp: "Import is partilly compatable with Pvpoke export",
+                    imp: "Import is partilly compatable with Pvpoke export",
+                },
+                shiny: {
+                    form: "Pokemon string format (comma separated without spaces):",
+                    pok1: "PokemonNumber{-Forme},",
+                    pok2: "PokemonNumber{-Forme},",
+                    ex: "Example:",
+                    expok: "103-111,103",
+
+                    forms: "Most common forms: Mega - 120, Galarian - 112, Alolan - 111",
+                    shcheck: "Import is partilly compatable with ShinyCheckBot (telegram) export"
+                },
 
             },
             impExp: "Enter or copy your Pokemon",
@@ -430,18 +442,30 @@ export const locale = {
 
         tips: {
             importtips: {
-                form: "Формат покемонов (через запятую без пробелов):",
-                p1: "Покемон1,",
-                q1: "Быстрое Умение,",
-                ch1: "Заряжаемое Умение1,",
-                ch2: "Заряжаемое Умение2",
+                matrix: {
+                    form: "Формат покемонов (через запятую без пробелов):",
+                    p1: "Покемон1,",
+                    q1: "Быстрое Умение,",
+                    ch1: "Заряжаемое Умение1,",
+                    ch2: "Заряжаемое Умение2",
 
-                ent: "(нажать Enter)",
+                    ent: "(нажать Enter)",
 
-                p2: "Покемон2!теневой,",
+                    p2: "Покемон2!теневой,",
 
-                imp: "Импорт частично совместим с Pvppoke",
+                    imp: "Импорт частично совместим с Pvppoke",
+                },
 
+                shiny: {
+                    form: "Формат покемонов (через запятую без пробелов):",
+                    pok1: "НомерПокемона{-Форма},",
+                    pok2: "НомерПокемона{-Форма}",
+                    ex: "Пример:",
+                    expok: "103-111,103",
+
+                    forms: "Наиболее частые формы: Mega - 120, Galarian - 112, Alolan - 111",
+                    shcheck: "Импорт частично совемстим с экспортом ShinyCheckBot (telegram)"
+                },
             },
             impExp: "Введите или скопируйте ваших покемонов",
             search: "Введите более 3 символов",
