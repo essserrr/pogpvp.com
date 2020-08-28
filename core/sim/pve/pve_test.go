@@ -757,15 +757,13 @@ func TestMoveLimit(t *testing.T) {
 	}
 	porygon := testApp.PokemonStatsBase["Porygon"]
 
-	porygonList, err := limitMoves(&porygon, porygon.QuickMoves, &app.IntialDataPve{
-		CustomMoves: &map[string]app.MoveBaseEntry{},
-		App:         testApp,
-		Boss: app.BossInfo{
-			Name: "Porygon",
-			Tier: 4,
-		},
-		Weather: 0,
-	}, false, 10)
+	limiterObj := limiterObject{pok: porygon, orginalMoveList: porygon.QuickMoves, isCharge: false, n: 10,
+		inDat: &app.IntialDataPve{
+			CustomMoves: &map[string]app.MoveBaseEntry{},
+			App:         testApp,
+			Boss:        app.BossInfo{Name: "Porygon", Tier: 4}}}
+
+	porygonList, err := limiterObj.limitMoves()
 	if err != nil {
 		t.Error(err)
 	}
