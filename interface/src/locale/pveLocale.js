@@ -18,6 +18,7 @@ export const pveLocale = {
 
 
         tierlist: "Tier",
+        mega: "Mega Raids",
         sizetip: "Number of groups of pokemon",
 
         aggrList: {
@@ -98,6 +99,7 @@ export const pveLocale = {
         friend: "\xa0\xa0\xa0Дружба\xa0\xa0\xa0",
 
         tierlist: "Уровень",
+        mega: "Мега рейды",
         sizetip: "Число групп покемонов",
 
         aggrList: {

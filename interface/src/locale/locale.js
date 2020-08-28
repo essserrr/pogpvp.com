@@ -265,6 +265,7 @@ export const locale = {
         },
         tierlist: {
             raidtier: "Tier",
+            mega: "Mega raids",
             eggs: "Eggs",
             regionals: "Show regionals",
         },
@@ -560,6 +561,7 @@ export const locale = {
 
         tierlist: {
             raidtier: "Уровень",
+            mega: "Мега рейды",
             eggs: "Яйца",
             regionals: "Показать регионалок",
         },

@@ -36,10 +36,9 @@ class SimulatorPanel extends React.PureComponent {
             ],
             Tier: [
                 <option value="0" key="0">{pveStrings.tierlist + " 1"}</option>,
-                <option value="1" key="1">{pveStrings.tierlist + " 2"}</option>,
                 <option value="2" key="2">{pveStrings.tierlist + " 3"}</option>,
-                <option value="3" key="3">{pveStrings.tierlist + " 4"}</option>,
                 <option value="4" key="4">{pveStrings.tierlist + " 5"}</option>,
+                <option value="4" key="5">{pveStrings.mega}</option>,
                 <option value="5" key="6">{pveStrings.tierlist + " 5.5"}</option>,
             ],
             PartySize: [
@@ -93,10 +92,9 @@ class SimulatorPanel extends React.PureComponent {
                 <div key="tiertip">
                     HP босса:<br />
                     {pveStrings.tierlist + " 1 - 600 HP"}<br />
-                    {pveStrings.tierlist + " 2 - 1800 HP"}<br />
                     {pveStrings.tierlist + " 3 - 3600 HP"}<br />
-                    {pveStrings.tierlist + " 4 - 9000 HP"}<br />
                     {pveStrings.tierlist + " 5 - 15000 HP"}<br />
+                    {pveStrings.mega + " - 15000 HP"}<br />
                     {pveStrings.tierlist + " 5.5 - 22500 HP"}<br />
                 </div>
             ]
