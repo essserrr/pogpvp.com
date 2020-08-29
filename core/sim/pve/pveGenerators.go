@@ -29,10 +29,10 @@ func (a byDps) Len() int           { return len(a) }
 func (a byDps) Less(i, j int) bool { return a[i].Dps > a[j].Dps }
 func (a byDps) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
-func makeBoostersRow(inDat *app.IntialDataPve) []preRun {
+func makeBoostersRow(inDat *app.IntialDataPve) ([]preRun, error) {
 	//if booster Slot is Disabled return empty prerun
 	if !inDat.BoostSlotEnabled {
-		return []preRun{}
+		return []preRun{}, nil
 	}
 
 	prerun := prerunObj{
@@ -46,11 +46,13 @@ func makeBoostersRow(inDat *app.IntialDataPve) []preRun {
 	_, ok := inDat.App.PokemonStatsBase[inDat.BoostSlotPokemon.Name]
 	switch ok {
 	case true:
-		prerun.generateForKnownBooster(&inDat.BoostSlotPokemon)
+		if err := prerun.generateForKnownBooster(&inDat.BoostSlotPokemon); err != nil {
+			return nil, err
+		}
 	default:
 		prerun.generateForUnknownBooster()
 	}
-	return prerun.prerunArr
+	return prerun.prerunArr, nil
 }
 
 func canBoost(target string) bool {
@@ -76,21 +78,27 @@ func getBoostBonus(booster *app.PokemonsBaseEntry, targetType int) float32 {
 }
 
 //generateMovesets generates row of attacker movesets if attacker name is known
-func (po *prerunObj) generateForKnownBooster(pok *app.PokemonInitialData) {
+func (po *prerunObj) generateForKnownBooster(pok *app.PokemonInitialData) error {
 	//get pokemon from the base
 	pokVal := po.inDat.App.PokemonStatsBase[pok.Name]
 
 	//get quick move(s)
 	selectObj := moveSelect{inDat: po.inDat, move: pok.QuickMove, movelist: pokVal.QuickMoves}
 	quickMoveList := selectObj.selectMoves()
+	if len(quickMoveList) == 0 {
+		return &customError{pok.Name + " quick movelist is empty; select a quick move"}
+	}
 	//get charge move(s)
 	selectObj.move, selectObj.movelist = pok.ChargeMove, pokVal.ChargeMoves
-	chargekMoveList := selectObj.selectMoves()
+	chargeMoveList := selectObj.selectMoves()
+	if len(chargeMoveList) == 0 {
+		return &customError{pok.Name + " charge movelist is empty; select a charge move"}
+	}
 
 	//make entry for every moveset
 	po.prerunArr = make([]preRun, 0, 1)
 	for _, qm := range quickMoveList {
-		for _, chm := range chargekMoveList {
+		for _, chm := range chargeMoveList {
 			//calculate attacker stats
 			effAtk := (float32(po.inDat.BoostSlotPokemon.AttackIV) + float32(pokVal.Atk)) *
 				po.inDat.App.LevelData[int(po.inDat.BoostSlotPokemon.Level/0.5)]
@@ -109,8 +117,10 @@ func (po *prerunObj) generateForKnownBooster(pok *app.PokemonInitialData) {
 			po.prerunArr = append(po.prerunArr, preRun{Name: pok.Name, Quick: qm, Charge: chm, Dps: dpsQuick + dpsCharge})
 		}
 	}
+
 	sort.Sort(byDps(po.prerunArr))
 	po.prerunArr = po.prerunArr[:1]
+	return nil
 }
 
 func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBaseEntry, inDat *app.IntialDataPve) float32 {
@@ -187,9 +197,10 @@ func (po *prerunObj) generateForUnknownBooster() {
 			po.prerunArr = append(po.prerunArr, prerunObj)
 		}
 	}
+	sort.Sort(byDps(po.prerunArr))
 }
 
-func makeAttackerRow(inDat *app.IntialDataPve) []preRun {
+func makeAttackerRow(inDat *app.IntialDataPve) ([]preRun, error) {
 	prerun := prerunObj{
 		inDat:      inDat,
 		bossStat:   inDat.App.PokemonStatsBase[inDat.Boss.Name],
@@ -200,11 +211,13 @@ func makeAttackerRow(inDat *app.IntialDataPve) []preRun {
 	_, ok := inDat.App.PokemonStatsBase[inDat.Pok.Name]
 	switch ok {
 	case true:
-		prerun.generateForKnown(&inDat.Pok)
+		if err := prerun.generateForKnown(&inDat.Pok); err != nil {
+			return nil, err
+		}
 	default:
 		prerun.generateForUnknown()
 	}
-	return prerun.prerunArr
+	return prerun.prerunArr, nil
 }
 
 type moveSelect struct {
@@ -256,24 +269,31 @@ func (fs *filterList) isBlacklisted(target string) bool {
 }
 
 //generateMovesets generates row of attacker movesets if attacker name is known
-func (po *prerunObj) generateForKnown(pok *app.PokemonInitialData) {
+func (po *prerunObj) generateForKnown(pok *app.PokemonInitialData) error {
 	//get pokemon from the base
 	pokVal := po.inDat.App.PokemonStatsBase[pok.Name]
 
 	//get quick move(s)
 	selectObj := moveSelect{inDat: po.inDat, move: pok.QuickMove, movelist: pokVal.QuickMoves}
 	quickMoveList := selectObj.selectMoves()
+	if len(quickMoveList) == 0 {
+		return &customError{pok.Name + " quick movelist is empty; select a quick move"}
+	}
 	//get charge move(s)
 	selectObj.move, selectObj.movelist = pok.ChargeMove, pokVal.ChargeMoves
-	chargekMoveList := selectObj.selectMoves()
+	chargeMoveList := selectObj.selectMoves()
+	if len(chargeMoveList) == 0 {
+		return &customError{pok.Name + " charge movelist is empty; select a charge move"}
+	}
 
 	//make entry for every moveset
 	po.prerunArr = make([]preRun, 0, 1)
 	for _, valueQ := range quickMoveList {
-		for _, valueCH := range chargekMoveList {
+		for _, valueCH := range chargeMoveList {
 			po.prerunArr = append(po.prerunArr, preRun{Name: pok.Name, Quick: valueQ, Charge: valueCH})
 		}
 	}
+	return nil
 }
 
 func (po *prerunObj) generateForUnknown() {
