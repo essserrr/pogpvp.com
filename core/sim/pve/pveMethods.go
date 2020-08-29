@@ -50,7 +50,8 @@ type move struct {
 	energy int16
 }
 
-func (obj *pveObject) makeNewCharacter(pokemonData *app.PokemonInitialData, pok *pokemon) error {
+func (obj *pveObject) addNewCharacter(pokemonData *app.PokemonInitialData) error {
+	pok := pokemon{}
 	err := pok.setLevel(pokemonData, obj)
 	if err != nil {
 		return err
@@ -67,6 +68,7 @@ func (obj *pveObject) makeNewCharacter(pokemonData *app.PokemonInitialData, pok 
 	if err != nil {
 		return err
 	}
+	obj.Attacker = append(obj.Attacker, pok)
 	return nil
 }
 
@@ -142,7 +144,8 @@ func setMoveBody(moveEntry app.MoveBaseEntry) move { // sets up move body (commo
 	return newMove
 }
 
-func (obj *pveObject) makeNewBoss(bossInDat *app.BossInfo, boss *pokemon) error {
+func (obj *pveObject) addBoss(bossInDat *app.BossInfo) error {
+	boss := pokemon{}
 	boss.levelMultiplier = tierMult[bossInDat.Tier]
 	err := boss.makeBossBody(bossInDat, obj)
 	if err != nil {
@@ -156,6 +159,7 @@ func (obj *pveObject) makeNewBoss(bossInDat *app.BossInfo, boss *pokemon) error 
 	if err != nil {
 		return err
 	}
+	obj.Boss = boss
 	return nil
 }
 

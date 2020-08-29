@@ -10,26 +10,6 @@ import (
 	"time"
 )
 
-type pveObject struct {
-	app         *app.SimApp
-	CustomMoves *map[string]app.MoveBaseEntry
-
-	DodgeStrategy int
-	ActivePok     int
-
-	Attacker []pokemon
-	Weather  map[int]float32
-
-	Boss          pokemon
-	FriendStage   float32
-	AggresiveMode bool
-
-	Timer         int32
-	Tier          uint8
-	PartySize     uint8
-	PlayersNumber uint8
-}
-
 type conStruct struct {
 	sync.Mutex
 	errChan app.ErrorChan
@@ -137,7 +117,7 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	return conObj.resArray, nil
 }
 
-type commonPvpInData struct {
+type pvpeInitialData struct {
 	App         *app.SimApp
 	CustomMoves *map[string]app.MoveBaseEntry
 
@@ -146,8 +126,8 @@ type commonPvpInData struct {
 	Weather       int
 	DodgeStrategy int
 
-	Pok           app.PokemonInitialData
-	AggresiveMode bool
+	AttackerPokemon []app.PokemonInitialData
+	AggresiveMode   bool
 
 	Boss          app.BossInfo
 	PartySize     uint8
@@ -173,10 +153,11 @@ func (co *conStruct) start() {
 
 			go func(currBoss app.BossInfo, pok preRun, i int) {
 				defer co.wg.Done()
-				singleResult, err := setOfRuns(commonPvpInData{
+
+				singleResult, err := setOfRuns(pvpeInitialData{
 					CustomMoves: co.inDat.CustomMoves,
 					App:         co.inDat.App,
-					Pok: app.PokemonInitialData{
+					AttackerPokemon: []app.PokemonInitialData{{
 						Name: pok.Name,
 
 						QuickMove:  pok.Quick,
@@ -189,7 +170,7 @@ func (co *conStruct) start() {
 						StaminaIV: co.inDat.Pok.StaminaIV,
 
 						IsShadow: co.inDat.Pok.IsShadow,
-					},
+					}},
 
 					BoostSlotPokemon: co.selectBoosterFor(pok),
 
@@ -298,7 +279,7 @@ func (a byAvgDamage) Less(i, j int) bool {
 func (a byAvgDamage) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
 //setOfRuns starts new set of pve's, returns set result and error
-func setOfRuns(inDat commonPvpInData) (app.CommonResult, error) {
+func setOfRuns(inDat pvpeInitialData) (app.CommonResult, error) {
 	result := app.CommonResult{}
 	result.DMin = tierHP[inDat.Boss.Tier]
 	result.TMin = tierTimer[inDat.Boss.Tier]
@@ -316,7 +297,7 @@ func setOfRuns(inDat commonPvpInData) (app.CommonResult, error) {
 	result.TAvg = int32(float64(result.TAvg) / float64(inDat.NumberOfRuns))
 
 	result.BoostName, result.BoostQ, result.BoostCh = inDat.BoostSlotPokemon.Name, inDat.BoostSlotPokemon.QuickMove, inDat.BoostSlotPokemon.ChargeMove
-	result.AName, result.AQ, result.ACh = inDat.Pok.Name, inDat.Pok.QuickMove, inDat.Pok.ChargeMove
+	result.AName, result.AQ, result.ACh = inDat.AttackerPokemon[0].Name, inDat.AttackerPokemon[0].QuickMove, inDat.AttackerPokemon[0].ChargeMove
 	result.BName, result.BQ, result.BCh = inDat.Boss.Name, inDat.Boss.QuickMove, inDat.Boss.ChargeMove
 
 	result.NOfWins = result.NOfWins / float32(inDat.NumberOfRuns) * 100
@@ -353,8 +334,32 @@ func collect(cr *app.CommonResult, run *runResult) {
 	}
 }
 
+type pveObject struct {
+	app         *app.SimApp
+	CustomMoves *map[string]app.MoveBaseEntry
+
+	DodgeStrategy int
+	ActivePok     int
+
+	Attacker []pokemon
+	Weather  map[int]float32
+
+	Boss          pokemon
+	FriendStage   float32
+	AggresiveMode bool
+
+	Timer         int32
+	Tier          uint8
+	PartySize     uint8
+	PlayersNumber uint8
+}
+
+func (pveo *pveObject) switchToNext() {
+
+}
+
 //simulatorRun makes a single raid simulator run (battle)
-func simulatorRun(inDat *commonPvpInData) (runResult, error) {
+func simulatorRun(inDat *pvpeInitialData) (runResult, error) {
 	obj := pveObject{
 		CustomMoves: inDat.CustomMoves,
 		app:         inDat.App,
@@ -369,20 +374,26 @@ func simulatorRun(inDat *commonPvpInData) (runResult, error) {
 
 		FriendStage: friendship[inDat.FriendStage],
 		Weather:     weather[inDat.Weather],
-		Attacker:    make([]pokemon, 1, 1),
+		Attacker:    make([]pokemon, 0, 1),
 	}
 
-	err := obj.makeNewCharacter(&inDat.Pok, &obj.Attacker[obj.ActivePok])
-	if err != nil {
+	if inDat.BoostSlotPokemon.Name != "" {
+		if err := obj.addNewCharacter(&inDat.BoostSlotPokemon); err != nil {
+			return runResult{}, err
+		}
+	}
+
+	for _, pok := range inDat.AttackerPokemon {
+		if err := obj.addNewCharacter(&pok); err != nil {
+			return runResult{}, err
+		}
+	}
+
+	if err := obj.addBoss(&inDat.Boss); err != nil {
 		return runResult{}, err
 	}
 
-	err = obj.makeNewBoss(&inDat.Boss, &obj.Boss)
-	if err != nil {
-		return runResult{}, err
-	}
-
-	err = obj.initializePve(inDat.Pok.Name, inDat.Boss.Name, 0)
+	err := obj.initializePve(inDat.AttackerPokemon[0].Name, inDat.Boss.Name, 0)
 	if err != nil {
 		return runResult{}, err
 	}

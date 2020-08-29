@@ -29,9 +29,9 @@ func TestSetOfRuns(t *testing.T) {
 	const tier4 uint8 = 2
 	rand.Seed(time.Now().UnixNano())
 	//Zekrom 18-3
-	res, err := setOfRuns(commonPvpInData{
+	res, err := setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -44,7 +44,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 5,
 
@@ -72,9 +72,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Zekrom 12-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -87,7 +87,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 5,
 
@@ -115,9 +115,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Zekrom 6-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -130,7 +130,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 5,
 
@@ -158,9 +158,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Reshiram 18-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -173,7 +173,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 0,
 
@@ -201,9 +201,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Reshiram 12-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -216,7 +216,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 0,
 
@@ -244,9 +244,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Reshiram 6-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -259,7 +259,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 0,
 
@@ -287,9 +287,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Terrakion 12-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Mewtwo",
 
 			QuickMove:  "Confusion",
@@ -302,7 +302,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 0,
 
@@ -330,9 +330,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Terrakion 6-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Mewtwo",
 
 			QuickMove:  "Confusion",
@@ -345,7 +345,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 0,
 
@@ -373,9 +373,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Marowak 6-3
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Darkrai",
 
 			QuickMove:  "Snarl",
@@ -388,7 +388,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 5,
 
@@ -416,9 +416,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-0
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -431,7 +431,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 5,
 
@@ -459,9 +459,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-4
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -474,7 +474,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 5,
 
@@ -502,9 +502,9 @@ func TestSetOfRuns(t *testing.T) {
 	}
 
 	//Rayquaza 12-3-4-w
-	res, err = setOfRuns(commonPvpInData{
+	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -517,7 +517,7 @@ func TestSetOfRuns(t *testing.T) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 6,
 
@@ -709,6 +709,62 @@ func TestDodge(t *testing.T) {
 	}
 }
 
+func TestNew(t *testing.T) {
+	rand.Seed(time.Now().UnixNano())
+	res, err := ReturnCommonRaid(&app.IntialDataPve{
+		CustomMoves: &map[string]app.MoveBaseEntry{},
+		Pok: app.PokemonInitialData{
+			Name: "Palkia",
+
+			QuickMove:  "Dragon Tail",
+			ChargeMove: "Draco Meteor",
+
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+
+			IsShadow: false,
+		},
+
+		Weather: 5,
+
+		Boss: app.BossInfo{
+			Name:       "Zekrom",
+			QuickMove:  "Charge Beam",
+			ChargeMove: "Outrage",
+			Tier:       4,
+		},
+
+		FriendStage:   0,
+		DodgeStrategy: 1,
+		PartySize:     18,
+		PlayersNumber: 3,
+
+		NumberOfRuns:  1000,
+		App:           testApp,
+		AggresiveMode: true,
+
+		BoostSlotEnabled: true,
+		BoostSlotPokemon: app.PokemonInitialData{
+			Level: 40,
+
+			AttackIV:  15,
+			DefenceIV: 15,
+			StaminaIV: 15,
+		},
+	})
+
+	if err != nil {
+		t.Error(err)
+	}
+	err = checkWrapperRes(res, []string{"PalkiaDragon TailDracoMeteorDodge"}, 4)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
 func checkWrapperRes(res [][]app.CommonResult, checkName []string, tier int) error {
 
 	for i, value := range res {
@@ -774,7 +830,7 @@ func TestMoveLimit(t *testing.T) {
 }
 
 func TestAllList(t *testing.T) {
-	allList := createAllMovesets(&app.IntialDataPve{
+	inDat := &app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		App:         testApp,
 		Pok: app.PokemonInitialData{
@@ -795,9 +851,18 @@ func TestAllList(t *testing.T) {
 		Weather:       0,
 		DodgeStrategy: 0,
 		AggresiveMode: false,
-	})
+	}
 
-	if len(allList) > 900 {
+	prerun := prerunObj{
+		inDat:      inDat,
+		bossStat:   inDat.App.PokemonStatsBase[inDat.Boss.Name],
+		bossLvl:    tierMult[inDat.Boss.Tier],
+		bossEffDef: (float32(15.0) + float32(inDat.App.PokemonStatsBase[inDat.Boss.Name].Def)) * tierMult[inDat.Boss.Tier],
+	}
+
+	prerun.generateForUnknown()
+
+	if len(prerun.prerunArr) > 900 {
 		t.Error("All list is too long")
 	}
 
@@ -860,9 +925,9 @@ var checks = map[string]app.CommonResult{
 
 func BenchmarkSingleRun2000(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
-	data := commonPvpInData{
+	data := pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -875,7 +940,7 @@ func BenchmarkSingleRun2000(b *testing.B) {
 			StaminaIV: 15,
 
 			IsShadow: false,
-		},
+		}},
 
 		Weather: 4,
 
