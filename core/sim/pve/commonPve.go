@@ -141,36 +141,44 @@ func (co *conStruct) start() {
 	for number, pok := range co.attackerRow {
 		co.resArray = append(co.resArray, make([]app.CommonResult, 0, len(co.bossRow)))
 		for _, boss := range co.bossRow {
+			//limit rountines number
+			for co.count > 20000 {
+				time.Sleep(10 * time.Microsecond)
+			}
 			co.wg.Add(1)
 			co.Lock()
 			co.count++
 			co.Unlock()
-			//limit rountines number
-			for co.count > 20000 {
-			}
 
 			go func(currBoss app.BossInfo, pok preRun, i int) {
 				defer co.wg.Done()
+
+				attackers := make([]app.PokemonInitialData, 0, 1)
+				booster := co.selectBoosterFor(pok)
+				if booster.Name != "" {
+					attackers = append(attackers, booster)
+				}
+				attackers = append(attackers, app.PokemonInitialData{
+					Name: pok.Name,
+
+					QuickMove:  pok.Quick,
+					ChargeMove: pok.Charge,
+
+					Level: co.inDat.Pok.Level,
+
+					AttackIV:  co.inDat.Pok.AttackIV,
+					DefenceIV: co.inDat.Pok.DefenceIV,
+					StaminaIV: co.inDat.Pok.StaminaIV,
+
+					IsShadow: co.inDat.Pok.IsShadow,
+				})
 
 				singleResult, err := setOfRuns(pvpeInitialData{
 					CustomMoves: co.inDat.CustomMoves,
 					App:         co.inDat.App,
 
-					AttackerPokemon: []app.PokemonInitialData{{
-						Name: pok.Name,
-
-						QuickMove:  pok.Quick,
-						ChargeMove: pok.Charge,
-
-						Level: co.inDat.Pok.Level,
-
-						AttackIV:  co.inDat.Pok.AttackIV,
-						DefenceIV: co.inDat.Pok.DefenceIV,
-						StaminaIV: co.inDat.Pok.StaminaIV,
-
-						IsShadow: co.inDat.Pok.IsShadow,
-					}},
-					BoostSlotPokemon: co.selectBoosterFor(pok),
+					AttackerPokemon:  attackers,
+					BoostSlotPokemon: booster,
 
 					PartySize:     co.inDat.PartySize,
 					PlayersNumber: co.inDat.PlayersNumber,

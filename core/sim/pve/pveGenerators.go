@@ -297,7 +297,7 @@ func (po *prerunObj) generateForKnown(pok *app.PokemonInitialData) error {
 }
 
 func (po *prerunObj) generateForUnknown() {
-	po.prerunArr = make([]preRun, 0, 14000)
+	po.prerunArr = make([]preRun, 0, 10000)
 	//define shadow bonus
 	var shadowBonus float32 = 1.0
 	if po.inDat.Pok.IsShadow {
@@ -306,7 +306,7 @@ func (po *prerunObj) generateForUnknown() {
 
 	for _, pok := range po.inDat.App.PokemonStatsBase {
 		//skip trash pokemons
-		if (pok.Atk + pok.Def + pok.Sta) < 400 {
+		if (pok.Atk+pok.Def+pok.Sta) < 400 || canBoost(pok.Title) {
 			continue
 		}
 		for _, qm := range pok.QuickMoves {

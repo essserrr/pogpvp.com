@@ -44,7 +44,7 @@ func simulatorRun(inDat *pvpeInitialData) (runResult, error) {
 
 		FriendStage: friendship[inDat.FriendStage],
 		Weather:     weather[inDat.Weather],
-		Attacker:    make([]pokemon, 0, 1),
+		Attacker:    make([]pokemon, 0, len(inDat.AttackerPokemon)),
 	}
 
 	if inDat.BoostSlotPokemon.Name != "" {
@@ -156,7 +156,7 @@ func megaBoost(typesBoosted []int, targetType int) float32 {
 func (obj *pveObject) switchToNext() {
 	obj.PartySize--
 
-	switch len(obj.Attacker)-1 < obj.ActivePok {
+	switch len(obj.Attacker)-1 > obj.ActivePok {
 	case true:
 		obj.ActivePok++
 		obj.Boss.quickMove.setMultipliers(obj.Boss.name, obj.Attacker[obj.ActivePok].name, obj, true)
