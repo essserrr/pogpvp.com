@@ -6,7 +6,6 @@ import (
 	"math"
 	"math/rand"
 	"sort"
-	"strings"
 	"sync"
 	"time"
 )
@@ -31,32 +30,17 @@ type pveObject struct {
 	PlayersNumber uint8
 }
 
-type commonPvpInData struct {
-	App         *app.SimApp
-	CustomMoves *map[string]app.MoveBaseEntry
-
-	NumberOfRuns  int
-	FriendStage   int
-	Weather       int
-	DodgeStrategy int
-
-	Pok           app.PokemonInitialData
-	AggresiveMode bool
-
-	Boss          app.BossInfo
-	PartySize     uint8
-	PlayersNumber uint8
-}
-
 type conStruct struct {
 	count int
 	sync.Mutex
 	errChan app.ErrorChan
 	wg      sync.WaitGroup
 
-	attackerRow []app.PokemonInitialData
+	attackerRow []preRun
 	bossRow     []app.BossInfo
 	resArray    [][]app.CommonResult
+
+	BoostSlotPokemon []preRun
 }
 
 func setUpRunsNumber(inDat *app.IntialDataPve) {
@@ -107,25 +91,21 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	setUpRunsNumber(inDat)
 
 	//make cancurrent object of this pve
-	var err error
-	conObj := conStruct{
-		attackerRow: generateAttackerMovesets(inDat),
-
-		wg:       sync.WaitGroup{},
-		count:    0,
-		resArray: [][]app.CommonResult{},
-	}
-	conObj.bossRow, err = generateBossRow(inDat)
+	bossRow, err := generateBossRow(inDat)
 	if err != nil {
 		return nil, err
 	}
 
-	switch conObj.attackerRow == nil {
-	case true:
-		conObj.startForAll(inDat)
-	default:
-		conObj.startWithAttackerRow(inDat)
+	conObj := conStruct{
+		BoostSlotPokemon: makeBoostersRow(inDat),
+		attackerRow:      makeAttackerRow(inDat),
+		bossRow:          bossRow,
+		wg:               sync.WaitGroup{},
+		count:            0,
+		resArray:         [][]app.CommonResult{},
 	}
+
+	conObj.start(inDat)
 
 	conObj.wg.Wait()
 
@@ -147,295 +127,30 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	return conObj.resArray, nil
 }
 
-//generateMovesets generates row of attacker movesets if attacker name is known
-func generateAttackerMovesets(inDat *app.IntialDataPve) []app.PokemonInitialData {
-	//get pokemon from the base
-	pokVal, ok := inDat.App.PokemonStatsBase[inDat.Pok.Name]
-	if !ok {
-		return nil
-	}
+type commonPvpInData struct {
+	App         *app.SimApp
+	CustomMoves *map[string]app.MoveBaseEntry
 
-	//get quick move(s)
-	selectObj := moveSelect{inDat: inDat, move: inDat.Pok.QuickMove, movelist: pokVal.QuickMoves}
-	quickMoveList := selectObj.selectMoves()
-	//get charge move(s)
-	selectObj.move, selectObj.movelist = inDat.Pok.ChargeMove, pokVal.ChargeMoves
-	chargekMoveList := selectObj.selectMoves()
+	NumberOfRuns  int
+	FriendStage   int
+	Weather       int
+	DodgeStrategy int
 
-	//make entry for every moveset
-	pokemons := make([]app.PokemonInitialData, 0, 1)
-	for _, valueQ := range quickMoveList {
-		for _, valueCH := range chargekMoveList {
-			pokemons = append(pokemons,
-				app.PokemonInitialData{
-					Name: inDat.Pok.Name,
+	Pok           app.PokemonInitialData
+	AggresiveMode bool
 
-					QuickMove:  valueQ,
-					ChargeMove: valueCH,
+	Boss          app.BossInfo
+	PartySize     uint8
+	PlayersNumber uint8
 
-					Level: inDat.Pok.Level,
-
-					AttackIV:  inDat.Pok.AttackIV,
-					DefenceIV: inDat.Pok.DefenceIV,
-					StaminaIV: inDat.Pok.StaminaIV,
-
-					IsShadow: inDat.Pok.IsShadow,
-				})
-
-		}
-	}
-	return pokemons
+	BoostSlotPokemon app.PokemonInitialData
 }
 
-type moveSelect struct {
-	inDat    *app.IntialDataPve
-	move     string
-	movelist []string
-
-	movesToSkip filterList
-	eliteMoves  filterList
-}
-
-type filterList map[string]int
-
-func (ms *moveSelect) selectMoves() []string {
-	moveVal, ok := findMove(ms.inDat, ms.move)
-	moves := make([]string, 0, 1)
-	switch ok {
-	case true:
-		//if it is found append it to quick move list
-		moves = append(moves, moveVal.Title)
-	default:
-		//otherwise add all quick moves
-		for _, value := range ms.movelist {
-			if ms.skipMove() {
-				continue
-			}
-			moves = append(moves, value)
-		}
-	}
-	return moves
-}
-
-func (ms *moveSelect) skipMove() bool {
-	if ms.movesToSkip.isBlacklisted(ms.move) {
-		return true
-	}
-	if ms.eliteMoves.isBlacklisted(ms.move) {
-		return true
-	}
-	return false
-}
-
-func (fs *filterList) isBlacklisted(target string) bool {
-	if *fs == nil {
-		return false
-	}
-	_, ok := (*fs)[target]
-	return ok
-}
-
-func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
-	pokVal, _ := inDat.App.PokemonStatsBase[inDat.Boss.Name]
-	if len(pokVal.QuickMoves) == 0 && inDat.Boss.QuickMove == "" {
-		return []app.BossInfo{}, &customError{"Boss quick movelist is empty; select a quick move"}
-	}
-	if len(pokVal.ChargeMoves) == 0 && inDat.Boss.ChargeMove == "" {
-		return []app.BossInfo{}, &customError{"Boss charge movelist is empty; select a charge move"}
-	}
-
-	//get quick move(s)
-	selectObj := moveSelect{inDat: inDat, move: inDat.Boss.QuickMove, movelist: pokVal.QuickMoves, eliteMoves: pokVal.EliteMoves}
-	quickMoveList := selectObj.selectMoves()
-	//get charge move(s)
-	selectObj.move, selectObj.movelist, selectObj.movesToSkip = inDat.Boss.ChargeMove, pokVal.ChargeMoves, map[string]int{"Return": 1}
-	chargekMoveList := selectObj.selectMoves()
-
-	var (
-		maxMoves = 10
-		err      error
-	)
-	if len(quickMoveList) > maxMoves && len(chargekMoveList) > maxMoves {
-		maxMoves = 7
-	}
-
-	//limit movelist if needed
-	if len(quickMoveList) > maxMoves {
-		limiterObj := limiterObject{pok: pokVal, orginalMoveList: quickMoveList, inDat: inDat, isCharge: false, n: maxMoves}
-		quickMoveList, err = limiterObj.limitMoves()
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	//limit if needed
-	if len(chargekMoveList) > maxMoves {
-		limiterObj := limiterObject{pok: pokVal, orginalMoveList: chargekMoveList, inDat: inDat, isCharge: true, n: maxMoves}
-		chargekMoveList, err = limiterObj.limitMoves()
-		if err != nil {
-			return []app.BossInfo{}, err
-		}
-	}
-
-	//create boss list
-	bosses := make([]app.BossInfo, 0, 1)
-	for _, valueQ := range quickMoveList {
-		for _, valueCH := range chargekMoveList {
-			bosses = append(bosses,
-				app.BossInfo{
-					Name:       pokVal.Title,
-					QuickMove:  valueQ,
-					ChargeMove: valueCH,
-					Tier:       inDat.Boss.Tier,
-				})
-		}
-	}
-	return bosses, nil
-}
-
-type limiterObject struct {
-	inDat *app.IntialDataPve
-
-	pok             app.PokemonsBaseEntry
-	orginalMoveList []string
-
-	limiter     []moveLimiter
-	hiddenPower []moveLimiter
-	newList     []string
-
-	move currentMove
-
-	n        int
-	isCharge bool
-}
-
-type currentMove struct {
-	moveBody      app.MoveBaseEntry
-	stab          float64
-	weather       float64
-	dps           float64
-	isHiddenPower bool
-}
-
-type moveLimiter struct {
-	MoveName string
-	Dps      float64
-}
-
-type byDpsMoves []moveLimiter
-
-func (a byDpsMoves) Len() int           { return len(a) }
-func (a byDpsMoves) Less(i, j int) bool { return a[i].Dps > a[j].Dps }
-func (a byDpsMoves) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-
-//limitMoves limits boss moves to n
-func (lo *limiterObject) limitMoves() ([]string, error) {
-	lo.limiter = make([]moveLimiter, 0, len(lo.orginalMoveList))
-	lo.hiddenPower = make([]moveLimiter, 0, 0)
-
-	//calculate dps / pds*dpe for every move
-	for _, moveTitle := range lo.orginalMoveList {
-		lo.move.moveBody, _ = findMove(lo.inDat, moveTitle)
-		lo.move.stab = lo.checkStab()
-		lo.move.weather = lo.checkWeather()
-
-		if err := lo.calculateDPS(); err != nil {
-			return nil, err
-		}
-		lo.appendMove()
-	}
-
-	lo.combineLists()
-	//create new movelist
-	newList := make([]string, 0, lo.n)
-	for _, mName := range lo.limiter {
-		newList = append(newList, mName.MoveName)
-	}
-	return newList, nil
-}
-
-func (lo *limiterObject) checkStab() float64 {
-	for _, pokType := range lo.pok.Type {
-		if pokType == lo.move.moveBody.MoveType {
-			return 1.2
-		}
-	}
-	return 1.0
-}
-
-func (lo *limiterObject) checkWeather() float64 {
-	val, ok := weather[lo.inDat.Weather][lo.move.moveBody.MoveType]
-	if ok {
-		return float64(val)
-	}
-	return 1.0
-}
-
-func (lo *limiterObject) calculateDPS() error {
-	switch lo.isCharge {
-	case true:
-		//if it is charge move rturn dps
-		damage := float64(lo.move.moveBody.Damage) * lo.move.weather * lo.move.stab
-		lo.move.dps = damage / (float64(lo.move.moveBody.Cooldown) / 1000) * damage / float64(-lo.move.moveBody.Energy)
-		lo.move.isHiddenPower = false
-	default:
-		lo.move.dps = float64(lo.move.moveBody.Damage) * lo.move.weather * lo.move.stab / (float64(lo.move.moveBody.Cooldown) / 1000)
-		lo.move.dps *= lo.move.dps
-
-		index := strings.Index(lo.move.moveBody.Title, "Hidden Power")
-		lo.move.isHiddenPower = index != -1
-	}
-	if lo.move.dps == 0.0 {
-		return &customError{"Boss has zero dps"}
-	}
-	return nil
-}
-
-func (lo *limiterObject) appendMove() {
-	switch lo.move.isHiddenPower {
-	case true:
-		lo.hiddenPower = append(lo.hiddenPower, moveLimiter{
-			MoveName: lo.move.moveBody.Title,
-			Dps:      lo.move.dps,
-		})
-	default:
-		lo.limiter = append(lo.limiter, moveLimiter{
-			MoveName: lo.move.moveBody.Title,
-			Dps:      lo.move.dps,
-		})
-	}
-}
-
-func (lo *limiterObject) combineLists() {
-	switch len(lo.hiddenPower) > 0 {
-	case true:
-		//sort by dps
-		sort.Sort(byDpsMoves(lo.limiter))
-		sort.Sort(byDpsMoves(lo.hiddenPower))
-		//get top-6 if possible
-		switch len(lo.limiter) >= 6 {
-		case true:
-			lo.limiter = lo.limiter[:6]
-		default:
-		}
-		//add top-4 hidden powers
-		for i := 0; len(lo.limiter) < lo.n; i++ {
-			lo.limiter = append(lo.limiter, lo.hiddenPower[i])
-		}
-	default:
-		//sort by dps
-		sort.Sort(byDpsMoves(lo.limiter))
-		//get top-10
-		lo.limiter = lo.limiter[:lo.n]
-	}
-}
-
-func (co *conStruct) startForAll(inDat *app.IntialDataPve) {
+func (co *conStruct) start(inDat *app.IntialDataPve) {
 	co.resArray = make([][]app.CommonResult, 0, 1000)
-	preRunArr := createAllMovesets(inDat)
-	co.errChan = make(app.ErrorChan, len(preRunArr)*len(co.bossRow))
+	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
-	for number, pok := range preRunArr {
+	for number, pok := range co.attackerRow {
 		co.resArray = append(co.resArray, make([]app.CommonResult, 0, len(co.bossRow)))
 		for _, boss := range co.bossRow {
 			co.wg.Add(1)
@@ -445,16 +160,16 @@ func (co *conStruct) startForAll(inDat *app.IntialDataPve) {
 			for co.count > 20000 {
 
 			}
-			go func(currBoss app.BossInfo, p, q, ch string, i int) {
+			go func(currBoss app.BossInfo, pok preRun, i int) {
 				defer co.wg.Done()
 				singleResult, err := setOfRuns(commonPvpInData{
 					CustomMoves: inDat.CustomMoves,
 					App:         inDat.App,
 					Pok: app.PokemonInitialData{
-						Name: p,
+						Name: pok.Name,
 
-						QuickMove:  q,
-						ChargeMove: ch,
+						QuickMove:  pok.Quick,
+						ChargeMove: pok.Charge,
 
 						Level: inDat.Pok.Level,
 
@@ -484,55 +199,10 @@ func (co *conStruct) startForAll(inDat *app.IntialDataPve) {
 				co.count--
 				co.resArray[i] = append(co.resArray[i], singleResult)
 				co.Unlock()
-			}(boss, pok.Name, pok.Quick, pok.Charge, number)
+			}(boss, pok, number)
 		}
 	}
 	co.wg.Wait()
-}
-
-func (co *conStruct) startWithAttackerRow(inDat *app.IntialDataPve) {
-	co.resArray = make([][]app.CommonResult, 0, len(co.attackerRow))
-	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
-
-	for number, singlePok := range co.attackerRow {
-		co.resArray = append(co.resArray, make([]app.CommonResult, 0, len(co.bossRow)))
-		for _, boss := range co.bossRow {
-			//number of concurrent routines
-			for co.count > 20000 {
-			}
-			co.wg.Add(1)
-			co.Lock()
-			co.count++
-			co.Unlock()
-			go func(currPok app.PokemonInitialData, currBoss app.BossInfo, i int) {
-				defer co.wg.Done()
-				singleResult, err := setOfRuns(commonPvpInData{
-					CustomMoves: inDat.CustomMoves,
-					App:         inDat.App,
-					Pok:         currPok,
-
-					PartySize:     inDat.PartySize,
-					PlayersNumber: inDat.PlayersNumber,
-
-					Boss: currBoss,
-
-					NumberOfRuns:  inDat.NumberOfRuns,
-					FriendStage:   inDat.FriendStage,
-					Weather:       inDat.Weather,
-					DodgeStrategy: inDat.DodgeStrategy,
-					AggresiveMode: inDat.AggresiveMode,
-				})
-				if err != nil {
-					co.errChan <- err
-					return
-				}
-				co.Lock()
-				co.resArray[i] = append(co.resArray[i], singleResult)
-				co.count--
-				co.Unlock()
-			}(singlePok, boss, number)
-		}
-	}
 }
 
 type byAvgDamage [][]app.CommonResult
@@ -565,102 +235,6 @@ func (a byAvgDamage) Less(i, j int) bool {
 	return avgDamageLeft > avgDamageRight
 }
 func (a byAvgDamage) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
-
-func createAllMovesets(inDat *app.IntialDataPve) []preRun {
-	pokemonsAll := make([]preRun, 0, 14000)
-	// calculate boss params
-	bossStat := inDat.App.PokemonStatsBase[inDat.Boss.Name]
-	bossLvl := tierMult[inDat.Boss.Tier]
-	bossEffDef := (float32(15.0) + float32(bossStat.Def)) * bossLvl
-	//define shadow bonus
-	var shadowBonus float32 = 1.0
-	if inDat.Pok.IsShadow {
-		shadowBonus = 1.2
-	}
-
-	quickMBody := app.MoveBaseEntry{}
-	chargeMBody := app.MoveBaseEntry{}
-
-	for _, pok := range inDat.App.PokemonStatsBase {
-		//skip trash pokemons
-		if (pok.Atk + pok.Def + pok.Sta) < 400 {
-			continue
-		}
-		for _, qm := range pok.QuickMoves {
-			//skip empty moves
-			if qm == "" {
-				continue
-			}
-			for _, chm := range pok.ChargeMoves {
-				//skip empty moves
-				if chm == "" {
-					continue
-				}
-				//calculate attacker stats
-				effAtk := (float32(inDat.Pok.AttackIV) + float32(pok.Atk)) * shadowBonus * inDat.App.LevelData[int(inDat.Pok.Level/0.5)]
-				quickMBody = inDat.App.PokemonMovesBase[qm]
-				chargeMBody = inDat.App.PokemonMovesBase[chm]
-
-				damageCharge := (float32(chargeMBody.Damage)*0.5*(effAtk/bossEffDef)*
-					getMultipliers(&pok, &bossStat, &chargeMBody, inDat) + 1)
-				//dps*dpe
-				dpsCharge := damageCharge / (float32(chargeMBody.Cooldown) / 1000.0) * damageCharge / float32(-chargeMBody.Energy)
-
-				dpsQuick := (float32(quickMBody.Damage)*0.5*(effAtk/bossEffDef)*
-					getMultipliers(&pok, &bossStat, &quickMBody, inDat) + 1) / (float32(quickMBody.Cooldown) / 1000.0)
-
-				pokemonsAll = append(pokemonsAll, preRun{
-					Name:   pok.Title,
-					Quick:  qm,
-					Charge: chm,
-					Dps:    dpsCharge + dpsQuick,
-				})
-			}
-		}
-	}
-	sort.Sort(byDps(pokemonsAll))
-	return pokemonsAll[:900]
-}
-
-type preRun struct {
-	Name   string
-	Quick  string
-	Charge string
-
-	Dps float32
-}
-
-type byDps []preRun
-
-func (a byDps) Len() int           { return len(a) }
-func (a byDps) Less(i, j int) bool { return a[i].Dps > a[j].Dps }
-func (a byDps) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-
-func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBaseEntry, inDat *app.IntialDataPve) float32 {
-	moveEfficiency := inDat.App.TypesData[move.MoveType]
-
-	var stabMultiplier float32 = 1.0
-	for _, pokType := range attacker.Type {
-		if pokType == move.MoveType {
-			stabMultiplier = 1.2
-			break
-		}
-	}
-
-	var seMultiplier float32 = 1.0
-	for _, trgType := range defender.Type {
-		if moveEfficiency[trgType] != 0.0 {
-			seMultiplier *= moveEfficiency[trgType]
-		}
-	}
-
-	weatherMultiplier, ok := weather[inDat.Weather][move.MoveType]
-	if !ok {
-		weatherMultiplier = 1.0
-	}
-
-	return stabMultiplier * friendship[inDat.FriendStage] * seMultiplier * weatherMultiplier
-}
 
 //setOfRuns starts new set of pve's, returns set result and error
 func setOfRuns(inDat commonPvpInData) (app.CommonResult, error) {
