@@ -304,9 +304,11 @@ class UserShinyBroker extends React.PureComponent {
             idBase[value.Number + (value.Forme ? "-" + value.Forme : "")] = value
         }
 
-        return importedList.filter((value) => !!idBase[value]).map((value) => {
-            return { Name: idBase[value].Title, Type: "Shiny", Amount: 1 }
+        let importedAsObj = {}
+        importedList.filter((value) => !!idBase[value]).forEach((value) => {
+            importedAsObj[idBase[value].Title] = { Name: idBase[value].Title, Type: "Shiny", Amount: "1" }
         })
+        return importedAsObj
     }
 
     render() {
