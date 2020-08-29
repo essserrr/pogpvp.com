@@ -2,7 +2,6 @@ package pve
 
 import (
 	app "Solutions/pvpSimulator/core/sim/app"
-	"fmt"
 	"math/rand"
 	"sort"
 	"sync"
@@ -156,6 +155,7 @@ func (co *conStruct) start() {
 				singleResult, err := setOfRuns(pvpeInitialData{
 					CustomMoves: co.inDat.CustomMoves,
 					App:         co.inDat.App,
+
 					AttackerPokemon: []app.PokemonInitialData{{
 						Name: pok.Name,
 
@@ -170,7 +170,6 @@ func (co *conStruct) start() {
 
 						IsShadow: co.inDat.Pok.IsShadow,
 					}},
-
 					BoostSlotPokemon: co.selectBoosterFor(pok),
 
 					PartySize:     co.inDat.PartySize,
@@ -196,8 +195,6 @@ func (co *conStruct) start() {
 		}
 	}
 	co.wg.Wait()
-
-	fmt.Println("Finished")
 }
 
 func (co *conStruct) selectBoosterFor(pok preRun) app.PokemonInitialData {

@@ -31,7 +31,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Zekrom 18-3
 	res, err := setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -74,7 +74,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Zekrom 12-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -117,7 +117,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Zekrom 6-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Palkia",
 
 			QuickMove:  "Dragon Tail",
@@ -160,7 +160,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Reshiram 18-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -203,7 +203,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Reshiram 12-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -246,7 +246,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Reshiram 6-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",
@@ -289,7 +289,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Terrakion 12-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Mewtwo",
 
 			QuickMove:  "Confusion",
@@ -332,7 +332,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Terrakion 6-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Mewtwo",
 
 			QuickMove:  "Confusion",
@@ -375,7 +375,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Marowak 6-3
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Darkrai",
 
 			QuickMove:  "Snarl",
@@ -418,7 +418,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Rayquaza 12-3-0
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -461,7 +461,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Rayquaza 12-3-4
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -504,7 +504,7 @@ func TestSetOfRuns(t *testing.T) {
 	//Rayquaza 12-3-4-w
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Mamoswine",
 
 			QuickMove:  "Powder Snow",
@@ -709,57 +709,101 @@ func TestDodge(t *testing.T) {
 	}
 }
 
-func TestNew(t *testing.T) {
+func TestCustomRaids(t *testing.T) {
+	const tier5 uint8 = 3
 	rand.Seed(time.Now().UnixNano())
-	res, err := ReturnCommonRaid(&app.IntialDataPve{
+	//Rayquaza 12-3-4-w
+	res, err := setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		Pok: app.PokemonInitialData{
-			Name: "Palkia",
+		AttackerPokemon: []app.PokemonInitialData{{
+			Name:       "Groudon",
+			QuickMove:  "Mud Shot",
+			ChargeMove: "Earthquake",
+			Level:      35,
 
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
+			AttackIV:  14,
 			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			StaminaIV: 12,
+			IsShadow:  false,
 		},
+			{
+				Name:       "Groudon",
+				QuickMove:  "Mud Shot",
+				ChargeMove: "Earthquake",
+				Level:      35,
 
-		Weather: 5,
+				AttackIV:  14,
+				DefenceIV: 13,
+				StaminaIV: 14,
+				IsShadow:  false,
+			},
+			{
+				Name:       "Groudon",
+				QuickMove:  "Mud Shot",
+				ChargeMove: "Earthquake",
+				Level:      35,
+
+				AttackIV:  15,
+				DefenceIV: 13,
+				StaminaIV: 10,
+				IsShadow:  false,
+			},
+			{
+				Name:       "Groudon",
+				QuickMove:  "Mud Shot",
+				ChargeMove: "Earthquake",
+				Level:      35,
+
+				AttackIV:  15,
+				DefenceIV: 10,
+				StaminaIV: 10,
+				IsShadow:  false,
+			},
+			{
+				Name:       "Groudon",
+				QuickMove:  "Mud Shot",
+				ChargeMove: "Earthquake",
+				Level:      35,
+
+				AttackIV:  11,
+				DefenceIV: 14,
+				StaminaIV: 14,
+				IsShadow:  false,
+			},
+			{
+				Name:       "Groudon",
+				QuickMove:  "Mud Shot",
+				ChargeMove: "Earthquake",
+				Level:      35,
+
+				AttackIV:  13,
+				DefenceIV: 13,
+				StaminaIV: 14,
+				IsShadow:  false,
+			}},
+
+		Weather: 0,
 
 		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "Charge Beam",
-			ChargeMove: "Outrage",
+			Name:       "Heatran",
+			QuickMove:  "Bug Bite",
+			ChargeMove: "Fire Blast",
 			Tier:       4,
 		},
 
-		FriendStage:   0,
-		DodgeStrategy: 1,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		NumberOfRuns:  1000,
-		App:           testApp,
 		AggresiveMode: true,
+		FriendStage:   0,
+		DodgeStrategy: 0,
+		PartySize:     6,
+		PlayersNumber: tier5,
 
-		BoostSlotEnabled: true,
-		BoostSlotPokemon: app.PokemonInitialData{
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-		},
+		NumberOfRuns: 2000,
+		App:          testApp,
 	})
-
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkWrapperRes(res, []string{"PalkiaDragon TailDracoMeteorDodge"}, 4)
+	err = checkRes(&res, "CustomHeatran6", 4)
 	if err != nil {
 		t.Error(err)
 	}
@@ -921,13 +965,16 @@ var checks = map[string]app.CommonResult{
 	"PalkiaDragon TailDracoMeteorDodge": {
 		DAvg: 5198,
 	},
+	"CustomHeatran6": {
+		DAvg: 4230,
+	},
 }
 
 func BenchmarkSingleRun2000(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
 	data := pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{app.PokemonInitialData{
+		AttackerPokemon: []app.PokemonInitialData{{
 			Name: "Rayquaza",
 
 			QuickMove:  "Dragon Tail",

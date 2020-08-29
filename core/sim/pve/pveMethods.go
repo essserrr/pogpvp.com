@@ -15,6 +15,7 @@ func (e *customError) Error() string {
 }
 
 type pokemon struct {
+	name      string
 	quickMove move
 	maxHP     int32
 
@@ -91,10 +92,10 @@ func isInteger(floatNumber float32) bool {
 func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObject) error { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[pokemonData.Name]
 	if !ok {
-		return &customError{
-			"There is no such pokemon",
-		}
+		return &customError{"There is no such pokemon"}
 	}
+	pok.name = pokemonData.Name
+
 	var (
 		shadowABonus float32 = 1
 		shadowDBonus float32 = 1
@@ -166,10 +167,10 @@ func (obj *pveObject) addBoss(bossInDat *app.BossInfo) error {
 func (pok *pokemon) makeBossBody(bossInDat *app.BossInfo, obj *pveObject) error { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[bossInDat.Name]
 	if !ok {
-		return &customError{
-			"Raid boss error: There is no such pokemon",
-		}
+		return &customError{"Raid boss error: There is no such pokemon"}
 	}
+	pok.name = bossInDat.Name
+
 	pok.effectiveAttack = (float32(15.0) + float32(speciesType.Atk)) * pok.levelMultiplier
 	pok.effectiveDefence = (float32(15.0) + float32(speciesType.Def)) * pok.levelMultiplier
 	pok.hp = tierHP[bossInDat.Tier]

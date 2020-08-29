@@ -14,6 +14,7 @@ type pveObject struct {
 	DodgeStrategy int
 	ActivePok     int
 
+	Booster  []int
 	Attacker []pokemon
 	Weather  map[int]float32
 
@@ -25,10 +26,6 @@ type pveObject struct {
 	Tier          uint8
 	PartySize     uint8
 	PlayersNumber uint8
-}
-
-func (pveo *pveObject) switchToNext() {
-
 }
 
 //simulatorRun makes a single raid simulator run (battle)
@@ -51,9 +48,7 @@ func simulatorRun(inDat *pvpeInitialData) (runResult, error) {
 	}
 
 	if inDat.BoostSlotPokemon.Name != "" {
-		if err := obj.addNewCharacter(&inDat.BoostSlotPokemon); err != nil {
-			return runResult{}, err
-		}
+		obj.Booster = inDat.App.PokemonStatsBase[inDat.BoostSlotPokemon.Name].Type
 	}
 
 	for _, pok := range inDat.AttackerPokemon {
@@ -61,17 +56,17 @@ func simulatorRun(inDat *pvpeInitialData) (runResult, error) {
 			return runResult{}, err
 		}
 	}
-
 	if err := obj.addBoss(&inDat.Boss); err != nil {
 		return runResult{}, err
 	}
 
-	err := obj.initializePve(inDat.AttackerPokemon[0].Name, inDat.Boss.Name, 0)
-	if err != nil {
-		return runResult{}, err
+	//initialization
+	for key := range obj.Attacker {
+		obj.initializeVsBoss(key)
 	}
+	obj.initializeVsActivePokemon(0)
 
-	err = obj.letsBattle()
+	err := obj.letsBattle()
 	if err != nil {
 		return runResult{}, err
 	}
@@ -94,36 +89,23 @@ type runResult struct {
 	isWin        bool
 }
 
-func (obj *pveObject) initializePve(attacker, boss string, i int) error {
+func (obj *pveObject) initializeVsBoss(i int) {
 	obj.Attacker[i].hp = obj.Attacker[i].maxHP
 
 	obj.Attacker[i].damageRegistered = true
 	obj.Attacker[i].energyRegistered = true
-
-	obj.Boss.damageRegistered = true
-	obj.Boss.energyRegistered = true
-
-	err := obj.Attacker[i].quickMove.setMultipliers(attacker, boss, obj, false)
-	if err != nil {
-		return err
-	}
-	err = obj.Attacker[i].chargeMove.setMultipliers(attacker, boss, obj, false)
-	if err != nil {
-		return err
-	}
-
-	err = obj.Boss.quickMove.setMultipliers(boss, attacker, obj, true)
-	if err != nil {
-		return err
-	}
-	err = obj.Boss.chargeMove.setMultipliers(boss, attacker, obj, true)
-	if err != nil {
-		return err
-	}
-	return nil
+	obj.Attacker[i].quickMove.setMultipliers(obj.Attacker[i].name, obj.Boss.name, obj, false)
+	obj.Attacker[i].chargeMove.setMultipliers(obj.Attacker[i].name, obj.Boss.name, obj, false)
 }
 
-func (m *move) setMultipliers(attacker, defender string, obj *pveObject, isBoss bool) error {
+func (obj *pveObject) initializeVsActivePokemon(i int) {
+	obj.Boss.damageRegistered = true
+	obj.Boss.energyRegistered = true
+	obj.Boss.quickMove.setMultipliers(obj.Boss.name, obj.Attacker[i].name, obj, true)
+	obj.Boss.chargeMove.setMultipliers(obj.Boss.name, obj.Attacker[i].name, obj, true)
+}
+
+func (m *move) setMultipliers(attacker, defender string, obj *pveObject, isBoss bool) {
 	//get move efficiency matrix
 	moveEfficiency := obj.app.TypesData[m.moveType]
 
@@ -149,11 +131,40 @@ func (m *move) setMultipliers(attacker, defender string, obj *pveObject, isBoss 
 
 	switch isBoss {
 	case true:
-		m.multiplier = stabMultiplier * seMultiplier * weatherMultiplier
+		var megaMult float32 = 1.0
+		if canBoost(attacker) {
+			megaMult = megaBoost(obj.app.PokemonStatsBase[attacker].Type, m.moveType)
+		}
+		m.multiplier = stabMultiplier * seMultiplier * weatherMultiplier * megaMult
 	default:
-		m.multiplier = stabMultiplier * obj.FriendStage * seMultiplier * weatherMultiplier
+		m.multiplier = stabMultiplier * obj.FriendStage * seMultiplier * weatherMultiplier * megaBoost(obj.Booster, m.moveType)
 	}
-	return nil
+}
+
+func megaBoost(typesBoosted []int, targetType int) float32 {
+	if typesBoosted == nil || len(typesBoosted) == 0 {
+		return 1.0
+	}
+	for _, boosterType := range typesBoosted {
+		if boosterType == targetType {
+			return 1.3
+		}
+	}
+	return 1.0
+}
+
+func (obj *pveObject) switchToNext() {
+	obj.PartySize--
+
+	switch len(obj.Attacker)-1 < obj.ActivePok {
+	case true:
+		obj.ActivePok++
+		obj.Boss.quickMove.setMultipliers(obj.Boss.name, obj.Attacker[obj.ActivePok].name, obj, true)
+		obj.Boss.chargeMove.setMultipliers(obj.Boss.name, obj.Attacker[obj.ActivePok].name, obj, true)
+	default:
+		obj.Attacker[obj.ActivePok].revive()
+	}
+
 }
 
 func (obj *pveObject) letsBattle() error {
@@ -167,9 +178,7 @@ func (obj *pveObject) letsBattle() error {
 
 		//select next
 		if obj.Attacker[obj.ActivePok].hp <= 0 {
-			obj.PartySize--
-			obj.Attacker[obj.ActivePok].revive()
-
+			obj.switchToNext()
 			//switch pokemon
 			obj.substructPause(1000)
 			//switch party
