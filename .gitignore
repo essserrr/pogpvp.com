@@ -34,3 +34,5 @@ sendsay/
 mongo-init.js
 
 __debug_bin
+
+core/sim/pve/debug.test

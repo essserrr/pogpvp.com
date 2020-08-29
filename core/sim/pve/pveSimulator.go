@@ -31,16 +31,16 @@ type pveObject struct {
 }
 
 type conStruct struct {
-	count int
 	sync.Mutex
 	errChan app.ErrorChan
 	wg      sync.WaitGroup
+	inDat   *app.IntialDataPve
+	count   int
 
+	boosterRow  []preRun
 	attackerRow []preRun
 	bossRow     []app.BossInfo
 	resArray    [][]app.CommonResult
-
-	BoostSlotPokemon []preRun
 }
 
 func setUpRunsNumber(inDat *app.IntialDataPve) {
@@ -95,17 +95,27 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	conObj := conStruct{
-		BoostSlotPokemon: makeBoostersRow(inDat),
-		attackerRow:      makeAttackerRow(inDat),
-		bossRow:          bossRow,
-		wg:               sync.WaitGroup{},
-		count:            0,
-		resArray:         [][]app.CommonResult{},
+	boosterRow, err := makeBoostersRow(inDat)
+	if err != nil {
+		return nil, err
+	}
+	attackerRow, err := makeAttackerRow(inDat)
+	if err != nil {
+		return nil, err
 	}
 
-	conObj.start(inDat)
+	conObj := conStruct{
+		boosterRow:  boosterRow,
+		attackerRow: attackerRow,
+		bossRow:     bossRow,
+
+		inDat:    inDat,
+		wg:       sync.WaitGroup{},
+		count:    0,
+		resArray: [][]app.CommonResult{},
+	}
+
+	conObj.start()
 
 	conObj.wg.Wait()
 
@@ -146,7 +156,7 @@ type commonPvpInData struct {
 	BoostSlotPokemon app.PokemonInitialData
 }
 
-func (co *conStruct) start(inDat *app.IntialDataPve) {
+func (co *conStruct) start() {
 	co.resArray = make([][]app.CommonResult, 0, 1000)
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
@@ -157,39 +167,42 @@ func (co *conStruct) start(inDat *app.IntialDataPve) {
 			co.Lock()
 			co.count++
 			co.Unlock()
+			//limit rountines number
 			for co.count > 20000 {
-
 			}
+
 			go func(currBoss app.BossInfo, pok preRun, i int) {
 				defer co.wg.Done()
 				singleResult, err := setOfRuns(commonPvpInData{
-					CustomMoves: inDat.CustomMoves,
-					App:         inDat.App,
+					CustomMoves: co.inDat.CustomMoves,
+					App:         co.inDat.App,
 					Pok: app.PokemonInitialData{
 						Name: pok.Name,
 
 						QuickMove:  pok.Quick,
 						ChargeMove: pok.Charge,
 
-						Level: inDat.Pok.Level,
+						Level: co.inDat.Pok.Level,
 
-						AttackIV:  inDat.Pok.AttackIV,
-						DefenceIV: inDat.Pok.DefenceIV,
-						StaminaIV: inDat.Pok.StaminaIV,
+						AttackIV:  co.inDat.Pok.AttackIV,
+						DefenceIV: co.inDat.Pok.DefenceIV,
+						StaminaIV: co.inDat.Pok.StaminaIV,
 
-						IsShadow: inDat.Pok.IsShadow,
+						IsShadow: co.inDat.Pok.IsShadow,
 					},
 
-					PartySize:     inDat.PartySize,
-					PlayersNumber: inDat.PlayersNumber,
+					BoostSlotPokemon: co.selectBoosterFor(pok),
+
+					PartySize:     co.inDat.PartySize,
+					PlayersNumber: co.inDat.PlayersNumber,
 
 					Boss: currBoss,
 
-					NumberOfRuns:  inDat.NumberOfRuns,
-					FriendStage:   inDat.FriendStage,
-					Weather:       inDat.Weather,
-					DodgeStrategy: inDat.DodgeStrategy,
-					AggresiveMode: inDat.AggresiveMode,
+					NumberOfRuns:  co.inDat.NumberOfRuns,
+					FriendStage:   co.inDat.FriendStage,
+					Weather:       co.inDat.Weather,
+					DodgeStrategy: co.inDat.DodgeStrategy,
+					AggresiveMode: co.inDat.AggresiveMode,
 				})
 				if err != nil {
 					co.errChan <- err
@@ -203,6 +216,54 @@ func (co *conStruct) start(inDat *app.IntialDataPve) {
 		}
 	}
 	co.wg.Wait()
+
+	fmt.Println("Finished")
+}
+
+func (co *conStruct) selectBoosterFor(pok preRun) app.PokemonInitialData {
+	if co.boosterRow == nil || len(co.boosterRow) == 0 {
+		return app.PokemonInitialData{}
+	}
+
+	pokQuickType := co.inDat.App.PokemonMovesBase[pok.Quick].MoveType
+	pokChargeType := co.inDat.App.PokemonMovesBase[pok.Charge].MoveType
+
+	selectedBooster := preRun{}
+	for _, booster := range co.boosterRow {
+		matches := 0
+		for _, boosterType := range co.inDat.App.PokemonStatsBase[booster.Name].Type {
+			if pokQuickType == boosterType {
+				matches++
+			}
+			if pokChargeType == boosterType {
+				matches++
+			}
+		}
+		if matches == 2 {
+			selectedBooster = booster
+			break
+		}
+		if matches == 1 {
+			if selectedBooster.Name == "" {
+				selectedBooster = booster
+			}
+		}
+	}
+
+	return app.PokemonInitialData{
+		Name: selectedBooster.Name,
+
+		QuickMove:  selectedBooster.Quick,
+		ChargeMove: selectedBooster.Charge,
+
+		Level: co.inDat.BoostSlotPokemon.Level,
+
+		AttackIV:  co.inDat.BoostSlotPokemon.AttackIV,
+		DefenceIV: co.inDat.BoostSlotPokemon.DefenceIV,
+		StaminaIV: co.inDat.BoostSlotPokemon.StaminaIV,
+
+		IsShadow: false,
+	}
 }
 
 type byAvgDamage [][]app.CommonResult

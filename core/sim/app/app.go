@@ -250,6 +250,10 @@ type CommonResult struct {
 	AQ    string
 	ACh   string
 
+	BoostName string
+	BoostAQ   string
+	BoostACh  string
+
 	BName string
 	BQ    string
 	BCh   string
