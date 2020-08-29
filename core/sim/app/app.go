@@ -251,8 +251,8 @@ type CommonResult struct {
 	ACh   string
 
 	BoostName string
-	BoostAQ   string
-	BoostACh  string
+	BoostQ    string
+	BoostCh   string
 
 	BName string
 	BQ    string

@@ -53,12 +53,12 @@ func setUpRunsNumber(inDat *app.IntialDataPve) {
 		return
 	}
 
-	if _, ok = findMove(inDat, inDat.Pok.QuickMove); !ok {
+	if _, ok = findMove(inDat.App, inDat.CustomMoves, inDat.Pok.QuickMove); !ok {
 		inDat.NumberOfRuns = 100
 		return
 	}
 
-	if _, ok = findMove(inDat, inDat.Pok.ChargeMove); !ok {
+	if _, ok = findMove(inDat.App, inDat.CustomMoves, inDat.Pok.ChargeMove); !ok {
 		inDat.NumberOfRuns = 100
 		return
 	}
@@ -66,12 +66,12 @@ func setUpRunsNumber(inDat *app.IntialDataPve) {
 	inDat.NumberOfRuns = 500
 }
 
-func findMove(inDat *app.IntialDataPve, moveName string) (app.MoveBaseEntry, bool) {
+func findMove(app *app.SimApp, customMoves *map[string]app.MoveBaseEntry, moveName string) (app.MoveBaseEntry, bool) {
 	//if a move not found in the main databse
-	move, ok := inDat.App.PokemonMovesBase[moveName]
+	move, ok := app.PokemonMovesBase[moveName]
 	if !ok {
 		//try to search in the custom database
-		move, ok = (*inDat.CustomMoves)[moveName]
+		move, ok = (*customMoves)[moveName]
 		if !ok {
 			return move, ok
 		}
@@ -315,13 +315,9 @@ func setOfRuns(inDat commonPvpInData) (app.CommonResult, error) {
 	result.DAvg = int32(float64(result.DAvg) / float64(inDat.NumberOfRuns))
 	result.TAvg = int32(float64(result.TAvg) / float64(inDat.NumberOfRuns))
 
-	result.AName = inDat.Pok.Name
-	result.AQ = inDat.Pok.QuickMove
-	result.ACh = inDat.Pok.ChargeMove
-
-	result.BName = inDat.Boss.Name
-	result.BQ = inDat.Boss.QuickMove
-	result.BCh = inDat.Boss.ChargeMove
+	result.BoostName, result.BoostQ, result.BoostCh = inDat.BoostSlotPokemon.Name, inDat.BoostSlotPokemon.QuickMove, inDat.BoostSlotPokemon.ChargeMove
+	result.AName, result.AQ, result.ACh = inDat.Pok.Name, inDat.Pok.QuickMove, inDat.Pok.ChargeMove
+	result.BName, result.BQ, result.BCh = inDat.Boss.Name, inDat.Boss.QuickMove, inDat.Boss.ChargeMove
 
 	result.NOfWins = result.NOfWins / float32(inDat.NumberOfRuns) * 100
 
@@ -359,21 +355,22 @@ func collect(cr *app.CommonResult, run *runResult) {
 
 //simulatorRun makes a single raid simulator run (battle)
 func simulatorRun(inDat *commonPvpInData) (runResult, error) {
-	obj := pveObject{CustomMoves: inDat.CustomMoves}
+	obj := pveObject{
+		CustomMoves: inDat.CustomMoves,
+		app:         inDat.App,
 
-	obj.app = inDat.App
+		Tier:          inDat.Boss.Tier,
+		Timer:         tierTimer[inDat.Boss.Tier],
+		AggresiveMode: inDat.AggresiveMode,
 
-	obj.Tier = inDat.Boss.Tier
-	obj.Timer = tierTimer[inDat.Boss.Tier]
-	obj.AggresiveMode = inDat.AggresiveMode
+		PartySize:     inDat.PartySize,
+		PlayersNumber: inDat.PlayersNumber,
+		DodgeStrategy: inDat.DodgeStrategy * 25,
 
-	obj.PartySize = inDat.PartySize
-	obj.PlayersNumber = inDat.PlayersNumber
-	obj.DodgeStrategy = inDat.DodgeStrategy * 25
-
-	obj.FriendStage = friendship[inDat.FriendStage]
-	obj.Weather = weather[inDat.Weather]
-	obj.Attacker = make([]pokemon, 1, 1)
+		FriendStage: friendship[inDat.FriendStage],
+		Weather:     weather[inDat.Weather],
+		Attacker:    make([]pokemon, 1, 1),
+	}
 
 	err := obj.makeNewCharacter(&inDat.Pok, &obj.Attacker[obj.ActivePok])
 	if err != nil {
