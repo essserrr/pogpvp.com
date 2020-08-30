@@ -73,16 +73,22 @@ class RaidsList extends React.Component {
 
     //generator functions
     returnRaidsList(tierList, pokTable) {
-        const tiers = ["5", "3", "1"]
+        const tiers = [{ name: "Mega Raids", value: 5, key: "megaRaids" },
+        { name: "Tier 5", value: 5, key: "tier5" },
+        { name: "Tier 3", value: 3, key: "tier3" },
+        { name: "Tier 1", value: 1, key: "tier1" }]
 
         return tiers.map((value) => <RaidTier
-            key={"tier" + value}
+            key={value.key}
             class="separator capsSeparator"
 
-            title={<IconMultiplicator title={strings.tierlist.raidtier + " " + value} n={value} />}
-            list={tierList["Tier " + value]}
+            title={
+                <IconMultiplicator title={value.name !== "Mega Raids" ?
+                    strings.tierlist.raidtier + " " + value.value : strings.tierlist.mega}
+                    n={value.value} />}
+            list={tierList[value.name]}
             pokTable={pokTable}
-            n={value}
+            i={value.value}
         />
         )
     }
@@ -105,7 +111,7 @@ class RaidsList extends React.Component {
         if (!filter) {
             return true
         }
-        if (!filter.tier1 && !filter.tier2 && !filter.tier3 && !filter.tier4 && !filter.tier5) {
+        if (!filter.tier1 && !filter.tier2 && !filter.tier3 && !filter.tier4 && !filter.tier5 && !filter.megaRaids) {
             return true
         }
         return filter[elem.key]

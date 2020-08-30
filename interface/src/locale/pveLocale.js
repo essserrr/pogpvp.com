@@ -1,9 +1,12 @@
 export const pveLocale = {
     en: {
+        supen: "Enable pokemon-supporter",
+        sup: "Pokemon-supporter",
+
         winrate: "Wintrate",
         s: "s",
         boss: "Boss (required)",
-        attacker: "Attacker (optional)",
+        attacker: "Your team",
         raid: "Raid settings",
 
         bosshp: "Boss HP:",
@@ -18,6 +21,7 @@ export const pveLocale = {
 
 
         tierlist: "Tier",
+        mega: "Mega Raids",
         sizetip: "Number of groups of pokemon",
 
         aggrList: {
@@ -81,10 +85,13 @@ export const pveLocale = {
     },
 
     ru: {
+        supen: "Включить покемона поддержки",
+        sup: "Покемон поддержки",
+
         winrate: "Шанс победить",
         s: "с",
         boss: "Босс (обязательно)",
-        attacker: "Атакующий (опционально)",
+        attacker: "Ваша команда",
         raid: "Настройки рейда",
 
         bosshp: "HP босса:",
@@ -98,6 +105,7 @@ export const pveLocale = {
         friend: "\xa0\xa0\xa0Дружба\xa0\xa0\xa0",
 
         tierlist: "Уровень",
+        mega: "Мега рейды",
         sizetip: "Число групп покемонов",
 
         aggrList: {

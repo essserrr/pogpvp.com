@@ -15,27 +15,21 @@ const ButtonsBlock = React.memo(function (props) {
     return (
         <div className={"row m-0 mb-3 text-center sliderGroup justify-content-center"} >
             <Button
+                attr="megaRaids"
+                title={strings.tierlist.mega}
+                class={props.filter.megaRaids ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                onClick={props.onFilter}
+            />
+            <Button
                 attr="tier5"
                 title={strings.tierlist.raidtier + " 5"}
                 class={props.filter.tier5 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
                 onClick={props.onFilter}
             />
             <Button
-                attr="tier4"
-                title={strings.tierlist.raidtier + " 4"}
-                class={props.filter.tier4 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
-                onClick={props.onFilter}
-            />
-            <Button
                 attr={"tier3"}
                 title={strings.tierlist.raidtier + " 3"}
                 class={props.filter.tier3 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"tier2"}
-                title={strings.tierlist.raidtier + " 2"}
-                class={props.filter.tier2 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
                 onClick={props.onFilter}
             />
             <Button

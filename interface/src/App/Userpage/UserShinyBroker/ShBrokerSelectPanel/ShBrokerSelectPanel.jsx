@@ -2,6 +2,9 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from 'react-redux'
 
+import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
+import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
+import ImportExport from "../../../PvP/components/ImportExport/ImportExport"
 import SearchableSelect from "../../../PvP/components/SearchableSelect/SearchableSelect"
 import UserShinyList from "../UserShinyList/UserShinyList"
 import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup"
@@ -64,6 +67,30 @@ class ShBrokerSelectPanel extends React.PureComponent {
                             onChange={this.props.onPokemonAdd}
                         />
                     </div>}
+
+                {this.props.showImportExportPanel && <MagicBox
+                    onClick={this.props.onTurnOnImport}
+                    attr={this.props.attr}
+                    element={
+                        <ImportExport
+                            type="shiny"
+                            initialValue={Object.values(this.props.userList)}
+                            pokemonTable={this.props.pokemonTable}
+
+                            action="Import/Export"
+                            attr={this.props.attr}
+                            onChange={this.props.onImport}
+                        />
+                    }
+                />}
+
+                {this.props.onImport && <div className="row  justify-content-center align-items-center mx-0 mt-3" >
+                    <SubmitButton
+                        class="longButton btn btn-primary btn-sm mx-0"
+                        attr={this.props.attr}
+                        label={strings.impExp}
+                        onSubmit={this.props.onTurnOnImport} />
+                </div>}
 
                 {!this.props.checked && <div className="col-12 px-0 mt-3 mb-2">
                     <UserShinyList

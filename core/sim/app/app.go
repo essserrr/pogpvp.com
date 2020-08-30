@@ -215,6 +215,9 @@ type IntialDataPve struct {
 	Boss          BossInfo
 	PartySize     uint8
 	PlayersNumber uint8
+
+	BoostSlotPokemon PokemonInitialData
+	BoostSlotEnabled bool
 }
 
 //PokemonInitialData contains initial data for pvp
@@ -246,6 +249,10 @@ type CommonResult struct {
 	AName string
 	AQ    string
 	ACh   string
+
+	BoostName string
+	BoostQ    string
+	BoostCh   string
 
 	BName string
 	BQ    string

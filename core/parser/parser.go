@@ -316,7 +316,7 @@ func ParseConstructorRequest(body []byte) (app.InitialData, app.InitialData, app
 }
 
 //ParseRaidRequest parses sommon PvE get request
-func ParseRaidRequest(attacker, boss, obj string) (app.IntialDataPve, error) {
+func ParseRaidRequest(attacker, boss, obj, booster string) (app.IntialDataPve, error) {
 	attackerReq, err := url.PathUnescape(attacker)
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Error parsing attacker")
@@ -329,36 +329,54 @@ func ParseRaidRequest(attacker, boss, obj string) (app.IntialDataPve, error) {
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Error parsing pve settings")
 	}
+	boosterReq, err := url.PathUnescape(booster)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Error parsing pve settings")
+	}
 
 	attackerData := make([]string, 0, 8)
+	boosterData := make([]string, 0, 8)
 	bossData := make([]string, 0, 4)
-	objData := make([]string, 0, 5)
+	objData := make([]string, 0, 7)
+
+	objData = strings.Split(pveInDatObj, "_")
+	if len(objData) < 6 {
+		return app.IntialDataPve{}, errors.NewHTTPError(nil, http.StatusBadRequest, "PvE settings error: not enough intial data")
+	}
+	pveObj, err := parsePveInDatObj(objData)
+	if err != nil {
+		return app.IntialDataPve{}, err
+	}
 
 	attackerData = strings.Split(attackerReq, "_")
 	if len(attackerData) != 8 {
 		return app.IntialDataPve{}, errors.NewHTTPError(nil, http.StatusBadRequest, "Attacker error: not enough intial data")
 	}
-	bossData = strings.Split(bossReq, "_")
-	if len(bossData) != 4 {
-		return app.IntialDataPve{}, errors.NewHTTPError(nil, http.StatusBadRequest, "Boss error: not enough intial data")
-	}
-	objData = strings.Split(pveInDatObj, "_")
-	if len(objData) != 6 {
-		return app.IntialDataPve{}, errors.NewHTTPError(nil, http.StatusBadRequest, "PvE settings error: not enough intial data")
-	}
-
-	pveObj, err := parsePveInDatObj(objData)
-	if err != nil {
-		return app.IntialDataPve{}, err
-	}
 	pveObj.Pok, err = parsePveAttacker(attackerData)
 	if err != nil {
 		return app.IntialDataPve{}, err
+	}
+
+	bossData = strings.Split(bossReq, "_")
+	if len(bossData) != 4 {
+		return app.IntialDataPve{}, errors.NewHTTPError(nil, http.StatusBadRequest, "Boss error: not enough intial data")
 	}
 	pveObj.Boss, err = parsePveBoss(bossData)
 	if err != nil {
 		return app.IntialDataPve{}, err
 	}
+
+	boosterData = strings.Split(boosterReq, "_")
+	switch len(boosterData) {
+	case 8:
+		pveObj.BoostSlotPokemon, err = parsePveAttacker(boosterData)
+		if err != nil {
+			return app.IntialDataPve{}, err
+		}
+	default:
+		pveObj.BoostSlotPokemon = app.PokemonInitialData{}
+	}
+
 	return pveObj, nil
 }
 
@@ -408,6 +426,14 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Parsing: Invalid aggression value")
 	}
 
+	boostEnabled := false
+	if len(pokData) == 7 {
+		boostEnabled, err = strconv.ParseBool(pokData[6])
+		if err != nil {
+			return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Parsing: Invalid support pokemon is ebaled value")
+		}
+	}
+
 	return app.IntialDataPve{
 		FriendStage:   int(friendStage),
 		Weather:       int(weather),
@@ -415,8 +441,9 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 
 		AggresiveMode: isAgressive,
 
-		PartySize:     uint8(partySize),
-		PlayersNumber: uint8(playersNumber),
+		PartySize:        uint8(partySize),
+		PlayersNumber:    uint8(playersNumber),
+		BoostSlotEnabled: boostEnabled,
 	}, nil
 }
 

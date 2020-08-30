@@ -25,6 +25,7 @@ class CommonPve extends React.PureComponent {
             attackerObj: (this.props.parentState.attackerObj) ? this.props.parentState.attackerObj : pveattacker(),
             bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
             pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : pveobj(),
+            supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
 
             result: this.props.parentState.pveResult ? this.props.parentState.pveResult : [],
             url: this.props.parentState.url ? this.props.parentState.url : "",
@@ -40,6 +41,7 @@ class CommonPve extends React.PureComponent {
                 attackerObj: this.props.parentState.attackerObj ? { ...this.props.parentState.attackerObj } : pveattacker(),
                 bossObj: this.props.parentState.bossObj ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
                 pveObj: this.props.parentState.pveObj ? { ...this.props.parentState.pveObj } : pveobj(),
+                supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
             }
         };
         this.onChange = this.onChange.bind(this);
@@ -56,6 +58,7 @@ class CommonPve extends React.PureComponent {
             attackerObj: (this.props.parentState.attackerObj) ? this.props.parentState.attackerObj : pveattacker(),
             bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
             pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : pveobj(),
+            supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
 
             result: this.props.parentState.pveResult ? this.props.parentState.pveResult : [],
             url: this.props.parentState.url ? this.props.parentState.url : "",
@@ -71,6 +74,7 @@ class CommonPve extends React.PureComponent {
                 attackerObj: this.props.parentState.attackerObj ? { ...this.props.parentState.attackerObj } : pveattacker(),
                 bossObj: this.props.parentState.bossObj ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
                 pveObj: this.props.parentState.pveObj ? { ...this.props.parentState.pveObj } : pveobj(),
+                supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
             }
         });
         return
@@ -81,6 +85,9 @@ class CommonPve extends React.PureComponent {
         switch (name) {
             case "attackerObj":
                 var moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect)
+                break
+            case "supportPokemon":
+                moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect)
                 break
             default:
                 moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect, true)
@@ -200,6 +207,10 @@ class CommonPve extends React.PureComponent {
             this.onTypeChange(event, role)
             return
         }
+        if (event.target.name === "SupportSlotEnabled") {
+            this.onSupportEnable(event, role)
+            return
+        }
         //otherwise follow general pattern
         this.setState({
             [role]: {
@@ -210,6 +221,15 @@ class CommonPve extends React.PureComponent {
         });
     }
 
+    onSupportEnable(event, role) {
+        this.setState({
+            [role]: {
+                ...this.state[role],
+                [event.target.name]: this.state[role][event.target.name] === "false" ? "true" : "false",
+            },
+            supportPokemon: this.state[role][event.target.name] ? pveattacker() : this.state.supportPokemon,
+        })
+    }
 
     submitForm = async event => {
         event.preventDefault()
@@ -218,8 +238,9 @@ class CommonPve extends React.PureComponent {
             attackerObj: { ...this.state.attackerObj },
             bossObj: { ...this.state.bossObj },
             pveObj: { ...this.state.pveObj },
+            supportPokemon: { ...this.state.supportPokemon },
         }
-        let url = encodePveAttacker(this.state.attackerObj) + "/" + encodePveBoss(this.state.bossObj) + "/" + encodePveObj(this.state.pveObj)
+        let url = `${encodePveAttacker(this.state.attackerObj)}/${encodePveBoss(this.state.bossObj)}/${encodePveObj(this.state.pveObj)}/${encodePveAttacker(this.state.supportPokemon)}`
         this.setState({
             loading: true,
         })
@@ -287,7 +308,6 @@ class CommonPve extends React.PureComponent {
                 <div className="row justify-content-center m-0 mb-4"  >
                     <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
-                            className="row justify-content-between m-0"
                             pokemonTable={this.props.parentState.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
                             pokList={this.props.parentState.pokList}

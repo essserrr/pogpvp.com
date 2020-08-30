@@ -432,7 +432,8 @@ class MatrixPanel extends React.PureComponent {
                     attr={this.props.attr}
                     element={
                         <ImportExport
-                            value={this.props.value.listForBattle}
+                            type="matrix"
+                            initialValue={this.props.value.listForBattle}
                             action="Import/Export"
                             attr={this.props.attr}
                             onChange={this.props.onImport}

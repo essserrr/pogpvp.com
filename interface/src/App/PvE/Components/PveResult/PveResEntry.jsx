@@ -1,19 +1,19 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
-import { UnmountClosed } from "react-collapse";
+import React from "react"
+import LocalizedStrings from "react-localization"
+import { UnmountClosed } from "react-collapse"
 import HpBar from "../PhBar/HpBar"
 import Loader from "../../../Registration/RegForm/AuthButton/Loader/Loader"
 
+import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
+import NameAndMoves from "../NameAndMoves/NameAndMoves"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../../../PvP/components/Errors/Errors"
-import NumberAndName from "../NumberAndName/NumberAndName"
+import NumberAndIcon from "../NumberAndIcon/NumberAndIcon"
 import HpRemaining from "../HpRemaining/HpRemaining"
 import WeatherMoves from "../WeatherMoves/WeatherMoves"
 import FightStats from "../FightStats/FightStats"
 
-import {
-    culculateCP, calculateEffStat, extractName, encodePveAttacker, encodePveBoss, encodePveObj
-} from "../../../../js/indexFunctions"
+import { extractName, encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../js/indexFunctions"
 import { getCookie } from "../../../../js/getCookie"
 import { pveLocale } from "../../../../locale/pveLocale"
 import { locale } from "../../../../locale/locale"
@@ -94,7 +94,7 @@ class PveResEntry extends React.PureComponent {
 
 
         //make server pve request
-        let url = encodePveAttacker(newPok) + "/" + encodePveBoss(this.props.snapshot.bossObj) + "/" + encodePveObj(this.props.snapshot.pveObj)
+        let url = `${encodePveAttacker(newPok)}/${encodePveBoss(this.props.snapshot.bossObj)}/${encodePveObj(this.props.snapshot.pveObj)}/${encodePveAttacker(this.props.snapshot.supportPokemon)}`
         this.setState({
             loading: true,
         });
@@ -176,34 +176,62 @@ class PveResEntry extends React.PureComponent {
     }
 
     render() {
-        let pok = this.props.pokemonTable[this.props.pokemonRes[0].AName]
-        let name = extractName(pok.Title)
         let avgStats = this.collect()
+
         return (
-            <div className={"pokCard row m-0 py-1 my-1 px-2 justify-content-start"}
-                key={name.Name + this.props.pokemonRes[0].AQ + this.props.pokemonRes[0].ACh}>
-                <NumberAndName
-                    isShadow={this.props.snapshot.attackerObj.IsShadow === "false" ? false : true}
-                    pok={pok}
-                    i={this.props.i}
-                />
-                <div className="col p-0">
-                    <div className="col-12 d-flex p-0">
-                        <div className="align-self-center bigFont mr-1">
-                            {name.Name}
-                        </div>
-                        <WeatherMoves
-                            pokQick={this.props.moveTable[this.props.pokemonRes[0].AQ]}
-                            pokCh={this.props.moveTable[this.props.pokemonRes[0].ACh]}
-                            snapshot={this.props.snapshot}
+            <div className={"pokCard row m-0 py-1 my-1 px-2 justify-content-between"}
+                key={this.props.pokemonRes[0].AName + this.props.pokemonRes[0].AQ + this.props.pokemonRes[0].ACh}>
+
+                <div className="col-auto p-0 mr-1">
+                    <div className="row mx-0 justify-content-start">
+                        <NumberAndIcon
+                            isShadow={this.props.snapshot.attackerObj.IsShadow === "false" ? false : true}
+                            pok={this.props.pokemonTable[this.props.pokemonRes[0].AName]}
+                            index={"#" + (this.props.i + 1)}
                         />
-                    </div>
-                    <div className="col-12 p-0 fBolder">
-                        {"CP "} {culculateCP(pok.Title, this.props.snapshot.attackerObj.Lvl, this.props.snapshot.attackerObj.Atk, this.props.snapshot.attackerObj.Def, this.props.snapshot.attackerObj.Sta, this.props.pokemonTable)}
-                        {" / HP "} {calculateEffStat(pok.Title, this.props.snapshot.attackerObj.Lvl, this.props.snapshot.attackerObj.Sta, 0, this.props.pokemonTable, "Sta", false)}
-                        {name.Additional && (" / " + name.Additional)}
+                        <div className="col px-0">
+                            <NameAndMoves
+                                formattedName={extractName(this.props.pokemonRes[0].AName)}
+                                quick={this.props.moveTable[this.props.pokemonRes[0].AQ]}
+                                charge={this.props.moveTable[this.props.pokemonRes[0].ACh]}
+                                snapshot={this.props.snapshot}
+
+                                attr="attackerObj"
+                                name={this.props.pokemonRes[0].AName}
+                                pokemonTable={this.props.pokemonTable}
+                            />
+                        </div>
                     </div>
                 </div>
+
+
+                {this.props.pokemonRes[0].BoostName !== "" && <div className="col-auto p-0 mr-3">
+                    <div className="row mx-0 justify-content-start align-items-center">
+                        <NumberAndIcon
+                            index={
+                                <PokemonIconer
+                                    src={"mega"}
+                                    folder="/"
+                                    class={"icon24"} />
+                            }
+                            isShadow={false}
+                            pok={this.props.pokemonTable[this.props.pokemonRes[0].BoostName]}
+                        />
+                        <div className="col px-0">
+                            <NameAndMoves
+                                formattedName={extractName(this.props.pokemonRes[0].BoostName)}
+                                quick={this.props.moveTable[this.props.pokemonRes[0].BoostQ]}
+                                charge={this.props.moveTable[this.props.pokemonRes[0].BoostCh]}
+                                snapshot={this.props.snapshot}
+
+                                attr="supportPokemon"
+                                name={this.props.pokemonRes[0].BoostName}
+                                pokemonTable={this.props.pokemonTable}
+                            />
+                        </div>
+                    </div>
+                </div>}
+
                 <div className="col-12 p-0">
                     <div className="row m-0 justify-content-between">
                         <div className="col-12 p-0">

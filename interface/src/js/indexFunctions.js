@@ -427,14 +427,16 @@ export function extractData(league, pok1, pok2) {
     }
 }
 
-export function extractRaidData(attacker, boss, obj) {
+export function extractRaidData(attacker, boss, obj, supp) {
     let attackerObj = decodeURIComponent(attacker).split("_")
     let bossObj = decodeURIComponent(boss).split("_")
     let pveObj = decodeURIComponent(obj).split("_")
+    let supportPokemon = decodeURIComponent(supp).split("_")
     return {
         attackerObj: (attackerObj.length === 8) ? attackerObj : undefined,
         bossObj: (bossObj.length === 4) ? bossObj : undefined,
-        pveObj: (pveObj.length === 6) ? pveObj : undefined,
+        pveObj: (pveObj.length >= 6) ? pveObj : undefined,
+        supportPokemon: (supportPokemon.length === 8) ? supportPokemon : undefined,
     }
 }
 
@@ -479,13 +481,15 @@ export function extractPveObj(array) {
         PartySize: array[3],
         PlayersNumber: array[4],
         IsAggresive: array[5],
+
+        SupportSlotEnabled: array[6],
     }
 }
 
 export function encodePveObj(data) {
     let res = [
         data.FriendshipStage, data.Weather, data.DodgeStrategy,
-        data.PartySize, data.PlayersNumber, data.IsAggresive,
+        data.PartySize, data.PlayersNumber, data.IsAggresive, data.SupportSlotEnabled
     ]
     return encodeURIComponent(res.join("_"));
 }
@@ -493,7 +497,7 @@ export function encodePveObj(data) {
 export function pveattacker() {
     return {
         Name: "", QuickMove: "", ChargeMove: "",
-        Lvl: "35", Atk: "15", Def: "15", Sta: "15",
+        Lvl: "40", Atk: "15", Def: "15", Sta: "15",
         IsShadow: "false", quickMovePool: "", chargeMovePool: "",
     }
 }
@@ -508,7 +512,7 @@ export function boss(locale) {
 export function pveobj() {
     return {
         FriendshipStage: "0", Weather: "0", DodgeStrategy: "0",
-        PartySize: "18", PlayersNumber: "3", IsAggresive: "false",
+        PartySize: "18", PlayersNumber: "3", IsAggresive: "true", SupportSlotEnabled: "false",
     }
 }
 

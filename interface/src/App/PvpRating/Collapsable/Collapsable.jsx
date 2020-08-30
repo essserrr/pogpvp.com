@@ -1,5 +1,5 @@
-import React from "react";
-import { UnmountClosed } from "react-collapse";
+import React from "react"
+import { UnmountClosed } from "react-collapse"
 import { checkShadow, encodeQueryData, calculateMaximizedStats } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 import RMoveRow from "../RMoveRow/RMoveRow"
@@ -8,7 +8,7 @@ import RowWrap from "../RowWrap/RowWrap"
 import EffTable from "../../Pokedex/EffBlock/EffTable"
 
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);

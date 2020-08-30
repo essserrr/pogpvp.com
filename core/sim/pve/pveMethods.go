@@ -15,6 +15,7 @@ func (e *customError) Error() string {
 }
 
 type pokemon struct {
+	name      string
 	quickMove move
 	maxHP     int32
 
@@ -50,7 +51,8 @@ type move struct {
 	energy int16
 }
 
-func (obj *pveObject) makeNewCharacter(pokemonData *app.PokemonInitialData, pok *pokemon) error {
+func (obj *pveObject) addNewCharacter(pokemonData *app.PokemonInitialData) error {
+	pok := pokemon{}
 	err := pok.setLevel(pokemonData, obj)
 	if err != nil {
 		return err
@@ -67,6 +69,7 @@ func (obj *pveObject) makeNewCharacter(pokemonData *app.PokemonInitialData, pok 
 	if err != nil {
 		return err
 	}
+	obj.Attacker = append(obj.Attacker, pok)
 	return nil
 }
 
@@ -89,10 +92,10 @@ func isInteger(floatNumber float32) bool {
 func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObject) error { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[pokemonData.Name]
 	if !ok {
-		return &customError{
-			"There is no such pokemon",
-		}
+		return &customError{"There is no such pokemon"}
 	}
+	pok.name = pokemonData.Name
+
 	var (
 		shadowABonus float32 = 1
 		shadowDBonus float32 = 1
@@ -110,21 +113,9 @@ func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObj
 }
 
 func (pok *pokemon) setQuickMove(quickMove string, obj *pveObject) error { // setst up quick move
-	moveEntry, ok := obj.app.PokemonMovesBase[quickMove]
+	moveEntry, ok := findMove(obj.app, obj.CustomMoves, quickMove)
 	if !ok {
-		switch obj.CustomMoves != nil {
-		case true:
-			moveEntry, ok = (*obj.CustomMoves)[quickMove]
-			if !ok {
-				return &customError{
-					"Charge move not found in the database",
-				}
-			}
-		default:
-			return &customError{
-				"Charge move not found in the database",
-			}
-		}
+		return &customError{"Quick move not found in the database"}
 	}
 	pok.quickMove = setMoveBody(moveEntry)
 	return nil
@@ -134,23 +125,10 @@ func (pok *pokemon) setChargeMove(chargeMove string, obj *pveObject) error { // 
 	if chargeMove == "" {
 		return nil
 	}
-	moveEntry, ok := obj.app.PokemonMovesBase[chargeMove]
+	moveEntry, ok := findMove(obj.app, obj.CustomMoves, chargeMove)
 	if !ok {
-		switch obj.CustomMoves != nil {
-		case true:
-			moveEntry, ok = (*obj.CustomMoves)[chargeMove]
-			if !ok {
-				return &customError{
-					"Charge move not found in the database",
-				}
-			}
-		default:
-			return &customError{
-				"Charge move not found in the database",
-			}
-		}
+		return &customError{"Charge move not found in the database"}
 	}
-
 	pok.chargeMove = setMoveBody(moveEntry)
 	return nil
 }
@@ -167,7 +145,8 @@ func setMoveBody(moveEntry app.MoveBaseEntry) move { // sets up move body (commo
 	return newMove
 }
 
-func (obj *pveObject) makeNewBoss(bossInDat *app.BossInfo, boss *pokemon) error {
+func (obj *pveObject) addBoss(bossInDat *app.BossInfo) error {
+	boss := pokemon{}
 	boss.levelMultiplier = tierMult[bossInDat.Tier]
 	err := boss.makeBossBody(bossInDat, obj)
 	if err != nil {
@@ -181,19 +160,20 @@ func (obj *pveObject) makeNewBoss(bossInDat *app.BossInfo, boss *pokemon) error 
 	if err != nil {
 		return err
 	}
+	obj.Boss = boss
 	return nil
 }
 
 func (pok *pokemon) makeBossBody(bossInDat *app.BossInfo, obj *pveObject) error { //sets up base stats
 	speciesType, ok := obj.app.PokemonStatsBase[bossInDat.Name]
 	if !ok {
-		return &customError{
-			"Raid boss error: There is no such pokemon",
-		}
+		return &customError{"Raid boss error: There is no such pokemon"}
 	}
+	pok.name = bossInDat.Name
+
 	pok.effectiveAttack = (float32(15.0) + float32(speciesType.Atk)) * pok.levelMultiplier
 	pok.effectiveDefence = (float32(15.0) + float32(speciesType.Def)) * pok.levelMultiplier
-	pok.hp = tierHP[bossInDat.Tier]
+	pok.maxHP = tierHP[bossInDat.Tier]
 	pok.isBoss = true
 	return nil
 }

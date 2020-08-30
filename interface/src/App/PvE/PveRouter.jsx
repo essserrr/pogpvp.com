@@ -30,6 +30,7 @@ class PveRouter extends React.Component {
                 innerClass="col-auto mt-1  mt-md-2"
             />}>
                 <Switch>
+                    <Route path="/pve/:type(common)/:attacker/:boss/:obj/:supp" component={PvePage} />
                     <Route path="/pve/:type(common)/:attacker/:boss/:obj" component={PvePage} />
                     <Route path="/pve/:type(common)/" component={PvePage} />
                     <Route path="/pve/:type(common)/*" component={PvePage} />

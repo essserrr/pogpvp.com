@@ -65,13 +65,15 @@ class PvePage extends React.Component {
             this.props.match.params.attacker,
             this.props.match.params.boss,
             this.props.match.params.obj,
+            this.props.match.params.supp,
         )
     }
 
     componentDidUpdate(prevProps) {
         if (this.props.match.params.attacker === prevProps.match.params.attacker &&
             this.props.match.params.boss === prevProps.match.params.boss &&
-            this.props.match.params.obj === prevProps.match.params.obj) {
+            this.props.match.params.obj === prevProps.match.params.obj &&
+            this.props.match.params.supp === prevProps.match.params.supp) {
             return
         }
         if (this.props.history.action === "PUSH") {
@@ -81,16 +83,17 @@ class PvePage extends React.Component {
             this.props.match.params.attacker,
             this.props.match.params.boss,
             this.props.match.params.obj,
+            this.props.match.params.supp,
         )
     }
 
 
 
-    async updateState(party, boss, obj) {
+    async updateState(party, boss, obj, supp) {
         this.setState({
             loading: true,
         })
-        let extrData = extractRaidData(party, boss, obj)
+        let extrData = extractRaidData(party, boss, obj, supp)
         //after opening the page get pokemonBase
 
         await this.props.refresh()
@@ -151,10 +154,14 @@ class PvePage extends React.Component {
             if (extrData.pveObj !== undefined) {
                 var pveObj = extractPveObj(extrData.pveObj)
             }
+            if (extrData.supportPokemon !== undefined) {
+                var supportPokemon = this.setUpPokemon(extractPveAttacker(extrData.supportPokemon), this.props.bases.pokemonBase)
+            }
             this.setState({
                 attackerObj: attackerObj,
                 bossObj: bossObj,
                 pveObj: pveObj,
+                supportPokemon: supportPokemon,
 
                 date: (!!pveResult) ? Date.now() : 1,
                 pveResult: pveResult,
