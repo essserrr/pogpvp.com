@@ -309,7 +309,7 @@ func setOfRuns(inDat pvpeInitialData) (app.CommonResult, error) {
 	result.TAvg = int32(float64(result.TAvg) / float64(inDat.NumberOfRuns))
 
 	result.BoostName, result.BoostQ, result.BoostCh = inDat.BoostSlotPokemon.Name, inDat.BoostSlotPokemon.QuickMove, inDat.BoostSlotPokemon.ChargeMove
-	result.AName, result.AQ, result.ACh = inDat.AttackerPokemon[0].Name, inDat.AttackerPokemon[0].QuickMove, inDat.AttackerPokemon[0].ChargeMove
+	result.AName, result.AQ, result.ACh = inDat.AttackerPokemon[len(inDat.AttackerPokemon)-1].Name, inDat.AttackerPokemon[len(inDat.AttackerPokemon)-1].QuickMove, inDat.AttackerPokemon[len(inDat.AttackerPokemon)-1].ChargeMove
 	result.BName, result.BQ, result.BCh = inDat.Boss.Name, inDat.Boss.QuickMove, inDat.Boss.ChargeMove
 
 	result.NOfWins = result.NOfWins / float32(inDat.NumberOfRuns) * 100
