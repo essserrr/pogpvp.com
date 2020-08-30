@@ -14,7 +14,6 @@ type pveObject struct {
 	DodgeStrategy int
 	ActivePok     int
 
-	Booster  []int
 	Attacker []pokemon
 	Weather  map[int]float32
 
@@ -26,31 +25,17 @@ type pveObject struct {
 	Tier          uint8
 	PartySize     uint8
 	PlayersNumber uint8
+
+	Booster      []int
+	BoosterCount uint8
 }
 
 //simulatorRun makes a single raid simulator run (battle)
 func simulatorRun(inDat *pvpeInitialData) (runResult, error) {
-	obj := pveObject{
-		CustomMoves: inDat.CustomMoves,
-		app:         inDat.App,
+	obj := createPveObj(inDat)
 
-		Tier:          inDat.Boss.Tier,
-		Timer:         tierTimer[inDat.Boss.Tier],
-		AggresiveMode: inDat.AggresiveMode,
-
-		PartySize:     inDat.PartySize,
-		PlayersNumber: inDat.PlayersNumber,
-		DodgeStrategy: inDat.DodgeStrategy * 25,
-
-		FriendStage: friendship[inDat.FriendStage],
-		Weather:     weather[inDat.Weather],
-		Attacker:    make([]pokemon, 0, len(inDat.AttackerPokemon)),
-	}
-
-	if inDat.BoostSlotPokemon.Name != "" {
-		obj.Booster = inDat.App.PokemonStatsBase[inDat.BoostSlotPokemon.Name].Type
-	}
-
+	//add pokemon
+	obj.addBooster(inDat)
 	for _, pok := range inDat.AttackerPokemon {
 		if err := obj.addNewCharacter(&pok); err != nil {
 			return runResult{}, err
@@ -59,13 +44,12 @@ func simulatorRun(inDat *pvpeInitialData) (runResult, error) {
 	if err := obj.addBoss(&inDat.Boss); err != nil {
 		return runResult{}, err
 	}
-
-	//initialization
+	//init pokemon
 	for key := range obj.Attacker {
-		obj.initializeVsBoss(key)
+		obj.initializAttacker(key)
 	}
-	obj.initializeVsActivePokemon(0)
-
+	obj.initializeBoss(0)
+	//start battle
 	err := obj.letsBattle()
 	if err != nil {
 		return runResult{}, err
@@ -89,7 +73,34 @@ type runResult struct {
 	isWin        bool
 }
 
-func (obj *pveObject) initializeVsBoss(i int) {
+func createPveObj(inDat *pvpeInitialData) *pveObject {
+	obj := pveObject{
+		CustomMoves: inDat.CustomMoves,
+		app:         inDat.App,
+
+		Tier:          inDat.Boss.Tier,
+		Timer:         tierTimer[inDat.Boss.Tier],
+		AggresiveMode: inDat.AggresiveMode,
+
+		PartySize:     inDat.PartySize,
+		PlayersNumber: inDat.PlayersNumber,
+		DodgeStrategy: inDat.DodgeStrategy * 25,
+
+		FriendStage: friendship[inDat.FriendStage],
+		Weather:     weather[inDat.Weather],
+		Attacker:    make([]pokemon, 0, len(inDat.AttackerPokemon)),
+	}
+	return &obj
+}
+
+func (obj *pveObject) addBooster(inDat *pvpeInitialData) {
+	if inDat.BoostSlotPokemon.Name != "" {
+		obj.Booster = inDat.App.PokemonStatsBase[inDat.BoostSlotPokemon.Name].Type
+		obj.BoosterCount = inDat.PlayersNumber
+	}
+}
+
+func (obj *pveObject) initializAttacker(i int) {
 	obj.Attacker[i].hp = obj.Attacker[i].maxHP
 
 	obj.Attacker[i].damageRegistered = true
@@ -98,7 +109,7 @@ func (obj *pveObject) initializeVsBoss(i int) {
 	obj.Attacker[i].chargeMove.setMultipliers(obj.Attacker[i].name, obj.Boss.name, obj, false)
 }
 
-func (obj *pveObject) initializeVsActivePokemon(i int) {
+func (obj *pveObject) initializeBoss(i int) {
 	obj.Boss.damageRegistered = true
 	obj.Boss.energyRegistered = true
 	obj.Boss.quickMove.setMultipliers(obj.Boss.name, obj.Attacker[i].name, obj, true)
@@ -137,7 +148,11 @@ func (m *move) setMultipliers(attacker, defender string, obj *pveObject, isBoss 
 		}
 		m.multiplier = stabMultiplier * seMultiplier * weatherMultiplier * megaMult
 	default:
-		m.multiplier = stabMultiplier * obj.FriendStage * seMultiplier * weatherMultiplier * megaBoost(obj.Booster, m.moveType)
+		var megaMult float32 = 1.0
+		if obj.BoosterCount > 0 {
+			megaMult = megaBoost(obj.Booster, m.moveType)
+		}
+		m.multiplier = stabMultiplier * obj.FriendStage * seMultiplier * weatherMultiplier * megaMult
 	}
 }
 
@@ -150,12 +165,18 @@ func megaBoost(typesBoosted []int, targetType int) float32 {
 			return 1.3
 		}
 	}
-	return 1.0
+	return 1.1
 }
 
 func (obj *pveObject) switchToNext() {
+	//decrease party size
 	obj.PartySize--
+	//decrease booster counter
+	if obj.BoosterCount > 0 {
+		obj.BoosterCount--
+	}
 
+	//take an action: select new pokemon or revive the last one
 	switch len(obj.Attacker)-1 > obj.ActivePok {
 	case true:
 		obj.ActivePok++
