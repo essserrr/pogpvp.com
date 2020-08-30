@@ -329,6 +329,10 @@ func ParseRaidRequest(attacker, boss, obj, booster string) (app.IntialDataPve, e
 	if err != nil {
 		return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Error parsing pve settings")
 	}
+	boosterReq, err := url.PathUnescape(booster)
+	if err != nil {
+		return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Error parsing pve settings")
+	}
 
 	attackerData := make([]string, 0, 8)
 	boosterData := make([]string, 0, 8)
@@ -362,7 +366,7 @@ func ParseRaidRequest(attacker, boss, obj, booster string) (app.IntialDataPve, e
 		return app.IntialDataPve{}, err
 	}
 
-	boosterData = strings.Split(attackerReq, "_")
+	boosterData = strings.Split(boosterReq, "_")
 	switch len(boosterData) {
 	case 8:
 		pveObj.BoostSlotPokemon, err = parsePveAttacker(boosterData)
@@ -426,7 +430,7 @@ func parsePveInDatObj(pokData []string) (app.IntialDataPve, error) {
 	if len(pokData) == 7 {
 		boostEnabled, err = strconv.ParseBool(pokData[6])
 		if err != nil {
-			return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Parsing: Invalid aggression value")
+			return app.IntialDataPve{}, errors.NewHTTPError(err, http.StatusBadRequest, "Parsing: Invalid support pokemon is ebaled value")
 		}
 	}
 
