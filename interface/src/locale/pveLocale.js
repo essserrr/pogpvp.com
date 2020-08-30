@@ -2,8 +2,8 @@ export const pveLocale = {
     en: {
         winrate: "Wintrate",
         s: "s",
-        boss: "Boss (required)",
-        attacker: "Attacker (optional)",
+        boss: "Boss",
+        attacker: "Your team",
         raid: "Raid settings",
 
         bosshp: "Boss HP:",
@@ -84,8 +84,8 @@ export const pveLocale = {
     ru: {
         winrate: "Шанс победить",
         s: "с",
-        boss: "Босс (обязательно)",
-        attacker: "Атакующий (опционально)",
+        boss: "Босс",
+        attacker: "Ваша команда",
         raid: "Настройки рейда",
 
         bosshp: "HP босса:",

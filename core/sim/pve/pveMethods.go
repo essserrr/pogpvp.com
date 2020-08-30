@@ -173,7 +173,7 @@ func (pok *pokemon) makeBossBody(bossInDat *app.BossInfo, obj *pveObject) error 
 
 	pok.effectiveAttack = (float32(15.0) + float32(speciesType.Atk)) * pok.levelMultiplier
 	pok.effectiveDefence = (float32(15.0) + float32(speciesType.Def)) * pok.levelMultiplier
-	pok.hp = tierHP[bossInDat.Tier]
+	pok.maxHP = tierHP[bossInDat.Tier]
 	pok.isBoss = true
 	return nil
 }

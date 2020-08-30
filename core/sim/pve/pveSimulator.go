@@ -45,10 +45,9 @@ func simulatorRun(inDat *pvpeInitialData) (runResult, error) {
 		return runResult{}, err
 	}
 	//init pokemon
-	for key := range obj.Attacker {
-		obj.initializAttacker(key)
-	}
-	obj.initializeBoss(0)
+	obj.Attacker[0].initializePokemon(obj.Boss.name, obj, false)
+	obj.Boss.initializePokemon(obj.Attacker[0].name, obj, true)
+
 	//start battle
 	err := obj.letsBattle()
 	if err != nil {
@@ -100,23 +99,18 @@ func (obj *pveObject) addBooster(inDat *pvpeInitialData) {
 	}
 }
 
-func (obj *pveObject) initializAttacker(i int) {
-	obj.Attacker[i].hp = obj.Attacker[i].maxHP
-
-	obj.Attacker[i].damageRegistered = true
-	obj.Attacker[i].energyRegistered = true
-	obj.Attacker[i].quickMove.setMultipliers(obj.Attacker[i].name, obj.Boss.name, obj, false)
-	obj.Attacker[i].chargeMove.setMultipliers(obj.Attacker[i].name, obj.Boss.name, obj, false)
+func (pok *pokemon) initializePokemon(defender string, obj *pveObject, isBoss bool) {
+	pok.hp = pok.maxHP
+	pok.damageRegistered, pok.energyRegistered = true, true
+	pok.setMultipliers(defender, obj, isBoss)
 }
 
-func (obj *pveObject) initializeBoss(i int) {
-	obj.Boss.damageRegistered = true
-	obj.Boss.energyRegistered = true
-	obj.Boss.quickMove.setMultipliers(obj.Boss.name, obj.Attacker[i].name, obj, true)
-	obj.Boss.chargeMove.setMultipliers(obj.Boss.name, obj.Attacker[i].name, obj, true)
+func (pok *pokemon) setMultipliers(defender string, obj *pveObject, isBoss bool) {
+	pok.quickMove.newMultiplier(pok.name, defender, obj, isBoss)
+	pok.chargeMove.newMultiplier(pok.name, defender, obj, isBoss)
 }
 
-func (m *move) setMultipliers(attacker, defender string, obj *pveObject, isBoss bool) {
+func (m *move) newMultiplier(attacker, defender string, obj *pveObject, isBoss bool) {
 	//get move efficiency matrix
 	moveEfficiency := obj.app.TypesData[m.moveType]
 
@@ -180,10 +174,11 @@ func (obj *pveObject) switchToNext() {
 	switch len(obj.Attacker)-1 > obj.ActivePok {
 	case true:
 		obj.ActivePok++
-		obj.Boss.quickMove.setMultipliers(obj.Boss.name, obj.Attacker[obj.ActivePok].name, obj, true)
-		obj.Boss.chargeMove.setMultipliers(obj.Boss.name, obj.Attacker[obj.ActivePok].name, obj, true)
+		obj.Attacker[obj.ActivePok].initializePokemon(obj.Boss.name, obj, false)
+		obj.Boss.setMultipliers(obj.Attacker[obj.ActivePok].name, obj, true)
 	default:
 		obj.Attacker[obj.ActivePok].revive()
+		obj.Attacker[obj.ActivePok].setMultipliers(obj.Boss.name, obj, false)
 	}
 
 }

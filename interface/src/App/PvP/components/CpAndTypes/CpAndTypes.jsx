@@ -1,12 +1,17 @@
 import React from "react";
 import CP from "./CP"
 import Type from "./Type"
+import PokemonIconer from "../PokemonIconer/PokemonIconer"
 
 const CpAndTyping = React.memo(function (props) {
     return (
-        <div className="d-flex dont90 justify-content-center mt-2">
+        <div className={props.class ? props.class : "d-flex dont90 justify-content-center align-items-center mt-2"}>
+            <PokemonIconer
+                src={props.pokemonTable[props.name].Number + (props.pokemonTable[props.name].Forme !== "" ? "-" + props.pokemonTable[props.name].Forme : "")}
+                class={"icon36 mr-1"}
+            />
             <CP
-                class="mr-2 fBolder align-self-center"
+                class="mr-2 fBolder"
                 name={props.name}
                 tier={props.tier}
                 isBoss={props.isBoss}
