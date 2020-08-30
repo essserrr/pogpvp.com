@@ -34,6 +34,26 @@ class PvePokemon extends React.PureComponent {
                         onChange={this.props.onChange}
                     />}
                 />}
+
+
+                {(this.props.pokemonTable[this.props.value[this.props.attr].Name]) &&
+                    <div className="col-12 px-0  my-1">
+                        <CpAndTyping
+                            class="d-flex dont90 justify-content-center align-items-center"
+
+                            Lvl={this.props.value[this.props.attr].Lvl}
+                            Atk={this.props.value[this.props.attr].Atk}
+                            Def={this.props.value[this.props.attr].Def}
+                            Sta={this.props.value[this.props.attr].Sta}
+
+                            pokemonTable={this.props.pokemonTable}
+                            name={this.props.value[this.props.attr].Name}
+                            tier={this.props.value[this.props.attr].Tier}
+                            isBoss={this.props.attr === "bossObj"}
+                        />
+                    </div>}
+
+
                 <div className="col-12 px-0 my-1">
                     <div className="row mx-0 justify-content-between align-items-center">
                         {this.props.pokList &&
@@ -99,22 +119,7 @@ class PvePokemon extends React.PureComponent {
                 </div>
 
 
-                {(this.props.pokemonTable[this.props.value[this.props.attr].Name]) &&
-                    <div className="col-12 px-0  my-1">
-                        <CpAndTyping
-                            class="d-flex dont90 justify-content-center align-items-center"
 
-                            Lvl={this.props.value[this.props.attr].Lvl}
-                            Atk={this.props.value[this.props.attr].Atk}
-                            Def={this.props.value[this.props.attr].Def}
-                            Sta={this.props.value[this.props.attr].Sta}
-
-                            pokemonTable={this.props.pokemonTable}
-                            name={this.props.value[this.props.attr].Name}
-                            tier={this.props.value[this.props.attr].Tier}
-                            isBoss={this.props.attr === "bossObj"}
-                        />
-                    </div>}
 
 
                 <div className="col-6 px-0 pr-1  my-1">
