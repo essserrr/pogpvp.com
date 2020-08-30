@@ -1,8 +1,11 @@
 export const pveLocale = {
     en: {
+        supen: "Enable pokemon-supporter",
+        sup: "Pokemon-supporter",
+
         winrate: "Wintrate",
         s: "s",
-        boss: "Boss",
+        boss: "Boss (required)",
         attacker: "Your team",
         raid: "Raid settings",
 
@@ -82,9 +85,12 @@ export const pveLocale = {
     },
 
     ru: {
+        supen: "Включить покемона поддержки",
+        sup: "Покемон поддержки",
+
         winrate: "Шанс победить",
         s: "с",
-        boss: "Босс",
+        boss: "Босс (обязательно)",
         attacker: "Ваша команда",
         raid: "Настройки рейда",
 

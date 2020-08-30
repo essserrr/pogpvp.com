@@ -96,7 +96,6 @@ class PvePage extends React.Component {
         let extrData = extractRaidData(party, boss, obj, supp)
         //after opening the page get pokemonBase
 
-        console.log(extrData.attackerObj, extrData.bossObj, extrData.pveObj)
         await this.props.refresh()
         try {
             let fetches = [
