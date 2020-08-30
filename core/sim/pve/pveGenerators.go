@@ -74,7 +74,7 @@ func getBoostBonus(booster *app.PokemonsBaseEntry, targetType int) float32 {
 			return 1.3
 		}
 	}
-	return 1.0
+	return 1.1
 }
 
 //generateMovesets generates row of attacker movesets if attacker name is known

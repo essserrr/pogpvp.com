@@ -214,7 +214,9 @@ func (co *conStruct) selectBoosterFor(pok preRun) app.PokemonInitialData {
 	pokChargeType := co.inDat.App.PokemonMovesBase[pok.Charge].MoveType
 
 	selectedBooster := preRun{}
+	//select booster
 	for _, booster := range co.boosterRow {
+		//define matches of type
 		matches := 0
 		for _, boosterType := range co.inDat.App.PokemonStatsBase[booster.Name].Type {
 			if pokQuickType == boosterType {
@@ -224,15 +226,21 @@ func (co *conStruct) selectBoosterFor(pok preRun) app.PokemonInitialData {
 				matches++
 			}
 		}
+		//if both types of moves matched select and exit
 		if matches == 2 {
 			selectedBooster = booster
 			break
 		}
+		//if 1 type matched continue search
 		if matches == 1 {
 			if selectedBooster.Name == "" {
 				selectedBooster = booster
 			}
 		}
+	}
+	//if none selected, select the best dps option
+	if selectedBooster.Name == "" {
+		selectedBooster = co.boosterRow[0]
 	}
 
 	return app.PokemonInitialData{
