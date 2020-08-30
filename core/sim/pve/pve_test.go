@@ -1032,10 +1032,10 @@ var checks = map[string]app.CommonResult{
 	},
 
 	"Mega PalkiaDragon BreathDracoMeteorAgr": {
-		DAvg: 8250,
+		DAvg: 6858,
 	},
 	"Mega PalkiaDragon TailDracoMeteorAgr": {
-		DAvg: 7950,
+		DAvg: 6636,
 	},
 }
 
