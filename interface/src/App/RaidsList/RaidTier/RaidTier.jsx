@@ -38,7 +38,7 @@ const RaidTier = React.memo(function (props) {
                                         to={(navigator.userAgent === "ReactSnap") ? "/" :
                                             "/pve/common/" + strings.options.moveSelect.none + "___35_15_15_15_false/" +
                                             (encodeURIComponent(props.pokTable[name].Title)) + "___" + (props.i - 1) +
-                                            "/0_0_0_18_3_false"}>
+                                            "/0_0_0_18_3_false/___40_15_15_15_false"}>
                                         <PokemonIconer
                                             src={props.pokTable[name].Number +
                                                 (props.pokTable[name].Forme !== "" ? "-" + props.pokTable[name].Forme : "")}
