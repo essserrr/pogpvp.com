@@ -624,7 +624,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_count"}).Inc()
 
 	//Parse request
-	inDat, err := parser.ParseRaidRequest(chi.URLParam(r, "attacker"), chi.URLParam(r, "boss"), chi.URLParam(r, "obj"))
+	inDat, err := parser.ParseRaidRequest(chi.URLParam(r, "attacker"), chi.URLParam(r, "boss"), chi.URLParam(r, "obj"), chi.URLParam(r, "booster"))
 	if err != nil {
 		return err
 	}
@@ -1252,6 +1252,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/request/constructor", rootHandler{constructorPvpHandler, a})
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
 	router.Handle("/request/common/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
+	router.Handle("/request/common/{attacker}/{boss}/{obj}/{booster}", rootHandler{pveHandler, a})
 
 	//db calls
 	router.Handle("/db/{type}", rootHandler{dbCallHandler, a})
