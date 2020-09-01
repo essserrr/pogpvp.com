@@ -41,7 +41,7 @@ class RedirectBlock extends React.PureComponent {
                 </Link>
                 <Link style={{ color: "black" }}
                     className="col sliderButton hv" to={navigator.userAgent === "ReactSnap" ? "/" :
-                        "/pve/common/_/" + encodeURIComponent(this.props.value.Title) + "___4/0_0_0_18_3_false/___40_15_15_15_false"}>
+                        "/pve/common/_/" + encodeURIComponent(this.props.value.Title) + "___4/0_0_0_18_3_false_false/___40_15_15_15_false"}>
                     {strings.pvewith}
                 </Link>
             </div >
