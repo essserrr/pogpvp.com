@@ -73,11 +73,13 @@ class Info extends React.PureComponent {
                         locale={strings.loading}
                         loading={this.state.loading}
                     />}
-                <div className="user-info__title col-12 px-0 mb-2 tetx-center">{strings.info.title}</div>
                 {this.state.error !== "" && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                 {this.state.error === "" && this.state.uInfo.Username &&
                     <div className="row mx-0 justify-content-center">
                         <div className="col-12 col-md-8 col-lg-6 px-0">
+                            <div className="user-info__title col-12 px-0 mb-3">
+                                {strings.info.title}
+                            </div>
                             <div className="col px-0 py-2 user-info--border user-info__goverable-col">
                                 <span className={"user-info__text"}>{strings.info.name + ": "}</span>
                                 <span className={"font-weight-bold"}>{this.state.uInfo.Username}</span>

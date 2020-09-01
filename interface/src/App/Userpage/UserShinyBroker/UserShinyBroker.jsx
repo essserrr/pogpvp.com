@@ -330,8 +330,12 @@ class UserShinyBroker extends React.PureComponent {
                         />}
                     {!this.state.loading &&
                         <>
-                            <div className="user-shinybroker__title col-12 pt-2 text-center">{strings.upage.shbr}</div>
-                            <div className="col-12 pt-3">
+                            <div className="col-12 pt-2 mb-4 text-center">
+                                <div className="user-shinybroker__title  col-12 px-0">
+                                    {strings.upage.shbr}
+                                </div>
+                            </div>
+                            <div className="col-12">
                                 <ShBrokerForm
                                     placeholders={{
                                         cPlace: strings.shbroker.cPlaceYours, rPlace: strings.shbroker.rPlaceYours,

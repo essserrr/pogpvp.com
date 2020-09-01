@@ -326,10 +326,13 @@ class Move extends React.PureComponent {
                         loading={this.state.loading}
                     />}
                 {!this.state.loading && <div className="row mx-0 justify-content-center">
-                    <div className="col-12 px-0 mb-2 text-center moveconstr__title">
-                        {strings.moveconstr.constr}
+
+                    <div className="col-12 px-1 mb-4 text-center">
+                        <div className="moveconstr__title col-12 px-0">
+                            {strings.moveconstr.constr}
+                        </div>
                     </div>
-                    <div className="col-12 px-0">
+                    <div className="col-12 px-0 mt-1">
                         <div className="row mx-0 justify-content-center">
                             <div className="col-12 col-md-6 px-1">
                                 <LabelAndInput
