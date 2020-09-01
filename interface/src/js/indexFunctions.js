@@ -287,19 +287,19 @@ export function checkIV(IV) {
 
 export function checkLvl(lvl) {
     if (isNaN(lvl)) {
-        return ""
+        return "1"
     }
-    lvl = Number(lvl)
-    if (lvl > 45) {
+    let lvlNumber = Number(lvl)
+    if (lvlNumber > 45) {
         return 45
     }
-    if (lvl < 1) {
-        return ""
+    if (lvlNumber < 1) {
+        return "1"
     }
-    if (!Number.isInteger(lvl / 0.5)) {
-        return Math.trunc(lvl)
+    if (!Number.isInteger(lvlNumber / 0.5)) {
+        return String(Math.trunc(lvlNumber))
     }
-    return String(lvl)
+    return lvl
 }
 
 export function calculateEffStat(name, lvl, value, stage, pokBase, what, isShadow) {
@@ -473,6 +473,7 @@ export function encodePveBoss(data) {
 
 
 export function extractPveObj(array) {
+    console.log(array)
     return {
         FriendshipStage: array[0],
         Weather: array[1],
@@ -621,6 +622,29 @@ export function selectQuick(movelist, moveTable, pokName, pokTable) {
     return bestName
 }
 
+export function selectQuickRaids(movelist, moveTable, pokName, pokTable) {
+    let bestScore = 0
+    let bestName = ""
+    //for every move
+    movelist.forEach(function (move) {
+        //exept select option
+        if (move.key === "Select..." || move.key === "") {
+            return
+        }
+        let duration = moveTable[move.key].Cooldown / 1000
+        let damage = moveTable[move.key].Damage
+        //define stab
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
+        //and calculate score
+        let score = (damage * stab) / duration
+        if (score > bestScore) {
+            bestScore = score
+            bestName = moveTable[move.key].Title
+        }
+    });
+    return bestName
+}
+
 export function selectCharge(movelist, moveTable, pokName, pokTable) {
     let primaryName = ""
     let bestScore = 0
@@ -709,6 +733,32 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
 
 
     return { primaryName, secodaryName }
+}
+
+export function selectChargeRaids(movelist, moveTable, pokName, pokTable) {
+    console.log(movelist, moveTable, pokName, pokTable)
+    let primaryName = ""
+    let bestScore = 0
+    //for every move
+    movelist.forEach((move) => {
+        //exept select option
+        if (move.key === "Select..." || move.key === "") {
+            return
+        }
+        let damage = moveTable[move.key].Damage
+        let energy = -moveTable[move.key].Energy
+        let duration = moveTable[move.key].Cooldown / 1000
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
+        //and calculate score
+        let score = (stab * damage / duration) * (stab * damage / energy)
+        console.log(score)
+        if (score > bestScore) {
+            bestScore = score
+            primaryName = moveTable[move.key].Title
+        }
+    })
+
+    return primaryName
 }
 
 export function returnRateStyle(rate) {

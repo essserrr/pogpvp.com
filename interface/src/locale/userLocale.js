@@ -10,6 +10,13 @@ export const userLocale = {
             t: "Terms and Conditions",
             p: "Privacy Policy",
         },
+
+        userpok: {
+            poktitle: "User pokemon",
+            addpok: "Add pokemon",
+            or: "OR",
+        },
+
         signup: {
             newlin: "Have an account?",
             reg: "Sign up",
@@ -250,6 +257,13 @@ export const userLocale = {
             t: "Условия и положения",
             p: "Политика конфиденциальности",
         },
+
+        userpok: {
+            poktitle: "Покемоны пользователя",
+            addpok: "Добавить покемона",
+            or: "ИЛИ",
+        },
+
         signup: {
             newlin: "Есть аккаунт?",
             reg: "Регистрация",
