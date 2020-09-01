@@ -473,7 +473,6 @@ export function encodePveBoss(data) {
 
 
 export function extractPveObj(array) {
-    console.log(array)
     return {
         FriendshipStage: array[0],
         Weather: array[1],
@@ -736,7 +735,6 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
 }
 
 export function selectChargeRaids(movelist, moveTable, pokName, pokTable) {
-    console.log(movelist, moveTable, pokName, pokTable)
     let primaryName = ""
     let bestScore = 0
     //for every move
@@ -751,7 +749,6 @@ export function selectChargeRaids(movelist, moveTable, pokName, pokTable) {
         let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = (stab * damage / duration) * (stab * damage / energy)
-        console.log(score)
         if (score > bestScore) {
             bestScore = score
             primaryName = moveTable[move.key].Title
