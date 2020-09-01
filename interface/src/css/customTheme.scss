@@ -1361,11 +1361,11 @@ body {
 
   .moveStyle {
     font-weight: bolder;
-    padding: 0rem 0.2rem 0rem 0.2rem;
+    padding: 0rem 0.2rem 0rem 0.2rem !important;
     border-radius: 5px;
     &.m{
         font-weight: inherit;
-        margin: 0.2rem 0rem 0.2rem 0rem;
+        margin: 0.2rem 0rem 0.2rem 0rem !important;
     }
 }
 
