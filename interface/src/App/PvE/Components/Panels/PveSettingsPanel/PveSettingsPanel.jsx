@@ -26,7 +26,7 @@ class PveSettingsPanel extends React.PureComponent {
                         class="input-group input-group-sm"
 
                         name="Weather"
-                        value={this.props.value[this.props.attr].Weather}
+                        value={this.props.value.Weather}
                         attr={this.props.attr}
                         onChange={this.props.onChange}
                         options={<>
@@ -40,7 +40,7 @@ class PveSettingsPanel extends React.PureComponent {
                             <option value="7" key="7">{pveStrings.weatherList[7]}</option>
                         </>}
 
-                        labelWidth="88px"
+                        labelWidth="89px"
                         label={pveStrings.weather}
 
                         for={""}
@@ -51,7 +51,7 @@ class PveSettingsPanel extends React.PureComponent {
                         class="input-group input-group-sm"
 
                         name="FriendshipStage"
-                        value={this.props.value[this.props.attr].FriendshipStage}
+                        value={this.props.value.FriendshipStage}
                         attr={this.props.attr}
                         onChange={this.props.onChange}
                         options={<>
@@ -66,7 +66,7 @@ class PveSettingsPanel extends React.PureComponent {
                             <option value="8" key="8">{pveStrings.friendList.best + " (25%)" + pveStrings.friendList.ev}</option>
                         </>}
 
-                        labelWidth="88px"
+                        labelWidth="89px"
                         label={pveStrings.friend}
 
                         for={""}
@@ -78,7 +78,7 @@ class PveSettingsPanel extends React.PureComponent {
                         class="input-group input-group-sm"
 
                         name="PlayersNumber"
-                        value={this.props.value[this.props.attr].PlayersNumber}
+                        value={this.props.value.PlayersNumber}
                         attr={this.props.attr}
                         onChange={this.props.onChange}
                         options={<>
@@ -104,7 +104,7 @@ class PveSettingsPanel extends React.PureComponent {
                             <option value="20" key="20">20</option>
                         </>}
 
-                        labelWidth="88px"
+                        labelWidth="89px"
                         label={pveStrings.playernumb}
 
 
@@ -120,7 +120,7 @@ class PveSettingsPanel extends React.PureComponent {
                         class="input-group input-group-sm"
 
                         name="PartySize"
-                        value={this.props.value[this.props.attr].PartySize}
+                        value={this.props.value.PartySize}
                         attr={this.props.attr}
                         onChange={this.props.onChange}
                         options={<>
@@ -129,7 +129,7 @@ class PveSettingsPanel extends React.PureComponent {
                             <option value="18" key="18">{"18 (3 " + pveStrings.parties + ")"}</option>
                         </>}
 
-                        labelWidth="88px"
+                        labelWidth="89px"
                         label={pveStrings.partysize}
 
                         place={"top"}
@@ -143,7 +143,7 @@ class PveSettingsPanel extends React.PureComponent {
                         class="input-group input-group-sm"
 
                         name="DodgeStrategy"
-                        value={this.props.value[this.props.attr].DodgeStrategy}
+                        value={this.props.value.DodgeStrategy}
                         attr={this.props.attr}
                         onChange={this.props.onChange}
                         options={<>
@@ -154,7 +154,7 @@ class PveSettingsPanel extends React.PureComponent {
                             <option value="4" key="4">100%</option>
                         </>}
 
-                        labelWidth="88px"
+                        labelWidth="89px"
                         label={pveStrings.dodge}
 
 

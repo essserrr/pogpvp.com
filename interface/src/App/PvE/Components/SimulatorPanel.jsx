@@ -26,6 +26,7 @@ class SimulatorPanel extends React.PureComponent {
     }
 
     render() {
+        console.log(this.props.value.pveObj)
         return (
             <div className={"row justify-content-between m-0"}>
                 <div className="col-12 px-1 text-center ">
@@ -39,7 +40,9 @@ class SimulatorPanel extends React.PureComponent {
                         chargeMoveList={this.props.chargeMoveList}
                         quickMoveList={this.props.quickMoveList}
 
-                        value={this.props.value}
+                        value={this.props.value.bossObj}
+                        settingsValue={this.props.value.pveObj}
+
                         onChange={this.props.onChange}
                         onClick={this.props.onClick}
 
@@ -58,7 +61,9 @@ class SimulatorPanel extends React.PureComponent {
                         chargeMoveList={this.props.chargeMoveList}
                         quickMoveList={this.props.quickMoveList}
 
-                        value={this.props.value}
+                        value={this.props.value.attackerObj}
+                        settingsValue={this.props.value.pveObj}
+
                         onChange={this.props.onChange}
 
                         onClick={this.props.onClick}
@@ -78,7 +83,8 @@ class SimulatorPanel extends React.PureComponent {
                             chargeMoveList={this.props.chargeMoveList}
                             quickMoveList={this.props.quickMoveList}
 
-                            value={this.props.value}
+                            value={this.props.value.supportPokemon}
+
                             onChange={this.props.onChange}
 
                             onClick={this.props.onClick}
@@ -91,7 +97,7 @@ class SimulatorPanel extends React.PureComponent {
                         <PveSettingsPanel
                             title={pveStrings.raid}
                             attr={"pveObj"}
-                            value={this.props.value}
+                            value={this.props.value.pveObj}
                             onChange={this.props.onChange}
                         />
                     </div>

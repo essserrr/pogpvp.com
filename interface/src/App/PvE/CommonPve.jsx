@@ -96,11 +96,11 @@ class CommonPve extends React.PureComponent {
         this.setState({
             [name]: {
                 ...this.state[name],
-                "Name": event.value,
-                "quickMovePool": moves.quickMovePool,
-                "chargeMovePool": moves.chargeMovePool,
-                "QuickMove": "",
-                "ChargeMove": "",
+                Name: event.value,
+                quickMovePool: moves.quickMovePool,
+                chargeMovePool: moves.chargeMovePool,
+                QuickMove: "",
+                ChargeMove: "",
             },
         });
     }

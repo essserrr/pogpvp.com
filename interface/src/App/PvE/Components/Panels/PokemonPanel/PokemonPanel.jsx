@@ -22,7 +22,7 @@ class PokemonPanel extends React.PureComponent {
     render() {
         return (
             <div className="row mx-0 justify-content-center align-items-center">
-                <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>
+                {this.props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>}
                 <div className="col-12 px-0">
                     <PvePokemon
                         attr={this.props.attr}
@@ -44,7 +44,7 @@ class PokemonPanel extends React.PureComponent {
                         class="input-group input-group-sm"
 
                         name="IsShadow"
-                        value={this.props.value[this.props.attr].IsShadow}
+                        value={this.props.value.IsShadow}
                         attr={this.props.attr}
                         onChange={this.props.onChange}
                         options={
@@ -63,10 +63,10 @@ class PokemonPanel extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>}
-                {this.props.canBeShadow && this.props.attr !== "bossObj" && <div className="col-6 px-0 pl-1 my-1">
+                {this.props.canBeShadow && this.props.attr === "attackerObj" && <div className="col-6 px-0 pl-1 my-1">
                     <Checkbox
                         class={"form-check form-check-inline m-0 p-0"}
-                        checked={this.props.value.pveObj.SupportSlotEnabled !== "false" ? "checked" : false}
+                        checked={this.props.settingsValue.SupportSlotEnabled !== "false" ? "checked" : false}
                         attr={"pveObj"}
                         name={"SupportSlotEnabled"}
                         label={

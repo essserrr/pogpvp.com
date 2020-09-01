@@ -42,7 +42,7 @@ class BossPanel extends React.PureComponent {
                         class="input-group input-group-sm"
 
                         name="IsAggresive"
-                        value={this.props.value.pveObj.IsAggresive}
+                        value={this.props.settingsValue.IsAggresive}
                         attr="pveObj"
                         onChange={this.props.onChange}
                         options={
