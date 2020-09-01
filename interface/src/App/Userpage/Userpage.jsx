@@ -8,7 +8,7 @@ import UpageButtons from "./ProfileButtons/ProfileButtons"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import Info from "./Info/Info"
 import Security from "./Security/Security"
-import Pokemon from "./Pokemon/Pokemon"
+import Pokemon from "./UserPokemon/UserPokemon"
 import CustomMoves from "./CustomMoves/CustomMoves"
 import UserShinyBroker from "./UserShinyBroker/UserShinyBroker"
 
