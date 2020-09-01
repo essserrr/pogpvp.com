@@ -2,6 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import EditMenu from "./EditMenu/EditMenu"
 import SubmitButton from "../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import SiteHelm from "../../SiteHelm/SiteHelm"
@@ -452,43 +453,27 @@ class UserShinyBroker extends React.PureComponent {
                         onClick={this.onCloseOuterMenu}
                         attr={"showEdit"}
                         element={
-                            <div className="row justify-content-center">
-                                <div className="col-12 mb-3 px-0">
-                                    <PokemonPanel
-                                        colSize="col-12 my-1"
-                                        attr="editPokemon"
-                                        canBeShadow={true}
+                            <EditMenu
+                                attr="editPokemon"
 
-                                        pokemonTable={this.props.bases.pokemonBase}
-                                        moveTable={this.state.moveTable}
+                                pokemonTable={this.props.bases.pokemonBase}
+                                moveTable={this.state.moveTable}
+
+                                pokList={this.state.pokList}
+                                chargeMoveList={this.state.chargeMoveList}
+                                quickMoveList={this.state.quickMoveList}
+
+                                editPokemon={this.state.editPokemon}
+                                editNotOk={this.state.editNotOk}
+
+                                onChange={this.onChange}
+                                onMenuClose={this.onMenuClose}
 
 
-                                        pokList={this.state.pokList}
-                                        chargeMoveList={this.state.chargeMoveList}
-                                        quickMoveList={this.state.quickMoveList}
+                                onPokemonEditSubmit={this.onPokemonEditSubmit}
 
-                                        value={this.state.editPokemon}
+                            />}
 
-                                        onChange={this.onChange}
-                                        onClick={this.onMenuClose}
-                                    />
-                                </div>
-                                {Object.values(this.state.editNotOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
-                                    <div className="col-12 mx-2 mb-3 ">
-                                        <Errors class="alert alert-danger p-2" value={
-                                            Object.values(this.state.editNotOk).reduce((sum, val, index) => {
-                                                sum.push(<div key={index} className="col-12 py-1">{val}</div>)
-                                                return sum
-                                            }, [])
-                                        }
-                                        />
-                                    </div>}
-                                <SubmitButton
-                                    class="longButton btn btn-primary btn-sm mx-1 my-2"
-                                    attr={"editPokemon"}
-                                    label={strings.moveconstr.changes}
-                                    onSubmit={this.onPokemonEditSubmit} />
-                            </div>}
                     />}
 
                     {!this.state.loading && !this.state.error &&
