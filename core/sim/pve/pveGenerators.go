@@ -74,10 +74,10 @@ func getBoostBonus(booster *app.PokemonsBaseEntry, targetType int) float32 {
 	}
 	for _, boosterType := range booster.Type {
 		if boosterType == targetType {
-			return 1.41
+			return megaBonusMultiplier
 		}
 	}
-	return 1.1
+	return speedBoostMultiplier
 }
 
 //generateMovesets generates row of attacker movesets if attacker name is known
@@ -132,7 +132,7 @@ func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBas
 	var stabMultiplier float32 = 1.0
 	for _, pokType := range attacker.Type {
 		if pokType == move.MoveType {
-			stabMultiplier = 1.2
+			stabMultiplier = stabBonusMultiplier
 			break
 		}
 	}
@@ -304,7 +304,7 @@ func (po *prerunObj) generateForUnknown() {
 	//define shadow bonus
 	var shadowBonus float32 = 1.0
 	if po.inDat.Pok.IsShadow {
-		shadowBonus = 1.2
+		shadowBonus = shadowBonusAttack
 	}
 
 	for _, pok := range po.inDat.App.PokemonStatsBase {
@@ -470,7 +470,7 @@ func (lo *limiterObject) limitMoves() ([]string, error) {
 func (lo *limiterObject) checkStab() float64 {
 	for _, pokType := range lo.pok.Type {
 		if pokType == lo.move.moveBody.MoveType {
-			return 1.2
+			return stabBonusMultiplier
 		}
 	}
 	return 1.0

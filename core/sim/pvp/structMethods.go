@@ -126,8 +126,8 @@ func (pok *pokemon) makeNewBody(pokemonData *app.InitialData, obj *PvpObject) ([
 	)
 
 	if pokemonData.IsShadow {
-		shadowABonus = 1.2
-		shadowDBonus = 0.833
+		shadowABonus = shadowBonusAttack
+		shadowDBonus = shadowBonusDefence
 	}
 
 	pok.effectiveAttack.value = (float32(pokemonData.AttackIV) + float32(speciesType.Atk)) * shadowABonus * pok.levelMultiplier * stagesData[pok.effectiveAttack.stageValue]

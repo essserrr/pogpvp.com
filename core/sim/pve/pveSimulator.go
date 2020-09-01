@@ -7,6 +7,18 @@ import (
 	"math/rand"
 )
 
+//constants
+const megaBonusMultiplier = 1.3
+const speedBoostMultiplier = 1.1
+const stabBonusMultiplier = 1.2
+const shadowBonusAttack = 1.2
+const shadowBonusDefence = 0.833
+
+const switchPartyTime = 10000
+const switchPokemonTime = 1000
+const revivePartyTime = 7000
+const reviveEnabled = false
+
 type pveObject struct {
 	app         *app.SimApp
 	CustomMoves *map[string]app.MoveBaseEntry
@@ -117,7 +129,7 @@ func (m *move) newMultiplier(attacker, defender string, obj *pveObject, isBoss b
 	var stabMultiplier float32 = 1.0
 	for _, pokType := range obj.app.PokemonStatsBase[attacker].Type {
 		if pokType == m.moveType {
-			stabMultiplier = 1.2
+			stabMultiplier = stabBonusMultiplier
 			break
 		}
 	}
@@ -156,31 +168,10 @@ func megaBoost(typesBoosted []int, targetType int) float32 {
 	}
 	for _, boosterType := range typesBoosted {
 		if boosterType == targetType {
-			return 1.41
+			return megaBonusMultiplier
 		}
 	}
-	return 1.1
-}
-
-func (obj *pveObject) switchToNext() {
-	//decrease party size
-	obj.PartySize--
-	//decrease booster counter
-	if obj.BoosterCount > 0 {
-		obj.BoosterCount--
-	}
-
-	//take an action: select new pokemon or revive the last one
-	switch len(obj.Attacker)-1 > obj.ActivePok {
-	case true:
-		obj.ActivePok++
-		obj.Attacker[obj.ActivePok].initializePokemon(obj.Boss.name, obj, false)
-		obj.Boss.setMultipliers(obj.Attacker[obj.ActivePok].name, obj, true)
-	default:
-		obj.Attacker[obj.ActivePok].revive()
-		obj.Attacker[obj.ActivePok].setMultipliers(obj.Boss.name, obj, false)
-	}
-
+	return speedBoostMultiplier
 }
 
 func (obj *pveObject) letsBattle() error {
@@ -196,15 +187,41 @@ func (obj *pveObject) letsBattle() error {
 		if obj.Attacker[obj.ActivePok].hp <= 0 {
 			obj.switchToNext()
 			//switch pokemon
-			obj.substructPause(1000)
+			obj.substructPause(switchPokemonTime)
 			//switch party
 			if obj.PartySize == 12 || obj.PartySize == 6 {
-				obj.substructPause(10000)
+				if reviveEnabled && len(obj.Attacker) < int(obj.PartySize) {
+					obj.reviveParty()
+				}
+				obj.substructPause(switchPartyTime)
 				continue
 			}
 		}
 	}
 	return nil
+}
+
+func (obj *pveObject) switchToNext() {
+	//decrease party size
+	obj.PartySize--
+	//decrease booster counter
+	if obj.BoosterCount > 0 {
+		obj.BoosterCount--
+	}
+	obj.nextPokemon()
+}
+
+func (obj *pveObject) nextPokemon() {
+	//take an action: select new pokemon or revive the last one
+	switch len(obj.Attacker)-1 > obj.ActivePok {
+	case true:
+		obj.ActivePok++
+		obj.Attacker[obj.ActivePok].initializePokemon(obj.Boss.name, obj, false)
+		obj.Boss.setMultipliers(obj.Attacker[obj.ActivePok].name, obj, true)
+	default:
+		obj.Attacker[obj.ActivePok].revive()
+		obj.Attacker[obj.ActivePok].setMultipliers(obj.Boss.name, obj, false)
+	}
 }
 
 func (pok *pokemon) revive() {
@@ -218,6 +235,17 @@ func (pok *pokemon) revive() {
 	pok.timeToDamage = 0
 	pok.timeToEnergy = 0
 	pok.moveCooldown = 0
+}
+
+func (obj *pveObject) reviveParty() {
+	obj.substructPause(switchPartyTime)
+	for key := range obj.Attacker {
+		obj.Attacker[key].revive()
+	}
+	obj.BoosterCount = obj.PlayersNumber
+	obj.ActivePok = 0
+	obj.Attacker[obj.ActivePok].initializePokemon(obj.Boss.name, obj, false)
+	obj.Boss.setMultipliers(obj.Attacker[obj.ActivePok].name, obj, true)
 }
 
 //substructPause substructs oause from raid timer and sets up boss behavior

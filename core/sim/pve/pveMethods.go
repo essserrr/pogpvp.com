@@ -102,8 +102,8 @@ func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObj
 	)
 
 	if pokemonData.IsShadow {
-		shadowABonus = 1.2
-		shadowDBonus = 0.833
+		shadowABonus = shadowBonusAttack
+		shadowDBonus = shadowBonusDefence
 	}
 
 	pok.effectiveAttack = (float32(pokemonData.AttackIV) + float32(speciesType.Atk)) * shadowABonus * pok.levelMultiplier

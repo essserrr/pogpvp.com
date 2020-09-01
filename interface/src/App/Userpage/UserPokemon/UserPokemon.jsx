@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import EditMenu from "./EditMenu/EditMenu"
-import SubmitButton from "../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import SiteHelm from "../../SiteHelm/SiteHelm"
 import Errors from "../../PvP/components/Errors/Errors"
@@ -69,6 +68,9 @@ class UserShinyBroker extends React.PureComponent {
         this.onPokemonEditSubmit = this.onPokemonEditSubmit.bind(this)
 
         this.onCloseOuterMenu = this.onCloseOuterMenu.bind(this)
+
+        this.onTurnOnImport = this.onTurnOnImport.bind(this)
+        this.onImport = this.onImport.bind(this)
     }
 
     async componentDidMount() {
@@ -359,53 +361,21 @@ class UserShinyBroker extends React.PureComponent {
         })
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     onTurnOnImport(event) {
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
         }
-        let role = event.target.getAttribute("attr")
         this.setState({
-            [role + "Import"]: !this.state[role + "Import"]
+            showImport: !this.state.showImport
         });
     }
 
+
+
     onImport(obj) {
         this.setState({
-            [obj.attr + "Import"]: !this.state[obj.attr + "Import"],
-            [obj.attr]: this.createImportedList(obj.value)
+            showImport: !this.state.showImport,
+            userPokemon: this.createImportedList(obj.value)
         });
     }
 
@@ -425,6 +395,39 @@ class UserShinyBroker extends React.PureComponent {
         })
         return importedAsObj
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     async onSaveChanges() {
         console.log(this.state.activePokemon)

@@ -9,6 +9,11 @@ import (
 	"time"
 )
 
+const pvpBaseMultiplier = 1.3
+const shadowBonusAttack = 1.2
+const shadowBonusDefence = 0.833
+const stabBonusMultiplier = 1.2
+
 var globalPvpObjectPool = sync.Pool{
 	New: func() interface{} {
 		return &PvpObject{}
@@ -237,12 +242,10 @@ func (pok *pokemon) getQuickMultipliersAgainst(attackerTypes, defenderTypes []in
 	}
 	moveEfficiency := obj.app.TypesData[pok.quickMove.moveType]
 
-	const pvpBaseMultiplier = 1.3
-
 	var stabMultiplier float32 = 1.0
 	for _, pokType := range attackerTypes {
 		if pokType == pok.quickMove.moveType {
-			stabMultiplier = 1.2
+			stabMultiplier = stabBonusMultiplier
 			break
 		}
 	}
@@ -274,12 +277,10 @@ func (pok *pokemon) getChargeMultipliersAgainst(attackerTypes, defenderTypes []i
 		}
 		moveEfficiency := obj.app.TypesData[moveContent.moveType]
 
-		const pvpBaseMultiplier = 1.3
-
 		var stabMultiplier float32 = 1.0
 		for _, pokType := range attackerTypes {
 			if pokType == moveContent.moveType {
-				stabMultiplier = 1.2
+				stabMultiplier = stabBonusMultiplier
 				break
 			}
 		}
