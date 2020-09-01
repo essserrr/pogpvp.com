@@ -25,6 +25,7 @@ class PokemonPanel extends React.PureComponent {
                 {this.props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>}
                 <div className="col-12 px-0">
                     <PvePokemon
+                        colSize={this.props.colSize}
                         attr={this.props.attr}
 
                         pokemonTable={this.props.pokemonTable}
@@ -39,7 +40,7 @@ class PokemonPanel extends React.PureComponent {
                         onClick={this.props.onClick}
                     />
                 </div>
-                {this.props.canBeShadow && <div className="col-6 px-0 pr-1 my-1">
+                {this.props.canBeShadow && <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pr-1 my-1"}>
                     <SelectGroup
                         class="input-group input-group-sm"
 

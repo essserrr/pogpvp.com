@@ -2,6 +2,8 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import SubmitButton from "../../PvP/components/SubmitButton/SubmitButton"
+import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import SiteHelm from "../../SiteHelm/SiteHelm"
 import Errors from "../../PvP/components/Errors/Errors"
 import Loader from "../../PvpRating/Loader"
@@ -31,8 +33,11 @@ class UserShinyBroker extends React.PureComponent {
         pvpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             activePokemon: pveattacker(),
+            editPokemon: {},
+            showEdit: false,
 
             notOk: {},
+            editNotOk: {},
 
             pokList: {},
             moveTable: {},
@@ -54,9 +59,15 @@ class UserShinyBroker extends React.PureComponent {
         }
 
         this.onChange = this.onChange.bind(this)
+        this.onMenuClose = this.onMenuClose.bind(this)
         this.onSaveChanges = this.onSaveChanges.bind(this)
+
         this.onPokemonAdd = this.onPokemonAdd.bind(this)
         this.onPokemonDelete = this.onPokemonDelete.bind(this)
+        this.onPokemonEdit = this.onPokemonEdit.bind(this)
+        this.onPokemonEditSubmit = this.onPokemonEditSubmit.bind(this)
+
+        this.onCloseOuterMenu = this.onCloseOuterMenu.bind(this)
     }
 
     async componentDidMount() {
@@ -111,7 +122,7 @@ class UserShinyBroker extends React.PureComponent {
         return Object.entries(pokBase).map((value) => ({ value: value[0], label: <div style={{ textAlign: "left" }}>{value[0]}</div>, }))
     }
 
-    onClick(event) {
+    onMenuClose(event) {
         let role = event.target.getAttribute("attr")
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
@@ -267,7 +278,7 @@ class UserShinyBroker extends React.PureComponent {
     onPokemonAdd(event) {
         let attr = event.target.getAttribute("attr")
         if (this.state[attr].length > 1500) { return }
-        let err = this.validate()
+        let err = this.validate(this.state.activePokemon)
         if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
             this.setState({
                 notOk: err,
@@ -281,15 +292,15 @@ class UserShinyBroker extends React.PureComponent {
         })
     }
 
-    validate() {
+    validate(obj) {
         let errObj = {}
-        if (this.state.activePokemon.Name === "") {
+        if (obj.Name === "") {
             errObj.Name = strings.userpok.err.errname
         }
-        if (this.state.activePokemon.QuickMove === "") {
+        if (obj.QuickMove === "") {
             errObj.Quick = strings.userpok.err.errq
         }
-        if (this.state.activePokemon.ChargeMove === "") {
+        if (obj.ChargeMove === "") {
             errObj.Charge = strings.userpok.err.errch
         }
         return errObj
@@ -304,6 +315,48 @@ class UserShinyBroker extends React.PureComponent {
         })
     }
 
+    onPokemonEdit(pok) {
+        //get movepool
+        var moves = returnMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
+
+        this.setState({
+            showEdit: true,
+            editPokemon: {
+                ...pok,
+                quickMovePool: moves.quickMovePool,
+                chargeMovePool: moves.chargeMovePool,
+            },
+        })
+
+    }
+
+    onPokemonEditSubmit() {
+        let err = this.validate(this.state.editPokemon)
+        if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
+            this.setState({
+                editNotOk: err,
+            })
+            return
+        }
+        let newList = [...this.state.userPokemon]
+        newList[this.state.editPokemon.index] = this.state.editPokemon
+        this.setState({
+            showEdit: false,
+            userPokemon: newList,
+            editNotOk: {},
+            editPokemon: {},
+        })
+    }
+
+    onCloseOuterMenu(event) {
+        let role = event.target.getAttribute("attr")
+        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
+            return
+        }
+        this.setState({
+            [role]: !this.state[role],
+        })
+    }
 
 
 
@@ -394,6 +447,50 @@ class UserShinyBroker extends React.PureComponent {
                             locale={strings.loading}
                             loading={this.state.loading}
                         />}
+
+                    {(this.state.showEdit) && <MagicBox
+                        onClick={this.onCloseOuterMenu}
+                        attr={"showEdit"}
+                        element={
+                            <div className="row justify-content-center">
+                                <div className="col-12 mb-3 px-0">
+                                    <PokemonPanel
+                                        colSize="col-12 my-1"
+                                        attr="editPokemon"
+                                        canBeShadow={true}
+
+                                        pokemonTable={this.props.bases.pokemonBase}
+                                        moveTable={this.state.moveTable}
+
+
+                                        pokList={this.state.pokList}
+                                        chargeMoveList={this.state.chargeMoveList}
+                                        quickMoveList={this.state.quickMoveList}
+
+                                        value={this.state.editPokemon}
+
+                                        onChange={this.onChange}
+                                        onClick={this.onMenuClose}
+                                    />
+                                </div>
+                                {Object.values(this.state.editNotOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
+                                    <div className="col-12 mx-2 mb-3 ">
+                                        <Errors class="alert alert-danger p-2" value={
+                                            Object.values(this.state.editNotOk).reduce((sum, val, index) => {
+                                                sum.push(<div key={index} className="col-12 py-1">{val}</div>)
+                                                return sum
+                                            }, [])
+                                        }
+                                        />
+                                    </div>}
+                                <SubmitButton
+                                    class="longButton btn btn-primary btn-sm mx-1 my-2"
+                                    attr={"editPokemon"}
+                                    label={strings.moveconstr.changes}
+                                    onSubmit={this.onPokemonEditSubmit} />
+                            </div>}
+                    />}
+
                     {!this.state.loading && !this.state.error &&
                         <>
                             <div className="col-12 pt-2 text-center">
@@ -413,18 +510,17 @@ class UserShinyBroker extends React.PureComponent {
                                     quickMoveList={this.state.quickMoveList}
 
                                     value={this.state.activePokemon}
-                                    settingsValue={this.state.settingsObj}
 
                                     onChange={this.onChange}
 
-                                    onClick={this.onClick}
+                                    onClick={this.onMenuClose}
                                 />
                             </div>
                             {Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
                                 <div className="col-12 pt-2">
                                     <Errors class="alert alert-danger p-2" value={
-                                        Object.values(this.state.notOk).reduce((sum, val) => {
-                                            sum.push(<div className="col-12 py-1">{val}</div>)
+                                        Object.values(this.state.notOk).reduce((sum, val, index) => {
+                                            sum.push(<div key={index} className="col-12 py-1">{val}</div>)
                                             return sum
                                         }, [])
                                     }
@@ -443,6 +539,7 @@ class UserShinyBroker extends React.PureComponent {
 
                                     onPokemonAdd={this.onPokemonAdd}
                                     onPokemonDelete={this.onPokemonDelete}
+                                    onPokemonEdit={this.onPokemonEdit}
 
                                     pokemonTable={this.props.bases.pokemonBase}
                                     moveTable={this.state.moveTable}

@@ -66,6 +66,7 @@ class PokemonBox extends React.PureComponent {
                         list={this.props.userList}
 
                         onPokemonDelete={this.props.onPokemonDelete}
+                        onPokemonEdit={this.props.onPokemonEdit}
                     />
                 </div>
             </>

@@ -20,6 +20,7 @@ class PvePokemon extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
+
     render() {
         return (
             <div className="row mx-0 justify-content-center align-items-center">
@@ -57,7 +58,7 @@ class PvePokemon extends React.PureComponent {
                 <div className="col-12 px-0 my-1">
                     <div className="row mx-0 justify-content-between align-items-center">
                         {this.props.pokList &&
-                            <div className="col-6 px-0 pr-1">
+                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pr-1"}>
                                 <SearchableSelect
                                     value={this.props.value.Name}
                                     list={this.props.pokList}
@@ -66,7 +67,7 @@ class PvePokemon extends React.PureComponent {
                                 />
                             </div>}
                         {this.props.attr !== "bossObj" &&
-                            <div className="col-6 px-0 pl-1">
+                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pl-1"}>
                                 <Stats
                                     class="font95 input-group input-group-sm"
 
@@ -122,7 +123,7 @@ class PvePokemon extends React.PureComponent {
 
 
 
-                <div className="col-6 px-0 pr-1  my-1">
+                <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pr-1  my-1"}>
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -153,7 +154,7 @@ class PvePokemon extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>
-                <div className="col-6 px-0 pl-1  my-1">
+                <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pl-1  my-1"}>
                     <SelectGroup
                         class="input-group input-group-sm"
 

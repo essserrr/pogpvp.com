@@ -31,6 +31,7 @@ class UserShinyList extends React.PureComponent {
                         pokemonTable={this.props.pokemonTable}
 
                         onClick={this.props.onPokemonDelete}
+                        onPokemonEdit={this.props.onPokemonEdit}
                     />)}
             </div>
         );

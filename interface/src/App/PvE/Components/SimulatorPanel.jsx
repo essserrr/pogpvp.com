@@ -26,7 +26,6 @@ class SimulatorPanel extends React.PureComponent {
     }
 
     render() {
-        console.log(this.props.value.pveObj)
         return (
             <div className={"row justify-content-between m-0"}>
                 <div className="col-12 px-1 text-center ">
