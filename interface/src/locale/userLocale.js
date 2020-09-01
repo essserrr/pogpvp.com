@@ -15,6 +15,11 @@ export const userLocale = {
             poktitle: "User pokemon",
             addpok: "Add pokemon",
             or: "OR",
+            filt: "Filters",
+
+            pokname: "Pokemon name",
+            qname: "Quick move",
+            chname: "Charge move",
 
             err: {
                 errname: "You must select a pokemon",
@@ -270,6 +275,11 @@ export const userLocale = {
             poktitle: "Покемоны пользователя",
             addpok: "Добавить покемона",
             or: "ИЛИ",
+            filt: "Фильтры",
+
+            pokname: "Имя покемона",
+            qname: "Быстрое умение",
+            chname: "Заряжаемое умение",
 
             err: {
                 errname: "Вы должны выбрать покемона",
