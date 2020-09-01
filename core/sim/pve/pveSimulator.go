@@ -156,7 +156,7 @@ func megaBoost(typesBoosted []int, targetType int) float32 {
 	}
 	for _, boosterType := range typesBoosted {
 		if boosterType == targetType {
-			return 1.3
+			return 1.41
 		}
 	}
 	return 1.1

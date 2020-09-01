@@ -59,6 +59,9 @@ func canBoost(target string) bool {
 	if strings.Index(target, "Mega ") != -1 {
 		return true
 	}
+	if strings.Index(target, "Primal ") != -1 {
+		return true
+	}
 	return false
 }
 
@@ -71,7 +74,7 @@ func getBoostBonus(booster *app.PokemonsBaseEntry, targetType int) float32 {
 	}
 	for _, boosterType := range booster.Type {
 		if boosterType == targetType {
-			return 1.3
+			return 1.41
 		}
 	}
 	return 1.1
