@@ -111,7 +111,6 @@ class ImportExport extends React.PureComponent {
 
                 <textarea onChange={this.onChange} value={this.state.value} ref={this.textArea}
                     className="form-control mt-2" rows="7">
-
                 </textarea>
 
                 <div className="row mx-0 justify-content-center mt-3 mb-1">

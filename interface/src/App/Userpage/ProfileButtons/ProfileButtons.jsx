@@ -52,9 +52,4 @@ class ProfileButtons extends React.PureComponent {
     }
 }
 
-/*
-<Link className={"col-auto single-button disabled px-0" + (this.props.activePath === "pokemon" ? " active" : "")}
-                    to="/profile/pokemon" data-tip data-for={"broker"}>{strings.upage.p}</Link>
-*/
-
 export default ProfileButtons
