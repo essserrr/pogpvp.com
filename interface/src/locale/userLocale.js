@@ -15,6 +15,12 @@ export const userLocale = {
             poktitle: "User pokemon",
             addpok: "Add pokemon",
             or: "OR",
+
+            err: {
+                errname: "You must select a pokemon",
+                errq: "You must select a quick move",
+                errch: "You must select a charge move",
+            },
         },
 
         signup: {
@@ -63,6 +69,8 @@ export const userLocale = {
             usrsec: "User page: Security  |  PogPvP.com",
             usrmoves: "User page: User's moves  |  PogPvP.com",
             usrbroker: "User page: Shiny broker  |  PogPvP.com",
+            usrpok: "User page: User pokemon  |  PogPvP.com",
+
             broker: "Shiny broker  |  PogPvP.com",
         },
         pagedescriptions: {
@@ -262,6 +270,12 @@ export const userLocale = {
             poktitle: "Покемоны пользователя",
             addpok: "Добавить покемона",
             or: "ИЛИ",
+
+            err: {
+                errname: "Вы должны выбрать покемона",
+                errq: "Вы должны выбрать быстрое умение",
+                errch: "Вы должны выбрать заряжаемое умение",
+            },
         },
 
         signup: {
@@ -309,6 +323,7 @@ export const userLocale = {
             usrsec: "Страница пользователя: Безопасность  |  PogPvP.com",
             usrmoves: "Страница пользователя: Умения пользователя  |  PogPvP.com",
             usrbroker: "Страница пользователя: Шайни брокер  |  PogPvP.com",
+            usrpok: "Страница пользователя: Покемоны пользователя  |  PogPvP.com",
 
             broker: "Шайни брокер  |  PogPvP.com",
         },

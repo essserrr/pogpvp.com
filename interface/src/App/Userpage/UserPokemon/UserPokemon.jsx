@@ -280,13 +280,13 @@ class UserShinyBroker extends React.PureComponent {
     validate() {
         let errObj = {}
         if (this.state.activePokemon.Name === "") {
-            errObj.Name = "Name err"
+            errObj.Name = strings.userpok.err.errname
         }
         if (this.state.activePokemon.QuickMove === "") {
-            errObj.Quick = "Quick Move err"
+            errObj.Quick = strings.userpok.err.errq
         }
         if (this.state.activePokemon.ChargeMove === "") {
-            errObj.Charge = "Charge Move err"
+            errObj.Charge = strings.userpok.err.errch
         }
         return errObj
     }
@@ -377,8 +377,8 @@ class UserShinyBroker extends React.PureComponent {
         return (
             <div className="col pt-2 px-2">
                 <SiteHelm
-                    url="https://pogpvp.com/profile/shinybroker"
-                    header={strings.pageheaders.usrbroker}
+                    url="https://pogpvp.com/profile/pokemon"
+                    header={strings.pageheaders.usrpok}
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
@@ -392,8 +392,10 @@ class UserShinyBroker extends React.PureComponent {
                         />}
                     {!this.state.loading && !this.state.error &&
                         <>
-                            <div className="user-pokemon__title col-12 pt-2 text-center">{strings.userpok.poktitle}</div>
-                            <div className="col-12 pt-3">
+                            <div className="col-12 pt-2 text-center">
+                                <div className="user-pokemon__title col-12 px-0 mb-4">{strings.userpok.poktitle}</div>
+                            </div>
+                            <div className="col-12">
                                 <PokemonPanel
                                     attr="activePokemon"
                                     canBeShadow={true}
