@@ -2,11 +2,11 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from 'react-redux'
 
+import UserShinyFilter from "../UserShinyFilter/UserShinyFilter"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import ImportExport from "../../../PvP/components/ImportExport/ImportExport"
 import SearchableSelect from "../../../PvP/components/SearchableSelect/SearchableSelect"
-import UserShinyList from "../UserShinyList/UserShinyList"
 import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup"
 import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
 
@@ -93,7 +93,7 @@ class ShBrokerSelectPanel extends React.PureComponent {
                 </div>}
 
                 {!this.props.checked && <div className="col-12 px-0 mt-3 mb-2">
-                    <UserShinyList
+                    <UserShinyFilter
                         attr={this.props.attr}
                         pokemonTable={this.props.pokemonTable}
                         list={this.props.userList}
