@@ -11,8 +11,8 @@ class UserShinyList extends React.PureComponent {
 
         this.state = {
             page: 1,
-            listToShow: this.props.list.slice(0, 20 > this.props.list.length ? this.props.list.length : 20),
-            isNext: 20 > this.props.list.length ? false : true
+            listToShow: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
+            isNext: this.props.elemntsOnPage > this.props.list.length ? false : true
         }
     }
 
@@ -22,20 +22,20 @@ class UserShinyList extends React.PureComponent {
         }
 
         this.setState({
-            listToShow: this.props.list.slice(0, 20 > this.props.list.length ? this.props.list.length : 20),
+            listToShow: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
             page: 1,
-            isNext: 20 > this.props.list.length ? false : true
+            isNext: this.props.elemntsOnPage > this.props.list.length ? false : true
         })
     }
 
 
     fetchMoreData = () => {
-        let page = (this.state.page + 1) * 20 > this.props.list.length ? this.state.page : (this.state.page + 1)
-        let upperBound = (this.state.page + 1) * 20 > this.props.list.length ? this.props.list.length : (this.state.page + 1) * 20
-        let isNext = (this.state.page + 1) * 20 > this.props.list.length ? false : true
+        let page = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? this.state.page : (this.state.page + 1)
+        let upperBound = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : (this.state.page + 1) * this.props.elemntsOnPage
+        let isNext = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? false : true
 
         this.setState({
-            listToShow: this.state.listToShow.concat(this.props.list.slice(this.state.page * 20, upperBound)),
+            listToShow: this.state.listToShow.concat(this.props.list.slice(this.state.page * this.props.elemntsOnPage, upperBound)),
             page: page,
             isNext: isNext
         })
@@ -44,12 +44,12 @@ class UserShinyList extends React.PureComponent {
 
     render() {
         return (
-            <div id="scrollableDiv" className="ushiny row mx-0  p-2 justify-content-start">
+            <div id="userPokemonList" className="ushiny row mx-0  p-2 justify-content-start">
                 <InfiniteScroll
                     dataLength={this.state.listToShow.length}
                     next={this.fetchMoreData}
                     hasMore={this.state.isNext}
-                    scrollableTarget="scrollableDiv"
+                    scrollableTarget="userPokemonList"
                     scrollThreshold={0.7}
                 >
                     <div className="row mx-0">

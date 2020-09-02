@@ -38,6 +38,7 @@ class UserFilteredList extends React.PureComponent {
     render() {
         return (
             <UserPokemonList
+                elemntsOnPage={20}
                 attr={this.props.attr}
 
                 moveTable={this.props.moveTable}
