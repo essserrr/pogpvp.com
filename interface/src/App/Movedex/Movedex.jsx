@@ -270,7 +270,7 @@ class Movedex extends React.Component {
                                             />
                                         </>}
                                         activeFilter={this.state.active}
-                                        pageSize={40}
+                                        elemntsOnPage={40}
                                     />
                                 </>}
                         </div>
