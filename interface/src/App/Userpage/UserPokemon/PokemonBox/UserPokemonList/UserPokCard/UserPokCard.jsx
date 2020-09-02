@@ -27,7 +27,7 @@ const UserPokCard = React.memo(function (props) {
                     multiline={true} >
                     {props.value.Name}
                 </ReactTooltip>
-                <div onClick={onPokemonOpenWrapper} data-tip data-for={props.attr + props.value.Name} className="col-auto px-0 posRel">
+                <div data-tip data-for={props.attr + props.value.Name} className="col-auto px-0 posRel">
                     {props.pokemonTable[props.value.Name] && <PokemonIconer
                         src={props.pokemonTable[props.value.Name].Number +
                             (props.pokemonTable[props.value.Name].Forme !== "" ? "-" + props.pokemonTable[props.value.Name].Forme : "")}
@@ -35,16 +35,23 @@ const UserPokCard = React.memo(function (props) {
                     />}
                     {props.value.IsShadow === "true" ? <Shadow className="posAbs icon18" style={{ right: "-3px" }} /> : null}
                 </div>
-                <div onClick={onPokemonOpenWrapper} className="col px-2">{`${props.value.Lvl}:${props.value.Atk}/${props.value.Def}/${props.value.Sta}`}</div>
+                <div className="col px-2">
+                    <div>{`${props.value.Lvl}:${props.value.Atk}/${props.value.Def}/${props.value.Sta}`}</div>
+                    <div>{`CP:${props.value.CP}`}</div>
+                </div>
                 {props.onClick && <CloseButton attr={props.attr} index={props.index} className="close" onClick={props.onClick} />}
             </div>
 
-            <div onClick={onPokemonOpenWrapper} className={"col-12 mb-1  moveStyle typeColorC" + props.moveTable[props.value.QuickMove].MoveType + " text"} >
+            <div className={"col-12 mb-1  moveStyle typeColorC" + props.moveTable[props.value.QuickMove].MoveType + " text"} >
                 {props.value.QuickMove}
             </div>
-            <div onClick={onPokemonOpenWrapper} className={"col-12  moveStyle typeColorC" + props.moveTable[props.value.ChargeMove].MoveType + " text"}>
+            <div className={"col-12  moveStyle typeColorC" + props.moveTable[props.value.ChargeMove].MoveType + " text"}>
                 {props.value.ChargeMove}
             </div>
+            {props.value.ChargeMove2 && props.moveTable[props.value.ChargeMove2] &&
+                <div className={"col-12 mt-1  moveStyle typeColorC" + props.moveTable[props.value.ChargeMove2].MoveType + " text"}>
+                    {props.value.ChargeMove2}
+                </div>}
         </div>
     )
 })
