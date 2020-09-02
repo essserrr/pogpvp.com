@@ -84,7 +84,6 @@ class PokemonBox extends React.PureComponent {
     render() {
         return (
             <>
-
                 <div className="row  justify-content-center align-items-center mx-0" >
                     <SubmitButton
                         class="longButton btn btn-primary btn-sm mx-1 my-2"
