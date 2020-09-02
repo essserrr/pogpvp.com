@@ -1,7 +1,7 @@
 import React from "react";
 import Type from "../PvP/components/CpAndTypes/Type"
 
-import { culculateCP } from "../../js/indexFunctions"
+import { calculateCP } from "../../js/indexFunctions"
 
 const CardBody = React.memo(function (props) {
     return (
@@ -16,7 +16,7 @@ const CardBody = React.memo(function (props) {
                     code={props.pokTable[props.name].Type[1]}
                 />}
             </div>
-            {"CP: " + culculateCP(props.name, 15, 10, 10, 10, props.pokTable) + "-" + culculateCP(props.name, 15, 15, 15, 15, props.pokTable)}
+            {"CP: " + calculateCP(props.name, 15, 10, 10, 10, props.pokTable) + "-" + calculateCP(props.name, 15, 15, 15, 15, props.pokTable)}
         </>
     )
 });

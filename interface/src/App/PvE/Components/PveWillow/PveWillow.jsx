@@ -2,7 +2,7 @@ import React from "react";
 
 import LocalizedStrings from "react-localization";
 import { pveLocale } from "../../../../locale/pveLocale"
-import { tierHP, weather, culculateCP } from "../../../../js/indexFunctions"
+import { tierHP, weather, calculateCP } from "../../../../js/indexFunctions"
 import { getCookie } from "../../../../js/getCookie"
 import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 import WeatherBoosted from "./WeatherBoosted"
@@ -55,7 +55,7 @@ class PveWillow extends React.PureComponent {
                     </span>}
                     {". " + pvestrings.willow5}<span className="font-weight-bold">{boost ? pvestrings.boosted : pvestrings.normal}</span>
                     <span className="font-weight-bold">
-                        {culculateCP(
+                        {calculateCP(
                             this.props.snapshot.bossObj.Name,
                             boost ? 25 : 20,
                             10,
@@ -63,7 +63,7 @@ class PveWillow extends React.PureComponent {
                             10,
                             this.props.pokemonTable
                         ) + "-" +
-                            culculateCP(
+                            calculateCP(
                                 this.props.snapshot.bossObj.Name,
                                 boost ? 25 : 20,
                                 15,

@@ -1,7 +1,7 @@
 import React from "react"
 
 import WeatherMoves from "../WeatherMoves/WeatherMoves"
-import { culculateCP, calculateEffStat } from "../../../../js/indexFunctions"
+import { calculateCP, calculateEffStat } from "../../../../js/indexFunctions"
 
 class NameAndMoves extends React.PureComponent {
     render() {
@@ -18,7 +18,7 @@ class NameAndMoves extends React.PureComponent {
                 />
             </div>
             <div className="col-12 p-0 fBolder">
-                {"CP "} {culculateCP(this.props.name, this.props.snapshot[this.props.attr].Lvl, this.props.snapshot[this.props.attr].Atk, this.props.snapshot[this.props.attr].Def, this.props.snapshot[this.props.attr].Sta, this.props.pokemonTable)}
+                {"CP "} {calculateCP(this.props.name, this.props.snapshot[this.props.attr].Lvl, this.props.snapshot[this.props.attr].Atk, this.props.snapshot[this.props.attr].Def, this.props.snapshot[this.props.attr].Sta, this.props.pokemonTable)}
                 {" / HP "} {calculateEffStat(this.props.name, this.props.snapshot[this.props.attr].Lvl, this.props.snapshot[this.props.attr].Sta, 0, this.props.pokemonTable, "Sta", false)}
                 {this.props.formattedName.Additional && (" / " + this.props.formattedName.Additional)}
             </div>

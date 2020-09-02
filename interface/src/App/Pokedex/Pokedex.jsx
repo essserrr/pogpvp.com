@@ -13,7 +13,7 @@ import GenRow from "./GenRow/GenRow"
 import Input from "../PvP/components/Input/Input"
 
 import { dexLocale } from "../../locale/dexLocale"
-import { culculateCP } from "../../js/indexFunctions"
+import { calculateCP } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 
 let strings = new LocalizedStrings(dexLocale);
@@ -54,7 +54,7 @@ class Pokedex extends React.Component {
             for (const [key, value] of Object.entries(this.props.bases.pokemonBase)) {
                 value.Generation = Number(value.Generation)
                 value.Number = Number(value.Number)
-                value.CP = culculateCP(value.Title, 40, 15, 15, 15, this.props.bases.pokemonBase)
+                value.CP = calculateCP(value.Title, 40, 15, 15, 15, this.props.bases.pokemonBase)
                 arr.push(
                     <PokeRow
                         key={key}

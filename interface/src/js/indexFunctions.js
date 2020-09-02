@@ -248,7 +248,7 @@ function generateMaximized(sheet) {
     }
 }
 
-export function culculateCP(name, Lvl, Atk, Def, Sta, pokBase) {
+export function calculateCP(name, Lvl, Atk, Def, Sta, pokBase) {
     if (!name || !pokBase[name]) {
         return 0
     }
@@ -260,7 +260,7 @@ export function culculateCP(name, Lvl, Atk, Def, Sta, pokBase) {
     return cpAtLvl
 }
 
-export function culculateBossCP(name, tier, pokBase) {
+export function calculateBossCP(name, tier, pokBase) {
     if (!name || !pokBase[name]) {
         return 0
     }
@@ -501,6 +501,15 @@ export function pveattacker() {
         IsShadow: "false", quickMovePool: "", chargeMovePool: "",
     }
 }
+
+export function getUserPok() {
+    return {
+        Name: "", QuickMove: "", ChargeMove: "", ChargeMove2: "",
+        Lvl: "40", Atk: "15", Def: "15", Sta: "15",
+        IsShadow: "false", quickMovePool: "", chargeMovePool: "",
+    }
+}
+
 
 export function boss(locale) {
     return {

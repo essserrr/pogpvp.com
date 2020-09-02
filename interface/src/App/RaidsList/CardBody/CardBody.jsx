@@ -1,6 +1,6 @@
 import React from "react";
 import Type from "../../PvP/components/CpAndTypes/Type"
-import { culculateCP, weatherDecoder } from "../../../js/indexFunctions"
+import { calculateCP, weatherDecoder } from "../../../js/indexFunctions"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 
 const CardBody = React.memo(function (props) {
@@ -16,7 +16,7 @@ const CardBody = React.memo(function (props) {
                     code={props.pokTable[props.name].Type[1]}
                 />}
             </div>
-            {"CP: " + culculateCP(props.name, 20, 10, 10, 10, props.pokTable) + "-" + culculateCP(props.name, 20, 15, 15, 15, props.pokTable)}
+            {"CP: " + calculateCP(props.name, 20, 10, 10, 10, props.pokTable) + "-" + calculateCP(props.name, 20, 15, 15, 15, props.pokTable)}
             <div className="col-12 p-0">
                 {(props.pokTable[props.name].Type[0] !== undefined) && <PokemonIconer
                     folder="/weather/"
@@ -26,7 +26,7 @@ const CardBody = React.memo(function (props) {
                     folder="/weather/"
                     src={weatherDecoder[props.pokTable[props.name].Type[1]]}
                     class={"icon18"} />}
-                {": " + culculateCP(props.name, 25, 10, 10, 10, props.pokTable) + "-" + culculateCP(props.name, 25, 15, 15, 15, props.pokTable)}
+                {": " + calculateCP(props.name, 25, 10, 10, 10, props.pokTable) + "-" + calculateCP(props.name, 25, 15, 15, 15, props.pokTable)}
             </div>
         </>
     )

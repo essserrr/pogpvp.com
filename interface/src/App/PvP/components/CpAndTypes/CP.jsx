@@ -1,15 +1,15 @@
 import React from "react";
-import { culculateCP, culculateBossCP } from "../../../../js/indexFunctions.js"
+import { calculateCP, calculateBossCP } from "../../../../js/indexFunctions.js"
 
 const CP = React.memo(function (props) {
 
     return (
         <div className={props.class}>
-            CP: {props.isBoss ? culculateBossCP(
+            CP: {props.isBoss ? calculateBossCP(
             props.name,
             props.tier,
             props.pokemonTable,
-        ) : culculateCP(props.name,
+        ) : calculateCP(props.name,
             props.Lvl,
             props.Atk,
             props.Def,
