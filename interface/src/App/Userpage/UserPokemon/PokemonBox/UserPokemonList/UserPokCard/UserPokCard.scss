@@ -7,7 +7,7 @@ $slider-button: #59698d;
     padding-right: 3px;
 
     border-radius: 3px;
-    border: 0.5px solid $slider-button;
+    border: 1px solid $slider-button !important;
     font-weight: bold;
     
     cursor: pointer;

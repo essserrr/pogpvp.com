@@ -18,7 +18,7 @@ import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
 import { getCookie } from "../../../js/getCookie"
 import { userLocale } from "../../../locale/userLocale"
 import { locale } from "../../../locale/locale"
-import { returnMovePool, separateMovebase, pveattacker, checkLvl, checkIV, selectQuickRaids, selectChargeRaids } from "../../../js/indexFunctions"
+import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
 
 import "./UserPokemon.scss"
 
@@ -32,7 +32,7 @@ class UserShinyBroker extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pvpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            activePokemon: pveattacker(),
+            activePokemon: getUserPok(),
             editPokemon: {},
             showEdit: false,
 
@@ -162,6 +162,7 @@ class UserShinyBroker extends React.PureComponent {
                 chargeMovePool: moves.chargeMovePool,
                 QuickMove: selectQuickRaids(moves.quickMovePool, this.state.moveTable, event.value, this.props.bases.pokemonBase),
                 ChargeMove: selectChargeRaids(moves.chargeMovePool, this.state.moveTable, event.value, this.props.bases.pokemonBase),
+                ChargeMove2: "",
             },
         });
     }
@@ -278,6 +279,19 @@ class UserShinyBroker extends React.PureComponent {
         });
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     onPokemonAdd(event) {
         let attr = event.target.getAttribute("attr")
         if (this.state[attr].length > 1500) { return }
@@ -289,8 +303,11 @@ class UserShinyBroker extends React.PureComponent {
             return
         }
 
+        let newPok = { ...this.state.activePokemon }
+        newPok.CP = calculateCP(newPok.Name, newPok.Lvl, newPok.Atk, newPok.Def, newPok.Sta, this.props.bases.pokemonBase)
+
         this.setState({
-            [attr]: [...this.state.userPokemon, this.state.activePokemon],
+            [attr]: [...this.state.userPokemon, newPok],
             notOk: {},
         })
     }
@@ -314,9 +331,23 @@ class UserShinyBroker extends React.PureComponent {
         let index = Number(event.target.getAttribute("index"))
 
         this.setState({
-            [attr]: this.state.userPokemon.filter((value, key) => key !== index),
+            [attr]: [...this.state.userPokemon.slice(0, index), ...this.state.userPokemon.slice(index + 1)],
         })
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     onPokemonEdit(pok) {
         //get movepool
@@ -361,6 +392,18 @@ class UserShinyBroker extends React.PureComponent {
         })
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
     onTurnOnImport(event) {
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
@@ -370,30 +413,93 @@ class UserShinyBroker extends React.PureComponent {
         });
     }
 
-
-
     onImport(obj) {
         this.setState({
             showImport: !this.state.showImport,
-            userPokemon: this.createImportedList(obj.value)
+            userPokemon: obj.type === "string" ? this.parseString(obj.value) : this.parseScv(obj.value.slice(1, obj.value.length))
         });
     }
 
-    createImportedList(str) {
-        let importedList = str.split(",")
+    parseScv(scv) {
+        console.log(scv)
+        let importedArr = []
+        if (scv.length <= 1) { return importedArr }
+        scv.forEach((value) => {
+            if (value.length < 31) { return }
+            //parse name
+            let Name = value[3]
+            if (!this.props.bases.pokemonBase[Name]) {
+                console.log(`Critical: "${Name}" not found in the database`)
+                return
+            }
 
-        let idBase = {}
+            //parse type
+            let IsShadow = value[30] === "1" ? "true" : "false"
 
-        // eslint-disable-next-line
-        for (const [key, value] of Object.entries(this.props.bases.pokemonBase)) {
-            idBase[value.Number + (value.Forme ? "-" + value.Forme : "")] = value
-        }
+            //check moves
+            let QuickMove = value[18]
+            if (!this.state.moveTable[QuickMove]) { return }
 
-        let importedAsObj = {}
-        importedList.filter((value) => !!idBase[value]).forEach((value) => {
-            importedAsObj[idBase[value].Title] = { Name: idBase[value].Title, Type: "Shiny", Amount: "1" }
+            let ChargeMove = value[19]
+            if (!this.state.moveTable[ChargeMove]) { return }
+
+            let ChargeMove2 = value[20]
+            if (!!ChargeMove2 && !this.state.moveTable[ChargeMove]) { return }
+            if (!ChargeMove2) { ChargeMove2 = "" }
+            //get stats
+            let Lvl = checkLvl(value[6])
+            let Atk = checkIV(value[14])
+            let Def = checkIV(value[15])
+            let Sta = checkIV(value[16])
+            //calculate cp
+            let CP = calculateCP(Name, Lvl, Atk, Def, Sta, this.props.bases.pokemonBase)
+
+            importedArr.push({ Name, IsShadow, QuickMove, ChargeMove, ChargeMove2, Lvl, Atk, Def, Sta, CP })
         })
-        return importedAsObj
+        if (importedArr.length > 1500) { importedArr.clice(0, 1500) }
+        return importedArr
+    }
+
+    parseString(str) {
+        let importedList = str.split("\n")
+
+        let importedArr = []
+        importedList.forEach((value) => {
+            //get next entry
+            let pokEntry = value.split(",")
+            if (pokEntry.length !== 8) { return }
+
+            //parse name
+            let nameAndType = pokEntry[0].split("!")
+
+            let Name = nameAndType[0]
+            if (!this.props.bases.pokemonBase[Name]) { return }
+
+            //parse type
+            let IsShadow = "false"
+            if (nameAndType.length > 1) { IsShadow = "true" }
+
+            //check moves
+            let QuickMove = pokEntry[1]
+            if (!this.state.moveTable[QuickMove]) { return }
+
+            let ChargeMove = pokEntry[2]
+            if (!this.state.moveTable[ChargeMove]) { return }
+
+            let ChargeMove2 = pokEntry[3]
+            if (!!ChargeMove2 && !this.state.moveTable[ChargeMove]) { return }
+            if (!ChargeMove2) { ChargeMove2 = "" }
+            //get stats
+            let Lvl = checkLvl(pokEntry[4])
+            let Atk = checkIV(pokEntry[5])
+            let Def = checkIV(pokEntry[6])
+            let Sta = checkIV(pokEntry[7])
+            //calculate cp
+            let CP = calculateCP(Name, Lvl, Atk, Def, Sta, this.props.bases.pokemonBase)
+
+            importedArr.push({ Name, IsShadow, QuickMove, ChargeMove, ChargeMove2, Lvl, Atk, Def, Sta, CP })
+        })
+        return importedArr
     }
 
 
@@ -492,6 +598,7 @@ class UserShinyBroker extends React.PureComponent {
                                     pokemonTable={this.props.bases.pokemonBase}
                                     moveTable={this.state.moveTable}
 
+                                    hasSecondCharge={true}
 
                                     pokList={this.state.pokList}
                                     chargeMoveList={this.state.chargeMoveList}

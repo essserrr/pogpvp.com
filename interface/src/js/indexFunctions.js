@@ -270,7 +270,7 @@ export function calculateBossCP(name, tier, pokBase) {
 
 export function checkIV(IV) {
     if (isNaN(IV)) {
-        return ""
+        return 0
     }
     IV = Number(IV)
     if (IV > 15) {
@@ -286,18 +286,18 @@ export function checkIV(IV) {
 }
 
 export function checkLvl(lvl) {
-    if (isNaN(lvl)) {
-        return "1"
-    }
     let lvlNumber = Number(lvl)
+    if (isNaN(lvlNumber)) {
+        return 1
+    }
     if (lvlNumber > 45) {
         return 45
     }
     if (lvlNumber < 1) {
-        return "1"
+        return 1
     }
     if (!Number.isInteger(lvlNumber / 0.5)) {
-        return String(Math.trunc(lvlNumber))
+        return Math.trunc(lvlNumber)
     }
     return lvl
 }

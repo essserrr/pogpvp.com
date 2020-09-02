@@ -3,10 +3,10 @@ import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 
 import Filters from "./Filters/Filters"
+import UserFilteredList from "./UserFilteredList/UserFilteredList"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import ImportExport from "../../../PvP/components/ImportExport/ImportExport"
-import UserPokemonList from "./UserPokemonList/UserPokemonList"
 
 import { getCookie } from "../../../../js/getCookie"
 import { userLocale } from "../../../../locale/userLocale"
@@ -36,7 +36,6 @@ class PokemonBox extends React.PureComponent {
             },
         }
         this.onClick = this.onClick.bind(this)
-        this.applyFilter = this.applyFilter.bind(this)
         this.onChange = this.onChange.bind(this)
     }
 
@@ -54,31 +53,6 @@ class PokemonBox extends React.PureComponent {
         this.setState({
             showCollapse: !this.state.showCollapse,
         })
-    }
-
-    applyFilter() {
-        return this.props.userList.filter((value) => {
-            return (this.containsFilter(value.Name, "Name") * this.containsFilter(value.QuickMove, "QuickMove") *
-                this.containsFilter(value.ChargeMove, "ChargeMove") * this.equalFilter(value.Atk, "Atk") *
-                this.equalFilter(value.Def, "Def") * this.equalFilter(value.Sta, "Sta") *
-                this.equalFilter(value.Lvl, "Lvl") * this.equalFilter(value.IsShadow, "IsShadow"))
-        })
-    }
-
-    equalFilter(value, key) {
-        if (this.state.filters[key] === "" || this.state.filters[key] === value) {
-            return true
-        }
-        return false
-    }
-    containsFilter(value, key) {
-        if (this.state.filters[key] === "") {
-            return true
-        }
-        if (value.toLowerCase().includes(this.state.filters[key].toLowerCase())) {
-            return true
-        }
-        return false
     }
 
     render() {
@@ -128,18 +102,19 @@ class PokemonBox extends React.PureComponent {
                         <Filters
                             value={this.state.filters}
                             attr="filters"
-
                             onChange={this.onChange}
                         />
                     </UnmountClosed>
                 </div>
                 <div className="col-12 px-0 mt-2 mb-2">
-                    <UserPokemonList
+                    <UserFilteredList
                         attr={this.props.attr}
-
                         moveTable={this.props.moveTable}
                         pokemonTable={this.props.pokemonTable}
-                        list={this.applyFilter(this.props.userList)}
+
+                        filters={this.state.filters}
+                        userList={this.props.userList}
+
 
                         onPokemonDelete={this.props.onPokemonDelete}
                         onPokemonEdit={this.props.onPokemonEdit}

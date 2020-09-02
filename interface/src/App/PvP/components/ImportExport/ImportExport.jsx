@@ -47,7 +47,7 @@ class ImportExport extends React.PureComponent {
                 }), "")
             case "userPokemon":
                 return list.reduce(((result, elem, i, arr) => {
-                    result += (`${elem.Name}${elem.IsShadow === "false" ? "" : "!shadow"},${elem.QuickMove},${elem.ChargeMove},${elem.Lvl},${elem.Atk},${elem.Def},${elem.Sta}`)
+                    result += (`${elem.Name}${elem.IsShadow === "false" ? "" : "!shadow"},${elem.QuickMove},${elem.ChargeMove},${elem.ChargeMove2},${elem.Lvl},${elem.Atk},${elem.Def},${elem.Sta}`)
                     if (i + 1 < arr.length) {
                         result += "\n"
                     }
@@ -80,7 +80,7 @@ class ImportExport extends React.PureComponent {
 
     onSubmitFile(fileString) {
         console.log(this.CSVToArray(fileString)[0])
-        this.props.onChange({ value: this.CSVToArray(fileString)[0], attr: this.props.attr, type: "scv" })
+        this.props.onChange({ value: this.CSVToArray(fileString), attr: this.props.attr, type: "scv" })
     }
 
     CSVToArray(strData, strDelimiter = ",") {
@@ -165,6 +165,7 @@ class ImportExport extends React.PureComponent {
                         {strings.tips.importtips.matrix.p1}<br />
                         {strings.tips.importtips.matrix.q1}<br />
                         {strings.tips.importtips.matrix.ch1}<br />
+                        {strings.tips.importtips.matrix.ch2}<br />
                         {strings.stats.lvl + ","}
                         {strings.effStats.atk + ","}
                         {strings.effStats.def + ","}
@@ -174,6 +175,7 @@ class ImportExport extends React.PureComponent {
                         {strings.tips.importtips.matrix.p2}<br />
                         {strings.tips.importtips.matrix.q1}<br />
                         {strings.tips.importtips.matrix.ch1}<br />
+                        {strings.tips.importtips.matrix.ch2}<br />
                         {strings.stats.lvl + ","}
                         {strings.effStats.atk + ","}
                         {strings.effStats.def + ","}
