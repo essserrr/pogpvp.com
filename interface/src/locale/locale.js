@@ -132,6 +132,13 @@ export const locale = {
             lvl: "Lvl",
         },
 
+
+        import: {
+            fromfile: "Import from file",
+            read: "Read file",
+            file: "Choose file",
+        },
+
         tips: {
             importtips: {
                 matrix: {
@@ -146,6 +153,7 @@ export const locale = {
                     p2: "Pokemon2!shadow,",
 
                     imp: "Import is partilly compatable with Pvpoke export",
+                    impCalcy: "Import is compatable with Calcy IV export",
                 },
                 shiny: {
                     form: "Pokemon string format (comma separated without spaces):",
@@ -440,6 +448,12 @@ export const locale = {
             lvl: "Ур",
         },
 
+        import: {
+            fromfile: "Импорт из файла",
+            read: "Прочесть файл",
+            file: "Выберите файл",
+        },
+
         tips: {
             importtips: {
                 matrix: {
@@ -453,7 +467,8 @@ export const locale = {
 
                     p2: "Покемон2!теневой,",
 
-                    imp: "Импорт частично совместим с Pvppoke",
+                    imp: "Импорт частично совместим с экспортом Pvppoke",
+                    impCalcy: "Импорт совместим с экспортом Calcy IV",
                 },
 
                 shiny: {
