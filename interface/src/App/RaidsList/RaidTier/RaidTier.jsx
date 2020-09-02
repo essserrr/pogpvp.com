@@ -22,9 +22,9 @@ const RaidTier = React.memo(function (props) {
                     if (!props.pokTable[name]) {
                         name = capitalizeFirst(name)
                     }
-                    if (name === "Mime Jr.") { name = "Mime Jr" }
+                    name = name.replace(/\.$/, "")
                     if (!props.pokTable[name]) {
-                        console.log(name + " not found")
+                        console.log(`Critical: ""${name}" not found in the database`)
                         return result
                     }
                     result.push(

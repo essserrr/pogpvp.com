@@ -10,7 +10,7 @@ export function checkShadow(name, pokTable) {
         if (index !== -1) {
             name = name.slice(0, index)
             if (!pokTable[name]) {
-                console.log("Not found " + name)
+                console.log(`Critical: ""${name}" not found in the database`)
                 return ""
             }
         }

@@ -79,7 +79,6 @@ class ImportExport extends React.PureComponent {
     };
 
     onSubmitFile(fileString) {
-        console.log(this.CSVToArray(fileString)[0])
         this.props.onChange({ value: this.CSVToArray(fileString), attr: this.props.attr, type: "scv" })
     }
 

@@ -20,7 +20,6 @@ class UserFilteredList extends React.PureComponent {
     }
 
     equalFilter(value, key) {
-        console.log(this.props.filters[key], value)
         if (this.props.filters[key] === "" || String(this.props.filters[key]) === String(value)) {
             return true
         }
@@ -37,7 +36,6 @@ class UserFilteredList extends React.PureComponent {
     }
 
     render() {
-        console.log(this.applyFilter())
         return (
             <UserPokemonList
                 attr={this.props.attr}

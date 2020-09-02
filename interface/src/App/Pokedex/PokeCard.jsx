@@ -141,7 +141,7 @@ class PokeCard extends React.Component {
                 return i
             }
         }
-        console.log(name + " not found")
+        console.log(`Critical: ""${name}" not found in the database`)
     }
 
     makeList(base) {
