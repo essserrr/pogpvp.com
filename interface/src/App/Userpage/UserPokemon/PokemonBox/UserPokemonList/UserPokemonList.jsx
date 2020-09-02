@@ -1,25 +1,15 @@
 import React from "react"
-import LocalizedStrings from "react-localization"
 import InfiniteScroll from 'react-infinite-scroll-component'
-
 
 import UserPokCard from "./UserPokCard/UserPokCard"
 
-import { getCookie } from "../../../../../js/getCookie"
-import { userLocale } from "../../../../../locale/userLocale"
-
 import "./UserPokemonList.scss"
-
-let strings = new LocalizedStrings(userLocale)
 
 class UserShinyList extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {
-            theWholeList: this.props.list,
-
             page: 1,
             listToShow: this.props.list.slice(0, 20 > this.props.list.length ? this.props.list.length : 20),
             isNext: 20 > this.props.list.length ? false : true
@@ -32,7 +22,6 @@ class UserShinyList extends React.PureComponent {
         }
 
         this.setState({
-            theWholeList: this.props.list,
             listToShow: this.props.list.slice(0, 20 > this.props.list.length ? this.props.list.length : 20),
             page: 1,
             isNext: 20 > this.props.list.length ? false : true
