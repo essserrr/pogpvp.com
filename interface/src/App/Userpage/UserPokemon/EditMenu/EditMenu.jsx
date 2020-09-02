@@ -28,6 +28,7 @@ class EditMenu extends React.PureComponent {
                         colSize="col-12 my-1"
                         attr={this.props.attr}
                         canBeShadow={true}
+                        hasSecondCharge={true}
 
                         pokemonTable={this.props.pokemonTable}
                         moveTable={this.props.moveTable}

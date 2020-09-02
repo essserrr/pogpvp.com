@@ -1,9 +1,12 @@
-import React from "react";
+import React from "react"
+
+
 import SearchableSelect from "../../PvP/components/SearchableSelect/SearchableSelect"
 import Stats from "../../PvP/components/Stats/Stats"
 import SelectGroup from "../../PvP/components/SelectGroup/SelectGroup"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
+import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
 
 import LocalizedStrings from "react-localization"
@@ -190,6 +193,88 @@ class PvePokemon extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>
+
+
+
+                {this.props.canBeShadow && <div className={(this.props.colSize ? this.props.colSize : "col-6 px-0 pr-1 my-1") + (this.props.attr === "editPokemon" ? " order-2" : "")}>
+                    <SelectGroup
+                        class="input-group input-group-sm"
+
+                        name="IsShadow"
+                        value={this.props.value.IsShadow}
+                        attr={this.props.attr}
+                        onChange={this.props.onChange}
+                        options={
+                            <>
+                                <option value="false" key="Normal">{strings.options.type.normal}</option>
+                                <option value="true" key="Shadow">{strings.options.type.shadow}</option>
+                            </>}
+
+                        labelWidth="88px"
+                        label={strings.title.type}
+
+                        place={"top"}
+                        for={this.props.attr + "attackerIsShadow"}
+
+                        tip={strings.tips.shadow}
+                        tipClass="infoTip"
+                    />
+                </div>}
+
+
+
+
+                {this.props.hasSecondCharge && <div
+                    className={(this.props.colSize ? this.props.colSize : "col-6 px-0 pl-1  my-1") + (this.props.attr === "editPokemon" ? " order-1" : "")}>
+                    <SelectGroup
+                        class="input-group input-group-sm"
+
+                        name="ChargeMove2"
+                        value={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select..."
+                            && this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ? this.props.value.ChargeMove2 : ""}
+
+                        attr={this.props.attr}
+                        onChange={this.props.onChange}
+                        options={this.props.value.chargeMovePool}
+
+                        labelWidth="88px"
+                        label={strings.title.chargeMove}
+                        labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
+                            `typeColorC${this.props.moveTable[this.props.value.ChargeMove2].MoveType} text` : ""}
+
+                        place={"top"}
+                        for={"ChargeMove" + this.props.attr}
+
+                        tip={<>{strings.tips.charge}<br />
+                            {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") &&
+                                this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
+                                <>
+                                    {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].Damage)}<br />
+                                    {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].Energy)}<br />
+                                    {"Cooldown: " + (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)}<br />
+                                    {"DPS: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage / (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)).toFixed(2)}<br />
+                                    {"DPS*DPE: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage /
+                                        (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000) *
+                                        this.props.moveTable[this.props.value.ChargeMove2].Damage /
+                                        -this.props.moveTable[this.props.value.ChargeMove2].Energy).toFixed(2)}<br />
+                                </>}</>}
+                        tipClass="infoTip"
+                    />
+                </div>}
+                {this.props.canBeShadow && this.props.attr === "attackerObj" && <div className="col-6 px-0 pl-1 my-1">
+                    <Checkbox
+                        class={"form-check form-check-inline m-0 p-0"}
+                        checked={this.props.settingsValue.SupportSlotEnabled !== "false" ? "checked" : false}
+                        attr={"pveObj"}
+                        name={"SupportSlotEnabled"}
+                        label={
+                            <div className=" text-center">
+                                {pveStrings.supen}
+                            </div>
+                        }
+                        onChange={this.props.onChange}
+                    />
+                </div>}
             </div>
         )
     }
