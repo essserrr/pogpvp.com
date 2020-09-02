@@ -3,6 +3,7 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import LazyTable from "./LazyTable/LazyTable"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import PokeRow from "./PokeRow/PokeRow"
@@ -68,10 +69,8 @@ class Pokedex extends React.Component {
                 loading: false,
                 moveTable: this.props.bases.pokemonBase,
                 originalList: arr,
+                listToShow: arr
             });
-
-            const step = 100
-            this.recursive((step < arr.length ? step : arr.length), arr)
 
         } catch (e) {
             this.setState({
@@ -82,27 +81,6 @@ class Pokedex extends React.Component {
             })
         }
     }
-
-
-    recursive = (end, original) => {
-        const step = 100
-        setTimeout(() => {
-            let nextPortion = end + step < original.length ? end + step : original.length;
-            let isNext = end < original.length
-
-            this.setState({
-                loadingTable: isNext,
-                blockSort: isNext,
-                listToShow: original.slice(0, end)
-            });
-
-            if (isNext) {
-                this.recursive(nextPortion, original)
-            }
-        }, 0);
-    }
-
-
 
     onNameChange(event) {
         if (this.state.blockSort) {
@@ -280,15 +258,17 @@ class Pokedex extends React.Component {
                                             locale={strings.loading}
                                             loading={this.state.loading}
                                         />}
-                                    <table className="table mb-0 table-sm text-center">
-                                        <TableThead
-                                            active={this.state.active}
-                                            onClick={this.onSortColumn}
-                                        />
-                                        <tbody>
-                                            {this.state.listToShow}
-                                        </tbody>
-                                    </table>
+                                    <LazyTable
+                                        list={this.state.listToShow}
+                                        thead={<>
+                                            <TableThead
+                                                active={this.state.active}
+                                                onClick={this.onSortColumn}
+                                            />
+                                        </>}
+                                        activeFilter={this.state.active}
+                                        pageSize={40}
+                                    />
                                 </>}
                         </div>
                     </div>
