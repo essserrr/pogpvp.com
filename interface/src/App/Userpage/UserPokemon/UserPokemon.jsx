@@ -416,41 +416,71 @@ class UserShinyBroker extends React.PureComponent {
     onImport(obj) {
         this.setState({
             showImport: !this.state.showImport,
-            userPokemon: obj.type === "string" ? this.parseString(obj.value) : this.parseScv(obj.value.slice(1, obj.value.length))
+            userPokemon: obj.type === "string" ? this.parseString(obj.value) : this.parseScv(obj.value.slice(1, obj.value.length), obj.value[0])
         });
     }
 
-    parseScv(scv) {
-        console.log(scv)
+    findRow(target, arr, defaultIndex) {
+        let index = arr.findIndex((value) => value === target)
+        return index === -1 ? defaultIndex : index
+    }
+
+    parseScv(scv, firstRow) {
+        const nameIndex = this.findRow("Name", firstRow, 3),
+            lvlIndex = this.findRow("Level", firstRow, 6),
+            atkIndex = this.findRow("ØATT IV", firstRow, 14),
+            defIndex = this.findRow("ØDEF IV", firstRow, 15),
+            staIndex = this.findRow("ØHP IV", firstRow, 16),
+            quickIndex = this.findRow("Fast move", firstRow, 18),
+            chargeIndex = this.findRow("Special move", firstRow, 19),
+            charge2Index = this.findRow("Special move 2", firstRow, 20),
+            isShadowIndex = this.findRow("ShadowForm", firstRow, 30);
+
+
+
         let importedArr = []
         if (scv.length <= 1) { return importedArr }
         scv.forEach((value) => {
             if (value.length < 31) { return }
             //parse name
-            let Name = value[3]
+            let Name = this.translateName(value[nameIndex])
+
             if (!this.props.bases.pokemonBase[Name]) {
                 console.log(`Critical: "${Name}" not found in the database`)
                 return
             }
 
             //parse type
-            let IsShadow = value[30] === "1" ? "true" : "false"
+            let IsShadow = value[isShadowIndex] === "1" ? "true" : "false"
 
             //check moves
-            let QuickMove = value[18]
-            if (!this.state.moveTable[QuickMove]) { return }
+            let QuickMove = this.translareMove(value[quickIndex])
 
-            let ChargeMove = value[19]
-            if (!this.state.moveTable[ChargeMove]) { return }
+            if (!this.state.moveTable[QuickMove]) {
+                console.log(`Critical: "Quick move "${QuickMove}" of ${Name} not found in the database`)
+                return
+            }
 
-            let ChargeMove2 = value[20]
-            if (!!ChargeMove2 && !this.state.moveTable[ChargeMove]) { return }
+            let ChargeMove = this.translareMove(value[chargeIndex])
+
+
+            if (!this.state.moveTable[ChargeMove]) {
+                console.log(`Critical: "First charge move "${ChargeMove}" of ${Name} not found in the database`)
+                return
+            }
+
+            let ChargeMove2 = this.translareMove(value[charge2Index])
+
+            if (!!ChargeMove2 && !this.state.moveTable[ChargeMove2]) {
+                console.log(`Critical: "Second charge move "${ChargeMove2}" of ${Name} not found in the database`)
+                return
+            }
             if (!ChargeMove2) { ChargeMove2 = "" }
             //get stats
-            let Lvl = checkLvl(value[6])
-            let Atk = checkIV(value[14])
-            let Def = checkIV(value[15])
-            let Sta = checkIV(value[16])
+            let Lvl = checkLvl(value[lvlIndex])
+            let Atk = checkIV(value[atkIndex])
+            let Def = checkIV(value[defIndex])
+            let Sta = checkIV(value[staIndex])
             //calculate cp
             let CP = calculateCP(Name, Lvl, Atk, Def, Sta, this.props.bases.pokemonBase)
 
@@ -458,6 +488,82 @@ class UserShinyBroker extends React.PureComponent {
         })
         if (importedArr.length > 1500) { importedArr.clice(0, 1500) }
         return importedArr
+    }
+
+    translateName(name) {
+        //prohibited symbols
+        name = name.replace(/\.$/, "")
+        name = name.replace("'", "")
+
+        name = this.deleteSuffix(name, [" Normal", " Shadow", " Purified", " Standard"])
+        name = this.moveSuffixToPrefix(name, [" Alolan", " Galarian"])
+        name = this.makeNewSuffix(name, " (", " Forme)", [" Altered", " Origin", " Attack", " Defence", " Speed", " Normal", " Incarnate"])
+
+        name = this.makeNewSuffix(name, " (", " Cloak)", [" Plant", " Trash", " Sandy"])
+        name = this.makeNewSuffix(name, " (", " Form)", [" Overcast", " Sunshine"])
+        name = this.makeNewSuffix(name, " (", ")", [" Sunny", " Rainy", " Snowy"])
+
+        name = this.checkNameInDict(name)
+
+        return name
+    }
+
+    checkNameInDict(str) {
+        let dict = {
+            Deoxys: "Deoxys (Normal Forme)",
+        }
+        if (!!dict[str]) {
+            return dict[str]
+        }
+        return str
+    }
+
+    deleteSuffix(str, arrOfTargets) {
+        for (let i = 0; i < arrOfTargets.length; i++) {
+            let index = str.indexOf(arrOfTargets[i])
+            if (index !== -1) {
+                return str.slice(0, index)
+            }
+        }
+        return str
+    }
+
+    moveSuffixToPrefix(str, arrOfTargets) {
+        for (let i = 0; i < arrOfTargets.length; i++) {
+            let index = str.indexOf(arrOfTargets[i])
+            if (index !== -1) {
+                str = str.slice(0, index)
+                return `${arrOfTargets[i].slice(1)} ${str}`
+            }
+        }
+        return str
+    }
+
+    makeNewSuffix(str, suffixStart, suffixEnd, arrOfTargets) {
+        for (let i = 0; i < arrOfTargets.length; i++) {
+            let index = str.indexOf(arrOfTargets[i])
+            if (index !== -1) {
+                str = str.slice(0, index)
+                str = `${str}${suffixStart}${arrOfTargets[i].slice(1)}${suffixEnd}`
+                break
+            }
+        }
+        return str
+    }
+
+    translareMove(moveName) {
+        let dictMove = {
+            "Mud-Slap": "Mud Slap",
+            "Super Power": "Superpower"
+        }
+
+        if (!!dictMove[moveName]) {
+            return dictMove[moveName]
+        }
+        if (moveName === " - " || moveName === "-" || moveName === "- ") {
+            return ""
+        }
+        return moveName
     }
 
     parseString(str) {
@@ -536,7 +642,6 @@ class UserShinyBroker extends React.PureComponent {
 
 
     async onSaveChanges() {
-        console.log(this.state.activePokemon)
     }
 
 

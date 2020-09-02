@@ -20,7 +20,7 @@ class UserShinyList extends React.PureComponent {
         this.state = {
             theWholeList: this.props.list,
 
-            page: 0,
+            page: 1,
             listToShow: this.props.list.slice(0, 20 > this.props.list.length ? this.props.list.length : 20),
             isNext: 20 > this.props.list.length ? false : true
         }
@@ -34,7 +34,7 @@ class UserShinyList extends React.PureComponent {
         this.setState({
             theWholeList: this.props.list,
             listToShow: this.props.list.slice(0, 20 > this.props.list.length ? this.props.list.length : 20),
-            page: 0,
+            page: 1,
             isNext: 20 > this.props.list.length ? false : true
         })
     }
@@ -43,13 +43,12 @@ class UserShinyList extends React.PureComponent {
     fetchMoreData = () => {
         let page = (this.state.page + 1) * 20 > this.props.list.length ? this.state.page : (this.state.page + 1)
         let upperBound = (this.state.page + 1) * 20 > this.props.list.length ? this.props.list.length : (this.state.page + 1) * 20
+        let isNext = (this.state.page + 1) * 20 > this.props.list.length ? false : true
 
-        console.log(this.state.page !== page)
-        console.log(this.props.list.slice(this.state.page * 20, upperBound))
         this.setState({
             listToShow: this.state.listToShow.concat(this.props.list.slice(this.state.page * 20, upperBound)),
             page: page,
-            isNext: this.state.page !== page
+            isNext: isNext
         })
     };
 
