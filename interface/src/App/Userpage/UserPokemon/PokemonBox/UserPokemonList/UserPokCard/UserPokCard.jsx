@@ -18,7 +18,7 @@ const UserPokCard = React.memo(function (props) {
     }
 
     return (
-        <div onClick={onPokemonOpenWrapper} className="upokcard col-auto p-1 m-1 text-center">
+        <div onClick={onPokemonOpenWrapper} className="upokcard col-auto p-1 my-1 mx-1 mx-md-4 text-center">
             <div className="mx-1 mb-1 row align-items-center">
                 <ReactTooltip
                     className={"infoTip"}

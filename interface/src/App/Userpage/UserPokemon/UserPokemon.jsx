@@ -18,7 +18,7 @@ import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
 import { getCookie } from "../../../js/getCookie"
 import { userLocale } from "../../../locale/userLocale"
 import { locale } from "../../../locale/locale"
-import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
+import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP, capitalizeFirst } from "../../../js/indexFunctions"
 
 import "./UserPokemon.scss"
 
@@ -420,30 +420,49 @@ class UserShinyBroker extends React.PureComponent {
         });
     }
 
-    findRow(target, arr, defaultIndex) {
-        let index = arr.findIndex((value) => value === target)
-        return index === -1 ? defaultIndex : index
+
+    makeGoverningObject(header, toFind, defaults) {
+        const objectFields = ["nameIndex", "lvlIndex", "atkIndex", "defIndex", "staIndex", "quickIndex", "chargeIndex", "charge2Index", "isShadowIndex"]
+        let governingObj = {}
+        for (let i = 0; i < objectFields.length; i++) {
+            governingObj[objectFields[i]] = this.findCol(toFind[i], defaults[i], header)
+        }
+        return governingObj
     }
 
-    parseScv(scv, firstRow) {
-        const nameIndex = this.findRow("Name", firstRow, 3),
-            lvlIndex = this.findRow("Level", firstRow, 6),
-            atkIndex = this.findRow("ØATT IV", firstRow, 14),
-            defIndex = this.findRow("ØDEF IV", firstRow, 15),
-            staIndex = this.findRow("ØHP IV", firstRow, 16),
-            quickIndex = this.findRow("Fast move", firstRow, 18),
-            chargeIndex = this.findRow("Special move", firstRow, 19),
-            charge2Index = this.findRow("Special move 2", firstRow, 20),
-            isShadowIndex = this.findRow("ShadowForm", firstRow, 30);
+    findCol(toFind, defaults, insideArr) {
+        let index = insideArr.findIndex((value) => value === toFind)
+        return index === -1 ? defaults : index
+    }
 
+
+    parseScv(scv, firstRow) {
+        switch (true) {
+            case (firstRow.length < 17):
+                //battler
+                var governingObj = this.makeGoverningObject(firstRow,
+                    ["pokemon", "level", "individualAttack", "individualDefence", "individualStamina", "quickMove", "cinematicMove", "cinematicMove1", "ShadowForm"],
+                    [2, 5, 6, 7, 8, 9, 10, 13, 0])
+
+                break
+            case (firstRow.length < 38):
+                //calcy
+                governingObj = this.makeGoverningObject(firstRow,
+                    ["Name", "Level", "ØATT IV", "ØDEF IV", "ØHP IV", "Fast move", "Special move", "Special move 2", "ShadowForm"],
+                    [3, 6, 14, 15, 16, 18, 19, 20, 30])
+                break
+            default:
+                return []
+        }
+        governingObj.rowLength = firstRow.length
 
 
         let importedArr = []
         if (scv.length <= 1) { return importedArr }
         scv.forEach((value) => {
-            if (value.length < 31) { return }
+            if (value.length < governingObj.rowLength) { return }
             //parse name
-            let Name = this.translateName(value[nameIndex])
+            let Name = this.translateName(value[governingObj.nameIndex])
 
             if (!this.props.bases.pokemonBase[Name]) {
                 console.log(`Critical: "${Name}" not found in the database`)
@@ -451,17 +470,17 @@ class UserShinyBroker extends React.PureComponent {
             }
 
             //parse type
-            let IsShadow = value[isShadowIndex] === "1" ? "true" : "false"
+            let IsShadow = value[governingObj.isShadowIndex] === "1" ? "true" : "false"
 
             //check moves
-            let QuickMove = this.translareMove(value[quickIndex])
+            let QuickMove = this.translareMove(value[governingObj.quickIndex])
 
             if (!this.state.moveTable[QuickMove]) {
                 console.log(`Critical: "Quick move "${QuickMove}" of ${Name} not found in the database`)
                 return
             }
 
-            let ChargeMove = this.translareMove(value[chargeIndex])
+            let ChargeMove = this.translareMove(value[governingObj.chargeIndex])
 
 
             if (!this.state.moveTable[ChargeMove]) {
@@ -469,7 +488,7 @@ class UserShinyBroker extends React.PureComponent {
                 return
             }
 
-            let ChargeMove2 = this.translareMove(value[charge2Index])
+            let ChargeMove2 = this.translareMove(value[governingObj.charge2Index])
 
             if (!!ChargeMove2 && !this.state.moveTable[ChargeMove2]) {
                 console.log(`Critical: "Second charge move "${ChargeMove2}" of ${Name} not found in the database`)
@@ -477,10 +496,10 @@ class UserShinyBroker extends React.PureComponent {
             }
             if (!ChargeMove2) { ChargeMove2 = "" }
             //get stats
-            let Lvl = checkLvl(value[lvlIndex])
-            let Atk = checkIV(value[atkIndex])
-            let Def = checkIV(value[defIndex])
-            let Sta = checkIV(value[staIndex])
+            let Lvl = checkLvl(value[governingObj.lvlIndex])
+            let Atk = checkIV(value[governingObj.atkIndex])
+            let Def = checkIV(value[governingObj.defIndex])
+            let Sta = checkIV(value[governingObj.staIndex])
             //calculate cp
             let CP = calculateCP(Name, Lvl, Atk, Def, Sta, this.props.bases.pokemonBase)
 
@@ -492,8 +511,9 @@ class UserShinyBroker extends React.PureComponent {
 
     translateName(name) {
         //prohibited symbols
-        name = name.replace(/\.$/, "")
-        name = name.replace("'", "")
+
+        name = this.replacer(name, ["'", /\.$/], ["", ""])
+        name = capitalizeFirst(name, true)
 
         name = this.deleteSuffix(name, [" Normal", " Shadow", " Purified", " Standard"])
         name = this.moveSuffixToPrefix(name, [" Alolan", " Galarian"])
@@ -552,18 +572,20 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     translareMove(moveName) {
-        let dictMove = {
-            "Mud-Slap": "Mud Slap",
-            "Super Power": "Superpower"
-        }
+        let dictMove = { "Mud-Slap": "Mud Slap", "Super Power": "Superpower" }
 
-        if (!!dictMove[moveName]) {
-            return dictMove[moveName]
-        }
-        if (moveName === " - " || moveName === "-" || moveName === "- ") {
-            return ""
-        }
+        moveName = this.replacer(moveName, ["_FAST", "_"], ["", " "])
+        moveName = capitalizeFirst(moveName, true)
+
+        if (!!dictMove[moveName]) { return dictMove[moveName] }
+        if (moveName === " - " || moveName === "-" || moveName === "- ") { return "" }
+
         return moveName
+    }
+
+    replacer(string, toFind, toReplace) {
+        toFind.forEach((value, index) => { string = string.replace(toFind[index], toReplace[index]) })
+        return string
     }
 
     parseString(str) {
