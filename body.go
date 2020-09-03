@@ -1280,9 +1280,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/user/setbroker", rootHandler{setUserBroker, a})
 	router.Handle("/api/user/getbroker", rootHandler{getUserBroker, a})
 	router.Handle("/api/user/filterbrokers", rootHandler{getFilteredBrokers, a})
-
 	router.Handle("/api/user/setpokemon", rootHandler{setUserPokemon, a})
-
 	router.Handle("/api/user/getpokemon", rootHandler{getUserPokemon, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
