@@ -17,6 +17,7 @@ class UserShinyList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
+
         if (this.props.list === prevProps.list) {
             return
         }
@@ -43,13 +44,14 @@ class UserShinyList extends React.PureComponent {
 
 
     render() {
+        console.log(this.state)
         return (
-            <div id="userPokemonList" className="ushiny row mx-0  p-2 justify-content-start">
+            <div id={"userPokemonList" + this.props.attr} className="upoklist row mx-0  p-2 justify-content-start">
                 <InfiniteScroll
                     dataLength={this.state.listToShow.length}
                     next={this.fetchMoreData}
                     hasMore={this.state.isNext}
-                    scrollableTarget="userPokemonList"
+                    scrollableTarget={"userPokemonList" + this.props.attr}
                     scrollThreshold={0.7}
                 >
                     <div className="row mx-0">

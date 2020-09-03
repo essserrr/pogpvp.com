@@ -20,15 +20,16 @@ import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
 import { getCookie } from "../../../js/getCookie"
 import { userLocale } from "../../../locale/userLocale"
 import { locale } from "../../../locale/locale"
-import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP, capitalizeFirst } from "../../../js/indexFunctions"
+import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
+import { translareMove, translateName } from "./translator"
 
-import "./UserPokemon.scss"
+import "./CustomPokemon.scss"
 
 let strings = new LocalizedStrings(userLocale);
 let pvpStrings = new LocalizedStrings(locale);
 
 
-class UserShinyBroker extends React.PureComponent {
+class CustomPokemon extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -93,10 +94,7 @@ class UserShinyBroker extends React.PureComponent {
             let responses = await Promise.all(fetches)
             //if response is not ok, handle error
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) {
-                    console.log(i)
-                    throw (responses[i].detail)
-                }
+                if (!responses[i].ok) { throw (responses[i].detail) }
             }
 
             let mergedMovebase = { ...this.props.customMoves.moves, ...this.props.bases.moveBase }
@@ -282,19 +280,6 @@ class UserShinyBroker extends React.PureComponent {
         });
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     onPokemonAdd(event) {
         let attr = event.target.getAttribute("attr")
         if (this.state[attr].length > 1500) { return }
@@ -339,19 +324,6 @@ class UserShinyBroker extends React.PureComponent {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     onPokemonEdit(pok) {
         //get movepool
         var moves = returnMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
@@ -394,16 +366,6 @@ class UserShinyBroker extends React.PureComponent {
             [role]: !this.state[role],
         })
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -465,7 +427,7 @@ class UserShinyBroker extends React.PureComponent {
         scv.forEach((value) => {
             if (value.length < governingObj.rowLength) { return }
             //parse name
-            let Name = this.translateName(value[governingObj.nameIndex])
+            let Name = translateName(value[governingObj.nameIndex])
 
             if (!this.props.bases.pokemonBase[Name]) {
                 console.log(`Critical: "${Name}" not found in the database`)
@@ -476,14 +438,14 @@ class UserShinyBroker extends React.PureComponent {
             let IsShadow = value[governingObj.isShadowIndex] === "1" ? "true" : "false"
 
             //check moves
-            let QuickMove = this.translareMove(value[governingObj.quickIndex])
+            let QuickMove = translareMove(value[governingObj.quickIndex])
 
             if (!this.state.moveTable[QuickMove]) {
                 console.log(`Critical: "Quick move "${QuickMove}" of ${Name} not found in the database`)
                 return
             }
 
-            let ChargeMove = this.translareMove(value[governingObj.chargeIndex])
+            let ChargeMove = translareMove(value[governingObj.chargeIndex])
 
 
             if (!this.state.moveTable[ChargeMove]) {
@@ -491,7 +453,7 @@ class UserShinyBroker extends React.PureComponent {
                 return
             }
 
-            let ChargeMove2 = this.translareMove(value[governingObj.charge2Index])
+            let ChargeMove2 = translareMove(value[governingObj.charge2Index])
 
             if (!!ChargeMove2 && !this.state.moveTable[ChargeMove2]) {
                 console.log(`Critical: "Second charge move "${ChargeMove2}" of ${Name} not found in the database`)
@@ -512,84 +474,7 @@ class UserShinyBroker extends React.PureComponent {
         return importedArr
     }
 
-    translateName(name) {
-        //prohibited symbols
 
-        name = this.replacer(name, ["'", /\.$/], ["", ""])
-        name = capitalizeFirst(name, true)
-
-        name = this.deleteSuffix(name, [" Normal", " Shadow", " Purified", " Standard"])
-        name = this.moveSuffixToPrefix(name, [" Alolan", " Galarian"])
-        name = this.makeNewSuffix(name, " (", " Forme)", [" Altered", " Origin", " Attack", " Defence", " Speed", " Normal", " Incarnate"])
-
-        name = this.makeNewSuffix(name, " (", " Cloak)", [" Plant", " Trash", " Sandy"])
-        name = this.makeNewSuffix(name, " (", " Form)", [" Overcast", " Sunshine"])
-        name = this.makeNewSuffix(name, " (", ")", [" Sunny", " Rainy", " Snowy"])
-
-        name = this.checkNameInDict(name)
-
-        return name
-    }
-
-    checkNameInDict(str) {
-        let dict = {
-            Deoxys: "Deoxys (Normal Forme)",
-        }
-        if (!!dict[str]) {
-            return dict[str]
-        }
-        return str
-    }
-
-    deleteSuffix(str, arrOfTargets) {
-        for (let i = 0; i < arrOfTargets.length; i++) {
-            let index = str.indexOf(arrOfTargets[i])
-            if (index !== -1) {
-                return str.slice(0, index)
-            }
-        }
-        return str
-    }
-
-    moveSuffixToPrefix(str, arrOfTargets) {
-        for (let i = 0; i < arrOfTargets.length; i++) {
-            let index = str.indexOf(arrOfTargets[i])
-            if (index !== -1) {
-                str = str.slice(0, index)
-                return `${arrOfTargets[i].slice(1)} ${str}`
-            }
-        }
-        return str
-    }
-
-    makeNewSuffix(str, suffixStart, suffixEnd, arrOfTargets) {
-        for (let i = 0; i < arrOfTargets.length; i++) {
-            let index = str.indexOf(arrOfTargets[i])
-            if (index !== -1) {
-                str = str.slice(0, index)
-                str = `${str}${suffixStart}${arrOfTargets[i].slice(1)}${suffixEnd}`
-                break
-            }
-        }
-        return str
-    }
-
-    translareMove(moveName) {
-        let dictMove = { "Mud-Slap": "Mud Slap", "Super Power": "Superpower" }
-
-        moveName = this.replacer(moveName, ["_FAST", "_"], ["", " "])
-        moveName = capitalizeFirst(moveName, true)
-
-        if (!!dictMove[moveName]) { return dictMove[moveName] }
-        if (moveName === " - " || moveName === "-" || moveName === "- ") { return "" }
-
-        return moveName
-    }
-
-    replacer(string, toFind, toReplace) {
-        toFind.forEach((value, index) => { string = string.replace(toFind[index], toReplace[index]) })
-        return string
-    }
 
     parseString(str) {
         let importedList = str.split("\n")
@@ -634,44 +519,13 @@ class UserShinyBroker extends React.PureComponent {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     async onSaveChanges() {
         this.setState({
             submitting: true, error: "", ok: false,
         })
         try {
             await this.props.refresh()
+            console.log(this.formatPokemonList(this.state.userPokemon))
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/setpokemon", {
                 method: "POST",
@@ -858,4 +712,4 @@ export default connect(
         customPokemon: state.customPokemon.pokemon,
         customParties: state.customPokemon.parties,
     }), mapDispatchToProps
-)(UserShinyBroker)
+)(CustomPokemon)
