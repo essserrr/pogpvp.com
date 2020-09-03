@@ -198,8 +198,8 @@ class Move extends React.PureComponent {
         if (cooldownNumb <= 0) { return strings.moveconstr.err.cd2 + strings.moveconstr.err.larzerofem }
         if (Math.abs(cooldown) > 60) { return strings.moveconstr.err.cdallowed }
 
-        let newCd = { ...this.state.inputs }
-        newCd[name] = cooldown
+        let newCd = { ...this.state.inputs, [name]: cooldown }
+
         if (Number(newCd.Cooldown) < Number(newCd.DamageWindow) + Number(newCd.DodgeWindow)) {
             return strings.moveconstr.err.sumwind
         }

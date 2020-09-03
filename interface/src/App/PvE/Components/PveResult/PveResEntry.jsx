@@ -87,10 +87,13 @@ class PveResEntry extends React.PureComponent {
     }
 
     async rerunWithPrecision() {
-        let newPok = { ...this.props.snapshot.attackerObj }
-        newPok.Name = this.props.pokemonRes[0].AName
-        newPok.QuickMove = this.props.pokemonRes[0].AQ
-        newPok.ChargeMove = this.props.pokemonRes[0].ACh
+        let newPok = {
+            ...this.props.snapshot.attackerObj,
+            Name: this.props.pokemonRes[0].AName,
+            QuickMove: this.props.pokemonRes[0].AQ,
+            ChargeMove: this.props.pokemonRes[0].ACh
+        }
+
 
 
         //make server pve request
