@@ -260,9 +260,32 @@ type User struct {
 	RestoreKey      string `bson:"rkey,omitempty"`
 	RestoreExpireAt int64  `bson:"rexp,omitempty"`
 
-	Moves map[string]appl.MoveBaseEntry `bson:"umoves,omitempty"`
+	Moves       map[string]appl.MoveBaseEntry `bson:"umoves,omitempty"`
+	PokemonList UserPokemonList               `bson:"upokemonlist,omitempty"`
 
 	Broker SetBrokerRequest `bson:"ubroker,omitempty"`
+}
+
+//UserPokemonList contains user pokemon
+type UserPokemonList struct {
+	Pokemon []UserPokemon            `bson:"upokemon,omitempty"`
+	Parties map[string][]UserPokemon `bson:"uparties,omitempty"`
+}
+
+//UserPokemon contains user pokemon entry
+type UserPokemon struct {
+	Name string
+
+	QuickMove   string
+	ChargeMove  string
+	ChargeMove2 string
+
+	Lvl float32
+	CP  uint32
+
+	Atk uint16
+	Def uint16
+	Sta uint16
 }
 
 //Session contains user session info
