@@ -10,6 +10,7 @@ import Loader from "../../PvpRating/Loader"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
 import PokemonPanel from "../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
 import PokemonBox from "./PokemonBox/PokemonBox"
+import PartyBox from "./PartyBox/PartyBox"
 
 import { refresh } from "../../../AppStore/Actions/refresh"
 import { setCustomPokemon } from "../../../AppStore/Actions/actions"
@@ -75,6 +76,9 @@ class CustomPokemon extends React.PureComponent {
 
         this.onTurnOnImport = this.onTurnOnImport.bind(this)
         this.onImport = this.onImport.bind(this)
+
+        this.onGroupAdd = this.onGroupAdd.bind(this)
+        this.onGroupDelete = this.onGroupDelete.bind(this)
     }
 
     async componentDidMount() {
@@ -319,7 +323,7 @@ class CustomPokemon extends React.PureComponent {
         let index = Number(event.target.getAttribute("index"))
 
         this.setState({
-            [attr]: [...this.state.userPokemon.slice(0, index), ...this.state.userPokemon.slice(index + 1)],
+            [attr]: this.state.userPokemon.filter((val, key) => index !== key),
         })
     }
 
@@ -525,7 +529,6 @@ class CustomPokemon extends React.PureComponent {
         })
         try {
             await this.props.refresh()
-            console.log(this.formatPokemonList(this.state.userPokemon))
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/setpokemon", {
                 method: "POST",
@@ -565,6 +568,21 @@ class CustomPokemon extends React.PureComponent {
             QuickMove: String(value.QuickMove), ChargeMove: String(value.ChargeMove), ChargeMove2: String(value.ChargeMove2),
             Lvl: Number(value.Lvl), Atk: Number(value.Atk), Def: Number(value.Def), Sta: Number(value.Sta), CP: Number(value.CP)
         }))
+    }
+
+
+    onGroupAdd(party, key) {
+        this.setState({
+            userParties: { ...this.state.userParties, [key]: party, },
+        })
+    }
+
+    onGroupDelete(key) {
+        let newParties = { ...this.state.userParties }
+        delete newParties[key]
+        this.setState({
+            userParties: newParties,
+        })
     }
 
 
@@ -653,7 +671,6 @@ class CustomPokemon extends React.PureComponent {
                                 <PokemonBox
                                     limit={1500}
                                     attr="userPokemon"
-                                    label={strings.shbroker.have}
 
                                     onImport={this.onImport}
                                     onTurnOnImport={this.onTurnOnImport}
@@ -669,7 +686,26 @@ class CustomPokemon extends React.PureComponent {
                                     userList={this.state.userPokemon}
                                 />
                             </div>
+                            <div className="col-12 pt-2 text-center">
+                                <div className="user-pokemon__title col-12 px-0 mt-2 mb-4">{strings.userpok.grouptitle}</div>
+                            </div>
+                            <div className="col-12">
+                                <PartyBox
+                                    limit={24}
+                                    attr="userParties"
+
+                                    pokemonTable={this.props.bases.pokemonBase}
+                                    moveTable={this.state.moveTable}
+
+                                    userPokemon={this.state.userPokemon}
+                                    userParties={this.state.userParties}
+
+                                    onGroupAdd={this.onGroupAdd}
+                                    onGroupDelete={this.onGroupDelete}
+                                />
+                            </div>
                         </>}
+
 
 
                     {!this.state.error && this.state.userPokemon && <div className="col-12 px-1">
