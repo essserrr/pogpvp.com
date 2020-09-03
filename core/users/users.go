@@ -513,10 +513,12 @@ type SetBrokerRequest struct {
 	Want     map[string]BrokerPokemon `bson:"want,omitempty"`
 }
 
+const maxShinies = 400
+
 func (sbr *SetBrokerRequest) Limit() {
 	haveLen := len(sbr.Have)
-	if haveLen > 400 {
-		delta := haveLen - 400
+	if haveLen > maxShinies {
+		delta := haveLen - maxShinies
 		for key := range sbr.Have {
 			if delta < 1 {
 				break
@@ -526,8 +528,8 @@ func (sbr *SetBrokerRequest) Limit() {
 		}
 	}
 	wantLen := len(sbr.Want)
-	if wantLen > 400 {
-		delta := wantLen - 400
+	if wantLen > maxShinies {
+		delta := wantLen - maxShinies
 		for key := range sbr.Want {
 			if delta < 1 {
 				break

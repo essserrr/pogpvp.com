@@ -10,6 +10,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+const maxPokemon = 1500
+const maxParties = 24
+const maxMoves = 100
+
 //UserInfo contains user's main info
 type UserInfo struct {
 	Username string
@@ -110,13 +114,13 @@ func SetUserMoves(client *mongo.Client, req *users.SetMovesRequest, accSession *
 }
 
 func limitMovelist(movelist map[string]appl.MoveBaseEntry) map[string]appl.MoveBaseEntry {
-	if len(movelist) <= 100 {
+	if len(movelist) <= maxMoves {
 		return movelist
 	}
 	newMovelist := make(map[string]appl.MoveBaseEntry)
 	counter := 1
 	for key, value := range movelist {
-		if counter >= 100 {
+		if counter >= maxMoves {
 			break
 		}
 		newMovelist[key] = value
@@ -217,15 +221,15 @@ func SetUserPokemon(client *mongo.Client, req *users.UserPokemonList, accSession
 }
 
 func limitPokemonlist(req *users.UserPokemonList) users.UserPokemonList {
-	if len(req.Pokemon) > 1500 {
-		req.Pokemon = req.Pokemon[:1500]
+	if len(req.Pokemon) > maxPokemon {
+		req.Pokemon = req.Pokemon[:maxPokemon]
 	}
 
-	if len(req.Parties) > 6*18 {
+	if len(req.Parties) > maxParties {
 		newMovelist := make(map[string][]users.UserPokemon)
 		counter := 0
 		for key, value := range req.Parties {
-			if counter >= 18 {
+			if counter >= maxParties {
 				break
 			}
 			newMovelist[key] = value
