@@ -308,6 +308,14 @@ class UserShinyBroker extends React.PureComponent {
         importedList.filter((value) => !!idBase[value]).forEach((value) => {
             importedAsObj[idBase[value].Title] = { Name: idBase[value].Title, Type: "Shiny", Amount: "1" }
         })
+
+        let importedEtries = Object.entries(this.props.bases.pokemonBase)
+        if (importedEtries > 400) {
+            importedAsObj = {}
+            importedEtries = importedEtries.slice(0, 400)
+            importedEtries.forEach((value) => (importedAsObj[value[0]] = value[1]))
+        }
+
         return importedAsObj
     }
 
@@ -320,7 +328,7 @@ class UserShinyBroker extends React.PureComponent {
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
-                <div className="row mx-0 justify-content-center" >
+                <div className="row mx-0 px-3 justify-content-center" >
                     {this.state.loading &&
                         <Loader
                             color="black"
@@ -330,12 +338,12 @@ class UserShinyBroker extends React.PureComponent {
                         />}
                     {!this.state.loading &&
                         <>
-                            <div className="col-12 pt-2 mb-4 text-center">
-                                <div className="user-shinybroker__title  col-12 px-0">
+                            <div className="col-12 px-1 pt-2 mb-4 text-center">
+                                <div className="user-shinybroker__title col-12 px-0">
                                     {strings.upage.shbr}
                                 </div>
                             </div>
-                            <div className="col-12">
+                            <div className="col-12 px-0">
                                 <ShBrokerForm
                                     placeholders={{
                                         cPlace: strings.shbroker.cPlaceYours, rPlace: strings.shbroker.rPlaceYours,
@@ -352,27 +360,28 @@ class UserShinyBroker extends React.PureComponent {
                                 />
                             </div>
                         </>}
-                    {this.state.pokList && <div className="col-6 py-2">
-                        <ShBrokerSelectPanel
-                            limit={400}
-                            label={strings.shbroker.have}
-                            attr="Have"
+                    {this.state.pokList &&
+                        <div className="col-6 px-1 py-2">
+                            <ShBrokerSelectPanel
+                                limit={400}
+                                label={strings.shbroker.have}
+                                attr="Have"
 
-                            onImport={this.onImport}
-                            onTurnOnImport={this.onTurnOnImport}
-                            showImportExportPanel={this.state.HaveImport}
+                                onImport={this.onImport}
+                                onTurnOnImport={this.onTurnOnImport}
+                                showImportExportPanel={this.state.HaveImport}
 
 
-                            pokList={this.state.pokList}
-                            onPokemonAdd={this.onPokemonAdd}
-                            onPokemonDelete={this.onPokemonDelete}
-                            onAmountChange={this.onAmountChange}
+                                pokList={this.state.pokList}
+                                onPokemonAdd={this.onPokemonAdd}
+                                onPokemonDelete={this.onPokemonDelete}
+                                onAmountChange={this.onAmountChange}
 
-                            pokemonTable={this.props.bases.pokemonBase}
-                            userList={this.state.Have}
-                        />
-                    </div>}
-                    {this.state.pokList && <div className="col-6 py-2">
+                                pokemonTable={this.props.bases.pokemonBase}
+                                userList={this.state.Have}
+                            />
+                        </div>}
+                    {this.state.pokList && <div className="col-6 px-1 py-2">
                         <ShBrokerSelectPanel
                             limit={400}
                             label={strings.shbroker.want}

@@ -274,7 +274,8 @@ type UserPokemonList struct {
 
 //UserPokemon contains user pokemon entry
 type UserPokemon struct {
-	Name string
+	Name     string
+	IsShadow string
 
 	QuickMove   string
 	ChargeMove  string

@@ -153,7 +153,7 @@ export const locale = {
                     p2: "Pokemon2!shadow,",
 
                     imp: "Import is partilly compatable with Pvpoke export",
-                    impCalcy: "Import is compatable with Calcy IV export",
+                    impCalcy: "Import is compatable with Calcy IV and pokebattler export",
                 },
                 shiny: {
                     form: "Pokemon string format (comma separated without spaces):",
@@ -468,7 +468,7 @@ export const locale = {
                     p2: "Покемон2!теневой,",
 
                     imp: "Импорт частично совместим с экспортом Pvppoke",
-                    impCalcy: "Импорт совместим с экспортом Calcy IV",
+                    impCalcy: "Импорт совместим с экспортом Calcy IV и pokebattler",
                 },
 
                 shiny: {

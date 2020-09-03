@@ -7,8 +7,6 @@ export const getCustomPokemon = () => {
         if (state.customPokemon.pokemon.length > 0 || state.customPokemon.parties.length > 0) {
             return { ok: true }
         }
-        let x = ((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/getpokemon"
-        console.log(x)
         switch (!!getCookie("sid")) {
             case true:
                 return fetch(((navigator.userAgent !== "ReactSnap") ?
@@ -24,7 +22,6 @@ export const getCustomPokemon = () => {
                     .then(data => {
                         if (!data) { throw new Error("No response") }
                         if (data.detail) { throw data.detail }
-                        console.log(data)
                         dispatch({ type: "SET_CUSTOM_POKEMON", value: data })
                         return { ok: true }
                     }).catch(r => {
