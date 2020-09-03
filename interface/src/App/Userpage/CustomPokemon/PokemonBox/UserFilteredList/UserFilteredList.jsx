@@ -11,7 +11,6 @@ class UserFilteredList extends React.PureComponent {
     }
 
     applyFilter() {
-        console.log(this.props.userList)
         return this.props.userList.filter((value) => {
             return (this.containsFilter(value.Name, "Name") * this.containsFilter(value.QuickMove, "QuickMove") *
                 (this.containsFilter(value.ChargeMove, "ChargeMove") || this.containsFilter(value.ChargeMove2, "ChargeMove")) * this.equalFilter(value.Atk, "Atk") *

@@ -44,9 +44,8 @@ class UserShinyList extends React.PureComponent {
 
 
     render() {
-        console.log(this.state)
         return (
-            <div id={"userPokemonList" + this.props.attr} className="upoklist row mx-0  p-2 justify-content-start">
+            <div id={"userPokemonList" + this.props.attr} className="upoklist row mx-0  p-2 justify-content-center">
                 <InfiniteScroll
                     dataLength={this.state.listToShow.length}
                     next={this.fetchMoreData}
