@@ -12,6 +12,8 @@ import PokemonPanel from "../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
 import PokemonBox from "./PokemonBox/PokemonBox"
 
 import { refresh } from "../../../AppStore/Actions/refresh"
+import { setCustomPokemon } from "../../../AppStore/Actions/actions"
+import { getCustomPokemon } from "../../../AppStore/Actions/getCustomPokemon"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
@@ -50,6 +52,7 @@ class UserShinyBroker extends React.PureComponent {
                 { Name: "Absol", QuickMove: "Snarl", ChargeMove: "Dark Pulse", Lvl: "40", Atk: "15", Def: "15", Sta: "15", IsShadow: "true", },
                 { Name: "Mega Charizard X", QuickMove: "Fire Spin", ChargeMove: "Blast Burn", Lvl: "40", Atk: "15", Def: "15", Sta: "15", IsShadow: "false", },
             ],
+            userParties: {},
 
 
             loading: true,
@@ -84,24 +87,21 @@ class UserShinyBroker extends React.PureComponent {
                 this.props.getPokemonBase(),
                 this.props.getMoveBase(),
                 this.props.getCustomMoves(),
-                fetch(((navigator.userAgent !== "ReactSnap") ?
-                    process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/getbroker", {
-                    method: "GET",
-                    credentials: "include",
-                })
+                this.props.getCustomPokemon(),
             ]
 
             let responses = await Promise.all(fetches)
-
-            let userBroker = await responses[fetches.length - 1].json()
-
             //if response is not ok, handle error
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw (i <= 1 ? this.props.bases.error : (i === 2 ? this.props.customMoves.error : userBroker.detail)) }
+                if (!responses[i].ok) {
+                    console.log(i)
+                    throw (responses[i].detail)
+                }
             }
 
             let mergedMovebase = { ...this.props.customMoves.moves, ...this.props.bases.moveBase }
             let movebaseSeparated = separateMovebase(mergedMovebase)
+
 
             this.setState({
                 loading: false,
@@ -111,6 +111,9 @@ class UserShinyBroker extends React.PureComponent {
                 moveTable: mergedMovebase,
                 chargeMoveList: movebaseSeparated.chargeMoveList,
                 quickMoveList: movebaseSeparated.quickMoveList,
+
+                userPokemon: this.props.customPokemon ? this.props.customPokemon : [],
+                userParties: this.props.customParties ? this.props.customParties : {},
             })
 
         } catch (e) {
@@ -664,6 +667,50 @@ class UserShinyBroker extends React.PureComponent {
 
 
     async onSaveChanges() {
+        this.setState({
+            submitting: true, error: "", ok: false,
+        })
+        try {
+            await this.props.refresh()
+            const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
+                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/setpokemon", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json", },
+                body: JSON.stringify({ Pokemon: this.formatPokemonList(this.state.userPokemon), Parties: this.formatParties(this.state.userParties) })
+            })
+            //parse answer
+            const data = await response.json();
+            //if response is not ok, handle error
+            if (!response.ok) { throw data.detail }
+            //set global movelist
+            this.props.setCustomPokemon({ Pokemon: this.state.userPokemon, Parties: this.state.userParties })
+            //show ok
+            this.setState({ submitting: false, ok: true, })
+            await new Promise(res => setTimeout(res, 2500));
+            this.setState({ ok: false })
+        } catch (e) {
+            this.setState({
+                submitting: false,
+                error: String(e),
+            });
+        }
+    }
+
+    formatParties(parties) {
+        let formattedParties = {}
+        Object.entries(parties).forEach((value) => {
+            formattedParties[value[0]] = this.formatPokemonList(value[1])
+        })
+        return formattedParties
+    }
+
+    formatPokemonList(list) {
+        return list.map((value) => ({
+            Name: String(value.Name), IsShadow: String(value.IsShadow),
+            QuickMove: String(value.QuickMove), ChargeMove: String(value.ChargeMove), ChargeMove2: String(value.ChargeMove2),
+            Lvl: Number(value.Lvl), Atk: Number(value.Atk), Def: Number(value.Def), Sta: Number(value.Sta), CP: Number(value.CP)
+        }))
     }
 
 
@@ -771,7 +818,7 @@ class UserShinyBroker extends React.PureComponent {
                         </>}
 
 
-                    {this.state.pokList && <div className="col-12 px-1">
+                    {!this.state.error && this.state.userPokemon && <div className="col-12 px-1">
                         <div className="row m-0 py-2 mb-2 justify-content-center">
                             <AuthButton
                                 loading={this.state.submitting}
@@ -799,6 +846,8 @@ const mapDispatchToProps = dispatch => {
         getPokemonBase: () => dispatch(getPokemonBase()),
         getMoveBase: () => dispatch(getMoveBase()),
         getCustomMoves: () => dispatch(getCustomMoves()),
+        getCustomPokemon: () => dispatch(getCustomPokemon()),
+        setCustomPokemon: obj => dispatch(setCustomPokemon(obj)),
     }
 }
 
@@ -806,5 +855,7 @@ export default connect(
     state => ({
         bases: state.bases,
         customMoves: state.customMoves,
+        customPokemon: state.customPokemon.pokemon,
+        customParties: state.customPokemon.parties,
     }), mapDispatchToProps
 )(UserShinyBroker)

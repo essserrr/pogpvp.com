@@ -318,3 +318,65 @@ func setCustomBroker(w *http.ResponseWriter, r *http.Request, app *App, req *use
 	}
 	return nil
 }
+
+func getUserPokemon(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodGet {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "get_umoves_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	accSession, err := newAccessSession(r)
+	if err != nil {
+		discardCookie(w)
+		return err
+	}
+	pokemon, err := useractions.GetUserPokemon(app.mongo.client, accSession)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_umoves_error_count"}).Inc()
+		discardCookie(w)
+		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
+	}
+
+	if err := respond(w, *pokemon); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "get_umoves_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
+
+func setUserPokemon(w *http.ResponseWriter, r *http.Request, app *App) error {
+	if r.Method != http.MethodPost {
+		app.metrics.dbCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
+	}
+	ip := getIP(r)
+	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	accSession, err := newAccessSession(r)
+	if err != nil {
+		discardCookie(w)
+		return err
+	}
+
+	req := new(users.UserPokemonList)
+	if err := parseBody(r, &req); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+
+	if err = useractions.SetUserPokemon(app.mongo.client, req, accSession); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
+		discardCookie(w)
+		return errors.NewHTTPError(fmt.Errorf("Auth err"), http.StatusBadRequest, err.Error())
+	}
+
+	if err := respond(w, "Ok"); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
+	}
+	return nil
+}
