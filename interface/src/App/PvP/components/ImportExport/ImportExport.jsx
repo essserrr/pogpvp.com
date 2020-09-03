@@ -188,7 +188,11 @@ class ImportExport extends React.PureComponent {
                         acceptFile=".csv"
 
                         label={strings.import.fromfile}
-                        tips={strings.tips.importtips.matrix.impCalcy}
+                        tips={<>
+                            {strings.tips.importtips.matrix.impCalcy}
+                            <br /><br />
+                            {strings.tips.importtips.matrix.impformat}
+                        </>}
 
                         returnFile={this.onSubmitFile}
                     />}

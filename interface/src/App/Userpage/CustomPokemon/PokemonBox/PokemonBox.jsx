@@ -74,7 +74,7 @@ class PokemonBox extends React.PureComponent {
 
                 <div className="col-12 px-0">
                     <div className="row mx-0 justify-content-between align-items-center">
-                        <div className="pokbox__text">{`${this.props.label} (${this.props.userList.length}/${this.props.limit})`}</div>
+                        <div className="pokbox__text">{`${strings.shbroker.have} (${this.props.userList.length}/${this.props.limit})`}</div>
                         <div onClick={this.onClick} className="row mx-0 clickable align-items-center">
                             <div className="pokbox__text">{strings.userpok.filt}</div>
                             <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg px-2" : "fas fa-angle-down fa-lg px-2"}></i>

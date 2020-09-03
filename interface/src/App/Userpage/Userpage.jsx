@@ -49,15 +49,18 @@ class Userpage extends React.Component {
                             </div>
                             <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />
                             <Suspense fallback={
-                                <Loader
-                                    color="white"
-                                    weight="500"
-                                    locale={strings.loading}
-                                    loading={true}
+                                <div className="col-12 px-0 ">
+                                    <Loader
+                                        color="black"
+                                        weight="500"
+                                        locale={strings.loading}
+                                        loading={true}
 
-                                    class="row justify-content-center text-white"
-                                    innerClass="col-auto mt-1  mt-md-2"
-                                />}>
+                                        class="row justify-content-center text-white"
+                                        innerClass="col-auto mt-1  mt-md-2"
+                                    />
+                                </div>
+                            }>
                                 <Switch>
                                     <Route path="/profile/pokemon" component={CustomPokemon} />
                                     <Route path="/profile/move" component={CustomMoves} />

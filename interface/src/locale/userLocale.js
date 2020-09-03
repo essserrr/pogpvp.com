@@ -13,6 +13,8 @@ export const userLocale = {
 
         userpok: {
             poktitle: "User pokemon",
+            grouptitle: "User groups",
+
             addpok: "Add pokemon",
             or: "OR",
             filt: "Filters",
@@ -20,6 +22,14 @@ export const userLocale = {
             pokname: "Pokemon name",
             qname: "Quick move",
             chname: "Charge move",
+
+            parties: "Your parties",
+            selectpok: "Select pokemon",
+            actparty: "Pokemon in party:",
+            partyname: "Enter group name",
+
+            savegroup: "Add group",
+            deletegroup: "Delete group",
 
             err: {
                 errname: "You must select a pokemon",
@@ -273,6 +283,8 @@ export const userLocale = {
 
         userpok: {
             poktitle: "Покемоны пользователя",
+            grouptitle: "Группы пользователя",
+
             addpok: "Добавить покемона",
             or: "ИЛИ",
             filt: "Фильтры",
@@ -280,6 +292,14 @@ export const userLocale = {
             pokname: "Имя покемона",
             qname: "Быстрое умение",
             chname: "Заряжаемое умение",
+
+            parties: "Ваши группы",
+            selectpok: "Выберите покемона",
+            actparty: "Покемонов в группе:",
+            partyname: "Введите имя группы",
+
+            savegroup: "Добавить группу",
+            deletegroup: "Удалить группу",
 
             err: {
                 errname: "Вы должны выбрать покемона",

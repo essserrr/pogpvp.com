@@ -153,7 +153,8 @@ export const locale = {
                     p2: "Pokemon2!shadow,",
 
                     imp: "Import is partilly compatable with Pvpoke export",
-                    impCalcy: "Import is compatable with Calcy IV and pokebattler export",
+                    impCalcy: "Import is compatable with Calcy IV and pokebattler export.",
+                    impformat: "In order to be imported pokemon needs to have: Name, Quick Move, Charge Move. Import errors are shown in you browser console.",
                 },
                 shiny: {
                     form: "Pokemon string format (comma separated without spaces):",
@@ -468,7 +469,8 @@ export const locale = {
                     p2: "Покемон2!теневой,",
 
                     imp: "Импорт частично совместим с экспортом Pvppoke",
-                    impCalcy: "Импорт совместим с экспортом Calcy IV и pokebattler",
+                    impCalcy: "Импорт совместим с экспортом Calcy IV и pokebattler.",
+                    impformat: "Что бы быть импортированным, покемон должен иметь: Имя, Быстре Умение, Заряжаемое Умение. Ошибки импорта показаны в консоли вашего браузера.",
                 },
 
                 shiny: {
