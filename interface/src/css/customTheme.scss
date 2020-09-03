@@ -891,6 +891,13 @@ body {
     }
 }
 
+.btn.btn-primary {
+    background: linear-gradient(180deg, #45A6FF 0%, #0055FB 100%), #C4C4C4 !important;
+    border-radius: 5px !important;
+    border: none !important;
+    color: #FFFFFF !important;
+}
+
 //buttons
 //matrix panel, matrix-redact, matrix-save
 .matrixButton.btn.btn-primary.btn-sm {
