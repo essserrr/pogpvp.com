@@ -20,13 +20,14 @@ export const getCustomMoves = () => {
                         return resp.json()
                     })
                     .then(data => {
+                        console.log(data)
                         if (!data) { throw new Error("No response") }
                         if (data.detail) { throw data.detail }
                         dispatch({ type: "SET_CUSTOM_MOVES", value: data })
                         return { ok: true }
                     }).catch(r => {
-                        dispatch({ type: "SET_CUSTOM_MOVES_ERROR", value: String(r), })
-                        return { ok: false }
+                        dispatch({ type: "SET_CUSTOM_MOVES", value: {}, })
+                        return { ok: false, detail: String(r) }
                     })
             default:
                 return { ok: true }

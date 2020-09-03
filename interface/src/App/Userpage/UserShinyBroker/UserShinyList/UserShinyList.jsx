@@ -67,7 +67,7 @@ class UserShinyList extends React.PureComponent {
 
                                 pokemonTable={this.props.pokemonTable}
 
-                                onPokemonEdit={this.props.onPokemonEdit}
+                                onClick={this.props.onPokemonDelete}
                             />)}
                     </div>
                 </InfiniteScroll>

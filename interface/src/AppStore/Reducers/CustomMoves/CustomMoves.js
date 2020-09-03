@@ -1,6 +1,5 @@
 const initialState = {
     moves: {},
-    error: "",
 }
 
 const CustomMoves = (state = initialState, action) => {
@@ -8,13 +7,7 @@ const CustomMoves = (state = initialState, action) => {
         case "SET_CUSTOM_MOVES":
             return {
                 ...state,
-                moves: action.value,
-                error: "",
-            }
-        case "SET_CUSTOM_MOVES_ERROR":
-            return {
-                ...state,
-                error: action.value,
+                moves: action.value ? action.value : {},
             }
         default:
             return state

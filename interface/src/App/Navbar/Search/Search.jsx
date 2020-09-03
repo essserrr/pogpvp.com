@@ -42,9 +42,9 @@ class Search extends React.PureComponent {
 
     }
 
-    componentDidMount() {
-        this.props.getPokemonBase()
-        this.props.getMoveBase()
+    async componentDidMount() {
+        await this.props.getPokemonBase()
+        await this.props.getMoveBase()
     }
 
     onChange = (event, { newValue, method }) => {

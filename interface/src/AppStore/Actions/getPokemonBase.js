@@ -3,7 +3,6 @@ export const getPokemonBase = () => {
         let state = getState()
 
         if (Object.keys(state.bases.pokemonBase).length > 0) {
-            dispatch({ type: "SET_BASES_ERROR", value: "", })
             return { ok: true }
         }
 
@@ -23,9 +22,9 @@ export const getPokemonBase = () => {
                 dispatch({ type: "SET_POKEMON_BASE", value: data })
                 return { ok: true }
             }).catch(r => {
-                dispatch({ type: "SET_BASES_ERROR", value: String(r), })
+                dispatch({ type: "SET_POKEMON_BASE", value: {}, })
                 dispatch({ type: "END_POKEMON_BASE" })
-                return { ok: false }
+                return { ok: false, detail: String(r) }
             })
     }
 }

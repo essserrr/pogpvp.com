@@ -130,7 +130,7 @@ class PvePage extends React.Component {
                 if (!responses[i].ok) {
                     this.setState({
                         isError: true,
-                        error: i <= 1 ? this.props.bases.error : (i === 2 ? this.props.customMoves.error : pveResult.detail),
+                        error: (i === 3 ? pveResult.detail : responses[i].detail),
                         isLoaded: true,
                         showResult: false,
                         loading: false,

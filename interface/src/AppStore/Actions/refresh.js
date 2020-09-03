@@ -8,7 +8,7 @@ export const refresh = () => {
                 type: "SET_SESSION",
                 value: { expires: 0, uname: "" }
             })
-            return
+            return { ok: true }
         }
 
         switch (!getCookie("sid") || state.session.expiresAt - (Date.now() / 1000) < 5) {
@@ -19,7 +19,7 @@ export const refresh = () => {
                     credentials: "include",
                     headers: { "Content-Type": "application/json", }
                 }).then(resp => {
-                    if (!resp) { return }
+                    if (!resp) { throw new Error("No response") }
                     return resp.json()
                 })
                     .then(data => {
@@ -35,10 +35,10 @@ export const refresh = () => {
                             type: "SET_SESSION",
                             value: { expires: 0, uname: "" }
                         })
-                        return
+                        return { ok: false, detail: String(r) }
                     })
             default:
-                return
+                return { ok: true }
         }
     }
 }

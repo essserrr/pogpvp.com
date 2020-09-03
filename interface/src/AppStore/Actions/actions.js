@@ -14,8 +14,10 @@ export const setCustomMoves = value => ({
     type: "SET_CUSTOM_MOVES",
     value
 })
-export const setCustomMovesError = value => ({
-    type: "SET_CUSTOM_MOVES_ERROR",
+
+
+export const setCustomPokemon = value => ({
+    type: "SET_CUSTOM_POKEMON",
     value
 })
 
@@ -26,10 +28,6 @@ export const setMoveBase = value => ({
 })
 export const setPokemonBase = value => ({
     type: "SET_POKEMON_BASE",
-    value
-})
-export const setBasesError = value => ({
-    type: "SET_BASES_ERROR",
     value
 })
 

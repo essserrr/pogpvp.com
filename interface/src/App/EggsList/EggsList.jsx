@@ -53,7 +53,7 @@ class EggsList extends React.Component {
             let result = await responses[1].json()
 
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw (i === 1 ? result.detail : this.props.bases.error) }
+                if (!responses[i].ok) { throw (i === 1 ? result.detail : responses[i].detail) }
             }
 
             this.setState({

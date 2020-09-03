@@ -2,7 +2,6 @@ export const getMoveBase = () => {
     return (dispatch, getState) => {
         let state = getState()
         if (Object.keys(state.bases.moveBase).length > 0) {
-            dispatch({ type: "SET_BASES_ERROR", value: "", })
             return { ok: true }
         }
 
@@ -22,9 +21,9 @@ export const getMoveBase = () => {
                 dispatch({ type: "SET_MOVE_BASE", value: data })
                 return { ok: true }
             }).catch(r => {
-                dispatch({ type: "SET_BASES_ERROR", value: String(r), })
+                dispatch({ type: "SET_MOVE_BASE", value: {}, })
                 dispatch({ type: "END_MOVE_BASE" })
-                return { ok: false }
+                return { ok: false, detail: String(r) }
             })
     }
 }

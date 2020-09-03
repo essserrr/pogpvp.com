@@ -98,7 +98,7 @@ class PokeCard extends React.Component {
             let result = await responses[2].json()
 
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw (i === 2 ? result.detail : this.props.bases.error) }
+                if (!responses[i].ok) { throw (i === 2 ? result.detail : responses[i].detail) }
             }
 
             //if error input somehow

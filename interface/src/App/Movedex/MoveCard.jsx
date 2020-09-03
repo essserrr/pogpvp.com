@@ -49,7 +49,7 @@ class MoveCard extends React.Component {
             let responses = await Promise.all(fetches)
 
             for (let i = 0; i < responses.length; i++) {
-                if (!responses[i].ok) { throw this.props.bases.error }
+                if (!responses[i].ok) { throw responses[i].detail }
             }
             //if error input somehow
             if (!this.props.bases.moveBase[this.props.match.params.id]) { throw strings.moveerr }

@@ -48,7 +48,7 @@ class Pokedex extends React.Component {
         try {
             let response = await this.props.getPokemonBase()
             //if response is not ok, handle error
-            if (!response.ok) { throw this.props.bases.error }
+            if (!response.ok) { throw response.detail }
 
             //otherwise process results
             let arr = []
