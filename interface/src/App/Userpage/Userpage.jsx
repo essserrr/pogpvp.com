@@ -1,23 +1,25 @@
-import React from "react"
+import React, { Suspense, lazy } from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from 'react-redux'
 import { Switch, Route } from "react-router-dom"
+import Loader from "../PvpRating/Loader"
 
 import { setSession } from "../../AppStore/Actions/actions"
 import UpageButtons from "./ProfileButtons/ProfileButtons"
 import SiteHelm from "../SiteHelm/SiteHelm"
-import Info from "./Info/Info"
-import Security from "./Security/Security"
-import Pokemon from "./UserPokemon/UserPokemon"
-import CustomMoves from "./CustomMoves/CustomMoves"
-import UserShinyBroker from "./UserShinyBroker/UserShinyBroker"
 
 import "./Userpage.scss"
 
 import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
 
-let strings = new LocalizedStrings(userLocale);
+const Info = lazy(() => import("./Info/Info"))
+const Security = lazy(() => import("./Security/Security"))
+const CustomPokemon = lazy(() => import("./CustomPokemon/CustomPokemon"))
+const CustomMoves = lazy(() => import("./CustomMoves/CustomMoves"))
+const UserShinyBroker = lazy(() => import("./UserShinyBroker/UserShinyBroker"))
+
+let strings = new LocalizedStrings(userLocale)
 
 class Userpage extends React.Component {
     constructor(props) {
@@ -46,13 +48,24 @@ class Userpage extends React.Component {
                                 </div>
                             </div>
                             <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />
-                            <Switch>
-                                <Route path="/profile/pokemon" component={Pokemon} />
-                                <Route path="/profile/move" component={CustomMoves} />
-                                <Route path="/profile/shinybroker" component={UserShinyBroker} />
-                                <Route path="/profile/info" component={Info} />
-                                <Route path="/profile/security" component={Security} />
-                            </Switch>
+                            <Suspense fallback={
+                                <Loader
+                                    color="white"
+                                    weight="500"
+                                    locale={strings.loading}
+                                    loading={true}
+
+                                    class="row justify-content-center text-white"
+                                    innerClass="col-auto mt-1  mt-md-2"
+                                />}>
+                                <Switch>
+                                    <Route path="/profile/pokemon" component={CustomPokemon} />
+                                    <Route path="/profile/move" component={CustomMoves} />
+                                    <Route path="/profile/shinybroker" component={UserShinyBroker} />
+                                    <Route path="/profile/info" component={Info} />
+                                    <Route path="/profile/security" component={Security} />
+                                </Switch>
+                            </Suspense>
                         </div>
                     </div>
                 </div>
