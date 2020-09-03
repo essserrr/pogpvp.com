@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from 'react-redux'
 import { Switch, Route } from "react-router-dom"
-import Loader from "../PvpRating/Loader"
 
 import { setSession } from "../../AppStore/Actions/actions"
 import UpageButtons from "./ProfileButtons/ProfileButtons"
@@ -48,19 +47,7 @@ class Userpage extends React.Component {
                                 </div>
                             </div>
                             <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />
-                            <Suspense fallback={
-                                <div className="col-12 px-0 ">
-                                    <Loader
-                                        color="black"
-                                        weight="500"
-                                        locale={strings.loading}
-                                        loading={true}
-
-                                        class="row justify-content-center text-white"
-                                        innerClass="col-auto mt-1  mt-md-2"
-                                    />
-                                </div>
-                            }>
+                            <Suspense >
                                 <Switch>
                                     <Route path="/profile/pokemon" component={CustomPokemon} />
                                     <Route path="/profile/move" component={CustomMoves} />

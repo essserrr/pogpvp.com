@@ -18,7 +18,7 @@ class PvpForm extends React.PureComponent {
     render() {
         return (
             <>
-                <div className="col-12 px-0 pt-2 text-center font-weight-bold">{strings.moveconstr.pvp.title}</div>
+                <div className="col-12 px-0 py-1 text-center font-weight-bold">{strings.moveconstr.pvp.title}</div>
                 <div className="col-12 p-0 ">
                     <LabelAndInput
                         labelWidth="125px"
