@@ -32,36 +32,17 @@ func TestSetOfRuns(t *testing.T) {
 	res, err := setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Palkia",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Palkia",
+			QuickMove: "Dragon Tail", ChargeMove: "Draco Meteor",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
+		Boss: app.BossInfo{Name: "Zekrom", QuickMove: "Charge Beam", ChargeMove: "Outrage", Tier: 4},
 
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "Charge Beam",
-			ChargeMove: "Outrage",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Weather:     5,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 18, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -75,36 +56,17 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Palkia",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Palkia",
+			QuickMove: "Dragon Tail", ChargeMove: "Draco Meteor",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
+		Boss: app.BossInfo{Name: "Zekrom", QuickMove: "Charge Beam", ChargeMove: "Outrage", Tier: 4},
 
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "Charge Beam",
-			ChargeMove: "Outrage",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     12,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Weather:     5,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 12, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -118,36 +80,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Palkia",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Palkia",
+			QuickMove: "Dragon Tail", ChargeMove: "Draco Meteor",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "Charge Beam",
-			ChargeMove: "Outrage",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     6,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Zekrom", QuickMove: "Charge Beam", ChargeMove: "Outrage", Tier: 4},
+		Weather:     5,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 6, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -161,36 +103,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Rayquaza",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Outrage",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Rayquaza",
+			QuickMove: "Dragon Tail", ChargeMove: "Outrage",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Reshiram",
-			QuickMove:  "Fire Fang",
-			ChargeMove: "Draco Meteor",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Reshiram", QuickMove: "Fire Fang", ChargeMove: "Draco Meteor", Tier: 4},
+		Weather:     0,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 18, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -204,36 +126,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Rayquaza",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Outrage",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Rayquaza",
+			QuickMove: "Dragon Tail", ChargeMove: "Outrage",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Reshiram",
-			QuickMove:  "Fire Fang",
-			ChargeMove: "Draco Meteor",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     12,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Reshiram", QuickMove: "Fire Fang", ChargeMove: "Draco Meteor", Tier: 4},
+		Weather:     0,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 12, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -247,36 +149,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Rayquaza",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Outrage",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Rayquaza",
+			QuickMove: "Dragon Tail", ChargeMove: "Outrage",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Reshiram",
-			QuickMove:  "Fire Fang",
-			ChargeMove: "Draco Meteor",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     6,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Reshiram", QuickMove: "Fire Fang", ChargeMove: "Draco Meteor", Tier: 4},
+		Weather:     0,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 6, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -290,36 +172,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Mewtwo",
-
-			QuickMove:  "Confusion",
-			ChargeMove: "Psystrike",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Mewtwo",
+			QuickMove: "Confusion", ChargeMove: "Psystrike",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Terrakion",
-			QuickMove:  "Smack Down",
-			ChargeMove: "Earthquake",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     12,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Terrakion", QuickMove: "Smack Down", ChargeMove: "Earthquake", Tier: 4},
+		Weather:     0,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 12, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -333,36 +195,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Mewtwo",
-
-			QuickMove:  "Confusion",
-			ChargeMove: "Psystrike",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Mewtwo",
+			QuickMove: "Confusion", ChargeMove: "Psystrike",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Terrakion",
-			QuickMove:  "Smack Down",
-			ChargeMove: "Earthquake",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     6,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Terrakion", QuickMove: "Smack Down", ChargeMove: "Earthquake", Tier: 4},
+		Weather:     0,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 6, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -376,36 +218,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Darkrai",
-
-			QuickMove:  "Snarl",
-			ChargeMove: "Shadow Ball",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Darkrai",
+			QuickMove: "Snarl", ChargeMove: "Shadow Ball",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Alolan Marowak",
-			QuickMove:  "Hex",
-			ChargeMove: "Shadow Ball",
-			Tier:       3,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     6,
-		PlayersNumber: tier4,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Alolan Marowak", QuickMove: "Hex", ChargeMove: "Shadow Ball", Tier: 3},
+		Weather:     5,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 6, PlayersNumber: tier4,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -419,36 +241,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Mamoswine",
-
-			QuickMove:  "Powder Snow",
-			ChargeMove: "Avalanche",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Mamoswine",
+			QuickMove: "Powder Snow", ChargeMove: "Avalanche",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Rayquaza",
-			QuickMove:  "Air Slash",
-			ChargeMove: "Aerial Ace",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Rayquaza", QuickMove: "Air Slash", ChargeMove: "Aerial Ace", Tier: 4},
+		Weather:     5,
+		FriendStage: 0, DodgeStrategy: 0,
+		PartySize: 18, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -462,36 +264,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Mamoswine",
-
-			QuickMove:  "Powder Snow",
-			ChargeMove: "Avalanche",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Mamoswine",
+			QuickMove: "Powder Snow", ChargeMove: "Avalanche",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Rayquaza",
-			QuickMove:  "Air Slash",
-			ChargeMove: "Aerial Ace",
-			Tier:       4,
-		},
-
-		FriendStage:   4,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Rayquaza", QuickMove: "Air Slash", ChargeMove: "Aerial Ace", Tier: 4},
+		Weather:     5,
+		FriendStage: 4, DodgeStrategy: 0,
+		PartySize: 18, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -505,36 +287,16 @@ func TestSetOfRuns(t *testing.T) {
 	res, err = setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Mamoswine",
-
-			QuickMove:  "Powder Snow",
-			ChargeMove: "Avalanche",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
+			Name:      "Mamoswine",
+			QuickMove: "Powder Snow", ChargeMove: "Avalanche",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15,
 			IsShadow: false,
 		}},
-
-		Weather: 6,
-
-		Boss: app.BossInfo{
-			Name:       "Rayquaza",
-			QuickMove:  "Air Slash",
-			ChargeMove: "Aerial Ace",
-			Tier:       4,
-		},
-
-		FriendStage:   4,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:        app.BossInfo{Name: "Rayquaza", QuickMove: "Air Slash", ChargeMove: "Aerial Ace", Tier: 4},
+		Weather:     6,
+		FriendStage: 4, DodgeStrategy: 0,
+		PartySize: 18, PlayersNumber: tier5,
+		NumberOfRuns: 2000, App: testApp,
 	})
 	if err != nil {
 		t.Error(err)
@@ -765,106 +527,6 @@ func TestDodge(t *testing.T) {
 		t.Error(err)
 	}
 	err = checkWrapperRes(res, []string{"PalkiaDragon TailDracoMeteorDodge"}, 4)
-	if err != nil {
-		t.Error(err)
-	}
-}
-
-func TestCustomRaids(t *testing.T) {
-	const tier5 uint8 = 3
-	rand.Seed(time.Now().UnixNano())
-	//Rayquaza 12-3-4-w
-	res, err := setOfRuns(pvpeInitialData{
-		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{{
-			Name:       "Groudon",
-			QuickMove:  "Mud Shot",
-			ChargeMove: "Earthquake",
-			Level:      35,
-
-			AttackIV:  14,
-			DefenceIV: 15,
-			StaminaIV: 12,
-			IsShadow:  false,
-		},
-			{
-				Name:       "Groudon",
-				QuickMove:  "Mud Shot",
-				ChargeMove: "Earthquake",
-				Level:      35,
-
-				AttackIV:  14,
-				DefenceIV: 13,
-				StaminaIV: 14,
-				IsShadow:  false,
-			},
-			{
-				Name:       "Groudon",
-				QuickMove:  "Mud Shot",
-				ChargeMove: "Earthquake",
-				Level:      35,
-
-				AttackIV:  15,
-				DefenceIV: 13,
-				StaminaIV: 10,
-				IsShadow:  false,
-			},
-			{
-				Name:       "Groudon",
-				QuickMove:  "Mud Shot",
-				ChargeMove: "Earthquake",
-				Level:      35,
-
-				AttackIV:  15,
-				DefenceIV: 10,
-				StaminaIV: 10,
-				IsShadow:  false,
-			},
-			{
-				Name:       "Groudon",
-				QuickMove:  "Mud Shot",
-				ChargeMove: "Earthquake",
-				Level:      35,
-
-				AttackIV:  11,
-				DefenceIV: 14,
-				StaminaIV: 14,
-				IsShadow:  false,
-			},
-			{
-				Name:       "Groudon",
-				QuickMove:  "Mud Shot",
-				ChargeMove: "Earthquake",
-				Level:      35,
-
-				AttackIV:  13,
-				DefenceIV: 13,
-				StaminaIV: 14,
-				IsShadow:  false,
-			}},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Heatran",
-			QuickMove:  "Bug Bite",
-			ChargeMove: "Fire Blast",
-			Tier:       4,
-		},
-
-		AggresiveMode: true,
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     6,
-		PlayersNumber: tier5,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
-	})
-	if err != nil {
-		t.Error(err)
-	}
-	err = checkRes(&res, "CustomHeatran6", 4)
 	if err != nil {
 		t.Error(err)
 	}
