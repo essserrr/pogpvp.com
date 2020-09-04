@@ -15,10 +15,12 @@ type conStruct struct {
 	inDat   *app.IntialDataPve
 	count   int
 
-	boosterRow  []preRun
-	attackerRow []preRun
-	bossRow     []app.BossInfo
-	resArray    [][]app.CommonResult
+	attackerGroups [][]preRun
+	attackerRow    []preRun
+	boosterRow     []preRun
+
+	bossRow  []app.BossInfo
+	resArray [][]app.CommonResult
 }
 
 //ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
@@ -37,7 +39,7 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	if err != nil {
 		return nil, err
 	}
-	boosterRow, err := makeBoostersRow(inDat)
+	boosterRow, err := makeBoostersRow(inDat, &bossRow)
 	if err != nil {
 		return nil, err
 	}
@@ -57,9 +59,7 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 		resArray: [][]app.CommonResult{},
 	}
 
-	conObj.start()
-
-	conObj.wg.Wait()
+	conObj.startCommonPve()
 
 	close(conObj.errChan)
 	errStr := conObj.errChan.Flush()
@@ -71,7 +71,7 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 
 	sort.Sort(byAvgDamage(conObj.resArray))
 
-	switch len(conObj.resArray) > 300 {
+	switch len(conObj.resArray) > 500 {
 	case true:
 		conObj.resArray = conObj.resArray[:500]
 	default:
@@ -98,8 +98,8 @@ type pvpeInitialData struct {
 	BoostSlotPokemon app.PokemonInitialData
 }
 
-func (co *conStruct) start() {
-	co.resArray = make([][]app.CommonResult, 0, 1000)
+func (co *conStruct) startCommonPve() {
+	co.resArray = make([][]app.CommonResult, 0, 900)
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
 	for number, pok := range co.attackerRow {
@@ -116,7 +116,7 @@ func (co *conStruct) start() {
 
 			go func(currBoss app.BossInfo, pok preRun, i int) {
 				defer co.wg.Done()
-
+				//create attackers intial data
 				attackers := make([]app.PokemonInitialData, 0, 1)
 				booster := co.selectBoosterFor(pok)
 				if booster.Name != "" {
