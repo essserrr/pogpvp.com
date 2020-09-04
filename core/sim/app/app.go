@@ -25,6 +25,20 @@ type SimApp struct {
 	NodeLimit        uint32
 }
 
+//FindMove find a move in specified databases and return move value and true or false
+func (app *SimApp) FindMove(customMoves *map[string]MoveBaseEntry, moveName string) (MoveBaseEntry, bool) {
+	//if a move not found in the main databse
+	move, ok := app.PokemonMovesBase[moveName]
+	if !ok {
+		//try to search in the custom database
+		move, ok = (*customMoves)[moveName]
+		if !ok {
+			return move, ok
+		}
+	}
+	return move, ok
+}
+
 //PokemonsBaseEntry pokemon base entry
 type PokemonsBaseEntry struct {
 	Atk uint16
@@ -199,10 +213,12 @@ func (en *Energy) AddEnergy(energyValue int16) {
 	}
 }
 
-//IntialDataPve contains data to start common raid
+//IntialDataPve contains data to start raids
 type IntialDataPve struct {
 	App         *SimApp
 	CustomMoves *map[string]MoveBaseEntry
+	UserPokemon []UserPokemon
+	UserPlayers [][]UserPokemon
 
 	NumberOfRuns  int
 	FriendStage   int
@@ -218,6 +234,69 @@ type IntialDataPve struct {
 
 	BoostSlotPokemon PokemonInitialData
 	BoostSlotEnabled bool
+	FindInCollection bool
+}
+
+//UserPokemon contains user pokemon entry
+type UserPokemon struct {
+	Name     string
+	IsShadow string
+
+	QuickMove   string
+	ChargeMove  string
+	ChargeMove2 string
+
+	Lvl float32
+	CP  uint32
+
+	Atk uint16
+	Def uint16
+	Sta uint16
+}
+
+//SetCommonPveRuns sets number of simulator runs depending on initial data
+func (indatpve *IntialDataPve) SetCommonPveRuns() {
+	if indatpve.NumberOfRuns > 0 {
+		return
+	}
+	_, ok := indatpve.App.PokemonStatsBase[indatpve.Pok.Name]
+	if !ok {
+		indatpve.NumberOfRuns = 10
+		return
+	}
+
+	if _, ok = indatpve.App.FindMove(indatpve.CustomMoves, indatpve.Pok.QuickMove); !ok {
+		indatpve.NumberOfRuns = 100
+		return
+	}
+
+	if _, ok = indatpve.App.FindMove(indatpve.CustomMoves, indatpve.Pok.ChargeMove); !ok {
+		indatpve.NumberOfRuns = 100
+		return
+	}
+
+	indatpve.NumberOfRuns = 500
+}
+
+//SetCustomPveRuns sets number of simulator runs depending on initial data
+func (indatpve *IntialDataPve) SetCustomPveRuns() {
+	if indatpve.NumberOfRuns > 0 {
+		return
+	}
+	if indatpve.FindInCollection {
+		indatpve.NumberOfRuns = 10
+		return
+	}
+	indatpve.NumberOfRuns = 500
+}
+
+//SetNumberOfPlayers sets number of players depending on initial data
+func (indatpve *IntialDataPve) SetNumberOfPlayers() {
+	if indatpve.FindInCollection || len(indatpve.UserPokemon) == 1 {
+		indatpve.PlayersNumber = 3
+		return
+	}
+	indatpve.PlayersNumber = uint8(len(indatpve.UserPlayers))
 }
 
 //PokemonInitialData contains initial data for pvp
