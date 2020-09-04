@@ -235,6 +235,7 @@ type IntialDataPve struct {
 	BoostSlotPokemon PokemonInitialData
 	BoostSlotEnabled bool
 	FindInCollection bool
+	SortByDamage     bool
 }
 
 //UserPokemon contains user pokemon entry

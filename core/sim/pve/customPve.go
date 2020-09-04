@@ -83,7 +83,7 @@ func validateCustomData(inDat *app.IntialDataPve) error {
 
 func (co *conStruct) startCustomFromCollection() error {
 	var err error
-	co.attackerRow, err = makeAttackerCustomPve(co.inDat)
+	co.attackerRow, err = makeAttackerCustomPve(co.inDat, &co.bossRow)
 	if err != nil {
 		return err
 	}
@@ -94,7 +94,7 @@ func (co *conStruct) startCustomFromCollection() error {
 
 func (co *conStruct) startCustomFromGroups() error {
 	var err error
-	co.attackerGroups, err = chooseAttackerFromGroup(co.inDat)
+	co.attackerGroups, err = selectAttackerFromGroup(co.inDat)
 	if err != nil {
 		return err
 	}
