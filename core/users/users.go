@@ -284,9 +284,9 @@ type UserPokemon struct {
 	Lvl float32
 	CP  uint32
 
-	Atk uint16
-	Def uint16
-	Sta uint16
+	Atk uint8
+	Def uint8
+	Sta uint8
 }
 
 //Session contains user session info
