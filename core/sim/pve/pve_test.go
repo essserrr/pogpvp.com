@@ -636,69 +636,29 @@ func TestAllList(t *testing.T) {
 }
 
 var checks = map[string]app.CommonResult{
-	"Zekrom18": {
-		DAvg: 4889,
-	},
-	"Zekrom12": {
-		DAvg: 3258,
-	},
-	"Zekrom6": {
-		DAvg: 1635,
-	},
-	"Reshiram18": {
-		DAvg: 5688,
-	},
-	"Reshiram12": {
-		DAvg: 3853,
-	},
-	"Reshiram6": {
-		DAvg: 1917,
-	},
+	"Zekrom18":   {DAvg: 4889},
+	"Zekrom12":   {DAvg: 3258},
+	"Zekrom6":    {DAvg: 1635},
+	"Reshiram18": {DAvg: 5688},
+	"Reshiram12": {DAvg: 3853},
+	"Reshiram6":  {DAvg: 1917},
 
-	"Terrakion12": {
-		DAvg: 8407,
-	},
-	"Terrakion6": {
-		DAvg: 4243,
-	},
-	"Marowak6": {
-		DAvg: 4568,
-	},
-	"Rayquaza18": {
-		DAvg: 11550,
-	},
-	"Rayquaza18+f": {
-		DAvg: 12675,
-	},
-	"Rayquaza18+f+w": {
-		DAvg: 15075,
-	},
-	"PalkiaDragon BreathDracoMeteor": {
-		DAvg: 6573,
-	},
-	"PalkiaDragon TailDracoMeteor": {
-		DAvg: 6386,
-	},
-	"PalkiaDragon BreathDracoMeteorAgr": {
-		DAvg: 6951,
-	},
-	"PalkiaDragon TailDracoMeteorAgr": {
-		DAvg: 6831,
-	},
-	"PalkiaDragon TailDracoMeteorDodge": {
-		DAvg: 5198,
-	},
+	"Terrakion12":                       {DAvg: 8407},
+	"Terrakion6":                        {DAvg: 4243},
+	"Marowak6":                          {DAvg: 4568},
+	"Rayquaza18":                        {DAvg: 11550},
+	"Rayquaza18+f":                      {DAvg: 12675},
+	"Rayquaza18+f+w":                    {DAvg: 15075},
+	"PalkiaDragon BreathDracoMeteor":    {DAvg: 6573},
+	"PalkiaDragon TailDracoMeteor":      {DAvg: 6386},
+	"PalkiaDragon BreathDracoMeteorAgr": {DAvg: 6951},
+	"PalkiaDragon TailDracoMeteorAgr":   {DAvg: 6831},
+	"PalkiaDragon TailDracoMeteorDodge": {DAvg: 5198},
 
-	"CustomHeatran6": {
-		DAvg: 4230,
-	},
+	"CustomHeatran6": {DAvg: 4230},
 
-	"Mega PalkiaDragon BreathDracoMeteorAgr": {
-		DAvg: 6858,
-	},
-	"Mega PalkiaDragon TailDracoMeteorAgr": {
-		DAvg: 6636,
-	},
+	"Mega PalkiaDragon BreathDracoMeteorAgr": {DAvg: 6858},
+	"Mega PalkiaDragon TailDracoMeteorAgr":   {DAvg: 6636},
 }
 
 func BenchmarkSingleRun2000(b *testing.B) {
@@ -706,36 +666,11 @@ func BenchmarkSingleRun2000(b *testing.B) {
 	data := pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Rayquaza",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Outrage",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "Rayquaza", QuickMove: "Dragon Tail", ChargeMove: "Outrage",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		}},
-
-		Weather: 4,
-
-		Boss: app.BossInfo{
-			Name:       "Reshiram",
-			QuickMove:  "Fire Fang",
-			ChargeMove: "Draco Meteor",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		NumberOfRuns: 2000,
-		App:          testApp,
+		Boss:    app.BossInfo{Name: "Reshiram", QuickMove: "Fire Fang", ChargeMove: "Draco Meteor", Tier: 4},
+		Weather: 4, FriendStage: 0, DodgeStrategy: 0, PartySize: 18, PlayersNumber: 3, NumberOfRuns: 2000, App: testApp,
 	}
 
 	b.ResetTimer()
@@ -749,35 +684,11 @@ func BenchmarkAllMovesetVsAllMoveset(b *testing.B) {
 	data := app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
-			Name: "Palkia",
-
-			QuickMove:  "",
-			ChargeMove: "",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "Palkia", QuickMove: "", ChargeMove: "",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "",
-			ChargeMove: "",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		App: testApp,
+		Boss:    app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
+		Weather: 0, FriendStage: 0, DodgeStrategy: 0, PartySize: 18, PlayersNumber: 3, App: testApp,
 	}
 
 	b.ResetTimer()
@@ -791,35 +702,11 @@ func BenchmarkAllVsAllMoveset(b *testing.B) {
 	data := app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
-			Name: "",
-
-			QuickMove:  "",
-			ChargeMove: "",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "", QuickMove: "", ChargeMove: "",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Mew",
-			QuickMove:  "",
-			ChargeMove: "",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		App: testApp,
+		Boss:    app.BossInfo{Name: "Mew", QuickMove: "", ChargeMove: "", Tier: 4},
+		Weather: 0, FriendStage: 0, DodgeStrategy: 0, PartySize: 18, PlayersNumber: 3, App: testApp,
 	}
 
 	b.ResetTimer()

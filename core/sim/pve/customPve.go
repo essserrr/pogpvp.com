@@ -32,6 +32,17 @@ func ReturnCustomRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 		resArray: [][]app.CommonResult{},
 	}
 
+	switch inDat.FindInCollection {
+	case true:
+		if err = conObj.startCustomFromCollection(); err != nil {
+			return nil, err
+		}
+	default:
+		if err = conObj.startCustomFromGroups(); err != nil {
+			return nil, err
+		}
+	}
+
 	conObj.wg.Wait()
 
 	close(conObj.errChan)
@@ -88,8 +99,52 @@ func (co *conStruct) startCustomFromCollection() error {
 		return err
 	}
 	co.boosterRow, err = makeBoostersRowCustomPve(co.inDat, &co.bossRow)
-
+	if err != nil {
+		return err
+	}
+	co.makeGroupsFromAttackers()
+	combinations := choose(co.attackerGroups, 3, make([][]preRun, 0, 1), 0)
+	fmt.Println(combinations)
 	return nil
+}
+
+func (co *conStruct) makeGroupsFromAttackers() {
+	co.attackerGroups = make([][]preRun, 0, 1)
+
+	numberOfPartiesAllowed := 12
+	party := make([]preRun, 0, 6)
+
+	for _, value := range co.attackerRow {
+		if numberOfPartiesAllowed == 0 {
+			break
+		}
+		party = append(party, value)
+		if len(party) >= 6 {
+			co.attackerGroups = append(co.attackerGroups, party)
+			party = make([]preRun, 0, 6)
+			numberOfPartiesAllowed--
+		}
+	}
+	if len(party) > 0 {
+		co.attackerGroups = append(co.attackerGroups, party)
+	}
+}
+
+// return n choose k combinations
+func choose(arr [][]preRun, k int, prefix [][]preRun, i int) [][][]preRun {
+	// if the remainder of the array will complete the combination length exactly, combine it with the current prefix and add to results
+	if len(prefix)+len(arr)-i == k {
+		return [][][]preRun{append(prefix, arr[i:]...)}
+
+		// if the prefix is long enough, add it to the results
+	} else if len(prefix) == k {
+		return [][][]preRun{prefix}
+
+		// otherwise, push combinations with and without
+		// the current element
+	} else {
+		return append(choose(arr, k, append(prefix, arr[i]), i+1), choose(arr, k, prefix, i+1)...)
+	}
 }
 
 func (co *conStruct) startCustomFromGroups() error {

@@ -2,7 +2,12 @@ package pve
 
 import (
 	app "Solutions/pvpSimulator/core/sim/app"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"os"
+	"path"
 	"testing"
 	"time"
 )
@@ -10,7 +15,7 @@ import (
 func TestCustomRaids(t *testing.T) {
 	const tier5 uint8 = 3
 	rand.Seed(time.Now().UnixNano())
-	//Rayquaza 12-3-4-w
+	//test if set of runs for custom pve work correctly
 	res, err := setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		AttackerPokemon: []app.PokemonInitialData{{
@@ -49,5 +54,58 @@ func TestCustomRaids(t *testing.T) {
 	err = checkRes(&res, "CustomHeatran6", 4)
 	if err != nil {
 		t.Error(err)
+	}
+}
+
+type UserFromBase struct {
+	Pokemon []app.UserPokemon
+	Parties map[string][]app.UserPokemon
+}
+
+func TestCustomRaidsWrapper(t *testing.T) {
+	bytes, err := ioutil.ReadFile(path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./core/sim/goldenUsers/goldenUser.json"))
+	if err != nil {
+		t.Error(err)
+	}
+	midoriNoKami := UserFromBase{}
+	err = json.Unmarshal(bytes, &midoriNoKami)
+	if err != nil {
+		t.Error(err)
+	}
+	midoriNoKami.Pokemon = append(midoriNoKami.Pokemon,
+		app.UserPokemon{
+			Name: "Mega Charizard X", QuickMove: "Dragon Breath", ChargeMove: "Dragon Claw",
+			Lvl: 40, Atk: 15, Def: 15, Sta: 15, IsShadow: "false",
+		},
+		app.UserPokemon{
+			Name: "Mega Rayquaza", QuickMove: "Dragon Tail", ChargeMove: "Outrage",
+			Lvl: 40, Atk: 15, Def: 15, Sta: 15, IsShadow: "false",
+		},
+		app.UserPokemon{
+			Name: "Mega Camerupt", QuickMove: "Ember", ChargeMove: "Earth Power",
+			Lvl: 40, Atk: 15, Def: 15, Sta: 15, IsShadow: "false",
+		})
+
+	_, err = ReturnCustomRaid(&app.IntialDataPve{
+		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
+		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
+		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		AggresiveMode: true, PartySize: 18,
+		BoostSlotEnabled: true, FindInCollection: true, SortByDamage: false,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestPartyGenerator(t *testing.T) {
+	constructObj := conStruct{
+		attackerRow: []preRun{{Name: "1"}, {Name: "2"}, {Name: "3"}, {Name: "4"}, {Name: "5"}, {Name: "6"}, {Name: "7"}},
+	}
+	constructObj.makeGroupsFromAttackers()
+	if len(constructObj.attackerGroups[0]) != 6 || len(constructObj.attackerGroups[1]) != 1 {
+		t.Error(fmt.Errorf("Group creation test failed, first party: %v, expected: 6, second party: %v, expected: 1",
+			len(constructObj.attackerGroups[0]), len(constructObj.attackerGroups[1])))
+
 	}
 }
