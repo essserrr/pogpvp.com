@@ -113,7 +113,7 @@ func (pok *pokemon) makeNewBody(pokemonData *app.PokemonInitialData, obj *pveObj
 }
 
 func (pok *pokemon) setQuickMove(quickMove string, obj *pveObject) error { // setst up quick move
-	moveEntry, ok := findMove(obj.app, obj.CustomMoves, quickMove)
+	moveEntry, ok := obj.app.FindMove(obj.CustomMoves, quickMove)
 	if !ok {
 		return &customError{"Quick move not found in the database"}
 	}
@@ -125,7 +125,7 @@ func (pok *pokemon) setChargeMove(chargeMove string, obj *pveObject) error { // 
 	if chargeMove == "" {
 		return nil
 	}
-	moveEntry, ok := findMove(obj.app, obj.CustomMoves, chargeMove)
+	moveEntry, ok := obj.app.FindMove(obj.CustomMoves, chargeMove)
 	if !ok {
 		return &customError{"Charge move not found in the database"}
 	}

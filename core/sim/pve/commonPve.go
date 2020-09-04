@@ -21,42 +21,6 @@ type conStruct struct {
 	resArray    [][]app.CommonResult
 }
 
-func setUpRunsNumber(inDat *app.IntialDataPve) {
-	if inDat.NumberOfRuns > 0 {
-		return
-	}
-	_, ok := inDat.App.PokemonStatsBase[inDat.Pok.Name]
-	if !ok {
-		inDat.NumberOfRuns = 10
-		return
-	}
-
-	if _, ok = findMove(inDat.App, inDat.CustomMoves, inDat.Pok.QuickMove); !ok {
-		inDat.NumberOfRuns = 100
-		return
-	}
-
-	if _, ok = findMove(inDat.App, inDat.CustomMoves, inDat.Pok.ChargeMove); !ok {
-		inDat.NumberOfRuns = 100
-		return
-	}
-
-	inDat.NumberOfRuns = 500
-}
-
-func findMove(app *app.SimApp, customMoves *map[string]app.MoveBaseEntry, moveName string) (app.MoveBaseEntry, bool) {
-	//if a move not found in the main databse
-	move, ok := app.PokemonMovesBase[moveName]
-	if !ok {
-		//try to search in the custom database
-		move, ok = (*customMoves)[moveName]
-		if !ok {
-			return move, ok
-		}
-	}
-	return move, ok
-}
-
 //ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
 func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	//if boss is not specified return error
@@ -66,7 +30,7 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	}
 	//otherwise make initial preparations
 	rand.Seed(time.Now().UnixNano())
-	setUpRunsNumber(inDat)
+	inDat.SetCommonPveRuns()
 
 	//make cancurrent object of this pve
 	bossRow, err := generateBossRow(inDat)

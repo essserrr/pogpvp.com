@@ -235,7 +235,7 @@ type moveSelect struct {
 type filterList map[string]int
 
 func (ms *moveSelect) selectMoves() []string {
-	moveVal, ok := findMove(ms.inDat.App, ms.inDat.CustomMoves, ms.move)
+	moveVal, ok := ms.inDat.App.FindMove(ms.inDat.CustomMoves, ms.move)
 	moves := make([]string, 0, 1)
 	switch ok {
 	case true:
@@ -448,7 +448,7 @@ func (lo *limiterObject) limitMoves() ([]string, error) {
 
 	//calculate dps / pds*dpe for every move
 	for _, moveTitle := range lo.orginalMoveList {
-		lo.move.moveBody, _ = findMove(lo.inDat.App, lo.inDat.CustomMoves, moveTitle)
+		lo.move.moveBody, _ = lo.inDat.App.FindMove(lo.inDat.CustomMoves, moveTitle)
 		lo.move.stab = lo.checkStab()
 		lo.move.weather = lo.checkWeather()
 
