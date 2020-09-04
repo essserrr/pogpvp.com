@@ -666,7 +666,9 @@ func makeBoostersRowCustomPve(inDat *app.IntialDataPve, bosses *[]app.BossInfo) 
 		bossEffDef: (float32(15.0) + float32(inDat.App.PokemonStatsBase[inDat.Boss.Name].Def)) * tierMult[inDat.Boss.Tier],
 	}
 	prerun.selectPokemonFromCollection(true)
-
+	if len(prerun.prerunArr) == 0 {
+		return nil, &customError{"Your collection is empty"}
+	}
 	if err := prerun.makePrerun(bosses, 1, 5); err != nil {
 		return nil, err
 	}

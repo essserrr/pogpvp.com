@@ -103,8 +103,8 @@ func (co *conStruct) startCustomFromCollection() error {
 		return err
 	}
 	co.makeGroupsFromAttackers()
-	combinations := choose(co.attackerGroups, 3, make([][]preRun, 0, 1), 0)
-	fmt.Println(combinations)
+	co.attackerGroups = combineByAndMerge(co.attackerGroups, 3, make([][]preRun, 0, 1), 0)
+	fmt.Println(co.attackerGroups)
 	return nil
 }
 
@@ -131,20 +131,29 @@ func (co *conStruct) makeGroupsFromAttackers() {
 }
 
 // return n choose k combinations
-func choose(arr [][]preRun, k int, prefix [][]preRun, i int) [][][]preRun {
+func combineByAndMerge(arr [][]preRun, k int, prefix [][]preRun, i int) [][]preRun {
 	// if the remainder of the array will complete the combination length exactly, combine it with the current prefix and add to results
 	if len(prefix)+len(arr)-i == k {
-		return [][][]preRun{append(prefix, arr[i:]...)}
-
+		return [][]preRun{decostruct(append(prefix, arr[i:]...))}
 		// if the prefix is long enough, add it to the results
 	} else if len(prefix) == k {
-		return [][][]preRun{prefix}
+		return [][]preRun{decostruct(prefix)}
 
 		// otherwise, push combinations with and without
 		// the current element
 	} else {
-		return append(choose(arr, k, append(prefix, arr[i]), i+1), choose(arr, k, prefix, i+1)...)
+		return append(combineByAndMerge(arr, k, append(prefix, arr[i]), i+1), combineByAndMerge(arr, k, prefix, i+1)...)
 	}
+}
+
+func decostruct(party18 [][]preRun) []preRun {
+	deconstructed := []preRun{}
+	for _, party6 := range party18 {
+		for _, pok := range party6 {
+			deconstructed = append(deconstructed, pok)
+		}
+	}
+	return deconstructed
 }
 
 func (co *conStruct) startCustomFromGroups() error {
