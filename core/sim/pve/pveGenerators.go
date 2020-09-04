@@ -164,7 +164,64 @@ func getMultipliers(attacker, defender *app.PokemonsBaseEntry, move *app.MoveBas
 	return stabMultiplier * friendship[inDat.FriendStage] * seMultiplier * weatherMultiplier
 }
 
-func (po *prerunObj) generateForUnknownBooster() {
+func (po *prerunObj) generateForUnknownBooster(bosses *[]app.BossInfo) error {
+	po.makeCommonBoosters()
+	if err := po.makeBoostersCommonPvePrerun(bosses); err != nil {
+		return err
+	}
+	sort.Sort(byDps(po.prerunArr))
+	return nil
+}
+
+func (po *prerunObj) makeBoostersCommonPvePrerun(bosses *[]app.BossInfo) error {
+	for boosterKey, booster := range po.prerunArr {
+		var sumOfDmg int64
+
+		for _, currBoss := range *bosses {
+			pokData := app.PokemonInitialData{
+				Name: booster.Name,
+
+				QuickMove:  booster.Quick,
+				ChargeMove: booster.Charge,
+
+				Level: booster.Lvl,
+
+				AttackIV:  booster.Atk,
+				DefenceIV: booster.Def,
+				StaminaIV: booster.Sta,
+
+				IsShadow: false,
+			}
+
+			singleResult, err := setOfRuns(pvpeInitialData{
+				CustomMoves: po.inDat.CustomMoves,
+				App:         po.inDat.App,
+
+				AttackerPokemon:  []app.PokemonInitialData{pokData},
+				BoostSlotPokemon: pokData,
+
+				PartySize:     po.inDat.PartySize,
+				PlayersNumber: po.inDat.PlayersNumber,
+
+				Boss: currBoss,
+
+				NumberOfRuns:  5,
+				FriendStage:   po.inDat.FriendStage,
+				Weather:       po.inDat.Weather,
+				DodgeStrategy: po.inDat.DodgeStrategy,
+				AggresiveMode: po.inDat.AggresiveMode,
+			})
+			if err != nil {
+				return err
+			}
+			sumOfDmg += int64(singleResult.DAvg)
+		}
+		po.prerunArr[boosterKey].Dps = float32(float64(sumOfDmg) / float64(len(*bosses)))
+	}
+	return nil
+}
+
+func (po *prerunObj) makeCommonBoosters() {
 	for _, pok := range po.inDat.App.PokemonStatsBase {
 		//skip pokemon that cannot boost attack
 		if !canBoost(pok.Title) {
@@ -172,7 +229,6 @@ func (po *prerunObj) generateForUnknownBooster() {
 		}
 		//define the best booster's moveset
 		prerunObj := preRun{}
-
 		for _, qm := range pok.QuickMoves {
 			//skip empty moves
 			if qm == "" {
@@ -203,6 +259,11 @@ func (po *prerunObj) generateForUnknownBooster() {
 					prerunObj.Quick = qm
 					prerunObj.Charge = chm
 					prerunObj.Dps = dpsCharge + dpsQuick
+					prerunObj.Lvl = po.inDat.BoostSlotPokemon.Level
+
+					prerunObj.Atk = po.inDat.BoostSlotPokemon.AttackIV
+					prerunObj.Def = po.inDat.BoostSlotPokemon.DefenceIV
+					prerunObj.Sta = po.inDat.BoostSlotPokemon.StaminaIV
 				}
 
 			}
@@ -212,7 +273,6 @@ func (po *prerunObj) generateForUnknownBooster() {
 			po.prerunArr = append(po.prerunArr, prerunObj)
 		}
 	}
-	sort.Sort(byDps(po.prerunArr))
 }
 
 func makeAttackerRow(inDat *app.IntialDataPve) ([]preRun, error) {
@@ -553,4 +613,146 @@ func (lo *limiterObject) combineLists() {
 		//get top-10
 		lo.limiter = lo.limiter[:lo.n]
 	}
+}
+
+func makeAttackerCustomPve(inDat *app.IntialDataPve) ([]preRun, error) {
+	prerun := prerunObj{
+		inDat:      inDat,
+		bossStat:   inDat.App.PokemonStatsBase[inDat.Boss.Name],
+		prerunArr:  make([]preRun, 0, 1500),
+		bossLvl:    tierMult[inDat.Boss.Tier],
+		bossEffDef: (float32(15.0) + float32(inDat.App.PokemonStatsBase[inDat.Boss.Name].Def)) * tierMult[inDat.Boss.Tier],
+	}
+	prerun.chooseAttackerFromCollection(false, 480)
+	return prerun.prerunArr, nil
+}
+
+func (po *prerunObj) chooseAttackerFromCollection(canBeMega bool, maxPokemon int) {
+	for _, pokInDat := range po.inDat.UserPokemon {
+		pok, ok := po.inDat.App.PokemonStatsBase[pokInDat.Name]
+		if !ok {
+			continue
+		}
+		//skip or not skip megas
+		if !canBeMega && canBoost(pokInDat.Name) {
+			continue
+		}
+		if canBeMega && !canBoost(pokInDat.Name) {
+			continue
+		}
+		//find quick move
+		quickMBody, ok := po.inDat.App.FindMove(po.inDat.CustomMoves, pokInDat.QuickMove)
+		if !ok {
+			continue
+		}
+
+		//find charge move
+		chargeMBody, ok := po.inDat.App.FindMove(po.inDat.CustomMoves, pokInDat.ChargeMove)
+		if !ok {
+			//if first charge move not found, try to find the second
+			chargeMBody, ok = po.inDat.App.FindMove(po.inDat.CustomMoves, pokInDat.ChargeMove2)
+			if !ok {
+				continue
+			}
+		}
+
+		//define shadow bonus
+		var shadowBonus float32 = 1.0
+		if pokInDat.IsShadow == "true" {
+			shadowBonus = shadowBonusAttack
+		}
+
+		//calculate attacker stats
+		effAtk := (float32(pokInDat.Atk) + float32(pok.Atk)) * shadowBonus * po.inDat.App.LevelData[int(pokInDat.Lvl/0.5)]
+
+		damageCharge := (float32(chargeMBody.Damage)*0.5*(effAtk/po.bossEffDef)*
+			getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat) + 1)
+		//dps*dpe
+		dpsCharge := damageCharge / (float32(chargeMBody.Cooldown) / 1000.0) * damageCharge / float32(-chargeMBody.Energy)
+
+		dpsQuick := (float32(quickMBody.Damage)*0.5*(effAtk/po.bossEffDef)*
+			getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat) + 1) / (float32(quickMBody.Cooldown) / 1000.0)
+
+		po.prerunArr = append(po.prerunArr, preRun{
+			Name: pok.Title, Quick: quickMBody.Title, Charge: chargeMBody.Title,
+			Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta,
+			IsShadow: pokInDat.IsShadow == "true",
+
+			Dps: dpsCharge + dpsQuick,
+		})
+
+	}
+	sort.Sort(byDps(po.prerunArr))
+
+	switch len(po.prerunArr) > maxPokemon {
+	case true:
+		po.prerunArr = po.prerunArr[:maxPokemon]
+	default:
+	}
+}
+
+func chooseAttackerFromGroup(inDat *app.IntialDataPve) ([][]preRun, error) {
+	players := make([][]preRun, 0, len(inDat.UserPlayers))
+
+	for playerNumber, playerGroup := range inDat.UserPlayers {
+		group := make([]preRun, 0, len(playerGroup))
+
+		for _, pokInDat := range playerGroup {
+			pok, ok := inDat.App.PokemonStatsBase[pokInDat.Name]
+			if !ok {
+				return nil, &customError{fmt.Sprintf("Player %v party has unknow pokemon %v", playerNumber+1, pokInDat.Name)}
+			}
+			//find quick move
+			quickMBody, ok := inDat.App.FindMove(inDat.CustomMoves, pokInDat.QuickMove)
+			if !ok {
+				return nil, &customError{fmt.Sprintf("Player %v party pokemon %v has unknow quick move %v", playerNumber+1, pokInDat.Name, pokInDat.QuickMove)}
+			}
+
+			//find charge move
+			chargeMBody, ok := inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove)
+			if !ok {
+				//if first charge move not found, try to find the second
+				chargeMBody, ok = inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove2)
+				if !ok {
+					return nil, &customError{fmt.Sprintf("Player %v party pokemon %v has unknow charge moves %v and %v", playerNumber+1, pokInDat.Name, pokInDat.ChargeMove, pokInDat.ChargeMove2)}
+				}
+			}
+			group = append(group, preRun{
+				Name: pok.Title, Quick: quickMBody.Title, Charge: chargeMBody.Title,
+				Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta,
+				IsShadow: pokInDat.IsShadow == "true",
+			})
+		}
+		players = append(players, group)
+	}
+	return players, nil
+}
+
+func makeBoostersRowCustomPve(inDat *app.IntialDataPve, bosses *[]app.BossInfo) ([]preRun, error) {
+	//if booster Slot is Disabled return empty prerun
+	if !inDat.BoostSlotEnabled {
+		return []preRun{}, nil
+	}
+	prerun := prerunObj{
+		inDat:      inDat,
+		prerunArr:  make([]preRun, 0, 10),
+		bossStat:   inDat.App.PokemonStatsBase[inDat.Boss.Name],
+		bossLvl:    tierMult[inDat.Boss.Tier],
+		bossEffDef: (float32(15.0) + float32(inDat.App.PokemonStatsBase[inDat.Boss.Name].Def)) * tierMult[inDat.Boss.Tier],
+	}
+
+	if err := prerun.chooseBoostersFromCollection(bosses); err != nil {
+		return nil, err
+	}
+
+	return prerun.prerunArr, nil
+}
+
+func (po *prerunObj) chooseBoostersFromCollection(bosses *[]app.BossInfo) error {
+	po.chooseAttackerFromCollection(true, 9999)
+	if err := po.makeBoostersCommonPvePrerun(bosses); err != nil {
+		return err
+	}
+	sort.Sort(byDps(po.prerunArr))
+	return nil
 }
