@@ -149,14 +149,23 @@ func (m *move) newMultiplier(attacker, defender string, obj *pveObject, isBoss b
 	switch isBoss {
 	case true:
 		var megaMult float32 = 1.0
+		//if boss can boost Himslef
 		if canBoost(attacker) {
 			megaMult = megaBoost(obj.app.PokemonStatsBase[attacker].Type, m.moveType)
 		}
 		m.multiplier = stabMultiplier * seMultiplier * weatherMultiplier * megaMult
 	default:
 		var megaMult float32 = 1.0
+		//if pokemon is boosted by other pokemon
 		if obj.BoosterCount > 0 {
 			megaMult = megaBoost(obj.Booster, m.moveType)
+		}
+		//if pokemon is boosted by himself
+		if canBoost(attacker) {
+			selfBoost := megaBoost(obj.app.PokemonStatsBase[attacker].Type, m.moveType)
+			if selfBoost > megaMult {
+				megaMult = selfBoost
+			}
 		}
 		m.multiplier = stabMultiplier * obj.FriendStage * seMultiplier * weatherMultiplier * megaMult
 	}
