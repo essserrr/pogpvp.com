@@ -175,7 +175,8 @@ func (po *prerunObj) generateForUnknownBooster(bosses *[]app.BossInfo) error {
 
 func (po *prerunObj) makeBoostersCommonPvePrerun(bosses *[]app.BossInfo) error {
 	for boosterKey, booster := range po.prerunArr {
-		var sumOfDmg int64
+		var sumOfDmg int32
+		var sumOfTime int32
 
 		for _, currBoss := range *bosses {
 			pokData := app.PokemonInitialData{
@@ -214,9 +215,12 @@ func (po *prerunObj) makeBoostersCommonPvePrerun(bosses *[]app.BossInfo) error {
 			if err != nil {
 				return err
 			}
-			sumOfDmg += int64(singleResult.DAvg)
+			sumOfDmg += singleResult.DAvg
+			sumOfTime += singleResult.TAvg
 		}
-		po.prerunArr[boosterKey].Dps = float32(float64(sumOfDmg) / float64(len(*bosses)))
+		avgTimeLeft := float64(sumOfTime) / float64(len(*bosses))
+		abgTimeSpent := float64(tierTimer[po.inDat.Boss.Tier]) - avgTimeLeft
+		po.prerunArr[boosterKey].Dps = float32(float64(sumOfDmg)/float64(len(*bosses))) / float32(abgTimeSpent/1000.0)
 	}
 	return nil
 }
