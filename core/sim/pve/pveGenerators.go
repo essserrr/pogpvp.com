@@ -2,6 +2,7 @@ package pve
 
 import (
 	app "Solutions/pvpSimulator/core/sim/app"
+	"fmt"
 	"sort"
 	"strings"
 )
@@ -21,6 +22,15 @@ type preRun struct {
 	Charge string
 
 	Dps float32
+
+	Lvl float32
+	CP  uint32
+
+	Atk uint8
+	Def uint8
+	Sta uint8
+
+	IsShadow bool
 }
 
 type byDps []preRun
@@ -29,7 +39,7 @@ func (a byDps) Len() int           { return len(a) }
 func (a byDps) Less(i, j int) bool { return a[i].Dps > a[j].Dps }
 func (a byDps) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
-func makeBoostersRow(inDat *app.IntialDataPve) ([]preRun, error) {
+func makeBoostersRow(inDat *app.IntialDataPve, bosses *[]app.BossInfo) ([]preRun, error) {
 	//if booster Slot is Disabled return empty prerun
 	if !inDat.BoostSlotEnabled {
 		return []preRun{}, nil
@@ -50,7 +60,9 @@ func makeBoostersRow(inDat *app.IntialDataPve) ([]preRun, error) {
 			return nil, err
 		}
 	default:
-		prerun.generateForUnknownBooster()
+		if err := prerun.generateForUnknownBooster(bosses); err != nil {
+			return nil, err
+		}
 	}
 	return prerun.prerunArr, nil
 }
