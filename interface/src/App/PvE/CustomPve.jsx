@@ -1,7 +1,5 @@
 import React from "react";
-import {
-    returnMovePool, pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV
-} from "../../js/indexFunctions.js"
+import { returnMovePool, pveattacker, boss, pveobj, checkLvl, checkIV } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 
 import SimulatorPanel from "./Components/SimulatorPanel"
@@ -22,7 +20,7 @@ class CustomPve extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            userSettings: {},
+            userSettings: { FindInCollection: true, },
             bossObj: boss(strings.tips.nameSearch),
             pveObj: pveobj(),
 
@@ -125,7 +123,17 @@ class CustomPve extends React.PureComponent {
         }
     }
 
+    onChangeMode(mode) {
+        this.setState({
+            userSettings: {
+                ...this.state.userSettings,
+                FindInCollection: mode === "userCollection" ? true : false,
+            }
+        })
+    }
+
     onChange(event, name) {
+        console.log(event.target, name)
         //check if it`s a name change
         if (event.target === undefined) {
             switch (name.name[1]) {
@@ -160,6 +168,11 @@ class CustomPve extends React.PureComponent {
                     isSelected: event.target.name,
                 },
             });
+            return
+        }
+        //check if it is mode change
+        if (role === "userCollection" || role === "userGroups") {
+            this.onChangeMode(role)
             return
         }
         //if it's an type change
@@ -264,6 +277,8 @@ class CustomPve extends React.PureComponent {
                 <div className="row justify-content-center m-0 mb-4"  >
                     <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
+                            forCommonPve={true}
+
                             pokemonTable={this.props.parentState.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
                             pokList={this.props.parentState.pokList}

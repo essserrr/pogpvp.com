@@ -2,6 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 
+import CustomRaidSettings from "./CustomRaidSettings/CustomRaidSettings"
 import PokemonPanel from "./Panels/PokemonPanel/PokemonPanel"
 import BossPanel from "./Panels/BossPanel/BossPanel"
 import PveSettingsPanel from "./Panels/PveSettingsPanel/PveSettingsPanel"
@@ -48,7 +49,7 @@ class SimulatorPanel extends React.PureComponent {
                     />
                 </div>
 
-                <div className="col-12 px-1">
+                {!this.props.forCommonPve && <div className="col-12 px-1">
                     <PokemonPanel
                         title={pveStrings.attacker}
                         attr="attackerObj"
@@ -67,9 +68,9 @@ class SimulatorPanel extends React.PureComponent {
 
                         onClick={this.props.onClick}
                     />
-                </div>
+                </div>}
 
-                <UnmountClosed isOpened={this.props.value.pveObj.SupportSlotEnabled !== "false"}>
+                {!this.props.forCommonPve && <UnmountClosed isOpened={this.props.value.pveObj.SupportSlotEnabled !== "false"}>
                     <div className="col-12 px-1 text-center ">
                         <PokemonPanel
                             title={pveStrings.sup}
@@ -89,11 +90,26 @@ class SimulatorPanel extends React.PureComponent {
                             onClick={this.props.onClick}
                         />
                     </div>
-                </UnmountClosed>
+                </UnmountClosed>}
+
+
+                {this.props.forCommonPve &&
+                    <div className="col-12 text-center px-1">
+                        <CustomRaidSettings
+                            title={pveStrings.attacker}
+                            attr="userSettings"
+
+                            settingsValue={this.props.value.pveObj}
+                            value={this.props.value.userSettings}
+
+                            onChange={this.props.onChange}
+                        />
+                    </div>}
 
                 <div className="col-12 text-center px-1">
                     <div className="row m-0">
                         <PveSettingsPanel
+                            forCommonPve={this.props.forCommonPve}
                             title={pveStrings.raid}
                             attr={"pveObj"}
                             value={this.props.value.pveObj}
