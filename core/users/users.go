@@ -282,7 +282,6 @@ type UserPokemon struct {
 	ChargeMove2 string
 
 	Lvl float32
-	CP  uint32
 
 	Atk uint8
 	Def uint8
