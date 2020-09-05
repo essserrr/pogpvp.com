@@ -4,6 +4,7 @@ import (
 	app "Solutions/pvpSimulator/core/sim/app"
 	"fmt"
 	"math/rand"
+	"sort"
 	"sync"
 	"time"
 )
@@ -34,16 +35,14 @@ func ReturnCustomRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 
 	switch inDat.FindInCollection {
 	case true:
-		if err = conObj.startCustomFromCollection(); err != nil {
+		if err = conObj.collectionWrapper(); err != nil {
 			return nil, err
 		}
 	default:
-		if err = conObj.startCustomFromGroups(); err != nil {
+		if err = conObj.groupWrapper(); err != nil {
 			return nil, err
 		}
 	}
-
-	conObj.wg.Wait()
 
 	close(conObj.errChan)
 	errStr := conObj.errChan.Flush()
@@ -92,7 +91,7 @@ func validateCustomData(inDat *app.IntialDataPve) error {
 	return nil
 }
 
-func (co *conStruct) startCustomFromCollection() error {
+func (co *conStruct) collectionWrapper() error {
 	var err error
 	co.attackerRow, err = makeAttackerCustomPve(co.inDat, &co.bossRow)
 	if err != nil {
@@ -103,7 +102,23 @@ func (co *conStruct) startCustomFromCollection() error {
 		return err
 	}
 	co.makeGroupsFromAttackers()
-	co.attackerGroups = combineByAndMerge(co.attackerGroups, 3, make([][]preRun, 0, 1), 0)
+	combineBy := int(co.inDat.PartySize / 6)
+	if combineBy == 0 {
+		return &customError{"Party size is zero"}
+	}
+	if combineBy > 3 {
+		return &customError{fmt.Sprintf("Well cool hacker, you want too many groups")}
+	}
+	switch len(co.attackerGroups) < combineBy {
+	case true:
+		co.attackerGroups = co.mergeGroups()
+	default:
+		co.attackerGroups = combineByAndMerge(co.attackerGroups, combineBy, make([][]preRun, 0, 1), 0)
+	}
+	if co.inDat.BoostSlotEnabled {
+		co.selectBoosterForCutomGroup()
+	}
+
 	fmt.Println(co.attackerGroups)
 	return nil
 }
@@ -128,6 +143,14 @@ func (co *conStruct) makeGroupsFromAttackers() {
 	if len(party) > 0 {
 		co.attackerGroups = append(co.attackerGroups, party)
 	}
+}
+
+func (co *conStruct) mergeGroups() [][]preRun {
+	mergedGroups := make([]preRun, 0, 7)
+	for _, group := range co.attackerGroups {
+		mergedGroups = append(mergedGroups, group...)
+	}
+	return [][]preRun{mergedGroups}
 }
 
 // return n choose k combinations

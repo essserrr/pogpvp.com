@@ -383,51 +383,21 @@ func TestMega(t *testing.T) {
 	res, err := ReturnCommonRaid(&app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
-			Name: "Palkia",
-
-			QuickMove:  "",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "Palkia", QuickMove: "", ChargeMove: "Draco Meteor",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		},
 
 		BoostSlotEnabled: true,
 		BoostSlotPokemon: app.PokemonInitialData{
-			Name: "Mega Charizard X",
-
-			QuickMove:  "",
-			ChargeMove: "",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "Mega Charizard X", QuickMove: "", ChargeMove: "",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		},
 
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "",
-			ChargeMove: "",
-			Tier:       4,
-		},
+		Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
 
-		Weather:       0,
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		App:           testApp,
-		AggresiveMode: true,
+		Weather: 0, FriendStage: 0,
+		DodgeStrategy: 0, PartySize: 18, PlayersNumber: 3,
+		App: testApp, AggresiveMode: true,
 	})
 
 	if err != nil {
