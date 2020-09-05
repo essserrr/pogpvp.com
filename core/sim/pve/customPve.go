@@ -161,7 +161,6 @@ func combineByAndMerge(arr [][]preRun, k int, prefix [][]preRun, i int) [][]preR
 		// if the prefix is long enough, add it to the results
 	} else if len(prefix) == k {
 		return [][]preRun{decostruct(prefix)}
-
 		// otherwise, push combinations with and without
 		// the current element
 	} else {
@@ -179,7 +178,87 @@ func decostruct(party18 [][]preRun) []preRun {
 	return deconstructed
 }
 
-func (co *conStruct) startCustomFromGroups() error {
+type typeSort struct {
+	count    int
+	typeName int
+}
+
+func (ts *typeSort) increaseType(typeValue int) {
+	ts.count++
+	ts.typeName = typeValue
+}
+
+func (co *conStruct) selectBoosterForCutomGroup() {
+	//for every group
+	for groupNumber, attackersList := range co.attackerGroups {
+		commonTypes := co.countTypes(groupNumber)
+		selectedBooster := co.selectCustomBooster(commonTypes)
+		//if we selected a booster
+		if selectedBooster.Name != "" {
+			co.attackerGroups[groupNumber] = append([]preRun{selectedBooster}, attackersList...)
+		}
+	}
+}
+
+func (co *conStruct) countTypes(groupNumber int) []int {
+	//make type dictionary
+	typePrevails := make([]typeSort, 18, 18)
+	//count every pokemon move type
+	for _, pok := range co.attackerGroups[groupNumber] {
+		quickType := co.inDat.App.PokemonMovesBase[pok.Quick].MoveType
+		typePrevails[quickType].increaseType(quickType)
+
+		chargeType := co.inDat.App.PokemonMovesBase[pok.Charge].MoveType
+		typePrevails[chargeType].increaseType(chargeType)
+	}
+	sort.SliceStable(typePrevails, func(i, j int) bool {
+		return typePrevails[i].count > typePrevails[j].count
+	})
+	mostCommonType := []int{typePrevails[0].typeName}
+	if typePrevails[1].count > 0 {
+		mostCommonType = append(mostCommonType, typePrevails[1].typeName)
+	}
+	return mostCommonType
+}
+
+func (co *conStruct) selectCustomBooster(commonTypes []int) preRun {
+	if co.boosterRow == nil || len(co.boosterRow) == 0 {
+		return preRun{}
+	}
+
+	selectedBooster := preRun{}
+	//select booster
+	for _, booster := range co.boosterRow {
+		//define matches of type
+		matches := 0
+		for _, boosterType := range co.inDat.App.PokemonStatsBase[booster.Name].Type {
+			//for every common type
+			for _, commoType := range commonTypes {
+				if commoType == boosterType {
+					matches++
+				}
+			}
+		}
+		//if both types of moves matched select and exit
+		if matches == 2 {
+			selectedBooster = booster
+			break
+		}
+		//if 1 type matched continue search
+		if matches == 1 {
+			if selectedBooster.Name == "" {
+				selectedBooster = booster
+			}
+		}
+	}
+	//if none selected, select the best dps option
+	if selectedBooster.Name == "" {
+		selectedBooster = co.boosterRow[0]
+	}
+	return selectedBooster
+}
+
+func (co *conStruct) groupWrapper() error {
 	var err error
 	co.attackerGroups, err = selectAttackerFromGroup(co.inDat)
 	if err != nil {

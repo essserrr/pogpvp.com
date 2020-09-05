@@ -99,7 +99,7 @@ type pvpeInitialData struct {
 }
 
 func (co *conStruct) startCommonPve() {
-	co.resArray = make([][]app.CommonResult, 0, 900)
+	co.resArray = make([][]app.CommonResult, 0, len(co.attackerRow))
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
 	for number, pok := range co.attackerRow {
