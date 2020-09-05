@@ -1,6 +1,8 @@
 import React from "react"
 
 import SearchableSelect from "../../../../PvP/components/SearchableSelect/SearchableSelect"
+import { calculateCP } from "../../../../../js/indexFunctions"
+
 
 import "./PokemonSelect.scss"
 
@@ -11,7 +13,9 @@ class PokemonSelect extends React.PureComponent {
             ({
                 value: index,
 
-                label: <div style={{ textAlign: "left" }}>{`${value.Name} / ${value.CP} / ${value.IsShadow === "true" ? "shadow" : "normal"} / 
+                label: <div style={{ textAlign: "left" }}>{`${value.Name} / 
+                ${calculateCP(value.Name, value.Lvl, value.Atk, value.Def, value.Sta, this.props.pokemonTable)} 
+                / ${value.IsShadow === "true" ? "shadow" : "normal"} / 
                 ${value.QuickMove} / ${value.ChargeMove} / ${value.ChargeMove2} / 
                 ${value.Lvl}: ${value.Atk} / ${value.Def} / ${value.Sta}`}</div>
             })

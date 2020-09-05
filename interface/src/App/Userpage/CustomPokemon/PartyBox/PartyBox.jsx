@@ -112,6 +112,7 @@ class PartyBox extends React.PureComponent {
                         label={strings.userpok.selectpok}
                         attr="activeParty"
 
+                        pokemonTable={this.props.pokemonTable}
                         list={this.props.userPokemon}
                         onChange={this.onPokemonAdd}
                     />

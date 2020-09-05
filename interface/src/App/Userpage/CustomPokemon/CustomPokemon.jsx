@@ -49,11 +49,7 @@ class CustomPokemon extends React.PureComponent {
             quickMoveList: [],
 
             showImport: false,
-            userPokemon: [
-                { Name: "Abra", QuickMove: "Psycho Cut", ChargeMove: "Psyshock", Lvl: "40", Atk: "15", Def: "15", Sta: "15", IsShadow: "false", },
-                { Name: "Absol", QuickMove: "Snarl", ChargeMove: "Dark Pulse", Lvl: "40", Atk: "15", Def: "15", Sta: "15", IsShadow: "true", },
-                { Name: "Mega Charizard X", QuickMove: "Fire Spin", ChargeMove: "Blast Burn", Lvl: "40", Atk: "15", Def: "15", Sta: "15", IsShadow: "false", },
-            ],
+            userPokemon: [],
             userParties: {},
 
 

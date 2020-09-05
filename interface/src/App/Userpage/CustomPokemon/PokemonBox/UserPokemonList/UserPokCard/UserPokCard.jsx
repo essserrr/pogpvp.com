@@ -3,6 +3,7 @@ import ReactTooltip from "react-tooltip"
 
 import PokemonIconer from "../../../../../PvP/components/PokemonIconer/PokemonIconer"
 import CloseButton from "../../../../../PvP/components/MagicBox/CloseButton"
+import { calculateCP } from "../../../../../../js/indexFunctions"
 
 import { ReactComponent as Shadow } from "../../../../../../icons/shadow.svg"
 
@@ -37,7 +38,7 @@ const UserPokCard = React.memo(function (props) {
                 </div>
                 <div className="col px-2">
                     <div>{`${props.value.Lvl}:${props.value.Atk}/${props.value.Def}/${props.value.Sta}`}</div>
-                    <div>{`CP:${props.value.CP}`}</div>
+                    <div>{`CP:${calculateCP(props.value.Name, props.value.Lvl, props.value.Atk, props.value.Def, props.value.Sta, props.pokemonTable)}`}</div>
                 </div>
                 {props.onClick && <CloseButton attr={props.attr} index={props.index} className="close" onClick={props.onClick} />}
             </div>
