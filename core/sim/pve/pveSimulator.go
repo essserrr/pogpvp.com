@@ -199,9 +199,9 @@ func (obj *pveObject) letsBattle() error {
 			obj.substructPause(switchPokemonTime)
 			//switch party
 			if obj.PartySize == 12 || obj.PartySize == 6 {
-				if reviveEnabled && len(obj.Attacker) < int(obj.PartySize) {
-					obj.reviveParty()
-				}
+				//if reviveEnabled && len(obj.Attacker) < int(obj.PartySize) {
+				//	obj.reviveParty()
+				//}
 				obj.substructPause(switchPartyTime)
 				continue
 			}
@@ -246,16 +246,17 @@ func (pok *pokemon) revive() {
 	pok.moveCooldown = 0
 }
 
-func (obj *pveObject) reviveParty() {
-	obj.substructPause(switchPartyTime)
-	for key := range obj.Attacker {
-		obj.Attacker[key].revive()
-	}
-	obj.BoosterCount = obj.PlayersNumber
-	obj.ActivePok = 0
-	obj.Attacker[obj.ActivePok].initializePokemon(obj.Boss.name, obj, false)
-	obj.Boss.setMultipliers(obj.Attacker[obj.ActivePok].name, obj, true)
-}
+//depricated due to low efficiency
+//func (obj *pveObject) reviveParty() {
+//	obj.substructPause(switchPartyTime)
+//	for key := range obj.Attacker {
+//		obj.Attacker[key].revive()
+//	}
+//	obj.BoosterCount = obj.PlayersNumber
+//	obj.ActivePok = 0
+//	obj.Attacker[obj.ActivePok].initializePokemon(obj.Boss.name, obj, false)
+//obj.Boss.setMultipliers(obj.Attacker[obj.ActivePok].name, obj, true)
+//}
 
 //substructPause substructs oause from raid timer and sets up boss behavior
 func (obj *pveObject) substructPause(pause int32) {
