@@ -307,7 +307,7 @@ func TestSetOfRuns(t *testing.T) {
 	}
 }
 
-func checkRes(res *app.CommonResult, checkName string, tier int) error {
+func checkRes(res *app.VsBossResult, checkName string, tier int) error {
 	golResult := checks[checkName]
 
 	avgPer := float64(res.DAvg) / float64(tierHP[tier]) * 100
@@ -502,16 +502,16 @@ func TestDodge(t *testing.T) {
 	}
 }
 
-func checkWrapperRes(res [][]app.CommonResult, checkName []string, tier int) error {
+func checkWrapperRes(res []PveResult, checkName []string, tier int) error {
 
 	for i, value := range res {
 		var sum int32
-		for _, singlePvpRes := range value {
+		for _, singlePvpRes := range value.Result {
 			sum += singlePvpRes.DAvg
 		}
 		golResult := checks[checkName[i]]
 		avgDamageGold := float64(golResult.DAvg) / float64(tierHP[tier]) * 100
-		avgDamage := float64(sum) / float64(len(value)) / 15000 * 100
+		avgDamage := float64(sum) / float64(len(value.Result)) / 15000 * 100
 		if avgDamageGold-0.6 > avgDamage {
 			return &TestErrorLog{
 				checkName[i],
@@ -605,7 +605,7 @@ func TestAllList(t *testing.T) {
 
 }
 
-var checks = map[string]app.CommonResult{
+var checks = map[string]app.VsBossResult{
 	"Zekrom18":   {DAvg: 4889},
 	"Zekrom12":   {DAvg: 3258},
 	"Zekrom6":    {DAvg: 1635},

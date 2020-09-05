@@ -18,13 +18,18 @@ type conStruct struct {
 	attackerGroups [][]preRun
 	attackerRow    []preRun
 	boosterRow     []preRun
+	bossRow        []app.BossInfo
 
-	bossRow  []app.BossInfo
-	resArray [][]app.CommonResult
+	resArray []PveResult
+}
+
+type PveResult struct {
+	Party  []preRun
+	Result []app.VsBossResult
 }
 
 //ReturnCommonRaid return common raid results as an array of format pokemon+moveset:boss:result
-func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
+func ReturnCommonRaid(inDat *app.IntialDataPve) ([]PveResult, error) {
 	//if boss is not specified return error
 	_, ok := inDat.App.PokemonStatsBase[inDat.Boss.Name]
 	if !ok {
@@ -53,10 +58,9 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 		attackerRow: attackerRow,
 		bossRow:     bossRow,
 
-		inDat:    inDat,
-		wg:       sync.WaitGroup{},
-		count:    0,
-		resArray: [][]app.CommonResult{},
+		inDat: inDat,
+		wg:    sync.WaitGroup{},
+		count: 0,
 	}
 
 	conObj.startCommonPve()
@@ -64,7 +68,7 @@ func ReturnCommonRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	close(conObj.errChan)
 	errStr := conObj.errChan.Flush()
 	if errStr != "" {
-		return [][]app.CommonResult{}, &customError{
+		return []PveResult{}, &customError{
 			errStr,
 		}
 	}
@@ -99,11 +103,17 @@ type pvpeInitialData struct {
 }
 
 func (co *conStruct) startCommonPve() {
-	co.resArray = make([][]app.CommonResult, 0, len(co.attackerRow))
+	co.resArray = make([]PveResult, 0, len(co.attackerRow))
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
 	for number, pok := range co.attackerRow {
-		co.resArray = append(co.resArray, make([]app.CommonResult, 0, len(co.bossRow)))
+		attackers, boosterInData, attackerPrerun := co.returnCommonPveInitialData(pok)
+
+		co.resArray = append(co.resArray, PveResult{
+			Result: make([]app.VsBossResult, 0, len(co.bossRow)),
+			Party:  attackerPrerun,
+		})
+
 		for _, boss := range co.bossRow {
 			//limit rountines number
 			for co.count > 20000 {
@@ -114,46 +124,13 @@ func (co *conStruct) startCommonPve() {
 			co.count++
 			co.Unlock()
 
-			go func(currBoss app.BossInfo, pok preRun, i int) {
+			go func(currBoss app.BossInfo, i int) {
 				defer co.wg.Done()
-				//create attackers intial data
-				attackers := make([]app.PokemonInitialData, 0, 1)
-				booster := co.selectBoosterFor(pok)
-				if booster.Name != "" {
-					attackers = append(attackers, booster)
-				}
-				attackers = append(attackers, app.PokemonInitialData{
-					Name: pok.Name,
-
-					QuickMove:  pok.Quick,
-					ChargeMove: pok.Charge,
-
-					Level: co.inDat.Pok.Level,
-
-					AttackIV:  co.inDat.Pok.AttackIV,
-					DefenceIV: co.inDat.Pok.DefenceIV,
-					StaminaIV: co.inDat.Pok.StaminaIV,
-
-					IsShadow: co.inDat.Pok.IsShadow,
-				})
-
 				singleResult, err := setOfRuns(pvpeInitialData{
-					CustomMoves: co.inDat.CustomMoves,
-					App:         co.inDat.App,
-
-					AttackerPokemon:  attackers,
-					BoostSlotPokemon: booster,
-
-					PartySize:     co.inDat.PartySize,
-					PlayersNumber: co.inDat.PlayersNumber,
-
-					Boss: currBoss,
-
-					NumberOfRuns:  co.inDat.NumberOfRuns,
-					FriendStage:   co.inDat.FriendStage,
-					Weather:       co.inDat.Weather,
-					DodgeStrategy: co.inDat.DodgeStrategy,
-					AggresiveMode: co.inDat.AggresiveMode,
+					CustomMoves: co.inDat.CustomMoves, App: co.inDat.App,
+					AttackerPokemon: attackers, BoostSlotPokemon: boosterInData, Boss: currBoss,
+					PartySize: co.inDat.PartySize, PlayersNumber: co.inDat.PlayersNumber, NumberOfRuns: co.inDat.NumberOfRuns,
+					FriendStage: co.inDat.FriendStage, Weather: co.inDat.Weather, DodgeStrategy: co.inDat.DodgeStrategy, AggresiveMode: co.inDat.AggresiveMode,
 				})
 				if err != nil {
 					co.errChan <- err
@@ -161,33 +138,57 @@ func (co *conStruct) startCommonPve() {
 				}
 				co.Lock()
 				co.count--
-				co.resArray[i] = append(co.resArray[i], singleResult)
+				co.resArray[i].Result = append(co.resArray[i].Result, singleResult)
 				co.Unlock()
-			}(boss, pok, number)
+			}(boss, number)
 		}
 	}
 	co.wg.Wait()
 }
 
-func (co *conStruct) selectBoosterFor(pok preRun) app.PokemonInitialData {
-	if co.boosterRow == nil || len(co.boosterRow) == 0 {
-		return app.PokemonInitialData{}
+func (co *conStruct) returnCommonPveInitialData(pok preRun) ([]app.PokemonInitialData, app.PokemonInitialData, []preRun) {
+	//make attakers initial data array
+	attackers := make([]app.PokemonInitialData, 0, 1)
+	attackersPrerun := make([]preRun, 0, 1)
+	//select booster for current pok
+	selectedBooster := co.selectBoosterFor([]int{co.inDat.App.PokemonMovesBase[pok.Quick].MoveType, co.inDat.App.PokemonMovesBase[pok.Charge].MoveType})
+	boosterInData := app.PokemonInitialData{}
+	//if booster selected make initial data for him
+	if selectedBooster.Name != "" {
+		boosterInData.Name, boosterInData.QuickMove, boosterInData.ChargeMove, boosterInData.Level, boosterInData.AttackIV,
+			boosterInData.DefenceIV, boosterInData.StaminaIV =
+			selectedBooster.Name, selectedBooster.Quick, selectedBooster.Charge, co.inDat.BoostSlotPokemon.Level, co.inDat.BoostSlotPokemon.AttackIV,
+			co.inDat.BoostSlotPokemon.DefenceIV, co.inDat.BoostSlotPokemon.StaminaIV
+
+		attackers = append(attackers, app.PokemonInitialData{
+			Name: selectedBooster.Name, QuickMove: selectedBooster.Quick, ChargeMove: selectedBooster.Charge, Level: co.inDat.BoostSlotPokemon.Level,
+			AttackIV: co.inDat.BoostSlotPokemon.AttackIV, DefenceIV: co.inDat.BoostSlotPokemon.DefenceIV, StaminaIV: co.inDat.BoostSlotPokemon.StaminaIV, IsShadow: false,
+		})
+		attackersPrerun = append(attackersPrerun, selectedBooster)
 	}
+	attackers = append(attackers, app.PokemonInitialData{
+		Name: pok.Name, QuickMove: pok.Quick, ChargeMove: pok.Charge, Level: co.inDat.Pok.Level,
+		AttackIV: co.inDat.Pok.AttackIV, DefenceIV: co.inDat.Pok.DefenceIV, StaminaIV: co.inDat.Pok.StaminaIV, IsShadow: co.inDat.Pok.IsShadow,
+	})
+	attackersPrerun = append(attackersPrerun, pok)
 
-	pokQuickType := co.inDat.App.PokemonMovesBase[pok.Quick].MoveType
-	pokChargeType := co.inDat.App.PokemonMovesBase[pok.Charge].MoveType
+	return attackers, boosterInData, attackersPrerun
+}
 
+func (co *conStruct) selectBoosterFor(types []int) preRun {
+	if co.boosterRow == nil || len(co.boosterRow) == 0 {
+		return preRun{}
+	}
 	selectedBooster := preRun{}
 	//select booster
 	for _, booster := range co.boosterRow {
 		//define matches of type
 		matches := 0
 		for _, boosterType := range co.inDat.App.PokemonStatsBase[booster.Name].Type {
-			if pokQuickType == boosterType {
-				matches++
-			}
-			if pokChargeType == boosterType {
-				matches++
+			for _, typeValue := range types {
+				if typeValue == boosterType {
+					matches++
+				}
 			}
 		}
 		//if both types of moves matched select and exit
@@ -207,23 +208,10 @@ func (co *conStruct) selectBoosterFor(pok preRun) app.PokemonInitialData {
 		selectedBooster = co.boosterRow[0]
 	}
 
-	return app.PokemonInitialData{
-		Name: selectedBooster.Name,
-
-		QuickMove:  selectedBooster.Quick,
-		ChargeMove: selectedBooster.Charge,
-
-		Level: co.inDat.BoostSlotPokemon.Level,
-
-		AttackIV:  co.inDat.BoostSlotPokemon.AttackIV,
-		DefenceIV: co.inDat.BoostSlotPokemon.DefenceIV,
-		StaminaIV: co.inDat.BoostSlotPokemon.StaminaIV,
-
-		IsShadow: false,
-	}
+	return selectedBooster
 }
 
-type byAvgDamage [][]app.CommonResult
+type byAvgDamage []PveResult
 
 func (a byAvgDamage) Len() int { return len(a) }
 func (a byAvgDamage) Less(i, j int) bool {
@@ -234,11 +222,11 @@ func (a byAvgDamage) Less(i, j int) bool {
 		avgTimeLeft  int32
 		avgTimeRight int32
 	)
-	for _, value := range a[i] {
+	for _, value := range a[i].Result {
 		avgDamageLeft += value.DAvg
 		avgTimeLeft += value.TAvg
 	}
-	for _, value := range a[j] {
+	for _, value := range a[j].Result {
 		avgDamageRight += value.DAvg
 		avgTimeRight += value.TAvg
 	}
@@ -255,8 +243,8 @@ func (a byAvgDamage) Less(i, j int) bool {
 func (a byAvgDamage) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
 //setOfRuns starts new set of pve's, returns set result and error
-func setOfRuns(inDat pvpeInitialData) (app.CommonResult, error) {
-	result := app.CommonResult{}
+func setOfRuns(inDat pvpeInitialData) (app.VsBossResult, error) {
+	result := app.VsBossResult{}
 	result.DMin = tierHP[inDat.Boss.Tier]
 	result.TMin = tierTimer[inDat.Boss.Tier]
 	result.FMin = uint32(inDat.PartySize)
@@ -264,7 +252,7 @@ func setOfRuns(inDat pvpeInitialData) (app.CommonResult, error) {
 	for i := 0; i < inDat.NumberOfRuns; i++ {
 		res, err := simulatorRun(&inDat)
 		if err != nil {
-			return app.CommonResult{}, err
+			return app.VsBossResult{}, err
 		}
 		collect(&result, &res)
 	}
@@ -272,17 +260,14 @@ func setOfRuns(inDat pvpeInitialData) (app.CommonResult, error) {
 	result.DAvg = int32(float64(result.DAvg) / float64(inDat.NumberOfRuns))
 	result.TAvg = int32(float64(result.TAvg) / float64(inDat.NumberOfRuns))
 
-	result.BoostName, result.BoostQ, result.BoostCh = inDat.BoostSlotPokemon.Name, inDat.BoostSlotPokemon.QuickMove, inDat.BoostSlotPokemon.ChargeMove
-	result.AName, result.AQ, result.ACh = inDat.AttackerPokemon[len(inDat.AttackerPokemon)-1].Name, inDat.AttackerPokemon[len(inDat.AttackerPokemon)-1].QuickMove, inDat.AttackerPokemon[len(inDat.AttackerPokemon)-1].ChargeMove
 	result.BName, result.BQ, result.BCh = inDat.Boss.Name, inDat.Boss.QuickMove, inDat.Boss.ChargeMove
-
 	result.NOfWins = result.NOfWins / float32(inDat.NumberOfRuns) * 100
 
 	return result, nil
 }
 
 //collect collects run
-func collect(cr *app.CommonResult, run *runResult) {
+func collect(cr *app.VsBossResult, run *runResult) {
 	if run.damageDealt > cr.DMax {
 		cr.DMax = run.damageDealt
 	}

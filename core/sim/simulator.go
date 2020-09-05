@@ -38,7 +38,7 @@ func RatingPvp(attackerData, defenderData app.InitialData) (app.RatingResult, er
 }
 
 //CalculteCommonPve return common raid results as an array of format pokemon+moveset:boss:result
-func CalculteCommonPve(data app.IntialDataPve) ([][]app.CommonResult, error) {
+func CalculteCommonPve(data app.IntialDataPve) ([]pve.PveResult, error) {
 	data.App = Application
 	return pve.ReturnCommonRaid(&data)
 }

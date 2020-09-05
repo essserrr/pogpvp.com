@@ -59,7 +59,7 @@ class PveResEntry extends React.PureComponent {
         let obj = {
             DAvg: 0, DMax: 0, DMin: 999999, FMax: 0, FMin: 200, NOfWins: 0, TAvg: 0, TMax: 0, TMin: 9000,
         }
-        this.props.pokemonRes.forEach((elem) => {
+        this.props.pokemonRes.Result.forEach((elem) => {
             if (elem.DMax > obj.DMax) { obj.DMax = elem.DMax }
             if (elem.FMax > obj.FMax) { obj.FMax = elem.FMax }
             if (elem.TMax > obj.TMax) { obj.TMax = elem.TMax }
@@ -73,9 +73,9 @@ class PveResEntry extends React.PureComponent {
             obj.TAvg += elem.TAvg
         });
 
-        obj.DAvg = (obj.DAvg / this.props.pokemonRes.length).toFixed(0)
-        obj.NOfWins = (obj.NOfWins / this.props.pokemonRes.length).toFixed(0)
-        obj.TAvg = obj.TAvg / this.props.pokemonRes.length
+        obj.DAvg = (obj.DAvg / this.props.pokemonRes.Result.length).toFixed(0)
+        obj.NOfWins = (obj.NOfWins / this.props.pokemonRes.Result.length).toFixed(0)
+        obj.TAvg = obj.TAvg / this.props.pokemonRes.Result.length
         return obj
     }
 
@@ -87,21 +87,24 @@ class PveResEntry extends React.PureComponent {
     }
 
     async rerunWithPrecision() {
-        let newPok = {
+        let partyLen = this.props.pokemonRes.Party.length
+        let attacker = {
             ...this.props.snapshot.attackerObj,
-            Name: this.props.pokemonRes[0].AName,
-            QuickMove: this.props.pokemonRes[0].AQ,
-            ChargeMove: this.props.pokemonRes[0].ACh
+            Name: this.props.pokemonRes.Party[partyLen - 1].Name,
+            QuickMove: this.props.pokemonRes.Party[partyLen - 1].Quick,
+            ChargeMove: this.props.pokemonRes.Party[partyLen - 1].Charge
         }
-
-
-
+        let booster = {
+            ...this.props.snapshot.supportPokemon,
+            Name: partyLen > 1 ? this.props.pokemonRes.Party[0].Name : "",
+            QuickMove: partyLen > 1 ? this.props.pokemonRes.Party[0].Quick : "",
+            ChargeMove: partyLen > 1 ? this.props.pokemonRes.Party[0].Charge : "",
+        }
         //make server pve request
-        let url = `${encodePveAttacker(newPok)}/${encodePveBoss(this.props.snapshot.bossObj)}/${encodePveObj(this.props.snapshot.pveObj)}/${encodePveAttacker(this.props.snapshot.supportPokemon)}`
+        let url = `${encodePveAttacker(attacker)}/${encodePveBoss(this.props.snapshot.bossObj)}/${encodePveObj(this.props.snapshot.pveObj)}/${encodePveAttacker(booster)}`
         this.setState({
             loading: true,
         });
-
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
                 method: "GET",
@@ -140,7 +143,7 @@ class PveResEntry extends React.PureComponent {
     }
 
     generateCards() {
-        return this.props.pokemonRes.map((elem) => {
+        return this.props.pokemonRes.Result.map((elem) => {
             return <div className="col-12 styleRating animShiny m-0 p-0 p-2 my-1 " key={elem.BQ + elem.BCh}>
                 <div className="col-12 d-flex m-0 p-0">
                     <WeatherMoves
@@ -180,27 +183,27 @@ class PveResEntry extends React.PureComponent {
 
     render() {
         let avgStats = this.collect()
-
+        let partyLen = this.props.pokemonRes.Party.length
         return (
             <div className={"pokCard row m-0 py-1 my-1 px-2 justify-content-between"}
-                key={this.props.pokemonRes[0].AName + this.props.pokemonRes[0].AQ + this.props.pokemonRes[0].ACh}>
+                key={this.props.pokemonRes.Party[partyLen - 1].Name + this.props.pokemonRes.Party[partyLen - 1].Quick + this.props.pokemonRes.Party[partyLen - 1].Charge}>
 
                 <div className="col-auto p-0 mr-1">
                     <div className="row mx-0 justify-content-start">
                         <NumberAndIcon
                             isShadow={this.props.snapshot.attackerObj.IsShadow === "false" ? false : true}
-                            pok={this.props.pokemonTable[this.props.pokemonRes[0].AName]}
+                            pok={this.props.pokemonTable[this.props.pokemonRes.Party[partyLen - 1].Name]}
                             index={"#" + (this.props.i + 1)}
                         />
                         <div className="col px-0">
                             <NameAndMoves
-                                formattedName={extractName(this.props.pokemonRes[0].AName)}
-                                quick={this.props.moveTable[this.props.pokemonRes[0].AQ]}
-                                charge={this.props.moveTable[this.props.pokemonRes[0].ACh]}
+                                formattedName={extractName(this.props.pokemonRes.Party[partyLen - 1].Name)}
+                                quick={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Quick]}
+                                charge={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Charge]}
                                 snapshot={this.props.snapshot}
 
                                 attr="attackerObj"
-                                name={this.props.pokemonRes[0].AName}
+                                name={this.props.pokemonRes.Party[partyLen - 1].Name}
                                 pokemonTable={this.props.pokemonTable}
                             />
                         </div>
@@ -208,7 +211,7 @@ class PveResEntry extends React.PureComponent {
                 </div>
 
 
-                {this.props.pokemonRes[0].BoostName !== "" && <div className="col-auto p-0 mr-3">
+                {partyLen > 1 && <div className="col-auto p-0 mr-3">
                     <div className="row mx-0 justify-content-start align-items-center">
                         <NumberAndIcon
                             index={
@@ -218,17 +221,17 @@ class PveResEntry extends React.PureComponent {
                                     class={"icon24"} />
                             }
                             isShadow={false}
-                            pok={this.props.pokemonTable[this.props.pokemonRes[0].BoostName]}
+                            pok={this.props.pokemonTable[this.props.pokemonRes.Party[0].Name]}
                         />
                         <div className="col px-0">
                             <NameAndMoves
-                                formattedName={extractName(this.props.pokemonRes[0].BoostName)}
-                                quick={this.props.moveTable[this.props.pokemonRes[0].BoostQ]}
-                                charge={this.props.moveTable[this.props.pokemonRes[0].BoostCh]}
+                                formattedName={extractName(this.props.pokemonRes.Party[0].Name)}
+                                quick={this.props.moveTable[this.props.pokemonRes.Party[0].Quick]}
+                                charge={this.props.moveTable[this.props.pokemonRes.Party[0].Charge]}
                                 snapshot={this.props.snapshot}
 
                                 attr="supportPokemon"
-                                name={this.props.pokemonRes[0].BoostName}
+                                name={this.props.pokemonRes.Party[0].Name}
                                 pokemonTable={this.props.pokemonTable}
                             />
                         </div>

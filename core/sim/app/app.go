@@ -324,16 +324,8 @@ type BossInfo struct {
 	Tier       uint8
 }
 
-//CommonResult is antry of common pvp result list
-type CommonResult struct {
-	AName string
-	AQ    string
-	ACh   string
-
-	BoostName string
-	BoostQ    string
-	BoostCh   string
-
+//VsBossResult is antry of common pvp result list
+type VsBossResult struct {
 	BName string
 	BQ    string
 	BCh   string
