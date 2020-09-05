@@ -107,7 +107,7 @@ func createPveObj(inDat *pvpeInitialData) *pveObject {
 func (obj *pveObject) addBooster(inDat *pvpeInitialData) {
 	if inDat.BoostSlotPokemon.Name != "" {
 		obj.Booster = inDat.App.PokemonStatsBase[inDat.BoostSlotPokemon.Name].Type
-		obj.BoosterCount = inDat.PlayersNumber - 1
+		//obj.BoosterCount = 0
 	}
 }
 
@@ -157,9 +157,9 @@ func (m *move) newMultiplier(attacker, defender string, obj *pveObject, isBoss b
 	default:
 		var megaMult float32 = 1.0
 		//if pokemon is boosted by other pokemon
-		if obj.BoosterCount > 0 {
-			megaMult = megaBoost(obj.Booster, m.moveType)
-		}
+		//if obj.BoosterCount > 0 {
+		//	megaMult = megaBoost(obj.Booster, m.moveType)
+		//}
 		//if pokemon is boosted by himself
 		if canBoost(attacker) {
 			selfBoost := megaBoost(obj.app.PokemonStatsBase[attacker].Type, m.moveType)
@@ -217,9 +217,9 @@ func (obj *pveObject) switchToNext() {
 	obj.nextPokemon()
 
 	//decrease booster counter if pokemon cannot boost himself
-	if !canBoost(obj.Attacker[obj.ActivePok].name) && obj.BoosterCount > 0 {
-		obj.BoosterCount--
-	}
+	//if !canBoost(obj.Attacker[obj.ActivePok].name) && obj.BoosterCount > 0 {
+	//	obj.BoosterCount--
+	//}
 }
 
 func (obj *pveObject) nextPokemon() {
