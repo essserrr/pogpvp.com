@@ -10,7 +10,7 @@ import (
 )
 
 //ReturnCustomRaid return common raid results as an array of format pokemon+moveset:boss:result
-func ReturnCustomRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
+func ReturnCustomRaid(inDat *app.IntialDataPve) ([]PveResult, error) {
 	if err := validateCustomData(inDat); err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func ReturnCustomRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 		inDat:    inDat,
 		wg:       sync.WaitGroup{},
 		count:    0,
-		resArray: [][]app.CommonResult{},
+		resArray: []PveResult{},
 	}
 
 	switch inDat.FindInCollection {
@@ -47,12 +47,19 @@ func ReturnCustomRaid(inDat *app.IntialDataPve) ([][]app.CommonResult, error) {
 	close(conObj.errChan)
 	errStr := conObj.errChan.Flush()
 	if errStr != "" {
-		return [][]app.CommonResult{}, &customError{
+		return []PveResult{}, &customError{
 			errStr,
 		}
 	}
 
-	return conObj.resArray, nil
+	switch inDat.SortByDamage {
+	case true:
+		sort.Sort(byAvgDamage(conObj.resArray))
+	default:
+		sort.Sort(byAvgDps(conObj.resArray))
+	}
+
+	return conObj.resArray[:1], nil
 }
 
 //validateCustomData validates initial data and crops it down if necessary
@@ -115,11 +122,7 @@ func (co *conStruct) collectionWrapper() error {
 	default:
 		co.attackerGroups = combineByAndMerge(co.attackerGroups, combineBy, make([][]preRun, 0, 1), 0)
 	}
-	if co.inDat.BoostSlotEnabled {
-		co.selectBoosterForCutomGroup()
-	}
-
-	fmt.Println(co.attackerGroups)
+	co.startCustomPve(false)
 	return nil
 }
 
@@ -188,19 +191,10 @@ func (ts *typeSort) increaseType(typeValue int) {
 	ts.typeName = typeValue
 }
 
-func (co *conStruct) selectBoosterForCutomGroup() {
-	//for every group
-	for groupNumber, attackersList := range co.attackerGroups {
-		commonTypes := co.countTypes(groupNumber)
-		selectedBooster := co.selectCustomBooster(commonTypes)
-		//if we selected a booster
-		if selectedBooster.Name != "" {
-			co.attackerGroups[groupNumber] = append([]preRun{selectedBooster}, attackersList...)
-		}
-	}
-}
-
 func (co *conStruct) countTypes(groupNumber int) []int {
+	if co.boosterRow == nil || len(co.boosterRow) == 0 {
+		return []int{}
+	}
 	//make type dictionary
 	typePrevails := make([]typeSort, 18, 18)
 	//count every pokemon move type
@@ -258,6 +252,99 @@ func (co *conStruct) selectCustomBooster(commonTypes []int) preRun {
 	return selectedBooster
 }
 
+func (co *conStruct) startCustomPve(fromGroup bool) {
+	co.resArray = make([]PveResult, 0, len(co.attackerGroups))
+	co.errChan = make(app.ErrorChan, len(co.attackerGroups)*len(co.bossRow))
+
+	for number := range co.attackerGroups {
+		attackers, boosterInData := co.returnCustomPveInitialData(number, fromGroup)
+
+		co.resArray = append(co.resArray, PveResult{
+			Result: make([]app.VsBossResult, 0, len(co.bossRow)),
+			Party:  co.attackerGroups[number],
+		})
+
+		for _, boss := range co.bossRow {
+			//limit rountines number
+			for co.count > 20000 {
+				time.Sleep(10 * time.Microsecond)
+			}
+			co.wg.Add(1)
+			co.Lock()
+			co.count++
+			co.Unlock()
+
+			go func(currBoss app.BossInfo, i int) {
+				defer co.wg.Done()
+				singleResult, err := setOfRuns(pvpeInitialData{
+					CustomMoves: co.inDat.CustomMoves, App: co.inDat.App,
+					AttackerPokemon: attackers, BoostSlotPokemon: boosterInData, Boss: currBoss,
+					PartySize: uint8(len(attackers)), PlayersNumber: co.inDat.PlayersNumber, NumberOfRuns: co.inDat.NumberOfRuns,
+					FriendStage: co.inDat.FriendStage, Weather: co.inDat.Weather, DodgeStrategy: co.inDat.DodgeStrategy, AggresiveMode: co.inDat.AggresiveMode,
+				})
+				if err != nil {
+					co.errChan <- err
+					return
+				}
+				co.Lock()
+				co.count--
+				co.resArray[i].Result = append(co.resArray[i].Result, singleResult)
+				co.Unlock()
+			}(boss, number)
+		}
+	}
+	co.wg.Wait()
+}
+
+//returnCustomPveInitialData returns initial data for simulator run AND modies group inside original array if mega pokemon was added to the group
+func (co *conStruct) returnCustomPveInitialData(groupNumber int, fromGroup bool) ([]app.PokemonInitialData, app.PokemonInitialData) {
+	//make attakers initial data array
+	attackers := make([]app.PokemonInitialData, 0, len(co.attackerGroups[groupNumber]))
+
+	selectedBooster := preRun{}
+	switch fromGroup {
+	case true:
+		selectedBooster = co.selectFirstBoosterFromGroup(groupNumber)
+	default:
+		commonTypes := co.countTypes(groupNumber)
+		selectedBooster = co.selectCustomBooster(commonTypes)
+	}
+
+	//if we selected a booster
+	boosterInData := app.PokemonInitialData{}
+	if selectedBooster.Name != "" {
+		boosterInData = app.PokemonInitialData{Name: selectedBooster.Name, QuickMove: selectedBooster.Quick, ChargeMove: selectedBooster.Charge, Level: selectedBooster.Lvl,
+			AttackIV: selectedBooster.Atk, DefenceIV: selectedBooster.Def, StaminaIV: selectedBooster.Sta, IsShadow: selectedBooster.IsShadow}
+
+		attackers = append(attackers, boosterInData)
+	}
+
+	//append attackers
+	for _, singlePok := range co.attackerGroups[groupNumber] {
+		attackers = append(attackers, app.PokemonInitialData{
+			Name: singlePok.Name, QuickMove: singlePok.Quick, ChargeMove: singlePok.Charge, Level: singlePok.Lvl,
+			AttackIV: singlePok.Atk, DefenceIV: singlePok.Def, StaminaIV: singlePok.Sta, IsShadow: singlePok.IsShadow,
+		})
+	}
+
+	//change original array if needed
+	if selectedBooster.Name != "" && !fromGroup {
+		endIndex := co.inDat.PartySize
+		co.attackerGroups[groupNumber] = append([]preRun{selectedBooster}, co.attackerGroups[groupNumber]...)[:endIndex]
+	}
+
+	return attackers, boosterInData
+}
+
+func (co *conStruct) selectFirstBoosterFromGroup(groupNumber int) preRun {
+	for _, singlePok := range co.attackerGroups[groupNumber] {
+		if canBoost(singlePok.Name) {
+			return singlePok
+		}
+	}
+	return preRun{}
+}
+
 func (co *conStruct) groupWrapper() error {
 	var err error
 	co.attackerGroups, err = selectAttackerFromGroup(co.inDat)
@@ -266,6 +353,7 @@ func (co *conStruct) groupWrapper() error {
 	}
 	switch len(co.attackerGroups) {
 	case 1:
+		co.startCustomPve(true)
 	default:
 		return &customError{"Not implemented"}
 	}

@@ -107,16 +107,16 @@ func (co *conStruct) startCommonPve() {
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
 	for number, pok := range co.attackerRow {
-		attackers, boosterInData, attackerPrerun := co.returnCommonPveInitialData(pok)
+		attackers, partyDescription, booster := co.returnCommonPveInitialData(pok)
 
 		co.resArray = append(co.resArray, PveResult{
 			Result: make([]app.VsBossResult, 0, len(co.bossRow)),
-			Party:  attackerPrerun,
+			Party:  partyDescription,
 		})
 
 		for _, boss := range co.bossRow {
 			//limit rountines number
-			for co.count > 20000 {
+			for co.count > 500 {
 				time.Sleep(10 * time.Microsecond)
 			}
 			co.wg.Add(1)
@@ -128,7 +128,7 @@ func (co *conStruct) startCommonPve() {
 				defer co.wg.Done()
 				singleResult, err := setOfRuns(pvpeInitialData{
 					CustomMoves: co.inDat.CustomMoves, App: co.inDat.App,
-					AttackerPokemon: attackers, BoostSlotPokemon: boosterInData, Boss: currBoss,
+					AttackerPokemon: attackers, BoostSlotPokemon: booster, Boss: currBoss,
 					PartySize: co.inDat.PartySize, PlayersNumber: co.inDat.PlayersNumber, NumberOfRuns: co.inDat.NumberOfRuns,
 					FriendStage: co.inDat.FriendStage, Weather: co.inDat.Weather, DodgeStrategy: co.inDat.DodgeStrategy, AggresiveMode: co.inDat.AggresiveMode,
 				})
@@ -146,33 +146,28 @@ func (co *conStruct) startCommonPve() {
 	co.wg.Wait()
 }
 
-func (co *conStruct) returnCommonPveInitialData(pok preRun) ([]app.PokemonInitialData, app.PokemonInitialData, []preRun) {
+func (co *conStruct) returnCommonPveInitialData(pok preRun) ([]app.PokemonInitialData, []preRun, app.PokemonInitialData) {
 	//make attakers initial data array
 	attackers := make([]app.PokemonInitialData, 0, 1)
-	attackersPrerun := make([]preRun, 0, 1)
+	partyDescription := make([]preRun, 0, 1)
 	//select booster for current pok
 	selectedBooster := co.selectBoosterFor([]int{co.inDat.App.PokemonMovesBase[pok.Quick].MoveType, co.inDat.App.PokemonMovesBase[pok.Charge].MoveType})
 	boosterInData := app.PokemonInitialData{}
 	//if booster selected make initial data for him
 	if selectedBooster.Name != "" {
-		boosterInData.Name, boosterInData.QuickMove, boosterInData.ChargeMove, boosterInData.Level, boosterInData.AttackIV,
-			boosterInData.DefenceIV, boosterInData.StaminaIV =
-			selectedBooster.Name, selectedBooster.Quick, selectedBooster.Charge, co.inDat.BoostSlotPokemon.Level, co.inDat.BoostSlotPokemon.AttackIV,
-			co.inDat.BoostSlotPokemon.DefenceIV, co.inDat.BoostSlotPokemon.StaminaIV
+		boosterInData = app.PokemonInitialData{Name: selectedBooster.Name, QuickMove: selectedBooster.Quick, ChargeMove: selectedBooster.Charge,
+			Level: co.inDat.BoostSlotPokemon.Level, AttackIV: co.inDat.BoostSlotPokemon.AttackIV, DefenceIV: co.inDat.BoostSlotPokemon.DefenceIV, StaminaIV: co.inDat.BoostSlotPokemon.StaminaIV,
+		}
 
-		attackers = append(attackers, app.PokemonInitialData{
-			Name: selectedBooster.Name, QuickMove: selectedBooster.Quick, ChargeMove: selectedBooster.Charge, Level: co.inDat.BoostSlotPokemon.Level,
-			AttackIV: co.inDat.BoostSlotPokemon.AttackIV, DefenceIV: co.inDat.BoostSlotPokemon.DefenceIV, StaminaIV: co.inDat.BoostSlotPokemon.StaminaIV, IsShadow: false,
-		})
-		attackersPrerun = append(attackersPrerun, selectedBooster)
+		attackers = append(attackers, boosterInData)
+		partyDescription = append(partyDescription, selectedBooster)
 	}
-	attackers = append(attackers, app.PokemonInitialData{
-		Name: pok.Name, QuickMove: pok.Quick, ChargeMove: pok.Charge, Level: co.inDat.Pok.Level,
-		AttackIV: co.inDat.Pok.AttackIV, DefenceIV: co.inDat.Pok.DefenceIV, StaminaIV: co.inDat.Pok.StaminaIV, IsShadow: co.inDat.Pok.IsShadow,
-	})
-	attackersPrerun = append(attackersPrerun, pok)
 
-	return attackers, boosterInData, attackersPrerun
+	attackers = append(attackers, app.PokemonInitialData{Name: pok.Name, QuickMove: pok.Quick, ChargeMove: pok.Charge, Level: co.inDat.Pok.Level,
+		AttackIV: co.inDat.Pok.AttackIV, DefenceIV: co.inDat.Pok.DefenceIV, StaminaIV: co.inDat.Pok.StaminaIV, IsShadow: co.inDat.Pok.IsShadow})
+	partyDescription = append(partyDescription, pok)
+
+	return attackers, partyDescription, boosterInData
 }
 
 func (co *conStruct) selectBoosterFor(types []int) preRun {
@@ -224,23 +219,56 @@ func (a byAvgDamage) Less(i, j int) bool {
 	)
 	for _, value := range a[i].Result {
 		avgDamageLeft += value.DAvg
-		avgTimeLeft += value.TAvg
+		avgTimeLeft += (300000 + value.TAvg)
 	}
 	for _, value := range a[j].Result {
 		avgDamageRight += value.DAvg
-		avgTimeRight += value.TAvg
+		avgTimeRight += (300000 + value.TAvg)
 	}
 	if avgDamageLeft == avgDamageRight {
 		dpsLeft := float64(avgDamageLeft) / float64(avgTimeLeft/1000)
 		dpsRight := float64(avgDamageRight) / float64(avgTimeRight/1000)
 		if dpsLeft == dpsRight {
-			return avgTimeLeft > avgTimeRight
+			return avgTimeLeft < avgTimeRight
 		}
-		return dpsLeft < dpsRight
+		return dpsLeft > dpsRight
 	}
 	return avgDamageLeft > avgDamageRight
 }
 func (a byAvgDamage) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+
+type byAvgDps []PveResult
+
+func (a byAvgDps) Len() int { return len(a) }
+func (a byAvgDps) Less(i, j int) bool {
+	var (
+		avgDamageLeft  int32
+		avgDamageRight int32
+
+		avgTimeLeft  int32
+		avgTimeRight int32
+	)
+	for _, value := range a[i].Result {
+		avgDamageLeft += value.DAvg
+		avgTimeLeft += (300000 - value.TAvg)
+	}
+	for _, value := range a[j].Result {
+		avgDamageRight += value.DAvg
+		avgTimeRight += (300000 - value.TAvg)
+	}
+
+	dpsLeft := float64(avgDamageLeft) / float64(avgTimeLeft/1000)
+	dpsRight := float64(avgDamageRight) / float64(avgTimeRight/1000)
+
+	if dpsLeft == dpsRight {
+		if avgDamageLeft == avgDamageRight {
+			return avgTimeLeft < avgTimeRight
+		}
+		return avgDamageLeft > avgDamageRight
+	}
+	return avgDamageLeft > avgDamageRight
+}
+func (a byAvgDps) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
 
 //setOfRuns starts new set of pve's, returns set result and error
 func setOfRuns(inDat pvpeInitialData) (app.VsBossResult, error) {

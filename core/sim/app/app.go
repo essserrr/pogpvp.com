@@ -293,7 +293,7 @@ func (indatpve *IntialDataPve) SetCustomPveRuns() {
 
 //SetNumberOfPlayers sets number of players depending on initial data
 func (indatpve *IntialDataPve) SetNumberOfPlayers() {
-	if indatpve.FindInCollection || len(indatpve.UserPokemon) == 1 {
+	if indatpve.FindInCollection || len(indatpve.UserPlayers) == 1 {
 		indatpve.PlayersNumber = 3
 		return
 	}
