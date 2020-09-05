@@ -315,7 +315,8 @@ func (co *conStruct) returnCustomPveInitialData(groupNumber int, fromGroup bool)
 	if selectedBooster.Name != "" {
 		boosterInData = app.PokemonInitialData{Name: selectedBooster.Name, QuickMove: selectedBooster.Quick, ChargeMove: selectedBooster.Charge, Level: selectedBooster.Lvl,
 			AttackIV: selectedBooster.Atk, DefenceIV: selectedBooster.Def, StaminaIV: selectedBooster.Sta, IsShadow: selectedBooster.IsShadow}
-
+	}
+	if selectedBooster.Name != "" && !fromGroup {
 		attackers = append(attackers, boosterInData)
 	}
 
