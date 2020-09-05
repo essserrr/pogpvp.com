@@ -35,6 +35,7 @@ class Navbar extends React.PureComponent {
             dropdownPvE: [
                 <Link key="raidsList" className="dropdown-item " to="/raids">{strings.navbar.raids}</Link>,
                 <Link key="commonRaid" className="dropdown-item " to="/pve/common">{strings.navbar.raidsim}</Link>,
+                <Link key="customRaid" className="dropdown-item " to="/pve/custom">{strings.navbar.userRaidsim}</Link>,
             ],
             dropdownDex: [
                 <Link key="movedex" className="dropdown-item " to="/movedex">{strings.navbar.movedex}</Link>,

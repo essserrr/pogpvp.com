@@ -1,23 +1,22 @@
-import React from "react";
+import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
-import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
-import { refresh } from "../../AppStore/Actions/refresh"
-import {
-    extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker
-} from "../../js/indexFunctions"
-import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import CustomPve from "./CustomPve"
 import CommonPve from "./CommonPve"
 import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating//DropWithArrow/DropWithArrow"
 import CommonDescr from "./Components/Description/CommonDescr"
 
-
+import { getCustomPokemon } from "../../AppStore/Actions/getCustomPokemon"
+import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
+import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
+import { refresh } from "../../AppStore/Actions/refresh"
+import { extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker } from "../../js/indexFunctions"
+import { getCookie } from "../../js/getCookie"
+import { locale } from "../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
 
@@ -101,7 +100,8 @@ class PvePage extends React.Component {
             let fetches = [
                 this.props.getPokemonBase(),
                 this.props.getMoveBase(),
-                this.props.getCustomMoves()
+                this.props.getCustomMoves(),
+                this.props.getCustomPokemon(),
             ]
             if (extrData.attackerObj !== undefined && extrData.bossObj !== undefined && extrData.pveObj !== undefined) {
                 fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST :
@@ -234,18 +234,25 @@ class PvePage extends React.Component {
                             />
                         </div>}
                         <div className="col-12 px-1">
-                            {(this.state.isLoaded && (this.props.match.params.type === "common")) && <CommonPve
+                            {this.state.isLoaded && this.props.match.params.type === "common" && <CommonPve
                                 changeUrl={this.changeUrl}
                                 parentState={this.state}
                             />}
+                            {this.state.isLoaded && this.props.match.params.type === "custom" && <CustomPve
+                                changeUrl={this.changeUrl}
+                                parentState={this.state}
+                                userPokemon={this.props.customPokemon ? this.props.customPokemon : []}
+                                userParties={this.props.customParties ? this.props.customParties : {}}
+                            />}
                         </div>
+
 
                         <div className="max1000 col-12 col-md-10 col-lg-6 results px-3 py-2" >
                             <DropWithArrow
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}
                                 title={strings.title.about}
-                                elem={(this.state.isLoaded && (this.props.match.params.type === "common")) &&
+                                elem={this.state.isLoaded && this.props.match.params.type === "common" &&
                                     <CommonDescr />}
 
                                 faOpened="align-self-center fas fa-angle-up fa-lg "
@@ -266,6 +273,7 @@ const mapDispatchToProps = dispatch => {
         getCustomMoves: () => dispatch(getCustomMoves()),
         getPokemonBase: () => dispatch(getPokemonBase()),
         getMoveBase: () => dispatch(getMoveBase()),
+        getCustomPokemon: () => dispatch(getCustomPokemon()),
     }
 }
 
@@ -273,5 +281,7 @@ export default connect(
     state => ({
         customMoves: state.customMoves,
         bases: state.bases,
+        customPokemon: state.customPokemon.pokemon,
+        customParties: state.customPokemon.parties,
     }), mapDispatchToProps
 )(PvePage)
