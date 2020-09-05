@@ -625,7 +625,8 @@ var checks = map[string]app.VsBossResult{
 	"PalkiaDragon TailDracoMeteorAgr":   {DAvg: 6831},
 	"PalkiaDragon TailDracoMeteorDodge": {DAvg: 5198},
 
-	"CustomHeatran6": {DAvg: 4230},
+	"CustomHeatran6":     {DAvg: 4230},
+	"CustomHeatran6Mega": {DAvg: 7347},
 
 	"Mega PalkiaDragon BreathDracoMeteorAgr": {DAvg: 6858},
 	"Mega PalkiaDragon TailDracoMeteorAgr":   {DAvg: 6636},

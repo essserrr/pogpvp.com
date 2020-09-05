@@ -18,30 +18,13 @@ func TestCustomRaids(t *testing.T) {
 	//test if set of runs for custom pve work correctly
 	res, err := setOfRuns(pvpeInitialData{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
-		AttackerPokemon: []app.PokemonInitialData{{
-			Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake",
-			Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false,
-		},
-			{
-				Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake",
-				Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false,
-			},
-			{
-				Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake",
-				Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false,
-			},
-			{
-				Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake",
-				Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false,
-			},
-			{
-				Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake",
-				Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false,
-			},
-			{
-				Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake",
-				Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false,
-			}},
+		AttackerPokemon: []app.PokemonInitialData{
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Level: 35, AttackIV: 14, DefenceIV: 15, StaminaIV: 12, IsShadow: false}},
 		Boss:          app.BossInfo{Name: "Heatran", QuickMove: "Bug Bite", ChargeMove: "Fire Blast", Tier: 4},
 		Weather:       0,
 		AggresiveMode: true, FriendStage: 0, DodgeStrategy: 0,
@@ -60,6 +43,53 @@ func TestCustomRaids(t *testing.T) {
 type UserFromBase struct {
 	Pokemon []app.UserPokemon
 	Parties map[string][]app.UserPokemon
+}
+
+func TestCustomGroupRaidsWrapper(t *testing.T) {
+	//6 froudons no mega by dps
+	res, err := ReturnCustomRaid(&app.IntialDataPve{
+		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
+		UserPlayers: [][]app.UserPokemon{{
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"}}},
+		Boss:    app.BossInfo{Name: "Heatran", QuickMove: "Bug Bite", ChargeMove: "Fire Blast", Tier: 4},
+		Weather: 0, AggresiveMode: true, FriendStage: 0, DodgeStrategy: 0, PartySize: 6, PlayersNumber: 0,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	err = checkWrapperRes(res, []string{"CustomHeatran6"}, 4)
+	if err != nil {
+		t.Error(err)
+	}
+
+	//5 froudons no mega by dps + mega
+	res, err = ReturnCustomRaid(&app.IntialDataPve{
+		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
+		UserPlayers: [][]app.UserPokemon{{
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Mega Garchomp", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"}}},
+		Boss:    app.BossInfo{Name: "Heatran", QuickMove: "Bug Bite", ChargeMove: "Fire Blast", Tier: 4},
+		Weather: 0, AggresiveMode: true, FriendStage: 0, DodgeStrategy: 0, PartySize: 6, PlayersNumber: 0,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	if res[0].Party[3].Name != "Mega Garchomp" {
+		t.Error(fmt.Errorf("Outputs changed their order. Expected Garchomp on the 4th slot, got: %v", res[0].Party[3].Name))
+	}
+	err = checkWrapperRes(res, []string{"CustomHeatran6Mega"}, 4)
+	if err != nil {
+		t.Error(err)
+	}
 }
 
 func TestCustomRaidsWrapper(t *testing.T) {
@@ -86,13 +116,42 @@ func TestCustomRaidsWrapper(t *testing.T) {
 			Lvl: 40, Atk: 15, Def: 15, Sta: 15, IsShadow: "false",
 		})
 
+	//18 no mega by dps
 	_, err = ReturnCustomRaid(&app.IntialDataPve{
 		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
 		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
 		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
 		AggresiveMode: true, PartySize: 18,
-		BoostSlotEnabled: true, FindInCollection: true, SortByDamage: false,
+		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: false,
 	})
+
+	//18 no mega by damage
+	_, err = ReturnCustomRaid(&app.IntialDataPve{
+		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
+		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
+		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		AggresiveMode: true, PartySize: 18,
+		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: false,
+	})
+
+	//12 no mega by damage
+	_, err = ReturnCustomRaid(&app.IntialDataPve{
+		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
+		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
+		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		AggresiveMode: true, PartySize: 12,
+		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: true,
+	})
+
+	//6 mega by dps
+	_, err = ReturnCustomRaid(&app.IntialDataPve{
+		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
+		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
+		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		AggresiveMode: true, PartySize: 12,
+		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: false,
+	})
+
 	if err != nil {
 		t.Error(err)
 	}
