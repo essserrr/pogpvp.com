@@ -82,6 +82,8 @@ export const pveLocale = {
         sortdps: "Sort by DPS",
         unique: "Show the best results",
 
+        selfFromColl: "Use your collection",
+        selfFromGtoup: "Use ypur group list",
     },
 
     ru: {
@@ -167,5 +169,8 @@ export const pveLocale = {
         sortd: "Сортировать по урону",
         sortdps: "Сортировать по DPS",
         unique: "Показать только лучшие результаты",
+
+        selfFromColl: "Использовать вашу коллекцию",
+        selfFromGtoup: "Использовать ваши группы"
     }
 }

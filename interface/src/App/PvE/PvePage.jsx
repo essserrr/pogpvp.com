@@ -252,8 +252,7 @@ class PvePage extends React.Component {
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}
                                 title={strings.title.about}
-                                elem={this.state.isLoaded && this.props.match.params.type === "common" &&
-                                    <CommonDescr />}
+                                elem={<CommonDescr />}
 
                                 faOpened="align-self-center fas fa-angle-up fa-lg "
                                 faClosed="align-self-center fas fa-angle-down fa-lg"

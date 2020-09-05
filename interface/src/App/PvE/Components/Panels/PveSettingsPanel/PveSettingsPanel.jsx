@@ -21,7 +21,7 @@ class PveSettingsPanel extends React.PureComponent {
             <div className="row mx-0 justify-content-center">
                 <div className="col-12 px-0 my-1 text-center"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>
 
-                <div className="col-6 px-0 my-1 pr-1">
+                <div className="col-6 px-0 my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -46,7 +46,7 @@ class PveSettingsPanel extends React.PureComponent {
                         for={""}
                     />
                 </div>
-                <div className="col-6 px-0 my-1 pl-1">
+                <div className="col-6 px-0 my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -73,7 +73,7 @@ class PveSettingsPanel extends React.PureComponent {
                     />
                 </div>
 
-                <div className="col-6 px-0 my-1 pr-1">
+                {!this.props.forCommonPve && <div className="col-6 px-0 my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -114,8 +114,8 @@ class PveSettingsPanel extends React.PureComponent {
                         tip={pveStrings.playernumbTip}
                         tipClass="infoTip"
                     />
-                </div>
-                <div className="col-6 px-0 my-1 pl-1">
+                </div>}
+                <div className="col-6 px-0 my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -138,7 +138,7 @@ class PveSettingsPanel extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>
-                <div className="col-6 px-0  my-1">
+                <div className="col-6 px-0  my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
 

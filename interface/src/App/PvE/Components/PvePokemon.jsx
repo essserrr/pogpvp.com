@@ -61,7 +61,7 @@ class PvePokemon extends React.PureComponent {
                 <div className="col-12 px-0 my-1">
                     <div className="row mx-0 justify-content-between align-items-center">
                         {this.props.pokList &&
-                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pr-1"}>
+                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
                                 <SearchableSelect
                                     value={this.props.value.Name}
                                     list={this.props.pokList}
@@ -70,7 +70,7 @@ class PvePokemon extends React.PureComponent {
                                 />
                             </div>}
                         {this.props.attr !== "bossObj" &&
-                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pl-1"}>
+                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
                                 <Stats
                                     class="font95 input-group input-group-sm"
 
@@ -84,7 +84,7 @@ class PvePokemon extends React.PureComponent {
                             </div>}
 
                         {this.props.attr === "bossObj" &&
-                            <div className="col-6 px-0 pl-1">
+                            <div className="col-6 px-1">
                                 <SelectGroup
                                     class="input-group input-group-sm"
                                     name="Tier"
@@ -126,7 +126,7 @@ class PvePokemon extends React.PureComponent {
 
 
 
-                <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pr-1  my-1"}>
+                <div className={this.props.colSize ? this.props.colSize : "col-6 px-1  my-1"}>
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -157,7 +157,7 @@ class PvePokemon extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>
-                <div className={this.props.colSize ? this.props.colSize : "col-6 px-0 pl-1  my-1"}>
+                <div className={this.props.colSize ? this.props.colSize : "col-6 px-1 my-1"}>
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -196,7 +196,7 @@ class PvePokemon extends React.PureComponent {
 
 
 
-                {this.props.canBeShadow && <div className={(this.props.colSize ? this.props.colSize : "col-6 px-0 pr-1 my-1") + (this.props.attr === "editPokemon" ? " order-2" : "")}>
+                {this.props.canBeShadow && <div className={(this.props.colSize ? this.props.colSize : "col-6 px-1 my-1") + (this.props.attr === "editPokemon" ? " order-2" : "")}>
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -225,7 +225,7 @@ class PvePokemon extends React.PureComponent {
 
 
                 {this.props.hasSecondCharge && <div
-                    className={(this.props.colSize ? this.props.colSize : "col-6 px-0 pl-1  my-1") + (this.props.attr === "editPokemon" ? " order-1" : "")}>
+                    className={(this.props.colSize ? this.props.colSize : "col-6 px-1 my-1") + (this.props.attr === "editPokemon" ? " order-1" : "")}>
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -261,7 +261,7 @@ class PvePokemon extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>}
-                {this.props.canBeShadow && this.props.attr === "attackerObj" && <div className="col-6 px-0 pl-1 my-1">
+                {this.props.canBeShadow && this.props.attr === "attackerObj" && <div className="col-6 px-1 my-1">
                     <Checkbox
                         class={"form-check form-check-inline m-0 p-0"}
                         checked={this.props.settingsValue.SupportSlotEnabled !== "false" ? "checked" : false}

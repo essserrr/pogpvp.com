@@ -95,7 +95,7 @@ class PartyBox extends React.PureComponent {
     render() {
         return (
             <div className="row mx-0 justify-content-center">
-                <div className="col-7 px-0 pr-1">
+                <div className="col-7 px-0 px-1">
                     <PartiesSelect
                         label={strings.userpok.parties}
                         attr="activeParty"
@@ -107,7 +107,7 @@ class PartyBox extends React.PureComponent {
                     />
                 </div>
 
-                <div className="col-6 px-0 pr-1 mt-2">
+                <div className="col-6 px-1 mt-2">
                     <PokemonSelect
                         label={strings.userpok.selectpok}
                         attr="activeParty"
@@ -117,7 +117,7 @@ class PartyBox extends React.PureComponent {
                         onChange={this.onPokemonAdd}
                     />
                 </div>
-                <div className="col-6 px-0 pl-1 mt-2">
+                <div className="col-6 px-1 mt-2">
                     <div className="partybox__text col-12 px-0">{strings.userpok.partyname}</div>
                     <Input
                         class="modifiedBorder form-control"
