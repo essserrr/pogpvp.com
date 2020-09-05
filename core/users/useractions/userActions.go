@@ -239,5 +239,11 @@ func limitPokemonlist(req *users.UserPokemonList) users.UserPokemonList {
 		req.Parties = newMovelist
 	}
 
+	for key, value := range req.Parties {
+		if len(value) > 6 {
+			req.Parties[key] = value[:6]
+		}
+	}
+
 	return *req
 }
