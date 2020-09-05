@@ -338,41 +338,17 @@ func TestWrapper(t *testing.T) {
 	res, err := ReturnCommonRaid(&app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
-			Name: "Palkia",
-
-			QuickMove:  "",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "Palkia", QuickMove: "", ChargeMove: "Draco Meteor",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		},
-
-		Weather: 0,
-
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "",
-			ChargeMove: "",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		App: testApp,
+		Boss:    app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
+		Weather: 0, FriendStage: 0, DodgeStrategy: 0, PartySize: 18, PlayersNumber: 3, App: testApp,
 	})
 
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkWrapperRes(res, []string{"PalkiaDragon BreathDracoMeteor", "PalkiaDragon TailDracoMeteor"}, 4)
+	err = checkWrapperRes(res, []string{"PalkiaDragon BreathDracoMeteor", "PalkiaDragon TailDracoMeteor"}, 4, 0.6)
 	if err != nil {
 		t.Error(err)
 	}
@@ -403,7 +379,7 @@ func TestMega(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkWrapperRes(res, []string{"Mega PalkiaDragon BreathDracoMeteorAgr", "Mega PalkiaDragon TailDracoMeteorAgr"}, 4)
+	err = checkWrapperRes(res, []string{"Mega PalkiaDragon BreathDracoMeteorAgr", "Mega PalkiaDragon TailDracoMeteorAgr"}, 4, 0.6)
 	if err != nil {
 		t.Error(err)
 	}
@@ -414,42 +390,17 @@ func TestAggressive(t *testing.T) {
 	res, err := ReturnCommonRaid(&app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
-			Name: "Palkia",
-
-			QuickMove:  "",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "Palkia", QuickMove: "", ChargeMove: "Draco Meteor",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		},
-
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "",
-			ChargeMove: "",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 0,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		App:           testApp,
-		AggresiveMode: true,
-	})
+		Boss:    app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
+		Weather: 5, FriendStage: 0, DodgeStrategy: 0, PartySize: 18, PlayersNumber: 3,
+		App: testApp, AggresiveMode: true})
 
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkWrapperRes(res, []string{"PalkiaDragon BreathDracoMeteorAgr", "PalkiaDragon TailDracoMeteorAgr"}, 4)
+	err = checkWrapperRes(res, []string{"PalkiaDragon BreathDracoMeteorAgr", "PalkiaDragon TailDracoMeteorAgr"}, 4, 0.6)
 	if err != nil {
 		t.Error(err)
 	}
@@ -460,49 +411,24 @@ func TestDodge(t *testing.T) {
 	res, err := ReturnCommonRaid(&app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		Pok: app.PokemonInitialData{
-			Name: "Palkia",
-
-			QuickMove:  "Dragon Tail",
-			ChargeMove: "Draco Meteor",
-
-			Level: 40,
-
-			AttackIV:  15,
-			DefenceIV: 15,
-			StaminaIV: 15,
-
-			IsShadow: false,
+			Name: "Palkia", QuickMove: "Dragon Tail", ChargeMove: "Draco Meteor",
+			Level: 40, AttackIV: 15, DefenceIV: 15, StaminaIV: 15, IsShadow: false,
 		},
-
-		Weather: 5,
-
-		Boss: app.BossInfo{
-			Name:       "Zekrom",
-			QuickMove:  "Charge Beam",
-			ChargeMove: "Outrage",
-			Tier:       4,
-		},
-
-		FriendStage:   0,
-		DodgeStrategy: 1,
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		NumberOfRuns:  1000,
-		App:           testApp,
-		AggresiveMode: true,
+		Boss:    app.BossInfo{Name: "Zekrom", QuickMove: "Charge Beam", ChargeMove: "Outrage", Tier: 4},
+		Weather: 5, FriendStage: 0, DodgeStrategy: 1, PartySize: 18, PlayersNumber: 3,
+		NumberOfRuns: 1000, App: testApp, AggresiveMode: true,
 	})
 
 	if err != nil {
 		t.Error(err)
 	}
-	err = checkWrapperRes(res, []string{"PalkiaDragon TailDracoMeteorDodge"}, 4)
+	err = checkWrapperRes(res, []string{"PalkiaDragon TailDracoMeteorDodge"}, 4, 0.6)
 	if err != nil {
 		t.Error(err)
 	}
 }
 
-func checkWrapperRes(res []PveResult, checkName []string, tier int) error {
+func checkWrapperRes(res []PveResult, checkName []string, tier int, tolerance float64) error {
 
 	for i, value := range res {
 		var sum int32
@@ -512,7 +438,7 @@ func checkWrapperRes(res []PveResult, checkName []string, tier int) error {
 		golResult := checks[checkName[i]]
 		avgDamageGold := float64(golResult.DAvg) / float64(tierHP[tier]) * 100
 		avgDamage := float64(sum) / float64(len(value.Result)) / 15000 * 100
-		if avgDamageGold-0.6 > avgDamage {
+		if avgDamageGold-tolerance > avgDamage {
 			return &TestErrorLog{
 				checkName[i],
 				"lower",
@@ -520,7 +446,7 @@ func checkWrapperRes(res []PveResult, checkName []string, tier int) error {
 				avgDamageGold,
 			}
 		}
-		if avgDamageGold+0.6 < avgDamage {
+		if avgDamageGold+tolerance < avgDamage {
 			return &TestErrorLog{
 				checkName[i],
 				"upper",
@@ -570,24 +496,10 @@ func TestAllList(t *testing.T) {
 	inDat := &app.IntialDataPve{
 		CustomMoves: &map[string]app.MoveBaseEntry{},
 		App:         testApp,
-		Pok: app.PokemonInitialData{
-			AttackIV: 15,
-			Level:    40,
-		},
-
-		PartySize:     18,
-		PlayersNumber: 3,
-
-		Boss: app.BossInfo{
-			Name: "Mew",
-			Tier: 4,
-		},
-
-		NumberOfRuns:  10,
-		FriendStage:   0,
-		Weather:       0,
-		DodgeStrategy: 0,
-		AggresiveMode: false,
+		Pok:         app.PokemonInitialData{AttackIV: 15, Level: 40},
+		PartySize:   18, PlayersNumber: 3,
+		Boss:         app.BossInfo{Name: "Mew", Tier: 4},
+		NumberOfRuns: 10, FriendStage: 0, Weather: 0, DodgeStrategy: 0, AggresiveMode: false,
 	}
 
 	prerun := prerunObj{
@@ -625,11 +537,17 @@ var checks = map[string]app.VsBossResult{
 	"PalkiaDragon TailDracoMeteorAgr":   {DAvg: 6831},
 	"PalkiaDragon TailDracoMeteorDodge": {DAvg: 5198},
 
-	"CustomHeatran6":     {DAvg: 4230},
-	"CustomHeatran6Mega": {DAvg: 7347},
+	"Mega PalkiaDragon BreathDracoMeteorAgr": {DAvg: 6504},
+	"Mega PalkiaDragon TailDracoMeteorAgr":   {DAvg: 6335},
 
-	"Mega PalkiaDragon BreathDracoMeteorAgr": {DAvg: 6858},
-	"Mega PalkiaDragon TailDracoMeteorAgr":   {DAvg: 6636},
+	"Custom Heatran6":     {DAvg: 4230},
+	"Custom Heatran6Mega": {DAvg: 5233},
+
+	"Custom Zekrom18dps":        {DAvg: 6252},
+	"Custom Zekrom18damageMega": {DAvg: 6823},
+	"Custom Zekrom12damage":     {DAvg: 5592},
+	"Custom Zekrom6dps":         {DAvg: 3075},
+	"Custom Zekrom6damage":      {DAvg: 3945},
 }
 
 func BenchmarkSingleRun2000(b *testing.B) {
