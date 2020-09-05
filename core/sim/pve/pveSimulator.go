@@ -107,7 +107,7 @@ func createPveObj(inDat *pvpeInitialData) *pveObject {
 func (obj *pveObject) addBooster(inDat *pvpeInitialData) {
 	if inDat.BoostSlotPokemon.Name != "" {
 		obj.Booster = inDat.App.PokemonStatsBase[inDat.BoostSlotPokemon.Name].Type
-		obj.BoosterCount = inDat.PlayersNumber
+		obj.BoosterCount = inDat.PlayersNumber - 1
 	}
 }
 
@@ -213,11 +213,13 @@ func (obj *pveObject) letsBattle() error {
 func (obj *pveObject) switchToNext() {
 	//decrease party size
 	obj.PartySize--
-	//decrease booster counter
-	if obj.BoosterCount > 0 {
+
+	obj.nextPokemon()
+
+	//decrease booster counter if pokemon cannot boost himself
+	if !canBoost(obj.Attacker[obj.ActivePok].name) && obj.BoosterCount > 0 {
 		obj.BoosterCount--
 	}
-	obj.nextPokemon()
 }
 
 func (obj *pveObject) nextPokemon() {
@@ -252,7 +254,7 @@ func (pok *pokemon) revive() {
 //	for key := range obj.Attacker {
 //		obj.Attacker[key].revive()
 //	}
-//	obj.BoosterCount = obj.PlayersNumber
+//	obj.BoosterCount = obj.PlayersNumber -1
 //	obj.ActivePok = 0
 //	obj.Attacker[obj.ActivePok].initializePokemon(obj.Boss.name, obj, false)
 //obj.Boss.setMultipliers(obj.Attacker[obj.ActivePok].name, obj, true)
