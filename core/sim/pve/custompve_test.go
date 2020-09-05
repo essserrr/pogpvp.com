@@ -100,12 +100,30 @@ func TestCustomRaidsWrapper(t *testing.T) {
 
 func TestPartyGenerator(t *testing.T) {
 	constructObj := conStruct{
-		attackerRow: []preRun{{Name: "1"}, {Name: "2"}, {Name: "3"}, {Name: "4"}, {Name: "5"}, {Name: "6"}, {Name: "7"}},
+		attackerRow: []preRun{{Name: "1"}, {Name: "2"}, {Name: "3"}, {Name: "4"}, {Name: "5"}, {Name: "6"}, {Name: "7"},
+			{Name: "8"}, {Name: "9"}, {Name: "10"}, {Name: "11"}, {Name: "12"}, {Name: "13"}},
 	}
 	constructObj.makeGroupsFromAttackers()
-	if len(constructObj.attackerGroups[0]) != 6 || len(constructObj.attackerGroups[1]) != 1 {
-		t.Error(fmt.Errorf("Group creation test failed, first party: %v, expected: 6, second party: %v, expected: 1",
-			len(constructObj.attackerGroups[0]), len(constructObj.attackerGroups[1])))
+	if len(constructObj.attackerGroups[0]) != 6 || len(constructObj.attackerGroups[len(constructObj.attackerGroups)-1]) != 1 {
+		t.Error(fmt.Errorf("Group creation test failed, first party: %v, expected: 6, last party: %v, expected: 1",
+			len(constructObj.attackerGroups[0]), len(constructObj.attackerGroups[len(constructObj.attackerGroups)-1])))
 
+	}
+
+	constructObj.attackerGroups = combineByAndMerge(constructObj.attackerGroups, 3, make([][]preRun, 0, 1), 0)
+	if len(constructObj.attackerGroups) != 1 {
+		t.Error(fmt.Errorf("Combination by 3 failed: expected: 1, got:  %v", len(constructObj.attackerGroups)))
+	}
+
+	constructObj.makeGroupsFromAttackers()
+	constructObj.attackerGroups = combineByAndMerge(constructObj.attackerGroups, 2, make([][]preRun, 0, 1), 0)
+	if len(constructObj.attackerGroups) != 3 {
+		t.Error(fmt.Errorf("Combination by 2 failed: expected: 3, got:  %v", len(constructObj.attackerGroups)))
+	}
+
+	constructObj.makeGroupsFromAttackers()
+	constructObj.attackerGroups = combineByAndMerge(constructObj.attackerGroups, 1, make([][]preRun, 0, 1), 0)
+	if len(constructObj.attackerGroups) != 3 {
+		t.Error(fmt.Errorf("Combination by 1 failed: expected: 3, got:  %v", len(constructObj.attackerGroups)))
 	}
 }
