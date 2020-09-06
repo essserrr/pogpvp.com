@@ -19,39 +19,43 @@ const UserPokCard = React.memo(function (props) {
     }
 
     return (
-        <div onClick={onPokemonOpenWrapper} className="upokcard col-auto p-1 my-1 mx-1 mx-md-4 text-center">
+        <div className="upokcard col-auto p-1 my-1 mx-1 text-center"
+            style={props.style}
+            onClick={props.onPokemonEdit ? onPokemonOpenWrapper : null} >
             <div className="mx-1 mb-1 row align-items-center">
                 <ReactTooltip
                     className={"infoTip"}
-                    id={props.attr + props.value.Name} effect="solid"
+                    id={props.index + props.attr + props.Name} effect="solid"
                     place={"top"}
                     multiline={true} >
-                    {props.value.Name}
+                    {props.Name}
                 </ReactTooltip>
-                <div data-tip data-for={props.attr + props.value.Name} className="col-auto px-0 posRel">
-                    {props.pokemonTable[props.value.Name] && <PokemonIconer
-                        src={props.pokemonTable[props.value.Name].Number +
-                            (props.pokemonTable[props.value.Name].Forme !== "" ? "-" + props.pokemonTable[props.value.Name].Forme : "")}
-                        class={"icon36 mr-1"}
+                <div data-tip data-for={props.index + props.attr + props.Name} className="col-auto px-0 posRel">
+                    {props.pokemonTable[props.Name] && <PokemonIconer
+                        src={props.pokemonTable[props.Name].Number +
+                            (props.pokemonTable[props.Name].Forme !== "" ? "-" + props.pokemonTable[props.Name].Forme : "")}
+                        class={"icon48 mr-1"}
                     />}
-                    {props.value.IsShadow === "true" ? <Shadow className="posAbs icon18" style={{ right: "-3px" }} /> : null}
+                    {(props.IsShadow === "true" || props.IsShadow === true) && <Shadow className="posAbs icon18" style={{ right: "-3px" }} />}
                 </div>
                 <div className="col px-2">
-                    <div>{`${props.value.Lvl}:${props.value.Atk}/${props.value.Def}/${props.value.Sta}`}</div>
-                    <div>{`CP:${calculateCP(props.value.Name, props.value.Lvl, props.value.Atk, props.value.Def, props.value.Sta, props.pokemonTable)}`}</div>
+                    <div>
+                        {props.forCustomPve && `#${props.index + 1} `}
+                        {`CP:${calculateCP(props.Name, props.Lvl, props.Atk, props.Def, props.Sta, props.pokemonTable)}`}
+                    </div>
+                    <div>{`${props.Lvl}:${props.Atk}/${props.Def}/${props.Sta}`}</div>
                 </div>
                 {props.onClick && <CloseButton attr={props.attr} index={props.index} className="close" onClick={props.onClick} />}
             </div>
-
-            <div className={"col-12 mb-1  moveStyle typeColorC" + props.moveTable[props.value.QuickMove].MoveType + " text"} >
-                {props.value.QuickMove}
+            <div className={"col-12 px-1  mb-1  moveStyle typeColorC" + props.moveTable[props.QuickMove].MoveType + " text"} >
+                {props.QuickMove}
             </div>
-            <div className={"col-12  moveStyle typeColorC" + props.moveTable[props.value.ChargeMove].MoveType + " text"}>
-                {props.value.ChargeMove}
+            <div className={"col-12 px-1  moveStyle typeColorC" + props.moveTable[props.ChargeMove].MoveType + " text"}>
+                {props.ChargeMove}
             </div>
-            {props.value.ChargeMove2 && props.moveTable[props.value.ChargeMove2] &&
-                <div className={"col-12 mt-1  moveStyle typeColorC" + props.moveTable[props.value.ChargeMove2].MoveType + " text"}>
-                    {props.value.ChargeMove2}
+            {props.ChargeMove2 && props.moveTable[props.ChargeMove2] &&
+                <div className={"col-12 px-1 mt-1  moveStyle typeColorC" + props.moveTable[props.ChargeMove2].MoveType + " text"}>
+                    {props.ChargeMove2}
                 </div>}
         </div>
     )

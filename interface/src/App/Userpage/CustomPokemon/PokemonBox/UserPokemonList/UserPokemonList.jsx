@@ -53,20 +53,22 @@ class UserShinyList extends React.PureComponent {
                     scrollableTarget={"userPokemonList" + this.props.attr}
                     scrollThreshold={0.7}
                 >
-                    <div className="row mx-0">
+                    <div className="row mx-0 justify-content-around">
                         {this.state.listToShow.map((value, index) =>
                             <UserPokCard
+                                style={{ minWidth: "190px" }}
                                 key={index}
                                 index={index}
 
                                 attr={this.props.attr}
-                                value={value}
 
                                 moveTable={this.props.moveTable}
                                 pokemonTable={this.props.pokemonTable}
 
                                 onClick={this.props.onPokemonDelete}
                                 onPokemonEdit={this.props.onPokemonEdit}
+
+                                {...value}
                             />)}
                     </div>
 
