@@ -42,3 +42,9 @@ func CalculteCommonPve(data app.IntialDataPve) ([]pve.PveResult, error) {
 	data.App = Application
 	return pve.ReturnCommonRaid(&data)
 }
+
+//CalculteSutomPve return custom raid results as an array of format pokemon+moveset:boss:result
+func CalculteSustomPve(data app.IntialDataPve) ([]pve.PveResult, error) {
+	data.App = Application
+	return pve.ReturnCustomRaid(&data)
+}

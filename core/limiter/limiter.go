@@ -33,9 +33,9 @@ func GetVisitor(ip, limiterType string, ipLocations *prometheus.CounterVec) *rat
 	if !exists {
 		go recordGeo(ip, ipLocations)
 
-		limiterPage := rate.NewLimiter(10, 10)
-		limiterBase := rate.NewLimiter(10, 10)
-		limiterPvp := rate.NewLimiter(10, 10)
+		limiterPage := rate.NewLimiter(14, 10)
+		limiterBase := rate.NewLimiter(14, 10)
+		limiterPvp := rate.NewLimiter(14, 10)
 
 		// Include the current time when creating a new visitor.
 		visitors[ip] = &visitor{limiterPvp, limiterBase, limiterPage, time.Now()}

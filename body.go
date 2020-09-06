@@ -2,37 +2,28 @@ package main
 
 import (
 	"Solutions/pvpSimulator/core/errors"
+	"Solutions/pvpSimulator/core/limiter"
 	appl "Solutions/pvpSimulator/core/sim/app"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
-	"github.com/prometheus/client_golang/prometheus"
-	log "github.com/sirupsen/logrus"
 
 	getbase "Solutions/pvpSimulator/bases"
-	"Solutions/pvpSimulator/core/limiter"
-
-	appl "Solutions/pvpSimulator/core/sim/app"
 
 	"bytes"
 	"encoding/binary"
-	"encoding/json"
-	"fmt"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
-	"github.com/mssola/user_agent"
 	"io"
 	"io/ioutil"
 	"net"
-	"net/http"
 	"os"
 	"path"
 	"strings"
 	"time"
 
-	"Solutions/pvpSimulator/core/errors"
+	"github.com/go-chi/chi/middleware"
+	"github.com/mssola/user_agent"
 
 	"github.com/boltdb/bolt"
 	"github.com/prometheus/client_golang/prometheus"
@@ -594,7 +585,7 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/request/matrix", rootHandler{matrixHandler, a})
 	router.Handle("/request/common/{attacker}/{boss}/{obj}", rootHandler{pveHandler, a})
 	router.Handle("/request/common/{attacker}/{boss}/{obj}/{booster}", rootHandler{pveHandler, a})
-	router.Handle("/request/custom/", rootHandler{pveHandler, a})
+	router.Handle("/request/custom/", rootHandler{customPveHandler, a})
 
 	//db calls
 	router.Handle("/db/{type}", rootHandler{dbCallHandler, a})
@@ -622,8 +613,8 @@ func (a *App) initPvpSrv() *http.Server {
 	router.Handle("/api/user/setbroker", rootHandler{setUserBroker, a})
 	router.Handle("/api/user/getbroker", rootHandler{getUserBroker, a})
 	router.Handle("/api/user/filterbrokers", rootHandler{getFilteredBrokers, a})
-	router.Handle("/api/user/setpokemon", rootHandler{setUserPokemon, a})
-	router.Handle("/api/user/getpokemon", rootHandler{getUserPokemon, a})
+	router.Handle("/api/user/setpokemon", rootHandler{setUserCollection, a})
+	router.Handle("/api/user/getpokemon", rootHandler{getUserCollection, a})
 
 	router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		rootHandler.ServeHTTP(rootHandler{serveIndex, a}, w, r)

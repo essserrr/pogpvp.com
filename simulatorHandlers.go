@@ -502,3 +502,68 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	return nil
 }
+
+func customPveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
+	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("pve"))
+	defer timer.ObserveDuration().Milliseconds()
+	//Check if method is allowed
+	if r.Method != http.MethodPost {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "custom_pve_count_error_count"}).Inc()
+		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
+	}
+	//Check visitor's requests limit
+	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
+		return err
+	}
+	go app.metrics.appCounters.With(prometheus.Labels{"type": "custom_pve_count"}).Inc()
+
+	req := appl.IntialDataPve{}
+	if err := parseBody(r, &req); err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "set_umoves_error_count"}).Inc()
+		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
+	}
+	req.CustomMoves = getUserMovelist(w, r, app)
+	if req.FindInCollection {
+		req.UserPokemon = returnUserPokemon(w, r, app)
+	}
+
+	//Start new raid
+	pveResult, err := sim.CalculteSustomPve(req)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "custom_pve_count_error_count"}).Inc()
+		return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
+	}
+	log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated raid")
+
+	//Create json answer from pvpResult
+	answer, err := json.Marshal(pveResult)
+	if err != nil {
+		go app.metrics.appCounters.With(prometheus.Labels{"type": "custom_pve_count_error_count"}).Inc()
+		return fmt.Errorf("PvE result marshal error: %v", err)
+	}
+
+	//Write answer
+	(*w).Header().Set("Content-Type", "application/json")
+	_, err = (*w).Write(answer)
+	if err != nil {
+		return fmt.Errorf("Write response error: %v", err)
+	}
+	return nil
+}
+
+func returnUserPokemon(w *http.ResponseWriter, r *http.Request, app *App) []appl.UserPokemon {
+	accSession, err := newAccessSession(r)
+	if err != nil {
+		return []appl.UserPokemon{}
+	}
+	pokemon, err := useractions.GetUserPokemon(app.mongo.client, accSession)
+	if err != nil {
+		return []appl.UserPokemon{}
+	}
+	switch pokemon {
+	case nil:
+		return []appl.UserPokemon{}
+	default:
+		return pokemon
+	}
+}
