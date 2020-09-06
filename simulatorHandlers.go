@@ -528,7 +528,7 @@ func customPveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 
 	//Start new raid
-	pveResult, err := sim.CalculteSustomPve(req)
+	pveResult, err := sim.CalculteCustomPve(req)
 	if err != nil {
 		go app.metrics.appCounters.With(prometheus.Labels{"type": "custom_pve_count_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
