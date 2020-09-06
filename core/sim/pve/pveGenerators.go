@@ -17,9 +17,10 @@ type prerunObj struct {
 }
 
 type preRun struct {
-	Name   string
-	Quick  string
-	Charge string
+	Name    string
+	Quick   string
+	Charge  string
+	Charge2 string
 
 	Dps         float32
 	DamageDealt float32
@@ -325,11 +326,11 @@ func (ms *moveSelect) selectMoves() []string {
 		moves = append(moves, moveVal.Title)
 	default:
 		//otherwise add all quick moves
-		for _, value := range ms.movelist {
+		for _, ms.move = range ms.movelist {
 			if ms.skipMove() {
 				continue
 			}
-			moves = append(moves, value)
+			moves = append(moves, ms.move)
 		}
 	}
 	return moves
@@ -444,13 +445,13 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 	quickMoveList := selectObj.selectMoves()
 	//get charge move(s)
 	selectObj.move, selectObj.movelist, selectObj.movesToSkip = inDat.Boss.ChargeMove, pokVal.ChargeMoves, map[string]int{"Return": 1}
-	chargekMoveList := selectObj.selectMoves()
+	chargeMoveList := selectObj.selectMoves()
 
 	var (
 		maxMoves = 10
 		err      error
 	)
-	if len(quickMoveList) > maxMoves && len(chargekMoveList) > maxMoves {
+	if len(quickMoveList) > maxMoves && len(chargeMoveList) > maxMoves {
 		maxMoves = 7
 	}
 
@@ -464,9 +465,9 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 	}
 
 	//limit if needed
-	if len(chargekMoveList) > maxMoves {
-		limiterObj := limiterObject{pok: pokVal, orginalMoveList: chargekMoveList, inDat: inDat, isCharge: true, n: maxMoves}
-		chargekMoveList, err = limiterObj.limitMoves()
+	if len(chargeMoveList) > maxMoves {
+		limiterObj := limiterObject{pok: pokVal, orginalMoveList: chargeMoveList, inDat: inDat, isCharge: true, n: maxMoves}
+		chargeMoveList, err = limiterObj.limitMoves()
 		if err != nil {
 			return []app.BossInfo{}, err
 		}
@@ -475,7 +476,7 @@ func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
 	//create boss list
 	bosses := make([]app.BossInfo, 0, 1)
 	for _, valueQ := range quickMoveList {
-		for _, valueCH := range chargekMoveList {
+		for _, valueCH := range chargeMoveList {
 			bosses = append(bosses,
 				app.BossInfo{
 					Name:       pokVal.Title,
@@ -638,7 +639,7 @@ func makeAttackerCustomPve(inDat *app.IntialDataPve, bosses *[]app.BossInfo) ([]
 		return nil, &customError{"Your collection is empty"}
 	}
 
-	if err := prerun.makePrerun(bosses, 1, 5); err != nil {
+	if err := prerun.makePrerun(bosses, inDat.PartySize, 1); err != nil {
 		return nil, err
 	}
 
@@ -670,7 +671,7 @@ func makeBoostersRowCustomPve(inDat *app.IntialDataPve, bosses *[]app.BossInfo) 
 	}
 	prerun.selectPokemonFromCollection(true)
 
-	if err := prerun.makePrerun(bosses, 1, 5); err != nil {
+	if err := prerun.makePrerun(bosses, 1, 1); err != nil {
 		return nil, err
 	}
 
@@ -715,7 +716,7 @@ func (po *prerunObj) selectPokemonFromCollection(canBeMega bool) {
 			pokInDat.ChargeMove2, pokInDat.ChargeMove = pokInDat.ChargeMove, pokInDat.ChargeMove2
 		}
 		po.prerunArr = append(po.prerunArr, preRun{
-			Name: pokInDat.Name, Quick: pokInDat.QuickMove, Charge: pokInDat.ChargeMove,
+			Name: pokInDat.Name, Quick: pokInDat.QuickMove, Charge: pokInDat.ChargeMove, Charge2: pokInDat.ChargeMove2,
 			Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta,
 			IsShadow: pokInDat.IsShadow == "true",
 		})
@@ -740,16 +741,17 @@ func selectAttackerFromGroup(inDat *app.IntialDataPve) ([][]preRun, error) {
 			}
 
 			//find charge move
-			chargeMBody, ok := inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove)
+			_, ok = inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove)
 			if !ok {
 				//if first charge move not found, try to find the second
-				chargeMBody, ok = inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove2)
+				_, ok = inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove2)
 				if !ok {
 					return nil, &customError{fmt.Sprintf("Player %v party pokemon %v has unknow charge moves %v and %v", playerNumber+1, pokInDat.Name, pokInDat.ChargeMove, pokInDat.ChargeMove2)}
 				}
+				pokInDat.ChargeMove2, pokInDat.ChargeMove = pokInDat.ChargeMove, pokInDat.ChargeMove2
 			}
 			group = append(group, preRun{
-				Name: pok.Title, Quick: quickMBody.Title, Charge: chargeMBody.Title,
+				Name: pok.Title, Quick: quickMBody.Title, Charge: pokInDat.ChargeMove, Charge2: pokInDat.ChargeMove2,
 				Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta,
 				IsShadow: pokInDat.IsShadow == "true",
 			})

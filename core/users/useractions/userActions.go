@@ -184,17 +184,17 @@ func GetFilteredBrokers(client *mongo.Client, query *mongo.Pipeline) (*[]Filtere
 	return &userBrokers, nil
 }
 
-type pokemonResponse struct {
+type collectionResponse struct {
 	PokemonList users.UserPokemonList `bson:"upokemonlist,omitempty"`
 }
 
-//GetUserPokemon returns custom pokemon of a user
-func GetUserPokemon(client *mongo.Client, accSession *users.AccessSession) (*users.UserPokemonList, error) {
+//GetUserCollection returns custom pokemon of a user
+func GetUserCollection(client *mongo.Client, accSession *users.AccessSession) (*users.UserPokemonList, error) {
 	if err := users.GetAccess(client, accSession); err != nil {
 		return nil, err
 	}
 
-	currUser := new(pokemonResponse)
+	currUser := new(collectionResponse)
 	if err := users.LookupUser(client, bson.M{"_id": accSession.UserID}, currUser); err != nil {
 		return nil, fmt.Errorf("Wrong auth token")
 	}
@@ -208,8 +208,8 @@ func GetUserPokemon(client *mongo.Client, accSession *users.AccessSession) (*use
 	return &currUser.PokemonList, nil
 }
 
-//SetUserPokemon sets custom pokemon of a user
-func SetUserPokemon(client *mongo.Client, req *users.UserPokemonList, accSession *users.AccessSession) error {
+//SetUserCollection sets custom pokemon of a user
+func SetUserCollection(client *mongo.Client, req *users.UserPokemonList, accSession *users.AccessSession) error {
 	if err := users.GetAccess(client, accSession); err != nil {
 		return err
 	}
@@ -246,4 +246,25 @@ func limitPokemonlist(req *users.UserPokemonList) users.UserPokemonList {
 	}
 
 	return *req
+}
+
+type pokemonResponse struct {
+	PokemonList pokemonCollection `bson:"upokemonlist,omitempty"`
+}
+
+type pokemonCollection struct {
+	Pokemon []appl.UserPokemon `bson:"upokemon,omitempty"`
+}
+
+//GetUserPokemon returns custom pokemon of a user
+func GetUserPokemon(client *mongo.Client, accSession *users.AccessSession) ([]appl.UserPokemon, error) {
+	if err := users.GetAccess(client, accSession); err != nil {
+		return nil, err
+	}
+
+	currUser := new(pokemonResponse)
+	if err := users.LookupUser(client, bson.M{"_id": accSession.UserID}, currUser); err != nil {
+		return nil, fmt.Errorf("Wrong auth token")
+	}
+	return currUser.PokemonList.Pokemon, nil
 }

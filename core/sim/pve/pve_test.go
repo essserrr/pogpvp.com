@@ -545,7 +545,7 @@ var checks = map[string]app.VsBossResult{
 
 	"Custom Zekrom18dps":        {DAvg: 6252},
 	"Custom Zekrom18damageMega": {DAvg: 6823},
-	"Custom Zekrom12damage":     {DAvg: 5592},
+	"Custom Zekrom12damage":     {DAvg: 5730},
 	"Custom Zekrom6dps":         {DAvg: 3075},
 	"Custom Zekrom6damage":      {DAvg: 3945},
 }
