@@ -52,12 +52,7 @@ func ReturnCustomRaid(inDat *app.IntialDataPve) ([]PveResult, error) {
 		}
 	}
 
-	switch inDat.SortByDamage {
-	case true:
-		sort.Sort(byAvgDamage(conObj.resArray))
-	default:
-		sort.Sort(byAvgDps(conObj.resArray))
-	}
+	sort.Sort(byAvgDamage(conObj.resArray))
 
 	return conObj.resArray[:1], nil
 }
@@ -94,6 +89,9 @@ func validateCustomData(inDat *app.IntialDataPve) error {
 				inDat.UserPlayers[player] = party[:18]
 			}
 		}
+	}
+	if inDat.PartySize > 18 {
+		inDat.PartySize = 18
 	}
 	return nil
 }
