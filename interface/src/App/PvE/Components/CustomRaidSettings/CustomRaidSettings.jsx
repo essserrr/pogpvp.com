@@ -1,5 +1,6 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
+import { UnmountClosed } from "react-collapse"
 
 import GroupsSettings from "./GroupsSettings/GroupsSettings"
 import CollectionSettings from "./CollectionSettings/CollectionSettings"
@@ -41,29 +42,35 @@ class CustomRaidSettings extends React.PureComponent {
                     />
                 </div>
 
-                {this.props.value.FindInCollection &&
-                    <div className="col-12 px-0 mt-2">
-                        <CollectionSettings
-                            attr={this.props.attr}
+                <div className="col-12 px-0">
+                    <UnmountClosed isOpened={this.props.value.FindInCollection}>
+                        <div className="col-12 px-0 mt-2">
+                            <CollectionSettings
+                                attr={this.props.attr}
 
-                            value={this.props.value.SortByDamage}
-                            settingsValue={this.props.settingsValue}
+                                value={this.props.value.SortByDamage}
+                                settingsValue={this.props.settingsValue}
 
-                            onChange={this.props.onChange}
-                        />
-                    </div>}
+                                onChange={this.props.onChange}
+                            />
+                        </div>
+                    </UnmountClosed>
+                </div>
 
-                {!this.props.value.FindInCollection && <div className="col-12 px-0 mt-2">
-                    <GroupsSettings
-                        attr={this.props.attr}
+                <div className="col-12 px-0">
+                    <UnmountClosed isOpened={!this.props.value.FindInCollection}>
+                        <div className="col-12 px-0">
+                            <GroupsSettings
+                                attr={this.props.attr}
 
-                        userParties={this.props.userParties}
-                        value={this.props.value.UserPlayers}
+                                userParties={this.props.userParties}
+                                value={this.props.value.UserPlayers}
 
-                        onChange={this.props.onChange}
-                    />
-                </div>}
-
+                                onChange={this.props.onChange}
+                            />
+                        </div>
+                    </UnmountClosed>
+                </div>
             </div>
         )
     }

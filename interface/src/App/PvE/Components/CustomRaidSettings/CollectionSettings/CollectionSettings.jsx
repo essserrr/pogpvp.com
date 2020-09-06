@@ -19,7 +19,7 @@ class CollectionSettings extends React.PureComponent {
 
     render() {
         return (
-            <div className="row m-0 py-1 align-itmes-center justify-conten-center">
+            <div className="row mx-0 py-1 align-itmes-center justify-conten-center">
                 <div className="col-6 px-0 pr-1 ">
                     <SelectGroup
                         class="input-group input-group-sm"
@@ -40,7 +40,7 @@ class CollectionSettings extends React.PureComponent {
                     />
                 </div>
                 <Checkbox
-                    class={"form-check form-check-inline m-0 p-0 pl-1"}
+                    class={"col-6 form-check form-check-inline m-0 p-0 pl-1"}
                     checked={this.props.settingsValue.SupportSlotEnabled !== "false" ? "checked" : false}
                     attr={"pveObj"}
                     name={"SupportSlotEnabled"}
