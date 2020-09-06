@@ -134,8 +134,7 @@ class CustomPve extends React.PureComponent {
 
     onPartySelect(partyName, playerNumber, partyNumber) {
         let userPlayers = [...this.state.userSettings.UserPlayers]
-        userPlayers[playerNumber][partyNumber] = this.props.userParties[partyName] ?
-            { ...this.props.userParties[partyName], title: partyName } : pveCutomParty()
+        userPlayers[playerNumber][partyNumber] = this.props.userParties[partyName] ? { party: this.props.userParties[partyName], title: partyName } : pveCutomParty()
 
         this.setState({
             userSettings: {
@@ -246,20 +245,21 @@ class CustomPve extends React.PureComponent {
                 var userPlayers = []
                 break
             default:
+                userPlayers = []
                 //for every player
-                this.state.userSettings.UserPlayers.forEach((player, playerNumber) => {
+                this.state.userSettings.UserPlayers.forEach((playerGroups, playerNumber) => {
                     //skip empty players
-                    if (!player || player.length === 0) { return }
-                    let playerGroups = []
+                    if (!playerGroups || playerGroups.length === 0) { return }
+                    let mergedGroups = []
                     //for every player group
-                    player.forEach((group, groupNumber) => {
+                    playerGroups.forEach((group, groupNumber) => {
                         //skip empty groups
-                        if (!group || group.length === 0) { return }
+                        if (!group || !group.party || group.length === 0) { return }
                         //save non empty groups
-                        playerGroups = [...playerGroups, ...group]
+                        mergedGroups = [...mergedGroups, ...group.party]
                     })
                     //add player to players list
-                    userPlayers.push(playerGroups)
+                    userPlayers.push(mergedGroups)
                 })
         }
         return userPlayers
@@ -376,6 +376,8 @@ class CustomPve extends React.PureComponent {
 
                     {(this.state.showResult) && <div className="max1000 col-12 col-md-10 col-lg-6 justify-content-center p-0" >
                         <PveResult
+                            customResult={true}
+
                             date={this.state.date}
                             result={this.state.result}
                             snapshot={this.state.snapshot}
