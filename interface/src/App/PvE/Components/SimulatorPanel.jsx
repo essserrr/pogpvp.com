@@ -49,7 +49,7 @@ class SimulatorPanel extends React.PureComponent {
                     />
                 </div>
 
-                {!this.props.forCommonPve && <div className="col-12 px-1">
+                {!this.props.forCustomPve && <div className="col-12 px-1">
                     <PokemonPanel
                         title={pveStrings.attacker}
                         attr="attackerObj"
@@ -70,7 +70,7 @@ class SimulatorPanel extends React.PureComponent {
                     />
                 </div>}
 
-                {!this.props.forCommonPve && <UnmountClosed isOpened={this.props.value.pveObj.SupportSlotEnabled !== "false"}>
+                {!this.props.forCustomPve && <UnmountClosed isOpened={this.props.value.pveObj.SupportSlotEnabled !== "false"}>
                     <div className="col-12 px-1 text-center ">
                         <PokemonPanel
                             title={pveStrings.sup}
@@ -93,14 +93,15 @@ class SimulatorPanel extends React.PureComponent {
                 </UnmountClosed>}
 
 
-                {this.props.forCommonPve &&
-                    <div className="col-12 text-center px-1">
+                {this.props.forCustomPve &&
+                    <div className="col-12 text-center px-1 mb-3">
                         <CustomRaidSettings
                             title={pveStrings.attacker}
                             attr="userSettings"
 
                             settingsValue={this.props.value.pveObj}
                             value={this.props.value.userSettings}
+                            userParties={this.props.userParties}
 
                             onChange={this.props.onChange}
                         />
@@ -109,7 +110,7 @@ class SimulatorPanel extends React.PureComponent {
                 <div className="col-12 text-center px-1">
                     <div className="row m-0">
                         <PveSettingsPanel
-                            forCommonPve={this.props.forCommonPve}
+                            forCustomPve={this.props.forCustomPve}
                             title={pveStrings.raid}
                             attr={"pveObj"}
                             value={this.props.value.pveObj}

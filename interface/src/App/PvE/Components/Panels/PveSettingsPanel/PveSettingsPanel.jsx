@@ -73,7 +73,7 @@ class PveSettingsPanel extends React.PureComponent {
                     />
                 </div>
 
-                {!this.props.forCommonPve && <div className="col-6 px-0 my-1 px-1">
+                {!this.props.forCustomPve && <div className="col-6 px-0 my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
 

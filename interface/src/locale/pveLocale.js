@@ -35,6 +35,7 @@ export const pveLocale = {
 
         party: "party",
         parties: "parties",
+        none: "None",
 
         weatherList: {
             0: "Extreme",
@@ -60,6 +61,11 @@ export const pveLocale = {
             ev: " (Friendship event)"
         },
 
+        customsort: {
+            dmg: "Find counters by damage dealt",
+            dps: "Find counters by DPS",
+        },
+
         hprem: "Boss remaining HP: ",
         pres: "Recalculate with high precision",
         break: "Calculate breakpoints",
@@ -83,7 +89,7 @@ export const pveLocale = {
         unique: "Show the best results",
 
         selfFromColl: "Use your collection",
-        selfFromGtoup: "Use ypur group list",
+        selfFromGtoup: "Use your group list",
     },
 
     ru: {
@@ -123,6 +129,7 @@ export const pveLocale = {
 
         party: "группа",
         parties: "группы",
+        none: "Нет",
 
         weatherList: {
             0: "Экстремальная",
@@ -146,6 +153,11 @@ export const pveLocale = {
             ultra: "Ультра",
             best: "Бест",
             ev: " (Ивент на дружбу)"
+        },
+
+        customsort: {
+            dmg: "Подобрать группу по нанесенному урону",
+            dps: "Подобрать группу по нанесенному DPS",
         },
 
         hprem: "Осталось HP у босса: ",

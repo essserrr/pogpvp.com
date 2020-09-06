@@ -241,7 +241,6 @@ class PvePage extends React.Component {
                             {this.state.isLoaded && this.props.match.params.type === "custom" && <CustomPve
                                 changeUrl={this.changeUrl}
                                 parentState={this.state}
-                                userPokemon={this.props.customPokemon ? this.props.customPokemon : []}
                                 userParties={this.props.customParties ? this.props.customParties : {}}
                             />}
                         </div>
@@ -280,7 +279,6 @@ export default connect(
     state => ({
         customMoves: state.customMoves,
         bases: state.bases,
-        customPokemon: state.customPokemon.pokemon,
         customParties: state.customPokemon.parties,
     }), mapDispatchToProps
 )(PvePage)

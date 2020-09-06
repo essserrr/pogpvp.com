@@ -20,7 +20,13 @@ class CustomPve extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            userSettings: { FindInCollection: true, },
+            userSettings: {
+                FindInCollection: true,
+                SortByDamage: "true",
+                UserPlayers: [
+                    [{ title: "" }, { title: "" }, { title: "" }],
+                ],
+            },
             bossObj: boss(strings.tips.nameSearch),
             pveObj: pveobj(),
 
@@ -132,22 +138,37 @@ class CustomPve extends React.PureComponent {
         })
     }
 
+    onPartySelect(partyName, playerNumber, partyNumber) {
+        let userPlayers = [...this.state.userSettings.UserPlayers]
+        userPlayers[playerNumber][partyNumber] = this.props.userParties[partyName] ?
+            { ...this.props.userParties[partyName], title: partyName } : { title: "" }
+
+        this.setState({
+            userSettings: {
+                ...this.state.userSettings,
+                UserPlayers: userPlayers,
+            },
+        })
+    }
+
     onChange(event, name) {
-        console.log(event.target, name)
         //check if it`s a name change
         if (event.target === undefined) {
             switch (name.name[1]) {
                 case "QuickMove":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    break
+                    return
                 case "ChargeMove":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    break
+                    return
+                case "partySelect": {
+                    this.onPartySelect(event.value, name.name[0].playerNumber, name.name[0].partyNumber)
+                    return
+                }
                 default:
                     this.onNameChange(event, name.name[0])
-                    break
+                    return
             }
-            return
         }
         let role = event.target.getAttribute("attr")
         //check if it's an iv change
@@ -205,6 +226,8 @@ class CustomPve extends React.PureComponent {
     }
 
     submitForm = async event => {
+        console.log(this.state.bossObj, this.state.userSettings, this.state.pveObj)
+        return
         event.preventDefault()
         //make server pvp request
         let snapshot = {
@@ -277,7 +300,7 @@ class CustomPve extends React.PureComponent {
                 <div className="row justify-content-center m-0 mb-4"  >
                     <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
-                            forCommonPve={true}
+                            forCustomPve={true}
 
                             pokemonTable={this.props.parentState.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -285,6 +308,7 @@ class CustomPve extends React.PureComponent {
                             chargeMoveList={this.props.parentState.chargeMoveList}
                             quickMoveList={this.props.parentState.quickMoveList}
 
+                            userParties={this.props.userParties}
                             value={this.state}
                             onChange={this.onChange}
                             onClick={this.onClick}

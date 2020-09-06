@@ -1500,7 +1500,6 @@ body {
     -webkit-transition: all 0.4s linear;
     transition: all 0.4s linear; 
 
-    z-index: 1;
     border-width: 0px 2px 0px 0px;
     border-right: solid $slider-button;
 
@@ -1533,8 +1532,6 @@ body {
     overflow: hidden;
     border: 2px solid $slider-button !important;
     border-radius: 7px 7px 7px 7px;
-
- 
 }
 
 .sliderGroup button:last-child {
