@@ -28,23 +28,14 @@ export function returnMovePool(name, pokTable, locale, isBoss, additionalQ, addt
     //filter empty values and elite moves for boses
     let quickFiltered = quickRaw.filter((elem) => {
         if (isBoss) {
-            switch (pokTable[name].EliteMoves[elem]) {
-                case 1:
-                    return false
-                default:
-                    return elem !== ""
-            }
+            if (pokTable[name].EliteMoves[elem] === 1) { return false }
         }
         return elem !== "";
     });
     let chargeFiltered = chargeRaw.filter((elem) => {
         if (isBoss) {
-            switch (pokTable[name].EliteMoves[elem]) {
-                case 1:
-                    return false
-                default:
-                    return elem !== ""
-            }
+            if (pokTable[name].EliteMoves[elem] === 1) { return false }
+            if (elem === "Return") { return false }
         }
         return elem !== "";
     });
@@ -530,7 +521,7 @@ export function pveUserSettings() {
 }
 
 export function pveCutomParty() {
-    return { title: "" }
+    return { title: "", party: [] }
 }
 
 export function returnPokList(pokBase, addNone, locale) {

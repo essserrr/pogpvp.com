@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 import ReactTooltip from "react-tooltip"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { commonRaidTips } from "../../../../locale/commonRaidTips"
 
 import { getCookie } from "../../../../js/getCookie"

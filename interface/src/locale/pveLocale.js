@@ -33,8 +33,8 @@ export const pveLocale = {
         playernumbTip: "Expected number of players. The more players, the faster a boss accumulates energy, the stronger and more often he hits.",
 
 
-        party: "party",
-        parties: "parties",
+        party: "group",
+        parties: "groups",
         none: "None",
 
         weatherList: {
@@ -157,7 +157,7 @@ export const pveLocale = {
 
         customsort: {
             dmg: "Подобрать группу по нанесенному урону",
-            dps: "Подобрать группу по нанесенному DPS",
+            dps: "Подобрать группу по DPS",
         },
 
         hprem: "Осталось HP у босса: ",
