@@ -469,7 +469,7 @@ class CustomPokemon extends React.PureComponent {
 
             importedArr.push({ Name, IsShadow, QuickMove, ChargeMove, ChargeMove2, Lvl, Atk, Def, Sta, CP })
         })
-        if (importedArr.length > 1500) { importedArr.clice(0, 1500) }
+        if (importedArr.length > 1500) { importedArr.slice(0, 1500) }
         return importedArr
     }
 
