@@ -235,15 +235,14 @@ class CustomPokemon extends React.PureComponent {
             switch (name.name[1]) {
                 case "QuickMove":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    break
+                    return
                 case "ChargeMove":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    break
+                    return
                 default:
                     this.onNameChange(event, name.name[0])
-                    break
+                    return
             }
-            return
         }
         let role = event.target.getAttribute("attr")
         //check if it's an iv change

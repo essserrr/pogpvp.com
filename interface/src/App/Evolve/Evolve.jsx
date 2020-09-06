@@ -111,9 +111,8 @@ class Evolve extends React.Component {
             switch (name.name[1]) {
                 default:
                     this.onNameChange(event)
-                    break
+                    return
             }
-            return
         }
         //check if it's an iv change
         if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
