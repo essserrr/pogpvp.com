@@ -1,5 +1,5 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 
 import PveResEntry from "./PveResEntry"
 import URL from "../../../PvP/components/URL/URL"
@@ -77,6 +77,7 @@ class PveResult extends React.PureComponent {
         return arr.map((elem, i) =>
             <PveResEntry
                 key={i}
+                customResult={this.props.customResult}
 
                 i={i}
                 pokemonRes={elem}
@@ -111,6 +112,7 @@ class PveResult extends React.PureComponent {
             listToShow: [
                 ...this.state.listToShow.slice(0, i),
                 <PveResEntry
+                    customResult={this.props.customResult}
                     key={i}
 
                     i={i}
@@ -282,7 +284,7 @@ class PveResult extends React.PureComponent {
                             value={this.props.url}
                         />
                     </div>}
-                    <div className="col-12 mb-1 px-3">
+                    {!this.props.customResult && <div className="col-12 mb-1 px-3">
                         <DoubleSlider
                             onClick={this.onSortChange}
 
@@ -294,8 +296,8 @@ class PveResult extends React.PureComponent {
                             title2={pvestrings.sortdps}
                             active2={this.state.param === "dps"}
                         />
-                    </div>
-                    <div className={"col-12 col-sm-6 p-0 mb-3 text-center sliderGroup justify-content-center"} >
+                    </div>}
+                    {!this.props.customResult && <div className={"col-12 col-sm-6 p-0 mb-3 text-center sliderGroup justify-content-center"} >
                         <Button
                             attr="unique"
                             title={pvestrings.unique}
@@ -303,7 +305,7 @@ class PveResult extends React.PureComponent {
                                 "col py-1 sliderButton active" : "col py-1 sliderButton"}
                             onClick={this.onFilter}
                         />
-                    </div>
+                    </div>}
                     <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
                         {this.state.listToShow}
                     </div>

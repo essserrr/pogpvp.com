@@ -4,16 +4,15 @@ import { UnmountClosed } from "react-collapse"
 import HpBar from "../PhBar/HpBar"
 import Loader from "../../../Registration/RegForm/AuthButton/Loader/Loader"
 
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
-import NameAndMoves from "../NameAndMoves/NameAndMoves"
+import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
+import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../../../PvP/components/Errors/Errors"
-import NumberAndIcon from "../NumberAndIcon/NumberAndIcon"
 import HpRemaining from "../HpRemaining/HpRemaining"
 import WeatherMoves from "../WeatherMoves/WeatherMoves"
 import FightStats from "../FightStats/FightStats"
 
-import { extractName, encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../js/indexFunctions"
+import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../js/indexFunctions"
 import { getCookie } from "../../../../js/getCookie"
 import { pveLocale } from "../../../../locale/pveLocale"
 import { locale } from "../../../../locale/locale"
@@ -188,55 +187,24 @@ class PveResEntry extends React.PureComponent {
             <div className={"pokCard row m-0 py-1 my-1 px-2 justify-content-between"}
                 key={this.props.pokemonRes.Party[partyLen - 1].Name + this.props.pokemonRes.Party[partyLen - 1].Quick + this.props.pokemonRes.Party[partyLen - 1].Charge}>
 
-                <div className="col-auto p-0 mr-1">
-                    <div className="row mx-0 justify-content-start">
-                        <NumberAndIcon
-                            isShadow={this.props.snapshot.attackerObj.IsShadow === "false" ? false : true}
-                            pok={this.props.pokemonTable[this.props.pokemonRes.Party[partyLen - 1].Name]}
-                            index={"#" + (this.props.i + 1)}
-                        />
-                        <div className="col px-0">
-                            <NameAndMoves
-                                formattedName={extractName(this.props.pokemonRes.Party[partyLen - 1].Name)}
-                                quick={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Quick]}
-                                charge={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Charge]}
-                                snapshot={this.props.snapshot}
+                {!this.props.customResult &&
+                    <CommonPveNamePlate
+                        snapshot={this.props.snapshot}
+                        i={this.props.i}
 
-                                attr="attackerObj"
-                                name={this.props.pokemonRes.Party[partyLen - 1].Name}
-                                pokemonTable={this.props.pokemonTable}
-                            />
-                        </div>
-                    </div>
-                </div>
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
+                        pokemonRes={this.props.pokemonRes}
+                    />}
 
+                {this.props.customResult &&
+                    <CustomPveNamePlate
+                        i={this.props.i}
 
-                {partyLen > 1 && <div className="col-auto p-0 mr-3">
-                    <div className="row mx-0 justify-content-start align-items-center">
-                        <NumberAndIcon
-                            index={
-                                <PokemonIconer
-                                    src={"mega"}
-                                    folder="/"
-                                    class={"icon24"} />
-                            }
-                            isShadow={false}
-                            pok={this.props.pokemonTable[this.props.pokemonRes.Party[0].Name]}
-                        />
-                        <div className="col px-0">
-                            <NameAndMoves
-                                formattedName={extractName(this.props.pokemonRes.Party[0].Name)}
-                                quick={this.props.moveTable[this.props.pokemonRes.Party[0].Quick]}
-                                charge={this.props.moveTable[this.props.pokemonRes.Party[0].Charge]}
-                                snapshot={this.props.snapshot}
-
-                                attr="supportPokemon"
-                                name={this.props.pokemonRes.Party[0].Name}
-                                pokemonTable={this.props.pokemonTable}
-                            />
-                        </div>
-                    </div>
-                </div>}
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
+                        pokemonRes={this.props.pokemonRes}
+                    />}
 
                 <div className="col-12 p-0">
                     <div className="row m-0 justify-content-between">
@@ -275,22 +243,25 @@ class PveResEntry extends React.PureComponent {
 
                                 {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
                                     <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
-                                <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"pres"}>
-                                    <SubmitButton
-                                        label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
-                                        action="Precision"
-                                        onSubmit={this.rerunWithPrecision}
-                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
-                                    />
-                                </div>
-                                <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"break"}>
-                                    <SubmitButton
-                                        label={pveStrings.break}
-                                        action="Breakpoints"
-                                        onSubmit={this.defineBreakpoints}
-                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
-                                    />
-                                </div>
+
+                                {!this.props.customResult && <>
+                                    <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"pres"}>
+                                        <SubmitButton
+                                            label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
+                                            action="Precision"
+                                            onSubmit={this.rerunWithPrecision}
+                                            class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
+                                        />
+                                    </div>
+                                    <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"break"}>
+                                        <SubmitButton
+                                            label={pveStrings.break}
+                                            action="Breakpoints"
+                                            onSubmit={this.defineBreakpoints}
+                                            class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
+                                        />
+                                    </div>
+                                </>}
                                 {this.state.colElement}
                             </div>
                         </UnmountClosed>
