@@ -11,6 +11,8 @@ export function translateName(name) {
     name = moveSuffixToPrefix(name, [" Alolan", " Galarian"])
     name = makeNewSuffix(name, " (", " Forme)", [" Altered", " Origin", " Attack", " Defence", " Speed", " Normal", " Incarnate"])
 
+    name = movePrefixToSuffix(name, " (", ")", ["Wash ", "Mow ", "Heat ", "Frost ", "Fan "])
+
     name = makeNewSuffix(name, " (", " Cloak)", [" Plant", " Trash", " Sandy"])
     name = makeNewSuffix(name, " (", " Form)", [" Overcast", " Sunshine"])
     name = makeNewSuffix(name, " (", ")", [" Sunny", " Rainy", " Snowy"])
@@ -51,13 +53,23 @@ function moveSuffixToPrefix(str, arrOfTargets) {
     return str
 }
 
+function movePrefixToSuffix(str, suffixStart, suffixEnd, arrOfTargets) {
+    for (let i = 0; i < arrOfTargets.length; i++) {
+        let index = str.indexOf(arrOfTargets[i])
+        if (index !== -1) {
+            str = str.slice(index + arrOfTargets[i].length)
+            return `${str}${suffixStart}${arrOfTargets[i].slice(0, arrOfTargets[i].length - 1)}${suffixEnd}`
+        }
+    }
+    return str
+}
+
 function makeNewSuffix(str, suffixStart, suffixEnd, arrOfTargets) {
     for (let i = 0; i < arrOfTargets.length; i++) {
         let index = str.indexOf(arrOfTargets[i])
         if (index !== -1) {
             str = str.slice(0, index)
-            str = `${str}${suffixStart}${arrOfTargets[i].slice(1)}${suffixEnd}`
-            break
+            return `${str}${suffixStart}${arrOfTargets[i].slice(1)}${suffixEnd}`
         }
     }
     return str
