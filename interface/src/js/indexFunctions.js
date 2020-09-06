@@ -525,6 +525,14 @@ export function pveobj() {
     }
 }
 
+export function pveUserSettings() {
+    return { FindInCollection: true, SortByDamage: "true", UserPlayers: [[pveCutomParty(), pveCutomParty(), pveCutomParty()],], }
+}
+
+export function pveCutomParty() {
+    return { title: "" }
+}
+
 export function returnPokList(pokBase, addNone, locale) {
     let pokList = [];
     if (addNone) {

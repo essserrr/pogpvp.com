@@ -88,7 +88,7 @@ export const pveLocale = {
         sortdps: "Sort by DPS",
         unique: "Show the best results",
 
-        selfFromColl: "Use your collection",
+        selfFromColl: "Find best group for you",
         selfFromGtoup: "Use your group list",
     },
 
@@ -182,7 +182,7 @@ export const pveLocale = {
         sortdps: "Сортировать по DPS",
         unique: "Показать только лучшие результаты",
 
-        selfFromColl: "Использовать вашу коллекцию",
+        selfFromColl: "Подобрать вам группу",
         selfFromGtoup: "Использовать ваши группы"
     }
 }

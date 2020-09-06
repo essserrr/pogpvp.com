@@ -1,5 +1,5 @@
 import React from "react";
-import { returnMovePool, pveattacker, boss, pveobj, checkLvl, checkIV } from "../../js/indexFunctions.js"
+import { returnMovePool, pveattacker, boss, pveobj, checkLvl, checkIV, pveUserSettings, pveCutomParty } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 
 import SimulatorPanel from "./Components/SimulatorPanel"
@@ -20,13 +20,7 @@ class CustomPve extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            userSettings: {
-                FindInCollection: true,
-                SortByDamage: "true",
-                UserPlayers: [
-                    [{ title: "" }, { title: "" }, { title: "" }],
-                ],
-            },
+            userSettings: pveUserSettings(),
             bossObj: boss(strings.tips.nameSearch),
             pveObj: pveobj(),
 
@@ -141,7 +135,7 @@ class CustomPve extends React.PureComponent {
     onPartySelect(partyName, playerNumber, partyNumber) {
         let userPlayers = [...this.state.userSettings.UserPlayers]
         userPlayers[playerNumber][partyNumber] = this.props.userParties[partyName] ?
-            { ...this.props.userParties[partyName], title: partyName } : { title: "" }
+            { ...this.props.userParties[partyName], title: partyName } : pveCutomParty()
 
         this.setState({
             userSettings: {
@@ -225,9 +219,53 @@ class CustomPve extends React.PureComponent {
         })
     }
 
+    makeRequestObject() {
+        return {
+            UserPlayers: this.validatePlayers(),
+
+            Boss: {
+                Name: this.state.bossObj.Name, QuickMove: this.state.bossObj.QuickMove,
+                ChargeMove: this.state.bossObj.ChargeMove, Tier: Number(this.state.bossObj.Tier)
+            },
+            AggresiveMode: this.state.pveObj.IsAggresive === "true",
+
+            DodgeStrategy: Number(this.state.pveObj.DodgeStrategy),
+            Weather: Number(this.state.pveObj.Weather),
+            FriendStage: Number(this.state.pveObj.FriendshipStage),
+            PartySize: Number(this.state.pveObj.PartySize),
+
+            BoostSlotEnabled: this.state.pveObj.SupportSlotEnabled !== "false",
+            FindInCollection: this.state.userSettings.FindInCollection,
+            SortByDamage: this.state.userSettings.SortByDamage === "true",
+        }
+    }
+
+    validatePlayers() {
+        switch (this.state.userSettings.FindInCollection) {
+            case true:
+                var userPlayers = []
+                break
+            default:
+                //for every player
+                this.state.userSettings.UserPlayers.forEach((player, playerNumber) => {
+                    //skip empty players
+                    if (!player || player.length === 0) { return }
+                    let playerGroups = []
+                    //for every player group
+                    player.forEach((group, groupNumber) => {
+                        //skip empty groups
+                        if (!group || group.length === 0) { return }
+                        //save non empty groups
+                        playerGroups = [...playerGroups, ...group]
+                    })
+                    //add player to players list
+                    userPlayers.push(playerGroups)
+                })
+        }
+        return userPlayers
+    }
+
     submitForm = async event => {
-        console.log(this.state.bossObj, this.state.userSettings, this.state.pveObj)
-        return
         event.preventDefault()
         //make server pvp request
         let snapshot = {
@@ -245,7 +283,7 @@ class CustomPve extends React.PureComponent {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-                body: {},
+                body: JSON.stringify(this.makeRequestObject()),
             })
             //parse answer
             let result = await response.json()

@@ -9,6 +9,7 @@ class GroupsSettings extends React.PureComponent {
                 <div className="col-12 px-0 my-1">
                     {this.props.value.map((player, playerNumber) =>
                         <CustomPvePlayer
+                            key={playerNumber}
                             playerNumber={playerNumber}
                             group1={player[0]} group2={player[1]} group3={player[2]}
                             userParties={this.props.userParties} onChange={this.props.onChange}
