@@ -246,7 +246,7 @@ class PvePage extends React.Component {
                         </div>
 
 
-                        <div className="max1000 col-12 col-md-10 col-lg-6 results px-3 py-2" >
+                        {!!getCookie("sid") && <div className="max1000 col-12 col-md-10 col-lg-6 results px-3 py-2" >
                             <DropWithArrow
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}
@@ -257,7 +257,7 @@ class PvePage extends React.Component {
                                 faClosed="align-self-center fas fa-angle-down fa-lg"
                                 outClass="row justify-content-between m-0 pb-1 clickable"
                                 inClass="row justify-content-center m-0" />
-                        </div>
+                        </div>}
                     </div>
                 </div >
             </>

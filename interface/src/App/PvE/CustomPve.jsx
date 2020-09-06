@@ -2,6 +2,7 @@ import React from "react";
 import { returnMovePool, pveattacker, boss, pveobj, checkLvl, checkIV, pveUserSettings, pveCutomParty } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 
+import OopsError from "./Components/OopsError/OopsError"
 import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../PvP/components/Errors/Errors"
@@ -9,7 +10,7 @@ import PveResult from "./Components/PveResult/PveResult"
 import Loader from "../PvpRating/Loader"
 
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
@@ -335,7 +336,7 @@ class CustomPve extends React.PureComponent {
     render() {
         return (
             < >
-                <div className="row justify-content-center m-0 mb-4"  >
+                {!!getCookie("sid") && <div className="row justify-content-center m-0 mb-4"  >
                     <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
                             forCustomPve={true}
@@ -393,7 +394,14 @@ class CustomPve extends React.PureComponent {
                             quickMoveList={this.props.parentState.quickMoveList}
                         />
                     </div>}
-                </div>
+                </div>}
+
+                {!getCookie("sid") &&
+                    <OopsError
+                        description={strings.oopsReg}
+                        link={"/registration"}
+                        linkTitle={strings.navbar.sup}
+                    />}
             </ >
 
         );

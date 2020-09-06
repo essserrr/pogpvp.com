@@ -6,6 +6,8 @@ export const locale = {
         topcounters: "Find top counters against ",
 
         notfound: "Error 404 - Page not found",
+        oopsReg: "Oops... To use this function you need to sign up first",
+
         return: "Return to main page",
         advisor: {
             adv: "Advisor",
@@ -321,6 +323,8 @@ export const locale = {
         topcounters: "Найти лучших покемонов против ",
 
         notfound: "Ошибка 404 - Страница не найдена",
+        oopsReg: "Ой... Что бы воспользоваться этой функцией, вы должны сначала зарегистрироваться",
+
         return: "Вернуться на главную страницу",
         advisor: {
             adv: "Советчик",
