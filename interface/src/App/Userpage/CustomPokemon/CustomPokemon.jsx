@@ -434,7 +434,13 @@ class CustomPokemon extends React.PureComponent {
             }
 
             //parse type
-            let IsShadow = value[governingObj.isShadowIndex] === "7" ? "true" : "false"
+            switch (firstRow.length < 17) {
+                case true:
+                    var IsShadow = value[governingObj.isShadowIndex] === "1" ? "true" : "false"
+                    break
+                default:
+                    IsShadow = "false"
+            }
 
             //check moves
             let QuickMove = translareMove(value[governingObj.quickIndex])

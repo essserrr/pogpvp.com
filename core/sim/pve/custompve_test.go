@@ -47,8 +47,29 @@ type UserFromBase struct {
 }
 
 func TestCustomGroupRaidsWrapper(t *testing.T) {
-	//6 froudons no mega by dps
+	//6 froudons no mega by dps with second charge
 	res, err := ReturnCustomRaid(&app.IntialDataPve{
+		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
+		UserPlayers: [][]app.UserPokemon{{
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Outrage", ChargeMove2: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Outrage", ChargeMove2: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Outrage", ChargeMove2: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Outrage", ChargeMove2: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Outrage", ChargeMove2: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},
+			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Outrage", ChargeMove2: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"}}},
+		Boss:    app.BossInfo{Name: "Heatran", QuickMove: "Bug Bite", ChargeMove: "Fire Blast", Tier: 4},
+		Weather: 0, AggresiveMode: true, FriendStage: 0, DodgeStrategy: 0, PartySize: 6, PlayersNumber: 0,
+	})
+	if err != nil {
+		t.Error(err)
+	}
+	err = checkWrapperRes(res, []string{"Custom Heatran6"}, 4, 0.6)
+	if err != nil {
+		t.Error(err)
+	}
+
+	//6 froudons no mega by dps
+	res, err = ReturnCustomRaid(&app.IntialDataPve{
 		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
 		UserPlayers: [][]app.UserPokemon{{
 			{Name: "Groudon", QuickMove: "Mud Shot", ChargeMove: "Earthquake", Lvl: 35, Atk: 14, Def: 15, Sta: 12, IsShadow: "false"},

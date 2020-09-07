@@ -346,7 +346,7 @@ func (co *conStruct) selectFirstBoosterFromGroup(groupNumber int) preRun {
 
 func (co *conStruct) groupWrapper() error {
 	var err error
-	co.attackerGroups, err = selectAttackerFromGroup(co.inDat)
+	co.attackerGroups, err = makeAttackersFromGroup(co.inDat, &co.bossRow)
 	if err != nil {
 		return err
 	}

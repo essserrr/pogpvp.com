@@ -10,10 +10,11 @@ import (
 type prerunObj struct {
 	inDat *app.IntialDataPve
 
-	prerunArr  []preRun
-	bossStat   app.PokemonsBaseEntry
-	bossLvl    float32
-	bossEffDef float32
+	prerunGroups [][]preRun
+	prerunArr    []preRun
+	bossStat     app.PokemonsBaseEntry
+	bossLvl      float32
+	bossEffDef   float32
 }
 
 type preRun struct {
@@ -687,7 +688,7 @@ func makeBoostersRowCustomPve(inDat *app.IntialDataPve, bosses *[]app.BossInfo) 
 
 func (po *prerunObj) selectPokemonFromCollection(canBeMega bool) {
 	for _, pokInDat := range po.inDat.UserPokemon {
-		_, ok := po.inDat.App.PokemonStatsBase[pokInDat.Name]
+		pokemon, ok := po.inDat.App.PokemonStatsBase[pokInDat.Name]
 		if !ok {
 			continue
 		}
@@ -715,48 +716,96 @@ func (po *prerunObj) selectPokemonFromCollection(canBeMega bool) {
 			//swap moves
 			pokInDat.ChargeMove2, pokInDat.ChargeMove = pokInDat.ChargeMove, pokInDat.ChargeMove2
 		}
-		po.prerunArr = append(po.prerunArr, preRun{
-			Name: pokInDat.Name, Quick: pokInDat.QuickMove, Charge: pokInDat.ChargeMove, Charge2: pokInDat.ChargeMove2,
-			Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta,
-			IsShadow: pokInDat.IsShadow == "true",
-		})
+
+		preRunPok := preRun{Name: pokInDat.Name, Quick: pokInDat.QuickMove, Charge: pokInDat.ChargeMove, Charge2: pokInDat.ChargeMove2,
+			Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta, IsShadow: pokInDat.IsShadow == "true"}
+		preRunPok.selectChargeMove(po, &pokemon)
+
+		po.prerunArr = append(po.prerunArr, preRunPok)
 	}
 }
 
-func selectAttackerFromGroup(inDat *app.IntialDataPve) ([][]preRun, error) {
-	players := make([][]preRun, 0, len(inDat.UserPlayers))
+func (pr *preRun) selectChargeMove(prerunObj *prerunObj, pok *app.PokemonsBaseEntry) {
+	//define shadow bonus
+	var shadowBonus float32 = 1.0
+	if pr.IsShadow {
+		shadowBonus = shadowBonusAttack
+	}
 
-	for playerNumber, playerGroup := range inDat.UserPlayers {
+	//calculate attacker stats
+	effAtk := (float32(pr.Atk) + float32(pok.Atk)) * shadowBonus * prerunObj.inDat.App.LevelData[int(pr.Lvl/0.5)]
+	//boss eff def
+
+	dpsCharge1 := calculateChargeDps(prerunObj, pok, pr.Charge, effAtk/prerunObj.bossEffDef)
+	dpsCharge2 := calculateChargeDps(prerunObj, pok, pr.Charge2, effAtk/prerunObj.bossEffDef)
+
+	if dpsCharge2 > dpsCharge1 {
+		pr.Charge, pr.Charge2 = pr.Charge2, pr.Charge
+	}
+}
+
+func calculateChargeDps(prerunObj *prerunObj, pok *app.PokemonsBaseEntry, moveName string, atkDefRatio float32) float32 {
+	chargeMBody, ok := prerunObj.inDat.App.PokemonMovesBase[moveName]
+	if ok {
+		damageCharge1 := (float32(chargeMBody.Damage)*0.5*(atkDefRatio)*getMultipliers(pok, &prerunObj.bossStat, &chargeMBody, prerunObj.inDat) + 1)
+		//dps*dpe
+		return damageCharge1 / (float32(chargeMBody.Cooldown) / 1000.0) * damageCharge1 / float32(-chargeMBody.Energy)
+	}
+	return 0
+}
+
+func makeAttackersFromGroup(inDat *app.IntialDataPve, bosses *[]app.BossInfo) ([][]preRun, error) {
+	prerun := prerunObj{
+		inDat:        inDat,
+		prerunGroups: make([][]preRun, 0, len(inDat.UserPlayers)),
+		bossStat:     inDat.App.PokemonStatsBase[inDat.Boss.Name],
+		bossLvl:      tierMult[inDat.Boss.Tier],
+		bossEffDef:   (float32(15.0) + float32(inDat.App.PokemonStatsBase[inDat.Boss.Name].Def)) * tierMult[inDat.Boss.Tier],
+	}
+	if err := prerun.selectAttackerFromGroup(); err != nil {
+		return nil, err
+	}
+
+	if err := prerun.makePrerun(bosses, 1, 1); err != nil {
+		return nil, err
+	}
+
+	return prerun.prerunGroups, nil
+}
+
+func (po *prerunObj) selectAttackerFromGroup() error {
+	for playerNumber, playerGroup := range po.inDat.UserPlayers {
 		group := make([]preRun, 0, len(playerGroup))
 
 		for _, pokInDat := range playerGroup {
-			pok, ok := inDat.App.PokemonStatsBase[pokInDat.Name]
+			pokemon, ok := po.inDat.App.PokemonStatsBase[pokInDat.Name]
 			if !ok {
-				return nil, &customError{fmt.Sprintf("Player %v party has unknow pokemon %v", playerNumber+1, pokInDat.Name)}
+				return &customError{fmt.Sprintf("Player %v party has unknow pokemon %v", playerNumber+1, pokInDat.Name)}
 			}
 			//find quick move
-			quickMBody, ok := inDat.App.FindMove(inDat.CustomMoves, pokInDat.QuickMove)
+			_, ok = po.inDat.App.FindMove(po.inDat.CustomMoves, pokInDat.QuickMove)
 			if !ok {
-				return nil, &customError{fmt.Sprintf("Player %v party pokemon %v has unknow quick move %v", playerNumber+1, pokInDat.Name, pokInDat.QuickMove)}
+				return &customError{fmt.Sprintf("Player %v party pokemon %v has unknow quick move %v", playerNumber+1, pokInDat.Name, pokInDat.QuickMove)}
 			}
 
 			//find charge move
-			_, ok = inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove)
+			_, ok = po.inDat.App.FindMove(po.inDat.CustomMoves, pokInDat.ChargeMove)
 			if !ok {
 				//if first charge move not found, try to find the second
-				_, ok = inDat.App.FindMove(inDat.CustomMoves, pokInDat.ChargeMove2)
+				_, ok = po.inDat.App.FindMove(po.inDat.CustomMoves, pokInDat.ChargeMove2)
 				if !ok {
-					return nil, &customError{fmt.Sprintf("Player %v party pokemon %v has unknow charge moves %v and %v", playerNumber+1, pokInDat.Name, pokInDat.ChargeMove, pokInDat.ChargeMove2)}
+					return &customError{fmt.Sprintf("Player %v party pokemon %v has unknow charge moves %v and %v", playerNumber+1, pokInDat.Name, pokInDat.ChargeMove, pokInDat.ChargeMove2)}
 				}
 				pokInDat.ChargeMove2, pokInDat.ChargeMove = pokInDat.ChargeMove, pokInDat.ChargeMove2
 			}
-			group = append(group, preRun{
-				Name: pok.Title, Quick: quickMBody.Title, Charge: pokInDat.ChargeMove, Charge2: pokInDat.ChargeMove2,
-				Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta,
-				IsShadow: pokInDat.IsShadow == "true",
-			})
+
+			preRunPok := preRun{Name: pokInDat.Name, Quick: pokInDat.QuickMove, Charge: pokInDat.ChargeMove, Charge2: pokInDat.ChargeMove2,
+				Lvl: pokInDat.Lvl, Atk: pokInDat.Atk, Def: pokInDat.Def, Sta: pokInDat.Sta, IsShadow: pokInDat.IsShadow == "true"}
+			preRunPok.selectChargeMove(po, &pokemon)
+
+			group = append(group, preRunPok)
 		}
-		players = append(players, group)
+		po.prerunGroups = append(po.prerunGroups, group)
 	}
-	return players, nil
+	return nil
 }
