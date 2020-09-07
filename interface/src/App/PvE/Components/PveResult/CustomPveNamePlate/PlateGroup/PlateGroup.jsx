@@ -47,7 +47,7 @@ class PlateGroup extends React.PureComponent {
                     elem={this.props.party.map((value, index) =>
                         <UserPokCard
                             key={index}
-                            index={index}
+                            index={(this.props.subGroup * 6) + index}
                             style={{ minWidth: "178px" }}
 
                             attr={this.props.attr}

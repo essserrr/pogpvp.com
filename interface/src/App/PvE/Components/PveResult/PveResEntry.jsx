@@ -85,7 +85,31 @@ class PveResEntry extends React.PureComponent {
         })
     }
 
-    async rerunWithPrecision() {
+    makeCustomRequestObject() {
+        return {
+            UserPlayers: [this.props.pokemonRes.Party.map((value) => ({
+                Name: value.Name, QuickMove: value.Quick, ChargeMove: value.Charge, ChargeMove2: value.Charge2,
+                Lvl: value.Lvl, Atk: value.Atk, Def: value.Def, Sta: value.Sta, IsShadow: String(value.IsShadow),
+            }))],
+
+            Boss: {
+                Name: this.props.snapshot.bossObj.Name, QuickMove: this.props.snapshot.bossObj.QuickMove,
+                ChargeMove: this.props.snapshot.bossObj.ChargeMove, Tier: Number(this.props.snapshot.bossObj.Tier)
+            },
+            AggresiveMode: this.props.snapshot.pveObj.IsAggresive === "true",
+
+            DodgeStrategy: Number(this.props.snapshot.pveObj.DodgeStrategy),
+            Weather: Number(this.props.snapshot.pveObj.Weather),
+            FriendStage: Number(this.props.snapshot.pveObj.FriendshipStage),
+            PartySize: Number(this.props.snapshot.pveObj.PartySize),
+
+            BoostSlotEnabled: this.props.snapshot.pveObj.SupportSlotEnabled !== "false",
+            FindInCollection: false,
+            SortByDamage: this.props.snapshot.attackerObj.SortByDamage === "true",
+        }
+    }
+
+    makeCommonRequestString() {
         let partyLen = this.props.pokemonRes.Party.length
         let attacker = {
             ...this.props.snapshot.attackerObj,
@@ -100,16 +124,42 @@ class PveResEntry extends React.PureComponent {
             ChargeMove: partyLen > 1 ? this.props.pokemonRes.Party[0].Charge : "",
         }
         //make server pve request
-        let url = `${encodePveAttacker(attacker)}/${encodePveBoss(this.props.snapshot.bossObj)}/${encodePveObj(this.props.snapshot.pveObj)}/${encodePveAttacker(booster)}`
+        return `${encodePveAttacker(attacker)}/${encodePveBoss(this.props.snapshot.bossObj)}/${encodePveObj(this.props.snapshot.pveObj)}/${encodePveAttacker(booster)}`
+    }
+
+
+    async rerunWithPrecision() {
+        switch (this.props.customResult) {
+            case true:
+                var reqObj = this.makeCustomRequestObject()
+                break
+            default:
+                var url = this.makeCommonRequestString()
+        }
+
+        //make server pve request
         this.setState({
             loading: true,
         });
         try {
-            let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
-                method: "GET",
-                credentials: "include",
-                headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
-            })
+
+            switch (this.props.customResult) {
+                case true:
+                    var response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/custom/", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                        body: JSON.stringify(reqObj),
+                    })
+                    break
+                default:
+                    response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/common/" + url, {
+                        method: "GET",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json", "Accept-Encoding": "gzip", },
+                    })
+            }
+
             //parse answer
             let result = await response.json()
             //if response is not ok, handle error
@@ -134,7 +184,7 @@ class PveResEntry extends React.PureComponent {
 
     defineBreakpoints(pokemon) {
 
-        let numberInArr = pokemon.target ? 0 : pokemon.index
+        let numberInArr = this.props.customResult ? pokemon.index : 0
 
         let snap = { ...this.props.snapshot }
 
@@ -142,7 +192,7 @@ class PveResEntry extends React.PureComponent {
         snap.attackerObj.QuickMove = this.props.pokemonRes.Party[numberInArr].Quick
         snap.attackerObj.ChargeMove = this.props.pokemonRes.Party[numberInArr].Charge
 
-        if (!pokemon.target && pokemon.Name) {
+        if (this.props.customResult) {
             snap.attackerObj.Atk = pokemon.Atk
             snap.attackerObj.Def = pokemon.Def
             snap.attackerObj.Sta = pokemon.Sta
@@ -258,24 +308,22 @@ class PveResEntry extends React.PureComponent {
                                 {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
                                     <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
 
-                                {!this.props.customResult && <>
-                                    <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"pres"}>
-                                        <SubmitButton
-                                            label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
-                                            action="Precision"
-                                            onSubmit={this.rerunWithPrecision}
-                                            class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
-                                        />
-                                    </div>
-                                    <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"break"}>
-                                        <SubmitButton
-                                            label={pveStrings.break}
-                                            action="Breakpoints"
-                                            onSubmit={this.defineBreakpoints}
-                                            class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
-                                        />
-                                    </div>
-                                </>}
+                                <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"pres"}>
+                                    <SubmitButton
+                                        label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
+                                        action="Precision"
+                                        onSubmit={this.rerunWithPrecision}
+                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
+                                    />
+                                </div>
+                                {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"break"}>
+                                    <SubmitButton
+                                        label={pveStrings.break}
+                                        action="Breakpoints"
+                                        onSubmit={this.defineBreakpoints}
+                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
+                                    />
+                                </div>}
                                 {this.state.colElement}
                             </div>
                         </UnmountClosed>
