@@ -62,9 +62,6 @@ class NewsWrap extends React.Component {
     render() {
         return (
             <>
-                <Helmet>
-                    <meta name="robots" content="noindex" />
-                </Helmet>
                 <div className=" container-fluid mt-3 ">
                     <div className=" row justify-content-center px-2 mb-5">
                         {this.state.loading &&

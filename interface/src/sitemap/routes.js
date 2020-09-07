@@ -12,6 +12,9 @@ const routes = [
         path: '/pve/common',
     },
     {
+        path: '/pve/custom',
+    },
+    {
         path: '/pvprating',
     },
     {

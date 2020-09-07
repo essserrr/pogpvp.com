@@ -190,7 +190,6 @@ class Login extends React.Component {
                     url="https://pogpvp.com/login"
                     header={strings.pageheaders.log}
                     descr={strings.pagedescriptions.log}
-                    noindex={true}
                 />
                 <div className="row m-0 justify-content-center">
                     <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 login align-self-center">

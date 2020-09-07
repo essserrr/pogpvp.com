@@ -153,7 +153,6 @@ class Restore extends React.Component {
                     url="https://pogpvp.com/restore"
                     header={strings.pageheaders.reg}
                     descr={strings.pagedescriptions.reg}
-                    noindex={true}
                 />
                 <div className="row m-0 justify-content-center">
                     <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 restore align-self-center">

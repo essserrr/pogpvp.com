@@ -377,7 +377,16 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 			http.ServeFile(*w, r, "./interface/build/pvp/single/index.html")
 		}
 	case "pve":
-		http.ServeFile(*w, r, "./interface/build/pve/common/index.html")
+		if len(s) < 3 {
+			http.ServeFile(*w, r, "./interface/build/404.html")
+			return nil
+		}
+		switch s[2] {
+		case "custom":
+			http.ServeFile(*w, r, "./interface/build/pve/custom/index.html")
+		default:
+			http.ServeFile(*w, r, "./interface/build/pve/common/index.html")
+		}
 	case "pvprating":
 		http.ServeFile(*w, r, "./interface/build/pvprating/index.html")
 	case "shinyrates":
