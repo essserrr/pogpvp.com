@@ -132,12 +132,24 @@ class PveResEntry extends React.PureComponent {
         }
     }
 
-    defineBreakpoints() {
+    defineBreakpoints(pokemon) {
+
+        let numberInArr = pokemon.target ? 0 : pokemon.index
+
         let snap = { ...this.props.snapshot }
 
-        snap.attackerObj.Name = this.props.pokemonRes[0].AName
-        snap.attackerObj.QuickMove = this.props.pokemonRes[0].AQ
-        snap.attackerObj.ChargeMove = this.props.pokemonRes[0].ACh
+        snap.attackerObj.Name = this.props.pokemonRes.Party[numberInArr].Name
+        snap.attackerObj.QuickMove = this.props.pokemonRes.Party[numberInArr].Quick
+        snap.attackerObj.ChargeMove = this.props.pokemonRes.Party[numberInArr].Charge
+
+        if (!pokemon.target && pokemon.Name) {
+            snap.attackerObj.Atk = pokemon.Atk
+            snap.attackerObj.Def = pokemon.Def
+            snap.attackerObj.Sta = pokemon.Sta
+            snap.attackerObj.Lvl = pokemon.Lvl
+            snap.attackerObj.IsShadow = pokemon.IsShadow
+        }
+
         this.props.showBreakpoints(snap)
     }
 
@@ -204,6 +216,8 @@ class PveResEntry extends React.PureComponent {
                         pokemonTable={this.props.pokemonTable}
                         moveTable={this.props.moveTable}
                         pokemonRes={this.props.pokemonRes}
+
+                        defineBreakpoints={this.defineBreakpoints}
                     />}
 
                 <div className="col-12 p-0">

@@ -18,6 +18,8 @@ class CustomPveNamePlate extends React.PureComponent {
                             pokemonTable={this.props.pokemonTable}
 
                             party={this.props.pokemonRes.Party.slice(0, this.props.pokemonRes.Party.length > 6 ? 6 : this.props.pokemonRes.Party.length)}
+
+                            defineBreakpoints={this.props.defineBreakpoints}
                         />}
                     {this.props.pokemonRes.Party.length > 6 && <PlateGroup
                         attr={this.props.attr}
@@ -28,6 +30,8 @@ class CustomPveNamePlate extends React.PureComponent {
                         pokemonTable={this.props.pokemonTable}
 
                         party={this.props.pokemonRes.Party.slice(6, this.props.pokemonRes.Party.length > 12 ? 12 : this.props.pokemonRes.Party.length)}
+
+                        defineBreakpoints={this.props.defineBreakpoints}
                     />}
                     {this.props.pokemonRes.Party.length > 12 && <PlateGroup
                         attr={this.props.attr}
@@ -38,6 +42,8 @@ class CustomPveNamePlate extends React.PureComponent {
                         pokemonTable={this.props.pokemonTable}
 
                         party={this.props.pokemonRes.Party.slice(12, this.props.pokemonRes.Party.length)}
+
+                        defineBreakpoints={this.props.defineBreakpoints}
                     />}
                 </div>
             </div>

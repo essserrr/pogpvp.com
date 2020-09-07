@@ -54,7 +54,6 @@ class PartyBox extends React.PureComponent {
         })
     }
 
-    onPokemonEdit(event) {/*empty handler to make component work*/ }
 
     onGroupAdd() {
         if (this.state.activeParty.length === 0 || this.state.enteredName.replace(" ", "") === "") { return }
@@ -156,7 +155,6 @@ class PartyBox extends React.PureComponent {
                         pokemonTable={this.props.pokemonTable}
 
                         onPokemonDelete={this.onPokemonDelete}
-                        onPokemonEdit={this.onPokemonEdit}
                     />
                 </div>
 

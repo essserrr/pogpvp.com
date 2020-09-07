@@ -15,7 +15,11 @@ const UserPokCard = React.memo(function (props) {
         if (event.target.getAttribute("name") === "closeButton") {
             return
         }
-        props.onPokemonEdit({ ...props.value, index: props.index })
+
+        props.onPokemonEdit({
+            Name: props.Name, QuickMove: props.QuickMove, ChargeMove: props.ChargeMove, ChargeMove2: props.ChargeMove2,
+            Lvl: props.Lvl, Atk: props.Atk, Def: props.Def, Sta: props.Sta, IsShadow: props.IsShadow, index: props.index
+        })
     }
 
     return (

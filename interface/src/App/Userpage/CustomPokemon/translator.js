@@ -90,7 +90,6 @@ function replacer(string, toFind, toReplace) {
 
 
 let dictPok = {
-    Deoxys: "Deoxys (Normal Forme)",
     "Oricorio (Pa&#039;u Style)": "Oricorio (Pa'u Style)",
 
     "Gastrodon (West)": "Gastrodon",
@@ -194,7 +193,6 @@ var dictMove = {
     "X Scissor": "X-Scissor",
     "Lock On": "Lock-On",
     "Power Up Punch": "Power-Up Punch",
-    "Super Power": "Superpower",
     "Hidden Power (Bug)": "Hidden Power Bug",
     "Hidden Power (Dark)": "Hidden Power Dark",
     "Hidden Power (Dragon)": "Hidden Power Dragon",

@@ -34,7 +34,7 @@ class PlateGroup extends React.PureComponent {
                     onShow={this.onClick}
                     show={this.state.showCollapse}
                     title={
-                        <dvi className="row mx-0 align-items-center">
+                        <div className="row mx-0 align-items-center">
                             <div style={{ textTransform: "capitalize" }} className="col-auto px-0 mr-2">{`${strings.party} ${this.props.subGroup + 1}`}</div>
                             {this.props.party.map((value, index) =>
                                 <PreviewIcon
@@ -43,7 +43,7 @@ class PlateGroup extends React.PureComponent {
                                     pokemonTable={this.props.pokemonTable}
                                 />
                             )}
-                        </dvi>}
+                        </div>}
                     elem={this.props.party.map((value, index) =>
                         <UserPokCard
                             key={index}
@@ -60,6 +60,8 @@ class PlateGroup extends React.PureComponent {
 
                             Name={value.Name} QuickMove={value.Quick} ChargeMove={value.Charge} ChargeMove2={value.Charge2}
                             Lvl={value.Lvl} Atk={value.Atk} Def={value.Def} Sta={value.Sta} IsShadow={value.IsShadow}
+
+                            onPokemonEdit={this.props.defineBreakpoints}
                         />)}
 
                     faOpened="align-self-center fas fa-angle-up fa-lg "
