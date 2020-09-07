@@ -13,6 +13,7 @@ import Advisor from "./components/Advisor/Advisor"
 import TheadElement from "./components/MetrixTable/TheadElement"
 import LineElement from "./components/MetrixTable/LineElement"
 
+import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
 import { encodeQueryData, calculateMaximizedStats, returnRateStyle, capitalizeFirst } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
@@ -338,14 +339,18 @@ class MatrixPvp extends React.PureComponent {
 
             let nameAndType = pok[0].split("!")
             let name = capitalizeFirst(nameAndType[0].replace("_", " "), true)
+            name = translateName(name)
             if (!this.props.parentState.pokemonTable[name]) {
+                console.log(`Critical: "${name}" not found in the database`)
                 return
             }
 
             let QuickMove = ""
             if (!!pok[1]) {
                 QuickMove = capitalizeFirst(pok[1].replace("_", " "), true)
+                QuickMove = translareMove(QuickMove)
                 if (!this.props.parentState.moveTable[QuickMove]) {
+                    console.log(`Critical: "Quick move "${QuickMove}" of ${name} not found in the database`)
                     return
                 }
             }
@@ -353,13 +358,21 @@ class MatrixPvp extends React.PureComponent {
             let ChargeMove1 = ""
             if (!!pok[2]) {
                 ChargeMove1 = capitalizeFirst(pok[2].replace("_", " "), true)
-                if (!this.props.parentState.moveTable[ChargeMove1]) { ChargeMove1 = "" }
+                ChargeMove1 = translareMove(ChargeMove1)
+                if (!this.props.parentState.moveTable[ChargeMove1]) {
+                    ChargeMove1 = ""
+                    console.log(`Critical: "First charge move "${ChargeMove1}" of ${name} not found in the database`)
+                }
             }
 
             let ChargeMove2 = ""
             if (!!pok[3]) {
                 ChargeMove2 = capitalizeFirst(pok[3].replace("_", " "), true)
-                if (!this.props.parentState.moveTable[ChargeMove2]) { ChargeMove2 = "" }
+                ChargeMove2 = translareMove(ChargeMove2)
+                if (!this.props.parentState.moveTable[ChargeMove2]) {
+                    ChargeMove2 = ""
+                    console.log(`Critical: "Second charge move "${ChargeMove2}" of ${name} not found in the database`)
+                }
             }
 
 

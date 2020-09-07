@@ -543,11 +543,11 @@ var checks = map[string]app.VsBossResult{
 	"Custom Heatran6":     {DAvg: 4230},
 	"Custom Heatran6Mega": {DAvg: 5233},
 
-	"Custom Zekrom18dps":        {DAvg: 6252},
+	"Custom Zekrom18dps":        {DAvg: 6450},
 	"Custom Zekrom18damageMega": {DAvg: 6823},
-	"Custom Zekrom12damage":     {DAvg: 5730},
+	"Custom Zekrom12damage":     {DAvg: 5850},
 	"Custom Zekrom6dps":         {DAvg: 3075},
-	"Custom Zekrom6damage":      {DAvg: 3945},
+	"Custom Zekrom6damage":      {DAvg: 4200},
 }
 
 func BenchmarkSingleRun2000(b *testing.B) {
