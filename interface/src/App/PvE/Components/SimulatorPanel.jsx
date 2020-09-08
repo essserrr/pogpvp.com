@@ -19,12 +19,7 @@ class SimulatorPanel extends React.PureComponent {
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 
-    canBoost(name) {
-        if (name.indexOf("Mega ") !== -1 || name.indexOf("Primal ") !== -1 || name.indexOf("Нет") !== -1 || name.indexOf("None") !== -1) {
-            return true
-        }
-        return false
-    }
+
 
     render() {
         return (
@@ -79,7 +74,7 @@ class SimulatorPanel extends React.PureComponent {
 
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.moveTable}
-                            pokList={this.props.pokList.filter((etry) => this.canBoost(etry.value))}
+                            pokList={this.props.boostersList}
                             chargeMoveList={this.props.chargeMoveList}
                             quickMoveList={this.props.quickMoveList}
 

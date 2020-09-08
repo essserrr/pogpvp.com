@@ -375,25 +375,27 @@ class CustomPve extends React.PureComponent {
                             />
                         </div>}
 
-                    {this.state.result && this.state.showResult && <div className="max1000 col-12 col-md-10 col-lg-6 justify-content-center p-0" >
-                        <PveResult
-                            customResult={true}
+                    {this.state.result && this.state.showResult && this.state.result.length > 0 &&
+                        <div className="max1000 col-12 col-md-10 col-lg-6 justify-content-center p-0" >
+                            <PveResult
+                                customResult={true}
 
-                            date={this.state.date}
-                            result={this.state.result}
-                            snapshot={this.state.snapshot}
-                            tables={this.props.parentState.tables}
-                            url={this.state.url}
+                                date={this.state.date}
+                                result={this.state.result}
+                                snapshot={this.state.snapshot}
+                                tables={this.props.parentState.tables}
+                                url={this.state.url}
 
-                            replaceOriginal={this.replaceOriginal}
+                                replaceOriginal={this.replaceOriginal}
 
-                            pokemonTable={this.props.parentState.pokemonTable}
-                            moveTable={this.props.parentState.moveTable}
-                            pokList={this.props.parentState.pokList}
-                            chargeMoveList={this.props.parentState.chargeMoveList}
-                            quickMoveList={this.props.parentState.quickMoveList}
-                        />
-                    </div>}
+                                pokemonTable={this.props.parentState.pokemonTable}
+                                moveTable={this.props.parentState.moveTable}
+                                pokList={this.props.parentState.pokList}
+                                boostersList={this.props.parentState.boostersList}
+                                chargeMoveList={this.props.parentState.chargeMoveList}
+                                quickMoveList={this.props.parentState.quickMoveList}
+                            />
+                        </div>}
                 </div>}
 
                 {!getCookie("sid") &&

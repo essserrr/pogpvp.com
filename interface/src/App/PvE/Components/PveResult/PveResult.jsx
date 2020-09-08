@@ -179,14 +179,15 @@ class PveResult extends React.PureComponent {
             case true:
                 let list = {}
                 return arr.filter(elem => {
+                    const theLastPok = elem.Party.length - 1
                     //check entry in local dict
-                    switch (list[`${elem.Party[0].Name}${String(elem.Party[0].IsShadow) === "true"}`]) {
+                    switch (list[`${elem.Party[theLastPok].Name}${String(elem.Party[theLastPok].IsShadow) === "true"}`]) {
                         //if it exists
                         case true:
                             //otherwise exclude
                             return false
                         default:
-                            list[`${elem.Party[0].Name}${String(elem.Party[0].IsShadow) === "true"}`] = true
+                            list[`${elem.Party[theLastPok].Name}${String(elem.Party[theLastPok].IsShadow) === "true"}`] = true
                             //and return include it
                             return true
                     }

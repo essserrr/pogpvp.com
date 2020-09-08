@@ -171,6 +171,8 @@ class PvePage extends React.Component {
                 pokemonTable: this.props.bases.pokemonBase,
                 moveTable: mergedMovebase,
                 pokList: pokList,
+                boostersList: pokList.filter((etry) => this.canBoost(etry.value)),
+
                 chargeMoveList: movebaseSeparated.chargeMoveList,
                 quickMoveList: movebaseSeparated.quickMoveList,
                 isLoaded: true,
@@ -192,6 +194,13 @@ class PvePage extends React.Component {
                 quickMoveList: [],
             })
         }
+    }
+
+    canBoost(name) {
+        if (name.indexOf("Mega ") !== -1 || name.indexOf("Primal ") !== -1 || name.indexOf("Нет") !== -1 || name.indexOf("None") !== -1) {
+            return true
+        }
+        return false
     }
 
     setUpPokemon(pok, pokemonTable, isBoss) {
