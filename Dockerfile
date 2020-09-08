@@ -9,7 +9,7 @@ ENV METRICS_LISTEN_ADDR=":8181"
 ENV PVP_SIMULATOR_ROOT="/app/"
 ENV BOLTDB="/app/boltDB/"
 ENV APP_CORS="false"
-ENV NODE_LIMIT="1400000"
+ENV NODE_LIMIT="1250000"
 
 RUN apt-get update && apt-get install -y ca-certificates && update-ca-certificates
 RUN mkdir /app/

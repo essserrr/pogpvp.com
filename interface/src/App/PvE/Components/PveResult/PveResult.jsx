@@ -179,7 +179,6 @@ class PveResult extends React.PureComponent {
             case true:
                 let list = {}
                 return arr.filter(elem => {
-                    console.log(elem)
                     //check entry in local dict
                     switch (list[`${elem.Party[0].Name}${String(elem.Party[0].IsShadow) === "true"}`]) {
                         //if it exists
