@@ -18,7 +18,7 @@ const TableIcon = React.memo(function (props) {
     return (
         <div className="row m-0 justify-content-center ">
             <div className="posRel w70" >
-                {(props.pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
+                {String(props.pok.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
                 <PokemonIconer
                     src={props.pokemonTable[props.pok.name].Number +
                         (props.pokemonTable[props.pok.name].Forme !== "" ? "-" + props.pokemonTable[props.pok.name].Forme : "")}

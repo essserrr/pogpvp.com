@@ -134,7 +134,7 @@ class AdvisorPanelBody extends React.PureComponent {
         let zerosList = this.props.list[this.props.i].zeros.map((elem, i) => {
             let pok = this.props.rightPanel.listForBattle[elem]
             return <div className="posRel" key={pok.name + i + "zero"}>
-                {(pok.IsShadow === "true") && <Shadow className="posAbs icon16" />}
+                {String(pok.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
                 <PokemonIconer
                     src={this.props.pokemonTable[pok.name].Number + (this.props.pokemonTable[pok.name].Forme !== "" ?
                         "-" + this.props.pokemonTable[pok.name].Forme : "")}

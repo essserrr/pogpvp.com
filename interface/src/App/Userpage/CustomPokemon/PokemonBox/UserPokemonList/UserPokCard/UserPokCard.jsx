@@ -40,7 +40,7 @@ const UserPokCard = React.memo(function (props) {
                             (props.pokemonTable[props.Name].Forme !== "" ? "-" + props.pokemonTable[props.Name].Forme : "")}
                         class={"icon48 mr-1"}
                     />}
-                    {(props.IsShadow === "true" || props.IsShadow === true) && <Shadow className="posAbs icon18" style={{ right: "-3px" }} />}
+                    {String(props.IsShadow) === "true" && <Shadow className="posAbs icon18" style={{ right: "-3px" }} />}
                 </div>
                 <div className="col px-2">
                     <div>

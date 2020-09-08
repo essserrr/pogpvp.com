@@ -13,7 +13,7 @@ class CommonPveNamePlate extends React.PureComponent {
                 <div className="col-auto p-0 mr-1">
                     <div className="row mx-0 justify-content-start">
                         <NumberAndIcon
-                            isShadow={this.props.snapshot.attackerObj.IsShadow === "false" ? false : true}
+                            isShadow={String(this.props.pokemonRes.Party[partyLen - 1].IsShadow) === "true" ? true : false}
                             pok={this.props.pokemonTable[this.props.pokemonRes.Party[partyLen - 1].Name]}
                             index={"#" + (this.props.i + 1)}
                         />

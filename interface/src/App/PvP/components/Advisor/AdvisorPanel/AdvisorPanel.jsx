@@ -38,7 +38,7 @@ class AdvisorPanel extends React.PureComponent {
 
                     <div className="col-auto px-0 mx-1 mx-sm-2 text-center advisorbody--minwidth">
                         <div className="col-auto px-0 posRel">
-                            {(this.props.first.IsShadow === "true") && <Shadow className="posAbs icon16" />}
+                            {String(this.props.first.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
                             <PokemonIconer
                                 src={this.props.pokemonTable[this.props.first.name].Number + (this.props.pokemonTable[this.props.first.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.first.name].Forme : "")}
                                 class={"icon48"} />
@@ -52,7 +52,7 @@ class AdvisorPanel extends React.PureComponent {
 
                     <div className="col-auto px-0 mx-1 mx-sm-2 text-center advisorbody--minwidth">
                         <div className="col-auto px-0 posRel">
-                            {(this.props.second.IsShadow === "true") && <Shadow className="posAbs icon16" />}
+                            {String(this.props.first.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
                             <PokemonIconer
                                 src={this.props.pokemonTable[this.props.second.name].Number + (this.props.pokemonTable[this.props.second.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.second.name].Forme : "")}
                                 class={"icon48"} />
@@ -65,7 +65,7 @@ class AdvisorPanel extends React.PureComponent {
 
                     <div className="col-auto px-0 mx-1 mx-sm-2 text-center advisorbody--minwidth">
                         <div className="col-auto px-0 posRel">
-                            {(this.props.third.IsShadow === "true") && <Shadow className="posAbs icon16" />}
+                            {String(this.props.first.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
                             <PokemonIconer
                                 src={this.props.pokemonTable[this.props.third.name].Number + (this.props.pokemonTable[this.props.third.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.third.name].Forme : "")}
                                 class={"icon48"} />

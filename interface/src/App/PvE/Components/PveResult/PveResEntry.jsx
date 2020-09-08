@@ -111,11 +111,10 @@ class PveResEntry extends React.PureComponent {
 
     makeCommonRequestString() {
         let partyLen = this.props.pokemonRes.Party.length
+        let pok = this.props.pokemonRes.Party[partyLen - 1]
         let attacker = {
-            ...this.props.snapshot.attackerObj,
-            Name: this.props.pokemonRes.Party[partyLen - 1].Name,
-            QuickMove: this.props.pokemonRes.Party[partyLen - 1].Quick,
-            ChargeMove: this.props.pokemonRes.Party[partyLen - 1].Charge
+            Name: pok.Name, QuickMove: pok.Quick, ChargeMove: pok.Charge, ChargeMove2: pok.Charge2,
+            Lvl: pok.Lvl, Atk: pok.Atk, Def: pok.Def, Sta: pok.Sta, IsShadow: String(pok.IsShadow),
         }
         let booster = {
             ...this.props.snapshot.supportPokemon,
@@ -191,14 +190,11 @@ class PveResEntry extends React.PureComponent {
         snap.attackerObj.Name = this.props.pokemonRes.Party[numberInArr].Name
         snap.attackerObj.QuickMove = this.props.pokemonRes.Party[numberInArr].Quick
         snap.attackerObj.ChargeMove = this.props.pokemonRes.Party[numberInArr].Charge
-
-        if (this.props.customResult) {
-            snap.attackerObj.Atk = pokemon.Atk
-            snap.attackerObj.Def = pokemon.Def
-            snap.attackerObj.Sta = pokemon.Sta
-            snap.attackerObj.Lvl = pokemon.Lvl
-            snap.attackerObj.IsShadow = pokemon.IsShadow
-        }
+        snap.attackerObj.Atk = this.props.pokemonRes.Party[numberInArr].Atk
+        snap.attackerObj.Def = this.props.pokemonRes.Party[numberInArr].Def
+        snap.attackerObj.Sta = this.props.pokemonRes.Party[numberInArr].Sta
+        snap.attackerObj.Lvl = this.props.pokemonRes.Party[numberInArr].Lvl
+        snap.attackerObj.IsShadow = this.props.pokemonRes.Party[numberInArr].IsShadow
 
         this.props.showBreakpoints(snap)
     }

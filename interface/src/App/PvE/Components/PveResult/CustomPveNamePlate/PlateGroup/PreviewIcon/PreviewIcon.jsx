@@ -16,13 +16,12 @@ const PreviewIcon = React.memo(function (props) {
                 {props.Name}
             </ReactTooltip>
             <div data-tip data-for={props.index + props.attr + props.Name} className="col-auto px-2 posRel">
-                {(props.IsShadow === "true" || props.IsShadow === true) && <Shadow className="posAbs icon18" style={{ right: "-3px" }} />}
                 {props.pokemonTable[props.Name] && <PokemonIconer
                     src={props.pokemonTable[props.Name].Number +
                         (props.pokemonTable[props.Name].Forme !== "" ? "-" + props.pokemonTable[props.Name].Forme : "")}
                     class={"icon48"}
                 />}
-                {props.IsShadow === "true" ? <Shadow className="posAbs icon18" style={{ right: "-3px" }} /> : null}
+                {String(props.IsShadow) === "true" && <Shadow className="posAbs icon18" style={{ right: "-3px" }} />}
             </div>
         </>
     )
