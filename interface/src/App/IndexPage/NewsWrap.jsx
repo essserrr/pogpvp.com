@@ -1,11 +1,10 @@
-import React from "react";
+import React from "react"
 import Errors from "../PvP/components/Errors/Errors"
-import { Helmet } from "react-helmet";
 
 
-import LocalizedStrings from "react-localization";
-import { locale } from "../../locale/locale";
-import { getCookie } from "../../js/getCookie";
+import LocalizedStrings from "react-localization"
+import { locale } from "../../locale/locale"
+import { getCookie } from "../../js/getCookie"
 import Loader from "../PvpRating/Loader"
 import News from "./News/News"
 

@@ -56,11 +56,10 @@ func makeBoostersRow(inDat *app.IntialDataPve, bosses *[]app.BossInfo) ([]preRun
 	}
 
 	prerun := prerunObj{
-		inDat:      inDat,
-		prerunArr:  make([]preRun, 0, 100),
-		bossStat:   inDat.App.PokemonStatsBase[inDat.Boss.Name],
-		bossLvl:    tierMult[inDat.Boss.Tier],
+		inDat:    inDat,
+		bossStat: inDat.App.PokemonStatsBase[inDat.Boss.Name], bossLvl: tierMult[inDat.Boss.Tier],
 		bossEffDef: (float32(15.0) + float32(inDat.App.PokemonStatsBase[inDat.Boss.Name].Def)) * tierMult[inDat.Boss.Tier],
+		prerunArr:  make([]preRun, 0, 100),
 	}
 
 	_, ok := inDat.App.PokemonStatsBase[inDat.BoostSlotPokemon.Name]
@@ -151,7 +150,9 @@ func (po *prerunObj) selectBoosterFromGivenData(pok *app.PokemonInitialData) err
 				getMultipliers(&pokVal, &po.bossStat, &quickMBody, po.inDat) + 1)
 			dpsQuick := damageQuick / (float32(quickMBody.Cooldown) / 1000.0)
 
-			po.prerunArr = append(po.prerunArr, preRun{Name: pok.Name, Quick: qm, Charge: chm, Dps: dpsQuick + dpsCharge})
+			po.prerunArr = append(po.prerunArr, preRun{Name: pok.Name, Quick: qm, Charge: chm, Dps: dpsQuick + dpsCharge,
+				Atk: po.inDat.BoostSlotPokemon.AttackIV, Def: po.inDat.BoostSlotPokemon.DefenceIV, Sta: po.inDat.BoostSlotPokemon.StaminaIV,
+				Lvl: po.inDat.BoostSlotPokemon.Level, IsShadow: false})
 		}
 	}
 	return nil
@@ -267,16 +268,9 @@ func (po *prerunObj) selectBoosterFromDB() {
 				dpsQuick := damageQuick / (float32(quickMBody.Cooldown) / 1000.0)
 
 				if prerunObj.Dps < dpsCharge+dpsQuick {
-					prerunObj.Name = pok.Title
-					prerunObj.Quick = qm
-					prerunObj.Charge = chm
-					prerunObj.Dps = dpsCharge + dpsQuick
-					prerunObj.Lvl = po.inDat.BoostSlotPokemon.Level
-
-					prerunObj.Atk = po.inDat.BoostSlotPokemon.AttackIV
-					prerunObj.Def = po.inDat.BoostSlotPokemon.DefenceIV
-					prerunObj.Sta = po.inDat.BoostSlotPokemon.StaminaIV
-					prerunObj.IsShadow = false
+					prerunObj.Name, prerunObj.Quick, prerunObj.Charge = pok.Title, qm, chm
+					prerunObj.Dps, prerunObj.Lvl, prerunObj.IsShadow = dpsCharge+dpsQuick, po.inDat.BoostSlotPokemon.Level, false
+					prerunObj.Atk, prerunObj.Def, prerunObj.Sta = po.inDat.BoostSlotPokemon.AttackIV, po.inDat.BoostSlotPokemon.DefenceIV, po.inDat.BoostSlotPokemon.StaminaIV
 				}
 			}
 		}
@@ -377,7 +371,9 @@ func (po *prerunObj) generateForKnown(pok *app.PokemonInitialData) error {
 	po.prerunArr = make([]preRun, 0, 1)
 	for _, valueQ := range quickMoveList {
 		for _, valueCH := range chargeMoveList {
-			po.prerunArr = append(po.prerunArr, preRun{Name: pok.Name, Quick: valueQ, Charge: valueCH})
+			po.prerunArr = append(po.prerunArr, preRun{Name: pok.Name, Quick: valueQ, Charge: valueCH,
+				Atk: po.inDat.Pok.AttackIV, Def: po.inDat.Pok.DefenceIV, Sta: po.inDat.Pok.StaminaIV,
+				Lvl: po.inDat.Pok.Level, IsShadow: po.inDat.Pok.IsShadow})
 		}
 	}
 	return nil
@@ -420,11 +416,9 @@ func (po *prerunObj) generateForUnknown() {
 					getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat) + 1) / (float32(quickMBody.Cooldown) / 1000.0)
 
 				po.prerunArr = append(po.prerunArr, preRun{
-					Name:   pok.Title,
-					Quick:  qm,
-					Charge: chm,
-					Dps:    dpsCharge + dpsQuick,
-				})
+					Name: pok.Title, Quick: qm, Charge: chm, Dps: dpsCharge + dpsQuick,
+					Atk: po.inDat.Pok.AttackIV, Def: po.inDat.Pok.DefenceIV, Sta: po.inDat.Pok.StaminaIV,
+					Lvl: po.inDat.Pok.Level, IsShadow: po.inDat.Pok.IsShadow})
 			}
 		}
 	}
