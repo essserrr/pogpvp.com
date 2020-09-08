@@ -107,7 +107,7 @@ func (co *conStruct) startCommonPve() {
 	co.errChan = make(app.ErrorChan, len(co.attackerRow)*len(co.bossRow))
 
 	for number, pok := range co.attackerRow {
-		attackers, partyDescription, booster := co.returnCommonPveInitialData(pok)
+		attackers, partyDescription, booster := co.returnCommonPveInitialData(&pok)
 
 		co.resArray = append(co.resArray, PveResult{
 			Result: make([]app.VsBossResult, 0, len(co.bossRow)),
@@ -146,7 +146,7 @@ func (co *conStruct) startCommonPve() {
 	co.wg.Wait()
 }
 
-func (co *conStruct) returnCommonPveInitialData(pok preRun) ([]app.PokemonInitialData, []preRun, app.PokemonInitialData) {
+func (co *conStruct) returnCommonPveInitialData(pok *preRun) ([]app.PokemonInitialData, []preRun, app.PokemonInitialData) {
 	//make attakers initial data array
 	attackers := make([]app.PokemonInitialData, 0, 1)
 	partyDescription := make([]preRun, 0, 1)
@@ -154,25 +154,25 @@ func (co *conStruct) returnCommonPveInitialData(pok preRun) ([]app.PokemonInitia
 	selectedBooster := co.selectBoosterFor([]int{co.inDat.App.PokemonMovesBase[pok.Quick].MoveType, co.inDat.App.PokemonMovesBase[pok.Charge].MoveType})
 	boosterInData := app.PokemonInitialData{}
 	//if booster selected make initial data for him
-	if selectedBooster.Name != "" {
+	if selectedBooster != nil {
 		boosterInData = app.PokemonInitialData{Name: selectedBooster.Name, QuickMove: selectedBooster.Quick, ChargeMove: selectedBooster.Charge,
-			Level: co.inDat.BoostSlotPokemon.Level, AttackIV: co.inDat.BoostSlotPokemon.AttackIV, DefenceIV: co.inDat.BoostSlotPokemon.DefenceIV, StaminaIV: co.inDat.BoostSlotPokemon.StaminaIV,
+			Level: selectedBooster.Lvl, AttackIV: selectedBooster.Atk, DefenceIV: selectedBooster.Def, StaminaIV: selectedBooster.Sta,
 		}
 
 		attackers = append(attackers, boosterInData)
-		partyDescription = append(partyDescription, selectedBooster)
+		partyDescription = append(partyDescription, *selectedBooster)
 	}
 
-	attackers = append(attackers, app.PokemonInitialData{Name: pok.Name, QuickMove: pok.Quick, ChargeMove: pok.Charge, Level: co.inDat.Pok.Level,
-		AttackIV: co.inDat.Pok.AttackIV, DefenceIV: co.inDat.Pok.DefenceIV, StaminaIV: co.inDat.Pok.StaminaIV, IsShadow: co.inDat.Pok.IsShadow})
-	partyDescription = append(partyDescription, pok)
+	attackers = append(attackers, app.PokemonInitialData{Name: pok.Name, QuickMove: pok.Quick, ChargeMove: pok.Charge,
+		Level: pok.Lvl, AttackIV: pok.Atk, DefenceIV: pok.Def, StaminaIV: pok.Sta, IsShadow: pok.IsShadow})
+	partyDescription = append(partyDescription, *pok)
 
 	return attackers, partyDescription, boosterInData
 }
 
-func (co *conStruct) selectBoosterFor(types []int) preRun {
+func (co *conStruct) selectBoosterFor(types []int) *preRun {
 	if co.boosterRow == nil || len(co.boosterRow) == 0 {
-		return preRun{}
+		return nil
 	}
 	selectedBooster := preRun{}
 	//select booster
@@ -203,7 +203,7 @@ func (co *conStruct) selectBoosterFor(types []int) preRun {
 		selectedBooster = co.boosterRow[0]
 	}
 
-	return selectedBooster
+	return &selectedBooster
 }
 
 type byAvgDamage []PveResult

@@ -142,7 +142,7 @@ func TestCustomRaidsWrapper(t *testing.T) {
 	res, err := ReturnCustomRaid(&app.IntialDataPve{
 		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
 		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
-		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		NumberOfRuns: 100, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
 		AggresiveMode: true, PartySize: 18,
 		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: false,
 	})
@@ -158,7 +158,7 @@ func TestCustomRaidsWrapper(t *testing.T) {
 	res, err = ReturnCustomRaid(&app.IntialDataPve{
 		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
 		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
-		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		NumberOfRuns: 100, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
 		AggresiveMode: true, PartySize: 18,
 		BoostSlotEnabled: true, FindInCollection: true, SortByDamage: false,
 	})
@@ -177,7 +177,7 @@ func TestCustomRaidsWrapper(t *testing.T) {
 	res, err = ReturnCustomRaid(&app.IntialDataPve{
 		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
 		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
-		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		NumberOfRuns: 100, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
 		AggresiveMode: true, PartySize: 12,
 		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: true,
 	})
@@ -193,7 +193,7 @@ func TestCustomRaidsWrapper(t *testing.T) {
 	res, err = ReturnCustomRaid(&app.IntialDataPve{
 		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
 		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
-		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		NumberOfRuns: 100, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
 		AggresiveMode: true, PartySize: 6,
 		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: false,
 	})
@@ -209,7 +209,7 @@ func TestCustomRaidsWrapper(t *testing.T) {
 	res, err = ReturnCustomRaid(&app.IntialDataPve{
 		App: testApp, CustomMoves: &map[string]app.MoveBaseEntry{},
 		UserPokemon: midoriNoKami.Pokemon, Boss: app.BossInfo{Name: "Zekrom", QuickMove: "", ChargeMove: "", Tier: 4},
-		NumberOfRuns: 0, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
+		NumberOfRuns: 100, FriendStage: 0, Weather: 0, DodgeStrategy: 0,
 		AggresiveMode: true, PartySize: 6,
 		BoostSlotEnabled: false, FindInCollection: true, SortByDamage: true,
 	})

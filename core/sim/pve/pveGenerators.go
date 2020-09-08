@@ -114,21 +114,21 @@ func (po *prerunObj) generateForKnownBooster(pok *app.PokemonInitialData) error 
 }
 
 //selectBoosterFromGivenData selects best moveset for given booster
-func (po *prerunObj) selectBoosterFromGivenData(pok *app.PokemonInitialData) error {
+func (po *prerunObj) selectBoosterFromGivenData(pokInDat *app.PokemonInitialData) error {
 	//get pokemon from the base
-	pokVal := po.inDat.App.PokemonStatsBase[pok.Name]
+	pokVal := po.inDat.App.PokemonStatsBase[pokInDat.Name]
 
 	//get quick move(s)
-	selectObj := moveSelect{inDat: po.inDat, move: pok.QuickMove, movelist: pokVal.QuickMoves}
+	selectObj := moveSelect{inDat: po.inDat, move: pokInDat.QuickMove, movelist: pokVal.QuickMoves}
 	quickMoveList := selectObj.selectMoves()
 	if len(quickMoveList) == 0 {
-		return &customError{pok.Name + " quick movelist is empty; select a quick move"}
+		return &customError{pokInDat.Name + " quick movelist is empty; select a quick move"}
 	}
 	//get charge move(s)
-	selectObj.move, selectObj.movelist = pok.ChargeMove, pokVal.ChargeMoves
+	selectObj.move, selectObj.movelist = pokInDat.ChargeMove, pokVal.ChargeMoves
 	chargeMoveList := selectObj.selectMoves()
 	if len(chargeMoveList) == 0 {
-		return &customError{pok.Name + " charge movelist is empty; select a charge move"}
+		return &customError{pokInDat.Name + " charge movelist is empty; select a charge move"}
 	}
 
 	//make entry for every moveset
@@ -141,16 +141,10 @@ func (po *prerunObj) selectBoosterFromGivenData(pok *app.PokemonInitialData) err
 			quickMBody := po.inDat.App.PokemonMovesBase[qm]
 			chargeMBody := po.inDat.App.PokemonMovesBase[chm]
 
-			damageCharge := (float32(chargeMBody.Damage)*0.5*(effAtk/po.bossEffDef)*getBoostBonus(&pokVal, chargeMBody.MoveType)*
-				getMultipliers(&pokVal, &po.bossStat, &chargeMBody, po.inDat) + 1)
-			//dps*dpe
-			dpsCharge := damageCharge / (float32(chargeMBody.Cooldown) / 1000.0) * damageCharge / float32(-chargeMBody.Energy)
+			dpsQuick, dpsCharge := calculatePokDPS(&quickMBody, &chargeMBody,
+				getMultipliers(&pokVal, &po.bossStat, &quickMBody, po.inDat), getMultipliers(&pokVal, &po.bossStat, &chargeMBody, po.inDat), effAtk/po.bossEffDef)
 
-			damageQuick := (float32(quickMBody.Damage)*0.5*(effAtk/po.bossEffDef)*getBoostBonus(&pokVal, quickMBody.MoveType)*
-				getMultipliers(&pokVal, &po.bossStat, &quickMBody, po.inDat) + 1)
-			dpsQuick := damageQuick / (float32(quickMBody.Cooldown) / 1000.0)
-
-			po.prerunArr = append(po.prerunArr, preRun{Name: pok.Name, Quick: qm, Charge: chm, Dps: dpsQuick + dpsCharge,
+			po.prerunArr = append(po.prerunArr, preRun{Name: pokInDat.Name, Quick: qm, Charge: chm, Dps: dpsQuick + dpsCharge,
 				Atk: po.inDat.BoostSlotPokemon.AttackIV, Def: po.inDat.BoostSlotPokemon.DefenceIV, Sta: po.inDat.BoostSlotPokemon.StaminaIV,
 				Lvl: po.inDat.BoostSlotPokemon.Level, IsShadow: false})
 		}
@@ -258,14 +252,8 @@ func (po *prerunObj) selectBoosterFromDB() {
 				quickMBody := po.inDat.App.PokemonMovesBase[qm]
 				chargeMBody := po.inDat.App.PokemonMovesBase[chm]
 
-				damageCharge := (float32(chargeMBody.Damage)*0.5*(effAtk/po.bossEffDef)*getBoostBonus(&pok, chargeMBody.MoveType)*
-					getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat) + 1)
-				//dps*dpe
-				dpsCharge := damageCharge / (float32(chargeMBody.Cooldown) / 1000.0) * damageCharge / float32(-chargeMBody.Energy)
-
-				damageQuick := (float32(quickMBody.Damage)*0.5*(effAtk/po.bossEffDef)*getBoostBonus(&pok, quickMBody.MoveType)*
-					getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat) + 1)
-				dpsQuick := damageQuick / (float32(quickMBody.Cooldown) / 1000.0)
+				dpsQuick, dpsCharge := calculatePokDPS(&quickMBody, &chargeMBody,
+					getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat), getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat), effAtk/po.bossEffDef)
 
 				if prerunObj.Dps < dpsCharge+dpsQuick {
 					prerunObj.Name, prerunObj.Quick, prerunObj.Charge = pok.Title, qm, chm
@@ -381,12 +369,6 @@ func (po *prerunObj) generateForKnown(pok *app.PokemonInitialData) error {
 
 func (po *prerunObj) generateForUnknown() {
 	po.prerunArr = make([]preRun, 0, 10000)
-	//define shadow bonus
-	var shadowBonus float32 = 1.0
-	if po.inDat.Pok.IsShadow {
-		shadowBonus = shadowBonusAttack
-	}
-
 	for _, pok := range po.inDat.App.PokemonStatsBase {
 		//skip trash pokemons
 		if (pok.Atk+pok.Def+pok.Sta) < 400 || canBoost(pok.Title) {
@@ -403,27 +385,51 @@ func (po *prerunObj) generateForUnknown() {
 					continue
 				}
 				//calculate attacker stats
-				effAtk := (float32(po.inDat.Pok.AttackIV) + float32(pok.Atk)) * shadowBonus * po.inDat.App.LevelData[int(po.inDat.Pok.Level/0.5)]
+				effAtk := (float32(po.inDat.Pok.AttackIV) + float32(pok.Atk)) * po.inDat.App.LevelData[int(po.inDat.Pok.Level/0.5)]
 				quickMBody := po.inDat.App.PokemonMovesBase[qm]
 				chargeMBody := po.inDat.App.PokemonMovesBase[chm]
 
-				damageCharge := (float32(chargeMBody.Damage)*0.5*(effAtk/po.bossEffDef)*
-					getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat) + 1)
-				//dps*dpe
-				dpsCharge := damageCharge / (float32(chargeMBody.Cooldown) / 1000.0) * damageCharge / float32(-chargeMBody.Energy)
-
-				dpsQuick := (float32(quickMBody.Damage)*0.5*(effAtk/po.bossEffDef)*
-					getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat) + 1) / (float32(quickMBody.Cooldown) / 1000.0)
+				dpsQuick, dpsCharge := calculatePokDPS(&quickMBody, &chargeMBody,
+					getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat), getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat), effAtk/po.bossEffDef)
 
 				po.prerunArr = append(po.prerunArr, preRun{
 					Name: pok.Title, Quick: qm, Charge: chm, Dps: dpsCharge + dpsQuick,
 					Atk: po.inDat.Pok.AttackIV, Def: po.inDat.Pok.DefenceIV, Sta: po.inDat.Pok.StaminaIV,
-					Lvl: po.inDat.Pok.Level, IsShadow: po.inDat.Pok.IsShadow})
+					Lvl: po.inDat.Pok.Level, IsShadow: false})
+
+				if po.inDat.Pok.IsShadow && canBeShadow(&pok) {
+					effAtk *= shadowBonusAttack
+					dpsQuick, dpsCharge := calculatePokDPS(&quickMBody, &chargeMBody,
+						getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat), getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat), effAtk/po.bossEffDef)
+
+					po.prerunArr = append(po.prerunArr, preRun{
+						Name: pok.Title, Quick: qm, Charge: chm, Dps: dpsCharge + dpsQuick,
+						Atk: po.inDat.Pok.AttackIV, Def: po.inDat.Pok.DefenceIV, Sta: po.inDat.Pok.StaminaIV,
+						Lvl: po.inDat.Pok.Level, IsShadow: true})
+				}
 			}
 		}
 	}
 	sort.Sort(byDps(po.prerunArr))
 	po.prerunArr = po.prerunArr[:900]
+}
+
+func calculatePokDPS(quickMBody, chargeMBody *app.MoveBaseEntry, multQuick, multCharge, atkDefRatio float32) (float32, float32) {
+	damageCharge := (float32(chargeMBody.Damage)*0.5*(atkDefRatio)*multCharge + 1)
+	//dps*dpe
+	dpsCharge := damageCharge / (float32(chargeMBody.Cooldown) / 1000.0) * damageCharge / float32(-chargeMBody.Energy)
+	//dps
+	dpsQuick := (float32(quickMBody.Damage)*0.5*(atkDefRatio)*multQuick + 1) / (float32(quickMBody.Cooldown) / 1000.0)
+	return dpsQuick, dpsCharge
+}
+
+func canBeShadow(pok *app.PokemonsBaseEntry) bool {
+	for _, value := range pok.ChargeMoves {
+		if value == "Return" {
+			return true
+		}
+	}
+	return false
 }
 
 func generateBossRow(inDat *app.IntialDataPve) ([]app.BossInfo, error) {
