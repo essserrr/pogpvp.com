@@ -9,6 +9,7 @@ import Loader from "../../PvpRating/Loader"
 import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
 
+import { shinyDict } from "./ShinyDict"
 import { refresh } from "../../../AppStore/Actions/refresh"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
 import { getCookie } from "../../../js/getCookie"
@@ -295,28 +296,49 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     createImportedList(str) {
+        //split target string
         let importedList = str.split(",")
-
-        let idBase = {}
-
-        // eslint-disable-next-line
-        for (const [key, value] of Object.entries(this.props.bases.pokemonBase)) {
-            idBase[value.Number + (value.Forme ? "-" + value.Forme : "")] = value
+        if (importedList.length === 0) {
+            return {}
         }
 
-        let importedAsObj = {}
-        importedList.filter((value) => !!idBase[value]).forEach((value) => {
-            importedAsObj[idBase[value].Title] = { Name: idBase[value].Title, Type: "Shiny", Amount: "1" }
+        //make id base 
+        let baseByID = {}
+        for (const [, value] of Object.entries(this.props.bases.pokemonBase)) {
+            let pokId = value.Number + (value.Forme ? `-${value.Forme}` : "")
+            if (!!shinyDict[pokId]) {
+                //keep original value too becuse the list duplicates some formes
+                baseByID[pokId] = value
+                pokId = shinyDict[pokId]
+            }
+            baseByID[pokId] = value
+        }
+
+        //make object from the list:
+        let importedPokemon = {}
+        //filter list
+        importedList = importedList.filter((value) => {
+            switch (!baseByID[value]) {
+                case true:
+                    console.log(`Critical ID "${value}" not found`)
+                    return false
+                default:
+                    return true
+            }
+        })
+        //crop list
+        if (importedList.length > 400) {
+            importedList = importedList.slice(0, 400)
+        }
+        //make object
+        importedList.forEach((value) => {
+            importedPokemon[baseByID[value].Title] = { Name: baseByID[value].Title, Type: "Shiny", Amount: "1" }
         })
 
-        let importedEtries = Object.entries(this.props.bases.pokemonBase)
-        if (importedEtries > 400) {
-            importedAsObj = {}
-            importedEtries = importedEtries.slice(0, 400)
-            importedEtries.forEach((value) => (importedAsObj[value[0]] = value[1]))
-        }
+        return importedPokemon
 
-        return importedAsObj
+
+
     }
 
     render() {
