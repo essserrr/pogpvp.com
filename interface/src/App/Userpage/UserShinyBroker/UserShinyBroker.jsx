@@ -196,7 +196,7 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     onPokemonAdd(event, args) {
-        if (Object.keys(this.state[args.name[0]]).length > 400) { return }
+        if (Object.keys(this.state[args.name[0]]).length >= 400) { return }
 
         this.setState({
             [args.name[0]]: {

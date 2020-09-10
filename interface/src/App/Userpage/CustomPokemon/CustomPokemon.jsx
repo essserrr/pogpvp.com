@@ -281,7 +281,7 @@ class CustomPokemon extends React.PureComponent {
 
     onPokemonAdd(event) {
         let attr = event.target.getAttribute("attr")
-        if (this.state[attr].length > 1500) { return }
+        if (this.state[attr].length >= 1500) { return }
         let err = this.validate(this.state.activePokemon)
         if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
             this.setState({

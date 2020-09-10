@@ -216,7 +216,7 @@ class Move extends React.PureComponent {
     }
 
     onMoveAdd() {
-        if (!this.validate() || Object.keys(this.state.moves).length > 100) {
+        if (!this.validate() || Object.keys(this.state.moves).length >= 100) {
             return
         }
         this.setState({
