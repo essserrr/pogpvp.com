@@ -3,6 +3,7 @@ import ReactTooltip from "react-tooltip"
 
 import PokemonIconer from "../../../../../PvP/components/PokemonIconer/PokemonIconer"
 import CloseButton from "../../../../../PvP/components/MagicBox/CloseButton"
+import ShortMove from "../../../../../PvpRating/RMoveRow/ShortMove/ShortMove"
 import { calculateCP } from "../../../../../../js/indexFunctions"
 
 import { ReactComponent as Shadow } from "../../../../../../icons/shadow.svg"
@@ -51,16 +52,19 @@ const UserPokCard = React.memo(function (props) {
                 </div>
                 {props.onClick && <CloseButton attr={props.attr} index={props.index} className="close" onClick={props.onClick} />}
             </div>
-            <div className={"col-12 px-1  mb-1  moveStyle typeColorC" + props.moveTable[props.QuickMove].MoveType + " text"} >
-                {props.QuickMove}
-            </div>
-            <div className={"col-12 px-1  moveStyle typeColorC" + props.moveTable[props.ChargeMove].MoveType + " text"}>
-                {props.ChargeMove}
-            </div>
-            {props.ChargeMove2 && props.moveTable[props.ChargeMove2] &&
-                <div className={"col-12 px-1 mt-1  moveStyle typeColorC" + props.moveTable[props.ChargeMove2].MoveType + " text"}>
-                    {props.ChargeMove2}
-                </div>}
+
+            <ShortMove
+                class={`col-12 px-1  mb-1 typeColorC${props.moveTable[props.QuickMove].MoveType} text`}
+                value={props.QuickMove}
+            />
+            <ShortMove
+                class={`col-12 px-1 typeColorC${props.moveTable[props.ChargeMove].MoveType} text`}
+                value={props.ChargeMove}
+            />
+            {props.ChargeMove2 && props.moveTable[props.ChargeMove2] && <ShortMove
+                class={`col-12 px-1 mt-1 typeColorC${props.moveTable[props.ChargeMove2].MoveType} text`}
+                value={props.ChargeMove2}
+            />}
         </div>
     )
 })

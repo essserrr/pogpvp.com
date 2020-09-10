@@ -202,11 +202,11 @@ class PveResEntry extends React.PureComponent {
     generateCards() {
         return this.props.pokemonRes.Result.map((elem) => {
             return <div className="col-12 styleRating animShiny m-0 p-0 p-2 my-1 " key={elem.BQ + elem.BCh}>
-                <div className="col-12 d-flex m-0 p-0">
+                <div className="col-12 d-flex align-items-center m-0 p-0">
                     <WeatherMoves
                         pokQick={this.props.moveTable[elem.BQ]}
                         pokCh={this.props.moveTable[elem.BCh]}
-                        snapshot={this.props.snapshot}
+                        weather={this.props.snapshot.pveObj.Weather}
                     />
                 </div>
                 <div className="col-12 m-0 p-0 mt-2">

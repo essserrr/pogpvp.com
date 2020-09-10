@@ -1,30 +1,25 @@
-import React from "react";
+import React from "react"
 import { weatherDecoder } from "../../../../js/indexFunctions"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 
-
+import ShortMove from "../../../PvpRating/RMoveRow/ShortMove/ShortMove"
 
 const WeatherMoves = React.memo(function (props) {
     return (
         <>
-            {weatherDecoder[props.pokQick.MoveType] === props.snapshot.pveObj.Weather &&
-                <PokemonIconer
-                    folder="/weather/"
-                    src={props.snapshot.pveObj.Weather}
-                    class={"icon18 align-self-center"} />
-            }
-            <div className={"mr-1 align-self-center text-center font90 moveStyle typeColorC" + props.pokQick.MoveType + " text"}>
-                {props.pokQick.Title}
-            </div>
-            {weatherDecoder[props.pokCh.MoveType] === props.snapshot.pveObj.Weather &&
-                <PokemonIconer
-                    folder="/weather/"
-                    src={props.snapshot.pveObj.Weather}
-                    class={"icon18 align-self-center"} />
-            }
-            <div className={"align-self-center text-center font90 moveStyle typeColorC" + props.pokCh.MoveType + " text"}>
-                {props.pokCh.Title}
-            </div>
+            <ShortMove
+                enableWeather={weatherDecoder[props.pokQick.MoveType] === props.weather}
+                weather={props.weather}
+
+                class={`mr-1 font90 typeColorC${props.pokQick.MoveType} text`}
+                value={props.pokQick.Title}
+            />
+            <ShortMove
+                enableWeather={weatherDecoder[props.pokCh.MoveType] === props.weather}
+                weather={props.weather}
+
+                class={`font90 typeColorC${props.pokCh.MoveType} text`}
+                value={props.pokCh.Title}
+            />
         </>
     )
 });

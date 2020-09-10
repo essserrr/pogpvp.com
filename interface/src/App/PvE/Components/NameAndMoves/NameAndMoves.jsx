@@ -14,7 +14,7 @@ class NameAndMoves extends React.PureComponent {
                 <WeatherMoves
                     pokQick={this.props.quick}
                     pokCh={this.props.charge}
-                    snapshot={this.props.snapshot}
+                    weather={this.props.snapshot.pveObj.Weather}
                 />
             </div>
             <div className="col-12 p-0 fBolder">

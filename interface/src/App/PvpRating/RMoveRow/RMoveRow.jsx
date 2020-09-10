@@ -1,4 +1,5 @@
-import React from "react";
+import React from "react"
+import ShortMove from "./ShortMove/ShortMove"
 
 const RMoveRow = React.memo(function (props) {
     function addStar(moveName) {
@@ -11,17 +12,23 @@ const RMoveRow = React.memo(function (props) {
             <div className="col p-0">
                 <div className="row justify-content-md-left m-0 p-0">
                     {props.moveTable[props.value.Quick] &&
-                        <div className={"mx-1 moveStyle m typeColorC" + props.moveTable[props.value.Quick].MoveType + " text"}>
-                            {props.value.Quick + addStar(props.value.Quick)}
-                        </div>}
+                        <ShortMove
+                            enableMargins={true}
+                            class={`typeColorC${props.moveTable[props.value.Quick].MoveType} text`}
+                            value={props.value.Quick + addStar(props.value.Quick)}
+                        />}
                     {props.moveTable[props.value.Charge[0]] &&
-                        <div className={"mx-1  moveStyle m typeColorC" + props.moveTable[props.value.Charge[0]].MoveType + " text"}>
-                            {props.value.Charge[0] + addStar(props.value.Charge[0])}
-                        </div>}
+                        <ShortMove
+                            enableMargins={true}
+                            class={`typeColorC${props.moveTable[props.value.Charge[0]].MoveType} text`}
+                            value={props.value.Charge[0] + addStar(props.value.Charge[0])}
+                        />}
                     {props.moveTable[props.value.Charge[1]] &&
-                        <div className={"mx-1 moveStyle m typeColorC" + props.moveTable[props.value.Charge[1]].MoveType + " text"}>
-                            {props.value.Charge[1] + addStar(props.value.Charge[1])}
-                        </div>}
+                        <ShortMove
+                            enableMargins={true}
+                            class={`typeColorC${props.moveTable[props.value.Charge[1]].MoveType} text`}
+                            value={props.value.Charge[1] + addStar(props.value.Charge[1])}
+                        />}
                 </div>
             </div>
             <div className="col-auto text-right align-self-center p-0 pr-2">
