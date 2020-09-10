@@ -7,7 +7,7 @@ import { calculateCP } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
-import StatsTriangle from "../StatsBlock/StatsTriangle"
+import StatsTriangle from "../StatsTriangle/StatsTriangle"
 
 let strings = new LocalizedStrings(dexLocale);
 

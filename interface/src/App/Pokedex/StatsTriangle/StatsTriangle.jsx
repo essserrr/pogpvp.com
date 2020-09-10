@@ -1,9 +1,11 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 import ReactTooltip from "react-tooltip"
 
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
+
+import "./StatsTriangle.scss"
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -93,7 +95,7 @@ class StatsTriangle extends React.PureComponent {
                 "M" + centerX + " " + centerY + " L " + topX + " " + topY}
                 fill="transparent" stroke="black" strokeWidth={strokeSec} strokeDasharray="5 2" />
 
-            <path data-tip data-for={"all"} className={"statBarXXBack svgFillsC" + this.props.value.Type[0]} style={{ opacity: "0.85" }}
+            <path data-tip data-for={"all"} className={"stats-trangle svgFillsC" + this.props.value.Type[0]} style={{ opacity: "0.85" }}
                 d={"M" + (centerX + (leftX - centerX) * ratioAtk) + " " + (centerY + (leftY - centerY) * ratioAtk) +
                     " L " + (centerX + (rightX - centerX) * ratioDef) + " " + (centerY + (rightY - centerY) * ratioDef) +
                     " L " + (centerX + (topX - centerX) * ratioDef) + " " + (centerY + (topY - centerY) * ratioSta) + " Z"}

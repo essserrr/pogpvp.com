@@ -1435,37 +1435,6 @@ body {
     font-weight: 600;
 }
 
-
-//pokedex stats
-.statBarBack{
-    -webkit-transition: all 0.4s linear;
-    transition: all 0.4s linear; 
-    position: relative;
-    max-width: 500px !important; 
-    height: 25px !important; 
-    background-color: rgb(207, 207, 207);
-
-    overflow: hidden;
-    border-radius: 2px;
-}
-
-.statBarXXBack{
-    -webkit-transition: all 0.4s linear;
-    transition: all 0.4s linear; 
-}
-
-.statBarFront {
-    -webkit-transition: all 0.4s linear;
-    transition: all 0.4s linear; 
-    position: absolute;
-    height: 100%; 
-
-    font-size: 10pt !important;
-    font-weight: 500 !important;
-    text-align: center;
-    line-height: 25px;
-}
-
 //links
 .linkText {
     text-decoration: none;
