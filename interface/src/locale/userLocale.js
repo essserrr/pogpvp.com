@@ -23,9 +23,9 @@ export const userLocale = {
             qname: "Quick move",
             chname: "Charge move",
 
-            parties: "Your parties",
+            parties: "Your groups",
             selectpok: "Select pokemon",
-            actparty: "Pokemon in party:",
+            actparty: "Pokemon in group:",
             partyname: "Enter group name",
 
             savegroup: "Add group",

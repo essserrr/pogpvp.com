@@ -308,7 +308,7 @@ export const locale = {
             firstsent: "PvP rating answers the question: who will be the best against the current meta.",
             secondsent: "Rating by divided by scenarios depending on the number of shields from each side.",
             thirdsent: "Overall rating shows the best average result across all scenarios.",
-            stats: "PvP best IV's",
+            stats: "Best PvP IV's",
         },
 
     },
