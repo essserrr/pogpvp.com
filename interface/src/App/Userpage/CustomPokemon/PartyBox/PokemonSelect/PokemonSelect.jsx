@@ -9,27 +9,26 @@ import "./PokemonSelect.scss"
 class PokemonSelect extends React.PureComponent {
 
     makePokList(list) {
-        return list.map((value, index) =>
-            ({
-                value: index,
+        return list.map((value, index) => {
+            let val = `${value.Name} / CP${calculateCP(value.Name, value.Lvl, value.Atk, value.Def, value.Sta, this.props.pokemonTable)}
+             / ${value.IsShadow === "true" ? "shadow" : "normal"} / ${value.QuickMove} / ${value.ChargeMove} / ${value.ChargeMove2} /
+             Lvl${value.Lvl}: Atk${value.Atk} / Def${value.Def} / Sta${value.Sta}`
 
-                label: <div style={{ textAlign: "left" }}>{`${value.Name} / 
-                ${calculateCP(value.Name, value.Lvl, value.Atk, value.Def, value.Sta, this.props.pokemonTable)} 
-                / ${value.IsShadow === "true" ? "shadow" : "normal"} / 
-                ${value.QuickMove} / ${value.ChargeMove} / ${value.ChargeMove2} / 
-                ${value.Lvl}: ${value.Atk} / ${value.Def} / ${value.Sta}`}</div>
-            })
-        )
+            return { value: val, index: index, label: <div style={{ textAlign: "left" }}>{val}</div> }
+        })
     }
 
 
     render() {
         return (
             <>
-                <div className="user-pokemon-select__text col-12 px-0">{this.props.label}</div>
+                {this.props.label && <div className="user-pokemon-select__text col-12 px-0">{this.props.label}</div>}
                 <SearchableSelect
-                    list={this.makePokList(this.props.list)}
                     attr={this.props.attr}
+                    category={this.props.category}
+
+                    list={this.makePokList(this.props.list)}
+
                     onChange={this.props.onChange}
                 />
             </>

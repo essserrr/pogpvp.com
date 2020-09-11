@@ -41,7 +41,7 @@ class PartyBox extends React.PureComponent {
         if (this.state[selectOption.name[0]].length >= 6) { return }
 
         this.setState({
-            [selectOption.name[0]]: [...this.state[selectOption.name[0]], this.props.userPokemon[event.value]]
+            [selectOption.name[0]]: [...this.state[selectOption.name[0]], this.props.userPokemon[event.index]]
         })
     }
 
