@@ -90,7 +90,6 @@ class SinglePvp extends React.PureComponent {
     }
 
     onNameChange(event, name) {
-
         //get movepool
         let moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
         let quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
@@ -231,6 +230,42 @@ class SinglePvp extends React.PureComponent {
         }
     }
 
+    onUserPokemonSelect(index, role) {
+        let selectedPok = this.props.userPokemon[index]
+
+        //get movepool
+        let moves = returnMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        //set state
+        this.setState({
+            [role]: {
+                ...this.state[role],
+                name: selectedPok.Name,
+                quickMovePool: moves.quickMovePool,
+                chargeMovePool: moves.chargeMovePool,
+                QuickMove: selectedPok.QuickMove,
+                ChargeMove1: selectedPok.ChargeMove,
+                ChargeMove2: selectedPok.ChargeMove2,
+
+                Lvl: selectedPok.Lvl,
+                Atk: selectedPok.Atk,
+                Def: selectedPok.Def,
+                Sta: selectedPok.Sta,
+
+                effAtk: calculateEffStat(selectedPok.Name, selectedPok.Lvl, selectedPok.Atk, this.state[role].AtkStage,
+                    this.props.pokemonTable, "Atk", selectedPok.IsShadow),
+                effDef: calculateEffStat(selectedPok.Name, selectedPok.Lvl, selectedPok.Def,
+                    this.state[role].DefStage, this.props.pokemonTable, "Def", selectedPok.IsShadow),
+                effSta: calculateEffStat(selectedPok.Name, selectedPok.Lvl, selectedPok.Sta, 0, this.props.pokemonTable, "Sta"),
+
+                IsShadow: selectedPok.IsShadow,
+
+                HP: undefined,
+                Energy: undefined,
+            },
+            stateModified: true,
+        });
+    }
+
     onChange(event, name) {
         //check if it`s a name change
         if (event.target === undefined) {
@@ -243,6 +278,9 @@ class SinglePvp extends React.PureComponent {
                     return
                 case "ChargeMove2":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
+                    return
+                case "userPokemon":
+                    this.onUserPokemonSelect(event.index, name.name[0])
                     return
                 default:
                     this.onNameChange(event, name.name[0])
@@ -632,19 +670,20 @@ class SinglePvp extends React.PureComponent {
                     <div className="results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
                         <Pokemon
                             className="pokemon m-2"
+                            value={this.state.attacker}
+                            attr="attacker"
 
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
-                            value={this.state.attacker}
-                            attr="attacker"
-                            onChange={this.onChange}
+                            moveList={(this.state.attacker.isSelected && this.state.attacker.isSelected.includes("Charge")) ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
                             pokList={this.props.parentState.pokList}
-                            statMaximizer={this.statMaximizer}
+                            userPokemon={this.props.userPokemon}
 
                             showMenu={this.state.attacker.showMenu}
-
-                            moveList={(this.state.attacker.isSelected && this.state.attacker.isSelected.includes("Charge")) ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
                             category={this.state.attacker.isSelected}
+
+                            onChange={this.onChange}
+                            statMaximizer={this.statMaximizer}
                             onClick={this.onClick}
                         />
                     </div>
@@ -748,17 +787,20 @@ class SinglePvp extends React.PureComponent {
                     <div className="results order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
                         <Pokemon
                             className="pokemon m-2"
+                            value={this.state.defender}
+                            attr="defender"
 
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
-                            value={this.state.defender}
-                            attr="defender"
-                            onChange={this.onChange}
+                            moveList={this.state.defender.isSelected && this.state.defender.isSelected.includes("Charge") ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
                             pokList={this.props.parentState.pokList}
+                            userPokemon={this.props.userPokemon}
 
                             showMenu={this.state.defender.showMenu}
-                            moveList={this.state.defender.isSelected && this.state.defender.isSelected.includes("Charge") ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
                             category={this.state.defender.isSelected}
+
+                            statMaximizer={this.statMaximizer}
+                            onChange={this.onChange}
                             onClick={this.onClick}
                         />
                     </div>

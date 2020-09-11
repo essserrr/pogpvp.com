@@ -256,6 +256,42 @@ class MatrixPanel extends React.PureComponent {
         }
     }
 
+    onUserPokemonSelect(index, role) {
+        let selectedPok = this.props.userPokemon[index]
+
+        //get movepool
+        let moves = returnMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        //set state
+        this.setState({
+            [role]: {
+                ...this.state[role],
+                name: selectedPok.Name,
+                quickMovePool: moves.quickMovePool,
+                chargeMovePool: moves.chargeMovePool,
+                QuickMove: selectedPok.QuickMove,
+                ChargeMove1: selectedPok.ChargeMove,
+                ChargeMove2: selectedPok.ChargeMove2,
+
+                Lvl: selectedPok.Lvl,
+                Atk: selectedPok.Atk,
+                Def: selectedPok.Def,
+                Sta: selectedPok.Sta,
+
+                effAtk: calculateEffStat(selectedPok.Name, selectedPok.Lvl, selectedPok.Atk, this.state[role].AtkStage,
+                    this.props.pokemonTable, "Atk", selectedPok.IsShadow),
+                effDef: calculateEffStat(selectedPok.Name, selectedPok.Lvl, selectedPok.Def,
+                    this.state[role].DefStage, this.props.pokemonTable, "Def", selectedPok.IsShadow),
+                effSta: calculateEffStat(selectedPok.Name, selectedPok.Lvl, selectedPok.Sta, 0, this.props.pokemonTable, "Sta"),
+
+                IsShadow: selectedPok.IsShadow,
+
+                HP: undefined,
+                Energy: undefined,
+            },
+            stateModified: true,
+        });
+    }
+
     onChange(event, name) {
         //check if it`s a name change
         if (event.target === undefined) {
@@ -268,6 +304,9 @@ class MatrixPanel extends React.PureComponent {
                     return
                 case "ChargeMove2":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
+                    return
+                case "userPokemon":
+                    this.onUserPokemonSelect(event.index, name.name[0])
                     return
                 default:
                     this.onNameChange(event, name.name[0])
@@ -392,6 +431,7 @@ class MatrixPanel extends React.PureComponent {
                                 attr="pokemon"
                                 onChange={this.onChange}
                                 pokList={this.props.pokList}
+                                userPokemon={this.props.userPokemon}
 
                                 showMenu={this.state.pokemon.showMenu}
 
