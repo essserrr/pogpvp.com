@@ -896,6 +896,7 @@ class MatrixPvp extends React.PureComponent {
                     {this.state.redact.showMenu && <RedactPokemon
                         pokemonTable={this.props.pokemonTable}
                         moveTable={this.props.parentState.moveTable}
+                        userPokemon={this.props.userPokemon}
 
                         pokList={this.props.parentState.pokList}
                         quickMoveList={this.props.parentState.quickMoveList}
@@ -914,6 +915,7 @@ class MatrixPvp extends React.PureComponent {
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
+                            userPokemon={this.props.userPokemon}
 
                             pokList={this.props.parentState.pokList}
                             quickMoveList={this.props.parentState.quickMoveList}
@@ -981,6 +983,7 @@ class MatrixPvp extends React.PureComponent {
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
+                            userPokemon={this.props.userPokemon}
 
                             pokList={this.props.parentState.pokList}
                             quickMoveList={this.props.parentState.quickMoveList}

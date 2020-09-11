@@ -295,7 +295,7 @@ class PvpPage extends React.Component {
                         <div className="col-12 max1200 m-0 p-0">
                             {(this.state.isLoaded && (this.props.match.params.type === "single")) &&
                                 <SinglePvp
-                                    userParties={this.props.customPokemon}
+                                    userPokemon={this.props.customPokemon}
                                     pokemonTable={this.props.bases.pokemonBase}
 
                                     parentState={this.state}
@@ -303,6 +303,7 @@ class PvpPage extends React.Component {
                             }
                             {(this.state.isLoaded && (this.props.match.params.type === "matrix")) &&
                                 <MatrixPvp
+                                    userPokemon={this.props.customPokemon}
                                     pokemonTable={this.props.bases.pokemonBase}
 
                                     parentState={this.state} />

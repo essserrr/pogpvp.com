@@ -8,7 +8,7 @@ import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
 import CpAndTyping from "./CpAndTypes/CpAndTypes"
 import EffectiveStats from "./EffectiveStats/EffectiveStats"
 import MagicBox from "./MagicBox/MagicBox"
-
+import PokemonSelect from "../../Userpage/CustomPokemon/PartyBox/PokemonSelect/PokemonSelect"
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
@@ -64,12 +64,28 @@ class Pokemon extends React.PureComponent {
                     />}
                 />}
 
-                {this.props.pokList && <SearchableSelect
-                    value={this.props.value.name}
-                    list={this.props.pokList}
-                    attr={this.props.attr}
-                    onChange={this.props.onChange}
-                />}
+                {this.props.userPokemon && this.props.userPokemon.length > 0 &&
+                    <div className="col-12 px-0 mt-1 mb-2">
+                        <PokemonSelect
+                            label={strings.userPok}
+                            attr={this.props.attr}
+                            category="userPokemon"
+
+                            pokemonTable={this.props.pokemonTable}
+                            list={this.props.userPokemon}
+                            onChange={this.props.onChange}
+                        />
+                    </div>}
+
+                {this.props.pokList &&
+                    <SearchableSelect
+                        label={strings.allPok}
+
+                        value={this.props.value.name}
+                        list={this.props.pokList}
+                        attr={this.props.attr}
+                        onChange={this.props.onChange}
+                    />}
 
                 {(this.props.pokemonTable[this.props.value.name] && this.props.value.name) &&
                     <>
