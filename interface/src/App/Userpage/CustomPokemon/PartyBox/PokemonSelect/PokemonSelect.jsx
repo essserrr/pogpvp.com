@@ -4,8 +4,6 @@ import SearchableSelect from "../../../../PvP/components/SearchableSelect/Search
 import { calculateCP } from "../../../../../js/indexFunctions"
 
 
-import "./PokemonSelect.scss"
-
 class PokemonSelect extends React.PureComponent {
 
     makePokList(list) {
@@ -22,8 +20,8 @@ class PokemonSelect extends React.PureComponent {
     render() {
         return (
             <>
-                {this.props.label && <div className="user-pokemon-select__text col-12 px-0">{this.props.label}</div>}
                 <SearchableSelect
+                    label={this.props.label}
                     attr={this.props.attr}
                     category={this.props.category}
 
