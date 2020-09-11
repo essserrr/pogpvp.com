@@ -1,6 +1,8 @@
 export const locale = {
     en: {
         search: "Search...",
+        userPok: "User pokemon",
+        allPok: "All pokemon",
 
         dexentr: "View dex for ",
         topcounters: "Find top counters against ",
@@ -318,6 +320,8 @@ export const locale = {
 
     ru: {
         search: "Поиск...",
+        userPok: "Покемоны пользователя",
+        allPok: "Все покемоны",
 
         dexentr: "Открыть декс для ",
         topcounters: "Найти лучших покемонов против ",
