@@ -367,11 +367,28 @@ func (po *prerunObj) generateForKnown(pok *app.PokemonInitialData) error {
 	return nil
 }
 
+var formesToSkip = map[string]bool{
+	"Gengar (Pokemon Day 2020)":  true,
+	"Blastoise (Sunglasses)":     true,
+	"Vaporeon (3rd Anniversary)": true,
+	"Jolteon (3rd Anniversary)":  true,
+	"Flareon (3rd Anniversary)":  true,
+	"Espeon (3rd Anniversary)":   true,
+	"Umbreon (3rd Anniversary)":  true,
+	"Glaceon (3rd Anniversary)":  true,
+	"Sylveon (3rd Anniversary)":  true,
+}
+
+func skipPokemon(pokName string) bool {
+	_, ok := formesToSkip[pokName]
+	return ok
+}
+
 func (po *prerunObj) generateForUnknown() {
 	po.prerunArr = make([]preRun, 0, 10000)
 	for _, pok := range po.inDat.App.PokemonStatsBase {
 		//skip trash pokemons
-		if (pok.Atk+pok.Def+pok.Sta) < 400 || canBoost(pok.Title) {
+		if (pok.Atk+pok.Def+pok.Sta) < 400 || canBoost(pok.Title) || skipPokemon(pok.Title) {
 			continue
 		}
 		for _, qm := range pok.QuickMoves {
