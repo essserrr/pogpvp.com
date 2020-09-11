@@ -78,11 +78,11 @@ class SinglePvp extends React.PureComponent {
             });
             return
         }
-        if (this.props.parentState.league !== prevProps.parentState.league && this.props.parentState.pokemonTable) {
-            if (this.props.parentState.pokemonTable[this.state.attacker.name]) {
+        if (this.props.parentState.league !== prevProps.parentState.league && this.props.pokemonTable) {
+            if (this.props.pokemonTable[this.state.attacker.name]) {
                 this.statMaximizer({ target: { name: "", value: "" } }, "attacker")
             }
-            if (this.props.parentState.pokemonTable[this.state.defender.name]) {
+            if (this.props.pokemonTable[this.state.defender.name]) {
                 this.statMaximizer({ target: { name: "", value: "" } }, "defender")
             }
             return
@@ -92,11 +92,11 @@ class SinglePvp extends React.PureComponent {
     onNameChange(event, name) {
 
         //get movepool
-        let moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect)
-        let quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, event.value, this.props.parentState.pokemonTable)
-        let charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, event.value, this.props.parentState.pokemonTable)
+        let moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
+        let quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
+        let charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
         //create default iv set
-        let ivSet = calculateMaximizedStats(event.value, 40.0, this.props.parentState.pokemonTable)
+        let ivSet = calculateMaximizedStats(event.value, 40.0, this.props.pokemonTable)
         let whatToMaximize = (this.state[name].maximizer.action === "Default") ? "Default" : this.state[name].maximizer.stat
 
         //set state
@@ -116,16 +116,16 @@ class SinglePvp extends React.PureComponent {
 
                 effAtk: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
                     ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                    this.state[name].AtkStage, this.props.parentState.pokemonTable,
+                    this.state[name].AtkStage, this.props.pokemonTable,
                     "Atk", this.state[name].IsShadow),
 
                 effDef: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
                     ivSet[this.props.parentState.league][whatToMaximize].Def,
-                    this.state[name].DefStage, this.props.parentState.pokemonTable,
+                    this.state[name].DefStage, this.props.pokemonTable,
                     "Def", this.state[name].IsShadow),
 
                 effSta: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Sta, 0, this.props.parentState.pokemonTable, "Sta"),
+                    ivSet[this.props.parentState.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
 
                 HP: undefined,
                 Energy: undefined,
@@ -148,7 +148,7 @@ class SinglePvp extends React.PureComponent {
 
     onIvChange(event, role) {
         let eff = calculateEffStat(this.state[role].name, this.state[role].Lvl, event.target.value,
-            this.state[role][event.target.name + "Stage"], this.props.parentState.pokemonTable, event.target.name, this.state[role].IsShadow)
+            this.state[role][event.target.name + "Stage"], this.props.pokemonTable, event.target.name, this.state[role].IsShadow)
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -164,9 +164,9 @@ class SinglePvp extends React.PureComponent {
             [role]: {
                 ...this.state[role],
                 [event.target.name]: checkLvl(event.target.value) + "",
-                effAtk: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Atk, this.state[role].AtkStage, this.props.parentState.pokemonTable, "Atk", this.state[role].IsShadow),
-                effDef: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Def, this.state[role].DefStage, this.props.parentState.pokemonTable, "Def", this.state[role].IsShadow),
-                effSta: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Sta, 0, this.props.parentState.pokemonTable, "Sta"),
+                effAtk: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Atk, this.state[role].AtkStage, this.props.pokemonTable, "Atk", this.state[role].IsShadow),
+                effDef: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Def, this.state[role].DefStage, this.props.pokemonTable, "Def", this.state[role].IsShadow),
+                effSta: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Sta, 0, this.props.pokemonTable, "Sta"),
             },
             stateModified: true,
         });
@@ -177,9 +177,9 @@ class SinglePvp extends React.PureComponent {
             [role]: {
                 ...this.state[role],
                 [event.target.name]: event.target.value,
-                effAtk: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role].Atk, this.state[role].AtkStage, this.props.parentState.pokemonTable, "Atk", event.target.value),
-                effDef: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role].Def, this.state[role].DefStage, this.props.parentState.pokemonTable, "Def", event.target.value),
-                effSta: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role].Sta, 0, this.props.parentState.pokemonTable, "Sta"),
+                effAtk: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role].Atk, this.state[role].AtkStage, this.props.pokemonTable, "Atk", event.target.value),
+                effDef: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role].Def, this.state[role].DefStage, this.props.pokemonTable, "Def", event.target.value),
+                effSta: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role].Sta, 0, this.props.pokemonTable, "Sta"),
             },
             stateModified: true,
         });
@@ -191,7 +191,7 @@ class SinglePvp extends React.PureComponent {
             [role]: {
                 ...this.state[role],
                 [event.target.name]: event.target.value,
-                ["eff" + correspondingStat]: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role][correspondingStat], event.target.value, this.props.parentState.pokemonTable, correspondingStat, this.state[role].IsShadow),
+                ["eff" + correspondingStat]: calculateEffStat(this.state[role].name, this.state[role].Lvl, this.state[role][correspondingStat], event.target.value, this.props.pokemonTable, correspondingStat, this.state[role].IsShadow),
             },
             stateModified: true,
         });
@@ -306,7 +306,7 @@ class SinglePvp extends React.PureComponent {
             [event.target.name]: event.target.value,
         }
 
-        let ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.parentState.pokemonTable)
+        let ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.pokemonTable)
         let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
 
         this.setState({
@@ -321,15 +321,15 @@ class SinglePvp extends React.PureComponent {
 
                 effAtk: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
                     ivSet[this.props.parentState.league][whatToMaximize].Atk, this.state[role].AtkStage,
-                    this.props.parentState.pokemonTable, "Atk", this.state[role].IsShadow),
+                    this.props.pokemonTable, "Atk", this.state[role].IsShadow),
 
                 effDef: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
                     ivSet[this.props.parentState.league][whatToMaximize].Def, this.state[role].DefStage,
-                    this.props.parentState.pokemonTable, "Def", this.state[role].IsShadow),
+                    this.props.pokemonTable, "Def", this.state[role].IsShadow),
 
                 effSta: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
                     ivSet[this.props.parentState.league][whatToMaximize].Sta, 0,
-                    this.props.parentState.pokemonTable, "Sta"),
+                    this.props.pokemonTable, "Sta"),
 
                 maximizer: max,
             },
@@ -633,7 +633,7 @@ class SinglePvp extends React.PureComponent {
                         <Pokemon
                             className="pokemon m-2"
 
-                            pokemonTable={this.props.parentState.pokemonTable}
+                            pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
                             value={this.state.attacker}
                             attr="attacker"
@@ -689,7 +689,7 @@ class SinglePvp extends React.PureComponent {
                             <div className="align-self-end order-1 order-lg-3 col px-0">
                                 <div className="order-1 order-lg-3 d-flex justify-content-between bd-highligh mx-0 px-0 col-12  mt-2 mt-lg-0" >
                                     <div className="bd-highlight">
-                                        {(this.state.attacker.name && this.props.parentState.pokemonTable[this.state.attacker.name]) &&
+                                        {(this.state.attacker.name && this.props.pokemonTable[this.state.attacker.name]) &&
                                             <Indicators
                                                 effSta={this.state.attacker.effSta}
                                                 HP={this.state.attacker.HP}
@@ -699,9 +699,9 @@ class SinglePvp extends React.PureComponent {
                                                 chargeMove2={this.props.parentState.moveTable[this.state.attacker.ChargeMove2]}
                                                 attr="Attacker"
 
-                                                attackerTypes={this.props.parentState.pokemonTable[this.state.attacker.name].Type}
-                                                defenderTypes={(this.props.parentState.pokemonTable[this.state.defender.name]) ?
-                                                    this.props.parentState.pokemonTable[this.state.defender.name].Type : ""}
+                                                attackerTypes={this.props.pokemonTable[this.state.attacker.name].Type}
+                                                defenderTypes={(this.props.pokemonTable[this.state.defender.name]) ?
+                                                    this.props.pokemonTable[this.state.defender.name].Type : ""}
                                                 aAttack={this.state.attacker.effAtk}
                                                 dDefence={this.state.defender.effDef}
                                             />}
@@ -715,7 +715,7 @@ class SinglePvp extends React.PureComponent {
                                         />
                                     </div >
                                     <div className="bd-highlight" >
-                                        {(this.state.defender.name && this.props.parentState.pokemonTable[this.state.defender.name]) &&
+                                        {(this.state.defender.name && this.props.pokemonTable[this.state.defender.name]) &&
                                             <Indicators
                                                 effSta={this.state.defender.effSta}
                                                 HP={this.state.defender.HP}
@@ -725,9 +725,9 @@ class SinglePvp extends React.PureComponent {
                                                 chargeMove2={this.props.parentState.moveTable[this.state.defender.ChargeMove2]}
                                                 attr="Defender"
 
-                                                attackerTypes={this.props.parentState.pokemonTable[this.state.defender.name].Type}
-                                                defenderTypes={(this.props.parentState.pokemonTable[this.state.attacker.name]) ?
-                                                    this.props.parentState.pokemonTable[this.state.attacker.name].Type : ""}
+                                                attackerTypes={this.props.pokemonTable[this.state.defender.name].Type}
+                                                defenderTypes={(this.props.pokemonTable[this.state.attacker.name]) ?
+                                                    this.props.pokemonTable[this.state.attacker.name].Type : ""}
                                                 aAttack={this.state.defender.effAtk}
                                                 dDefence={this.state.attacker.effDef}
                                             />}
@@ -749,7 +749,7 @@ class SinglePvp extends React.PureComponent {
                         <Pokemon
                             className="pokemon m-2"
 
-                            pokemonTable={this.props.parentState.pokemonTable}
+                            pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
                             value={this.state.defender}
                             attr="defender"

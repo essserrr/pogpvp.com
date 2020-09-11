@@ -569,7 +569,7 @@ export function separateMovebase(movebase) {
             default:
         }
     }
-    return { chargeMoveList: chargeMoveList, quickMoveList: quickMoveList }
+    return { chargeMoveList, quickMoveList }
 }
 
 

@@ -49,7 +49,7 @@ class CustomPve extends React.PureComponent {
         //get movepool
         switch (name) {
             default:
-                var moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect, true)
+                var moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect, true)
         }
         //set state
         this.setState({
@@ -341,7 +341,7 @@ class CustomPve extends React.PureComponent {
                         <SimulatorPanel
                             forCustomPve={true}
 
-                            pokemonTable={this.props.parentState.pokemonTable}
+                            pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
                             pokList={this.props.parentState.pokList}
                             chargeMoveList={this.props.parentState.chargeMoveList}
@@ -388,7 +388,7 @@ class CustomPve extends React.PureComponent {
 
                                 replaceOriginal={this.replaceOriginal}
 
-                                pokemonTable={this.props.parentState.pokemonTable}
+                                pokemonTable={this.props.pokemonTable}
                                 moveTable={this.props.parentState.moveTable}
                                 pokList={this.props.parentState.pokList}
                                 boostersList={this.props.parentState.boostersList}

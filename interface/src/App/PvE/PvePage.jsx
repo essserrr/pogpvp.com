@@ -45,7 +45,6 @@ class PvePage extends React.Component {
             error: "",
             showResult: false,
             isError: false,
-            pokemonTable: "",
             moveTable: "",
             pokList: "",
             chargeMoveList: "",
@@ -118,12 +117,10 @@ class PvePage extends React.Component {
                 var pveResult = await responses[responses.length - 1].json()
             }
 
-            let pokList = []
-            if (!!this.props.bases.pokemonBase) { pokList = returnPokList(this.props.bases.pokemonBase, true, strings.options.moveSelect.none) }
+            if (!!this.props.bases.pokemonBase) { var pokList = returnPokList(this.props.bases.pokemonBase, true, strings.options.moveSelect.none) }
 
             let mergedMovebase = { ...this.props.customMoves.moves, ...this.props.bases.moveBase }
-            let movebaseSeparated = []
-            if (!!this.props.bases.moveBase) { movebaseSeparated = separateMovebase(mergedMovebase) }
+            if (!!this.props.bases.moveBase) { var movebaseSeparated = separateMovebase(mergedMovebase) }
 
 
             for (let i = 0; i < responses.length; i++) {
@@ -135,11 +132,10 @@ class PvePage extends React.Component {
                         showResult: false,
                         loading: false,
 
-                        pokemonTable: (!!this.props.bases.pokemonBase) ? this.props.bases.pokemonBase : [],
                         moveTable: (!!this.props.bases.moveBase) ? mergedMovebase : [],
-                        pokList: (pokList) ? pokList : [],
-                        chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
-                        quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
+                        pokList: pokList,
+                        chargeMoveList: movebaseSeparated.chargeMoveList,
+                        quickMoveList: movebaseSeparated.quickMoveList,
                     })
                     return
                 }
@@ -168,7 +164,6 @@ class PvePage extends React.Component {
                 showResult: !!pveResult,
                 url: window.location.href,
 
-                pokemonTable: this.props.bases.pokemonBase,
                 moveTable: mergedMovebase,
                 pokList: pokList,
                 boostersList: pokList.filter((etry) => this.canBoost(etry.value)),
@@ -187,7 +182,6 @@ class PvePage extends React.Component {
                 showResult: false,
                 loading: false,
 
-                pokemonTable: [],
                 moveTable: [],
                 pokList: [],
                 chargeMoveList: [],
@@ -244,13 +238,17 @@ class PvePage extends React.Component {
                         </div>}
                         <div className="col-12 px-1">
                             {this.state.isLoaded && this.props.match.params.type === "common" && <CommonPve
+                                pokemonTable={this.props.bases.pokemonBase}
+
                                 changeUrl={this.changeUrl}
                                 parentState={this.state}
                             />}
                             {this.state.isLoaded && this.props.match.params.type === "custom" && <CustomPve
+                                pokemonTable={this.props.bases.pokemonBase}
+
                                 changeUrl={this.changeUrl}
                                 parentState={this.state}
-                                userParties={this.props.customParties ? this.props.customParties : {}}
+                                userParties={this.props.customParties}
                             />}
                         </div>
 

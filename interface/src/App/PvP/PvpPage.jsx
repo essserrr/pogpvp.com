@@ -5,6 +5,7 @@ import LocalizedStrings from "react-localization"
 import ReactTooltip from "react-tooltip"
 import { connect } from "react-redux"
 
+import { getCustomPokemon } from "../../AppStore/Actions/getCustomPokemon"
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
@@ -52,7 +53,6 @@ class PvpPage extends React.Component {
             error: "",
             showResult: false,
             isError: false,
-            pokemonTable: "",
             moveTable: "",
             pokList: "",
             chargeMoveList: "",
@@ -123,7 +123,8 @@ class PvpPage extends React.Component {
             let fetches = [
                 this.props.getPokemonBase(),
                 this.props.getMoveBase(),
-                this.props.getCustomMoves()
+                this.props.getCustomMoves(),
+                this.props.getCustomPokemon(),
             ]
             if (extractedData.attacker !== undefined && extractedData.defender !== undefined) {
                 fetches.push(fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + window.location.pathname.replace("pvp", "request").replace("/pvpoke", ""), {
@@ -137,36 +138,29 @@ class PvpPage extends React.Component {
 
             let responses = await Promise.all(fetches)
 
-
             if (extractedData.attacker !== undefined && extractedData.defender !== undefined) {
                 var pvpResult = await responses[responses.length - 1].json()
             }
 
+            if (!!this.props.bases.pokemonBase) { var pokList = returnPokList(this.props.bases.pokemonBase) }
 
-            let pokList = []
-            if (!!this.props.bases.pokemonBase) { pokList = returnPokList(this.props.bases.pokemonBase) }
-
-            let movebaseSeparated = []
             let mergedMovebase = { ...this.props.customMoves.moves, ...this.props.bases.moveBase }
-            if (!!this.props.bases.moveBase) { movebaseSeparated = separateMovebase(mergedMovebase) }
-
-
+            if (!!this.props.bases.moveBase) { var movebaseSeparated = separateMovebase(mergedMovebase) }
 
             for (let i = 0; i < responses.length; i++) {
                 if (!responses[i].ok) {
                     this.setState({
                         isError: true,
-                        error: (i === 3 ? pvpResult.detail : responses[i].detail),
+                        error: (i === 4 ? pvpResult.detail : responses[i].detail),
                         isLoaded: true,
                         showResult: false,
                         loading: false,
                         league: (extractedData.league) ? extractedData.league : "great",
 
-                        pokemonTable: (!!this.props.bases.pokemonBase) ? this.props.bases.pokemonBase : [],
                         moveTable: (!!this.props.bases.moveBase) ? mergedMovebase : [],
-                        pokList: (pokList) ? pokList : [],
-                        chargeMoveList: (movebaseSeparated.chargeMoveList) ? movebaseSeparated.chargeMoveList : [],
-                        quickMoveList: (movebaseSeparated.quickMoveList) ? movebaseSeparated.quickMoveList : [],
+                        pokList: pokList,
+                        chargeMoveList: movebaseSeparated.chargeMoveList,
+                        quickMoveList: movebaseSeparated.quickMoveList,
                     })
                     return
                 }
@@ -186,7 +180,6 @@ class PvpPage extends React.Component {
                 url: (extractedData.attacker !== undefined && extractedData.defender !== undefined) ? window.location.href : "",
                 league: (extractedData.league) ? extractedData.league : "great",
 
-                pokemonTable: this.props.bases.pokemonBase,
                 moveTable: mergedMovebase,
                 pokList: pokList,
                 chargeMoveList: movebaseSeparated.chargeMoveList,
@@ -204,7 +197,6 @@ class PvpPage extends React.Component {
                 loading: false,
                 league: (extractedData.league) ? extractedData.league : "great",
 
-                pokemonTable: [],
                 moveTable: [],
                 pokList: [],
                 chargeMoveList: [],
@@ -302,11 +294,18 @@ class PvpPage extends React.Component {
                         </div>}
                         <div className="col-12 max1200 m-0 p-0">
                             {(this.state.isLoaded && (this.props.match.params.type === "single")) &&
-                                <SinglePvp parentState={this.state}
+                                <SinglePvp
+                                    userParties={this.props.customPokemon}
+                                    pokemonTable={this.props.bases.pokemonBase}
+
+                                    parentState={this.state}
                                     changeUrl={this.changeUrl} />
                             }
                             {(this.state.isLoaded && (this.props.match.params.type === "matrix")) &&
-                                <MatrixPvp parentState={this.state} />
+                                <MatrixPvp
+                                    pokemonTable={this.props.bases.pokemonBase}
+
+                                    parentState={this.state} />
                             }
                         </div>
                     </div>
@@ -337,6 +336,7 @@ const mapDispatchToProps = dispatch => {
         getCustomMoves: () => dispatch(getCustomMoves()),
         getPokemonBase: () => dispatch(getPokemonBase()),
         getMoveBase: () => dispatch(getMoveBase()),
+        getCustomPokemon: () => dispatch(getCustomPokemon()),
     }
 }
 
@@ -344,5 +344,6 @@ export default connect(
     state => ({
         customMoves: state.customMoves,
         bases: state.bases,
+        customPokemon: state.customPokemon.pokemon,
     }), mapDispatchToProps
 )(PvpPage)

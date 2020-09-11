@@ -121,7 +121,7 @@ class MatrixPvp extends React.PureComponent {
         let newBattleList = this.state[role].listForBattle.map((pok) => {
             let ivSet = calculateMaximizedStats(pok.name,
                 max.level,
-                this.props.parentState.pokemonTable,
+                this.props.pokemonTable,
                 {
                     great: this.props.parentState.league === "great" ? true : false,
                     ultra: this.props.parentState.league === "ultra" ? true : false,
@@ -300,8 +300,8 @@ class MatrixPvp extends React.PureComponent {
                 key={key}
                 index={key}
                 thead={<><PokemonIconer
-                    src={this.props.parentState.pokemonTable[elem.name].Number +
-                        (this.props.parentState.pokemonTable[elem.name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[elem.name].Forme : "")}
+                    src={this.props.pokemonTable[elem.name].Number +
+                        (this.props.pokemonTable[elem.name].Forme !== "" ? "-" + this.props.pokemonTable[elem.name].Forme : "")}
                     class={"icon24 mr-1"}
                     for={""}
                 />{elem.name}</>}
@@ -340,7 +340,7 @@ class MatrixPvp extends React.PureComponent {
             let nameAndType = pok[0].split("!")
             let name = capitalizeFirst(nameAndType[0].replace("_", " "), true)
             name = translateName(name)
-            if (!this.props.parentState.pokemonTable[name]) {
+            if (!this.props.pokemonTable[name]) {
                 console.log(`Critical: "${name}" not found in the database`)
                 return
             }
@@ -376,7 +376,7 @@ class MatrixPvp extends React.PureComponent {
             }
 
 
-            let ivSet = calculateMaximizedStats(name, this.state[role].maximizer.level, this.props.parentState.pokemonTable,
+            let ivSet = calculateMaximizedStats(name, this.state[role].maximizer.level, this.props.pokemonTable,
                 {
                     great: this.props.parentState.league === "great" ? true : false,
                     ultra: this.props.parentState.league === "ultra" ? true : false,
@@ -588,16 +588,16 @@ class MatrixPvp extends React.PureComponent {
         return [[<th key={"zero"} className="tableBorder theadT p-0 px-1" scope="col" />,
         ...this.state.rightPanel.listForBattle.map((pok, j) => {
             return <TheadElement key={j + pok.name + "thead"} pok={pok} j={j}
-                pokemonTable={this.props.parentState.pokemonTable} addStar={this.addStar} />
+                pokemonTable={this.props.pokemonTable} addStar={this.addStar} />
         }),],
         ...this.state.leftPanel.listForBattle.map((pok, i) => {
             return [<LineElement key={i + pok.name + "line"} pok={pok} i={i}
-                pokemonTable={this.props.parentState.pokemonTable} addStar={this.addStar} />]
+                pokemonTable={this.props.pokemonTable} addStar={this.addStar} />]
         }),]
     }
 
     addStar(pokName, moveName) {
-        return (this.props.parentState.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
+        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
     }
 
     pvpTriple(data, pvpoke) {
@@ -692,8 +692,8 @@ class MatrixPvp extends React.PureComponent {
                 key={key}
                 index={key}
                 thead={<><PokemonIconer
-                    src={this.props.parentState.pokemonTable[event.pokemon.name].Number +
-                        (this.props.parentState.pokemonTable[event.pokemon.name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[event.pokemon.name].Forme : "")}
+                    src={this.props.pokemonTable[event.pokemon.name].Number +
+                        (this.props.pokemonTable[event.pokemon.name].Forme !== "" ? "-" + this.props.pokemonTable[event.pokemon.name].Forme : "")}
                     class={"icon24 mr-1"}
                     for={""}
                 />
@@ -810,8 +810,8 @@ class MatrixPvp extends React.PureComponent {
             key={pokCopy.key}
             index={pokCopy.key}
             thead={<><PokemonIconer
-                src={this.props.parentState.pokemonTable[pokCopy.name].Number +
-                    (this.props.parentState.pokemonTable[pokCopy.name].Forme !== "" ? "-" + this.props.parentState.pokemonTable[pokCopy.name].Forme : "")}
+                src={this.props.pokemonTable[pokCopy.name].Number +
+                    (this.props.pokemonTable[pokCopy.name].Forme !== "" ? "-" + this.props.pokemonTable[pokCopy.name].Forme : "")}
                 class={"icon24 mr-1"}
                 for={""}
             />
@@ -894,7 +894,7 @@ class MatrixPvp extends React.PureComponent {
             < >
                 <div className="row justify-content-between mb-4"  >
                     {this.state.redact.showMenu && <RedactPokemon
-                        pokemonTable={this.props.parentState.pokemonTable}
+                        pokemonTable={this.props.pokemonTable}
                         moveTable={this.props.parentState.moveTable}
 
                         pokList={this.props.parentState.pokList}
@@ -912,7 +912,7 @@ class MatrixPvp extends React.PureComponent {
                     />}
                     <div className="results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
                         <MatrixPanel
-                            pokemonTable={this.props.parentState.pokemonTable}
+                            pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
 
                             pokList={this.props.parentState.pokList}
@@ -979,7 +979,7 @@ class MatrixPvp extends React.PureComponent {
                     </div>
                     <div className="results order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
                         <MatrixPanel
-                            pokemonTable={this.props.parentState.pokemonTable}
+                            pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
 
                             pokList={this.props.parentState.pokList}
@@ -1007,7 +1007,7 @@ class MatrixPvp extends React.PureComponent {
                                 list={this.state.advisorList}
 
                                 rawResult={this.state.rawResult}
-                                pokemonTable={this.props.parentState.pokemonTable}
+                                pokemonTable={this.props.pokemonTable}
                                 moveTable={this.props.parentState.moveTable}
 
                                 leftPanel={this.state.leftPanel}

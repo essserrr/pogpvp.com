@@ -84,13 +84,13 @@ class CommonPve extends React.PureComponent {
         //get movepool
         switch (name) {
             case "attackerObj":
-                var moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect)
+                var moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
                 break
             case "supportPokemon":
-                moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect)
+                moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
                 break
             default:
-                moves = returnMovePool(event.value, this.props.parentState.pokemonTable, strings.options.moveSelect, true)
+                moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect, true)
         }
         //set state
         this.setState({
@@ -307,7 +307,7 @@ class CommonPve extends React.PureComponent {
                 <div className="row justify-content-center m-0 mb-4"  >
                     <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
-                            pokemonTable={this.props.parentState.pokemonTable}
+                            pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
                             pokList={this.props.parentState.pokList}
                             boostersList={this.props.parentState.boostersList}
@@ -352,7 +352,7 @@ class CommonPve extends React.PureComponent {
 
                                 replaceOriginal={this.replaceOriginal}
 
-                                pokemonTable={this.props.parentState.pokemonTable}
+                                pokemonTable={this.props.pokemonTable}
                                 moveTable={this.props.parentState.moveTable}
                                 pokList={this.props.parentState.pokList}
                                 chargeMoveList={this.props.parentState.chargeMoveList}
