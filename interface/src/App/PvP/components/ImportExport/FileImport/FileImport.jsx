@@ -14,7 +14,7 @@ let strings = new LocalizedStrings(locale)
 
 class FileImport extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
 

@@ -12,7 +12,7 @@ let pveStrings = new LocalizedStrings(pveLocale)
 
 class PokemonPanel extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }

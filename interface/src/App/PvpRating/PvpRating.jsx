@@ -28,7 +28,7 @@ let strings = new LocalizedStrings(locale)
 
 class PvpRating extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             pokemonTable: [],

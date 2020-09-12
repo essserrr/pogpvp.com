@@ -22,7 +22,7 @@ let strings = new LocalizedStrings(dexLocale);
 
 class MoveCard extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,

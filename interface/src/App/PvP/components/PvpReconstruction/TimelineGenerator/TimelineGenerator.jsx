@@ -16,7 +16,7 @@ let strings = new LocalizedStrings(locale);
 
 class TimelineGenerator extends PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.returnReconstruction = this.returnReconstruction.bind(this);
     }

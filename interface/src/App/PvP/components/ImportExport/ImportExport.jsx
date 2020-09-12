@@ -12,7 +12,7 @@ let strings = new LocalizedStrings(locale)
 
 class ImportExport extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.textArea = React.createRef();
 
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")

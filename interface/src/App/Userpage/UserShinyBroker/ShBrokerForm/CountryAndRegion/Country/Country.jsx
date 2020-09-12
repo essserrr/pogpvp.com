@@ -8,7 +8,7 @@ import "./Country.scss"
 
 class Country extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             countriesList: [{ value: "", label: props.defaultOption, }, ...CountryRegionData.map((value) => ({ value: value[0], label: value[0], }))]
         }

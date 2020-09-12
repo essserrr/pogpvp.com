@@ -10,7 +10,7 @@ let strings = new LocalizedStrings(dexLocale)
 
 class RedirectBlock extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

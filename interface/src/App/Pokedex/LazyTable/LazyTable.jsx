@@ -4,7 +4,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 class LazyTable extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
 
         this.state = {
             page: 1,

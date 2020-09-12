@@ -2,7 +2,7 @@ import React from "react";
 
 export default class DropdownMenu extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.wrapperRef = React.createRef();
 
         this.state = {

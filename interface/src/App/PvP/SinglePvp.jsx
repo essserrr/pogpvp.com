@@ -23,7 +23,7 @@ let strings = new LocalizedStrings(locale);
 
 class SinglePvp extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             attacker: (props.parentState.attacker) ? props.parentState.attacker : pokemon(strings.tips.nameSearch),

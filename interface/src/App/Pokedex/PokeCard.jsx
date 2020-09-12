@@ -28,7 +28,7 @@ let strings = new LocalizedStrings(dexLocale);
 
 class PokeCard extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,

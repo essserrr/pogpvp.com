@@ -19,7 +19,7 @@ let strings = new LocalizedStrings(locale);
 
 class CommonPve extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             attackerObj: (props.parentState.attackerObj) ? props.parentState.attackerObj : pveattacker(),

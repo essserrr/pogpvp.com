@@ -17,7 +17,7 @@ let pveStrings = new LocalizedStrings(pveLocale);
 
 class Breakpoints extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             attackerObj: {

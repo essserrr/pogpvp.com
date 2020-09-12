@@ -14,7 +14,7 @@ let pvpStrings = new LocalizedStrings(locale)
 
 class Filters extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pvpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }

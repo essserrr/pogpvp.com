@@ -13,7 +13,7 @@ let strings = new LocalizedStrings(userLocale);
 
 class EditMenu extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

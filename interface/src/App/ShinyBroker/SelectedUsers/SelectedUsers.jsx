@@ -12,7 +12,7 @@ let strings = new LocalizedStrings(userLocale)
 
 class SelectedUsers extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

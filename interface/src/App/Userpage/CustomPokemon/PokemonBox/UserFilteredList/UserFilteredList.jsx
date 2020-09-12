@@ -5,7 +5,7 @@ import UserPokemonList from "../UserPokemonList/UserPokemonList"
 
 class UserFilteredList extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.applyFilter = this.applyFilter.bind(this)
     }
 

@@ -16,7 +16,7 @@ let strings = new LocalizedStrings(locale);
 
 class RedactPokemon extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         //get movepool
         let moves = returnMovePool(props.redact.pokemon.name, props.pokemonTable, strings.options.moveSelect, false,

@@ -15,7 +15,7 @@ let strings = new LocalizedStrings(locale)
 
 class EvoList extends PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

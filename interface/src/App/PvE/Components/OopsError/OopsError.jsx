@@ -7,7 +7,7 @@ import "./OopsError.scss"
 
 class OopsError extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         this.notFound = React.createRef();
         this.focusDiv = this.focusDiv.bind(this);
     }

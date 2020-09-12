@@ -13,7 +13,7 @@ let strings = new LocalizedStrings(userLocale)
 
 class RestorePassForm extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this)
         this.onSubmit = this.onSubmit.bind(this)

@@ -26,7 +26,7 @@ let strings = new LocalizedStrings(locale);
 
 class MatrixPanel extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             shieldsList: [

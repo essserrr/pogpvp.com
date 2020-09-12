@@ -12,7 +12,7 @@ let strings = new LocalizedStrings(userLocale)
 
 class PassChangeForm extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

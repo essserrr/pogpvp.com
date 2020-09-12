@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(pveLocale);
 
 class CollectionSettings extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.pveres = React.createRef();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }

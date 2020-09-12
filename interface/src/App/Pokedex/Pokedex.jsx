@@ -21,7 +21,7 @@ let strings = new LocalizedStrings(dexLocale);
 
 class Pokedex extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             name: "",

@@ -6,7 +6,7 @@ import "./UserCard.scss"
 
 class UserCard extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             showCollapse: false,
             element: null,

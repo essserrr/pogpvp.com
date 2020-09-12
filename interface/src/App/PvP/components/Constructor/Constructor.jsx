@@ -13,7 +13,7 @@ let strings = new LocalizedStrings(locale);
 
 class Constructor extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             Attacker: {

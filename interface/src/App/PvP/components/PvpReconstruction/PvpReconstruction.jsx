@@ -7,7 +7,7 @@ import "./PvpReconstruction.scss"
 
 class PvpReconstruction extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.reconstruction = React.createRef();
 
         this.state = {

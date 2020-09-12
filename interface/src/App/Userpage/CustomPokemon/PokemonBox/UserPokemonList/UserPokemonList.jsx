@@ -7,7 +7,7 @@ import "./UserPokemonList.scss"
 
 class UserShinyList extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
 
         this.state = {
             page: 1,

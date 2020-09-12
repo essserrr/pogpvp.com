@@ -12,7 +12,7 @@ let strings = new LocalizedStrings(userLocale);
 
 class ProfileButtons extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.onClick = this.onClick.bind(this)

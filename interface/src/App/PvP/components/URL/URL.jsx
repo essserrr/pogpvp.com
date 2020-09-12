@@ -6,7 +6,7 @@ import Input from "../Input/Input"
 
 class URL extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             showTip: ""
         };

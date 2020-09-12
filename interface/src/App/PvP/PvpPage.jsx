@@ -47,7 +47,7 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
 
 class PvpPage extends React.Component {
     constructor(props) {
-        super();
+        super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             error: "",

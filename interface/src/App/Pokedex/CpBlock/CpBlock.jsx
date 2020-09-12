@@ -4,7 +4,7 @@ import CpCalc from "./CpCalc"
 
 class CpBlock extends React.PureComponent {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             pokemon: {
                 Lvl: "40",
