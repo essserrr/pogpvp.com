@@ -8,7 +8,7 @@ import { deleteParty } from "../../AppStore/Actions/actions"
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
 import Errors from "./components/Errors/Errors"
-import ListEntry from "./components/MatrixPokemonList/ListEntry"
+import MatrixListEntry from "./components/MatrixPokemonList/MatrixListEntry/MatrixListEntry"
 import Advisor from "./components/Advisor/Advisor"
 import TheadElement from "./components/MetrixTable/TheadElement"
 import LineElement from "./components/MetrixTable/LineElement"
@@ -291,7 +291,7 @@ class MatrixPvp extends React.PureComponent {
         return arr.map((elem, i) => {
             let key = elem.name + i
             arr[i].key = key
-            return <ListEntry
+            return <MatrixListEntry
                 onPokemonDelete={this.onPokemonDelete}
                 attr={role}
                 onClick={this.onPokRedact}
@@ -683,7 +683,7 @@ class MatrixPvp extends React.PureComponent {
 
         let newListToDisplay = [...this.state[event.attr].listToDisplay]
         newListToDisplay.push(
-            <ListEntry
+            <MatrixListEntry
                 onPokemonDelete={this.onPokemonDelete}
                 attr={event.attr}
                 onClick={this.onPokRedact}
@@ -800,7 +800,7 @@ class MatrixPvp extends React.PureComponent {
 
 
         let newListToDisplay = [...this.state[this.state.redact.attr].listToDisplay]
-        newListToDisplay[this.state.redact.number] = <ListEntry
+        newListToDisplay[this.state.redact.number] = <MatrixListEntry
             onPokemonDelete={this.onPokemonDelete}
             attr={this.state.redact.attr}
             onClick={this.onPokRedact}
