@@ -817,26 +817,6 @@ body {
 }
 
 //news style
-.newsTitle {
-    background-color: #958ff1;
-    background-image: linear-gradient(#97aaff, #8198fd, #778ffa);
-    width: 100%;
-
-    color: white;
-    font-weight: bold;
-    font-size: 3rem;
-
-    padding-left: 1rem;
-    padding-right: 0.5rem;
-
-    border-radius: 2px 2px 0px 0px;
-    border: 1.2px solid #748dfa;
-}
-
-.newsBody {
-    background-color: $primary-color;
-    border-radius: 4px;
-}
 
 .singleNews {
     border-radius: 4px;

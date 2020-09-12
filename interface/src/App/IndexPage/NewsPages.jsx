@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import LocalizedStrings from "react-localization"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import { Link } from "react-router-dom"
@@ -11,8 +11,9 @@ import News from "./News/News"
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/getCookie"
 
+import "./NewsPages.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(locale)
 
 class NewsPages extends React.Component {
     constructor(props) {
@@ -104,8 +105,8 @@ class NewsPages extends React.Component {
                 />
                 <div className=" container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="newsBody col-md-10 col-lg-8 p-0">
-                            <div className="newsTitle">
+                        <div className="news-pages__body col-md-10 col-lg-8 p-0">
+                            <div className="news-pages__title">
                                 {strings.title.latestnews}
                             </div>
                             {this.state.loading &&
