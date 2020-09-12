@@ -1155,16 +1155,6 @@ body {
 }
 
 //links
-.linkText {
-    text-decoration: none;
-    color: black;
-    &:hover {
-        color: $link-color;
-        text-decoration: underline;
-        cursor: pointer;
-    }
-}
-
 .link {
     color: $link-color !important;
     &:hover {

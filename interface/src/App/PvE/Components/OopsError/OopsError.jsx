@@ -3,7 +3,9 @@ import { Link } from "react-router-dom"
 
 import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 
-class RaidAuthFailed extends React.Component {
+import "./OopsError.scss"
+
+class OopsError extends React.Component {
     constructor(props) {
         super();
         this.notFound = React.createRef();
@@ -40,7 +42,7 @@ class RaidAuthFailed extends React.Component {
                                 </h5>
                                 <div tabIndex="0" ref={this.notFound}></div>
                                 <Link title={this.props.linkTitle}
-                                    className="row ml-2 mr-1 linkText font-weight-bold text-center"
+                                    className="ooops__link--text row ml-2 mr-1 font-weight-bold text-center"
                                     to={this.props.link}>
                                     <i className="fas fa-angle-double-left align-self-center  mr-1"></i>
                                     {this.props.linkTitle}
@@ -54,5 +56,5 @@ class RaidAuthFailed extends React.Component {
     }
 }
 
-export default RaidAuthFailed
+export default OopsError
 

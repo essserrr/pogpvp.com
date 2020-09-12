@@ -64,7 +64,7 @@ class NotFound extends React.Component {
                                 </h5>
                                 <div tabIndex="0" ref={this.notFound}></div>
                                 <Link title={strings.buttons.home}
-                                    className="row ml-2 mr-1 linkText font-weight-bold text-center"
+                                    className="not-found__link--text row ml-2 mr-1 font-weight-bold text-center"
                                     to={"/"}>
                                     <i className="fas fa-angle-double-left align-self-center  mr-1"></i>
                                     {strings.return}
