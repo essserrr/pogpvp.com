@@ -1,0 +1,8 @@
+$tertiary-color: rgb(255, 255, 255);
+
+.pokedex-card {
+    border-radius: 4px;
+    background-color: $tertiary-color;
+    border: 1px solid #acacac;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}

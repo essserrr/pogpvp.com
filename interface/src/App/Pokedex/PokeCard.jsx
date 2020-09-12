@@ -22,6 +22,7 @@ import RedirectBlock from "./RedirectBlock/RedirectBlock"
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/getCookie"
 
+import "./PokeCard.scss"
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -171,7 +172,7 @@ class PokeCard extends React.Component {
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="dexCard mx-3 mb-2 max650 col-12 col-md-10 col-lg-8 p-2 p-md-4">
+                        <div className="pokedex-card mx-3 mb-2 max650 col-12 col-md-10 col-lg-8 p-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
