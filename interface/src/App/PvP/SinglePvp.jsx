@@ -7,7 +7,7 @@ import {
     processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
 } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
-import Reconstruction from "./components/PvpReconstruction/Reconstruction.jsx"
+import PvpReconstruction from "./components/PvpReconstruction/PvpReconstruction"
 import Errors from "./components/Errors/Errors"
 import Indicators from "./components/Indicators/Indicators"
 import URL from "./components/URL/URL"
@@ -775,7 +775,7 @@ class SinglePvp extends React.PureComponent {
 
                                 {this.state.showResult &&
                                     <div className="order-2 order-lg-4 col-12 px-0  mt-1" >
-                                        <Reconstruction
+                                        <PvpReconstruction
                                             onMouseEnter={this.onMouseEnter}
                                             constructorOn={this.constructorOn}
                                             value={this.state.result}
