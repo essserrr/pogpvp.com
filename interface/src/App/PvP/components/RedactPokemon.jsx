@@ -16,14 +16,14 @@ let strings = new LocalizedStrings(locale);
 
 class RedactPokemon extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         //get movepool
-        let moves = returnMovePool(this.props.redact.pokemon.name, this.props.pokemonTable, strings.options.moveSelect, false,
-            [this.props.redact.pokemon.QuickMove], [this.props.redact.pokemon.ChargeMove1, this.props.redact.pokemon.ChargeMove2])
+        let moves = returnMovePool(props.redact.pokemon.name, props.pokemonTable, strings.options.moveSelect, false,
+            [props.redact.pokemon.QuickMove], [props.redact.pokemon.ChargeMove1, props.redact.pokemon.ChargeMove2])
         //create default iv set
-        let ivSet = calculateMaximizedStats(this.props.redact.pokemon.name, this.props.value.maximizer.level, this.props.pokemonTable)
-        let whatToMaximize = (this.props.value.maximizer.action === "Default") ? "Default" : this.props.value.maximizer.stat
+        let ivSet = calculateMaximizedStats(props.redact.pokemon.name, props.value.maximizer.level, props.pokemonTable)
+        let whatToMaximize = (props.value.maximizer.action === "Default") ? "Default" : props.value.maximizer.stat
 
         this.state = {
             shieldsList: [
@@ -55,22 +55,22 @@ class RedactPokemon extends React.PureComponent {
                 </>
             ],
             pokemon: {
-                ...this.props.redact.pokemon,
+                ...props.redact.pokemon,
                 quickMovePool: moves.quickMovePool,
                 chargeMovePool: moves.chargeMovePool,
 
-                effAtk: calculateEffStat(this.props.redact.pokemon.name, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Atk, this.props.redact.pokemon.AtkStage,
-                    this.props.pokemonTable, "Atk", this.props.redact.pokemon.IsShadow),
+                effAtk: calculateEffStat(props.redact.pokemon.name, ivSet[props.league][whatToMaximize].Level,
+                    ivSet[props.league][whatToMaximize].Atk, props.redact.pokemon.AtkStage,
+                    props.pokemonTable, "Atk", props.redact.pokemon.IsShadow),
 
-                effDef: calculateEffStat(this.props.redact.pokemon.name, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Def, this.props.redact.pokemon.DefStage,
-                    this.props.pokemonTable, "Def", this.props.redact.pokemon.IsShadow),
+                effDef: calculateEffStat(props.redact.pokemon.name, ivSet[props.league][whatToMaximize].Level,
+                    ivSet[props.league][whatToMaximize].Def, props.redact.pokemon.DefStage,
+                    props.pokemonTable, "Def", props.redact.pokemon.IsShadow),
 
-                effSta: calculateEffStat(this.props.redact.pokemon.name, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
+                effSta: calculateEffStat(props.redact.pokemon.name, ivSet[props.league][whatToMaximize].Level,
+                    ivSet[props.league][whatToMaximize].Sta, 0, props.pokemonTable, "Sta"),
 
-                maximizer: this.props.value.maximizer,
+                maximizer: props.value.maximizer,
 
                 HP: undefined,
                 Energy: undefined,

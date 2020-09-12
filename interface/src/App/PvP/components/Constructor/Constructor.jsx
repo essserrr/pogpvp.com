@@ -13,28 +13,26 @@ let strings = new LocalizedStrings(locale);
 
 class Constructor extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             Attacker: {
                 Action: "Default",
-                IsShield: this.props.log[this.props.round].Attacker.ShieldIsUsed,
-                IsTriggered: this.props.log[this.props.round].Attacker.StageA !== 0 || this.props.log[this.props.round].Attacker.StageD !== 0,
+                IsShield: props.log[props.round].Attacker.ShieldIsUsed,
+                IsTriggered: props.log[props.round].Attacker.StageA !== 0 || props.log[props.round].Attacker.StageD !== 0,
                 actionList: [],
                 containCharge: false,
             },
             Defender: {
                 Action: "Default",
-                IsShield: this.props.log[this.props.round].Defender.ShieldIsUsed,
-                IsTriggered: this.props.log[this.props.round].Defender.StageA !== 0 || this.props.log[this.props.round].Defender.StageD !== 0,
+                IsShield: props.log[props.round].Defender.ShieldIsUsed,
+                IsTriggered: props.log[props.round].Defender.StageA !== 0 || props.log[props.round].Defender.StageD !== 0,
                 actionList: [],
                 containCharge: false,
             },
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
-
     }
 
 

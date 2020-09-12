@@ -13,12 +13,12 @@ let strings = new LocalizedStrings(userLocale)
 
 class UserShinyList extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             page: 1,
-            listToShow: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
-            isNext: this.props.elemntsOnPage > this.props.list.length ? false : true
+            listToShow: props.list.slice(0, props.elemntsOnPage > props.list.length ? props.list.length : props.elemntsOnPage),
+            isNext: props.elemntsOnPage > props.list.length ? false : true
         }
     }
 

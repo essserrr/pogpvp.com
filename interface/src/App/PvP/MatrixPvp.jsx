@@ -29,7 +29,7 @@ let strings = new LocalizedStrings(locale)
 
 class MatrixPvp extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             leftPanel: {
@@ -82,9 +82,9 @@ class MatrixPvp extends React.PureComponent {
             advisorList: undefined,
 
             loading: false,
-            error: this.props.parentState.error,
-            showResult: this.props.parentState.showResult,
-            isError: this.props.parentState.isError,
+            error: props.parentState.error,
+            showResult: props.parentState.showResult,
+            isError: props.parentState.isError,
         };
 
         this.onChange = this.onChange.bind(this);

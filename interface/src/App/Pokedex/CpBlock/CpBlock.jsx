@@ -4,7 +4,7 @@ import CpCalc from "./CpCalc"
 
 class CpBlock extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             pokemon: {
                 Lvl: "40",
@@ -16,9 +16,9 @@ class CpBlock extends React.PureComponent {
                 DefStage: 0,
                 IsShadow: "false",
 
-                effAtk: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokTable, "Atk", "false"),
-                effDef: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokTable, "Def", "false"),
-                effSta: calculateEffStat(this.props.pok.Title, 40, 15, 0, this.props.pokTable, "Sta"),
+                effAtk: calculateEffStat(props.pok.Title, 40, 15, 0, props.pokTable, "Atk", "false"),
+                effDef: calculateEffStat(props.pok.Title, 40, 15, 0, props.pokTable, "Def", "false"),
+                effSta: calculateEffStat(props.pok.Title, 40, 15, 0, props.pokTable, "Sta"),
 
             },
         };

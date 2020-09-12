@@ -19,29 +19,29 @@ let strings = new LocalizedStrings(locale);
 
 class CommonPve extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            attackerObj: (this.props.parentState.attackerObj) ? this.props.parentState.attackerObj : pveattacker(),
-            bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
-            pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : pveobj(),
-            supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
+            attackerObj: (props.parentState.attackerObj) ? props.parentState.attackerObj : pveattacker(),
+            bossObj: (props.parentState.bossObj) ? props.parentState.bossObj : boss(strings.tips.nameSearch),
+            pveObj: (props.parentState.pveObj) ? props.parentState.pveObj : pveobj(),
+            supportPokemon: (props.parentState.supportPokemon) ? props.parentState.supportPokemon : pveattacker(),
 
-            result: this.props.parentState.pveResult ? this.props.parentState.pveResult : [],
-            url: this.props.parentState.url ? this.props.parentState.url : "",
-            date: this.props.parentState.date ? this.props.parentState.date : 1,
+            result: props.parentState.pveResult ? props.parentState.pveResult : [],
+            url: props.parentState.url ? props.parentState.url : "",
+            date: props.parentState.date ? props.parentState.date : 1,
 
-            error: this.props.parentState.error,
-            showResult: this.props.parentState.showResult,
-            isError: this.props.parentState.isError,
+            error: props.parentState.error,
+            showResult: props.parentState.showResult,
+            isError: props.parentState.isError,
 
             loading: false,
 
             snapshot: {
-                attackerObj: this.props.parentState.attackerObj ? { ...this.props.parentState.attackerObj } : pveattacker(),
-                bossObj: this.props.parentState.bossObj ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
-                pveObj: this.props.parentState.pveObj ? { ...this.props.parentState.pveObj } : pveobj(),
-                supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
+                attackerObj: props.parentState.attackerObj ? { ...props.parentState.attackerObj } : pveattacker(),
+                bossObj: props.parentState.bossObj ? { ...props.parentState.bossObj } : boss(strings.tips.nameSearch),
+                pveObj: props.parentState.pveObj ? { ...props.parentState.pveObj } : pveobj(),
+                supportPokemon: (props.parentState.supportPokemon) ? props.parentState.supportPokemon : pveattacker(),
             }
         };
         this.onChange = this.onChange.bind(this);

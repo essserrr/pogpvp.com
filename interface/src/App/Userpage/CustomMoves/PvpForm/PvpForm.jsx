@@ -11,7 +11,7 @@ let strings = new LocalizedStrings(userLocale)
 
 class PvpForm extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

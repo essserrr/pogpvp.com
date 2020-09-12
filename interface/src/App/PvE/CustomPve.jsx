@@ -18,7 +18,7 @@ let strings = new LocalizedStrings(locale);
 
 class CustomPve extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             userSettings: pveUserSettings(),
@@ -26,11 +26,11 @@ class CustomPve extends React.PureComponent {
             pveObj: pveobj(),
 
             result: [],
-            date: this.props.parentState.date ? this.props.parentState.date : 1,
+            date: props.parentState.date ? props.parentState.date : 1,
 
-            error: this.props.parentState.error,
-            showResult: this.props.parentState.showResult,
-            isError: this.props.parentState.isError,
+            error: props.parentState.error,
+            showResult: props.parentState.showResult,
+            isError: props.parentState.isError,
 
             loading: false,
 

@@ -26,7 +26,7 @@ let strings = new LocalizedStrings(locale);
 
 class MatrixPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             shieldsList: [
@@ -59,11 +59,11 @@ class MatrixPanel extends React.PureComponent {
             ],
             pokemon: {
                 ...pokemon(strings.tips.nameSearch),
-                Shields: this.props.value.Shields,
-                IsGreedy: this.props.value.IsGreedy,
-                AtkStage: this.props.value.AtkStage,
-                DefStage: this.props.value.DefStage,
-                maximizer: this.props.value.maximizer,
+                Shields: props.value.Shields,
+                IsGreedy: props.value.IsGreedy,
+                AtkStage: props.value.AtkStage,
+                DefStage: props.value.DefStage,
+                maximizer: props.value.maximizer,
             },
         };
 

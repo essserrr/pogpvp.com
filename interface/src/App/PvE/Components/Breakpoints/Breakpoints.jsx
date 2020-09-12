@@ -17,16 +17,16 @@ let pveStrings = new LocalizedStrings(pveLocale);
 
 class Breakpoints extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             attackerObj: {
-                Lvl: this.props.snapshot.attackerObj.Lvl,
-                Atk: this.props.snapshot.attackerObj.Atk,
+                Lvl: props.snapshot.attackerObj.Lvl,
+                Atk: props.snapshot.attackerObj.Atk,
             },
             pveObj: {
-                FriendshipStage: this.props.snapshot.pveObj.FriendshipStage,
-                Weather: this.props.snapshot.pveObj.Weather,
+                FriendshipStage: props.snapshot.pveObj.FriendshipStage,
+                Weather: props.snapshot.pveObj.Weather,
             },
             effDef: this.effectiveDef(),
 

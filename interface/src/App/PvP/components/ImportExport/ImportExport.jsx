@@ -12,12 +12,12 @@ let strings = new LocalizedStrings(locale)
 
 class ImportExport extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         this.textArea = React.createRef();
 
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            value: this.formatActiveList(this.props.initialValue),
+            value: this.formatActiveList(props.initialValue),
 
             loadedFile: null,
         };

@@ -23,17 +23,17 @@ let strings = new LocalizedStrings(locale);
 
 class SinglePvp extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(strings.tips.nameSearch),
-            defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(strings.tips.nameSearch),
-            result: (this.props.parentState.pvpResult) ? this.props.parentState.pvpResult : [],
-            url: (this.props.parentState.url) ? this.props.parentState.url : "",
+            attacker: (props.parentState.attacker) ? props.parentState.attacker : pokemon(strings.tips.nameSearch),
+            defender: (props.parentState.defender) ? props.parentState.defender : pokemon(strings.tips.nameSearch),
+            result: (props.parentState.pvpResult) ? props.parentState.pvpResult : [],
+            url: (props.parentState.url) ? props.parentState.url : "",
 
-            error: this.props.parentState.error,
-            showResult: this.props.parentState.showResult,
-            isError: this.props.parentState.isError,
+            error: props.parentState.error,
+            showResult: props.parentState.showResult,
+            isError: props.parentState.isError,
 
             loading: false,
 
