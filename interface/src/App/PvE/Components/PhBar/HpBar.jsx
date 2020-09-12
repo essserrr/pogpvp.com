@@ -1,10 +1,12 @@
-import React from "react";
+import React from "react"
+
+import "./HpBar.scss"
 
 const HpBar = React.memo(function (props) {
     return (
-        <div className="hpBack">
-            <div className="hpFront" style={{ width: props.length + "%" }}></div>
-            <div className="hpBound" style={{ left: props.lowbound + "%", width: props.upbound - props.lowbound + "%" }}></div>
+        <div className="hpbar__background">
+            <div className="hpbar__front" style={{ width: props.length + "%" }}></div>
+            <div className="hpbar__bound" style={{ left: props.lowbound + "%", width: props.upbound - props.lowbound + "%" }}></div>
         </div>
     )
 });

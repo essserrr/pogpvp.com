@@ -1,0 +1,41 @@
+$hpbar-background: grey;
+$hpbar-front: #02d86d;
+
+//bound style
+.hpbar__bound {
+    position: absolute;
+    height: 100%; 
+    border-left: 2px solid red;
+    border-right: 2px solid red;
+    -webkit-transition: all 0.4s linear;
+    transition: all 0.4s linear; 
+
+    background: repeating-linear-gradient(
+        45deg,
+        #606cbc00,
+        #606cbc00 2px,
+        red 2px,
+        red 4px
+    );
+}
+
+//pve hp bar
+.hpbar__background {
+    position: relative;
+    max-width: 400px; 
+    height: 6px; 
+    background-color: $hpbar-background;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+}
+
+.hpbar__front {
+    position: absolute;
+    height: 100%; 
+    background-color: $hpbar-front;
+    -webkit-transition: all 0.4s linear;
+    transition: all 0.4s linear;
+    
+}

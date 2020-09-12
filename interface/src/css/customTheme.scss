@@ -1353,46 +1353,6 @@ body {
     background-color: $tertiary-color !important;
 }
 
-//bound style
-.hpBound {
-    position: absolute;
-    height: 100%; 
-    border-left: 2px solid red;
-    border-right: 2px solid red;
-    -webkit-transition: all 0.4s linear;
-    transition: all 0.4s linear; 
-
-    background: repeating-linear-gradient(
-        45deg,
-        #606cbc00,
-        #606cbc00 2px,
-        red 2px,
-        red 4px
-    );
-}
-
-//pve hp bar
-.hpBack{
-    position: relative;
-    max-width: 400px; 
-    height: 6px; 
-    background-color: grey;
-
-    overflow: hidden;
-
-    border-radius: 4px;
-}
-
-.hpFront {
-    position: absolute;
-    height: 100%; 
-    background-color: #02d86d;
-    -webkit-transition: all 0.4s linear;
-    transition: all 0.4s linear;
-    
-}
-
-
 //rating style
 .styleRating {
     background-color: $secondary-color;
