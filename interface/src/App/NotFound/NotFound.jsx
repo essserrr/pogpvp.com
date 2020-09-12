@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
@@ -7,6 +7,7 @@ import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/getCookie"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 
+import "./NotFound.scss"
 
 let strings = new LocalizedStrings(locale)
 
@@ -46,16 +47,16 @@ class NotFound extends React.Component {
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="singleNews col-sm-12 col-md-7 col-lg-5 p-0 pb-4">
                             <div className="row  justify-content-center m-0"  >
-                                <div className="text404 align-self-center">
+                                <div className="not-found--text align-self-center">
                                     4
                                 </div>
-                                <div className="window404 align-self-center">
+                                <div className="not-found__window align-self-center">
                                     <PokemonIconer
                                         src={"404"}
                                         folder="/"
-                                        class={"icon404"} />
+                                        class={"not-found__icon"} />
                                 </div>
-                                <div className="text404 align-self-center">
+                                <div className="not-found--text align-self-center">
                                     4
                                 </div>
                                 <h5 className="col-12 font-weight-bold align-self-center text-center ">

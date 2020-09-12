@@ -1,0 +1,24 @@
+.not-found__window {
+    position: relative;
+    width: 85px;
+    height: 95px;
+    background-color: rgb(255, 255, 255);
+    z-index: 2;
+    overflow: hidden;
+    border: 3px solid black;
+    border-radius: 50%;
+}
+
+.not-found__icon {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+.not-found--text {
+    font-size: 90pt;
+    font-weight: bold;
+
+    color: white;
+    -webkit-text-stroke: 3px black;
+}

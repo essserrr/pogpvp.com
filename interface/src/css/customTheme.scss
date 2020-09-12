@@ -1161,32 +1161,6 @@ body {
     display: block;
 }
 
-//404 not found styles
-.window404 {
-    position: relative;
-    width: 85px;
-    height: 95px;
-    background-color: rgb(255, 255, 255);
-    z-index: 2;
-    overflow: hidden;
-    border: 3px solid black;
-    border-radius: 50%;
-}
-
-.icon404 {
-    position: absolute;
-    width: 100%;
-    z-index: 1;
-}
-
-.text404 {
-    font-size: 90pt;
-    font-weight: bold;
-
-    color: white;
-    -webkit-text-stroke: 3px black;
-}
-
 .ooopsIcon {
     width: 300px;
     height: 271px;
