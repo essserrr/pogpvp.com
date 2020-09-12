@@ -1,0 +1,17 @@
+$secondary-color: rgba(179, 179, 179, 0.28);
+
+.news__title {
+    border-radius: 3px 3px 0px 0px;
+    background-color: $secondary-color;
+    border: solid #acacac;
+    border-width: 0px 0px 1px 0px;
+
+    color: black !important;
+    font-weight: 400;
+    font-size: 1.1rem;
+}
+
+.news__body {
+    font-size: 1rem;
+    color: black !important;
+}

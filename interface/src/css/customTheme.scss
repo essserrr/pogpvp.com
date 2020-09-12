@@ -845,21 +845,6 @@ body {
 
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
-.singleNewsTitle {
-    border-radius: 3px 3px 0px 0px;
-    background-color: $secondary-color;
-    border: solid #acacac;
-    border-width: 0px 0px 1px 0px;
-
-    color: black !important;
-    font-weight: 400;
-    font-size: 1.1rem;
-}
-
-.singleNewsBody {
-    font-size: 1rem;
-    color: black !important;
-}
 
 .matrixColor {
     background-color: $primary-color;
