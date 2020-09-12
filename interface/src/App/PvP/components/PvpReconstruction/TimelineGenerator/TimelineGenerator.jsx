@@ -1,17 +1,20 @@
-import React, { PureComponent } from "react";
-import Event from "./Event"
-import { ReactComponent as Shield } from "../../../../icons/shield.svg";
-import { ReactComponent as Sword } from "../../../../icons/sword.svg";
-import { ReactComponent as DSword } from "../../../../icons/dsword.svg";
+import React, { PureComponent } from "react"
+import LocalizedStrings from "react-localization"
 
-import LocalizedStrings from "react-localization";
-import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/getCookie"
+import Event from "./Event/Event"
+
+import { ReactComponent as Shield } from "../../../../../icons/shield.svg"
+import { ReactComponent as Sword } from "../../../../../icons/sword.svg"
+import { ReactComponent as DSword } from "../../../../../icons/dsword.svg"
+import { locale } from "../../../../../locale/locale"
+import { getCookie } from "../../../../../js/getCookie"
+
+import "./TimelineGenerator.scss"
 
 let strings = new LocalizedStrings(locale);
 
 
-class EvoList extends PureComponent {
+class TimelineGenerator extends PureComponent {
     constructor(props) {
         super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -101,7 +104,7 @@ class EvoList extends PureComponent {
             case thisRound[arg.actor1].ShieldIsUsed:
                 let shieldEvent = this.shortEvent({
                     key: thisRound.Round + arg.actor1 + 7,
-                    value: <Shield className="shield" />,
+                    value: <Shield className="timeline-generator__shield" />,
                     tip: <>
                         {strings.reconstruction.turn + thisRound.Round}<br />
                         {strings.reconstruction.shield}
@@ -134,7 +137,7 @@ class EvoList extends PureComponent {
 
         result.push(this.shortEvent({
             key: thisRound.Round + arg.actor1 + 11,
-            value: <DSword className={"dsword svgFillsC" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType + " " + glow} />,
+            value: <DSword className={"timeline-generator__dsword svgFillsC" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType + " " + glow} />,
             tip: <>
                 {strings.reconstruction.turn + thisRound.Round}<br />
                 {thisRound[arg.actor1].ActionName}<br />
@@ -155,7 +158,7 @@ class EvoList extends PureComponent {
 
     addIdle(arg, result, thisRound) {
         result.push(this.shortEvent({
-            class: "idle",
+            class: "timeline-generator__idle",
             key: thisRound.Round + arg.actor1 + 0,
             tip: <>
                 {strings.reconstruction.turn + thisRound.Round}<br />
@@ -169,7 +172,7 @@ class EvoList extends PureComponent {
         let energy = thisRound[arg.actor1].Energy - this.props.log[arg.i - 1][arg.actor1].Energy
         result.push(this.shortEvent({
             key: thisRound.Round + arg.actor1 + 1,
-            value: <Sword className={"sword svgFillsC" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType} />,
+            value: <Sword className={"timeline-generator__sword svgFillsC" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType} />,
             tip: <>
                 {strings.reconstruction.turn + thisRound.Round}<br />
                 {thisRound[arg.actor1].ActionName}<br />
@@ -184,7 +187,7 @@ class EvoList extends PureComponent {
         //set up icon for the guy who lost
         if (thisRound[arg.actor1].HP <= 0) {
             result.push(this.shortEvent({
-                class: "faint",
+                class: "timeline-generator__faint",
                 key: thisRound.Round + arg.actor1 + 100,
                 value: "X",
                 tip: <>
@@ -230,4 +233,4 @@ class EvoList extends PureComponent {
     }
 }
 
-export default EvoList;
+export default TimelineGenerator;

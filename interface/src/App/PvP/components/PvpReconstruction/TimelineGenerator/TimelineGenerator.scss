@@ -1,0 +1,55 @@
+.timeline-generator__sword {
+    width: 11px;
+    height: 11px;
+    -webkit-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    &:hover {
+        -webkit-transform: scale(1.3, 1.3);
+        transform: scale(1.3, 1.3);
+    }
+}
+
+.timeline-generator__dsword {
+    width: 20px;
+    height: 20px;
+    -webkit-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    &:hover {
+        -webkit-transform: scale(1.15, 1.15);
+        transform: scale(1.15, 1.15);
+    }
+}
+
+.timeline-generator__shield {
+    fill: rgb(0, 0, 0);
+    width: 20px;
+    height: 20px;
+
+    -webkit-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    &hover {
+        -webkit-transform: scale(1.15, 1.15);
+        transform: scale(1.15, 1.15);
+    }
+}
+
+.timeline-generator__faint {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: red;
+}
+
+.timeline-generator__idle {
+    margin: auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: grey;
+
+    -webkit-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    &:hover {
+        -webkit-transform: scale(1.5, 1.5);
+        transform: scale(1.5, 1.5);
+    }
+}

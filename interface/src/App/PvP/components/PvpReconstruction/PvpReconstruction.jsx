@@ -1,14 +1,16 @@
-import React from "react";
-
-import TimelineGenerator from "./TimelineGenerator"
+import React from "react"
 import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
+
+import TimelineGenerator from "./TimelineGenerator/TimelineGenerator"
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+import "./PvpReconstruction.scss"
 
-class Reconstruction extends React.PureComponent {
+let strings = new LocalizedStrings(locale)
+
+class PvpReconstruction extends React.PureComponent {
     constructor(props) {
         super();
         this.reconstruction = React.createRef();
@@ -57,7 +59,7 @@ class Reconstruction extends React.PureComponent {
                     </div>
                 </div>
                 <div className="col-12 p-0">
-                    <div className={"timeline " + (this.state.constructor ? "modeon" : "")} tabIndex="0" ref={this.reconstruction} >
+                    <div className={"pvp-reconstruction__timeline " + (this.state.constructor ? "modeon" : "")} tabIndex="0" ref={this.reconstruction} >
                         <table cellSpacing="0" cellPadding="0" border="0" style={{ width: "100%", justifyContent: "center", }} >
                             <tbody >
                                 <TimelineGenerator
@@ -77,4 +79,4 @@ class Reconstruction extends React.PureComponent {
 }
 
 
-export default Reconstruction;
+export default PvpReconstruction;
