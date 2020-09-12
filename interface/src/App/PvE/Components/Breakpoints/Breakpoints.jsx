@@ -30,10 +30,10 @@ class Breakpoints extends React.PureComponent {
             },
             effDef: this.effectiveDef(),
 
-            baseQuick: this.returnDmage("QuickMove"),
-            baseCharge: this.returnDmage("ChargeMove"),
-            dQuick: this.returnDmage("QuickMove"),
-            dCharge: this.returnDmage("ChargeMove"),
+            baseQuick: this.returnDamage("QuickMove"),
+            baseCharge: this.returnDamage("ChargeMove"),
+            dQuick: this.returnDamage("QuickMove"),
+            dCharge: this.returnDamage("ChargeMove"),
 
 
             AttackIV: [
@@ -84,7 +84,7 @@ class Breakpoints extends React.PureComponent {
         return (15 + this.props.pokemonTable[this.props.snapshot.bossObj.Name].Def) * tierMult[this.props.snapshot.bossObj.Tier]
     }
 
-    returnDmage(type) {
+    returnDamage(type) {
         let multiplier = getPveMultiplier(this.props.pokemonTable[this.props.snapshot.attackerObj.Name].Type,
             this.props.pokemonTable[this.props.snapshot.bossObj.Name].Type,
             this.props.moveTable[this.props.snapshot.attackerObj[type]].MoveType,

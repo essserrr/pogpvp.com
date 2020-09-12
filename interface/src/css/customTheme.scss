@@ -32,7 +32,6 @@ $rating-2: rgb(224, 86, 32);
 $link-color: #0039e6;
 $slider-button: #59698d;
 $slider-active: #b1dbe2;
-$boost: rgb(211, 165, 14);
 
 $primary-color: #eff0f1;
 $secondary-color: rgba(179, 179, 179, 0.28);
@@ -1131,9 +1130,6 @@ body {
 
 .borderLeft {
     border-left: 2px solid #59698d28;
-}
-.boostColor {
-    color: $boost;
 }
 
 .labelPrepend {
