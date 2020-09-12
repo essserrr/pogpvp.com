@@ -1,4 +1,6 @@
-import React from "react";
+import React from "react"
+
+import "./HPIndicator.scss"
 
 const HPIndicator = React.memo(function (props) {
     let maxValue
@@ -17,11 +19,11 @@ const HPIndicator = React.memo(function (props) {
     let value = (props.value !== undefined && props.value !== "") ? (props.value <= maxValue ? props.value : defaultValue) : defaultValue;
 
     return (
-        <div className="hpBar">
-            <div className="textOnBar">
+        <div className="hp-indicator">
+            <div className="hp-indicator__text">
                 {value}/{maxValue}
             </div>
-            <div className="hpIndicator" style={{ width: (value / maxValue * 100) + "%" }}></div>
+            <div className="hp-indicator__bar" style={{ width: (value / maxValue * 100) + "%" }}></div>
         </div>
     )
 });

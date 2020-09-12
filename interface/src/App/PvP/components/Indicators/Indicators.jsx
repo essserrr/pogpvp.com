@@ -1,11 +1,11 @@
-import React from "react";
-import HPIndicator from "./HPIndicator"
-import EnergyIndicator from "./EnergyIndicator"
-import EnergyNumber from "./EnergyNumber"
+import React from "react"
+import HPIndicator from "./HPIndicator/HPIndicator"
+import EnergyIndicator from "./EnergyIndicator/EnergyIndicator"
+import EnergyNumber from "./EnergyNumber/EnergyNumber"
 import { calculateDamage, calculateMultiplier } from "../../../../js/indexFunctions"
 import { getCookie } from "../../../../js/getCookie"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);

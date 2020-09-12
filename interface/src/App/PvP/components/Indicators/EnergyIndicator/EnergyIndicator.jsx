@@ -1,6 +1,8 @@
-import React from "react";
-import { calculateEffStat } from "../../../../js/indexFunctions"
+import React from "react"
+import { calculateEffStat } from "../../../../../js/indexFunctions"
 import ReactTooltip from "react-tooltip"
+
+import "./EnergyIndicator.scss"
 
 const EnergyIndicator = React.memo(function (props) {
     let maxValue
@@ -29,12 +31,12 @@ const EnergyIndicator = React.memo(function (props) {
             </ReactTooltip>
             <div
                 data-tip data-for={props.for}
-                className={(value < maxValue) ? "energyBar" : "energyBar glow" + props.moveType}
+                className={(value < maxValue) ? "energy-indicator" : "energy-indicator glow" + props.moveType}
             >
-                <div className={"textOnBar noselect textColorT" + props.moveType} >
+                <div className={"energy-indicator__text noselect textColorT" + props.moveType} >
                     {props.moveName}
                 </div>
-                <div className={"energyIndicator typeColorC" + props.moveType} style={{ height: ((value / maxValue * 100)) + "%" }}></div>
+                <div className={"energy-indicator__bar typeColorC" + props.moveType} style={{ height: ((value / maxValue * 100)) + "%" }}></div>
 
             </div>
         </>

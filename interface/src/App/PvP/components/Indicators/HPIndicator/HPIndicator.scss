@@ -1,0 +1,29 @@
+.hp-indicator {
+    position: relative;
+    width: 150px;
+    height: 25px;
+    background-color: black;
+    border: solid grey;
+
+    font-size: 0.78rem;
+    color: white;
+    font-weight: bold;
+}
+
+.hp-indicator__bar {
+    position: absolute;
+    height: 100%;
+    background-color: #0275d8;
+    -webkit-transition: all 0.4s linear;
+    transition: all 0.4s linear;
+    border: solid black;
+}
+
+.hp-indicator__text {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+}
