@@ -1,0 +1,17 @@
+$constr-button: rgba(133, 219, 250, 0.95);
+$primary-color: #eff0f1;
+
+//constr button
+.constructor-button {
+    background-color: $primary-color;
+    border-radius: 4px;
+    padding: 0rem 0.2rem 0rem 0.2rem;
+    height: fit-content;
+    width: fit-content;
+    user-select: none;
+    font-size: 100%;
+    font-weight: bold;
+    &.on {
+        background-color: $constr-button;
+    }
+}

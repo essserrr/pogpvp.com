@@ -33,7 +33,6 @@ $link-color: #0039e6;
 $slider-button: #59698d;
 $slider-active: #b1dbe2;
 $boost: rgb(211, 165, 14);
-$constr-button: rgba(133, 219, 250, 0.95);
 
 $primary-color: #eff0f1;
 $secondary-color: rgba(179, 179, 179, 0.28);
@@ -816,27 +815,6 @@ body {
     &:hover {
         background-color: rgba(0, 0, 0, 0.05);
     }
-}
-
-//constr button
-.constructorButton {
-    background-color: $primary-color;
-    border-radius: 4px;
-    padding: 0rem 0.2rem 0rem 0.2rem;
-    height: fit-content;
-    width: fit-content;
-    user-select: none;
-    font-size: 100%;
-    font-weight: bold;
-    &.on {
-        background-color: $constr-button;
-    }
-}
-
-.modeon {
-    border-color: $constr-button;
-    box-shadow: 0px 0px 16px rgba(0, 187, 255, 0.11), 0px 0px 4px rgba(0, 187, 255, 0.774),
-        0px 0px 8px rgba(0, 187, 255, 0.705), 0px 0px 16px rgba(0, 187, 255, 0.11);
 }
 
 //news style

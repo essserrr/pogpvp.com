@@ -1,21 +1,14 @@
 import React from "react"
-import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization"
 
 import TimelineGenerator from "./TimelineGenerator/TimelineGenerator"
-import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/getCookie"
+import ReconstructionButton from "./ReconstructionButton/ReconstructionButton"
 
 import "./PvpReconstruction.scss"
-
-let strings = new LocalizedStrings(locale)
 
 class PvpReconstruction extends React.PureComponent {
     constructor(props) {
         super();
         this.reconstruction = React.createRef();
-
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {
             constructor: false,
@@ -44,22 +37,13 @@ class PvpReconstruction extends React.PureComponent {
         return (
             <div className="row m-0">
                 <div className="col-12 p-0 text-right">
-                    <ReactTooltip
-                        className={"infoTip"}
-                        id={"constructorButton"} effect="solid"
-                        place={"top"}
-                        multiline={true}>
-                        {strings.tips.constructor}
-                    </ReactTooltip>
-                    <div
-                        data-tip data-for={"constructorButton"}
+                    <ReconstructionButton
+                        enabled={this.state.constructor}
                         onClick={this.onEnableConstructor}
-                        className={"clickable ml-auto mb-1 constructorButton " + (this.state.constructor ? "on" : "")} >
-                        {strings.reconstruction.contructor}
-                    </div>
+                    />
                 </div>
                 <div className="col-12 p-0">
-                    <div className={"pvp-reconstruction__timeline " + (this.state.constructor ? "modeon" : "")} tabIndex="0" ref={this.reconstruction} >
+                    <div className={"pvp-reconstruction__timeline " + (this.state.constructor ? "pvp-reconstruction__modeon" : "")} tabIndex="0" ref={this.reconstruction} >
                         <table cellSpacing="0" cellPadding="0" border="0" style={{ width: "100%", justifyContent: "center", }} >
                             <tbody >
                                 <TimelineGenerator
