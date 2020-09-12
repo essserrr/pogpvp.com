@@ -1,8 +1,24 @@
 $primary-color: #eff0f1;
+
 .navbar-style {
     background-color: $primary-color;
 }
 
 .navbar--padding {
     padding-left: 10px !important;
+}
+
+.navbar__lang-button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 0.1em;
+
+    background-color: transparent;
+    border: none;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
 }

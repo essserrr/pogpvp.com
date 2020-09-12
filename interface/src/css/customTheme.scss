@@ -800,22 +800,6 @@ body {
     }
 }
 
-//fake button
-.langButton {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 0.1em;
-
-    background-color: transparent;
-    border: none;
-
-    &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-    }
-}
-
 //news style
 
 .singleNews {
