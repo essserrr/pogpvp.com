@@ -151,63 +151,6 @@ $tips-font: 12pt;
     }
 }
 
-@mixin texts {
-    &T0 {
-        color: black;
-    }
-    &T1 {
-        color: white;
-    }
-    &T2 {
-        color: white;
-    }
-    &T3 {
-        color: black;
-    }
-    &T4 {
-        color: black;
-    }
-    &T5 {
-        color: white;
-    }
-    &T6 {
-        color: black;
-    }
-    &T7 {
-        color: black;
-    }
-    &T8 {
-        color: white;
-    }
-    &T9 {
-        color: black;
-    }
-    &T10 {
-        color: black;
-    }
-    &T11 {
-        color: black;
-    }
-    &T12 {
-        color: black;
-    }
-    &T13 {
-        color: black;
-    }
-    &T14 {
-        color: black;
-    }
-    &T15 {
-        color: black;
-    }
-    &T16 {
-        color: white;
-    }
-    &T17 {
-        color: black;
-    }
-}
-
 @mixin fills {
     &C0 {
         fill: $bug-color !important;
@@ -367,10 +310,6 @@ $tips-font: 12pt;
 
 .typeColor {
     @include backgrounds;
-}
-
-.textColor {
-    @include texts;
 }
 
 //global rules
