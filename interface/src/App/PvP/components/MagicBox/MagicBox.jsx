@@ -1,18 +1,20 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from "react"
 import CloseButton from "./CloseButton"
+
+import "./MagicBox.scss"
 
 class MagicBox extends PureComponent {
     render() {
         return (
             <div
-                className={"magicBox d-flex justify-content-center mx-0 px-0"}
+                className={"magic-box d-flex justify-content-center mx-0 px-0"}
                 value={"name"}
 
                 attr={this.props.attr}
                 onClick={this.props.onClick}
             >
 
-                <div className="menu row mx-0 pl-0 pr-1 pt-0">
+                <div className="magic-box__window row mx-0 pl-0 pr-1 pt-0">
                     <div className="col-12 mx-0 px-0">
                         <CloseButton
                             onClick={this.props.onClick}
