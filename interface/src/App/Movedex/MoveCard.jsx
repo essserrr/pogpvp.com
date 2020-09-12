@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization";
-import { UnmountClosed } from "react-collapse";
+import LocalizedStrings from "react-localization"
+import { UnmountClosed } from "react-collapse"
 import { connect } from "react-redux"
 
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"

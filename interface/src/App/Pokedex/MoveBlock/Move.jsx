@@ -2,7 +2,7 @@ import React from "react";
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
-import ChargeEnergy from "./ChargeEnergy"
+import ChargeEnergy from "./PokedexChargeEnergy/PokedexChargeEnergy"
 import { typeDecoder } from "../../../js/indexFunctions"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"

@@ -5,7 +5,7 @@ import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import CommonPve from "./CommonPve"
 import CommonPvp from "./CommonPvp"
-import ChargeEnergy from "./ChargeEnergy"
+import MovedexChargeEnergy from "./MovedexChargeEnergy/MovedexChargeEnergy"
 import Effect from "./Effect"
 
 let strings = new LocalizedStrings(dexLocale);
@@ -22,8 +22,7 @@ const ChargeMove = React.memo(function (props) {
                 <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
                     <tbody className="tableBorder ">
                         <CommonPve
-                            energy={<ChargeEnergy move={props.move} />}
-
+                            energy={<MovedexChargeEnergy move={props.move} />}
                             move={props.move}
                         />
                         <tr>

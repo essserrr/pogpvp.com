@@ -1148,20 +1148,6 @@ body {
     height: fit-content;
 }
 
-.energyBlock {
-    height: 10px;
-    border-radius: 2px;
-}
-
-.shadeEnBlock {
-    height: 7px;
-    border-radius: 2px;
-    background-color: rgba(0, 0, 0, 0.438);
-    &.Dark {
-        background-color: rgba(255, 255, 255, 0.432);
-    }
-}
-
 //pokedex card
 .dexCard {
     border-radius: 4px;
