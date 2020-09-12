@@ -9,6 +9,7 @@ import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import Type from "../../PvP/components/CpAndTypes/Type"
 
+import "./EvoCard.scss"
 
 let strings = new LocalizedStrings(dexLocale)
 
@@ -38,7 +39,7 @@ const EvoCard = React.memo(function (props) {
                     <PokemonIconer
                         src={props.pokTable[props.name].Number + (props.pokTable[props.name].Forme !== "" ? "-" + props.pokTable[props.name].Forme : "")}
                         folder="/art/"
-                        class={"m-1 dexEvoIcon"}
+                        class={"dex-evocard__icon m-1"}
                     />
                 </Link>
             </div>

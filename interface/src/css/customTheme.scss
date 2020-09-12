@@ -931,20 +931,6 @@ body {
     height: 64px;
 }
 
-.dexCardIcon {
-    flex: 1;
-    max-width: 210px !important;
-    max-height: 210px !important;
-    object-fit: contain;
-}
-
-.dexEvoIcon {
-    flex: 1;
-    max-width: 128px !important;
-    max-height: 128px !important;
-    object-fit: contain;
-}
-
 //pok card
 .cardHeader {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
@@ -1104,11 +1090,6 @@ body {
 .animRating:hover::after {
     opacity: 1;
     display: block;
-}
-
-.ooopsIcon {
-    width: 300px;
-    height: 271px;
 }
 
 // other styles

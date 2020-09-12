@@ -35,7 +35,7 @@ class OopsError extends React.Component {
                                     <PokemonIconer
                                         src={"ooops"}
                                         folder="/"
-                                        class={"ooopsIcon"} />
+                                        class={"ooops__icon"} />
                                 </div>
                                 <h5 className="col-12 mt-2 font-weight-bold align-self-center text-center ">
                                     {this.props.description}

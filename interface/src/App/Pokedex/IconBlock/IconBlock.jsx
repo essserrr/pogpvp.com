@@ -25,7 +25,7 @@ const IconBlock = React.memo(function (props) {
             <div className="col-12 col-sm-auto p-0 d-flex justify-content-center" style={{ height: "fit-content" }}>
                 <PokemonIconer
                     src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
-                    class={"dexCardIcon mr-3"}
+                    class={"pokedex-iconblock__icon mr-3"}
                     folder={"/art/"}
                 />
             </div>

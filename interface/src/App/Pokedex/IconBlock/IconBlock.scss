@@ -14,3 +14,10 @@
     font-size: 1.5em;
     font-weight: 600;
 }
+
+.pokedex-iconblock__icon {
+    flex: 1;
+    max-width: 210px !important;
+    max-height: 210px !important;
+    object-fit: contain;
+}
