@@ -17,11 +17,6 @@ $psychic-color: #fe6688;
 $rock-color: #adad85;
 $steel-color: #496d92;
 $water-color: #3590d1;
-//stage colors
-$stage-34: red;
-$stage-12: rgb(255, 115, 0);
-$stage12: rgb(108, 167, 0);
-$stage34: green;
 //rating result colors
 $rating0: rgb(181, 182, 182);
 $rating1: rgb(139, 219, 195);
@@ -238,41 +233,6 @@ $tips-font: 12pt;
     }
 }
 
-@mixin stages {
-    &C0 {
-        color: $stage-34 !important;
-        font-weight: bold !important;
-    }
-    &C1 {
-        color: $stage-34 !important;
-        font-weight: bold !important;
-    }
-    &C2 {
-        color: $stage-12 !important;
-        font-weight: bold !important;
-    }
-    &C3 {
-        color: $stage-12 !important;
-        font-weight: bold !important;
-    }
-    &C5 {
-        color: $stage12 !important;
-        font-weight: bold !important;
-    }
-    &C6 {
-        color: $stage12 !important;
-        font-weight: bold !important;
-    }
-    &C7 {
-        color: $stage34 !important;
-        font-weight: bold !important;
-    }
-    &C8 {
-        color: $stage34 !important;
-        font-weight: bold !important;
-    }
-}
-
 @mixin matrColor {
     &R0 {
         background-color: $rating0 !important;
@@ -294,10 +254,6 @@ $tips-font: 12pt;
         background-color: $rating-2 !important;
         color: rgba(24, 23, 23, 1) !important;
     }
-}
-
-.stage {
-    @include stages;
 }
 
 .svgFills {

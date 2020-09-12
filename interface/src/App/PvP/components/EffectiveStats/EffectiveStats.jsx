@@ -1,11 +1,13 @@
-import React from "react";
+import React from "react"
 import ReactTooltip from "react-tooltip"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+import "./EffectiveStats.scss"
+
+let strings = new LocalizedStrings(locale)
 
 const EffectiveStats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -25,12 +27,12 @@ const EffectiveStats = React.memo(function (props) {
             </ReactTooltip>
             <div
                 data-tip data-for={props.attr + "effatk"}
-                className={"fBolder stageC" + (Number(props.AtkStage) + 4)}>
+                className={"fBolder eff-stage" + (Number(props.AtkStage) + 4)}>
                 {strings.effStats.atk} {props.effAtk}
             </div>
             <div
                 data-tip data-for={props.attr + "effdef"}
-                className={"fBolder stageC" + (Number(props.DefStage) + 4)}>
+                className={"fBolder eff-stage" + (Number(props.DefStage) + 4)}>
                 {strings.effStats.def} {props.effDef}
             </div>
             <div
