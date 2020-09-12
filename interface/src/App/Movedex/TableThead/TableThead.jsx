@@ -5,6 +5,8 @@ import Header from "../Header/Header"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 
+import "./TableThead.scss"
+
 let strings = new LocalizedStrings(dexLocale);
 
 const TableThead = React.memo(function (props) {
@@ -38,7 +40,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top borderLeft py-2 px-0 px-sm-2"
+                    className="movedex-tablethead--separate-line clickable align-text-top py-2 px-0 px-sm-2"
                     name="Damage" scope="col">
                     <Header
                         checked={props.active.field === "Damage"}
@@ -74,7 +76,7 @@ const TableThead = React.memo(function (props) {
                 </th>
                 <th coltype="number"
                     onClick={props.onClick}
-                    className="clickable align-text-top borderLeft py-2 px-0 px-sm-2"
+                    className="movedex-tablethead--separate-line clickable align-text-top py-2 px-0 px-sm-2"
                     name="PvpDamage"
                     scope="col">
                     <Header
