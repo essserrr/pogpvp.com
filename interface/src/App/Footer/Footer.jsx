@@ -1,11 +1,13 @@
-import React from "react";
+import React from "react"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
 import { getCookie } from "../../js/getCookie"
 import { userLocale } from "../../locale/userLocale"
 
-let strings = new LocalizedStrings(userLocale);
+import "./Footer.scss"
+
+let strings = new LocalizedStrings(userLocale)
 
 class Footer extends React.PureComponent {
     constructor(props) {

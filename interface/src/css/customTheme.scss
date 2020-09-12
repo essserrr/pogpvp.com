@@ -425,20 +425,6 @@ body {
     padding-bottom: 30px; //height of the footer
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
-    padding-bottom: 0px !important;
-    font-style: italic;
-    font-family: "Times New Roman", Times, serif;
-    color: black;
-    text-align: center;
-    width: 100%;
-    font-size: 12px !important;
-}
-
 @media (max-width: 1200px) {
     body {
         padding-bottom: 40px;
