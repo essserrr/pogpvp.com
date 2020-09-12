@@ -13,7 +13,7 @@ let strings = new LocalizedStrings(locale)
 
 class NotFound extends React.Component {
     constructor(props) {
-        super(props);
+        super();
         this.notFound = React.createRef();
 
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")

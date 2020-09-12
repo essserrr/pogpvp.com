@@ -15,7 +15,7 @@ let pveStrings = new LocalizedStrings(pveLocale);
 
 class SimulatorPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

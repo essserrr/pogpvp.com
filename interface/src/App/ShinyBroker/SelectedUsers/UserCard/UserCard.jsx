@@ -6,11 +6,10 @@ import "./UserCard.scss"
 
 class UserCard extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             showCollapse: false,
             element: null,
-
         }
         this.onClick = this.onClick.bind(this)
     }

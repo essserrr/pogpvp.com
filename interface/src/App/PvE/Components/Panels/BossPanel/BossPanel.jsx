@@ -12,7 +12,7 @@ let pveStrings = new LocalizedStrings(pveLocale)
 
 class BossPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }

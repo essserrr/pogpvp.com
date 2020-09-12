@@ -85,9 +85,8 @@ class MatrixPvp extends React.PureComponent {
             error: this.props.parentState.error,
             showResult: this.props.parentState.showResult,
             isError: this.props.parentState.isError,
-
-
         };
+
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
         this.onClick = this.onClick.bind(this);

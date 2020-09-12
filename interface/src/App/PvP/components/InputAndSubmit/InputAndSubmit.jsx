@@ -7,7 +7,7 @@ import ReactTooltip from "react-tooltip"
 
 class InputAndSubmit extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             value: "",
             isError: false,

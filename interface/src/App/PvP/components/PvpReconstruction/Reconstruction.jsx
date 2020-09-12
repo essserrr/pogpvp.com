@@ -10,7 +10,7 @@ let strings = new LocalizedStrings(locale);
 
 class Reconstruction extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         this.reconstruction = React.createRef();
 
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -20,7 +20,6 @@ class Reconstruction extends React.PureComponent {
         };
         this.onEnableConstructor = this.onEnableConstructor.bind(this);
         this.focusDiv = this.focusDiv.bind(this);
-
     }
 
     componentDidMount() {

@@ -23,7 +23,7 @@ let strings = new LocalizedStrings(dexLocale);
 
 class Movedex extends React.Component {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             name: "",

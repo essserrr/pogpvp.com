@@ -22,7 +22,7 @@ let strings = new LocalizedStrings(userLocale);
 
 class ShinyBroker extends React.Component {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             inputs: {

@@ -16,7 +16,7 @@ let strings = new LocalizedStrings(locale);
 
 class NewsPages extends React.Component {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             nextPageExists: false,

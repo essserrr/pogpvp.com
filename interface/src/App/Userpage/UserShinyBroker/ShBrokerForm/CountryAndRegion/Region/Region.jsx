@@ -7,12 +7,6 @@ import { CountryRegionData } from "../crlist"
 import "./Region.scss"
 
 class Region extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-        }
-    }
-
     returnRegionList() {
         if (!this.props.country) {
             return []

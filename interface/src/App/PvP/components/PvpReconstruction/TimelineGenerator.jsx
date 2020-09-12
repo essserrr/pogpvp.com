@@ -13,10 +13,8 @@ let strings = new LocalizedStrings(locale);
 
 class EvoList extends PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        this.state = {
-        };
         this.returnReconstruction = this.returnReconstruction.bind(this);
     }
 

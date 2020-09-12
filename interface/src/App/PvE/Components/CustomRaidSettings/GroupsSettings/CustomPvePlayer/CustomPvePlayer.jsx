@@ -10,7 +10,7 @@ let strings = new LocalizedStrings(pveLocale)
 
 class CustomPvePlayer extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

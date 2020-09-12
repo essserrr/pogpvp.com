@@ -14,11 +14,8 @@ let pveStrings = new LocalizedStrings(pveLocale);
 
 class CustomRaidSettings extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
-        this.state = {
-        };
     }
 
 

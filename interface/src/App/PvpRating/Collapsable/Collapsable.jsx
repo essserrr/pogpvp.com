@@ -17,7 +17,7 @@ let strings = new LocalizedStrings(locale);
 
 class Collapsable extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showCollapse: false,

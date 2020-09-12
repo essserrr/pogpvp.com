@@ -11,7 +11,7 @@ let pvestrings = new LocalizedStrings(pveLocale);
 
 class PveWillow extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {

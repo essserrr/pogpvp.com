@@ -18,7 +18,7 @@ let strings = new LocalizedStrings(locale);
 
 class Pokemon extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             shieldsList: [
@@ -45,7 +45,6 @@ class Pokemon extends React.PureComponent {
                 <option value="false" key="Normal">{strings.options.type.normal}</option>,
                 <option value="true" key="Shadow">{strings.options.type.shadow}</option>,
             ],
-
         };
     }
 

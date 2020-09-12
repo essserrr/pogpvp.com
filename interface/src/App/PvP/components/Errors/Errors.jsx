@@ -2,7 +2,7 @@ import React from "react";
 
 class Errors extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         this.errorBox = React.createRef();
     }
 

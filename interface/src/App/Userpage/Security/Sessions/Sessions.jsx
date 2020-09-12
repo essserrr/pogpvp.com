@@ -15,7 +15,7 @@ let strings = new LocalizedStrings(userLocale);
 
 class Sessions extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {

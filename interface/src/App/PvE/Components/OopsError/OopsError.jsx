@@ -5,7 +5,7 @@ import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 
 class RaidAuthFailed extends React.Component {
     constructor(props) {
-        super(props);
+        super();
         this.notFound = React.createRef();
         this.focusDiv = this.focusDiv.bind(this);
     }

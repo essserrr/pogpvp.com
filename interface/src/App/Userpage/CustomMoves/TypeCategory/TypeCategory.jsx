@@ -10,7 +10,7 @@ let strings = new LocalizedStrings(userLocale)
 
 class TypeCategory extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 

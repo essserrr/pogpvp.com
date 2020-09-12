@@ -12,7 +12,7 @@ import "./AdvisorPanel.scss"
 
 class AdvisorPanel extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             showCollapse: false,
             colElement: null,

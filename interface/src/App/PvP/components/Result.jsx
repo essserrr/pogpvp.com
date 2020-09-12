@@ -4,7 +4,7 @@ import ResultsTable from "./ResultsTable/ResultsTable"
 class Result extends React.PureComponent {
 
     constructor(props) {
-        super(props);
+        super();
         this.matrixres = React.createRef();
         this.focusDiv = this.focusDiv.bind(this);
     }

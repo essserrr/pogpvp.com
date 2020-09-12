@@ -24,7 +24,7 @@ let strings = new LocalizedStrings(locale)
 
 class Navbar extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             dropdownPvP: [
