@@ -8,7 +8,7 @@ import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
-import CardTitle from "./CardTitle/CardTitle"
+import MoveCardTitle from "./MoveCardTitle/MoveCardTitle"
 import ChargeMove from "./CardBody/ChargeMove"
 import QuickMove from "./CardBody/QuickMove"
 import EffTable from "../Pokedex/EffBlock/EffTable"
@@ -102,7 +102,7 @@ class MoveCard extends React.Component {
                                 />}
                             {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
                             {this.state.showResult && this.state.move && <>
-                                <CardTitle move={this.state.move} />
+                                <MoveCardTitle move={this.state.move} />
                                 <div className="row m-0 p-0">
                                     {this.state.move.MoveCategory === "Charge Move" ?
                                         <ChargeMove move={this.state.move} /> :

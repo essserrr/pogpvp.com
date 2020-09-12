@@ -1,17 +1,19 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 import Type from "../../PvP/components/CpAndTypes/Type"
 
-let strings = new LocalizedStrings(dexLocale);
+import "./MoveCardTitle.scss"
 
-const CardTitle = React.memo(function (props) {
+let strings = new LocalizedStrings(dexLocale)
+
+const MoveCardTitle = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <div className="row m-0 p-0 pb-1 mb-2 movecardTitle">
+        <div className="movecard-title row m-0 p-0 pb-1 mb-2">
             <Type
                 class={"ml-2  mr-1 icon24 align-self-center"}
                 code={props.move.MoveType}
@@ -27,4 +29,4 @@ const CardTitle = React.memo(function (props) {
 
 });
 
-export default CardTitle;
+export default MoveCardTitle;
