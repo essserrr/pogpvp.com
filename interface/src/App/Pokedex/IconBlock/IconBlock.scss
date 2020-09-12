@@ -1,0 +1,16 @@
+@mixin font($font-family, $font-file) {
+    @font-face {
+        font-family: $font-family;
+        src: url($font-file + ".woff2") format("woff2");
+        font-weight: normal;
+        font-style: normal;
+    }
+}
+
+@include font("Baloo Bhaina", "./BalooBhaina2-Regular");
+
+.pokedex-iconblock__title {
+    font-family: "Baloo Bhaina", cursive;
+    font-size: 1.5em;
+    font-weight: 600;
+}

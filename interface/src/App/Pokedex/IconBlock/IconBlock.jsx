@@ -9,6 +9,8 @@ import { dexLocale } from "../../../locale/dexLocale"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 import StatsTriangle from "../StatsTriangle/StatsTriangle"
 
+import "./IconBlock.scss"
+
 let strings = new LocalizedStrings(dexLocale);
 
 const IconBlock = React.memo(function (props) {
@@ -18,7 +20,7 @@ const IconBlock = React.memo(function (props) {
     return (
         <div className="row m-0 justify-content-center ">
             {isSM && <div className="row m-0 mb-2 justify-content-center justify-content-sm-start">
-                <div className={"fBolder dexTitle"}># {props.value.Number} <span>{props.value.Title}</span></div>
+                <div className={"pokedex-iconblock__title fBolder"}># {props.value.Number} <span>{props.value.Title}</span></div>
             </div>}
             <div className="col-12 col-sm-auto p-0 d-flex justify-content-center" style={{ height: "fit-content" }}>
                 <PokemonIconer
@@ -29,7 +31,7 @@ const IconBlock = React.memo(function (props) {
             </div>
             <div className="col p-0 mt-2 mt-sm-0">
                 {!isSM && <div className="row m-0 justify-content-center justify-content-sm-start">
-                    <div className={"fBolder dexTitle"}># {props.value.Number} <span>{props.value.Title}</span></div>
+                    <div className={"pokedex-iconblock__title fBolder"}># {props.value.Number} <span>{props.value.Title}</span></div>
                 </div>}
                 <div className="row m-0 justify-content-center justify-content-sm-between"
                     style={{ minWidth: "200px" }}>
