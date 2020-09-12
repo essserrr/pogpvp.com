@@ -1,17 +1,19 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from "react"
 import SingleRadio from "./SingleRadio"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+import "./MaximizerNoSubmit.scss"
+
+let strings = new LocalizedStrings(locale)
 
 class MaximizerNoSubmit extends PureComponent {
     render() {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         return (
-            <div className="maximizer">
+            <div className="maximizer-nosubm">
                 <form className="mx-0">
                     <div className="d-flex justify-content-around">
                         <SingleRadio
