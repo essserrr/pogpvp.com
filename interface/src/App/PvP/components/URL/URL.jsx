@@ -1,8 +1,9 @@
-import React from "react";
+import React from "react"
+
 import LabelPrepend from "../SelectGroup/LabelPrepend"
 import Input from "../Input/Input"
 
-
+import "./URL.scss"
 
 class URL extends React.PureComponent {
     constructor(props) {
@@ -39,7 +40,7 @@ class URL extends React.PureComponent {
                     tip={this.props.tip}
                     place={this.props.place}
                 />
-                {this.state.showTip && <div className="absoluteTip">
+                {this.state.showTip && <div className="url__abstip">
                     {this.props.message}
                 </div>}
                 <Input
