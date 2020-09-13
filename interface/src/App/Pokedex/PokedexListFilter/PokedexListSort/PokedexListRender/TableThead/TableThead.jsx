@@ -1,9 +1,9 @@
 import React from "react";
 import LocalizedStrings from "react-localization"
 
-import Header from "../../Movedex/MovedexListFilter/MovedexListSort/MovedexListRender/TableThead/Header/Header"
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
+import Header from "../../../../../Movedex/MovedexListFilter/MovedexListSort/MovedexListRender/TableThead/Header/Header"
+import { getCookie } from "../../../../../../js/getCookie"
+import { dexLocale } from "../../../../../../locale/dexLocale"
 
 let strings = new LocalizedStrings(dexLocale);
 

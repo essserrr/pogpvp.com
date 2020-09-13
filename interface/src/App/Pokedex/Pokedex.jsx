@@ -1,20 +1,17 @@
-import React from "react";
+import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
-import LazyTable from "./LazyTable/LazyTable"
+import PokedexListFilter from "./PokedexListFilter/PokedexListFilter"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
-import PokeRow from "./PokeRow/PokeRow"
-import TableThead from "./TableThead/TableThead"
 import Loader from "../PvpRating/Loader"
 import TypeRow from "../Movedex/TypeRow/TypeRow"
 import GenRow from "./GenRow/GenRow"
 import Input from "../PvP/components/Input/Input"
 
 import { dexLocale } from "../../locale/dexLocale"
-import { calculateCP } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 
 let strings = new LocalizedStrings(dexLocale);
@@ -50,26 +47,10 @@ class Pokedex extends React.Component {
             //if response is not ok, handle error
             if (!response.ok) { throw response.detail }
 
-            //otherwise process results
-            let arr = []
-            for (const [key, value] of Object.entries(this.props.bases.pokemonBase)) {
-                value.Generation = Number(value.Generation)
-                value.Number = Number(value.Number)
-                value.CP = calculateCP(value.Title, 40, 15, 15, 15, this.props.bases.pokemonBase)
-                arr.push(
-                    <PokeRow
-                        key={key}
-                        value={value}
-                    />)
-            }
-
             this.setState({
                 showResult: true,
                 isError: false,
                 loading: false,
-                moveTable: this.props.bases.pokemonBase,
-                originalList: arr,
-                listToShow: arr
             });
 
         } catch (e) {
@@ -83,64 +64,20 @@ class Pokedex extends React.Component {
     }
 
     onNameChange(event) {
-        if (this.state.blockSort) {
-            return
-        }
-        let newList = this.state.originalList.filter(e => {
-            return e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1 && this.filterArr(e, this.state.filter)
-        });
-        if (this.state.active.field) {
-            newList = this.state.active.type === "number" ? this.sortNumber(this.state.active.field, newList) :
-                (this.state.active.type === "array" ? this.sortTypeArr(this.state.active.field, newList) :
-                    this.sortString(this.state.active.field, newList))
-        }
         this.setState({
             name: !event.target.value ? "" : event.target.value,
-            listToShow: newList,
         });
     }
 
     onFilter(event) {
-        if (this.state.blockSort) {
-            return
-        }
         let attr = event.currentTarget.getAttribute("attr")
-        let newFilter = { ...this.state.filter, [attr]: !this.state.filter[attr] }
-        let newList = this.state.originalList.filter(e => {
-            return (e.key.toLowerCase().indexOf(this.state.name.toLowerCase()) > -1) &&
-                this.filterArr(e, newFilter)
-        })
-        if (this.state.active.field) {
-            newList = this.state.active.type === "number" ? this.sortNumber(this.state.active.field, newList) :
-                (this.state.active.type === "array" ? this.sortTypeArr(this.state.active.field, newList) :
-                    this.sortString(this.state.active.field, newList))
-        }
         this.setState({
             filter: {
                 ...this.state.filter,
                 [attr]: !this.state.filter[attr],
             },
-            listToShow: newList,
         });
     }
-
-    filterArr(e, filter) {
-        let corresponds = true
-        if (filter.type0 || filter.type1 || filter.type2 || filter.type3 || filter.type4 || filter.type5 ||
-            filter.type6 || filter.type7 || filter.type8 || filter.type9 || filter.type10 || filter.type11 ||
-            filter.type12 || filter.type13 || filter.type14 || filter.type15 || filter.type16 || filter.type17) {
-            if (e.props.value.Type.reduce((result, type) => { return result * !filter["type" + type] }, true)) {
-                corresponds *= false
-            }
-        }
-        if (filter.gen1 || filter.gen2 || filter.gen3 || filter.gen4 || filter.gen5 || filter.gen6 || filter.gen7 || filter.gen8) {
-            if (!filter["gen" + e.props.value.Generation]) {
-                corresponds *= false
-            }
-        }
-        return corresponds
-    }
-
 
     onShowLegend() {
         this.setState({
@@ -149,69 +86,16 @@ class Pokedex extends React.Component {
     }
 
     onSortColumn(event) {
-        if (this.state.blockSort) {
-            return
-        }
         let fieldName = event.currentTarget.getAttribute("name")
         let fieldType = event.currentTarget.getAttribute("coltype")
-        switch (this.state.active.field === fieldName) {
-            case true:
-                this.setState({
-                    active: {
-                        field: "",
-                        type: "",
-                    },
-                    shinyRates: this.state.listToShow.reverse(),
-                });
-                break
-            default:
-                this.setState({
-                    active: {
-                        field: fieldName,
-                        type: fieldType,
-                    },
-                    listToShow: fieldType === "number" ? this.sortNumber(fieldName, this.state.listToShow) :
-                        (fieldType === "array" ? this.sortTypeArr(fieldName, this.state.listToShow) :
-                            this.sortString(fieldName, this.state.listToShow)),
-                });
-                break
-        }
+        this.setState({
+            active: {
+                field: fieldName,
+                type: fieldType,
+                order: fieldName === this.state.active.field ? !this.state.active.order : true,
+            },
+        });
     }
-
-    sortNumber(fieldName, arr) {
-        return arr.sort(function (a, b) {
-            return b.props.value[fieldName] - a.props.value[fieldName]
-        })
-    }
-
-    sortString(fieldName, arr) {
-        return arr.sort(function (a, b) {
-            if (a.props.value[fieldName] > b.props.value[fieldName]) {
-                return -1;
-            }
-            if (b.props.value[fieldName] > a.props.value[fieldName]) {
-                return 1;
-            }
-            return 0;
-        })
-    }
-
-    sortTypeArr(fieldName, arr) {
-        return arr.sort(function (a, b) {
-            if (b.props.value[fieldName][0] === a.props.value[fieldName][0]) {
-                if (b.props.value[fieldName].length > 1 && a.props.value[fieldName].length > 1) {
-                    return b.props.value[fieldName][1] - a.props.value[fieldName][1];
-                }
-                if (b.props.value[fieldName].length > 1) {
-                    return 1
-                }
-                return -1
-            }
-            return b.props.value[fieldName][0] - a.props.value[fieldName][0];
-        })
-    }
-
-
 
     render() {
         return (
@@ -258,16 +142,14 @@ class Pokedex extends React.Component {
                                             locale={strings.loading}
                                             loading={this.state.loading}
                                         />}
-                                    <LazyTable
-                                        list={this.state.listToShow}
-                                        thead={<>
-                                            <TableThead
-                                                active={this.state.active}
-                                                onClick={this.onSortColumn}
-                                            />
-                                        </>}
-                                        activeFilter={this.state.active}
-                                        elemntsOnPage={40}
+
+                                    <PokedexListFilter
+                                        name={this.state.name}
+                                        list={this.props.bases.pokemonBase}
+                                        pokTable={this.props.bases.pokemonBase}
+                                        filter={this.state.filter}
+                                        sort={this.state.active}
+                                        onClick={this.onSortColumn}
                                     />
                                 </>}
                         </div>

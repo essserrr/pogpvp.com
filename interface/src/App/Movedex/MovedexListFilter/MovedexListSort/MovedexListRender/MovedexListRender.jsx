@@ -1,6 +1,6 @@
 import React from "react"
 
-import LazyTable from "../../../../Pokedex/LazyTable/LazyTable"
+import LazyTable from "../../../../Pokedex/PokedexListFilter/PokedexListSort/PokedexListRender/LazyTable/LazyTable"
 import MoveRow from "./MoveRow/MoveRow"
 import TableThead from "./TableThead/TableThead"
 
