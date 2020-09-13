@@ -1,12 +1,11 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
-import ShinyTable from "./ShinyTable/ShinyTable"
+import ShinyTableFilter from "./ShinyTableFilter/ShinyTableFilter"
 import Loader from "../PvpRating/Loader"
-import ShinyTableTr from "./ShinyTable/ShinyTableTr"
 import SiteHelm from "../SiteHelm/SiteHelm"
 
 import { locale } from "../../locale/locale"
@@ -23,10 +22,10 @@ class ShinyRates extends React.Component {
             active: {
                 field: "Name",
                 type: "string",
+                order: true,
             },
 
             name: "",
-            pokList: [],
             shinyRates: [],
             showResult: false,
             isError: false,
@@ -58,14 +57,11 @@ class ShinyRates extends React.Component {
                 if (!responses[i].ok) { throw (i === 1 ? result.detail : responses[i].detail) }
             }
 
-            let list = this.parseShinyRates(result, this.props.bases.pokemonBase)
             this.setState({
                 showResult: true,
                 isError: false,
                 loading: false,
-                pokTable: this.props.bases.pokemonBase,
-                shinyRates: list,
-                pokList: list,
+                shinyRates: result,
             })
         } catch (e) {
             this.setState({
@@ -78,73 +74,22 @@ class ShinyRates extends React.Component {
 
     }
 
-    //generator function
-    parseShinyRates(list, pokTable) {
-        let result = []
-        for (const [key, value] of Object.entries(list)) {
-            result.push(
-                <ShinyTableTr
-                    key={value.Name + key}
-                    pok={value}
-                    pokTable={pokTable}
-                />
-            )
-        }
-        return result
-    }
-
     onClick(event) {
         let fieldName = event.currentTarget.getAttribute("name")
         let fieldType = event.currentTarget.getAttribute("coltype")
-        switch (this.state.active.field === fieldName) {
-            case true:
-                this.setState({
-                    active: {},
-                    shinyRates: this.state.shinyRates.reverse(),
-                });
-                break
-            default:
-                this.setState({
-                    active: {
-                        field: fieldName,
-                        type: fieldType,
-                    },
-                    shinyRates: fieldType === "number" ?
-                        this.sortNumber(fieldName, this.state.shinyRates) : this.sortString(fieldName, this.state.shinyRates),
-                });
-                break
-        }
+
+        this.setState({
+            active: {
+                field: fieldName,
+                type: fieldType,
+                order: this.state.active.field === fieldName ? !this.state.active.order : true
+            },
+        });
     }
-
-
-    sortNumber(fieldName, arr) {
-        return arr.sort(function (a, b) {
-            return a.props.pok[fieldName] - b.props.pok[fieldName]
-        })
-    }
-
-    sortString(fieldName, arr) {
-        return arr.sort(function (a, b) {
-            if (a.props.pok[fieldName] < b.props.pok[fieldName]) {
-                return -1;
-            }
-            if (b.props.pok[fieldName] < a.props.pok[fieldName]) {
-                return 1;
-            }
-            return 0;
-        })
-    }
-
 
     onChange(event) {
-        let newList = this.state.pokList.filter(e => e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1)
-        if (this.state.active.field) {
-            newList = this.state.active.type === "number" ?
-                this.sortNumber(this.state.active.field, newList) : this.sortString(this.state.active.field, newList)
-        }
         this.setState({
-            name: event.value,
-            shinyRates: newList,
+            name: event.target.value,
         });
     }
 
@@ -168,17 +113,21 @@ class ShinyRates extends React.Component {
                                 />}
                             <Errors class="alert alert-danger m-0 p-2 mb-2" value={"Function will be depricated soon."} />
                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
-                            {this.state.showResult && <ShinyTable
-                                onClick={this.onClick}
-                                onChange={this.onChange}
-                                firstColumn={this.state.active.field === "Name"}
-                                secondColumn={this.state.active.field === "Odds"}
-                                thirdColumn={this.state.active.field === "Odds"}
-                                fourthColumn={this.state.active.field === "Checks"}
+                            {this.state.showResult &&
+                                <ShinyTableFilter
+                                    list={this.state.shinyRates}
+                                    value={this.state.name}
+                                    filter={this.state.active}
 
-                                body={this.state.shinyRates}
-                            />
-                            }
+                                    onClick={this.onClick}
+                                    onChange={this.onChange}
+                                    firstColumn={this.state.active.field === "Name"}
+                                    secondColumn={this.state.active.field === "Odds"}
+                                    thirdColumn={this.state.active.field === "Odds"}
+                                    fourthColumn={this.state.active.field === "Checks"}
+
+                                    pokTable={this.props.bases.pokemonBase}
+                                />}
                         </div>
                     </div>
                 </div >
