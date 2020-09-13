@@ -1,6 +1,6 @@
-import React from "react";
+import React from "react"
 
-import { ReactComponent as Raid } from "../../../icons/raid.svg";
+import { ReactComponent as Raid } from "../../../../icons/raid.svg"
 
 const IconMultiplicator = React.memo(function (props) {
 

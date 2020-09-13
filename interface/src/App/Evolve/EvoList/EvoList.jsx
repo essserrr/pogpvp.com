@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 
 import PokemonCard from "../PokemonCard/PokemonCard"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
-import Tier from "../../RaidsList/Tier/Tier"
+import Tier from "./Tier/Tier"
 import CardBody from "./CardBody"
 
 import { locale } from "../../../locale/locale"

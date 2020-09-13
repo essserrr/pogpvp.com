@@ -1,7 +1,7 @@
-import React from "react";
-import Type from "../../PvP/components/CpAndTypes/Type"
-import { calculateCP, weatherDecoder } from "../../../js/indexFunctions"
-import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
+import React from "react"
+import Type from "../../../../PvP/components/CpAndTypes/Type"
+import { calculateCP, weatherDecoder } from "../../../../../js/indexFunctions"
+import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
 
 const CardBody = React.memo(function (props) {
     return (

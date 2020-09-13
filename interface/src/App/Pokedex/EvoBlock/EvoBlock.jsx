@@ -1,12 +1,12 @@
-import React from "react";
+import React from "react"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 
 import EvoCard from "./EvoCard"
-import Tier from "../../RaidsList/Tier/Tier"
+import Tier from "../../Evolve/EvoList/Tier/Tier"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
-import { ReactComponent as Candy } from "../../../icons/candy.svg";
+import { ReactComponent as Candy } from "../../../icons/candy.svg"
 
 let strings = new LocalizedStrings(dexLocale);
 
