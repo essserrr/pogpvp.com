@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import ReactTooltip from "react-tooltip"
 
-import Header from "../../../Movedex/Header/Header"
+import Header from "../../../Movedex/MovedexListFilter/MovedexListSort/MovedexListRender/TableThead/Header/Header"
 
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"

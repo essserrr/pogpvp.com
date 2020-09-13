@@ -1,7 +1,7 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 
-import Header from "../../Movedex/Header/Header"
+import Header from "../../Movedex/MovedexListFilter/MovedexListSort/MovedexListRender/TableThead/Header/Header"
 import { getCookie } from "../../../js/getCookie"
 import { dexLocale } from "../../../locale/dexLocale"
 
