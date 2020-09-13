@@ -1,25 +1,20 @@
 import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
+import RatingPages from "./RatingPages/RatingPages"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-import Collapsable from "./Collapsable/Collapsable"
 import Errors from "../PvP/components/Errors/Errors"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup"
-import PokemonCard from "../Evolve/PokemonCard/PokemonCard"
 import RatingDescr from "./RatingDescr/RatingDescr"
 import Loader from "./Loader"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"
-import CardBody from "./CardBody/CardBody"
 import Input from "../PvP/components/Input/Input"
 
-import { ReactComponent as Shadow } from "../../icons/shadow.svg"
-import { checkShadow, capitalizeFirst } from "../../js/indexFunctions"
+import { capitalizeFirst } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 
 import { locale } from "../../locale/locale"
@@ -31,12 +26,9 @@ class PvpRating extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            pokemonTable: [],
-            moveTable: [],
             ratingList: [],
-            listToShow: [],
-            rawData: [],
 
+            name: "",
             n: 0,
             league: "Great",
             combination: "overall",
@@ -130,7 +122,6 @@ class PvpRating extends React.Component {
                 if (!responses[i].ok) { throw (i === 2 ? result.detail : responses[i].detail) }
             }
 
-            let ratingList = this.returnRatingList(result, this.props.bases.pokemonBase, this.props.bases.moveBase)
             this.setState({
                 n: 75,
                 isNextPage: result.length - 75 > 0,
@@ -139,12 +130,7 @@ class PvpRating extends React.Component {
                 isError: false,
                 loading: false,
 
-                pokemonTable: this.props.bases.pokemonBase,
-                rawData: result,
-                moveTable: this.props.bases.moveBase,
-
-                ratingList: ratingList,
-                listToShow: ratingList.slice(0, 75),
+                ratingList: result,
             })
 
         } catch (e) {
@@ -158,74 +144,11 @@ class PvpRating extends React.Component {
 
     }
 
-
-
-
-    returnRatingList(ratingList, pokemonTable, moveTable) {
-        return ratingList.reduce((result, elem, i) => {
-            let pokName = checkShadow(elem.Name, pokemonTable)
-            if (!pokName) {
-                return result
-            }
-            result.push(
-                <PokemonCard
-                    key={elem.Name}
-                    class={"col-12 pokCard p-0 mt-2"}
-                    name={<div className="d-flex dexFont justify-content-between pl-2">
-                        {"#" + (i + 1)}
-                        <div className=" text-center">
-                            {pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}
-                        </div><div></div>
-                    </div>}
-                    icon={
-                        <Link className="ml-2 mr-4 mt-2 align-self-center posRel"
-                            title={strings.dexentr + pokName}
-                            to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(pokName)}>
-                            {(pokName !== elem.Name) &&
-                                <Shadow className="posAbsR icon24" />}
-                            <PokemonIconer
-                                src={pokemonTable[pokName].Number +
-                                    (pokemonTable[pokName].Forme !== "" ? "-" + pokemonTable[pokName].Forme : "")}
-                                class={"icon64"} />
-                        </Link>}
-                    body={<CardBody
-                        name={pokName}
-                        pokemonTable={pokemonTable}
-                        maxWeighted={ratingList[0].AvgRateWeighted}
-                        entry={elem}
-                    />}
-                    footer={<Collapsable
-                        pokemonTable={pokemonTable}
-                        moveTable={moveTable}
-                        ratingList={ratingList}
-
-                        container={elem}
-                        league={this.state.league}
-                        combination={this.state.combination}
-                    />}
-
-                    classHeader={"cardHeader dexFont col-12 p-0 px-1"}
-                    classBody={"col align-self-center p-1 p-0 "}
-                    classBodyWrap={"row justify-content-between m-0"}
-                    classFooter="col-12 p-0  mb-2"
-                />)
-            return result;
-        }, []);
-    }
-
-
-
-
-
-
-
-
     onLoadMore() {
         let newN = (this.state.n + 75) <= this.state.ratingList.length ? this.state.n + 75 : this.state.ratingList.length
         this.setState({
             n: newN,
             isNextPage: this.state.ratingList.length - newN > 0,
-            listToShow: this.state.ratingList.slice(0, newN),
         });
     }
 
@@ -234,14 +157,14 @@ class PvpRating extends React.Component {
     onChangeInput(event) {
         if (!event.target.value) {
             this.setState({
+                name: "",
                 searchState: false,
-                listToShow: this.state.ratingList.slice(0, this.state.n),
             });
             return
         }
         this.setState({
+            name: event.target.value,
             searchState: true,
-            listToShow: this.state.ratingList.filter(e => e.key.toLowerCase().indexOf(event.target.value.toLowerCase()) > -1),
         });
     }
 
@@ -284,8 +207,6 @@ class PvpRating extends React.Component {
             //if response is not ok, handle error
             if (!response.ok) { throw result.detail }
 
-            let ratingList = this.returnRatingList(result, this.state.pokemonTable, this.state.moveTable)
-
             this.props.history.push("/pvprating/" + leaguePath.toLowerCase() + "/" + typePath)
             this.setState({
                 n: 75,
@@ -296,8 +217,7 @@ class PvpRating extends React.Component {
                 loading: false,
                 searchState: false,
 
-                ratingList: ratingList,
-                listToShow: ratingList.slice(0, 75),
+                ratingList: result,
             })
 
         } catch (e) {
@@ -390,6 +310,7 @@ class PvpRating extends React.Component {
                                         <>
                                             <div className="col px-2 py-2">
                                                 <Input
+                                                    value={this.state.name}
                                                     class="modifiedBorder form-control"
                                                     onChange={this.onChangeInput}
                                                     place={strings.shinyrates.searchplaceholder}
@@ -397,9 +318,18 @@ class PvpRating extends React.Component {
                                             </div>
 
                                             <div className="row m-0 px-2  justify-content-center">
-                                                {this.state.listToShow}
+                                                <RatingPages
+                                                    name={this.state.name}
+                                                    n={this.state.n}
+                                                    league={this.state.league}
+                                                    combination={this.state.combination}
+                                                    pokemonTable={this.props.bases.pokemonBase}
+                                                    moveTable={this.props.bases.moveBase}
+                                                    searchState={this.state.searchState}
+                                                    list={this.state.ratingList}
+                                                    originalList={this.state.ratingList}
+                                                />
                                             </div>
-
 
                                             <div className="col d-flex p-0 pt-3  justify-content-center">
                                                 {(this.state.isNextPage && !this.state.searchState) && <SubmitButton
