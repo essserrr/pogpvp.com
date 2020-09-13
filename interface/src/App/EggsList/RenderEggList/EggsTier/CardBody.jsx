@@ -1,7 +1,7 @@
-import React from "react";
-import Type from "../PvP/components/CpAndTypes/Type"
+import React from "react"
+import Type from "../../../PvP/components/CpAndTypes/Type"
 
-import { calculateCP } from "../../js/indexFunctions"
+import { calculateCP } from "../../../../js/indexFunctions"
 
 const CardBody = React.memo(function (props) {
     return (

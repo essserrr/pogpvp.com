@@ -1,12 +1,11 @@
-import React from "react";
+import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
-import EggsTier from "./EggsTier/EggsTier"
-import EggsIcon from "./EggsIcon/EggsIcon"
+import RenderEggList from "./RenderEggList/RenderEggList"
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 import Button from "../Movedex/Button/Button"
 import Loader from "../PvpRating/Loader"
@@ -22,7 +21,6 @@ class EggsList extends React.Component {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            showResult: false,
             isError: false,
             error: "",
             loading: false,
@@ -57,17 +55,13 @@ class EggsList extends React.Component {
             }
 
             this.setState({
-                showResult: true,
                 isError: false,
                 loading: false,
-                listToShow: this.returnEggsList(result, this.props.bases.pokemonBase, this.state.filter),
                 tierList: result,
-                pokTable: this.props.bases.pokemonBase,
             })
 
         } catch (e) {
             this.setState({
-                showResult: false,
                 isError: true,
                 loading: false,
                 error: String(e)
@@ -75,24 +69,9 @@ class EggsList extends React.Component {
         }
     }
 
-    returnEggsList(tierList, pokTable, filter) {
-        let matrix = ["10KM Eggs", "7KM Gift Eggs", "5KM Eggs", "2KM Eggs", "10KM Eggs (50KM)", "5KM Eggs (25KM)",]
-        return matrix.map((block, i) => <EggsTier
-            key={"eggs" + i}
-            class="separator capsSeparator"
-            title={<EggsIcon tier={block} />}
-            list={tierList[block]}
-            pokTable={pokTable}
-            showReg={filter.showReg}
-        />);
-    }
-
     onChange(event) {
         let attr = event.target.getAttribute("attr")
-        let newFilter = { ...this.state.filter, [attr]: !this.state.filter[attr] }
-        let list = this.returnEggsList(this.state.tierList, this.state.pokTable, newFilter)
         this.setState({
-            listToShow: list.filter(elem => this.filter(elem, newFilter)),
             filter: {
                 ...this.state.filter,
                 [attr]: !Boolean(this.state.filter[attr])
@@ -128,7 +107,7 @@ class EggsList extends React.Component {
                                     locale={strings.tips.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.listToShow &&
+                            {this.state.tierList &&
                                 <>
                                     <ButtonsBlock
                                         filter={this.state.filter}
@@ -147,7 +126,12 @@ class EggsList extends React.Component {
                                     </div>
                                 </>}
                             {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
-                            {this.state.listToShow && this.state.listToShow}
+                            {this.state.tierList &&
+                                <RenderEggList
+                                    list={this.state.tierList}
+                                    pokTable={this.props.bases.pokemonBase}
+                                    filter={this.state.filter}
+                                />}
                         </div>
                     </div>
                 </div >

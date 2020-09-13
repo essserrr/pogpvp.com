@@ -1,16 +1,16 @@
-import React from "react";
+import React from "react"
 import ReactTooltip from "react-tooltip"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
-import PokemonCard from "../../Evolve/PokemonCard/PokemonCard"
-import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
-import CardBody from "../CardBody"
+import PokemonCard from "../../../Evolve/PokemonCard/PokemonCard"
+import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
+import CardBody from "./CardBody"
 
-import { capitalizeFirst, regionals } from "../../../js/indexFunctions"
-import { getCookie } from "../../../js/getCookie"
-import { locale } from "../../../locale/locale"
-import { regionLocale } from "../../../locale/regionLocale"
+import { capitalizeFirst, regionals } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
+import { locale } from "../../../../locale/locale"
+import { regionLocale } from "../../../../locale/regionLocale"
 
 
 let strings = new LocalizedStrings(locale);
