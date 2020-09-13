@@ -17,7 +17,7 @@ class UserShinyList extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             page: 1,
-            listToShow: props.list.slice(0, props.elemntsOnPage > props.list.length ? props.list.length : props.elemntsOnPage),
+            infiniteList: props.list.slice(0, props.elemntsOnPage > props.list.length ? props.list.length : props.elemntsOnPage),
             isNext: props.elemntsOnPage > props.list.length ? false : true
         }
     }
@@ -28,7 +28,7 @@ class UserShinyList extends React.PureComponent {
         }
 
         this.setState({
-            listToShow: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
+            infiniteList: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
             page: 1,
             isNext: this.props.elemntsOnPage > this.props.list.length ? false : true
         })
@@ -41,7 +41,7 @@ class UserShinyList extends React.PureComponent {
         let isNext = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? false : true
 
         this.setState({
-            listToShow: this.state.listToShow.concat(this.props.list.slice(this.state.page * this.props.elemntsOnPage, upperBound)),
+            infiniteList: this.state.infiniteList.concat(this.props.list.slice(this.state.page * this.props.elemntsOnPage, upperBound)),
             page: page,
             isNext: isNext
         })
@@ -51,14 +51,14 @@ class UserShinyList extends React.PureComponent {
         return (
             <div id={"userShinyList" + this.props.attr} className="ushiny row mx-0  p-2 justify-content-center">
                 <InfiniteScroll
-                    dataLength={this.state.listToShow.length}
+                    dataLength={this.state.infiniteList.length}
                     next={this.fetchMoreData}
                     hasMore={this.state.isNext}
                     scrollableTarget={"userShinyList" + this.props.attr}
                     scrollThreshold={0.7}
                 >
                     <div className="row mx-0">
-                        {this.state.listToShow.map((value) =>
+                        {this.state.infiniteList.map((value) =>
                             <UserShinyCard
                                 key={this.props.attr + value.Name}
 

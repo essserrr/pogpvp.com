@@ -8,7 +8,7 @@ class LazyTable extends React.PureComponent {
 
         this.state = {
             page: 1,
-            listToShow: props.list.slice(0, props.elemntsOnPage > props.list.length ? props.list.length : props.elemntsOnPage),
+            infiniteList: props.list.slice(0, props.elemntsOnPage > props.list.length ? props.list.length : props.elemntsOnPage),
             isNext: props.elemntsOnPage > props.list.length ? false : true
         }
     }
@@ -19,7 +19,7 @@ class LazyTable extends React.PureComponent {
         }
 
         this.setState({
-            listToShow: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
+            infiniteList: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
             page: 1,
             isNext: this.props.elemntsOnPage > this.props.list.length ? false : true
         })
@@ -32,7 +32,7 @@ class LazyTable extends React.PureComponent {
         let isNext = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? false : true
 
         this.setState({
-            listToShow: this.state.listToShow.concat(this.props.list.slice(this.state.page * this.props.elemntsOnPage, upperBound)),
+            infiniteList: this.state.infiniteList.concat(this.props.list.slice(this.state.page * this.props.elemntsOnPage, upperBound)),
             page: page,
             isNext: isNext
         })
@@ -43,7 +43,7 @@ class LazyTable extends React.PureComponent {
         return (
             <InfiniteScroll
                 style={{ overflow: "visible" }}
-                dataLength={this.state.listToShow.length}
+                dataLength={this.state.infiniteList.length}
                 next={this.fetchMoreData}
                 hasMore={this.state.isNext}
                 scrollThreshold={0.75}
@@ -51,7 +51,7 @@ class LazyTable extends React.PureComponent {
                 <table className="table mb-0 table-sm text-center">
                     {this.props.thead}
                     <tbody>
-                        {this.state.listToShow}
+                        {this.state.infiniteList}
                     </tbody>
                 </table>
             </InfiniteScroll>
