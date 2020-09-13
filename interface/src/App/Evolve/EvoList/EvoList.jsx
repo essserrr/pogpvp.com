@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent } from "react"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
@@ -10,6 +10,7 @@ import CardBody from "./CardBody"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/getCookie"
 
+import "./EvoList.scss"
 
 let strings = new LocalizedStrings(locale)
 
@@ -18,8 +19,6 @@ class EvoList extends PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
-
-
 
     returnEvolveList(state) {
         let list = []
@@ -33,7 +32,7 @@ class EvoList extends PureComponent {
             result[elem.stage].push(
                 < div key={elem.name + "wrap"} className={"col-5 col-sm-4 col-md-4 d-flex justify-content-center px-1 pt-1"} >
                     <PokemonCard
-                        class={"col-12 pokCard raid animShiny p-0"}
+                        class={"evo-list__card col-12 p-0"}
                         name={elem.name}
                         icon={
                             <Link className="my-1 align-self-center"
@@ -42,15 +41,15 @@ class EvoList extends PureComponent {
                                 <PokemonIconer
                                     src={this.props.pokemonTable[elem.name].Number + (this.props.pokemonTable[elem.name].Forme !== "" ?
                                         "-" + this.props.pokemonTable[elem.name].Forme : "")}
-                                    class={"icon48"} />
+                                    class={"evo-list__icon"} />
                             </Link>}
                         body={<CardBody
                             name={elem.name}
                             state={state}
                             pokemonTable={this.props.pokemonTable}
                         />}
-                        classHeader={"cardHeader fBolder col-12 px-1 text-center"}
-                        classBody={"cardBody col p-1 justify-content-between"}
+                        classHeader={"evo-list__card-header col-12 px-1 text-center"}
+                        classBody={"evo-list__card-body col p-1 justify-content-between"}
                     />
                 </div >
             )
