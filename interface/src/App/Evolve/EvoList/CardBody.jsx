@@ -6,13 +6,13 @@ const CardBody = React.memo(function (props) {
     return (
         <>
             <div className="col-12 text-center p-0">
-                {(props.state.pokemonTable[props.name].Type[0] !== undefined) && <Type
+                {(props.pokemonTable[props.name].Type[0] !== undefined) && <Type
                     class={"icon18"}
-                    code={props.state.pokemonTable[props.name].Type[0]}
+                    code={props.pokemonTable[props.name].Type[0]}
                 />}
-                {(props.state.pokemonTable[props.name].Type[1] !== undefined) && <Type
+                {(props.pokemonTable[props.name].Type[1] !== undefined) && <Type
                     class={"ml-2 icon18"}
-                    code={props.state.pokemonTable[props.name].Type[1]}
+                    code={props.pokemonTable[props.name].Type[1]}
                 />}
             </div>
             <CP
@@ -22,7 +22,7 @@ const CardBody = React.memo(function (props) {
                 Atk={props.state.Atk}
                 Def={props.state.Def}
                 Sta={props.state.Sta}
-                pokemonTable={props.state.pokemonTable}
+                pokemonTable={props.pokemonTable}
             />
         </>
     )

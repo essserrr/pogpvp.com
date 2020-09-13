@@ -30,8 +30,6 @@ class Evolve extends React.Component {
             Sta: "",
 
             pokCanEvolve: [],
-            pokemonTable: [],
-
 
             showResult: false,
             isError: false,
@@ -58,7 +56,6 @@ class Evolve extends React.Component {
                 isError: false,
                 loading: false,
                 pokCanEvolve: this.pokWithEvo(this.props.bases.pokemonBase),
-                pokemonTable: this.props.bases.pokemonBase,
             })
         } catch (e) {
             this.setState({
@@ -164,9 +161,10 @@ class Evolve extends React.Component {
                                             onChange={this.onChange}
                                         />
                                     </div>
-                                    {this.state.pokemonTable[this.state.name] && <div className="col-12 px-2 mt-2 ">
+                                    {this.props.bases.pokemonBase[this.state.name] && <div className="col-12 px-2 mt-2 ">
                                         <EvoList
                                             state={this.state}
+                                            pokemonTable={this.props.bases.pokemonBase}
                                         />
                                     </div>}
                                 </div>

@@ -23,7 +23,7 @@ class EvoList extends PureComponent {
 
     returnEvolveList(state) {
         let list = []
-        this.evolist(state.pokemonTable[state.name], state.pokemonTable, list, 0)
+        this.evolist(this.props.pokemonTable[state.name], this.props.pokemonTable, list, 0)
 
         //makes structured list of evocards from generated list
         let structuredResult = list.reduce((result, elem) => {
@@ -40,13 +40,14 @@ class EvoList extends PureComponent {
                                 title={strings.dexentr + elem.name}
                                 to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(elem.name)}>
                                 <PokemonIconer
-                                    src={state.pokemonTable[elem.name].Number + (state.pokemonTable[elem.name].Forme !== "" ?
-                                        "-" + state.pokemonTable[elem.name].Forme : "")}
+                                    src={this.props.pokemonTable[elem.name].Number + (this.props.pokemonTable[elem.name].Forme !== "" ?
+                                        "-" + this.props.pokemonTable[elem.name].Forme : "")}
                                     class={"icon48"} />
                             </Link>}
                         body={<CardBody
                             name={elem.name}
                             state={state}
+                            pokemonTable={this.props.pokemonTable}
                         />}
                         classHeader={"cardHeader fBolder col-12 px-1 text-center"}
                         classBody={"cardBody col p-1 justify-content-between"}
