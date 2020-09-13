@@ -9,6 +9,8 @@ import { capitalizeFirst } from "../../../../js/indexFunctions"
 import { getCookie } from "../../../../js/getCookie"
 import { locale } from "../../../../locale/locale"
 
+import "./RaidTier.scss"
+
 let strings = new LocalizedStrings(locale)
 
 const RaidTier = React.memo(function (props) {
@@ -30,7 +32,7 @@ const RaidTier = React.memo(function (props) {
                     result.push(
                         <div key={name + "wrap"} className={"col-6 col-md-4 d-flex px-1 pt-2 justify-content-center"}>
                             <PokemonCard
-                                class={"col-12 pokCard raid p-0 animShiny"}
+                                class={"raid-tier__card col-12 p-0"}
                                 name={name}
                                 icon={
                                     <Link title={strings.topcounters + props.pokTable[name].Title}
@@ -42,15 +44,15 @@ const RaidTier = React.memo(function (props) {
                                         <PokemonIconer
                                             src={props.pokTable[name].Number +
                                                 (props.pokTable[name].Forme !== "" ? "-" + props.pokTable[name].Forme : "")}
-                                            class={"icon48"} />
+                                            class={"raid-tier__icon"} />
                                     </Link>}
                                 body={<CardBody
                                     name={name}
                                     pokTable={props.pokTable}
                                 />}
 
-                                classHeader={"cardHeader fBolder col-12 px-1 text-center"}
-                                classBody={"cardBody text-center col p-1 justify-content-center"}
+                                classHeader={"raid-tier__card-header col-12 px-1 text-center"}
+                                classBody={"raid-tier__card-body text-center col p-1 justify-content-center"}
                             />
                         </div>)
                     return result
