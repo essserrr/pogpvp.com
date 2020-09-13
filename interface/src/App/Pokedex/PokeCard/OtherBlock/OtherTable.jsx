@@ -1,11 +1,11 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 
-import { ReactComponent as Dust } from "../../../icons/stardust.svg";
-import { ReactComponent as Candy } from "../../../icons/candy.svg";
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
-import { regionLocale } from "../../../locale/regionLocale"
+import { ReactComponent as Dust } from "../../../../icons/stardust.svg"
+import { ReactComponent as Candy } from "../../../../icons/candy.svg"
+import { getCookie } from "../../../../js/getCookie"
+import { dexLocale } from "../../../../locale/dexLocale"
+import { regionLocale } from "../../../../locale/regionLocale"
 
 let strings = new LocalizedStrings(dexLocale);
 let regions = new LocalizedStrings(regionLocale);

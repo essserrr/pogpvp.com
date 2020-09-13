@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
-import NavigationBlock from "../Pokedex/NavigationBlock/NavigationBlock"
+import NavigationBlock from "../Pokedex/PokeCard/NavigationBlock/NavigationBlock"
 import News from "./News/News"
 
 import { locale } from "../../locale/locale"

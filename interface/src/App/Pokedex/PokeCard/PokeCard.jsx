@@ -1,13 +1,13 @@
-import React from "react";
-import SiteHelm from "../SiteHelm/SiteHelm"
+import React from "react"
+import SiteHelm from "../../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 import { connect } from "react-redux"
 
-import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import Errors from "../PvP/components/Errors/Errors"
-import Loader from "../PvpRating/Loader"
+import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
+import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
+import Errors from "../../PvP/components/Errors/Errors"
+import Loader from "../../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
 import MoveCol from "./MoveBlock/MoveCol"
 import EffTable from "./EffBlock/EffTable"
@@ -19,8 +19,8 @@ import NavigationBlock from "./NavigationBlock/NavigationBlock"
 import SliderBlock from "./SliderBlock/SliderBlock"
 import RedirectBlock from "./RedirectBlock/RedirectBlock"
 
-import { dexLocale } from "../../locale/dexLocale"
-import { getCookie } from "../../js/getCookie"
+import { dexLocale } from "../../../locale/dexLocale"
+import { getCookie } from "../../../js/getCookie"
 
 import "./PokeCard.scss"
 

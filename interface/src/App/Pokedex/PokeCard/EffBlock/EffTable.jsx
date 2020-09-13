@@ -1,9 +1,9 @@
-import React from "react";
-import { effectivenessData } from "../../../js/indexFunctions"
-import LocalizedStrings from "react-localization";
+import React from "react"
+import { effectivenessData } from "../../../../js/indexFunctions"
+import LocalizedStrings from "react-localization"
 
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
+import { getCookie } from "../../../../js/getCookie"
+import { dexLocale } from "../../../../locale/dexLocale"
 import EffIcon from "./EffIcon"
 
 let strings = new LocalizedStrings(dexLocale);

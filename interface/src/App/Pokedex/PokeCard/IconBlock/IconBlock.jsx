@@ -1,12 +1,12 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 import { useMediaQuery } from 'react-responsive'
 
-import Type from "../../PvP/components/CpAndTypes/Type"
-import { calculateCP } from "../../../js/indexFunctions"
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
-import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
+import Type from "../../../PvP/components/CpAndTypes/Type"
+import { calculateCP } from "../../../../js/indexFunctions"
+import { getCookie } from "../../../../js/getCookie"
+import { dexLocale } from "../../../../locale/dexLocale"
+import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
 import StatsTriangle from "../StatsTriangle/StatsTriangle"
 
 import "./IconBlock.scss"

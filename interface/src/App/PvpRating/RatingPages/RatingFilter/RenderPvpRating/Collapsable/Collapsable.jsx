@@ -7,7 +7,7 @@ import { getCookie } from "../../../../../../js/getCookie"
 import RMoveRow from "../../../../RMoveRow/RMoveRow"
 import RRateRow from "../../../../RRateRow/RRateRow"
 import RowWrap from "../../../../RowWrap/RowWrap"
-import EffTable from "../../../../../Pokedex/EffBlock/EffTable"
+import EffTable from "../../../../../Pokedex/PokeCard/EffBlock/EffTable"
 
 
 import LocalizedStrings from "react-localization"

@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 
-import CP from "../../PvP/components/CpAndTypes/CP"
-import Stats from "../../PvP/components/Stats/Stats";
+import CP from "../../../PvP/components/CpAndTypes/CP"
+import Stats from "../../../PvP/components/Stats/Stats"
 
 const CpCalc = React.memo(function (props) {
     return (

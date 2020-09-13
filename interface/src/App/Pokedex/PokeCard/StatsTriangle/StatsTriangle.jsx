@@ -2,8 +2,8 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import ReactTooltip from "react-tooltip"
 
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
+import { getCookie } from "../../../../js/getCookie"
+import { dexLocale } from "../../../../locale/dexLocale"
 
 import "./StatsTriangle.scss"
 
