@@ -137,7 +137,7 @@ class TimelineGenerator extends PureComponent {
 
         result.push(this.shortEvent({
             key: thisRound.Round + arg.actor1 + 11,
-            value: <DSword className={"timeline-generator__dsword svgFillsC" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType + " " + glow} />,
+            value: <DSword className={"timeline-generator__dsword timeline-generator--fill" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType + " " + glow} />,
             tip: <>
                 {strings.reconstruction.turn + thisRound.Round}<br />
                 {thisRound[arg.actor1].ActionName}<br />
@@ -172,7 +172,7 @@ class TimelineGenerator extends PureComponent {
         let energy = thisRound[arg.actor1].Energy - this.props.log[arg.i - 1][arg.actor1].Energy
         result.push(this.shortEvent({
             key: thisRound.Round + arg.actor1 + 1,
-            value: <Sword className={"timeline-generator__sword svgFillsC" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType} />,
+            value: <Sword className={"timeline-generator__sword timeline-generator--fill" + this.props.moveTable[thisRound[arg.actor1].ActionName].MoveType} />,
             tip: <>
                 {strings.reconstruction.turn + thisRound.Round}<br />
                 {thisRound[arg.actor1].ActionName}<br />
