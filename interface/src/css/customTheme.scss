@@ -491,11 +491,6 @@ body {
     height: 48px;
 }
 
-.icon64 {
-    width: 64px;
-    height: 64px;
-}
-
 //pok card
 .cardHeader {
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
@@ -529,12 +524,6 @@ body {
 .posAbs {
     position: absolute !important;
     right: 0px;
-}
-
-.posAbsR {
-    position: absolute !important;
-    right: -15px;
-    top: -7px;
 }
 
 .posAbsB {
@@ -571,10 +560,6 @@ body {
 }
 .max110 {
     max-width: 110px !important;
-}
-.w70 {
-    min-width: 60px !important;
-    max-width: 60px !important;
 }
 
 //separator style

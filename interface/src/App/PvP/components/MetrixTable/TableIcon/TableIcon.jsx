@@ -1,23 +1,23 @@
-import React from "react";
-import ReactTooltip from "react-tooltip";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import ReactTooltip from "react-tooltip"
+import LocalizedStrings from "react-localization"
 
-import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
-import PokemonIconer from "../PokemonIconer/PokemonIconer"
+import { ReactComponent as Shadow } from "../../../../../icons/shadow.svg"
+import PokemonIconer from "../../PokemonIconer/PokemonIconer"
 
-import { getCookie } from "../../../../js/getCookie"
-import { locale } from "../../../../locale/locale"
+import { getCookie } from "../../../../../js/getCookie"
+import { locale } from "../../../../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
+import "./TableIcon.scss"
 
-
+let strings = new LocalizedStrings(locale)
 
 const TableIcon = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
         <div className="row m-0 justify-content-center ">
-            <div className="posRel w70" >
+            <div className="table-icon" >
                 {String(props.pok.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
                 <PokemonIconer
                     src={props.pokemonTable[props.pok.name].Number +
@@ -44,7 +44,6 @@ const TableIcon = React.memo(function (props) {
                 {(props.pok.ChargeMove1 && props.pok.ChargeMove2) ? "/" : ""}
 
                 {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
-
             </div>
         </div>
     )

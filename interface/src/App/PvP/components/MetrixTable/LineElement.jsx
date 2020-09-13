@@ -1,5 +1,5 @@
-import React from "react";
-import TableIcon from "./TableIcon"
+import React from "react"
+import TableIcon from "./TableIcon/TableIcon"
 
 const LineElement = React.memo(function (props) {
     return (

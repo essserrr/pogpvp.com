@@ -13,6 +13,8 @@ import { getCookie } from "../../../../../js/getCookie"
 
 import { locale } from "../../../../../locale/locale"
 
+import "./RenderPvpRating.scss"
+
 let strings = new LocalizedStrings(locale)
 
 class RenderPvpRating extends React.Component {
@@ -32,23 +34,25 @@ class RenderPvpRating extends React.Component {
                 result.push(
                     <PokemonCard
                         key={elem.Name}
-                        class={"col-12 pokCard p-0 mt-2"}
-                        name={<div className="d-flex dexFont justify-content-between pl-2">
-                            {"#" + (i + 1)}
-                            <div className=" text-center">
-                                {pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}
-                            </div><div></div>
-                        </div>}
+                        class={"pvprating-render__card col-12 p-0 mt-2"}
+                        name={
+                            <div className="d-flex justify-content-between pl-2">
+                                {"#" + (i + 1)}
+                                <div className="text-center">
+                                    {pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}
+                                </div>
+                                <div />
+                            </div>}
                         icon={
-                            <Link className="ml-2 mr-4 mt-2 align-self-center posRel"
+                            <Link className="pvprating-render--relative ml-2 mr-4 mt-2 align-self-center"
                                 title={strings.dexentr + pokName}
                                 to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(pokName)}>
                                 {(pokName !== elem.Name) &&
-                                    <Shadow className="posAbsR icon24" />}
+                                    <Shadow className="pvprating-render__icon--medium pvprating-render--absolute" />}
                                 <PokemonIconer
                                     src={this.props.pokemonTable[pokName].Number +
                                         (this.props.pokemonTable[pokName].Forme !== "" ? "-" + this.props.pokemonTable[pokName].Forme : "")}
-                                    class={"icon64"} />
+                                    class={"pvprating-render__icon--big"} />
                             </Link>}
                         body={<CardBody
                             name={pokName}
@@ -66,7 +70,7 @@ class RenderPvpRating extends React.Component {
                             combination={this.props.combination}
                         />}
 
-                        classHeader={"cardHeader dexFont col-12 p-0 px-1"}
+                        classHeader={"pvprating-render__card-header col-12 p-0 px-1"}
                         classBody={"col align-self-center p-1 p-0 "}
                         classBodyWrap={"row justify-content-between m-0"}
                         classFooter="col-12 p-0  mb-2"
