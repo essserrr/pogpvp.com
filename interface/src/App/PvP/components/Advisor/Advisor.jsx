@@ -9,6 +9,8 @@ import SubmitButton from "../SubmitButton/SubmitButton"
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
+import "./Advisor.scss"
+
 let strings = new LocalizedStrings(locale);
 
 class Advisor extends React.PureComponent {
@@ -75,7 +77,7 @@ class Advisor extends React.PureComponent {
                         src="willow3"
                         folder="/"
                         class={"willow p-2"} />
-                    <div className="bubbleText posAbsB px-2 py-1 fBolder">
+                    <div className="advisor__willow--bubble-text posAbsB px-2 py-1 fBolder">
                         {strings.advisor.willow}
                     </div>
                 </div>

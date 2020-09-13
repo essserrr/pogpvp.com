@@ -1,13 +1,16 @@
 import React from "react"
-
 import LocalizedStrings from "react-localization"
-import { pveLocale } from "../../../../../locale/pveLocale"
-import { tierHP, weather, calculateCP } from "../../../../../js/indexFunctions"
-import { getCookie } from "../../../../../js/getCookie"
+
 import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
 import WeatherBoosted from "./WeatherBoosted"
 
-let pvestrings = new LocalizedStrings(pveLocale);
+import { pveLocale } from "../../../../../locale/pveLocale"
+import { tierHP, weather, calculateCP } from "../../../../../js/indexFunctions"
+import { getCookie } from "../../../../../js/getCookie"
+
+import "./PveWillow.scss"
+
+let pvestrings = new LocalizedStrings(pveLocale)
 
 class PveWillow extends React.PureComponent {
     constructor(props) {
@@ -37,7 +40,7 @@ class PveWillow extends React.PureComponent {
                     src="willow3"
                     folder="/"
                     class={"willow p-2"} />
-                <div className="bubbleText long posAbsB px-2 py-1 fBolder">
+                <div className="pvewillow__bubble-text posAbsB px-2 py-1 fBolder">
                     {pvestrings.willow1}<span className="font-weight-bold">{this.props.snapshot.bossObj.Name}</span>
                     {". " + pvestrings.willow2}<span className="font-weight-bold">{tierHP[this.props.snapshot.bossObj.Tier]}</span>
                     {pvestrings.willow3}<span className="font-weight-bold">{(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180) + pvestrings.s}</span>
