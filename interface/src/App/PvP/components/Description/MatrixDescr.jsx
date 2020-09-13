@@ -1,16 +1,18 @@
-import React from "react";
+import React from "react"
 import ReactTooltip from "react-tooltip"
 
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
-import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
+import { ReactComponent as Shadow } from "../../../../icons/shadow.svg"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { matrixTips } from "../../../../locale/matrixTips"
 import { getCookie } from "../../../../js/getCookie"
 
+import "./MatrixDescr.scss"
+
 let tips = new LocalizedStrings(matrixTips)
 
-const MatrixDecr = React.memo(function (props) {
+const MatrixDescr = React.memo(function (props) {
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
@@ -157,7 +159,7 @@ const MatrixDecr = React.memo(function (props) {
             </h6>
 
 
-            <div className={"pokCard row m-0 py-1 mb-3 mt-2 bigFont justify-content-between"}>
+            <div className={"matrix-descr__card row m-0 py-1 mb-3 mt-2 bigFont justify-content-between"}>
                 <div className={"row m-0"}>
                     <div data-tip data-for={"topnumber"} className="ml-2 mr-2  align-self-center ">{"#1"}</div>
                     <ReactTooltip
@@ -252,4 +254,4 @@ const MatrixDecr = React.memo(function (props) {
 
 });
 
-export default MatrixDecr;
+export default MatrixDescr;
