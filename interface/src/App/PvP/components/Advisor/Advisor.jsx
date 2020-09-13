@@ -1,7 +1,7 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import DoubleSlider from "../../../Movedex/DoubleSlider/DoubleSlider"
+import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 import AdvisorPages from "./AdvisorPages/AdvisorPages"
 import SubmitButton from "../SubmitButton/SubmitButton"

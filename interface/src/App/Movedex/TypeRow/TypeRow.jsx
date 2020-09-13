@@ -1,5 +1,5 @@
-import React from "react";
-import Button from "../Button/Button"
+import React from "react"
+import Button from "../MoveCard/DoubleSlider/Button/Button"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 
 

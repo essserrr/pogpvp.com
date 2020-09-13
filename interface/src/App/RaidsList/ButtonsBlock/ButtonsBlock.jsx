@@ -2,7 +2,7 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 
 
-import Button from "../../Movedex/Button/Button"
+import Button from "../../Movedex/MoveCard/DoubleSlider/Button/Button"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/getCookie"
 

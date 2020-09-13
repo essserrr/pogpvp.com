@@ -4,7 +4,7 @@ import { UnmountClosed } from "react-collapse"
 
 import GroupsSettings from "./GroupsSettings/GroupsSettings"
 import CollectionSettings from "./CollectionSettings/CollectionSettings"
-import DoubleSlider from "../../../Movedex/DoubleSlider/DoubleSlider"
+import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
 
 import { pveLocale } from "../../../../locale/pveLocale"
 import { getCookie } from "../../../../js/getCookie"

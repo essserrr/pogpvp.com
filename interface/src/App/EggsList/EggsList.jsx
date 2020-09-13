@@ -7,7 +7,7 @@ import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import RenderEggList from "./RenderEggList/RenderEggList"
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
-import Button from "../Movedex/Button/Button"
+import Button from "../Movedex/MoveCard/DoubleSlider/Button/Button"
 import Loader from "../PvpRating/Loader"
 
 import { getCookie } from "../../js/getCookie"

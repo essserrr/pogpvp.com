@@ -9,7 +9,7 @@ import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
-import DoubleSlider from "./DoubleSlider/DoubleSlider"
+import DoubleSlider from "./MoveCard/DoubleSlider/DoubleSlider"
 import TypeRow from "./TypeRow/TypeRow"
 import Input from "../PvP/components/Input/Input"
 

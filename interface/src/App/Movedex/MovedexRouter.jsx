@@ -1,8 +1,8 @@
 
-import React from "react";
+import React from "react"
 import Movedex from "./Movedex"
-import MoveCard from "./MoveCard"
-import { Switch, Route } from "react-router-dom";
+import MoveCard from "./MoveCard/MoveCard"
+import { Switch, Route } from "react-router-dom"
 
 const MovedexRouter = () => (
     <Switch>

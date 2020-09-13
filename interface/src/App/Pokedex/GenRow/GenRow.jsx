@@ -1,6 +1,6 @@
 import React from "react";
 
-import Button from "../../Movedex/Button/Button"
+import Button from "../../Movedex/MoveCard/DoubleSlider/Button/Button"
 
 const GenRow = React.memo(function (props) {
 
