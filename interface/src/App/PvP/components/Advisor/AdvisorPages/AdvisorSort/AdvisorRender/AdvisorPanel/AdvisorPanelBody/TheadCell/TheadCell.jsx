@@ -1,5 +1,5 @@
-import React from "react";
-import Type from "../CpAndTypes/Type"
+import React from "react"
+import Type from "../../../../../../../CpAndTypes/Type"
 
 
 const TheadCell = React.memo(function (props) {

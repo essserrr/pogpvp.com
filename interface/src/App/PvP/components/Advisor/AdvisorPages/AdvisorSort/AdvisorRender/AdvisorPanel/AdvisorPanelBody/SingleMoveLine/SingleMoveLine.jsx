@@ -1,5 +1,5 @@
-import React from "react";
-import { returnVunStyle, effectivenessData } from "../../../../js/indexFunctions"
+import React from "react"
+import { returnVunStyle, effectivenessData } from "../../../../../../../../../../js/indexFunctions"
 
 
 const SingleMoveLine = React.memo(function (props) {

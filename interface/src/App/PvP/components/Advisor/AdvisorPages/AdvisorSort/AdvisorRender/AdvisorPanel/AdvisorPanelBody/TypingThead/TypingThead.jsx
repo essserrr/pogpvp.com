@@ -1,6 +1,6 @@
-import React from "react";
-import { typeDecoder } from "../../../../js/indexFunctions"
-import TheadCell from "./TheadCell"
+import React from "react"
+import { typeDecoder } from "../../../../../../../../../../js/indexFunctions"
+import TheadCell from "../TheadCell/TheadCell"
 
 
 const TypingThead = React.memo(function (props) {

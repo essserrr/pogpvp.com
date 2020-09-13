@@ -1,10 +1,10 @@
-import React from "react";
-import { UnmountClosed } from "react-collapse";
+import React from "react"
+import { UnmountClosed } from "react-collapse"
 
-import PokemonIconer from "../../PokemonIconer/PokemonIconer"
-import AdvisorPanelBody from "./AdvisorPanelBody"
+import PokemonIconer from "../../../../../PokemonIconer/PokemonIconer"
+import AdvisorPanelBody from "./AdvisorPanelBody/AdvisorPanelBody"
 
-import { ReactComponent as Shadow } from "../../../../../icons/shadow.svg";
+import { ReactComponent as Shadow } from "../../../../../../../../icons/shadow.svg"
 import { getAbbriviation } from "./getMovesAbbriviation"
 
 import "./AdvisorPanel.scss"

@@ -1,12 +1,13 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
-import AdvisorPanel from "./AdvisorPanel/AdvisorPanel"
+import React from "react"
+import LocalizedStrings from "react-localization"
+
 import DoubleSlider from "../../../Movedex/DoubleSlider/DoubleSlider"
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
-import { locale } from "../../../../locale/locale"
-import { getCookie, } from "../../../../js/getCookie"
+import AdvisorPages from "./AdvisorPages/AdvisorPages"
 import SubmitButton from "../SubmitButton/SubmitButton"
 
+import { locale } from "../../../../locale/locale"
+import { getCookie } from "../../../../js/getCookie"
 
 let strings = new LocalizedStrings(locale);
 
@@ -19,21 +20,19 @@ class Advisor extends React.PureComponent {
 
         this.state = {
             n: 1,
-            original: [],
-            toShow: [],
             sortParam: "zeros",
         }
 
         this.focusDiv = this.focusDiv.bind(this);
-        this.returnRatingList = this.returnRatingList.bind(this);
-        this.loadMore = this.loadMore.bind(this);
         this.onSortChange = this.onSortChange.bind(this);
+        this.loadMore = this.loadMore.bind(this);
     }
 
     componentDidMount() {
         this.focusDiv();
         this.makeAdvice()
     };
+
     componentDidUpdate(prevProps) {
         if (prevProps.rawResult === this.props.rawResult) {
             return
@@ -43,52 +42,10 @@ class Advisor extends React.PureComponent {
     };
 
     makeAdvice() {
-        let list = this.sortList(this.state.sortParam)
-        list = this.returnRatingList(list)
-
-
         this.setState({
-            original: list,
-            toShow: list.slice(0, (list.length >= 50 ? 50 : list.length)),
-            isNextPage: list.length > 50 ? true : false,
-            n: list.length > 50 ? 2 : 1,
+            isNextPage: this.props.list.length > 50 ? true : false,
+            n: 1,
         })
-    }
-
-    returnRatingList(list) {
-        return list.map((elem, i) =>
-            <div key={i} className={"col-12 p-0 m-0 mb-1"} rate={elem.rate} zeros={elem.zeros.length}>
-                <AdvisorPanel
-                    first={this.props.leftPanel.listForBattle[elem.first]}
-                    second={this.props.leftPanel.listForBattle[elem.second]}
-                    third={this.props.leftPanel.listForBattle[elem.third]}
-                    i={i}
-
-                    pokemonTable={this.props.pokemonTable}
-                    list={list}
-                    rawResult={this.props.rawResult}
-
-                    leftPanel={this.props.leftPanel}
-                    rightPanel={this.props.rightPanel}
-                    moveTable={this.props.moveTable}
-                />
-            </div>
-        );
-    }
-
-    sortList(filter) {
-        switch (filter) {
-            case "rating":
-                return this.props.list.sort((a, b) => {
-                    if (a.rate === b.rate) { return a.zeros.length - b.zeros.length }
-                    return b.rate - a.rate
-                });
-            default:
-                return this.props.list.sort((a, b) => {
-                    if (a.zeros.length === b.zeros.length) { return b.rate - a.rate }
-                    return a.zeros.length - b.zeros.length
-                });
-        }
     }
 
     focusDiv() {
@@ -96,28 +53,16 @@ class Advisor extends React.PureComponent {
     };
 
     loadMore() {
-        let upperBound = this.state.original.length >= this.state.n * 50 ? this.state.n * 50 : this.state.original.length
         this.setState({
-            isNextPage: this.state.original.length > this.state.n * 50 ? true : false,
-            n: this.state.original.length > this.state.n * 50 ? this.state.n + 1 : this.state.n,
-
-            toShow: this.state.original.slice(0, upperBound),
+            isNextPage: this.props.list.length > (this.state.n + 1) * 50 ? true : false,
+            n: this.props.list.length > this.state.n * 50 ? this.state.n + 1 : this.state.n,
         })
     }
 
 
     onSortChange(event) {
         let attr = event.target.getAttribute("attr")
-
-        let result = this.sortList(attr)
-        result = this.returnRatingList(result)
-
-
-        let upperBound = this.state.original.length >= (this.state.n - 1) * 50 ? (this.state.n - 1) * 50 : this.state.original.length
-
         this.setState({
-            original: result,
-            toShow: result.slice(0, upperBound),
             sortParam: attr,
         })
     }
@@ -148,7 +93,19 @@ class Advisor extends React.PureComponent {
                     />
                 </div>
                 <div className="col-12 p-0 ">
-                    {this.state.toShow}
+                    <AdvisorPages
+                        n={this.state.n}
+
+                        leftPanel={this.props.leftPanel}
+                        rightPanel={this.props.rightPanel}
+
+                        moveTable={this.props.moveTable}
+                        pokemonTable={this.props.pokemonTable}
+
+                        rawResult={this.props.rawResult}
+                        filter={this.state.sortParam}
+                        list={this.props.list}
+                    />
                 </div>
                 {this.state.isNextPage &&
                     <div className="row justify-content-center m-0 mt-3">

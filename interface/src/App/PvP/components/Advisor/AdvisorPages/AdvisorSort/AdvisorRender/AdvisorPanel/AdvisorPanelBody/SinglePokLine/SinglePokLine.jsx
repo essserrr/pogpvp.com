@@ -1,6 +1,6 @@
-import React from "react";
-import TableIcon from "../MetrixTable/TableIcon"
-import { returnVunStyle } from "../../..//../js/indexFunctions"
+import React from "react"
+import TableIcon from "../../../../../../../MetrixTable/TableIcon"
+import { returnVunStyle } from "../../../../../../../../../../js/indexFunctions"
 
 
 const SinglePokLine = React.memo(function (props) {
