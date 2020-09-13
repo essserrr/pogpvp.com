@@ -1,10 +1,44 @@
-import React from "react";
+import React from "react"
+
+import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry"
+import PokemonIconer from "../PokemonIconer/PokemonIconer"
+
 
 class MatrixPokemonList extends React.PureComponent {
+
+    addStar(pokName, moveName) {
+        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
+    }
+
+    createListToDisplay() {
+        return this.props.list.map((elem, i) => {
+            return <MatrixListEntry
+                attr={this.props.attr}
+                key={i}
+                index={i}
+
+                onPokemonDelete={this.props.onPokemonDelete}
+                onClick={this.props.onPokRedact}
+
+                thead={<><PokemonIconer
+                    src={this.props.pokemonTable[elem.name].Number +
+                        (this.props.pokemonTable[elem.name].Forme !== "" ? "-" + this.props.pokemonTable[elem.name].Forme : "")}
+                    class={"icon24 mr-1"}
+                    for={""}
+                />{elem.name}</>}
+                body={
+                    elem.QuickMove + this.addStar(elem.name, elem.QuickMove) +
+                    (elem.ChargeMove1 ? " + " + elem.ChargeMove1 + this.addStar(elem.name, elem.ChargeMove1) : "") +
+                    (elem.ChargeMove2 ? " / " + elem.ChargeMove2 + this.addStar(elem.name, elem.ChargeMove2) : "")
+                }
+            />
+        });
+    }
+
     render() {
         return (
             <div className="overflowingy mb-1 px-1" style={{ maxHeight: "150px" }}>
-                {this.props.list}
+                {this.createListToDisplay()}
             </div>
         )
     }

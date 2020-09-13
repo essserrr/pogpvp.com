@@ -482,12 +482,18 @@ class MatrixPanel extends React.PureComponent {
 
                 <Counter
                     class="fBolder"
-                    value={this.props.value.listToDisplay.length}
+                    value={this.props.value.listForBattle.length}
                     suffix={" / 50 " + strings.title.counter}
                 />
 
                 <MatrixPokemonList
-                    list={this.props.value.listToDisplay}
+                    attr={this.props.attr}
+
+                    list={this.props.value.listForBattle}
+                    pokemonTable={this.props.pokemonTable}
+
+                    onPokRedact={this.props.onPokRedact}
+                    onPokemonDelete={this.props.onPokemonDelete}
                 />
 
                 <SubmitButton
