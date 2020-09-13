@@ -1,7 +1,7 @@
 import React from "react"
-import { weatherDecoder } from "../../../../../js/indexFunctions"
+import { weatherDecoder } from "../../../../../../../../../js/indexFunctions"
 
-import ShortMove from "../../../../PvpRating/RMoveRow/ShortMove/ShortMove"
+import ShortMove from "../../../../../../../../PvpRating/RMoveRow/ShortMove/ShortMove"
 
 const WeatherMoves = React.memo(function (props) {
     return (

@@ -1,8 +1,8 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import { getCookie } from "../../../../../js/getCookie"
-import { pveLocale } from "../../../../../locale/pveLocale"
+import { getCookie } from "../../../../../../../../../js/getCookie"
+import { pveLocale } from "../../../../../../../../../locale/pveLocale"
 
 let pveStrings = new LocalizedStrings(pveLocale);
 

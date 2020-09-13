@@ -5,10 +5,10 @@ import { UnmountClosed } from "react-collapse"
 import Loader from "../../../../../../../Registration/RegForm/AuthButton/Loader/Loader"
 import SubmitButton from "../../../../../../../PvP/components/SubmitButton/SubmitButton"
 import Errors from "../../../../../../../PvP/components/Errors/Errors"
-import HpBar from "../../../../PhBar/HpBar"
-import HpRemaining from "../../../../HpRemaining/HpRemaining"
-import WeatherMoves from "../../../../WeatherMoves/WeatherMoves"
-import FightStats from "../../../../FightStats/FightStats"
+import HpBar from "./PhBar/HpBar"
+import HpRemaining from "./HpRemaining/HpRemaining"
+import WeatherMoves from "./WeatherMoves/WeatherMoves"
+import FightStats from "./FightStats/FightStats"
 import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
 import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
 
@@ -17,8 +17,10 @@ import { getCookie } from "../../../../../../../../js/getCookie"
 import { pveLocale } from "../../../../../../../../locale/pveLocale"
 import { locale } from "../../../../../../../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
-let pveStrings = new LocalizedStrings(pveLocale);
+import "./PveResEntry.scss"
+
+let strings = new LocalizedStrings(locale)
+let pveStrings = new LocalizedStrings(pveLocale)
 
 
 class PveResEntry extends React.PureComponent {
@@ -242,7 +244,7 @@ class PveResEntry extends React.PureComponent {
         let avgStats = this.collect()
         let partyLen = this.props.pokemonRes.Party.length
         return (
-            <div className={"pokCard row m-0 py-1 my-1 px-2 justify-content-between"}
+            <div className={"pve-resentry__card row m-0 py-1 my-1 px-2 justify-content-between"}
                 key={this.props.pokemonRes.Party[partyLen - 1].Name + this.props.pokemonRes.Party[partyLen - 1].Quick + this.props.pokemonRes.Party[partyLen - 1].Charge}>
 
                 {!this.props.customResult &&

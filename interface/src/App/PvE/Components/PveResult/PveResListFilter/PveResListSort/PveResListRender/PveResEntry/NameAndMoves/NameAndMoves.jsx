@@ -1,7 +1,7 @@
 import React from "react"
 
 import WeatherMoves from "../WeatherMoves/WeatherMoves"
-import { calculateCP, calculateEffStat } from "../../../../../js/indexFunctions"
+import { calculateCP, calculateEffStat } from "../../../../../../../../../js/indexFunctions"
 
 class NameAndMoves extends React.PureComponent {
     render() {
