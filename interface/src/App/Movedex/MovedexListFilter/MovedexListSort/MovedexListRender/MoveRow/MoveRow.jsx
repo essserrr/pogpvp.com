@@ -1,10 +1,10 @@
-import React from "react";
+import React from "react"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
-import Type from "../../PvP/components/CpAndTypes/Type"
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
+import Type from "../../../../../PvP/components/CpAndTypes/Type"
+import { getCookie } from "../../../../../../js/getCookie"
+import { dexLocale } from "../../../../../../locale/dexLocale"
 
 import "./MoveRow.scss"
 

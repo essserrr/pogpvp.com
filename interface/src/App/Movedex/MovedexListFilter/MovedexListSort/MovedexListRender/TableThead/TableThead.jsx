@@ -1,9 +1,9 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 
-import Header from "../Header/Header"
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
+import Header from "./Header/Header"
+import { getCookie } from "../../../../../../js/getCookie"
+import { dexLocale } from "../../../../../../locale/dexLocale"
 
 import "./TableThead.scss"
 
