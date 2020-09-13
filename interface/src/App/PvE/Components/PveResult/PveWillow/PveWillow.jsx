@@ -1,10 +1,10 @@
-import React from "react";
+import React from "react"
 
-import LocalizedStrings from "react-localization";
-import { pveLocale } from "../../../../locale/pveLocale"
-import { tierHP, weather, calculateCP } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
+import LocalizedStrings from "react-localization"
+import { pveLocale } from "../../../../../locale/pveLocale"
+import { tierHP, weather, calculateCP } from "../../../../../js/indexFunctions"
+import { getCookie } from "../../../../../js/getCookie"
+import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
 import WeatherBoosted from "./WeatherBoosted"
 
 let pvestrings = new LocalizedStrings(pveLocale);

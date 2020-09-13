@@ -1,9 +1,9 @@
 import React from "react"
 
-import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
-import NameAndMoves from "../NameAndMoves/NameAndMoves"
-import NumberAndIcon from "../NumberAndIcon/NumberAndIcon"
-import { extractName } from "../../../../../js/indexFunctions"
+import PokemonIconer from "../../../../../../../../PvP/components/PokemonIconer/PokemonIconer"
+import NameAndMoves from "../../../../../NameAndMoves/NameAndMoves"
+import NumberAndIcon from "../../../../../NumberAndIcon/NumberAndIcon"
+import { extractName } from "../../../../../../../../../js/indexFunctions"
 
 class CommonPveNamePlate extends React.PureComponent {
     render() {

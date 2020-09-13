@@ -42,7 +42,6 @@ class CustomPve extends React.PureComponent {
         this.onChange = this.onChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.replaceOriginal = this.replaceOriginal.bind(this);
     }
 
     onNameChange(event, name) {
@@ -325,14 +324,6 @@ class CustomPve extends React.PureComponent {
         });
     }
 
-    replaceOriginal(data, i) {
-        let newRes = [...this.state.result]
-        newRes[i] = data[0]
-        this.setState({
-            result: newRes,
-        })
-    }
-
     render() {
         return (
             < >
@@ -385,8 +376,6 @@ class CustomPve extends React.PureComponent {
                                 snapshot={this.state.snapshot}
                                 tables={this.props.parentState.tables}
                                 url={this.state.url}
-
-                                replaceOriginal={this.replaceOriginal}
 
                                 pokemonTable={this.props.pokemonTable}
                                 moveTable={this.props.parentState.moveTable}

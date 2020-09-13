@@ -1,17 +1,19 @@
-import React from "react";
-import LocalizedStrings from "react-localization";
+import React from "react"
+import LocalizedStrings from "react-localization"
 
-import { ReactComponent as Dust } from "../../../../icons/stardust.svg";
-import { ReactComponent as Candy } from "../../../../icons/candy.svg";
-import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup";
+
+import SelectGroup from "../../../../PvP/components/SelectGroup/SelectGroup"
 import { candyCost, dustCost } from "./powerupCost"
-import { pveLocale } from "../../../../locale/pveLocale"
-import { tierMult, calculateDamage, returnEffAtk, getPveMultiplier } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
 import BreakpointsList from "./BreakpointsList"
-import Counter from "../Counter/Counter"
-import RangeInput from "../RangeInput/RangeInput"
-import FaButton from "../FaButton/FaButton"
+import Counter from "./Counter/Counter"
+import RangeInput from "./RangeInput/RangeInput"
+import FaButton from "./FaButton/FaButton"
+
+import { tierMult, calculateDamage, returnEffAtk, getPveMultiplier } from "../../../../../js/indexFunctions"
+import { getCookie } from "../../../../../js/getCookie"
+import { ReactComponent as Dust } from "../../../../../icons/stardust.svg"
+import { ReactComponent as Candy } from "../../../../../icons/candy.svg"
+import { pveLocale } from "../../../../../locale/pveLocale"
 
 let pveStrings = new LocalizedStrings(pveLocale);
 

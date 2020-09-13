@@ -1,6 +1,6 @@
-import React from "react";
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
-import { ReactComponent as Shadow } from "../../../../icons/shadow.svg";
+import React from "react"
+import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
+import { ReactComponent as Shadow } from "../../../../../icons/shadow.svg"
 
 const NumberAndIcon = React.memo(function (props) {
     return (

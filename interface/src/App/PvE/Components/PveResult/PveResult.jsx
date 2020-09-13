@@ -1,14 +1,14 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import PveResEntry from "./PveResEntry"
+
 import URL from "../../../PvP/components/URL/URL"
-import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
-import Breakpoints from "../Breakpoints/Breakpoints"
-import PveWillow from "../PveWillow/PveWillow"
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
 import Button from "../../../Movedex/MoveCard/DoubleSlider/Button/Button"
+import Breakpoints from "./Breakpoints/Breakpoints"
+import PveWillow from "./PveWillow/PveWillow"
+import PveResListFilter from "./PveResListFilter/PveResListFilter"
 
 import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
@@ -39,7 +39,6 @@ class PveResult extends React.PureComponent {
         this.onSortChange = this.onSortChange.bind(this);
         this.onFilter = this.onFilter.bind(this);
 
-        this.raplace = this.raplace.bind(this);
         this.loadMore = this.loadMore.bind(this);
 
         this.focusDiv = this.focusDiv.bind(this);
@@ -48,7 +47,6 @@ class PveResult extends React.PureComponent {
 
     componentDidMount() {
         this.generateList()
-
         this.focusDiv();
     };
     componentDidUpdate(prevProps) {
@@ -64,183 +62,33 @@ class PveResult extends React.PureComponent {
     };
 
     generateList() {
-        let result = this.sortAndFilter(this.state.param, this.state.filter)
-        let upperBound = this.props.result.length >= 25 ? 25 : this.props.result.length
         this.setState({
-            isNextPage: result.length > 25 ? true : false,
-            n: result.length > 25 ? 2 : 1,
-            listToShow: this.generateRes(result.slice(0, upperBound)),
+            n: 1,
         })
-    }
-
-    generateRes(arr) {
-        return arr.map((elem, i) =>
-            <PveResEntry
-                key={i}
-                customResult={this.props.customResult}
-
-                i={i}
-                pokemonRes={elem}
-                snapshot={this.props.snapshot}
-                tables={this.props.tables}
-
-                pokemonTable={this.props.pokemonTable}
-                moveTable={this.props.moveTable}
-                pokList={this.props.pokList}
-                chargeMoveList={this.props.chargeMoveList}
-                quickMoveList={this.props.quickMoveList}
-
-                raplace={this.raplace}
-                showBreakpoints={this.showBreakpoints}
-            />
-        )
     }
 
     loadMore() {
-        let result = this.sortAndFilter(this.state.param, this.state.filter)
-        let upperBound = result.length >= (this.state.n + 1) * 25 ? (this.state.n + 1) * 25 : result.length
         this.setState({
-            isNextPage: (result.length > (this.state.n + 1) * 25 ? true : false) && ((this.state.n + 1) * 25 < 150),
-            n: result.length > (this.state.n + 1) * 25 ? (this.state.n + 1) : this.state.n,
-            listToShow: this.generateRes(result.slice(0, upperBound)),
+            n: this.props.result.length >= (this.state.n + 1) * 25 ? (this.state.n + 1) : this.state.n,
         })
     }
-
-    raplace(data, i) {
-        this.props.replaceOriginal(data, i)
-        this.setState({
-            listToShow: [
-                ...this.state.listToShow.slice(0, i),
-                <PveResEntry
-                    customResult={this.props.customResult}
-                    key={i}
-
-                    i={i}
-                    pokemonRes={data[0]}
-                    snapshot={this.props.snapshot}
-                    tables={this.props.tables}
-
-                    pokemonTable={this.props.pokemonTable}
-                    moveTable={this.props.moveTable}
-                    pokList={this.props.pokList}
-                    chargeMoveList={this.props.chargeMoveList}
-                    quickMoveList={this.props.quickMoveList}
-
-                    raplace={this.raplace}
-                    showBreakpoints={this.showBreakpoints}
-                />,
-                ...this.state.listToShow.slice((i + 1)),
-            ]
-        })
-    }
-
 
     onSortChange(event) {
         let attr = event.target.getAttribute("attr")
-        let result = this.sortAndFilter(attr, this.state.filter)
-        let upperBound = result.length >= this.state.n * 25 ? this.state.n * 25 : result.length
         this.setState({
-            listToShow: this.generateRes(result.slice(0, upperBound)),
-            isNextPage: (result.length > this.state.n * 25 ? true : false) && (this.state.n * 25 < 150),
-            n: result.length > this.state.n * 25 ? this.state.n : Math.ceil(result.length / 25),
             param: attr,
         })
     }
 
     onFilter(event) {
         let attr = event.target.getAttribute("attr")
-        let result = this.sortAndFilter(this.state.param, { ...this.state.filter, [attr]: !this.state.filter[attr] })
-        let upperBound = result.length >= this.state.n * 25 ? this.state.n * 25 : result.length
         this.setState({
-            listToShow: this.generateRes(result.slice(0, upperBound)),
-            isNextPage: (result.length > this.state.n * 25 ? true : false) && (this.state.n * 25 < 150),
-            n: result.length > this.state.n * 25 ? this.state.n : Math.ceil(result.length / 25),
-
             filter: {
                 ...this.state.filter,
                 [attr]: !this.state.filter[attr],
             },
         })
     }
-
-    sortAndFilter(param, filter) {
-        switch (param) {
-            case "dps":
-                var data = this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180,)
-                break
-            default:
-                data = this.sortByDamage()
-        }
-        return data = this.filterArr(data, filter)
-    }
-
-    filterArr(arr, filter) {
-        switch (filter.unique) {
-            case true:
-                let list = {}
-                return arr.filter(elem => {
-                    const theLastPok = elem.Party.length - 1
-                    //check entry in local dict
-                    switch (list[`${elem.Party[theLastPok].Name}${String(elem.Party[theLastPok].IsShadow) === "true"}`]) {
-                        //if it exists
-                        case true:
-                            //otherwise exclude
-                            return false
-                        default:
-                            list[`${elem.Party[theLastPok].Name}${String(elem.Party[theLastPok].IsShadow) === "true"}`] = true
-                            //and return include it
-                            return true
-                    }
-                })
-            default:
-                return arr
-        }
-    }
-
-    sortByDamage() {
-        return this.props.result.sort(function (a, b) {
-            let sumDamageA = 0
-            let sumDamageB = 0
-
-            a.Result.forEach((elem) => {
-                sumDamageA += elem.DAvg
-            });
-            b.Result.forEach((elem) => {
-                sumDamageB += elem.DAvg
-            });
-
-            return sumDamageB - sumDamageA
-        })
-    }
-
-    sortByDps(timer) {
-        return this.props.result.sort(function (a, b) {
-            let sumDamageA = 0
-            let sumDamageB = 0
-
-            let timerA = 0
-            let timerB = 0
-
-            a.Result.forEach((elem) => {
-                sumDamageA += elem.DAvg
-                timerA += elem.TAvg
-            });
-            b.Result.forEach((elem) => {
-                sumDamageB += elem.DAvg
-                timerB += elem.TAvg
-            });
-
-            let dpsA = (sumDamageA / a.Result.length / (timer - timerA / a.Result.length / 1000)).toFixed(1)
-            let dpsB = (sumDamageB / b.Result.length / (timer - timerB / b.Result.length / 1000)).toFixed(1)
-
-            if (dpsB - dpsA === 0) {
-                return sumDamageB - sumDamageA
-            }
-
-            return dpsB - dpsA
-        })
-    }
-
 
     showBreakpoints(obj) {
         this.setState({
@@ -312,16 +160,28 @@ class PveResult extends React.PureComponent {
                         />
                     </div>}
                     <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
-                        {this.state.listToShow}
-                    </div>
+                        <PveResListFilter
+                            n={this.state.n}
+                            customResult={this.props.customResult}
 
-                    {this.state.isNextPage &&
-                        <SubmitButton
-                            action="Load more"
-                            label={strings.buttons.loadmore}
-                            onSubmit={this.loadMore}
-                            class="longButton btn btn-primary btn-sm"
-                        />}
+                            snapshot={this.props.snapshot}
+                            tables={this.props.tables}
+
+                            pokemonTable={this.props.pokemonTable}
+                            moveTable={this.props.moveTable}
+                            pokList={this.props.pokList}
+                            chargeMoveList={this.props.chargeMoveList}
+                            quickMoveList={this.props.quickMoveList}
+
+                            filter={this.state.filter}
+                            sort={this.state.param}
+
+                            list={this.props.result}
+                            raplace={this.raplace}
+                            showBreakpoints={this.showBreakpoints}
+                            loadMore={this.loadMore}
+                        />
+                    </div>
                 </div>
             </>
         )

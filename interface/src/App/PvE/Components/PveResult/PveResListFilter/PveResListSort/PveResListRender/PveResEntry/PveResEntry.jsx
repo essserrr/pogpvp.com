@@ -2,21 +2,20 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 
-import Loader from "../../../Registration/RegForm/AuthButton/Loader/Loader"
-import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../../../PvP/components/Errors/Errors"
-
+import Loader from "../../../../../../../Registration/RegForm/AuthButton/Loader/Loader"
+import SubmitButton from "../../../../../../../PvP/components/SubmitButton/SubmitButton"
+import Errors from "../../../../../../../PvP/components/Errors/Errors"
+import HpBar from "../../../../PhBar/HpBar"
+import HpRemaining from "../../../../HpRemaining/HpRemaining"
+import WeatherMoves from "../../../../WeatherMoves/WeatherMoves"
+import FightStats from "../../../../FightStats/FightStats"
 import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
 import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
-import HpBar from "./PhBar/HpBar"
-import HpRemaining from "./HpRemaining/HpRemaining"
-import WeatherMoves from "./WeatherMoves/WeatherMoves"
-import FightStats from "./FightStats/FightStats"
 
-import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
-import { pveLocale } from "../../../../locale/pveLocale"
-import { locale } from "../../../../locale/locale"
+import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../../../../../js/indexFunctions"
+import { getCookie } from "../../../../../../../../js/getCookie"
+import { pveLocale } from "../../../../../../../../locale/pveLocale"
+import { locale } from "../../../../../../../../locale/locale"
 
 let strings = new LocalizedStrings(locale);
 let pveStrings = new LocalizedStrings(pveLocale);
@@ -171,7 +170,7 @@ class PveResEntry extends React.PureComponent {
                 loading: false,
             });
 
-            this.props.raplace(result, this.props.i)
+            this.props.replace(result)
 
         } catch (e) {
             this.setState({

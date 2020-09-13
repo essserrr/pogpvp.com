@@ -1,12 +1,12 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import UserPokCard from "../../../../../Userpage/CustomPokemon/PokemonBox/UserPokemonList/UserPokCard/UserPokCard"
-import DropWithArrow from "../../../../../PvpRating/DropWithArrow/DropWithArrow"
+import UserPokCard from "../../../../../../../../../Userpage/CustomPokemon/PokemonBox/UserPokemonList/UserPokCard/UserPokCard"
+import DropWithArrow from "../../../../../../../../../PvpRating//DropWithArrow/DropWithArrow"
 import PreviewIcon from "./PreviewIcon/PreviewIcon"
 
-import { pveLocale } from "../../../../../../locale/pveLocale"
-import { getCookie } from "../../../../../../js/getCookie"
+import { pveLocale } from "../../../../../../../../../../locale/pveLocale"
+import { getCookie } from "../../../../../../../../../../js/getCookie"
 
 let strings = new LocalizedStrings(pveLocale)
 

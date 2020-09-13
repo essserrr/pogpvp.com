@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 
-import { weather } from "../../../../js/indexFunctions"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
+import { weather } from "../../../../../js/indexFunctions"
+import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
 
 
 class WeatherBoosted extends React.PureComponent {
