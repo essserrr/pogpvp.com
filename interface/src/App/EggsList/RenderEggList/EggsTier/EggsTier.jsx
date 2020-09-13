@@ -12,9 +12,10 @@ import { getCookie } from "../../../../js/getCookie"
 import { locale } from "../../../../locale/locale"
 import { regionLocale } from "../../../../locale/regionLocale"
 
+import "./EggsTier.scss"
 
 let strings = new LocalizedStrings(locale);
-let regions = new LocalizedStrings(regionLocale);
+let regions = new LocalizedStrings(regionLocale)
 
 
 const EggsTier = React.memo(function (props) {
@@ -44,7 +45,7 @@ const EggsTier = React.memo(function (props) {
                     result.push(
                         <div key={name + "wrap"} className={"col-6 col-sm-4 col-lg-3 d-flex px-1 pt-2 justify-content-center"}>
                             <PokemonCard
-                                class={"col-12 pokCard eggs p-0 pb-1"}
+                                class={"eggs-tier__card col-12 p-0 pb-1"}
                                 name={<div className="text-center">
                                     <>{name}</>
                                     {regionals[name] &&
@@ -65,15 +66,15 @@ const EggsTier = React.memo(function (props) {
                                         <PokemonIconer
                                             src={props.pokTable[name].Number + (props.pokTable[name].Forme !== "" ?
                                                 "-" + props.pokTable[name].Forme : "")}
-                                            class={"icon48 ml-0 ml-sm-1 align-self-center"} />
+                                            class={"eggs-tier__icon ml-0 ml-sm-1 align-self-center"} />
                                     </Link>}
                                 body={<CardBody
                                     name={name}
                                     pokTable={props.pokTable}
                                 />}
                                 classBodyWrap="row justify-content-center justify-content-sm-between m-0"
-                                classHeader={"cardHeader fBolder col-12 px-1 mb-1 text-center"}
-                                classBody={"cardBody eggs col  px-1 text-center"}
+                                classHeader={"eggs-tier__card-header col-12 px-1 mb-1 text-center"}
+                                classBody={"eggs-tier__card-body col px-1 text-center"}
                             />
                         </div>)
                     return result
