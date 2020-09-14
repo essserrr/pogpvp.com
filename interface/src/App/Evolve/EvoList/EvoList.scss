@@ -56,3 +56,25 @@ $tertiary-color: rgb(255, 255, 255);
     border-bottom: 0.5px solid rgba(0, 0, 0, 0.295);
     font-weight: bolder;
 }
+
+.evo-list__separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    font-size: 1.1em;
+    font-weight: 400;
+}
+
+.evo-list__separator::before,
+.evo-list__separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.342);
+}
+.evo-list__separator::before {
+    margin-right: 0.25em;
+}
+.evo-list__separator::after {
+    margin-left: 0.25em;
+}

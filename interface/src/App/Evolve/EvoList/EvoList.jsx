@@ -67,7 +67,7 @@ class EvoList extends PureComponent {
             }
             arr[i] = <Tier
                 key={i + "sep"}
-                class="separator dexFont my-2"
+                class="evo-list__separator my-2"
                 title={strings.tips.evolveTool}
                 list={elem}
             />
