@@ -1,0 +1,30 @@
+.evo-block--text {
+    font-size: 1.1em;
+    font-weight: 400;
+}
+
+.evo-block__icon {
+    width: 18px;
+    height: 18px;
+}
+
+.evo-block__separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    font-size: 1.1em;
+    font-weight: 400;
+}
+.evo-block__separator::before,
+.evo-block__separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.342);
+}
+.evo-block__separator::before {
+    margin-right: 0.25em;
+}
+.evo-block__separator::after {
+    margin-left: 0.25em;
+}

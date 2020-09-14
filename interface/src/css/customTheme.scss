@@ -424,25 +424,6 @@ body {
     max-width: 110px !important;
 }
 
-//separator style
-.separator {
-    display: flex;
-    align-items: center;
-    text-align: center;
-}
-.separator::before,
-.separator::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.342);
-}
-.separator::before {
-    margin-right: 0.25em;
-}
-.separator::after {
-    margin-left: 0.25em;
-}
-
 //animations
 .animShiny,
 .animRating {

@@ -8,6 +8,8 @@ import { getCookie } from "../../../../js/getCookie"
 import { dexLocale } from "../../../../locale/dexLocale"
 import { ReactComponent as Candy } from "../../../../icons/candy.svg"
 
+import "./EvoBlock.scss"
+
 let strings = new LocalizedStrings(dexLocale);
 
 const EvoBlock = React.memo(function (props) {
@@ -41,11 +43,11 @@ const EvoBlock = React.memo(function (props) {
         return arr.map((elem, i) =>
             <Tier
                 key={i + "sep"}
-                class="separator dexFont"
+                class="evo-block__separator"
                 title={<>
                     {candies[i] > 0 && <>
                         <span className="font-weight-bold">{candies[i]}
-                        </span><Candy className="icon18 ml-1 mr-2" />
+                        </span><Candy className="evo-block__icon ml-1 mr-2" />
                     </>}
                     {strings.stage + " " + (i + 1)}</>}
                 list={elem}
@@ -53,7 +55,7 @@ const EvoBlock = React.memo(function (props) {
     }
 
     return (
-        <div className={"col-12 p-0 dexFont text-left"}>
+        <div className={"evo-block--text col-12 p-0 text-left"}>
             <div key={props.familyName} className="row justify-content-center m-0">
                 <EvoCard name={props.familyName} pokTable={props.pokTable} />
             </div>
