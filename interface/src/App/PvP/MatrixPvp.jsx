@@ -3,12 +3,12 @@ import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 
+import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
 import { addParty } from "../../AppStore/Actions/actions"
 import { deleteParty } from "../../AppStore/Actions/actions"
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
 import Errors from "./components/Errors/Errors"
-import Advisor from "./components/Advisor/Advisor"
 import TheadElement from "./components/MetrixTable/TheadElement"
 import LineElement from "./components/MetrixTable/LineElement"
 
@@ -73,9 +73,10 @@ class MatrixPvp extends React.PureComponent {
             redact: {
                 showMenu: false,
             },
+
             triple: false,
             advDisabled: true,
-            advisorList: undefined,
+            showAdvisor: false,
 
             loading: false,
             error: props.parentState.error,
@@ -259,8 +260,6 @@ class MatrixPvp extends React.PureComponent {
         }
 
         this.setState({
-            advisorList: undefined,
-            advDisabled: true,
             [role]: {
                 ...this.state[role],
                 [event.target.name]: event.target.value,
@@ -273,8 +272,6 @@ class MatrixPvp extends React.PureComponent {
     onImport(obj) {
         let listForBattle = this.extractPokemon(obj.value.split("\n"), obj.attr)
         this.setState({
-            advisorList: undefined,
-            advDisabled: true,
             [obj.attr]: {
                 ...this.state[obj.attr],
                 listForBattle: listForBattle,
@@ -417,8 +414,6 @@ class MatrixPvp extends React.PureComponent {
         let newListForBattle = [...this.state[role].listForBattle.slice(0, index), ...this.state[role].listForBattle.slice(index + 1)]
 
         this.setState({
-            advisorList: undefined,
-            advDisabled: true,
             [role]: {
                 ...this.state[role],
                 listForBattle: newListForBattle,
@@ -432,15 +427,23 @@ class MatrixPvp extends React.PureComponent {
 
     submitForm = async event => {
         event.preventDefault();
-        let advDisabled = this.state.leftPanel.listForBattle.length > 15 || this.state.leftPanel.listForBattle.length < 3 || this.state.rightPanel.listForBattle.length > 50 || this.state.rightPanel.listForBattle.length < 1
-        let triple = this.state.triple
-        let pvpoke = this.props.parentState.pvpoke
         for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
             this.state.leftPanel.listForBattle[i].Query = decodeURIComponent(encodeQueryData(this.state.leftPanel.listForBattle[i]))
         }
         for (let i = 0; i < this.state.rightPanel.listForBattle.length; i++) {
             this.state.rightPanel.listForBattle[i].Query = decodeURIComponent(encodeQueryData(this.state.rightPanel.listForBattle[i]))
         }
+
+        let snapshot = {
+            advDisabled: this.state.leftPanel.listForBattle.length > 15 || this.state.leftPanel.listForBattle.length < 3
+                || this.state.rightPanel.listForBattle.length > 50 || this.state.rightPanel.listForBattle.length < 1,
+            triple: this.state.triple,
+            pvpoke: this.props.parentState.pvpoke,
+            league: this.props.parentState.league,
+            leftPanel: this.state.leftPanel,
+            rightPanel: this.state.rightPanel,
+        }
+
         this.setState({
             advDisabled: true,
             loading: true,
@@ -453,8 +456,8 @@ class MatrixPvp extends React.PureComponent {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept-Encoding": "gzip",
-                    "Pvp-Type": pvpoke ? "pvpoke" : "normal",
-                    "Pvp-Shields": triple ? "triple" : "normal",
+                    "Pvp-Type": snapshot.pvpoke ? "pvpoke" : "normal",
+                    "Pvp-Shields": snapshot.triple ? "triple" : "normal",
                 },
                 body: JSON.stringify({ Party1: this.state.leftPanel.listForBattle, Party2: this.state.rightPanel.listForBattle, })
             })
@@ -464,12 +467,12 @@ class MatrixPvp extends React.PureComponent {
             if (!response.ok) { throw result.detail }
 
             //otherwise set state
-            switch (triple) {
+            switch (snapshot.triple) {
                 case true:
-                    var arr = this.pvpTriple(result, pvpoke ? "/pvpoke" : "")
+                    var arr = this.pvpTriple(result, snapshot.pvpoke ? "/pvpoke" : "")
                     break
                 default:
-                    arr = this.pvpSingle(result[0], pvpoke ? "/pvpoke" : "")
+                    arr = this.pvpSingle(result[0], snapshot.pvpoke ? "/pvpoke" : "")
             }
             let tableBody = this.makeTable(arr)
 
@@ -481,8 +484,9 @@ class MatrixPvp extends React.PureComponent {
                 rawResult: arr,
                 pvpData: result,
 
-                advisorList: undefined,
-                advDisabled: advDisabled,
+                snapshot: snapshot,
+                triple: snapshot.triple,
+                advDisabled: snapshot.advDisabled,
             })
 
         } catch (e) {
@@ -491,7 +495,8 @@ class MatrixPvp extends React.PureComponent {
                 showResult: false,
                 isError: true,
                 loading: false,
-                error: String(e)
+                error: String(e),
+                snapshot: undefined,
             })
         }
     }
@@ -605,14 +610,6 @@ class MatrixPvp extends React.PureComponent {
         return arr
     }
 
-    uuidv4() {
-        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-            (((c ^ crypto.getRandomValues(new Uint8Array(1))[0]) & 15) >> c / 4).toString(16)
-        );
-    }
-
-
-
     onPokemonAdd(event) {
         if (this.state[event.attr].listForBattle.length >= 50) {
             return
@@ -636,13 +633,17 @@ class MatrixPvp extends React.PureComponent {
         newListForBattle.push(pokCopy);
 
         this.setState({
-            advisorList: undefined,
-            advDisabled: true,
             [event.attr]: {
                 ...this.state[event.attr],
                 listForBattle: newListForBattle,
             }
         });
+    }
+
+    uuidv4() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (((c ^ crypto.getRandomValues(new Uint8Array(1))[0]) & 15) >> c / 4).toString(16)
+        );
     }
 
     onPartySave(event) {
@@ -719,8 +720,6 @@ class MatrixPvp extends React.PureComponent {
         newListForBattle[this.state.redact.number] = pokCopy
 
         this.setState({
-            advisorList: undefined,
-            advDisabled: true,
             [this.state.redact.attr]: {
                 ...this.state[this.state.redact.attr],
                 listForBattle: newListForBattle,
@@ -734,52 +733,13 @@ class MatrixPvp extends React.PureComponent {
 
 
     onAdvisorSubmit() {
-        let rateList = this.state.leftPanel.listForBattle.map((elem, i) => {
-            let j = this.state.rightPanel.listForBattle.length * i
-            let maxj = j + this.state.rightPanel.listForBattle.length
-            let singleRate = 0
-            let zeros = {}
-
-            for (; j < maxj; j++) {
-                singleRate += this.state.pvpData[0][j].Rate
-                if (this.state.pvpData[0][j].Rate <= 500) {
-                    zeros[this.state.pvpData[0][j].K] = true
-                }
-            }
-            return { rate: singleRate / this.state.rightPanel.listForBattle.length, zeros: zeros }
-        });
-
-        let parties = []
-
-        for (let i = 0; i < this.state.leftPanel.listForBattle.length; i++) {
-            for (let j = i + 1; j < this.state.leftPanel.listForBattle.length; j++) {
-                for (let k = j + 1; k < this.state.leftPanel.listForBattle.length; k++) {
-                    parties.push({
-                        first: i, second: j, third: k,
-                        rate: rateList[i].rate + rateList[j].rate + rateList[k].rate,
-                        zeros: this.countWeakSpots(rateList[i].zeros, rateList[j].zeros, rateList[k].zeros)
-                    })
-                }
-            }
-        }
-
         this.setState({
-            advisorList: parties,
+            showAdvisor: true,
         })
     }
 
-    countWeakSpots(objA, objB, objC) {
-        let counter = []
-        for (const [key, value] of Object.entries(objA)) {
-            if (value && objB[key] && objC[key]) {
-                counter.push(key)
-            }
-        }
-        return counter
-    }
 
     render() {
-
         return (
             < >
                 <div className="row justify-content-between mb-4"  >
@@ -896,20 +856,25 @@ class MatrixPvp extends React.PureComponent {
                         />
                     </div>
 
-                    {this.state.advisorList && <div className="order-6 col-12 p-1 pt-3" >
-                        <div className="row mx-1  justify-content-center"  >
-                            <Advisor
-                                list={this.state.advisorList}
+                    {!this.state.advDisabled && this.state.snapshot && this.state.showAdvisor &&
+                        <div className="order-6 col-12 p-1 pt-3" >
+                            <div className="row mx-1  justify-content-center"  >
+                                <AdvisorCombinator
+                                    pvpData={this.state.pvpData}
+                                    pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                                rawResult={this.state.rawResult}
-                                pokemonTable={this.props.pokemonTable}
-                                moveTable={this.props.parentState.moveTable}
+                                    isTriple={this.state.snapshot.isTriple}
 
-                                leftPanel={this.state.leftPanel}
-                                rightPanel={this.state.rightPanel}
-                            />
-                        </div>
-                    </div>}
+                                    league={this.state.snapshot.league}
+
+                                    pokemonTable={this.props.pokemonTable}
+                                    moveTable={this.props.parentState.moveTable}
+
+                                    leftPanel={this.state.snapshot.leftPanel}
+                                    rightPanel={this.state.snapshot.rightPanel}
+                                />
+                            </div>
+                        </div>}
                 </div>
             </ >
         );
