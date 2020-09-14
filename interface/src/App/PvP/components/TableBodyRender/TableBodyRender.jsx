@@ -1,7 +1,7 @@
 import React from "react"
 
-import SinglePvpCell from "./SinglePvpCell/SinglePvpCell"
-import TriplePvpCell from "./TriplePvpCell/TriplePvpCell"
+import PvpSingleCell from "./PvpSingleCell/PvpSingleCell"
+import PvpTripleCell from "./PvpTripleCell/PvpTripleCell"
 
 import Advisor from "../Advisor/Advisor"
 
@@ -52,7 +52,7 @@ class TableBodyRender extends React.PureComponent {
             let line = elem.I + 1
             let row = elem.K + 1
             arr[line].push(
-                <SinglePvpCell
+                <PvpSingleCell
                     key={line + row}
                     rate={elem.Rate}
                     query={"/pvp/single/" + this.props.league + "/" +
@@ -65,7 +65,7 @@ class TableBodyRender extends React.PureComponent {
 
 
 
-    pvpTriple(data, pvpoke) {
+    pvpTriple(data) {
         //markup table
         let arr = this.makeTableLines()
 
@@ -77,7 +77,7 @@ class TableBodyRender extends React.PureComponent {
             data[0][i].Rate = rating
 
             arr[line].push(
-                < TriplePvpCell
+                < PvpTripleCell
                     key={line + row}
 
                     rate0={elem.Rate}

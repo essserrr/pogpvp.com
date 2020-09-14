@@ -463,6 +463,7 @@ class MatrixPvp extends React.PureComponent {
 
             this.setState({
                 showResult: true,
+                showAdvisor: false,
                 isError: false,
                 loading: false,
                 pvpData: result,
@@ -476,6 +477,7 @@ class MatrixPvp extends React.PureComponent {
             this.setState({
                 advDisabled: true,
                 showResult: false,
+                showAdvisor: false,
                 isError: true,
                 loading: false,
                 error: String(e),

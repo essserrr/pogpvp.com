@@ -3,9 +3,9 @@ import { Link } from "react-router-dom"
 
 import { returnRateStyle } from "../../../../../js/indexFunctions.js"
 
-import "./TriplePvpCell.scss"
+import "./PvpTripleCell.scss"
 
-class TriplePvpCell extends React.PureComponent {
+class PvpTripleCell extends React.PureComponent {
     render() {
         const rate00 = returnRateStyle(this.props.rate0)
         const rate11 = returnRateStyle(this.props.rate1)
@@ -46,4 +46,4 @@ class TriplePvpCell extends React.PureComponent {
     }
 };
 
-export default TriplePvpCell;
+export default PvpTripleCell;
