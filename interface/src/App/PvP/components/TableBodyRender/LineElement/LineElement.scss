@@ -1,0 +1,14 @@
+$primary-color: #eff0f1;
+$slider-button: #59698d;
+
+.line-element {
+    border-width: 1.2px !important;
+    border-color: $slider-button !important;
+    background-color: $primary-color;
+    font-size: 80%;
+    font-weight: bold;
+
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}

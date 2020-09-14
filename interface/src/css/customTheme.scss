@@ -304,27 +304,6 @@ body {
     overflow-y: auto !important;
 }
 
-.overflowingx {
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-}
-
-.overflowingxy {
-    overflow-x: auto !important;
-    overflow-y: auto !important;
-    width: 100% !important;
-}
-
-.height400resp {
-    max-height: 483px !important;
-}
-
-@media (max-width: 877px) {
-    .height400resp {
-        max-height: 85vh !important;
-    }
-}
-
 .btn.btn-primary {
     background: linear-gradient(180deg, #45a6ff 0%, #0055fb 100%), #c4c4c4 !important;
     border-radius: 5px !important;
@@ -379,14 +358,6 @@ body {
     border: 1px solid #acacac;
 
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-
-//sticky styles
-.fixFirstRow {
-    position: sticky;
-    left: 0;
-    background-color: $primary-color;
-    z-index: 1;
 }
 
 //icons sizes
