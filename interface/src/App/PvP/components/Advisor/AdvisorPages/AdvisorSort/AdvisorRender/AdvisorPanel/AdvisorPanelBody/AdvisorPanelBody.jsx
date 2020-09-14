@@ -15,9 +15,9 @@ import { locale } from "../../../../../../../../../locale/locale"
 import { effectivenessData } from "../../../../../../../../../js/indexFunctions"
 import { getCookie } from "../../../../../../../../../js/getCookie"
 
+import "./AdvisorPanelBody.scss"
+
 let strings = new LocalizedStrings(locale);
-
-
 
 class AdvisorPanelBody extends React.PureComponent {
     constructor(props) {
@@ -191,15 +191,15 @@ class AdvisorPanelBody extends React.PureComponent {
         let vun = this.calculateVunerabilities()
         let off = this.calculateOffensiveStats()
         return (
-            <div className="col-12 px-2 bigText fBolder text-center" key={"coll" + this.props.i}>
+            <div className="advpanel-body col-12 px-2 text-center" key={"coll" + this.props.i}>
                 {strings.advisor.bad}
                 <div className="row mx-1 mt-1 justify-content-center">
                     {this.makeZerosList()}
                 </div>
                 {strings.advisor.all}
-                <div className="overflowingx width90vw p-0 m-0">
+                <div className="advpanel-body__overflow-cont p-0 m-0">
                     <Result
-                        class="tableFixHead"
+                        class="advpanel-body--fixed-thead"
                         table={<TableBody
                             value={[
                                 this.props.rawResult[0],
@@ -217,9 +217,9 @@ class AdvisorPanelBody extends React.PureComponent {
                 <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
                     {strings.advisor.weak}  {vun[2].length > 0 ? vun[2] : strings.options.moveSelect.none}
                 </div>
-                <div className="overflowingx width90vw p-0 m-0">
+                <div className="advpanel-body__overflow-cont p-0 m-0">
                     <Result
-                        class="tableFixHead"
+                        class="advpanel-body--fixed-thead"
                         table={<TableBody
                             value={[
                                 <TypingThead key="poktyping" />,
@@ -242,7 +242,7 @@ class AdvisorPanelBody extends React.PureComponent {
                                     vun={vun[0]}
                                 />,
                                 <SinglePokLine
-                                    key="typesof2"
+                                    key="typesof3"
                                     i={2}
                                     pok={this.props.third}
                                     pokemonTable={this.props.pokemonTable}
@@ -261,9 +261,9 @@ class AdvisorPanelBody extends React.PureComponent {
                 <div className="col-12 text-left  p-0 mt-1 mb-2">
                     {strings.advisor.strong} {off[1].length > 0 ? off[1] : strings.options.moveSelect.none}
                 </div>
-                <div className="overflowingxy height400resp width90vw p-0 m-0">
+                <div className="advpanel-body__overflow-cont advpanel-body--resp-height p-0 m-0">
                     <Result
-                        class="tableFixHead"
+                        class="advpanel-body--fixed-thead"
                         table={<TableBody
                             value={this.makeMoveTypingList()}
                         />}

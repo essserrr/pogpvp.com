@@ -1,0 +1,30 @@
+.advpanel-body {
+    font-weight: bolder;
+}
+
+.advpanel-body__overflow-cont {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    max-width: 90vw !important;
+}
+
+.advpanel-body--resp-height {
+    max-height: 483px !important;
+}
+
+@media (max-width: 877px) {
+    .advpanel-body--resp-height {
+        max-height: 85vh !important;
+    }
+}
+
+.advpanel-body--fixed-thead {
+    overflow-y: auto;
+    height: 100px;
+
+    thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+}
