@@ -682,7 +682,7 @@ class MatrixPvp extends React.PureComponent {
                                                         pvpData={this.state.pvpData}
                                                         pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                                                        isTriple={this.state.snapshot.isTriple}
+                                                        isTriple={this.state.snapshot.triple}
                                                         league={this.state.snapshot.league}
 
                                                         pokemonTable={this.props.pokemonTable}
@@ -751,7 +751,7 @@ class MatrixPvp extends React.PureComponent {
                                     pvpData={this.state.pvpData}
                                     pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                                    isTriple={this.state.snapshot.isTriple}
+                                    isTriple={this.state.snapshot.triple}
 
                                     league={this.state.snapshot.league}
 

@@ -31,8 +31,8 @@ const MatrixDescr = React.memo(function (props) {
                     <div className="tipfont text-center">
                         {tips.result}
                     </div>
-                    <div className="matrixTriple row justify-content-center text-center m-0">
-                        <div data-tip data-for={"0vs0"} className={"col-4 p-0 hover rateColorR3"} >
+                    <div className="matrix-descr__cell-content row justify-content-center text-center m-0">
+                        <div data-tip data-for={"0vs0"} className={"col-4 p-0 rateColorR3"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"0vs0"} effect="solid"
@@ -42,7 +42,7 @@ const MatrixDescr = React.memo(function (props) {
                             </ReactTooltip>
                             {"+1"}
                         </div>
-                        <div data-tip data-for={"1vs1"} className={"col-4 p-0 hover  rateColorR0"}>
+                        <div data-tip data-for={"1vs1"} className={"col-4 p-0 rateColorR0"}>
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"1vs1"} effect="solid"
@@ -52,7 +52,7 @@ const MatrixDescr = React.memo(function (props) {
                             </ReactTooltip>
                             {"0"}
                         </div>
-                        <div data-tip data-for={"2vs2"} className={"col-4 p-0  hover rateColorR1"} >
+                        <div data-tip data-for={"2vs2"} className={"col-4 p-0 rateColorR1"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"2vs2"} effect="solid"
@@ -63,7 +63,7 @@ const MatrixDescr = React.memo(function (props) {
                             {"-1"}
                         </div>
 
-                        <div data-tip data-for={"over"} className={" hover col-12 p-0 rateColorR4"}>
+                        <div data-tip data-for={"over"} className={"col-12 p-0 rateColorR4"}>
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"over"} effect="solid"

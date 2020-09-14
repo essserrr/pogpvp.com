@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 
 import { returnRateStyle } from "../../../../../js/indexFunctions.js"
 
+import "./TriplePvpCell.scss"
+
 class TriplePvpCell extends React.PureComponent {
     render() {
         const rate00 = returnRateStyle(this.props.rate0)
@@ -11,8 +13,8 @@ class TriplePvpCell extends React.PureComponent {
         const rateOverall = returnRateStyle(this.props.overallRating)
 
         return (
-            <td className="tripleWidth tableBorder font80 p-0 m-0 px-1 align-middle" >
-                <div className="matrixTriple row justify-content-center m-0 p-0 mr-auto ml-auto">
+            <td className="triplepvp-cell p-0 m-0 px-1 align-middle" >
+                <div className="triplepvp-cell__content row justify-content-center m-0 p-0 mr-auto ml-auto">
                     <Link className={"col-4 m-0 p-0 text-center hover rateColor" + rate00[1]}
                         to={{
                             pathname: this.props.queries[0],
