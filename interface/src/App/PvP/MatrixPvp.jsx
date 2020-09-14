@@ -1,19 +1,18 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
 import { connect } from "react-redux"
 
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
+import TableBodyRender from "./components/Advisor/AdvisorCombinator/TableBodyRender/TableBodyRender"
 import { addParty } from "../../AppStore/Actions/actions"
 import { deleteParty } from "../../AppStore/Actions/actions"
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
 import Errors from "./components/Errors/Errors"
-import TheadElement from "./components/MetrixTable/TheadElement"
-import LineElement from "./components/MetrixTable/LineElement"
+
 
 import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
-import { encodeQueryData, calculateMaximizedStats, returnRateStyle, capitalizeFirst } from "../../js/indexFunctions.js"
+import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
 import Result from "./components/Result"
@@ -95,9 +94,7 @@ class MatrixPvp extends React.PureComponent {
         this.onPokRedact = this.onPokRedact.bind(this);
         this.onPokRedactOff = this.onPokRedactOff.bind(this);
         this.onRedactSubmit = this.onRedactSubmit.bind(this);
-        this.makeTableLines = this.makeTableLines.bind(this);
         this.onAdvisorSubmit = this.onAdvisorSubmit.bind(this);
-        this.addStar = this.addStar.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -409,8 +406,6 @@ class MatrixPvp extends React.PureComponent {
         let role = event.target.getAttribute("attr")
         let index = event.target.getAttribute("index")
 
-        console.log(index)
-
         let newListForBattle = [...this.state[role].listForBattle.slice(0, index), ...this.state[role].listForBattle.slice(index + 1)]
 
         this.setState({
@@ -466,22 +461,10 @@ class MatrixPvp extends React.PureComponent {
             //if response is not ok, handle error
             if (!response.ok) { throw result.detail }
 
-            //otherwise set state
-            switch (snapshot.triple) {
-                case true:
-                    var arr = this.pvpTriple(result, snapshot.pvpoke ? "/pvpoke" : "")
-                    break
-                default:
-                    arr = this.pvpSingle(result[0], snapshot.pvpoke ? "/pvpoke" : "")
-            }
-            let tableBody = this.makeTable(arr)
-
             this.setState({
                 showResult: true,
                 isError: false,
                 loading: false,
-                result: tableBody,
-                rawResult: arr,
                 pvpData: result,
 
                 snapshot: snapshot,
@@ -499,115 +482,6 @@ class MatrixPvp extends React.PureComponent {
                 snapshot: undefined,
             })
         }
-    }
-
-
-    makeTable(arr) {
-        return [
-            <thead key={"thead0"} className="thead" >
-                <tr >
-                    {arr[0]}
-                </tr>
-            </thead>,
-            <tbody key={"tablebody"} className="tableBorder">
-                {arr.slice(1).map((elem, i) => {
-                    return <tr key={"tableline" + i}>
-                        {elem}
-                    </tr>
-                })}
-            </tbody>
-        ]
-    }
-
-
-
-    pvpSingle(data, pvpoke) {
-        //markup table
-        let arr = this.makeTableLines()
-
-        //fill cells
-        data.forEach((elem) => {
-            let line = elem.I + 1
-            let row = elem.K + 1
-            arr[line].push(<td key={line + row} className="tableBorder matrixColor font80 m-0 p-0 align-middle" >
-                <Link className={"rateSquare hover rateColor" + returnRateStyle(elem.Rate)[1]}
-                    to={{
-                        pathname: "/pvp/single/" + this.props.parentState.league + "/" +
-                            encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke,
-                        state: { needsUpdate: true }
-                    }}>
-                    {elem.Rate}
-                </Link>
-            </td >)
-        })
-        return arr
-    }
-
-    makeTableLines() {
-        return [[<th key={"zero"} className="tableBorder theadT p-0 px-1" scope="col" />,
-        ...this.state.rightPanel.listForBattle.map((pok, j) => {
-            return <TheadElement key={j + pok.name + "thead"} pok={pok} j={j}
-                pokemonTable={this.props.pokemonTable} addStar={this.addStar} />
-        }),],
-        ...this.state.leftPanel.listForBattle.map((pok, i) => {
-            return [<LineElement key={i + pok.name + "line"} pok={pok} i={i}
-                pokemonTable={this.props.pokemonTable} addStar={this.addStar} />]
-        }),]
-    }
-
-    addStar(pokName, moveName) {
-        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
-    }
-
-    pvpTriple(data, pvpoke) {
-        //markup table
-        let arr = this.makeTableLines()
-
-        //fill cells
-        data[0].forEach((elem, i) => {
-            let line = elem.I + 1
-            let row = elem.K + 1
-            let rating = Math.round((elem.Rate + data[1][i].Rate + data[2][i].Rate) / 3)
-            let rate00 = returnRateStyle(elem.Rate)
-            let rate11 = returnRateStyle(data[1][i].Rate)
-            let rate22 = returnRateStyle(data[2][i].Rate)
-            let rateOverall = returnRateStyle(rating)
-            data[0][i].Rate = rating
-
-            arr[line].push(<td key={line + row} className="tripleWidth tableBorder font80 p-0 m-0 px-1 align-middle" >
-                <div className="matrixTriple row justify-content-center m-0 p-0 mr-auto ml-auto">
-                    <Link className={"col-4 m-0 p-0 text-center hover rateColor" + rate00[1]}
-                        to={{
-                            pathname: "/pvp/single/" + this.props.parentState.league + "/" +
-                                encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + pvpoke,
-                            state: { needsUpdate: true }
-                        }}>
-                        {rate00[0]}
-                    </Link>
-                    <Link className={"col-4 m-0 p-0 text-center  hover  rateColor" + rate11[1]}
-                        to={{
-                            pathname: "/pvp/single/" + this.props.parentState.league + "/" +
-                                encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + pvpoke,
-                            state: { needsUpdate: true }
-                        }}>
-                        {rate11[0]}
-                    </Link>
-                    <Link className={"col-4 m-0 p-0 text-center hover rateColor" + rate22[1]}
-                        to={{
-                            pathname: "/pvp/single/" + this.props.parentState.league + "/" +
-                                encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + pvpoke,
-                            state: { needsUpdate: true }
-                        }}>
-                        {rate22[0]}
-                    </Link>
-                    <div className={" col-12 m-0 p-0 rateColor" + rateOverall[1]}>
-                        {rating}
-                    </div>
-
-                </div>
-            </td >)
-        });
-        return arr
     }
 
     onPokemonAdd(event) {
@@ -797,13 +671,27 @@ class MatrixPvp extends React.PureComponent {
 
                     <div className="overflowing order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
                         <div className="row mx-1 h-100"  >
-                            {(this.state.result || this.state.isError) && <div className="align-self-start results order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
+                            {(this.state.showResult || this.state.isError) && <div className="align-self-start results order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
                                 <div className="row  justify-content-center mx-0"  >
                                     <div className="overflowingxy height400resp order-2 p-0 mx-2 order-lg-1 col-12 ">
-                                        {this.state.result &&
+                                        {this.state.showResult && this.state.pvpData && this.state.snapshot &&
                                             <Result
                                                 class="tableFixHead"
-                                                table={this.state.result}
+                                                table={
+                                                    <TableBodyRender
+                                                        pvpData={this.state.pvpData}
+                                                        pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
+
+                                                        isTriple={this.state.snapshot.isTriple}
+                                                        league={this.state.snapshot.league}
+
+                                                        pokemonTable={this.props.pokemonTable}
+                                                        moveTable={this.props.parentState.moveTable}
+
+                                                        leftPanel={this.state.snapshot.leftPanel}
+                                                        rightPanel={this.state.snapshot.rightPanel}
+                                                    />
+                                                }
                                             />}
                                         {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                                     </div>

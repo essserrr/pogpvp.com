@@ -31,7 +31,6 @@ class ShinyTableSort extends React.Component {
     }
 
     render() {
-        console.log(this.props.filter.order)
         return (
             <ShinyTable
                 list={this.props.filter.type === "number" ? this.sortNumber() : this.sortString()}

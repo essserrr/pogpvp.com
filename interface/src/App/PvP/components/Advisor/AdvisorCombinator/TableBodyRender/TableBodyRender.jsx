@@ -7,6 +7,8 @@ import Advisor from "../../../Advisor/Advisor"
 import TheadElement from "../../../MetrixTable/TheadElement"
 import LineElement from "../../../MetrixTable/LineElement"
 
+import MatrixTable from "./MatrixTable/MatrixTable"
+
 class TableBodyRender extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -49,7 +51,6 @@ class TableBodyRender extends React.PureComponent {
         data[0].forEach((elem) => {
             let line = elem.I + 1
             let row = elem.K + 1
-            console.log(data)
             arr[line].push(
                 <SinglePvpCell
                     key={line + row}
@@ -101,16 +102,20 @@ class TableBodyRender extends React.PureComponent {
 
     render() {
         return (
-            <Advisor
-                list={this.props.list}
-                rawResult={this.props.isTriple ? this.pvpTriple(this.props.pvpData) : this.pvpSingle(this.props.pvpData)}
+            this.props.isAdvisor ?
+                <Advisor
+                    list={this.props.list}
+                    rawResult={this.props.isTriple ? this.pvpTriple(this.props.pvpData) : this.pvpSingle(this.props.pvpData)}
 
-                pokemonTable={this.props.pokemonTable}
-                moveTable={this.props.moveTable}
+                    pokemonTable={this.props.pokemonTable}
+                    moveTable={this.props.moveTable}
 
-                leftPanel={this.props.leftPanel}
-                rightPanel={this.props.rightPanel}
-            />
+                    leftPanel={this.props.leftPanel}
+                    rightPanel={this.props.rightPanel}
+                /> :
+                <MatrixTable
+                    tableLines={this.props.isTriple ? this.pvpTriple(this.props.pvpData) : this.pvpSingle(this.props.pvpData)}
+                />
         );
     }
 };

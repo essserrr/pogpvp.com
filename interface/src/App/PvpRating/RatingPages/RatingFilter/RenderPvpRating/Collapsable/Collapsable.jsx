@@ -88,7 +88,6 @@ class Collapsable extends React.PureComponent {
     }
 
     generatePokObj(name, stat, shields, isShadow, movelist) {
-        console.log(name, stat, shields, isShadow, movelist)
         return {
             name: name, Lvl: stat.Level, Atk: stat.Atk, Def: stat.Def, Sta: stat.Sta, Shields: shields,
             AtkStage: 0, DefStage: 0, InitialHP: 0, InitialEnergy: 0,

@@ -50,6 +50,7 @@ class AdvisorCombinator extends React.PureComponent {
         return (
             <TableBodyRender
                 list={this.makeCombinations()}
+                isAdvisor={true}
 
                 pvpData={this.props.pvpData}
                 pvpoke={this.props.pvpoke}
