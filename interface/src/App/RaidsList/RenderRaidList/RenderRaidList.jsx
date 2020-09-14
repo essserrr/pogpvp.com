@@ -8,6 +8,8 @@ import FilteredRaidList from "./FilteredRaidList/FilteredRaidList"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/getCookie"
 
+import "./RenderRaidList.scss"
+
 let strings = new LocalizedStrings(locale)
 
 class RenderRaidList extends React.Component {
@@ -24,7 +26,7 @@ class RenderRaidList extends React.Component {
 
         return tiers.map((value) => <RaidTier
             key={value.key}
-            class="separator capsSeparator"
+            class="raid-list__separator"
 
             title={
                 <IconMultiplicator

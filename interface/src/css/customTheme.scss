@@ -417,10 +417,6 @@ body {
     max-width: 1230px !important;
 }
 
-.width90vw {
-    max-width: 90vw !important;
-}
-
 .max600 {
     max-width: 600px !important;
 }
@@ -429,13 +425,6 @@ body {
 }
 
 //separator style
-.capsSeparator {
-    font-size: 1.7rem !important;
-    font-weight: 600 !important;
-    color: white;
-    -webkit-text-stroke: 1px black;
-}
-
 .separator {
     display: flex;
     align-items: center;
