@@ -382,15 +382,6 @@ body {
 }
 
 //sticky styles
-.tableFixHead {
-    overflow-y: auto;
-    height: 100px;
-}
-.tableFixHead thead th {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-}
 .fixFirstRow {
     position: sticky;
     left: 0;

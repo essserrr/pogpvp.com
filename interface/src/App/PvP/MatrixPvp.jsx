@@ -19,6 +19,7 @@ import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
 import Loader from "../PvpRating/Loader"
 
+import "./MatrixPvp.scss"
 
 import { locale } from "../../locale/locale"
 
@@ -637,7 +638,7 @@ class MatrixPvp extends React.PureComponent {
                         onClick={this.onPokRedactOff}
                         onPokemonAdd={this.onRedactSubmit}
                     />}
-                    <div className="results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
+                    <div className="matrixpvp__results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -671,34 +672,36 @@ class MatrixPvp extends React.PureComponent {
 
 
 
-                    <div className="overflowing order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
+                    <div className="matrixpvp--overflow order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
                         <div className="row mx-1 h-100"  >
-                            {(this.state.showResult || this.state.isError) && <div className="align-self-start results order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
-                                <div className="row  justify-content-center mx-0"  >
-                                    <div className="overflowingxy height400resp order-2 p-0 mx-2 order-lg-1 col-12 ">
-                                        {this.state.showResult && this.state.pvpData && this.state.snapshot &&
-                                            <Result
-                                                class="tableFixHead"
-                                                table={
-                                                    <TableBodyRender
-                                                        pvpData={this.state.pvpData}
-                                                        pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
+                            {(this.state.showResult || this.state.isError) &&
+                                <div className="matrixpvp__results align-self-start order-3 order-lg-1 col-12 mt-3 mt-lg-0 p-2 ">
+                                    <div className="row justify-content-center mx-0"  >
+                                        <div className="matrixpvp__overflow-cont order-2 p-0 mx-2 order-lg-1 col-12 ">
+                                            {this.state.showResult && this.state.pvpData && this.state.snapshot &&
+                                                <Result
+                                                    class="matrixpvp__fixed-thead"
+                                                    table={
+                                                        <TableBodyRender
+                                                            pvpData={this.state.pvpData}
+                                                            pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                                                        isTriple={this.state.snapshot.triple}
-                                                        league={this.state.snapshot.league}
+                                                            isTriple={this.state.snapshot.triple}
+                                                            league={this.state.snapshot.league}
 
-                                                        pokemonTable={this.props.pokemonTable}
-                                                        moveTable={this.props.parentState.moveTable}
+                                                            pokemonTable={this.props.pokemonTable}
+                                                            moveTable={this.props.parentState.moveTable}
 
-                                                        leftPanel={this.state.snapshot.leftPanel}
-                                                        rightPanel={this.state.snapshot.rightPanel}
-                                                    />
-                                                }
-                                            />}
-                                        {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                                                            leftPanel={this.state.snapshot.leftPanel}
+                                                            rightPanel={this.state.snapshot.rightPanel}
+                                                        />
+                                                    }
+                                                />}
+                                            {this.state.isError &&
+                                                <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                                        </div>
                                     </div>
-                                </div>
-                            </div>}
+                                </div>}
                             {this.state.loading &&
                                 <div className="col-12 mt-2 order-lg-2" >
                                     <Loader
@@ -720,7 +723,7 @@ class MatrixPvp extends React.PureComponent {
                             </div>
                         </div>
                     </div>
-                    <div className="results order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
+                    <div className="matrixpvp__results order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -748,7 +751,7 @@ class MatrixPvp extends React.PureComponent {
 
                     {!this.state.advDisabled && this.state.snapshot && this.state.showAdvisor &&
                         <div className="order-6 col-12 p-1 pt-3" >
-                            <div className="row mx-1  justify-content-center"  >
+                            <div className="row mx-1 justify-content-center"  >
                                 <AdvisorCombinator
                                     pvpData={this.state.pvpData}
                                     pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
