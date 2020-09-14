@@ -3,10 +3,10 @@ import React from "react"
 import SinglePvpCell from "./SinglePvpCell/SinglePvpCell"
 import TriplePvpCell from "./TriplePvpCell/TriplePvpCell"
 
-import Advisor from "../../../Advisor/Advisor"
-import TheadElement from "../../../MetrixTable/TheadElement"
-import LineElement from "../../../MetrixTable/LineElement"
+import Advisor from "../Advisor/Advisor"
 
+import TheadElement from "./TheadElement/TheadElement"
+import LineElement from "./LineElement/LineElement"
 import MatrixTable from "./MatrixTable/MatrixTable"
 
 class TableBodyRender extends React.PureComponent {

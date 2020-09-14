@@ -1,6 +1,6 @@
 import React from "react"
 
-import TableBodyRender from "./TableBodyRender/TableBodyRender"
+import TableBodyRender from "../../TableBodyRender/TableBodyRender"
 
 class AdvisorCombinator extends React.PureComponent {
 

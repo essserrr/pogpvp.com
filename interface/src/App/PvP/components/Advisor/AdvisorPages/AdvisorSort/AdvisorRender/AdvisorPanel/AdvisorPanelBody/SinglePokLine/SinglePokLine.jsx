@@ -1,5 +1,5 @@
 import React from "react"
-import TableIcon from "../../../../../../../MetrixTable/TableIcon/TableIcon"
+import TableIcon from "../../../../../../../TableBodyRender/TableIcon/TableIcon"
 import { returnVunStyle } from "../../../../../../../../../../js/indexFunctions"
 
 

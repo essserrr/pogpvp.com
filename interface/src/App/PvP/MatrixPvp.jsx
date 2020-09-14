@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
-import TableBodyRender from "./components/Advisor/AdvisorCombinator/TableBodyRender/TableBodyRender"
+import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
 import { addParty } from "../../AppStore/Actions/actions"
 import { deleteParty } from "../../AppStore/Actions/actions"
 import SubmitButton from "./components/SubmitButton/SubmitButton"

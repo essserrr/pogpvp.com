@@ -1,5 +1,5 @@
 import React from "react"
-import TableIcon from "./TableIcon/TableIcon"
+import TableIcon from "../TableIcon/TableIcon"
 
 const TheadElement = React.memo(function (props) {
 

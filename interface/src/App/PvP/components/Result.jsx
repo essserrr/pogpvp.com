@@ -1,7 +1,7 @@
 import React from "react"
 
 import SinglePvpResults from "./SinglePvpResults/SinglePvpResults"
-import TableWrapper from "./TableWrapper/TableWrapper"
+import TableWrapper from "./TableBodyRender/TableWrapper/TableWrapper"
 
 class Result extends React.PureComponent {
 

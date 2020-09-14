@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 
-import { returnRateStyle } from "../../../../../../../js/indexFunctions.js"
+import { returnRateStyle } from "../../../../../js/indexFunctions.js"
 
 class TriplePvpCell extends React.PureComponent {
     render() {
