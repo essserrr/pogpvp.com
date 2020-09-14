@@ -187,9 +187,6 @@ div :focus {
 }
 
 //fonts
-.font80 {
-    font-size: 80% !important;
-}
 .font90 {
     font-size: 90% !important;
 }
@@ -382,10 +379,6 @@ body {
     border: 1px solid #acacac;
 
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-
-.matrixColor {
-    background-color: $primary-color;
 }
 
 //sticky styles

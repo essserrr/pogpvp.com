@@ -261,7 +261,7 @@ class Constructor extends React.PureComponent {
 
     render() {
         return (
-            <div className="row  justify-content-center m-0 my-1">
+            <div className="row justify-content-center m-0 my-1">
                 {(this.props.lastChangesAt > this.props.round) && <div className="col-12 p-0">
                     <Errors
                         class="alert alert-danger m-0 p-2 "
@@ -274,7 +274,7 @@ class Constructor extends React.PureComponent {
                         value={strings.constructor.alertmodified}
                     />
                 </div>}
-                <div className="col-12 p-0 fBolder">
+                <div className="constructor__title col-12 p-0">
                     {strings.constructor.newaction + this.props.round + ":"}
                 </div>
 
@@ -293,7 +293,7 @@ class Constructor extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>
-                <div className="col-12 font80 d-flex p-0 my-1">
+                <div className="constructor--text col-12 d-flex p-0 my-1">
                     <Checkbox
                         onChange={this.onChange}
                         value={this.state.Attacker.IsShield}
@@ -304,7 +304,7 @@ class Constructor extends React.PureComponent {
                         isDisabled={(this.props.agregatedParams.Attacker.Shields === 0) || !this.state.Defender.containCharge}
 
                     />
-                    {<Checkbox
+                    <Checkbox
                         onChange={this.onChange}
                         value={this.state.Attacker.IsTriggered}
                         isDisabled={!this.haveTrigger("Attacker")}
@@ -313,7 +313,7 @@ class Constructor extends React.PureComponent {
                         name={"IsTriggered"}
                         attr={"Attacker"}
                         label={strings.constructor.trigger}
-                    />}
+                    />
                 </div>
                 <div className="col-12 p-0">
                     <SelectGroup
@@ -330,7 +330,7 @@ class Constructor extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>
-                <div className="col-12 font80 d-flex p-0 my-1 mb-3">
+                <div className="constructor--text col-12 d-flex p-0 my-1 mb-3">
                     <Checkbox
                         onChange={this.onChange}
                         value={this.state.Defender.IsShield}
@@ -340,7 +340,7 @@ class Constructor extends React.PureComponent {
                         label={strings.constructor.useshield}
                         isDisabled={(this.props.agregatedParams.Defender.Shields === 0) || !this.state.Attacker.containCharge}
                     />
-                    {<Checkbox
+                    <Checkbox
                         onChange={this.onChange}
                         value={this.state.Defender.IsTriggered}
                         isDisabled={!this.haveTrigger("Defender")}
@@ -349,14 +349,14 @@ class Constructor extends React.PureComponent {
                         attr={"Defender"}
 
                         label={strings.constructor.trigger}
-                    />}
+                    />
                 </div>
-                {<SubmitButton
-                    class="matrixButton btn btn-primary btn-sm"
+                <SubmitButton
+                    class="constructor__submit-button btn btn-primary"
                     label={strings.constructor.submit}
                     action="Let's Battle"
                     onSubmit={this.onSubmit}
-                />}
+                />
             </div>
         )
     }
