@@ -697,7 +697,7 @@ class SinglePvp extends React.PureComponent {
                                     <div className="row justify-content-center mx-0"  >
                                         <div className="order-2 order-lg-1 col-12 ">
                                             {this.state.showResult &&
-                                                <Result value={this.state.result} />}
+                                                <Result value={this.state.result} isSingle={true} />}
                                             {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                                         </div>
                                         {this.state.url && this.state.showResult && <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >

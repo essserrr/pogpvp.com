@@ -1,5 +1,7 @@
-import React from "react";
-import ResultsTable from "./ResultsTable/ResultsTable"
+import React from "react"
+
+import SinglePvpResults from "./SinglePvpResults/SinglePvpResults"
+import TableWrapper from "./TableWrapper/TableWrapper"
 
 class Result extends React.PureComponent {
 
@@ -23,11 +25,16 @@ class Result extends React.PureComponent {
     render() {
         return (
             <div tabIndex="0" ref={this.matrixres}>
-                <ResultsTable
-                    value={this.props.value}
-                    table={this.props.table}
-                    class={this.props.class}
-                />
+                {this.props.isSingle ?
+                    <SinglePvpResults
+                        value={this.props.value}
+                        class={this.props.class}
+                    /> :
+
+                    <TableWrapper
+                        table={this.props.table}
+                        class={this.props.class}
+                    />}
             </div>
         );
     }
