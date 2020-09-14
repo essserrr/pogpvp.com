@@ -36,7 +36,7 @@ class AdvisorPanel extends React.PureComponent {
 
                     <span className="mx-2 align-self-center ">{"#" + (this.props.i + 1)}</span>
 
-                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-1 mx-sm-2 text-center">
+                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
                         <div className="advisor-panel--relative col-auto px-0">
                             {String(this.props.first.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
                             <PokemonIconer
@@ -50,7 +50,7 @@ class AdvisorPanel extends React.PureComponent {
                         </div>
                     </div>
 
-                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-1 mx-sm-2 text-center">
+                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
                         <div className="advisor-panel--relative col-auto px-0">
                             {String(this.props.second.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
                             <PokemonIconer
@@ -63,7 +63,7 @@ class AdvisorPanel extends React.PureComponent {
                         </div>
                     </div>
 
-                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-1 mx-sm-2 text-center">
+                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
                         <div className="advisor-panel--relative col-auto px-0">
                             {String(this.props.third.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
                             <PokemonIconer

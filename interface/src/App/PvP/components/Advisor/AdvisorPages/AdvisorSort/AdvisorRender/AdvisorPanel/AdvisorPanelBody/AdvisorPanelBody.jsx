@@ -197,7 +197,7 @@ class AdvisorPanelBody extends React.PureComponent {
                     {this.makeZerosList()}
                 </div>
                 {strings.advisor.all}
-                <div className="advpanel-body__overflow-cont p-0 m-0">
+                <div className="advpanel-body__overflow-contx p-0 m-0">
                     <Result
                         class="advpanel-body--fixed-thead"
                         table={<TableBody
@@ -217,7 +217,7 @@ class AdvisorPanelBody extends React.PureComponent {
                 <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
                     {strings.advisor.weak}  {vun[2].length > 0 ? vun[2] : strings.options.moveSelect.none}
                 </div>
-                <div className="advpanel-body__overflow-cont p-0 m-0">
+                <div className="advpanel-body__overflow-contx p-0 m-0">
                     <Result
                         class="advpanel-body--fixed-thead"
                         table={<TableBody
@@ -261,7 +261,7 @@ class AdvisorPanelBody extends React.PureComponent {
                 <div className="col-12 text-left  p-0 mt-1 mb-2">
                     {strings.advisor.strong} {off[1].length > 0 ? off[1] : strings.options.moveSelect.none}
                 </div>
-                <div className="advpanel-body__overflow-cont advpanel-body--resp-height p-0 m-0">
+                <div className="advpanel-body__overflow-contxy p-0 m-0">
                     <Result
                         class="advpanel-body--fixed-thead"
                         table={<TableBody

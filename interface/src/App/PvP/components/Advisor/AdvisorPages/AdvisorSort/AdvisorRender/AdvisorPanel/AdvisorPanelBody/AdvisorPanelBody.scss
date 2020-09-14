@@ -2,18 +2,21 @@
     font-weight: bolder;
 }
 
-.advpanel-body__overflow-cont {
+.advpanel-body__overflow-contx {
     overflow-x: auto !important;
     overflow-y: hidden !important;
     max-width: 90vw !important;
 }
 
-.advpanel-body--resp-height {
+.advpanel-body__overflow-contxy {
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    max-width: 90vw !important;
     max-height: 483px !important;
 }
 
 @media (max-width: 877px) {
-    .advpanel-body--resp-height {
+    .advpanel-body__overflow-contxy {
         max-height: 85vh !important;
     }
 }
