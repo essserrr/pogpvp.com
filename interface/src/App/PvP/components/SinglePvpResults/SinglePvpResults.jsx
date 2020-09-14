@@ -1,13 +1,16 @@
 import React from "react"
+import LocalizedStrings from "react-localization"
+
 import Line from "./Line"
 import Thead from "./Thead"
 
-import LocalizedStrings from "react-localization"
 import { locale } from "../../../../locale/locale"
 import { returnRateStyle } from "../../../../js/indexFunctions"
 import { getCookie } from "../../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+import "./SinglePvpResults.scss"
+
+let strings = new LocalizedStrings(locale)
 
 const SinglePvpResults = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -17,14 +20,14 @@ const SinglePvpResults = React.memo(function (props) {
                 NameA={props.value.Attacker.Name}
                 NameD={props.value.Defender.Name}
             />
-            <tbody className="tableBorder">
+            <tbody className="singlepvp-res__tbody">
                 <Line
                     title={strings.resultTable.rate}
-                    valueA={<div className={"rateSquare rateColor" + returnRateStyle(props.value.Attacker.Rate)[1]}>
+                    valueA={<div className={"singlepvp-res__rate rateColor" + returnRateStyle(props.value.Attacker.Rate)[1]}>
                         <i className="fas fa-trophy mr-1"></i>
                         {props.value.Attacker.Rate}
                     </div>}
-                    valueD={<div className={"rateSquare rateColor" + returnRateStyle(props.value.Defender.Rate)[1]}>
+                    valueD={<div className={"singlepvp-res__rate rateColor" + returnRateStyle(props.value.Defender.Rate)[1]}>
                         <i className="fas fa-trophy mr-1"></i>
                         {props.value.Defender.Rate}
                     </div>}
