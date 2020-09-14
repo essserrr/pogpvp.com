@@ -1,12 +1,13 @@
 import React from "react"
 import { returnVunStyle, effectivenessData } from "../../../../../../../../../../js/indexFunctions"
 
+import "./SingleMoveLine.scss"
 
 const SingleMoveLine = React.memo(function (props) {
     return (
         <>
             <td
-                className={"tableBorder text-center align-middle theadT fixFirstRow  m-0 p-0 px-1 typeColorC" + props.MoveType + " text"} >
+                className={"singlemove-line__first-cell text-center align-middle m-0 p-0 px-1 typeColorC" + props.MoveType + " text"} >
                 {props.name + props.star}
             </td>
             {effectivenessData[props.MoveType].map((elem, i) => {
@@ -14,8 +15,8 @@ const SingleMoveLine = React.memo(function (props) {
                 let rateStyle = returnVunStyle(multipl === "1.000" ? multipl : (1 / multipl).toFixed(3))
 
                 return <td key={props.line + "offensive" + i}
-                    className="tableBorder matrixColor font80 m-0 p-0 align-middle" >
-                    <div className={"rateSquare hover P  rateColor" + rateStyle} >
+                    className="singlemove-line__cell m-0 p-0 align-middle" >
+                    <div className={"singlemove-line__rate  rateColor" + rateStyle} >
                         {multipl}
                     </div>
                 </td >
