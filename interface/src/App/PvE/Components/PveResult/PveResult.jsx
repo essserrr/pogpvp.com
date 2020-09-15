@@ -1,7 +1,6 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-
 import URL from "../../../PvP/components/URL/URL"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
@@ -14,9 +13,10 @@ import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
 import { getCookie } from "../../../../js/getCookie"
 
+import "./PveResult.scss"
 
-let strings = new LocalizedStrings(locale);
-let pvestrings = new LocalizedStrings(pveLocale);
+let strings = new LocalizedStrings(locale)
+let pvestrings = new LocalizedStrings(pveLocale)
 
 class PveResult extends React.PureComponent {
     constructor(props) {
@@ -118,7 +118,7 @@ class PveResult extends React.PureComponent {
                         snapshot={this.state.breakpObj}
                     />}
                 />}
-                <div className="row m-0 justify-content-center results p-2" tabIndex="0" ref={this.pveres}>
+                <div className="pveresult row m-0 justify-content-center p-2" tabIndex="0" ref={this.pveres}>
                     <PveWillow
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}
@@ -150,15 +150,16 @@ class PveResult extends React.PureComponent {
                             active2={this.state.param === "dps"}
                         />
                     </div>}
-                    {!this.props.customResult && <div className={"col-12 col-sm-6 p-0 mb-3 text-center sliderGroup justify-content-center"} >
-                        <Button
-                            attr="unique"
-                            title={pvestrings.unique}
-                            class={this.state.filter.unique ?
-                                "col py-1 sliderButton active" : "col py-1 sliderButton"}
-                            onClick={this.onFilter}
-                        />
-                    </div>}
+                    {!this.props.customResult &&
+                        <div className={"pveresult__slider col-12 col-sm-6 p-0 mb-3 text-center justify-content-center"} >
+                            <Button
+                                attr="unique"
+                                title={pvestrings.unique}
+                                class={this.state.filter.unique ?
+                                    "col py-1 pveresult__slider-button active" : "col py-1 pveresult__slider-button"}
+                                onClick={this.onFilter}
+                            />
+                        </div>}
                     <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
                         <PveResListFilter
                             n={this.state.n}
