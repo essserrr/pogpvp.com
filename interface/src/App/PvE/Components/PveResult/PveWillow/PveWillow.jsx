@@ -35,12 +35,12 @@ class PveWillow extends React.PureComponent {
     render() {
         let boost = this.isBoosted()
         return (
-            <div className="col-12  d-flex justify-content-center m-0 p-0">
+            <div className="col-12 d-flex justify-content-center m-0 p-0">
                 <PokemonIconer
                     src="willow3"
                     folder="/"
-                    class={"willow p-2"} />
-                <div className="pvewillow__bubble-text posAbsB px-2 py-1 fBolder">
+                    class={"p-2"} />
+                <div className="pvewillow__bubble-text px-2 py-1">
                     {pvestrings.willow1}<span className="font-weight-bold">{this.props.snapshot.bossObj.Name}</span>
                     {". " + pvestrings.willow2}<span className="font-weight-bold">{tierHP[this.props.snapshot.bossObj.Tier]}</span>
                     {pvestrings.willow3}<span className="font-weight-bold">{(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180) + pvestrings.s}</span>
@@ -49,7 +49,7 @@ class PveWillow extends React.PureComponent {
                         {(this.props.snapshot.pveObj.Weather > 0) && <PokemonIconer
                             folder="/weather/"
                             src={this.props.snapshot.pveObj.Weather}
-                            class={"icon18"} />}
+                            class={"pvewillow__icon"} />}
                     </span>
                     {(this.props.snapshot.pveObj.Weather > 0) && <>.{pvestrings.willow6}: </>}
                     {(this.props.snapshot.pveObj.Weather > 0) && <span className="font-weight-bold">
