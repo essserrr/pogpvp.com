@@ -8,8 +8,9 @@ import { getCookie } from "../../../../js/getCookie"
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
+import "./Indicators.scss"
 
+let strings = new LocalizedStrings(locale)
 
 const Indicators = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -20,7 +21,7 @@ const Indicators = React.memo(function (props) {
         var damage2 = calculateDamage(props.chargeMove2.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))
     }
     return (
-        <div className="results p-2">
+        <div className="indicators p-2">
             <HPIndicator
                 what="HP"
                 value={props.HP}

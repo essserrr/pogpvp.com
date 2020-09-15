@@ -712,7 +712,7 @@ class MatrixPvp extends React.PureComponent {
                                     />
                                 </div>}
                             <div className="align-self-end order-1 order-lg-3 col px-0">
-                                <div className="order-2 order-lg-3 d-flex justify-content-center bd-highligh mx-0 px-0 col-12  mt-2 mt-lg-0" >
+                                <div className="order-2 order-lg-3 d-flex justify-content-center mx-0 px-0 col-12  mt-2 mt-lg-0" >
                                     <SubmitButton
                                         action="Let's Battle"
                                         label={strings.buttons.letsbattle}

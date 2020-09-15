@@ -1,12 +1,9 @@
-import React from "react";
+import React from "react"
+import LocalizedStrings from "react-localization"
+
 import Pokemon from "./components/Pokemon";
 import Result from "./components/Result";
 import SubmitButton from "./components/SubmitButton/SubmitButton"
-import {
-    calculateEffStat, pokemon, encodeQueryData, returnMovePool, calculateMaximizedStats, processHP,
-    processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
-} from "../../js/indexFunctions.js"
-import { getCookie } from "../../js/getCookie"
 import PvpReconstruction from "./components/PvpReconstruction/PvpReconstruction"
 import Errors from "./components/Errors/Errors"
 import Indicators from "./components/Indicators/Indicators"
@@ -15,11 +12,16 @@ import MagicBox from "./components/MagicBox/MagicBox"
 import Constructor from "./components/Constructor/Constructor"
 import Loader from "../PvpRating/Loader"
 
-import LocalizedStrings from "react-localization";
+import {
+    calculateEffStat, pokemon, encodeQueryData, returnMovePool, calculateMaximizedStats, processHP,
+    processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
+} from "../../js/indexFunctions.js"
+import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
+import "./SinglePvp.scss"
 
+let strings = new LocalizedStrings(locale)
 
 class SinglePvp extends React.PureComponent {
     constructor(props) {
@@ -667,7 +669,7 @@ class SinglePvp extends React.PureComponent {
                 />}
 
                 <div className="row justify-content-between mb-4"  >
-                    <div className="results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
+                    <div className="singlepvp__panel order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
                         <Pokemon
                             className="pokemon m-2"
                             value={this.state.attacker}
@@ -690,30 +692,32 @@ class SinglePvp extends React.PureComponent {
 
 
 
-                    <div className="overflowing order-3 order-lg-2 col-12 col-lg mt-0 mt-lg-2 px-0" >
+                    <div className="singlepvp__overflow order-3 order-lg-2 col-12 col-lg mt-0 mt-lg-2 px-0" >
                         <div className="row mx-2 h-100"  >
                             {(this.state.showResult || this.state.isError) &&
-                                <div className="align-self-start results col-12 order-3 order-lg-1  col-12 mt-3 mt-lg-0 p-2 ">
+                                <div className="singlepvp__panel align-self-start col-12 order-3 order-lg-1 col-12 mt-3 mt-lg-0 p-2 ">
                                     <div className="row justify-content-center mx-0"  >
                                         <div className="order-2 order-lg-1 col-12 ">
                                             {this.state.showResult &&
                                                 <Result value={this.state.result} isSingle={true} />}
-                                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                                            {this.state.isError &&
+                                                <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
                                         </div>
-                                        {this.state.url && this.state.showResult && <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >
-                                            <URL
-                                                label={strings.title.url}
-                                                for="pvpURLLabel"
-                                                tip={<>
-                                                    {strings.tips.url.first}
-                                                    < br />
-                                                    {strings.tips.url.second}
-                                                </>}
-                                                place="top"
-                                                message={strings.tips.url.message}
-                                                value={this.state.url}
-                                            />
-                                        </div>}
+                                        {this.state.url && this.state.showResult &&
+                                            <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >
+                                                <URL
+                                                    label={strings.title.url}
+                                                    for="pvpURLLabel"
+                                                    tip={<>
+                                                        {strings.tips.url.first}
+                                                        < br />
+                                                        {strings.tips.url.second}
+                                                    </>}
+                                                    place="top"
+                                                    message={strings.tips.url.message}
+                                                    value={this.state.url}
+                                                />
+                                            </div>}
                                     </div>
                                 </div>}
                             {this.state.loading &&
@@ -726,8 +730,8 @@ class SinglePvp extends React.PureComponent {
                                     />
                                 </div>}
                             <div className="align-self-end order-1 order-lg-3 col px-0">
-                                <div className="order-1 order-lg-3 d-flex justify-content-between bd-highligh mx-0 px-0 col-12  mt-2 mt-lg-0" >
-                                    <div className="bd-highlight">
+                                <div className="order-1 order-lg-3 d-flex justify-content-between mx-0 px-0 col-12  mt-2 mt-lg-0" >
+                                    <div>
                                         {(this.state.attacker.name && this.props.pokemonTable[this.state.attacker.name]) &&
                                             <Indicators
                                                 effSta={this.state.attacker.effSta}
@@ -745,7 +749,7 @@ class SinglePvp extends React.PureComponent {
                                                 dDefence={this.state.defender.effDef}
                                             />}
                                     </div>
-                                    <div className="bd-highlight align-self-center">
+                                    <div className="align-self-center">
                                         <SubmitButton
                                             label={strings.buttons.letsbattle}
                                             action="Let's Battle"
@@ -753,7 +757,7 @@ class SinglePvp extends React.PureComponent {
                                             class="btn btn-primary"
                                         />
                                     </div >
-                                    <div className="bd-highlight" >
+                                    <div>
                                         {(this.state.defender.name && this.props.pokemonTable[this.state.defender.name]) &&
                                             <Indicators
                                                 effSta={this.state.defender.effSta}
@@ -784,7 +788,7 @@ class SinglePvp extends React.PureComponent {
                             </div>
                         </div>
                     </div>
-                    <div className="results order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
+                    <div className="singlepvp__panel order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
                         <Pokemon
                             className="pokemon m-2"
                             value={this.state.defender}
