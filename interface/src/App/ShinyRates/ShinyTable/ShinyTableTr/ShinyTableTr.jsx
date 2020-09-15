@@ -6,6 +6,8 @@ import { Link } from "react-router-dom"
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
+import "./ShinyTableTr.scss"
+
 let strings = new LocalizedStrings(locale)
 
 const ShinyTableTr = React.memo(function (props) {
@@ -44,21 +46,21 @@ const ShinyTableTr = React.memo(function (props) {
     }
 
     return (
-        <tr className="animShiny">
+        <tr className="shinytable-tr">
             <th className="text-center align-middle  text-sm-left px-0" scope="row">
                 <PokemonIconer
                     src={props.pokTable[props.pok.Name].Number + (props.pokTable[props.pok.Name].Forme !== "" ? "-" + props.pokTable[props.pok.Name].Forme : "")}
-                    class={"icon36 mr-1 "} />
+                    class={"shinytable-tr__icon mr-1 "} />
 
-                <Link className="link"
+                <Link className="shinytable-tr__link"
                     title={strings.dexentr + props.pok.Name}
                     to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.pok.Name)}>
                     {props.pok.Name}
                 </Link>
             </th>
-            <td className="px-0 align-middle  fBolder" >{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</td>
-            <td className="px-0 align-middle  fBolder" >{"1/" + processRate(props.pok.Odds)}</td>
-            <td className="px-0 align-middle  fBolder" >{props.pok.Checks}</td>
+            <td className="px-0 align-middle" >{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</td>
+            <td className="px-0 align-middle" >{"1/" + processRate(props.pok.Odds)}</td>
+            <td className="px-0 align-middle" >{props.pok.Checks}</td>
         </tr>
     )
 
