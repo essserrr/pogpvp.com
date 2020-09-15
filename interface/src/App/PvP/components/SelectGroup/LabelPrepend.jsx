@@ -1,6 +1,7 @@
-import React from "react";
+import React from "react"
 import ReactTooltip from "react-tooltip"
 
+import "./LabelPrepend.scss"
 
 const LabelPrepend = React.memo(function (props) {
     return (
@@ -8,8 +9,8 @@ const LabelPrepend = React.memo(function (props) {
             <label
                 style={{ minWidth: props.labelWidth ? props.labelWidth : "100%" }}
                 className={(props.labelStyle) ?
-                    "modifiedBorder noselect input-group-text " + props.labelStyle :
-                    "modifiedBorder noselect input-group-text labelPrepend"}
+                    "label-prepend input-group-text " + props.labelStyle :
+                    "label-prepend label-prepend--colored input-group-text"}
                 id="selectGroup"
 
                 data-tip data-for={props.for}>

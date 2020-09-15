@@ -30,7 +30,6 @@ $slider-active: #b1dbe2;
 
 $primary-color: #eff0f1;
 $secondary-color: rgba(179, 179, 179, 0.28);
-$tertiary-color: rgb(255, 255, 255);
 //tips styles
 $tips-padding: 0.2rem;
 $tips-font: 12pt;
@@ -177,15 +176,7 @@ $tips-font: 12pt;
     @include backgrounds;
 }
 
-//global rules
-div :focus {
-    outline: none;
-}
-
-.ReactCollapse--collapse {
-    transition: height 200ms;
-}
-
+//////////////////////////////////////
 //fonts
 .font90 {
     font-size: 90% !important;
@@ -212,53 +203,6 @@ div :focus {
     font-weight: 450 !important;
 }
 
-//body
-body {
-    background: url("./background.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-
-    min-height: 100vh;
-    position: relative;
-    margin: 0;
-    padding-bottom: 30px; //height of the footer
-}
-
-@media (max-width: 1200px) {
-    body {
-        padding-bottom: 40px;
-    }
-}
-@media (max-width: 992px) {
-    body {
-        padding-bottom: 40px;
-    }
-}
-@media (max-width: 768px) {
-    body {
-        padding-bottom: 50px;
-    }
-}
-
-@media (max-width: 576px) {
-    body {
-        padding-bottom: 95px;
-    }
-}
-
-//tips style
-.infoTip {
-    max-width: 15rem !important;
-    font-size: $tips-font !important;
-    text-align: justify !important;
-    text-justify: inter-word !important;
-    color: #ffffff !important;
-    padding: $tips-padding !important;
-    font-weight: normal !important;
-}
-
 //border styles
 .modifiedBorder {
     border-width: 0.8px !important;
@@ -275,14 +219,6 @@ body {
     }
 }
 
-//overflow styles
-.btn.btn-primary {
-    background: linear-gradient(180deg, #45a6ff 0%, #0055fb 100%), #c4c4c4 !important;
-    border-radius: 5px !important;
-    border: none !important;
-    color: #ffffff !important;
-}
-
 //news style
 .singleNews {
     border-radius: 4px;
@@ -290,32 +226,6 @@ body {
     border: 1px solid #acacac;
 
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
-}
-
-//icons sizes
-.icon16 {
-    width: 16px;
-    height: 16px;
-}
-
-.icon18 {
-    width: 18px;
-    height: 18px;
-}
-
-.icon24 {
-    width: 24px;
-    height: 24px;
-}
-
-.icon36 {
-    width: 36px;
-    height: 36px;
-}
-
-.icon48 {
-    width: 48px;
-    height: 48px;
 }
 
 //advisor
@@ -382,25 +292,8 @@ body {
     display: block;
 }
 
-// other styles
-.clickable {
-    cursor: pointer;
-}
-
-.noselect {
-    user-select: none;
-}
-
-.fBolder {
-    font-weight: bolder;
-}
-
 .borderTop {
     border-top: 1px solid rgba(0, 0, 0, 0.295);
-}
-
-.labelPrepend {
-    background-color: $tertiary-color !important;
 }
 
 //rating style
@@ -470,4 +363,109 @@ body {
 
 .sliderGroup a:last-child {
     border: none !important;
+}
+
+////////////////////////////////////////////////////////////////
+
+//global rules
+div :focus {
+    outline: none;
+}
+
+.ReactCollapse--collapse {
+    transition: height 200ms;
+}
+
+//body
+body {
+    background: url("./background.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    padding-bottom: 30px; //height of the footer
+}
+
+@media (max-width: 1200px) {
+    body {
+        padding-bottom: 40px;
+    }
+}
+@media (max-width: 992px) {
+    body {
+        padding-bottom: 40px;
+    }
+}
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 50px;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-bottom: 95px;
+    }
+}
+
+//tips style
+.infoTip {
+    max-width: 15rem !important;
+    font-size: $tips-font !important;
+    text-align: justify !important;
+    text-justify: inter-word !important;
+    color: #ffffff !important;
+    padding: $tips-padding !important;
+    font-weight: normal !important;
+}
+
+//overflow styles
+.btn.btn-primary {
+    background: linear-gradient(180deg, #45a6ff 0%, #0055fb 100%), #c4c4c4 !important;
+    border-radius: 5px !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+//icons sizes
+.icon16 {
+    width: 16px;
+    height: 16px;
+}
+
+.icon18 {
+    width: 18px;
+    height: 18px;
+}
+
+.icon24 {
+    width: 24px;
+    height: 24px;
+}
+
+.icon36 {
+    width: 36px;
+    height: 36px;
+}
+
+.icon48 {
+    width: 48px;
+    height: 48px;
+}
+
+// other styles
+.clickable {
+    cursor: pointer;
+}
+
+.noselect {
+    user-select: none;
+}
+
+.fBolder {
+    font-weight: bolder;
 }

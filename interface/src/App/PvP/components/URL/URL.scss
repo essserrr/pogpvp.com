@@ -1,5 +1,7 @@
 $tips-padding: 0.2rem;
 $tips-font: 12pt;
+$tertiary-color: rgb(255, 255, 255);
+$slider-button: #59698d;
 
 .url__abstip {
     position: absolute;
@@ -16,4 +18,10 @@ $tips-font: 12pt;
     background-color: rgba(0, 0, 0, 0.836);
     color: white;
     border-radius: 3px;
+}
+
+.url__input {
+    background-color: $tertiary-color !important;
+    border-width: 0.8px !important;
+    border-color: $slider-button !important;
 }
