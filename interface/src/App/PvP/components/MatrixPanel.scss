@@ -1,0 +1,39 @@
+.matrix-panel {
+    width: 13em;
+    text-align: center;
+}
+
+.matrix-panel__button {
+    margin-top: 0rem !important;
+    width: fit-content !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    font-size: 0.75rem !important;
+}
+
+.matrix-panel__button-sm {
+    margin-top: 0rem !important;
+    width: 45% !important;
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    font-size: 0.65rem !important;
+}
+
+.matrix-panel__button-lg {
+    margin-top: 0rem !important;
+    max-width: fit-content !important;
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+
+    font-size: 0.75rem !important;
+}
+
+.matrix-panel--bolder {
+    font-weight: bolder;
+}
