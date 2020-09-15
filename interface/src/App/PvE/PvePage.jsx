@@ -18,7 +18,9 @@ import { extractRaidData, returnMovePool, returnPokList, separateMovebase, extra
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
+import "./PvePage.scss"
+
+let strings = new LocalizedStrings(locale)
 
 class PvePage extends React.Component {
     constructor(props) {
@@ -223,7 +225,7 @@ class PvePage extends React.Component {
                     header={strings.pageheaders.common}
                     descr={strings.pagedescriptions.common}
                 />
-                <div className=" container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
+                <div className="container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
                     <div className="row mx-0 mx-lg-2 justify-content-center">
                         {this.state.loading && <div className="col-12 p-0 mb-4"  >
                             <Loader
@@ -253,18 +255,20 @@ class PvePage extends React.Component {
                         </div>
 
 
-                        {!!getCookie("sid") && <div className="max1000 col-12 col-md-10 col-lg-6 results px-3 py-2" >
-                            <DropWithArrow
-                                onShow={this.onClick}
-                                show={this.state.showCollapse}
-                                title={strings.title.about}
-                                elem={<CommonDescr />}
+                        {((this.props.match.params.type === "custom" && !!getCookie("sid")) ||
+                            this.props.match.params.type === "common") &&
+                            <div className="pvepage__descr col-12 col-md-10 col-lg-6 px-3 py-2" >
+                                <DropWithArrow
+                                    onShow={this.onClick}
+                                    show={this.state.showCollapse}
+                                    title={strings.title.about}
+                                    elem={<CommonDescr />}
 
-                                faOpened="align-self-center fas fa-angle-up fa-lg "
-                                faClosed="align-self-center fas fa-angle-down fa-lg"
-                                outClass="row justify-content-between m-0 pb-1 clickable"
-                                inClass="row justify-content-center m-0" />
-                        </div>}
+                                    faOpened="align-self-center fas fa-angle-up fa-lg "
+                                    faClosed="align-self-center fas fa-angle-down fa-lg"
+                                    outClass="row justify-content-between m-0 pb-1 clickable"
+                                    inClass="row justify-content-center m-0" />
+                            </div>}
                     </div>
                 </div >
             </>
