@@ -5,8 +5,9 @@ import { pveLocale } from "../../../../../locale/pveLocale"
 import { calculateDamage, returnEffAtk, getPveMultiplier } from "../../../../../js/indexFunctions"
 import { getCookie } from "../../../../../js/getCookie"
 
-let pvestrings = new LocalizedStrings(pveLocale);
+import "./BreakpointsList.scss"
 
+let pvestrings = new LocalizedStrings(pveLocale)
 
 const BreakpointsList = React.memo(function (props) {
     pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -29,7 +30,7 @@ const BreakpointsList = React.memo(function (props) {
 
     return (
         arr.length > 0 && <>
-            <div className={"col-12 p-0 text-center font90 borderTop mt-1 pt-1"} >
+            <div className={"breakpoints-list col-12 p-0 text-center mt-1 pt-1"} >
                 {pvestrings.qbreak} <span className="font-weight-bold">{props.move.Title}</span>
             </div>
             {arr}

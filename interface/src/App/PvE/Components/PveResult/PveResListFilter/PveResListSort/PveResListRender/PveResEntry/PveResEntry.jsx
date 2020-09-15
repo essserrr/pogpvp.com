@@ -299,7 +299,7 @@ class PveResEntry extends React.PureComponent {
                             <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
                         </div>
                     </div>
-                    <div className={"col-12 p-0 " + (this.state.showCollapse ? "borderTop" : "")}>
+                    <div className={"col-12 p-0 " + (this.state.showCollapse ? "pve-resentry__card-separator" : "")}>
                         <UnmountClosed isOpened={this.state.showCollapse}>
                             <div className="row m-0  mt-1">
 

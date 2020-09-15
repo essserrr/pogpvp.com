@@ -15,6 +15,8 @@ import { ReactComponent as Dust } from "../../../../../icons/stardust.svg"
 import { ReactComponent as Candy } from "../../../../../icons/candy.svg"
 import { pveLocale } from "../../../../../locale/pveLocale"
 
+import "./Breakpoints.scss"
+
 let pveStrings = new LocalizedStrings(pveLocale);
 
 class Breakpoints extends React.PureComponent {
@@ -296,11 +298,11 @@ class Breakpoints extends React.PureComponent {
                 </div>
 
 
-                <div className="col-12 text-left borderTop p-0 pt-2 mt-1" >
+                <div className="breakpoints-separator col-12 text-left p-0 pt-2 mt-1" >
                     <Counter
                         value={dustCost[(Number(this.state.attackerObj.Lvl) / 0.5) - 1] - dustCost[(Number(this.props.snapshot.attackerObj.Lvl) / 0.5) - 1]}
                         base={999999999}
-                        name={<Dust className="icon24 mr-1" />}
+                        name={<Dust className="breakpoints__icon mr-1" />}
                         colorForvalue={true}
                     />
                 </div>
@@ -308,7 +310,7 @@ class Breakpoints extends React.PureComponent {
                     <Counter
                         value={candyCost[(Number(this.state.attackerObj.Lvl) / 0.5) - 1] - candyCost[(Number(this.props.snapshot.attackerObj.Lvl) / 0.5) - 1]}
                         base={999999999}
-                        name={<Candy className="icon24 mr-1" />}
+                        name={<Candy className="breakpoints__icon mr-1" />}
                         colorForvalue={true}
                     />
                 </div>
