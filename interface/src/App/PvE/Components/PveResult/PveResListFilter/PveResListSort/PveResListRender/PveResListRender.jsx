@@ -43,12 +43,14 @@ class PveResListRender extends React.Component {
                 )}
 
                 {isNextPage &&
-                    <SubmitButton
-                        action="Load more"
-                        label={strings.buttons.loadmore}
-                        onSubmit={this.props.loadMore}
-                        class="submit-button--lg btn btn-primary btn-sm"
-                    />}
+                    <div className="row mx-0 justify-content-center mt-3">
+                        <SubmitButton
+                            action="Load more"
+                            label={strings.buttons.loadmore}
+                            onSubmit={this.props.loadMore}
+                            class="submit-button--lg btn btn-primary btn-sm"
+                        />
+                    </div>}
             </>
         );
     }
