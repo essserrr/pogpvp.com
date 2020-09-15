@@ -86,7 +86,7 @@ class ShBrokerSelectPanel extends React.PureComponent {
 
                 {this.props.onImport && <div className="row  justify-content-center align-items-center mx-0 mt-3" >
                     <SubmitButton
-                        class="longButton btn btn-primary btn-sm mx-0"
+                        class="submit-button--lg btn btn-primary btn-sm mx-0"
                         attr={this.props.attr}
                         label={strings.impExp}
                         onSubmit={this.props.onTurnOnImport} />

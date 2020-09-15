@@ -131,12 +131,12 @@ class PartyBox extends React.PureComponent {
                 <div className="col-12 px-0 mt-3">
                     <div className="row  justify-content-center align-items-center mx-0" >
                         <SubmitButton
-                            class="longButton btn btn-primary btn-sm mx-3"
+                            class="submit-button--lg btn btn-primary btn-sm mx-3"
                             attr={this.props.attr}
                             label={strings.userpok.savegroup}
                             onSubmit={this.onGroupAdd} />
                         <SubmitButton
-                            class="longButton btn btn-primary btn-sm mx-3"
+                            class="submit-button--lg btn btn-primary btn-sm mx-3"
                             attr={this.props.attr}
                             label={strings.userpok.deletegroup}
                             onSubmit={this.onGroupDelete} />

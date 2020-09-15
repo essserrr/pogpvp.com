@@ -47,7 +47,7 @@ class PveResListRender extends React.Component {
                         action="Load more"
                         label={strings.buttons.loadmore}
                         onSubmit={this.props.loadMore}
-                        class="longButton btn btn-primary btn-sm"
+                        class="submit-button--lg btn btn-primary btn-sm"
                     />}
             </>
         );

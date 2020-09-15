@@ -311,7 +311,7 @@ class PveResEntry extends React.PureComponent {
                                         label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
                                         action="Precision"
                                         onSubmit={this.rerunWithPrecision}
-                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
+                                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
                                     />
                                 </div>
                                 {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"break"}>
@@ -319,7 +319,7 @@ class PveResEntry extends React.PureComponent {
                                         label={pveStrings.break}
                                         action="Breakpoints"
                                         onSubmit={this.defineBreakpoints}
-                                        class="longButton fix btn btn-primary btn-sm mt-0  mx-0"
+                                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
                                     />
                                 </div>}
                                 {this.state.colElement}

@@ -444,7 +444,7 @@ class MatrixPanel extends React.PureComponent {
                                 onClick={this.onClick}
                             />
                             <SubmitButton
-                                class="matrix-panel__button btn btn-primary btn-sm p-0 m-0  mx-1"
+                                class="submit-button btn btn-primary btn-sm p-0 m-0  mx-1"
                                 attr={this.props.attr}
                                 action={"Add pokemon"}
                                 label={strings.buttons.addpokemon}
@@ -501,7 +501,7 @@ class MatrixPanel extends React.PureComponent {
                 />
 
                 <SubmitButton
-                    class="matrix-panel__button btn btn-primary btn-sm mt-0  mx-0"
+                    class="submit-button btn btn-primary btn-sm mt-0  mx-0"
                     attr={this.props.attr}
                     action="Add pokemon"
                     label={strings.buttons.addpokemon}
@@ -528,7 +528,7 @@ class MatrixPanel extends React.PureComponent {
                 <div className="row justify-content-around m-0 pt-3" >
 
                     <SubmitButton
-                        class="matrix-panel__button-sm btn btn-primary btn-sm mx-0"
+                        class="submit-button--sm btn btn-primary btn-sm mx-0"
                         attr={this.props.attr}
                         stat={"showSavePanel"}
                         action="Save"
@@ -538,7 +538,7 @@ class MatrixPanel extends React.PureComponent {
 
 
                     <SubmitButton
-                        class="matrix-panel__button-sm btn btn-primary btn-sm mx-0"
+                        class="submit-button--sm btn btn-primary btn-sm mx-0"
                         attr={this.props.attr}
                         action={"Delete"}
                         label={strings.buttons.delete}
@@ -546,7 +546,7 @@ class MatrixPanel extends React.PureComponent {
                 </div>
                 <div className="row justify-content-center m-0 pt-2" >
                     <SubmitButton
-                        class="matrix-panel__button-lg btn btn-primary btn-sm mx-0"
+                        class="submit-button--lg btn btn-primary btn-sm mx-0"
                         attr={this.props.attr}
                         stat="showImportExportPanel"
                         action={"Import/Export"}
@@ -626,7 +626,7 @@ class MatrixPanel extends React.PureComponent {
                 {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
 
                     <SubmitButton
-                        class="matrix-panel__button btn btn-primary btn-sm mx-0 pl-1 col-8"
+                        class="submit-button btn btn-primary btn-sm mx-0 pl-1 col-8"
                         action="Advisor"
                         disabled={this.props.advDisabled}
 

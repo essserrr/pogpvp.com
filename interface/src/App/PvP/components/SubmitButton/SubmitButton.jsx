@@ -1,4 +1,6 @@
-import React from "react";
+import React from "react"
+
+import "./SubmitButton.scss"
 
 const SubmitButton = React.memo(function (props) {
     return (

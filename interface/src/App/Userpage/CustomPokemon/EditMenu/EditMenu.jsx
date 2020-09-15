@@ -52,7 +52,7 @@ class EditMenu extends React.PureComponent {
                         />
                     </div>}
                 <SubmitButton
-                    class="longButton btn btn-primary btn-sm mx-1 my-2"
+                    class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"
                     attr={this.props.attr}
                     label={strings.moveconstr.changes}
                     onSubmit={this.props.onPokemonEditSubmit} />

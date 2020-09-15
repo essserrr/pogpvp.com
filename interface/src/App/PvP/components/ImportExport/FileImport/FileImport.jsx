@@ -127,7 +127,7 @@ class FileImport extends React.PureComponent {
                         <SubmitButton
                             label={strings.import.read}
                             onSubmit={this.onSubmit}
-                            class="matrixButton btn btn-primary btn-sm p-0 m-0"
+                            class="submit-button btn btn-primary btn-sm p-0 m-0"
                         />
                     </div>
                 </form>

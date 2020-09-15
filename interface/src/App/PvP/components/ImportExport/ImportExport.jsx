@@ -212,7 +212,7 @@ class ImportExport extends React.PureComponent {
                     <SubmitButton
                         label={strings.buttons.copy}
                         onSubmit={this.onCopy}
-                        class="imp-exp__button-sm btn btn-primary btn-sm p-0 m-0"
+                        class="submit-button--sm btn btn-primary btn-sm p-0 m-0"
                     />
                 </div>
 
@@ -228,7 +228,7 @@ class ImportExport extends React.PureComponent {
                         label={strings.buttons.imp}
                         attr={this.props.attr}
                         onSubmit={this.onSubmit}
-                        class="imp-exp__button btn btn-primary btn-sm p-0 m-0"
+                        class="submit-button btn btn-primary btn-sm p-0 m-0"
                     />
                 </div>
             </>

@@ -413,7 +413,7 @@ class RedactPokemon extends React.PureComponent {
                             onClick={this.onClick}
                         />
                         <SubmitButton
-                            class="matrixButton btn btn-primary btn-sm p-0 m-0  mx-1"
+                            class="submit-button btn btn-primary btn-sm p-0 m-0  mx-1"
                             attr={this.props.redact.attr}
                             action={"Add pokemon"}
                             label={strings.buttons.submitchange}

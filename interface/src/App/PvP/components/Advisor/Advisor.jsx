@@ -115,7 +115,7 @@ class Advisor extends React.PureComponent {
                             action="Load more"
                             label={strings.buttons.loadmore}
                             onSubmit={this.loadMore}
-                            class="advisor__button btn btn-primary btn-sm"
+                            class="submit-button--lg btn btn-primary btn-sm"
                         />
                     </div>}
             </div>

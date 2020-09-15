@@ -352,7 +352,7 @@ class Constructor extends React.PureComponent {
                     />
                 </div>
                 <SubmitButton
-                    class="constructor__submit-button btn btn-primary"
+                    class="submit-button--lg btn btn-primary"
                     label={strings.constructor.submit}
                     action="Let's Battle"
                     onSubmit={this.onSubmit}
