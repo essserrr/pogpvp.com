@@ -3,6 +3,7 @@ import React from "react"
 import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry"
 import PokemonIconer from "../PokemonIconer/PokemonIconer"
 
+import "./MatrixPokemonList.scss"
 
 class MatrixPokemonList extends React.PureComponent {
 
@@ -23,7 +24,7 @@ class MatrixPokemonList extends React.PureComponent {
                 thead={<><PokemonIconer
                     src={this.props.pokemonTable[elem.name].Number +
                         (this.props.pokemonTable[elem.name].Forme !== "" ? "-" + this.props.pokemonTable[elem.name].Forme : "")}
-                    class={"icon24 mr-1"}
+                    class={"matr-pok-list__icon mr-1"}
                     for={""}
                 />{elem.name}</>}
                 body={
@@ -37,7 +38,7 @@ class MatrixPokemonList extends React.PureComponent {
 
     render() {
         return (
-            <div className="overflowingy mb-1 px-1" style={{ maxHeight: "150px" }}>
+            <div className="matr-pok-list mb-1 px-1">
                 {this.createListToDisplay()}
             </div>
         )
