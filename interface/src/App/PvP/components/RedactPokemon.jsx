@@ -396,7 +396,7 @@ class RedactPokemon extends React.PureComponent {
                 element={
                     <div className="row justify-content-center">
                         <Pokemon
-                            className="pokemon large m-1 mb-3 col-12"
+                            className="large m-1 mb-3 col-12"
 
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.moveTable}

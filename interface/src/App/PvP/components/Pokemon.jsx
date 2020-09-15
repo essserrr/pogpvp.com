@@ -14,7 +14,9 @@ import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+import "./Pokemon.scss"
+
+let strings = new LocalizedStrings(locale)
 
 class Pokemon extends React.PureComponent {
     constructor(props) {
@@ -50,7 +52,7 @@ class Pokemon extends React.PureComponent {
 
     render() {
         return (
-            <div className={this.props.className}>
+            <div className={`pokemon ${this.props.className ? this.props.className : ""}`}>
                 {(this.props.showMenu) && <MagicBox
                     title={strings.title.selectMove}
                     onClick={this.props.onClick}
