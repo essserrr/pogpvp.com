@@ -1,8 +1,5 @@
-import React from "react";
-import {
-    returnMovePool, pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV
-} from "../../js/indexFunctions.js"
-import { getCookie } from "../../js/getCookie"
+import React from "react"
+import LocalizedStrings from "react-localization"
 
 import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
@@ -10,11 +7,15 @@ import Errors from "../PvP/components/Errors/Errors"
 import PveResult from "./Components/PveResult/PveResult"
 import Loader from "../PvpRating/Loader"
 
-
-import LocalizedStrings from "react-localization";
+import {
+    returnMovePool, pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV
+} from "../../js/indexFunctions.js"
+import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
-let strings = new LocalizedStrings(locale);
+import "./CommonPve.scss"
+
+let strings = new LocalizedStrings(locale)
 
 
 class CommonPve extends React.PureComponent {
@@ -296,7 +297,7 @@ class CommonPve extends React.PureComponent {
         return (
             < >
                 <div className="row justify-content-center m-0 mb-4"  >
-                    <div className="col-12 col-md-10 col-lg-6 max1000 results py-1 py-sm-2 px-0 px-sm-1" >
+                    <div className="commonpve__settings-panel col-12 col-md-10 col-lg-6 py-1 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -311,8 +312,9 @@ class CommonPve extends React.PureComponent {
                         />
 
                     </div>
-                    {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
-                        <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
+                    {this.state.isError &&
+                        <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
+                            <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
                     <div className="col-12 d-flex justify-content-center p-0 my-1" >
                         <SubmitButton
                             label={strings.buttons.calculate}
@@ -333,7 +335,7 @@ class CommonPve extends React.PureComponent {
                         </div>}
 
                     {this.state.showResult && this.state.result && this.state.result.length > 0 &&
-                        <div className="max1000 col-12 col-md-10 col-lg-6 justify-content-center p-0" >
+                        <div className="commonpve__results-panel col-12 col-md-10 col-lg-6 justify-content-center p-0" >
                             <PveResult
                                 date={this.state.date}
                                 result={this.state.result}
