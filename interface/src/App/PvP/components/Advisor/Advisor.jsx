@@ -71,13 +71,13 @@ class Advisor extends React.PureComponent {
 
     render() {
         return (
-            <div className="results max600 px-2 py-2 col-12 ">
-                <div tabIndex="0" ref={this.advisor} className="col-12  d-flex justify-content-center p-0">
+            <div className="advisor px-2 py-2 col-12 ">
+                <div tabIndex="0" ref={this.advisor} className="col-12 d-flex justify-content-center p-0">
                     <PokemonIconer
                         src="willow3"
                         folder="/"
-                        class={"willow p-2"} />
-                    <div className="advisor__willow--bubble-text posAbsB px-2 py-1 fBolder">
+                        class={"p-2"} />
+                    <div className="advisor__willow--bubble-text px-2 py-1">
                         {strings.advisor.willow}
                     </div>
                 </div>
@@ -115,7 +115,7 @@ class Advisor extends React.PureComponent {
                             action="Load more"
                             label={strings.buttons.loadmore}
                             onSubmit={this.loadMore}
-                            class="longButton btn btn-primary btn-sm"
+                            class="advisor__button btn btn-primary btn-sm"
                         />
                     </div>}
             </div>
