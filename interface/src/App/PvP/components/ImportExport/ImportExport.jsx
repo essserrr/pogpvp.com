@@ -8,6 +8,8 @@ import SubmitButton from "../SubmitButton/SubmitButton"
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
+import "./ImportExport.scss"
+
 let strings = new LocalizedStrings(locale)
 
 class ImportExport extends React.PureComponent {
@@ -201,7 +203,8 @@ class ImportExport extends React.PureComponent {
                     <div className="col px-0 mr-1">
                         {strings.tips.impExp}
                     </div>
-                    <i data-tip data-for={"imp-exp" + this.props.attr} className="align-self-center fas fa-info-circle fa-lg ml-4"></i>
+                    <i data-tip data-for={"imp-exp" + this.props.attr}
+                        className="align-self-center fas fa-info-circle fa-lg ml-4"></i>
                 </div>
 
 
@@ -209,7 +212,7 @@ class ImportExport extends React.PureComponent {
                     <SubmitButton
                         label={strings.buttons.copy}
                         onSubmit={this.onCopy}
-                        class="maximizerButton btn btn-primary btn-sm p-0 m-0"
+                        class="imp-exp__button-sm btn btn-primary btn-sm p-0 m-0"
                     />
                 </div>
 
@@ -225,7 +228,7 @@ class ImportExport extends React.PureComponent {
                         label={strings.buttons.imp}
                         attr={this.props.attr}
                         onSubmit={this.onSubmit}
-                        class="matrixButton btn btn-primary btn-sm p-0 m-0"
+                        class="imp-exp__button btn btn-primary btn-sm p-0 m-0"
                     />
                 </div>
             </>
