@@ -24,7 +24,7 @@ import {
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
-
+import "./PvpPage.scss"
 
 let strings = new LocalizedStrings(locale);
 
@@ -241,9 +241,9 @@ class PvpPage extends React.Component {
                     descr={this.props.match.params.type === "matrix" ? strings.pagedescriptions.matrix :
                         strings.pagedescriptions.single}
                 />
-                <div className=" container-fluid pt-2 pt-md-2 mb-5">
+                <div className="container-fluid pt-2 pt-md-2 mb-5">
                     <div className="row justify-content-center px-1">
-                        <div className="col-12 d-flex results max650 p-2  m-0">
+                        <div className="pvppage__upper-panel col-12 d-flex p-2 m-0">
                             <div className="col align-self-center m-0 p-0">
                                 <SelectGroup
                                     name="league"
@@ -292,7 +292,7 @@ class PvpPage extends React.Component {
                                 innerClass="col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"
                             />
                         </div>}
-                        <div className="col-12 max1200 m-0 p-0">
+                        <div className="pvppage__main-panel col-12 m-0 p-0">
                             {(this.state.isLoaded && (this.props.match.params.type === "single")) &&
                                 <SinglePvp
                                     userPokemon={this.props.customPokemon}
@@ -311,7 +311,7 @@ class PvpPage extends React.Component {
                         </div>
                     </div>
                     <div className="row justify-content-center px-1">
-                        <div className="col-12 max1200-1 results p-0 px-3 py-2" >
+                        <div className="pvppage__descr-panel col-12 p-0 px-3 py-2" >
                             <DropWithArrow
                                 onShow={this.onClick}
                                 show={this.state.showCollapse}
