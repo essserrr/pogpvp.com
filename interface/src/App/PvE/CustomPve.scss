@@ -1,0 +1,13 @@
+$primary-color: #eff0f1;
+
+.custompve__settings-panel {
+    background-color: $primary-color;
+    border-radius: 4px;
+    border: 0.5px solid rgba(0, 0, 0, 0.2);
+    height: fit-content;
+    max-width: 1000px !important;
+}
+
+.custompve__results-panel {
+    max-width: 1000px !important;
+}
