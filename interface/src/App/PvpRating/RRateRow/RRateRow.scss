@@ -1,0 +1,45 @@
+$secondary-color: rgba(179, 179, 179, 0.28);
+
+.rating-raterow {
+    background-color: $secondary-color;
+    border-radius: 5px;
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
+    height: fit-content;
+
+    font-weight: bolder;
+
+    cursor: pointer;
+
+    -webkit-transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.rating-raterow::after {
+    content: "";
+    border-radius: 5px;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    -webkit-transition: all 0.15s linear;
+    transition: all 0.15s linear;
+}
+
+.rating-raterow:hover {
+    -webkit-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
+}
+
+.rating-raterow:hover::after {
+    opacity: 1;
+    display: block;
+}
+
+.rating-raterow__icon {
+    width: 24px;
+    height: 24px;
+}
