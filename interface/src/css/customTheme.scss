@@ -24,7 +24,6 @@ $rating2: rgb(68, 202, 157);
 $rating-1: rgb(230, 141, 82);
 $rating-2: rgb(224, 86, 32);
 //interface color
-$link-color: #0039e6;
 $slider-button: #59698d;
 $slider-active: #b1dbe2;
 
@@ -346,6 +345,10 @@ $tips-font: 12pt;
     border: none !important;
 }
 
+.noselect {
+    user-select: none;
+}
+
 ////////////////////////////////////////////////////////////////
 
 //global rules
@@ -355,6 +358,13 @@ div :focus {
 
 .ReactCollapse--collapse {
     transition: height 200ms;
+}
+
+.btn.btn-primary {
+    background: linear-gradient(180deg, #45a6ff 0%, #0055fb 100%), #c4c4c4 !important;
+    border-radius: 5px !important;
+    border: none !important;
+    color: #ffffff !important;
 }
 
 //body
@@ -404,14 +414,6 @@ body {
     font-weight: normal !important;
 }
 
-//overflow styles
-.btn.btn-primary {
-    background: linear-gradient(180deg, #45a6ff 0%, #0055fb 100%), #c4c4c4 !important;
-    border-radius: 5px !important;
-    border: none !important;
-    color: #ffffff !important;
-}
-
 //icons sizes
 .icon16 {
     width: 16px;
@@ -441,10 +443,6 @@ body {
 // other styles
 .clickable {
     cursor: pointer;
-}
-
-.noselect {
-    user-select: none;
 }
 
 .fBolder {
