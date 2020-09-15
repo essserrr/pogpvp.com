@@ -26,26 +26,27 @@ const MoveRow = React.memo(function (props) {
     }
     return (
         <>
-            <tr className="animShiny">
-                <th className="align-middle text-center px-sm-1 max110 " scope="row">
+            <tr className="moverow">
+                <th className="moverow--fixwidth align-middle text-center px-sm-1 " scope="row">
                     <Link title={strings.dexentr + props.value.Title}
-                        className="link"
+                        className="moverow__link"
                         to={(navigator.userAgent === "ReactSnap") ? "/" : "/movedex/id/" + encodeURIComponent(props.value.Title)}>
                         {props.value.Title}
                     </Link>
                 </th>
                 <td className="align-middle px-0 " >
                     <Type
-                        class={"mx-1 icon18"}
+                        class={"moverow__icon mx-1"}
                         code={props.value.MoveType}
-                    /></td>
-                <td className="moverow--separate-line align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.Damage}</td>
-                <td className="align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.Energy}</td>
-                <td className="align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.Cooldown / 1000}</td>
-                <td className="moverow--separate-line align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.PvpDamage}</td>
-                <td className="align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.PvpEnergy}</td>
-                <td className="align-middle fBolder px-0 px-sm-1 px-md-3 " >{props.value.PvpDurationSeconds / 0.5}</td>
-                <td className="align-middle fBolder px-sm-1 max110" >{effect}</td>
+                    />
+                </td>
+                <td className="moverow--separate-line align-middle px-0 px-sm-1 px-md-3 " >{props.value.Damage}</td>
+                <td className="align-middle px-0 px-sm-1 px-md-3 " >{props.value.Energy}</td>
+                <td className="align-middle px-0 px-sm-1 px-md-3 " >{props.value.Cooldown / 1000}</td>
+                <td className="moverow--separate-line align-middle px-0 px-sm-1 px-md-3 " >{props.value.PvpDamage}</td>
+                <td className="align-middle px-0 px-sm-1 px-md-3 " >{props.value.PvpEnergy}</td>
+                <td className="align-middle px-0 px-sm-1 px-md-3 " >{props.value.PvpDurationSeconds / 0.5}</td>
+                <td className="moverow--fixwidth align-middle px-sm-1" >{effect}</td>
             </tr>
         </>
     )
