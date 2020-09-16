@@ -2,14 +2,16 @@ import React from "react"
 import PokemonIconer from "../../../../../../../../PvP/components/PokemonIconer/PokemonIconer"
 import { ReactComponent as Shadow } from "../../../../../../../../../icons/shadow.svg"
 
+import "./NumberAndIcon.scss"
+
 const NumberAndIcon = React.memo(function (props) {
     return (
-        <div className="col-auto p-0 posRel">
-            {props.index && <span className="bigFont align-self-center ">{props.index}</span>}
-            {props.isShadow && <Shadow className="posAbs icon18" />}
+        <div className="number-and-icon col-auto p-0">
+            {props.index && <span className="align-self-center ">{props.index}</span>}
+            {props.isShadow && <Shadow className="number-and-icon__shadow" />}
             <PokemonIconer
                 src={props.pok.Number + (props.pok.Forme !== "" ? "-" + props.pok.Forme : "")}
-                class={"icon48 mx-1"} />
+                class={"number-and-icon__pok mx-1"} />
         </div>
     )
 });
