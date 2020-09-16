@@ -1,16 +1,14 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
-import ReactTooltip from "react-tooltip"
 
-import PokemonIconer from "../../../../../../PokemonIconer/PokemonIconer"
 import Result from "../../../../../../Result"
 import Type from "../../../../../../CpAndTypes/Type"
 import TableBody from "./TableBody/TableBody"
 import TypingThead from "./TypingThead/TypingThead"
 import SingleMoveLine from "./SingleMoveLine/SingleMoveLine"
 import SinglePokLine from "./SinglePokLine/SinglePokLine"
+import ZeroPokemon from "./ZeroPokemon/ZeroPokemon"
 
-import { ReactComponent as Shadow } from "../../../../../../../../../icons/shadow.svg"
 import { locale } from "../../../../../../../../../locale/locale"
 import { effectivenessData } from "../../../../../../../../../js/indexFunctions"
 import { getCookie } from "../../../../../../../../../js/getCookie"
@@ -132,23 +130,14 @@ class AdvisorPanelBody extends React.PureComponent {
         //bad matchups
         let zerosList = this.props.list[this.props.i].zeros.map((elem, i) => {
             let pok = this.props.rightPanel.listForBattle[elem]
-            return <div className="posRel" key={pok.name + i + "zero"}>
-                {String(pok.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
-                <PokemonIconer
-                    src={this.props.pokemonTable[pok.name].Number + (this.props.pokemonTable[pok.name].Forme !== "" ?
-                        "-" + this.props.pokemonTable[pok.name].Forme : "")}
-                    class={"icon48 mr-2"}
-                    for={pok.name + i + "zero"}
-                />
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={pok.name + i + "zero"} effect="solid"
-                    place={"right"}
-                    multiline={true}
-                >
-                    {pok.name + (pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
-                </ReactTooltip>
-            </div>
+            return <ZeroPokemon
+                key={pok.name + i + "zero"}
+                name={pok.name}
+                for={pok.name + i + "zero"}
+                shadow={pok.IsShadow === "true" ? strings.options.type.shadow : ""}
+                src={this.props.pokemonTable[pok.name].Number + (this.props.pokemonTable[pok.name].Forme !== "" ?
+                    "-" + this.props.pokemonTable[pok.name].Forme : "")}
+            />
         })
         return zerosList.length > 0 ? zerosList : strings.options.moveSelect.none
     }

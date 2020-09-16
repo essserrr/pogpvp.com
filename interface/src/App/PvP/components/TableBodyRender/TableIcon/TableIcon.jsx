@@ -17,12 +17,12 @@ const TableIcon = React.memo(function (props) {
 
     return (
         <div className="row m-0 justify-content-center ">
-            <div className="table-icon" >
-                {String(props.pok.IsShadow) === "true" && <Shadow className="posAbs icon16" />}
+            <div className="table-icon__container" >
+                {String(props.pok.IsShadow) === "true" && <Shadow className="table-icon__shadow" />}
                 <PokemonIconer
                     src={props.pokemonTable[props.pok.name].Number +
                         (props.pokemonTable[props.pok.name].Forme !== "" ? "-" + props.pokemonTable[props.pok.name].Forme : "")}
-                    class={"icon36"}
+                    class={"table-icon__pok"}
                     for={props.pok.name + props.j + props.letter}
                 />
                 <ReactTooltip
