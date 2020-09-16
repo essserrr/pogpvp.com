@@ -17,6 +17,7 @@ import { dexLocale } from "../../../locale/dexLocale"
 import { getCookie } from "../../../js/getCookie"
 import DoubleSlider from "./DoubleSlider/DoubleSlider"
 
+import "./MoveCard.scss"
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -91,8 +92,8 @@ class MoveCard extends React.Component {
                     descr={this.props.match.params.id + strings.mdsdescr}
                 />
                 <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="singleNews col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
+                        <div className="movecard col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
@@ -100,41 +101,43 @@ class MoveCard extends React.Component {
                                     locale={strings.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
-                            {this.state.showResult && this.state.move && <>
-                                <MoveCardTitle move={this.state.move} />
-                                <div className="row m-0 p-0">
-                                    {this.state.move.MoveCategory === "Charge Move" ?
-                                        <ChargeMove move={this.state.move} /> :
-                                        <QuickMove move={this.state.move} />}
-                                </div>
-
-                                <DoubleSlider
-                                    onClick={this.onClick}
-
-                                    attr1="eff"
-                                    title1={strings.vunlist}
-                                    active1={this.state.active.eff}
-
-                                    attr2="use"
-                                    title2={strings.used}
-                                    active2={this.state.active.use}
-                                />
-                                <UnmountClosed isOpened={this.state.active.eff}>
-                                    <div className={"row m-0"}>
-                                        <EffTable
-                                            type={[this.state.move.MoveType]}
-                                            reverse={true}
-                                        />
+                            {this.state.isError &&
+                                <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                            {this.state.showResult && this.state.move &&
+                                <>
+                                    <MoveCardTitle move={this.state.move} />
+                                    <div className="row m-0 p-0">
+                                        {this.state.move.MoveCategory === "Charge Move" ?
+                                            <ChargeMove move={this.state.move} /> :
+                                            <QuickMove move={this.state.move} />}
                                     </div>
-                                </UnmountClosed>
-                                <UnmountClosed isOpened={this.state.active.use}>
-                                    <UsesList
-                                        move={this.state.move}
-                                        pokTable={this.state.pokTable}
+
+                                    <DoubleSlider
+                                        onClick={this.onClick}
+
+                                        attr1="eff"
+                                        title1={strings.vunlist}
+                                        active1={this.state.active.eff}
+
+                                        attr2="use"
+                                        title2={strings.used}
+                                        active2={this.state.active.use}
                                     />
-                                </UnmountClosed>
-                            </>}
+                                    <UnmountClosed isOpened={this.state.active.eff}>
+                                        <div className={"row m-0"}>
+                                            <EffTable
+                                                type={[this.state.move.MoveType]}
+                                                reverse={true}
+                                            />
+                                        </div>
+                                    </UnmountClosed>
+                                    <UnmountClosed isOpened={this.state.active.use}>
+                                        <UsesList
+                                            move={this.state.move}
+                                            pokTable={this.state.pokTable}
+                                        />
+                                    </UnmountClosed>
+                                </>}
                         </div>
                     </div>
                 </div >
