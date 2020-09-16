@@ -35,14 +35,16 @@ const UserPokCard = React.memo(function (props) {
                     multiline={true} >
                     {props.Name}
                 </ReactTooltip>
-                <div data-tip data-for={props.index + props.attr + props.Name} className="col-auto px-0 posRel">
+
+                <div data-tip data-for={props.index + props.attr + props.Name} className="upokcard__container col-auto px-0">
                     {props.pokemonTable[props.Name] && <PokemonIconer
                         src={props.pokemonTable[props.Name].Number +
                             (props.pokemonTable[props.Name].Forme !== "" ? "-" + props.pokemonTable[props.Name].Forme : "")}
-                        class={"icon48 mr-1"}
+                        class={"upokcard__pok mr-1"}
                     />}
-                    {String(props.IsShadow) === "true" && <Shadow className="posAbs icon18" style={{ right: "-3px" }} />}
+                    {String(props.IsShadow) === "true" && <Shadow className="upokcard__shadow" />}
                 </div>
+
                 <div className="col px-2">
                     <div>
                         {props.forCustomPve && `#${props.index + 1} `}

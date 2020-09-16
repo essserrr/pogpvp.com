@@ -19,13 +19,13 @@ const UserShinyCard = React.memo(function (props) {
                 multiline={true} >
                 {props.value.Name}
             </ReactTooltip>
-            <div data-tip data-for={props.attr + props.value.Name} className="col-auto p-0 posRel">
+            <div data-tip data-for={props.attr + props.value.Name} className="ushinycard__container col-auto p-0">
                 {props.pokemonTable[props.value.Name] && <PokemonIconer
                     src={props.pokemonTable[props.value.Name].Number +
                         (props.pokemonTable[props.value.Name].Forme !== "" ? "-" + props.pokemonTable[props.value.Name].Forme : "")}
-                    class={"icon36 mr-1"}
+                    class={"ushinycard__pok mr-1"}
                 />}
-                {props.value.Type === "Shiny" ? <Shiny className="posAbs icon18" style={{ right: "-3px" }} /> : null}
+                {props.value.Type === "Shiny" ? <Shiny className="ushinycard__shiny" /> : null}
             </div>
             {props.onClick && <CloseButton attr={props.attr} index={props.value.Name} className="close" onClick={props.onClick} />}
         </div>
