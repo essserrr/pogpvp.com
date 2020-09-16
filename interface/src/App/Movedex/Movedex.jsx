@@ -16,6 +16,7 @@ import Input from "../PvP/components/Input/Input"
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/getCookie"
 
+import "./Movedex.scss"
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -120,8 +121,8 @@ class Movedex extends React.Component {
                     descr={strings.helm.mddescr}
                 />
                 <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="singleNews max1200-1 col-12 col-md-10 col-lg-8 p-1 p-sm-2 mb-3">
+                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
+                        <div className="movedex__module col-12 col-md-10 col-lg-8 p-1 p-sm-2 mb-3">
                             <DropWithArrow
                                 onShow={this.onShowLegend}
                                 show={this.state.showLegend}
@@ -130,12 +131,12 @@ class Movedex extends React.Component {
 
                                 faOpened="align-self-center fas fa-angle-up fa-lg "
                                 faClosed="align-self-center fas fa-angle-down fa-lg"
-                                outClass="row justify-content-between m-0 clickable"
+                                outClass="clickable row justify-content-between m-0"
                                 inClass="row justify-content-start m-0" />
                         </div>
                     </div>
-                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="singleNews max1200-1 col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
+                        <div className="movedex__module col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
@@ -147,7 +148,7 @@ class Movedex extends React.Component {
                             {this.state.showResult &&
                                 <>
                                     <Input
-                                        class="modifiedBorder form-control"
+                                        class="movedex--border form-control"
                                         onChange={this.onNameChange}
                                         place={strings.moveplace}
                                         value={this.state.name}
