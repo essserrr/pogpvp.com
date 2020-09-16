@@ -1,5 +1,32 @@
 $slider-button: #59698d;
 
+.singlepvp-table {
+    thead {
+        tr {
+            th {
+                border-width: 1.2px !important;
+                border-color: $slider-button !important;
+                font-size: 1.1em;
+                font-weight: 400;
+            }
+        }
+    }
+    tbody {
+        tr {
+            th {
+                border-width: 1.2px !important;
+                border-color: $slider-button !important;
+                font-weight: bolder;
+            }
+            td {
+                border-width: 1.2px !important;
+                border-color: $slider-button !important;
+                font-weight: bolder;
+            }
+        }
+    }
+}
+
 .singlepvp-res__tbody {
     border-width: 1.2px !important;
     border-color: $slider-button !important;

@@ -15,7 +15,7 @@ let strings = new LocalizedStrings(locale)
 const SinglePvpResults = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
+        <table className={"singlepvp-table table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
             <Thead
                 NameA={props.value.Attacker.Name}
                 NameD={props.value.Defender.Name}
