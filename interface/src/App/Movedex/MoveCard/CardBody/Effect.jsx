@@ -24,8 +24,8 @@ const Effect = React.memo(function (props) {
     return (
         <>
             <tr>
-                <th className="tableBorder align-middle m-0 p-0 py-1 dexFont" scope="row" >{strings.tip.ef}</th>
-                <td className="tableBorder align-middle m-0 p-0 py-1 dexFont" >{effect}</td>
+                <th className="align-middle m-0 p-0 py-1" scope="row" >{strings.tip.ef}</th>
+                <td className="align-middle m-0 p-0 py-1" >{effect}</td>
             </tr>
         </>
     )

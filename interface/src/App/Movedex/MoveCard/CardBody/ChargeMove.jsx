@@ -8,7 +8,9 @@ import CommonPvp from "./CommonPvp"
 import MovedexChargeEnergy from "./MovedexChargeEnergy/MovedexChargeEnergy"
 import Effect from "./Effect"
 
-let strings = new LocalizedStrings(dexLocale);
+import "./ChargeMove.scss"
+
+let strings = new LocalizedStrings(dexLocale)
 
 const ChargeMove = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -19,20 +21,20 @@ const ChargeMove = React.memo(function (props) {
                 <h5 className="text-center text-sm-left fBolder">
                     {strings.movecard.pve}
                 </h5>
-                <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
-                    <tbody className="tableBorder ">
+                <table className={"charge-move table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
+                    <tbody>
                         <CommonPve
                             energy={<MovedexChargeEnergy move={props.move} />}
                             move={props.move}
                         />
                         <tr>
-                            <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.dpe}</th>
-                            <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >{
+                            <th className="align-middle m-0 p-0 py-1" scope="row" >{strings.movecard.dpe}</th>
+                            <td className="align-middle m-0 p-0 py-1" >{
                                 (props.move.Damage / Math.abs(props.move.Energy)).toFixed(2)}</td>
                         </tr>
                         <tr>
-                            <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.dpsdpe}</th>
-                            <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >{
+                            <th className="align-middle m-0 p-0 py-1" scope="row" >{strings.movecard.dpsdpe}</th>
+                            <td className="align-middle m-0 p-0 py-1" >{
                                 ((props.move.Damage / (props.move.Cooldown / 1000)) * (props.move.Damage / Math.abs(props.move.Energy))).toFixed(2)}</td>
                         </tr>
                     </tbody>
@@ -42,15 +44,15 @@ const ChargeMove = React.memo(function (props) {
                 <h5 className="text-center text-sm-left fBolder">
                     {strings.movecard.pve}
                 </h5>
-                <table className={"table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
-                    <tbody className="tableBorder ">
+                <table className={"charge-move table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
+                    <tbody>
                         <CommonPvp
                             energy={props.move.Energy}
                             move={props.move}
                         />
                         <tr>
-                            <th className="tableBorder align-middle  m-0 p-0 py-1 dexFont" scope="row" >{strings.movecard.dpe}</th>
-                            <td className="tableBorder align-middle  m-0 p-0 py-1 dexFont" >{
+                            <th className="align-middle m-0 p-0 py-1" scope="row" >{strings.movecard.dpe}</th>
+                            <td className="align-middle m-0 p-0 py-1" >{
                                 (props.move.PvpDamage / Math.abs(props.move.PvpEnergy)).toFixed(2)}</td>
                         </tr>
                         {props.move.Subject ? <Effect

@@ -1,0 +1,23 @@
+$slider-button: #59698d;
+
+.charge-move {
+    tbody {
+        border-width: 1.2px !important;
+        border-color: $slider-button !important;
+
+        tr {
+            th {
+                border-width: 1.2px !important;
+                border-color: $slider-button !important;
+                font-size: 1.1em;
+                font-weight: 400;
+            }
+            td {
+                border-width: 1.2px !important;
+                border-color: $slider-button !important;
+                font-size: 1.1em;
+                font-weight: 400;
+            }
+        }
+    }
+}
