@@ -6,6 +6,8 @@ import { encodeQueryData, calculateMaximizedStats, selectCharge, selectQuick } f
 import { getCookie } from "../../../../js/getCookie"
 import { dexLocale } from "../../../../locale/dexLocale"
 
+import "./RedirectBlock.scss"
+
 let strings = new LocalizedStrings(dexLocale)
 
 class RedirectBlock extends React.PureComponent {
@@ -33,14 +35,14 @@ class RedirectBlock extends React.PureComponent {
             this.generatePokObj(this.props.value.Title, pokStats, 0, false, quick, charge)
         )
         return (
-            <div className={"row m-0 mt-2 mb-3 text-center sliderGroup justify-content-center"} >
+            <div className={"redirslider-group row m-0 mt-2 mb-3 text-center justify-content-center"} >
                 <Link style={{ color: "black" }}
-                    className="col sliderButton hv"
+                    className="redirslider-group__button col"
                     to={navigator.userAgent === "ReactSnap" ? "/" : "/pvp/single/great/" + pokString}>
                     {strings.pvpwith}
                 </Link>
                 <Link style={{ color: "black" }}
-                    className="col sliderButton hv" to={navigator.userAgent === "ReactSnap" ? "/" :
+                    className="redirslider-group__button col" to={navigator.userAgent === "ReactSnap" ? "/" :
                         "/pve/common/_/" + encodeURIComponent(this.props.value.Title) + "___4/0_0_0_18_3_true_false/___40_15_15_15_false"}>
                     {strings.pvewith}
                 </Link>
