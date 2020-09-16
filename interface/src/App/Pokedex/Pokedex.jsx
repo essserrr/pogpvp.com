@@ -14,6 +14,8 @@ import Input from "../PvP/components/Input/Input"
 import { dexLocale } from "../../locale/dexLocale"
 import { getCookie } from "../../js/getCookie"
 
+import "./Pokedex.scss"
+
 let strings = new LocalizedStrings(dexLocale);
 
 class Pokedex extends React.Component {
@@ -106,8 +108,8 @@ class Pokedex extends React.Component {
                     descr={strings.helm.pddescr}
                 />
                 <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="singleNews max1200-1 col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
+                        <div className="pokedex col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     class="row justify-content-center mb-2"
@@ -120,12 +122,12 @@ class Pokedex extends React.Component {
                             {this.state.showResult &&
                                 <>
                                     <Input
-                                        class="modifiedBorder form-control"
+                                        class="pokedex--border form-control"
                                         onChange={this.onNameChange}
                                         place={strings.pokplace}
                                         value={this.state.name}
                                     />
-                                    <div className="dexFont my-1">{strings.generation + ":"}</div>
+                                    <div className="pokedex--font my-1">{strings.generation + ":"}</div>
                                     <GenRow
                                         filter={this.state.filter}
                                         onFilter={this.onFilter}
