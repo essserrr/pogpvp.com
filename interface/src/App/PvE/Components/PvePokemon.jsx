@@ -72,7 +72,7 @@ class PvePokemon extends React.PureComponent {
                         {this.props.attr !== "bossObj" &&
                             <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
                                 <Stats
-                                    class="font95 input-group input-group-sm"
+                                    class=" "
 
                                     Lvl={this.props.value.Lvl}
                                     Atk={this.props.value.Atk}

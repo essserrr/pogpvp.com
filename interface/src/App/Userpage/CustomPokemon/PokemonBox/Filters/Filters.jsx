@@ -54,7 +54,7 @@ class Filters extends React.PureComponent {
                 </div>
                 <div className="col-6 col-lg-4 px-1 my-1">
                     <Stats
-                        class="font95 input-group input-group-sm"
+                        class=" "
 
                         Lvl={this.props.value.Lvl}
                         Atk={this.props.value.Atk}

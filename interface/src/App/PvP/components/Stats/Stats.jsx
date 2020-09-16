@@ -1,12 +1,14 @@
-import React from "react";
-import Input from "../Input/Input";
+import React from "react"
+import Input from "../Input/Input"
 import ReactTooltip from "react-tooltip"
 
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+import "./Stats.scss"
+
+let strings = new LocalizedStrings(locale)
 
 const Stats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -32,7 +34,7 @@ const Stats = React.memo(function (props) {
                 id={props.attr + "insta"} effect="solid">
                 {strings.effStats.sta + " IV: 0-15"}
             </ReactTooltip>
-            <div className={props.class ? props.class : "font95 input-group input-group-sm mt-1 mb-2"} >
+            <div className={`stats input-group input-group-sm ${props.class ? props.class : "mt-1 mb-2"}`} >
                 <Input
                     name="Lvl"
                     attr={props.attr}
