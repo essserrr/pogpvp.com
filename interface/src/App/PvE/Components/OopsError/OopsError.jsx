@@ -28,9 +28,9 @@ class OopsError extends React.Component {
         return (
             <>
                 <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-2 pb-2 mt-4">
-                        <div className="singleNews col-sm-12 col-md-7 col-lg-5 p-0 pb-4">
-                            <div className="row  justify-content-center m-0 mt-3"  >
+                    <div className="row justify-content-center px-2 pb-2 mt-4">
+                        <div className="ooops col-sm-12 col-md-7 col-lg-5 p-0 pb-4">
+                            <div className="row justify-content-center m-0 mt-3"  >
                                 <div className="align-self-center">
                                     <PokemonIconer
                                         src={"ooops"}

@@ -12,6 +12,8 @@ import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 import { locale } from "../../locale/locale"
 import { getCookie } from "../../js/getCookie"
 
+import "./RaidsList.scss"
+
 let strings = new LocalizedStrings(locale)
 
 class RaidsList extends React.Component {
@@ -86,8 +88,8 @@ class RaidsList extends React.Component {
                     descr={strings.pagedescriptions.raids}
                 />
                 <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews max1200-1 col-sm-12 col-md-11 col-lg-8 py-4">
+                    <div className="row justify-content-center px-2 pb-2">
+                        <div className="raid-list col-sm-12 col-md-11 col-lg-8 py-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
