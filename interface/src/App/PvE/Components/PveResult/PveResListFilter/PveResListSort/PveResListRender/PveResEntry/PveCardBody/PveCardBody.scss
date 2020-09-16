@@ -1,0 +1,12 @@
+$secondary-color: rgba(179, 179, 179, 0.28);
+
+.pvecard-body {
+    background-color: $secondary-color;
+    border-radius: 5px;
+    border: 0.5px solid rgba(0, 0, 0, 0.295);
+    height: fit-content;
+}
+
+.pvecard-body--font {
+    font-weight: bolder;
+}

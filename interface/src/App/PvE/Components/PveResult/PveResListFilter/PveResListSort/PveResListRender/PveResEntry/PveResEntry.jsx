@@ -7,26 +7,22 @@ import SubmitButton from "../../../../../../../PvP/components/SubmitButton/Submi
 import Errors from "../../../../../../../PvP/components/Errors/Errors"
 import HpBar from "./PhBar/HpBar"
 import HpRemaining from "./HpRemaining/HpRemaining"
-import WeatherMoves from "./WeatherMoves/WeatherMoves"
 import FightStats from "./FightStats/FightStats"
 import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
 import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
+import PveCardBody from "./PveCardBody/PveCardBody"
 
 import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../../../../../js/indexFunctions"
 import { getCookie } from "../../../../../../../../js/getCookie"
 import { pveLocale } from "../../../../../../../../locale/pveLocale"
-import { locale } from "../../../../../../../../locale/locale"
 
 import "./PveResEntry.scss"
 
-let strings = new LocalizedStrings(locale)
 let pveStrings = new LocalizedStrings(pveLocale)
-
 
 class PveResEntry extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {
@@ -202,42 +198,14 @@ class PveResEntry extends React.PureComponent {
     }
 
     generateCards() {
-        return this.props.pokemonRes.Result.map((elem) => {
-            return <div className="col-12 styleRating m-0 p-0 p-2 my-1 " key={elem.BQ + elem.BCh}>
-                <div className="col-12 d-flex align-items-center m-0 p-0">
-                    <WeatherMoves
-                        pokQick={this.props.moveTable[elem.BQ]}
-                        pokCh={this.props.moveTable[elem.BCh]}
-                        weather={this.props.snapshot.pveObj.Weather}
-                    />
-                </div>
-                <div className="col-12 m-0 p-0 mt-2">
-                    <HpBar
-                        upbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(elem.DMin)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                        lowbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(elem.DMax)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                        length={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(elem.DAvg)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                    />
-                </div>
-                <div className="col-12 m-0 p-0 fBolder">
-                    <HpRemaining
-                        locale={pveStrings.hprem}
-                        DAvg={this.damageString(elem.DAvg)}
-                        DMax={this.damageString(elem.DMax)}
-                        DMin={this.damageString(elem.DMin)}
-                        NOfWins={elem.NOfWins}
-                        tierHP={this.props.tables.hp[this.props.snapshot.bossObj.Tier]}
-                    />
-                </div>
-                <div className="col-12 m-0 p-0">
-                    <FightStats
-                        locale={pveStrings.s}
-                        tables={this.props.tables}
-                        snapshot={this.props.snapshot}
-                        avgStats={elem}
-                    />
-                </div>
-            </div>
-        });
+        return this.props.pokemonRes.Result.map((stats) =>
+            <PveCardBody
+                stats={stats}
+                moveTable={this.props.moveTable}
+                snapshot={this.props.snapshot}
+                tables={this.props.tables}
+            />
+        );
     }
 
     render() {
