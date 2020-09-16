@@ -25,8 +25,6 @@ $rating-1: rgb(230, 141, 82);
 $rating-2: rgb(224, 86, 32);
 //interface color
 $slider-button: #59698d;
-$slider-active: #b1dbe2;
-
 $primary-color: #eff0f1;
 //tips styles
 $tips-padding: 0.2rem;
@@ -225,49 +223,6 @@ $tips-font: 12pt;
 
 .posRel {
     position: relative;
-}
-
-//slider
-.sliderButton {
-    font-weight: 500;
-    background-color: rgba(255, 255, 255, 0);
-
-    padding-left: 5px !important;
-    padding-right: 5px !important;
-
-    -webkit-transition: all 0.4s linear;
-    transition: all 0.4s linear;
-
-    border-width: 0px 2px 0px 0px;
-    border-right: solid $slider-button;
-
-    &.active {
-        background-color: $slider-active;
-        outline: none;
-    }
-    &.hv:hover {
-        background-color: $slider-active;
-        outline: none;
-    }
-}
-@media (max-width: 768px) {
-    .sliderButton {
-        padding-left: 2px !important;
-        padding-right: 2px !important;
-    }
-}
-@media (max-width: 576px) {
-    .sliderButton {
-        padding-left: 1px !important;
-        padding-right: 1px !important;
-    }
-}
-.sliderButton:focus {
-    outline: none;
-}
-
-.noselect {
-    user-select: none;
 }
 
 ////////////////////////////////////////////////////////////////

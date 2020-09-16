@@ -16,33 +16,33 @@ const SliderBlock = React.memo(function (props) {
             <Button
                 attr="moves"
                 title={strings.movelist}
-                class={props.active.moves ? "pokcardslider-group__button active col py-1 sliderButton " : "pokcardslider-group__button col py-1"}
+                class={props.active.moves ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
                 disabled={props.moveDis}
                 onClick={props.onClick}
             />
             <Button
                 attr="evo"
                 title={strings.evochart}
-                class={props.active.evo ? "pokcardslider-group__button active col py-1 sliderButton " : "pokcardslider-group__button col py-1"}
+                class={props.active.evo ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
                 disabled={props.evoDis}
                 onClick={props.onClick}
             />
             <Button
                 attr={"eff"}
                 title={strings.vunlist}
-                class={props.active.eff ? "pokcardslider-group__button active col py-1 sliderButton " : "pokcardslider-group__button col py-1"}
+                class={props.active.eff ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
                 onClick={props.onClick}
             />
             <Button
                 attr={"cp"}
                 title={"CP"}
-                class={props.active.cp ? "pokcardslider-group__button active col py-1 sliderButton " : "pokcardslider-group__button col py-1"}
+                class={props.active.cp ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
                 onClick={props.onClick}
             />
             <Button
                 attr={"other"}
                 title={strings.otherinf}
-                class={props.active.other ? "pokcardslider-group__button active col py-1 sliderButton " : "pokcardslider-group__button col py-1"}
+                class={props.active.other ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
                 disabled={props.othDis}
                 onClick={props.onClick}
             />

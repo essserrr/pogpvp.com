@@ -1,4 +1,6 @@
-import React from "react";
+import React from "react"
+
+import "./DropdownMenu.scss"
 
 export default class DropdownMenu extends React.PureComponent {
     constructor(props) {
@@ -27,9 +29,9 @@ export default class DropdownMenu extends React.PureComponent {
 
     render() {
         return (
-            <li className={"nav-item dropdown clickable noselect " + (this.props.class ? this.props.class : "")}
+            <li className={"cust-dropdown-menu nav-item dropdown " + (this.props.class ? this.props.class : "")}
                 ref={this.wrapperRef} onClick={this.onClick}>
-                <div className="nav-link dropdown-toggle d-flex fBolder align-items-center"
+                <div className="cust-dropdown-menu--font  nav-link dropdown-toggle d-flex align-items-center"
                     id="navbarDropdownMenuLink"
                     data-toggle="dropdown"
                     aria-haspopup="true"
