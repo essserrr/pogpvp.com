@@ -1,7 +1,7 @@
-import React from "react";
+import React from "react"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization";
+import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
@@ -16,7 +16,9 @@ import { locale } from "../../locale/locale"
 import { checkLvl, checkIV, } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+import "./Evolve.scss"
+
+let strings = new LocalizedStrings(locale)
 
 class Evolve extends React.Component {
     constructor(props) {
@@ -131,9 +133,9 @@ class Evolve extends React.Component {
                     header={strings.pageheaders.evolution}
                     descr={strings.pagedescriptions.evolution}
                 />
-                <div className=" container-fluid mt-3 mb-5">
+                <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews max1200-1 col-sm-12 col-md-10 col-lg-6 mx-0 py-4">
+                        <div className="evolve col-sm-12 col-md-10 col-lg-6 mx-0 py-4">
                             {this.state.loading && <Loader
                                 color="black"
                                 weight="500"
