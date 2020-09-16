@@ -174,7 +174,7 @@ const MatrixDescr = React.memo(function (props) {
                         multiline={true} >
                         {tips.cardTip.n}
                     </ReactTooltip>
-                    <div data-tip data-for={"iconpok1"} className="posRel">
+                    <div data-tip data-for={"iconpok1"}>
                         <PokemonIconer
                             src={"644"}
                             class={"icon48 ml-1 ml-sm-3  mr-2"} />
@@ -187,8 +187,8 @@ const MatrixDescr = React.memo(function (props) {
                         </ReactTooltip>
                     </div>
 
-                    <div data-tip data-for={"iconpok2"} className="posRel">
-                        {<Shadow className="posAbs icon16" />}
+                    <div data-tip data-for={"iconpok2"} className="matrix-descr--container">
+                        {<Shadow className="matrix-descr--shadow" />}
                         <PokemonIconer
                             src={"493-3"}
                             class={"icon48 ml-1 ml-sm-3  mr-2"} />
@@ -201,7 +201,7 @@ const MatrixDescr = React.memo(function (props) {
                         </ReactTooltip>
                     </div>
 
-                    <div data-tip data-for={"iconpok3"} className="posRel">
+                    <div data-tip data-for={"iconpok3"}>
                         <PokemonIconer
                             src={"132"}
                             class={"icon48 ml-1 ml-sm-3 mr-2"} />

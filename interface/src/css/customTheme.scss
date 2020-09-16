@@ -172,19 +172,6 @@ $tips-font: 12pt;
     @include backgrounds;
 }
 
-//////////////////////////////////////
-//advisor
-.posAbs {
-    position: absolute !important;
-    right: 0px;
-}
-
-.posRel {
-    position: relative;
-}
-
-////////////////////////////////////////////////////////////////
-
 //global rules
 div :focus {
     outline: none;

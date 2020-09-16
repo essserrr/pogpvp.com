@@ -39,3 +39,15 @@ $slider-button: #59698d;
     border-top: 1.5px solid $dark-color !important;
     user-select: none;
 }
+
+.matrix-descr--shadow {
+    position: absolute !important;
+    right: 0px;
+
+    width: 16px;
+    height: 16px;
+}
+
+.matrix-descr--container {
+    position: relative !important;
+}
