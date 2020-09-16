@@ -6,8 +6,9 @@ import { getCookie } from "../../../../js/getCookie"
 import { dexLocale } from "../../../../locale/dexLocale"
 import EffIcon from "./EffIcon"
 
-let strings = new LocalizedStrings(dexLocale);
+import "./EffTable.scss"
 
+let strings = new LocalizedStrings(dexLocale)
 
 const EffTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -49,21 +50,21 @@ const EffTable = React.memo(function (props) {
 
 
     return (
-        <table className={"table table-sm table-hover text-center"} >
-            <tbody className="tableBorder ">
+        <table className={"eff-table table table-sm table-hover text-center"} >
+            <tbody>
                 {(props.reverse ? weak.length > 0 : effective.length > 0) && <tr>
-                    <th className="tableBorder align-middle  py-1 dexFont" scope="row" >
+                    <th className="align-middle py-1" scope="row" >
                         {props.reverse ? strings.dmore : strings.resist}
                     </th>
-                    <td className="tableBorder align-middle  py-1" >
+                    <td className="align-middle py-1" >
                         {props.reverse ? weak : effective}
                     </td>
                 </tr>}
                 {(props.reverse ? effective.length > 0 : weak.length > 0) && <tr>
-                    <th className="tableBorder align-middle  py-1 dexFont" scope="row" >
+                    <th className="align-middle py-1" scope="row" >
                         {props.reverse ? strings.dless : strings.weak}
                     </th>
-                    <td className="tableBorder align-middle  py-1" >
+                    <td className="align-middle py-1" >
                         {props.reverse ? effective : weak}
                     </td>
                 </tr>}
