@@ -2,18 +2,19 @@ import React from "react"
 import Button from "../MoveCard/DoubleSlider/Button/Button"
 import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
 
+import "./TypeRow.scss"
 
 const TypeRow = React.memo(function (props) {
     return (
-        <div className={"row m-0 my-3 text-center sliderGroup justify-content-center"} >
+        <div className={"typeslider-group row m-0 my-3 text-center justify-content-center"} >
             <Button
                 attr="type0"
                 title={<PokemonIconer
                     folder="/type/"
                     src={0}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type0 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type0 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -21,9 +22,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={1}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type1 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type1 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -31,9 +32,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={2}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type2 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type2 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -41,9 +42,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={3}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type3 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type3 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -51,9 +52,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={4}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type4 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type4 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -61,9 +62,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={5}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type5 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type5 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -71,9 +72,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={6}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type6 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type6 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -81,9 +82,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={7}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type7 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type7 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -91,9 +92,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={8}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type8 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type8 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -101,9 +102,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={9}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type9 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type9 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -111,9 +112,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={10}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type10 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type10 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -121,9 +122,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={11}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type11 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type11 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -131,9 +132,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={12}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type12 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type12 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -141,9 +142,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={13}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type13 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type13 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -151,9 +152,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={14}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type14 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type14 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -161,9 +162,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={15}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type15 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type15 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -171,9 +172,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={16}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type16 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type16 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
             <Button
@@ -181,9 +182,9 @@ const TypeRow = React.memo(function (props) {
                 title={<PokemonIconer
                     folder="/type/"
                     src={17}
-                    class={"icon16"}
+                    class={"type-row__icon"}
                 />}
-                class={props.filter.type17 ? "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                class={props.filter.type17 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
                 onClick={props.onFilter}
             />
         </div>

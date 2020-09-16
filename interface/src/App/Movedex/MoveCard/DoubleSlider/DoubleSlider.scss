@@ -32,11 +32,8 @@ $slider-active: #b1dbe2;
         background-color: $slider-active;
         outline: none;
     }
-    &.hv:hover {
-        background-color: $slider-active;
-        outline: none;
-    }
 }
+
 @media (max-width: 768px) {
     .doubleslider-group__button {
         padding-left: 2px !important;
