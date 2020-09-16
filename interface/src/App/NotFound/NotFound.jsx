@@ -43,10 +43,10 @@ class NotFound extends React.Component {
                     header={strings.notfound}
                     descr={strings.notfound}
                 />
-                <div className=" container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews col-sm-12 col-md-7 col-lg-5 p-0 pb-4">
-                            <div className="row  justify-content-center m-0"  >
+                <div className="container-fluid mt-3 mb-5">
+                    <div className="row justify-content-center px-2 pb-2">
+                        <div className="not-found col-sm-12 col-md-7 col-lg-5 p-0 pb-4">
+                            <div className="row justify-content-center m-0"  >
                                 <div className="not-found--text align-self-center">
                                     4
                                 </div>
