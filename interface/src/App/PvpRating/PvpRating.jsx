@@ -16,8 +16,9 @@ import Input from "../PvP/components/Input/Input"
 
 import { capitalizeFirst } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
-
 import { locale } from "../../locale/locale"
+
+import "./PvpRating.scss"
 
 let strings = new LocalizedStrings(locale)
 
@@ -245,10 +246,10 @@ class PvpRating extends React.Component {
                     header={strings.pageheaders.pvprating}
                     descr={strings.pagedescriptions.pvprating}
                 />
-                <div className=" container-fluid mt-3 mb-5">
+                <div className="container-fluid mt-3 mb-5">
                     <div className="row justify-content-center px-1 px-sm-2 mx-md-3 pb-5">
-                        <div className="col-12 max650 p-0">
-                            <div className="row m-0 singleNews mb-2 p-2">
+                        <div className="pvp-rating--width-limit col-12 p-0">
+                            <div className="pvp-rating__module row m-0 mb-2 p-2">
                                 <div className="col-12 col-sm-6 p-1">
                                     <SelectGroup
                                         class="input-group input-group-sm p-0 m-0"
@@ -284,7 +285,7 @@ class PvpRating extends React.Component {
                                     />
                                 </div>
                             </div>
-                            <div className="row singleNews m-0 p-0 px-3 py-2 mb-3" >
+                            <div className="pvp-rating__module row m-0 p-0 px-3 py-2 mb-3" >
                                 <DropWithArrow
                                     onShow={this.onShowDescr}
                                     show={this.state.showDescription}
@@ -297,7 +298,7 @@ class PvpRating extends React.Component {
                                     inClass="row justify-content-center m-0" />
                             </div>
                             <div className="row justify-content-center m-0">
-                                <div className="singleNews max650 col-md-12 col-lg-12 p-2 m-0">
+                                <div className="pvp-rating__module col-md-12 col-lg-12 p-2 m-0">
                                     {this.state.loading &&
                                         <Loader
                                             color="black"
@@ -311,7 +312,7 @@ class PvpRating extends React.Component {
                                             <div className="col px-2 py-2">
                                                 <Input
                                                     value={this.state.name}
-                                                    class="modifiedBorder form-control"
+                                                    class="pvp-rating--border form-control"
                                                     onChange={this.onChangeInput}
                                                     place={strings.shinyrates.searchplaceholder}
                                                 />
@@ -331,7 +332,7 @@ class PvpRating extends React.Component {
                                                 />
                                             </div>
 
-                                            <div className="col d-flex p-0 pt-3  justify-content-center">
+                                            <div className="col d-flex p-0 pt-3 justify-content-center">
                                                 {(this.state.isNextPage && !this.state.searchState) &&
                                                     <SubmitButton
                                                         action="Load more"
