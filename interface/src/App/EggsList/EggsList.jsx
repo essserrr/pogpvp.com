@@ -7,14 +7,15 @@ import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import Errors from "../PvP/components/Errors/Errors"
 import RenderEggList from "./RenderEggList/RenderEggList"
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
-import Button from "../Movedex/MoveCard/DoubleSlider/Button/Button"
 import Loader from "../PvpRating/Loader"
+import SingleSliderButton from "./SingleSliderButton/SingleSliderButton"
 
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
+import "./EggsList.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(locale)
 
 class EggsList extends React.Component {
     constructor(props) {
@@ -97,9 +98,9 @@ class EggsList extends React.Component {
                     header={strings.pageheaders.eggs}
                     descr={strings.pagedescriptions.eggs}
                 />
-                <div className=" container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-2 pb-2">
-                        <div className="singleNews max1200-1 col-sm-12 col-md-11 col-lg-8 mx-0 py-4">
+                <div className="container-fluid mt-3 mb-5">
+                    <div className="row justify-content-center px-2 pb-2">
+                        <div className="eggs-list col-sm-12 col-md-11 col-lg-8 mx-0 py-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
@@ -113,13 +114,12 @@ class EggsList extends React.Component {
                                         filter={this.state.filter}
                                         onFilter={this.onChange}
                                     />
-                                    <div className=" row justify-content-center m-0">
-                                        <div className={"col-12 col-sm-6 p-0 mb-3 text-center sliderGroup justify-content-center"} >
-                                            <Button
+                                    <div className="row justify-content-center m-0">
+                                        <div className="col-12 col-sm-6 p-0 mb-3" >
+                                            <SingleSliderButton
                                                 attr="showReg"
                                                 title={strings.tierlist.regionals}
-                                                class={this.state.filter.showReg ?
-                                                    "col py-1 sliderButton active" : "col py-1 sliderButton"}
+                                                isActive={this.state.filter.showReg}
                                                 onClick={this.onChange}
                                             />
                                         </div>

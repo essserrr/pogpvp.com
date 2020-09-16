@@ -4,10 +4,10 @@ import LocalizedStrings from "react-localization"
 import URL from "../../../PvP/components/URL/URL"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
-import Button from "../../../Movedex/MoveCard/DoubleSlider/Button/Button"
 import Breakpoints from "./Breakpoints/Breakpoints"
 import PveWillow from "./PveWillow/PveWillow"
 import PveResListFilter from "./PveResListFilter/PveResListFilter"
+import SingleSliderButton from "../../../EggsList/SingleSliderButton/SingleSliderButton"
 
 import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
@@ -151,12 +151,11 @@ class PveResult extends React.PureComponent {
                         />
                     </div>}
                     {!this.props.customResult &&
-                        <div className={"pveresult__slider col-12 col-sm-6 p-0 mb-3 text-center justify-content-center"} >
-                            <Button
+                        <div className={"col-12 col-sm-6 p-0 mb-3 text-center justify-content-center"} >
+                            <SingleSliderButton
                                 attr="unique"
                                 title={pvestrings.unique}
-                                class={this.state.filter.unique ?
-                                    "col py-1 pveresult__slider-button active" : "col py-1 pveresult__slider-button"}
+                                isActive={this.state.filter.unique}
                                 onClick={this.onFilter}
                             />
                         </div>}
