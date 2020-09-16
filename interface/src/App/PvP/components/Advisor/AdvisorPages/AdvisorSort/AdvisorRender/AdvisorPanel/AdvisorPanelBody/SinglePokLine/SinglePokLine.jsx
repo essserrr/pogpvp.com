@@ -18,7 +18,7 @@ const SinglePokLine = React.memo(function (props) {
             </td>
             {props.vun[props.i].map((elem, k) => {
                 let rateStyle = returnVunStyle(elem)
-                return <td key={props.i + "defensive" + k} className="singlepok-line__cell m-0 p-0 align-middle" >
+                return <td key={props.i + "defensive" + k} className="m-0 p-0 align-middle" >
                     <div className={"singlepok-line__rate rateColor" + rateStyle}>
                         {elem}
                     </div>

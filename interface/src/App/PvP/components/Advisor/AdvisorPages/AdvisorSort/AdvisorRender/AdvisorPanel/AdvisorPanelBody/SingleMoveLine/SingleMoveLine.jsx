@@ -15,7 +15,7 @@ const SingleMoveLine = React.memo(function (props) {
                 let rateStyle = returnVunStyle(multipl === "1.000" ? multipl : (1 / multipl).toFixed(3))
 
                 return <td key={props.line + "offensive" + i}
-                    className="singlemove-line__cell m-0 p-0 align-middle" >
+                    className="m-0 p-0 align-middle" >
                     <div className={"singlemove-line__rate  rateColor" + rateStyle} >
                         {multipl}
                     </div>

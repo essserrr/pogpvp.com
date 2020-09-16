@@ -199,16 +199,6 @@ $tips-font: 12pt;
     font-weight: 450 !important;
 }
 
-.tableBorder {
-    border-width: 1.2px !important;
-    border-color: $slider-button !important;
-    &.theadT {
-        background-color: $primary-color;
-        font-size: 80%;
-        font-weight: bold;
-    }
-}
-
 //advisor
 .posAbs {
     position: absolute !important;

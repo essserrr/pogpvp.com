@@ -18,7 +18,7 @@ class TableBodyRender extends React.PureComponent {
     makeTableLines() {
         return [
             [
-                <th key={"zero"} className="tableBorder theadT p-0 px-1" scope="col" />,
+                <th key={"zero"} className="p-0 px-1" scope="col" />,
 
                 ...this.props.rightPanel.listForBattle.map((pok, j) =>
                     <TheadElement

@@ -7,7 +7,7 @@ const TypingThead = React.memo(function (props) {
 
     return (
         <>
-            <th key={"zero"} className="tableBorder theadT p-0 px-1" scope="col" />
+            <th key={"zero"} className="p-0 px-1" scope="col" />
             {typeDecoder.map((elem, i) => <TheadCell key={i + "thead"} type={i} />)}
         </>
     )

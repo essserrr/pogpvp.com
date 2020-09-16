@@ -2,22 +2,9 @@ $primary-color: #eff0f1;
 $slider-button: #59698d;
 
 .singlemove-line__first-cell {
-    border-width: 1.2px !important;
-    border-color: $slider-button !important;
-    background-color: $primary-color;
-    font-size: 80%;
-    font-weight: bold;
-
     position: sticky;
     left: 0;
     z-index: 1;
-}
-
-.singlemove-line__cell {
-    border-width: 1.2px !important;
-    border-color: $slider-button !important;
-    background-color: $primary-color;
-    font-size: 80% !important;
 }
 
 .singlemove-line__rate {

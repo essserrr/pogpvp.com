@@ -9,7 +9,7 @@ class MatrixTable extends React.PureComponent {
                         {this.props.tableLines[0]}
                     </tr>
                 </thead>
-                <tbody key={"tablebody"} className="tableBorder">
+                <tbody key={"tablebody"}>
                     {this.props.tableLines.slice(1).map((elem, i) =>
                         <tr key={"tableline" + i}>
                             {elem}

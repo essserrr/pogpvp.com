@@ -8,7 +8,7 @@ import "./PvpSingleCell.scss"
 class PvpSingleCell extends React.PureComponent {
     render() {
         return (
-            <td className="pvp-singlecell m-0 p-0 align-middle" >
+            <td className="m-0 p-0 align-middle" >
                 <Link className={"pvp-singlecell__rate rateColor" + returnRateStyle(this.props.rate)[1]}
                     to={{
                         pathname: this.props.query,
