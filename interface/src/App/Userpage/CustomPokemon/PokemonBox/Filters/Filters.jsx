@@ -24,7 +24,6 @@ class Filters extends React.PureComponent {
             <div className="row mx-0">
                 <div className="col-6 col-lg-4 px-1 my-1">
                     <Input
-                        class="modifiedBorder form-control"
                         attr={this.props.attr}
                         name={"Name"}
                         value={this.props.value.Name}
@@ -35,7 +34,6 @@ class Filters extends React.PureComponent {
                 </div>
                 <div className="col-6 col-lg-4 px-1 my-1">
                     <Input
-                        class="modifiedBorder form-control"
                         attr={this.props.attr}
                         name={"QuickMove"}
                         value={this.props.value.QuickMove}
@@ -46,7 +44,6 @@ class Filters extends React.PureComponent {
                 </div>
                 <div className="col-6 col-lg-4 px-1 my-1">
                     <Input
-                        class="modifiedBorder form-control"
                         attr={this.props.attr}
                         name={"ChargeMove"}
                         value={this.props.value.ChargeMove}

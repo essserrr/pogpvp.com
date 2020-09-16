@@ -44,7 +44,7 @@ class URL extends React.PureComponent {
                     {this.props.message}
                 </div>}
                 <Input
-                    class="url__input form-control"
+                    class="url__input"
                     value={this.props.value}
                     onClick={this.onClick}
                     onChange={this.onChange}

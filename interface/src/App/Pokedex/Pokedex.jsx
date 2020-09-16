@@ -122,7 +122,6 @@ class Pokedex extends React.Component {
                             {this.state.showResult &&
                                 <>
                                     <Input
-                                        class="pokedex--border form-control"
                                         onChange={this.onNameChange}
                                         place={strings.pokplace}
                                         value={this.state.name}

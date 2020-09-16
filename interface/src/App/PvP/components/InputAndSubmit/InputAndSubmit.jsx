@@ -56,7 +56,7 @@ class InputAndSubmit extends React.PureComponent {
                 <div className="row justify-content-center px-2">
                     <Input
                         name="partyName"
-                        class="form-control col-11 mb-2"
+                        class="col-11 mb-2"
                         place={this.props.placeholder}
                         for={"partyNameInput" + this.props.attr}
                         value={this.state.value}

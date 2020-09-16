@@ -148,7 +148,6 @@ class Movedex extends React.Component {
                             {this.state.showResult &&
                                 <>
                                     <Input
-                                        class="movedex--border form-control"
                                         onChange={this.onNameChange}
                                         place={strings.moveplace}
                                         value={this.state.name}

@@ -1,9 +1,11 @@
 import React from "react"
 
+import "./Input.scss"
+
 const Input = React.memo(function (props) {
     return (
         <input
-            className={props.class ? props.class : " modifiedBorder form-control"}
+            className={`single-input form-control ${props.class ? props.class : ""}`}
 
             name={props.name}
             type="text"

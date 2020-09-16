@@ -119,7 +119,6 @@ class PartyBox extends React.PureComponent {
                 <div className="col-6 px-1 mt-2">
                     <div className="partybox__text col-12 px-0">{strings.userpok.partyname}</div>
                     <Input
-                        class="modifiedBorder form-control"
                         attr={"enteredName"}
                         value={this.state.enteredName}
 

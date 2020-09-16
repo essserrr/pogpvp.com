@@ -1,9 +1,11 @@
-import React from "react";
+import React from "react"
+
+import "./SingleSelect.scss"
 
 const SingleSelect = React.memo(function (props) {
     return (
         <select
-            className="modifiedBorder custom-select"
+            className="single-select custom-select"
             id="selectGroup"
 
             label={props.name}

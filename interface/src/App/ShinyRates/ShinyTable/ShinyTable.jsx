@@ -29,7 +29,7 @@ class ShinyTable extends React.Component {
         return (
             <>
                 <Input
-                    class="modifiedBorder form-control mb-2"
+                    class="mb-2"
                     onChange={this.props.onChange}
                     place={strings.shinyrates.searchplaceholder}
                 />
