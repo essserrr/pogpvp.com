@@ -228,6 +228,21 @@ $tips-font: 12pt;
 }
 
 //slider
+
+.sliderGroup {
+    overflow: hidden;
+    border: 2px solid $slider-button !important;
+    border-radius: 7px 7px 7px 7px;
+}
+
+.sliderGroup button:last-child {
+    border: none !important;
+}
+
+.sliderGroup a:last-child {
+    border: none !important;
+}
+
 .sliderButton {
     font-weight: 500;
     background-color: rgba(255, 255, 255, 0);
@@ -264,20 +279,6 @@ $tips-font: 12pt;
 }
 .sliderButton:focus {
     outline: none;
-}
-
-.sliderGroup {
-    overflow: hidden;
-    border: 2px solid $slider-button !important;
-    border-radius: 7px 7px 7px 7px;
-}
-
-.sliderGroup button:last-child {
-    border: none !important;
-}
-
-.sliderGroup a:last-child {
-    border: none !important;
 }
 
 .noselect {
