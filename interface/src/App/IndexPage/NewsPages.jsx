@@ -86,7 +86,7 @@ class NewsPages extends React.Component {
             return <Link key={i}
                 to={(navigator.userAgent === "ReactSnap") ? "/" : "/news/id/" + parsed.ID}>
                 <News
-                    class="singleNews fBolder mx-4 mt-3"
+                    class="bolder mx-4 mt-3"
                     title={parsed.Title}
                     date={parsed.Date}
                     description={parsed.ShortDescription}

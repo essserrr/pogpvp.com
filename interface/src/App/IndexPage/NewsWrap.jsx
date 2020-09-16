@@ -78,7 +78,6 @@ class NewsWrap extends React.Component {
                                 <>
                                     {this.state.news &&
                                         <News
-                                            class="singleNews"
                                             title={this.state.news.Title}
                                             date={this.state.news.Date}
                                             description={this.state.news.Description}

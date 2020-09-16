@@ -4,7 +4,7 @@ import "./News.scss"
 
 const News = React.memo(function (props) {
     return (
-        <div className={props.class}>
+        <div className={`news ${props.class ? props.class : ""}`}>
             <div className="news__title px-3 py-1">
                 {props.title + "  " + props.date}
             </div>
