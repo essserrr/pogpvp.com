@@ -278,8 +278,8 @@ class ShinyBroker extends React.Component {
                     descr={strings.pagedescriptions.broker}
                 />
                 <div className=" container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-2 pb-2">
-                        <div className="shinybroker-body max1200-1 col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 p-3">
+                    <div className="row justify-content-center px-2 pb-2">
+                        <div className="shinybroker col-sm-12 col-md-11 col-lg-10 col-xl-8 mx-0 p-3">
                             <div className="row mx-0 justify-content-center">
 
                                 {this.state.loading &&

@@ -172,7 +172,7 @@ class PokeCard extends React.Component {
                 />
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="pokedex-card mx-3 mb-2 max650 col-12 col-md-10 col-lg-8 p-2 p-md-4">
+                        <div className="pokedex-card mx-3 mb-2 col-12 col-md-10 col-lg-8 p-2 p-md-4">
                             {this.state.loading &&
                                 <Loader
                                     color="black"
@@ -259,7 +259,7 @@ class PokeCard extends React.Component {
                                 </UnmountClosed>
 
                                 <UnmountClosed isOpened={this.state.active.cp}>
-                                    <div className={"row dexFont m-0 "}>
+                                    <div className={"pokedex-card--font row m-0 "}>
                                         <div className="col-12 p-0 text-center">{strings.entparams}</div>
                                         <CpBlock
                                             pok={this.state.pok}
