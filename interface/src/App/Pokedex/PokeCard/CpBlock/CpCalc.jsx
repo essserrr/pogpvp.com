@@ -3,6 +3,8 @@ import React from "react"
 import CP from "../../../PvP/components/CpAndTypes/CP"
 import Stats from "../../../PvP/components/Stats/Stats"
 
+import "./CpCalc.scss"
+
 const CpCalc = React.memo(function (props) {
     return (
         <>
@@ -16,7 +18,7 @@ const CpCalc = React.memo(function (props) {
             />
             <div className="col-12  text-center">
                 <CP
-                    class="d-inline mr-2 dexFont font-weight-bold"
+                    class="cp-calc d-inline mr-2"
                     name={props.pok.Title}
                     isBoss={false}
 
