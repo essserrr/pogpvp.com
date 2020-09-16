@@ -6,4 +6,16 @@ $primary-color: #eff0f1;
     border: 0.5px solid rgba(0, 0, 0, 0.2);
     height: fit-content;
     max-width: 1000px !important;
+
+    p {
+        text-align: justify !important;
+        text-justify: inter-word !important;
+        font-weight: bolder;
+    }
+
+    ul {
+        text-align: justify !important;
+        text-justify: inter-word !important;
+        font-weight: bolder;
+    }
 }

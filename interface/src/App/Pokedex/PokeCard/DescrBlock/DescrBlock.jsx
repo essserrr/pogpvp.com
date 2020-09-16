@@ -1,8 +1,10 @@
-import React from "react";
+import React from "react"
+
+import "./DescrBlock.scss"
 
 const DescrBlock = React.memo(function (props) {
     return (
-        <div className="row m-0 mt-2 tipfont">
+        <div className="descr-block row m-0 mt-2">
             {props.value}
         </div>
     )

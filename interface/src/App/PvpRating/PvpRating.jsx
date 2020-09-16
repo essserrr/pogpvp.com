@@ -285,7 +285,7 @@ class PvpRating extends React.Component {
                                     />
                                 </div>
                             </div>
-                            <div className="pvp-rating__module row m-0 p-0 px-3 py-2 mb-3" >
+                            <div className="pvp-rating__descr row m-0 p-0 px-3 py-2 mb-3" >
                                 <DropWithArrow
                                     onShow={this.onShowDescr}
                                     show={this.state.showDescription}

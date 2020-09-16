@@ -12,7 +12,7 @@ const CommonDescr = React.memo(function (props) {
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <p className="col-12 tipfont m-0 px-1 pb-2" >
+            <p className="col-12 m-0 px-1 pb-2" >
                 {tips.par1}
             </p>
             <h5 className="col-12 font-weight-bold p-0 mb-1 text-center">
@@ -72,34 +72,34 @@ const CommonDescr = React.memo(function (props) {
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
                 {tips.indat}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.indatp1}
             </p>
-            <p className="col-12 tipfont m-0 px-1" >
+            <p className="col-12 m-0 px-1" >
                 {tips.indatp2}
             </p>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.indatp3}
             </p>
 
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
                 {tips.plnumb}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.plnumbp1}
             </p>
 
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
                 {tips.dodge}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.dodgep1}
             </p>
 
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
                 {tips.agr}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.agrp1}
             </p>
 
@@ -107,13 +107,13 @@ const CommonDescr = React.memo(function (props) {
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
                 {tips.solv}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.solvp1}
             </p>
-            <p className="col-12 tipfont p-0 m-0 px-1" >
+            <p className="col-12 p-0 m-0 px-1" >
                 {tips.solvp2}
             </p>
-            <ul className="col-12 tipfont p-0 m-0 px-3 px-sm-5 py-1">
+            <ul className="col-12 p-0 m-0 px-3 px-sm-5 py-1">
                 <li>
                     {tips.solvli1}
                 </li>
@@ -131,14 +131,14 @@ const CommonDescr = React.memo(function (props) {
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
                 {tips.break}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.breakp1}
             </p>
 
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
                 {tips.feat}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.featp1}
             </p>
         </>

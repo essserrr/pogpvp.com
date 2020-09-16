@@ -16,10 +16,10 @@ const MatrixDescr = React.memo(function (props) {
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <p className="col-12 tipfont m-0 px-1" >
+            <p className="col-12 m-0 px-1" >
                 {tips.par1}
             </p>
-            <p className="col-12 tipfont m-0 my-2">
+            <p className="col-12 m-0 my-2">
                 {tips.par2}
             </p>
             <h6 className="col-12 font-weight-bold m-0 mb-1 text-center">
@@ -28,9 +28,9 @@ const MatrixDescr = React.memo(function (props) {
             <div className="col-12 d-flex justify-content-center m-0 ">
 
                 <div className="mx-3">
-                    <div className="tipfont text-center">
+                    <p className="text-center  m-0 p-0">
                         {tips.result}
-                    </div>
+                    </p>
                     <div className="matrix-descr__cell-content row justify-content-center text-center m-0">
                         <div data-tip data-for={"0vs0"} className={"col-4 p-0 rateColorR3"} >
                             <ReactTooltip
@@ -77,12 +77,13 @@ const MatrixDescr = React.memo(function (props) {
                     </div>
                 </div>
                 <div className="mx-3 align-self-center">
-                    <div className="tipfont text-center">
+                    <p className="text-center m-0 p-0">
                         {tips.color}
-                    </div>
+                    </p>
 
                     <div className="d-flex ">
-                        <div data-tip data-for={"pl2color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR4"} >
+                        <div data-tip data-for={"pl2color"} style={{ width: "30px", height: "25px" }}
+                            className={"font-weight-bold mr-1 text-center rateColorR4"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"pl2color"} effect="solid"
@@ -92,7 +93,8 @@ const MatrixDescr = React.memo(function (props) {
                             </ReactTooltip>
                             {"+2"}
                         </div>
-                        <div data-tip data-for={"pl1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR3"}>
+                        <div data-tip data-for={"pl1color"} style={{ width: "30px", height: "25px" }}
+                            className={"font-weight-bold mr-1 text-center rateColorR3"}>
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"pl1color"} effect="solid"
@@ -102,7 +104,8 @@ const MatrixDescr = React.memo(function (props) {
                             </ReactTooltip>
                             {"+1"}
                         </div>
-                        <div data-tip data-for={"pl0color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR0"} >
+                        <div data-tip data-for={"pl0color"} style={{ width: "30px", height: "25px" }}
+                            className={"font-weight-bold mr-1 text-center rateColorR0"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"pl0color"} effect="solid"
@@ -112,7 +115,8 @@ const MatrixDescr = React.memo(function (props) {
                             </ReactTooltip>
                             {"0"}
                         </div>
-                        <div data-tip data-for={"mi1color"} style={{ width: "30px", height: "25px" }} className={"mr-1 text-center  hover rateColorR1"} >
+                        <div data-tip data-for={"mi1color"} style={{ width: "30px", height: "25px" }}
+                            className={"font-weight-bold mr-1 text-center rateColorR1"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"mi1color"} effect="solid"
@@ -122,7 +126,8 @@ const MatrixDescr = React.memo(function (props) {
                             </ReactTooltip>
                             {"-1"}
                         </div>
-                        <div data-tip data-for={"mi2color"} style={{ width: "30px", height: "25px" }} className={" text-center  hover rateColorR2"} >
+                        <div data-tip data-for={"mi2color"} style={{ width: "30px", height: "25px" }}
+                            className={"font-weight-bold text-center rateColorR2"} >
                             <ReactTooltip
                                 className={"infoTip"}
                                 id={"mi2color"} effect="solid"
@@ -139,19 +144,19 @@ const MatrixDescr = React.memo(function (props) {
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1 pt-3 text-center">
                 {tips.adv}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.advp1}
             </p>
-            <p className="col-12 tipfont m-0 px-1 " >
+            <p className="col-12 m-0 px-1 " >
                 {tips.advp2}
             </p>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.advp3}
             </p>
-            <p className="col-12 tipfont m-0 px-1 " >
+            <p className="col-12 m-0 px-1 " >
                 {tips.advp4}
             </p>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.advp5}
             </p>
             <h6 className="col-12 font-weight-bold m-0 mb-1 text-center">
@@ -159,7 +164,7 @@ const MatrixDescr = React.memo(function (props) {
             </h6>
 
 
-            <div className={"matrix-descr__card row m-0 py-1 mb-3 mt-2 bigFont justify-content-between"}>
+            <div className={"matrix-descr__card row m-0 py-1 mb-3 mt-2 justify-content-between"}>
                 <div className={"row m-0"}>
                     <div data-tip data-for={"topnumber"} className="ml-2 mr-2  align-self-center ">{"#1"}</div>
                     <ReactTooltip

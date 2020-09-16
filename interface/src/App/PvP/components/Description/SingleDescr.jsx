@@ -10,28 +10,28 @@ const SingleDescr = React.memo(function (props) {
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
         <>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.intr}
             </p>
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
                 {tips.rate}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.ratep1}
             </p>
-            <p className="col-12 tipfont font-weight-bold m-0 px-1" >
+            <p className="col-12 font-weight-bold m-0 px-1" >
                 {tips.ratep2}
             </p>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.ratep3}
             </p>
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
                 {tips.max}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.maxp1}
             </p>
-            <ul className="col-12 tipfont m-0 px-3 px-sm-5">
+            <ul className="col-12 m-0 px-3 px-sm-5">
                 <li>
                     {tips.maxul.li1}
                 </li>
@@ -48,16 +48,16 @@ const SingleDescr = React.memo(function (props) {
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
                 {tips.move}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.movep1}
             </p>
-            <p className="col-12 tipfont m-0 px-1 " >
+            <p className="col-12 m-0 px-1 " >
                 {tips.movep2}
             </p>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.movep3}
             </p>
-            <ul className="col-12 tipfont m-0 px-3 px-sm-5">
+            <ul className="col-12 m-0 px-3 px-sm-5">
                 <li>
                     {tips.moveul.li1}
                 </li>
@@ -71,10 +71,10 @@ const SingleDescr = React.memo(function (props) {
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
                 {tips.alg}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.algp1}
             </p>
-            <ul className="col-12 tipfont m-0 px-3 px-sm-5">
+            <ul className="col-12 m-0 px-3 px-sm-5">
                 <li>
                     {tips.algul1.li1}
                 </li>
@@ -85,10 +85,10 @@ const SingleDescr = React.memo(function (props) {
                     {tips.algul1.li3}
                 </li>
             </ul>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.algp2}
             </p>
-            <ul className="col-12 tipfont m-0 px-3 px-sm-5">
+            <ul className="col-12 m-0 px-3 px-sm-5">
                 <li>
                     {tips.algul2.li1}
                 </li>
@@ -96,16 +96,16 @@ const SingleDescr = React.memo(function (props) {
                     {tips.algul2.li2}
                 </li>
             </ul>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.algp3}
             </p>
             <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
                 {tips.constr}
             </h5>
-            <p className="col-12 tipfont m-0 px-1 py-1" >
+            <p className="col-12 m-0 px-1 py-1" >
                 {tips.constrp1}
             </p>
-            <p className="col-12 tipfont font-weight-bold m-0 px-1 py-1" >
+            <p className="col-12 font-weight-bold m-0 px-1 py-1" >
                 {tips.constrp2}
             </p>
         </>
