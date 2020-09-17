@@ -7,7 +7,7 @@ const SingleMoveLine = React.memo(function (props) {
     return (
         <>
             <td
-                className={"singlemove-line__first-cell text-center align-middle m-0 p-0 px-1 typeColorC" + props.MoveType + " text"} >
+                className={"singlemove-line__first-cell text-center align-middle m-0 p-0 px-1 type-color" + props.MoveType + " text"} >
                 {props.name + props.star}
             </td>
             {effectivenessData[props.MoveType].map((elem, i) => {

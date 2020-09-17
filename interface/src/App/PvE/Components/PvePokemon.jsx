@@ -140,7 +140,7 @@ class PvePokemon extends React.PureComponent {
                         labelWidth="88px"
                         label={strings.title.quickMove}
                         labelStyle={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
-                            `typeColorC${this.props.moveTable[this.props.value.QuickMove].MoveType} text` : ""}
+                            `type-color${this.props.moveTable[this.props.value.QuickMove].MoveType} text` : ""}
 
                         place={"top"}
                         for={"QuickMove" + this.props.attr}
@@ -172,7 +172,7 @@ class PvePokemon extends React.PureComponent {
                         labelWidth="88px"
                         label={strings.title.chargeMove}
                         labelStyle={(this.props.moveTable[this.props.value.ChargeMove] !== undefined) ?
-                            `typeColorC${this.props.moveTable[this.props.value.ChargeMove].MoveType} text` : ""}
+                            `type-color${this.props.moveTable[this.props.value.ChargeMove].MoveType} text` : ""}
 
                         place={"top"}
                         for={"ChargeMove" + this.props.attr}
@@ -240,7 +240,7 @@ class PvePokemon extends React.PureComponent {
                         labelWidth="88px"
                         label={strings.title.chargeMove}
                         labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
-                            `typeColorC${this.props.moveTable[this.props.value.ChargeMove2].MoveType} text` : ""}
+                            `type-color${this.props.moveTable[this.props.value.ChargeMove2].MoveType} text` : ""}
 
                         place={"top"}
                         for={"ChargeMove" + this.props.attr}

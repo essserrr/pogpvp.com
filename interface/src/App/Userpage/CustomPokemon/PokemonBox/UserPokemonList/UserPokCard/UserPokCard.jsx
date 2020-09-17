@@ -56,15 +56,15 @@ const UserPokCard = React.memo(function (props) {
             </div>
 
             <ShortMove
-                class={`col-12 px-1  mb-1 typeColorC${props.moveTable[props.QuickMove].MoveType} text`}
+                class={`col-12 px-1  mb-1 type-color${props.moveTable[props.QuickMove].MoveType} text`}
                 value={props.QuickMove}
             />
             <ShortMove
-                class={`col-12 px-1 typeColorC${props.moveTable[props.ChargeMove].MoveType} text`}
+                class={`col-12 px-1 type-color${props.moveTable[props.ChargeMove].MoveType} text`}
                 value={props.ChargeMove}
             />
             {props.ChargeMove2 && props.moveTable[props.ChargeMove2] && <ShortMove
-                class={`col-12 px-1 mt-1 typeColorC${props.moveTable[props.ChargeMove2].MoveType} text`}
+                class={`col-12 px-1 mt-1 type-color${props.moveTable[props.ChargeMove2].MoveType} text`}
                 value={props.ChargeMove2}
             />}
         </div>

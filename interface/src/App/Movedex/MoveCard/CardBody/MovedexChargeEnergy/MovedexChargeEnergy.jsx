@@ -9,9 +9,9 @@ const MovedexChargeEnergy = React.memo(function (props) {
             <div data-tip data-for={props.move.Title + "En"}
                 style={{ width: "100px" }}
                 className="d-flex justify-content-between">
-                <div className={"movedex-chargeen__cell col m-0 typeColorC" + props.move.MoveType} />
-                {Math.abs(props.move.Energy) < 100 && <div className={"movedex-chargeen__cell col ml-1 typeColorC" + props.move.MoveType} />}
-                {Math.abs(props.move.Energy) < 50 && <div className={"movedex-chargeen__cell col ml-1 typeColorC" + props.move.MoveType} />}
+                <div className={"movedex-chargeen__cell col m-0 type-color" + props.move.MoveType} />
+                {Math.abs(props.move.Energy) < 100 && <div className={"movedex-chargeen__cell col ml-1 type-color" + props.move.MoveType} />}
+                {Math.abs(props.move.Energy) < 50 && <div className={"movedex-chargeen__cell col ml-1 type-color" + props.move.MoveType} />}
             </div>
             <ReactTooltip
                 className={"infoTip"}

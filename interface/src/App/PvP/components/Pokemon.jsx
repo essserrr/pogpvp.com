@@ -206,7 +206,7 @@ class Pokemon extends React.PureComponent {
                             labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
                             label={strings.title.quickMove}
                             labelStyle={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
-                                `typeColorC${this.props.moveTable[this.props.value.QuickMove].MoveType} text` : ""}
+                                `type-color${this.props.moveTable[this.props.value.QuickMove].MoveType} text` : ""}
 
                             place={"top"}
                             for={("QuickMove" + this.props.attr)}
@@ -236,7 +236,7 @@ class Pokemon extends React.PureComponent {
                             labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
                             label={strings.title.chargeMove}
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
-                                `typeColorC${this.props.moveTable[this.props.value.ChargeMove1].MoveType} text` : ""}
+                                `type-color${this.props.moveTable[this.props.value.ChargeMove1].MoveType} text` : ""}
 
                             place={"top"}
                             for={"ChargeMove1" + this.props.attr}
@@ -270,7 +270,7 @@ class Pokemon extends React.PureComponent {
                             labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
                             label={strings.title.chargeMove}
                             labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
-                                `typeColorC${this.props.moveTable[this.props.value.ChargeMove2].MoveType} text` : ""}
+                                `type-color${this.props.moveTable[this.props.value.ChargeMove2].MoveType} text` : ""}
 
                             place={"top"}
                             for={"ChargeMove2" + this.props.attr}

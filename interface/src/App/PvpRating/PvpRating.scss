@@ -1,5 +1,139 @@
 $primary-color: #eff0f1;
 $slider-button: #59698d;
+//type colors
+$bug-color: #a8b820;
+$dark-color: #42434e;
+$dragon-color: #7038f8;
+$electric-color: #ffcc00;
+$fairy-color: #ee99ac;
+$figting-color: #c02038;
+$fire-color: #ff9933;
+$flying-color: #78c8e4;
+$ghost-color: #7546bb;
+$grass-color: #78c850;
+$ground-color: #b17d4a;
+$ice-color: #98d8d8;
+$normal-color: #9f9f9a;
+$poison-color: #a040a1;
+$psychic-color: #fe6688;
+$rock-color: #adad85;
+$steel-color: #496d92;
+$water-color: #3590d1;
+
+@mixin backgrounds {
+    &0 {
+        background-color: $bug-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &1 {
+        background-color: $dark-color !important;
+        &.text {
+            color: white;
+        }
+    }
+    &2 {
+        background-color: $dragon-color !important;
+        &.text {
+            color: white;
+        }
+    }
+    &3 {
+        background-color: $electric-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &4 {
+        background-color: $fairy-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &5 {
+        background-color: $figting-color !important;
+        &.text {
+            color: white;
+        }
+    }
+    &6 {
+        background-color: $fire-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &7 {
+        background-color: $flying-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &8 {
+        background-color: $ghost-color !important;
+        &.text {
+            color: white;
+        }
+    }
+    &9 {
+        background-color: $grass-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &10 {
+        background-color: $ground-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &11 {
+        background-color: $ice-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &12 {
+        background-color: $normal-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &13 {
+        background-color: $poison-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &14 {
+        background-color: $psychic-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &15 {
+        background-color: $rock-color !important;
+        &.text {
+            color: black;
+        }
+    }
+    &16 {
+        background-color: $steel-color !important;
+        &.text {
+            color: white;
+        }
+    }
+    &17 {
+        background-color: $water-color !important;
+        &.text {
+            color: black;
+        }
+    }
+}
+
+.type-color {
+    @include backgrounds;
+}
 
 .pvp-rating--width-limit {
     max-width: 650px !important;

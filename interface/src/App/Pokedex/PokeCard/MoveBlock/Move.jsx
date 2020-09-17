@@ -14,7 +14,7 @@ let strings = new LocalizedStrings(dexLocale)
 const Move = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-    let mColor = "typeColorC" + props.value.MoveType + " text"
+    let mColor = "type-color" + props.value.MoveType + " text"
     let isElite = props.pok.EliteMoves[props.value.Title] === 1 || props.value.Title === "Return"
     return (
         <Link className={"col-12 d-flex p-0 my-2"}

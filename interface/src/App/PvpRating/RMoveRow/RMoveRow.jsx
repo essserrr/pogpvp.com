@@ -15,19 +15,19 @@ const RMoveRow = React.memo(function (props) {
                     {props.moveTable[props.value.Quick] &&
                         <ShortMove
                             enableMargins={true}
-                            class={`typeColorC${props.moveTable[props.value.Quick].MoveType} text`}
+                            class={`type-color${props.moveTable[props.value.Quick].MoveType} text`}
                             value={props.value.Quick + addStar(props.value.Quick)}
                         />}
                     {props.moveTable[props.value.Charge[0]] &&
                         <ShortMove
                             enableMargins={true}
-                            class={`typeColorC${props.moveTable[props.value.Charge[0]].MoveType} text`}
+                            class={`type-color${props.moveTable[props.value.Charge[0]].MoveType} text`}
                             value={props.value.Charge[0] + addStar(props.value.Charge[0])}
                         />}
                     {props.moveTable[props.value.Charge[1]] &&
                         <ShortMove
                             enableMargins={true}
-                            class={`typeColorC${props.moveTable[props.value.Charge[1]].MoveType} text`}
+                            class={`type-color${props.moveTable[props.value.Charge[1]].MoveType} text`}
                             value={props.value.Charge[1] + addStar(props.value.Charge[1])}
                         />}
                 </div>

@@ -36,7 +36,7 @@ const EnergyIndicator = React.memo(function (props) {
                 <div className={"energy-indicator__text T" + props.moveType} >
                     {props.moveName}
                 </div>
-                <div className={"energy-indicator__bar typeColorC" + props.moveType} style={{ height: ((value / maxValue * 100)) + "%" }}></div>
+                <div className={"energy-indicator__bar type-color" + props.moveType} style={{ height: ((value / maxValue * 100)) + "%" }}></div>
 
             </div>
         </>
