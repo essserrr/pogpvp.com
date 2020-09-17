@@ -23,11 +23,11 @@ const SinglePvpResults = React.memo(function (props) {
             <tbody className="singlepvp-res__tbody">
                 <Line
                     title={strings.resultTable.rate}
-                    valueA={<div className={"singlepvp-res__rate rateColor" + returnRateStyle(props.value.Attacker.Rate)[1]}>
+                    valueA={<div className={"singlepvp-res__rate rate-color" + returnRateStyle(props.value.Attacker.Rate)[1]}>
                         <i className="fas fa-trophy mr-1"></i>
                         {props.value.Attacker.Rate}
                     </div>}
-                    valueD={<div className={"singlepvp-res__rate rateColor" + returnRateStyle(props.value.Defender.Rate)[1]}>
+                    valueD={<div className={"singlepvp-res__rate rate-color" + returnRateStyle(props.value.Defender.Rate)[1]}>
                         <i className="fas fa-trophy mr-1"></i>
                         {props.value.Defender.Rate}
                     </div>}

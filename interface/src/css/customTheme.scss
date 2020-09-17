@@ -17,15 +17,7 @@ $psychic-color: #fe6688;
 $rock-color: #adad85;
 $steel-color: #496d92;
 $water-color: #3590d1;
-//rating result colors
-$rating0: rgb(181, 182, 182);
-$rating1: rgb(139, 219, 195);
-$rating2: rgb(68, 202, 157);
-$rating-1: rgb(230, 141, 82);
-$rating-2: rgb(224, 86, 32);
-//interface color
-$slider-button: #59698d;
-$primary-color: #eff0f1;
+
 //tips styles
 $tips-padding: 0.2rem;
 $tips-font: 12pt;
@@ -139,33 +131,6 @@ $tips-font: 12pt;
             color: black;
         }
     }
-}
-
-@mixin matrColor {
-    &R0 {
-        background-color: $rating0 !important;
-        color: rgba(24, 23, 23, 1) !important;
-    }
-    &R3 {
-        background-color: $rating1 !important;
-        color: rgba(24, 23, 23, 1) !important;
-    }
-    &R4 {
-        background-color: $rating2 !important;
-        color: rgba(24, 23, 23, 1) !important;
-    }
-    &R1 {
-        background-color: $rating-1 !important;
-        color: rgba(24, 23, 23, 1) !important;
-    }
-    &R2 {
-        background-color: $rating-2 !important;
-        color: rgba(24, 23, 23, 1) !important;
-    }
-}
-
-.rateColor {
-    @include matrColor;
 }
 
 .typeColor {

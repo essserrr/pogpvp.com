@@ -768,34 +768,34 @@ export function selectChargeRaids(movelist, moveTable, pokName, pokTable) {
 
 export function returnRateStyle(rate) {
     if (rate >= 630) {
-        return ["+2", "R4"]
+        return ["+2", "4"]
     }
     if (rate > 500) {
-        return ["+1", "R3"]
+        return ["+1", "3"]
     }
     if (rate === 500) {
-        return ["0", "R0"]
+        return ["0", "0"]
     }
     if (rate >= 370) {
-        return ["-1", "R1"]
+        return ["-1", "1"]
     }
-    return ["-2", "R2"]
+    return ["-2", "2"]
 }
 
 export function returnVunStyle(rate) {
     if (rate > 1.600) {
-        return "R2"
+        return "2"
     }
     if (rate > 1.000) {
-        return "R1"
+        return "1"
     }
     if (rate === "1.000") {
-        return "R0"
+        return "0"
     }
     if (rate > 0.391) {
-        return "R3"
+        return "3"
     }
-    return "R4"
+    return "4"
 }
 
 export var levelData = [

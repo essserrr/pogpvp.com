@@ -16,7 +16,7 @@ const SingleMoveLine = React.memo(function (props) {
 
                 return <td key={props.line + "offensive" + i}
                     className="m-0 p-0 align-middle" >
-                    <div className={"singlemove-line__rate  rateColor" + rateStyle} >
+                    <div className={"singlemove-line__rate  rate-color" + rateStyle} >
                         {multipl}
                     </div>
                 </td >

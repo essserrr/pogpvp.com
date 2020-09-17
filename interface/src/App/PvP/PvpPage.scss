@@ -1,4 +1,37 @@
 $primary-color: #eff0f1;
+//rating result colors
+$rating0: rgb(181, 182, 182);
+$rating1: rgb(139, 219, 195);
+$rating2: rgb(68, 202, 157);
+$rating-1: rgb(230, 141, 82);
+$rating-2: rgb(224, 86, 32);
+
+@mixin color {
+    &0 {
+        background-color: $rating0 !important;
+        color: rgba(24, 23, 23, 1) !important;
+    }
+    &3 {
+        background-color: $rating1 !important;
+        color: rgba(24, 23, 23, 1) !important;
+    }
+    &4 {
+        background-color: $rating2 !important;
+        color: rgba(24, 23, 23, 1) !important;
+    }
+    &1 {
+        background-color: $rating-1 !important;
+        color: rgba(24, 23, 23, 1) !important;
+    }
+    &2 {
+        background-color: $rating-2 !important;
+        color: rgba(24, 23, 23, 1) !important;
+    }
+}
+
+.rate-color {
+    @include color;
+}
 
 .pvppage__upper-panel {
     background-color: $primary-color;

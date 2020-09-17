@@ -15,28 +15,28 @@ class PvpTripleCell extends React.PureComponent {
         return (
             <td className="triplepvp-cell p-0 m-0 px-1 align-middle" >
                 <div className="triplepvp-cell__content row justify-content-center m-0 p-0 mr-auto ml-auto">
-                    <Link className={"col-4 m-0 p-0 text-center hover rateColor" + rate00[1]}
+                    <Link className={"col-4 m-0 p-0 text-center hover rate-color" + rate00[1]}
                         to={{
                             pathname: this.props.queries[0],
                             state: { needsUpdate: true }
                         }}>
                         {rate00[0]}
                     </Link>
-                    <Link className={"col-4 m-0 p-0 text-center  hover  rateColor" + rate11[1]}
+                    <Link className={"col-4 m-0 p-0 text-center  hover  rate-color" + rate11[1]}
                         to={{
                             pathname: this.props.queries[1],
                             state: { needsUpdate: true }
                         }}>
                         {rate11[0]}
                     </Link>
-                    <Link className={"col-4 m-0 p-0 text-center hover rateColor" + rate22[1]}
+                    <Link className={"col-4 m-0 p-0 text-center hover rate-color" + rate22[1]}
                         to={{
                             pathname: this.props.queries[2],
                             state: { needsUpdate: true }
                         }}>
                         {rate22[0]}
                     </Link>
-                    <div className={" col-12 m-0 p-0 rateColor" + rateOverall[1]}>
+                    <div className={" col-12 m-0 p-0 rate-color" + rateOverall[1]}>
                         {this.props.overallRating}
                     </div>
 
