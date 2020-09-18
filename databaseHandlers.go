@@ -12,14 +12,16 @@ import (
 	"github.com/boltdb/bolt"
 	"github.com/go-chi/chi"
 	"github.com/prometheus/client_golang/prometheus"
+	log "github.com/sirupsen/logrus"
 )
 
 func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
-	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("base"))
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New db call from: " + r.Header.Get("User-Agent"))
+	timer := prometheus.NewTimer(app.metrics.latency.WithLabelValues("base"))
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "base_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
@@ -47,14 +49,14 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return nil
 	}
 
-	app.metrics.dbCounters.With(prometheus.Labels{"type": strings.ToLower(bucketName)}).Inc()
+	app.metrics.dbGaugeCount.With(prometheus.Labels{"type": strings.ToLower(bucketName)}).Inc()
 	if value == "" {
 		value = "value"
 	}
 	//return base
 	base := app.semistaticDatabase.readBase(bucketName, value)
 	if base == nil {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "base_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Base not exists")
 	}
 	//set up etag
@@ -68,12 +70,13 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 }
 
 func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
-	app.metrics.dbCounters.With(prometheus.Labels{"type": "news"}).Inc()
-	timer := prometheus.NewTimer(app.metrics.histogram.WithLabelValues("news"))
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New news call from: " + r.Header.Get("User-Agent"))
+	app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news"}).Inc()
+	timer := prometheus.NewTimer(app.metrics.latency.WithLabelValues("news"))
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
@@ -102,12 +105,12 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 	newsHeadersBase, err := app.newsDatabse.readNews(bucketName, bucketKey)
 	if err != nil {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error_count"}).Inc()
 		return err
 	}
 	answer, err := json.Marshal(newsHeadersBase)
 	if err != nil {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error_count"}).Inc()
 		return fmt.Errorf("Marshal error: %v", err)
 	}
 
