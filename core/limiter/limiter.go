@@ -1,12 +1,9 @@
 package limiter
 
 import (
-	"Solutions/pvpSimulator/core/geoip"
-	"fmt"
 	"sync"
 	"time"
 
-	"github.com/prometheus/client_golang/prometheus"
 	"golang.org/x/time/rate"
 )
 
@@ -44,7 +41,13 @@ func (l *limiter) cleanupVisitors() {
 	}
 }
 
-//CheckVisitorLimit check visitors limits
+//CheckExistence check visitor's existence in the limiter object
+func CheckExistence(ip string) bool {
+	_, exists := visitorLimiter.visitors[ip]
+	return exists
+}
+
+//CheckVisitorLimit check visitor's limits and returns true if action is allowed
 func CheckVisitorLimit(ip, limiterType string) bool {
 	visitorLimiter.Lock()
 	defer visitorLimiter.Unlock()
@@ -84,14 +87,4 @@ func (l *limiter) checkLimits(ip, limiterType string, vis *visitor) bool {
 	vis.lastSeen = time.Now()
 	l.visitors[ip] = vis
 	return isAllowed
-}
-
-func recordGeo(ip string, ipLocations *prometheus.CounterVec) {
-	code, err := geoip.GetCode(ip)
-	if err != nil {
-		fmt.Printf("An error accured during getting country code: %v", err)
-		return
-	}
-	ipLocations.With(prometheus.Labels{"country": code}).Inc()
-	return
 }

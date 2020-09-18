@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi"
 
 	getbase "Solutions/pvpSimulator/bases"
+	"Solutions/pvpSimulator/core/geoip"
 
 	"bytes"
 	"encoding/binary"
@@ -51,12 +52,14 @@ type App struct {
 }
 
 type pageMetrics struct {
-	appCounters  *prometheus.GaugeVec
-	dbCounters   *prometheus.GaugeVec
-	apiCounters  *prometheus.GaugeVec
-	userCounters *prometheus.CounterVec
-	ipLocations  *prometheus.CounterVec
-	histogram    *prometheus.SummaryVec
+	appGaugeCount  *prometheus.GaugeVec
+	userGaugeCount *prometheus.GaugeVec
+	dbGaugeCount   *prometheus.GaugeVec
+	apiGaugeCount  *prometheus.GaugeVec
+
+	userCount *prometheus.CounterVec
+	locations *prometheus.CounterVec
+	latency   *prometheus.SummaryVec
 }
 
 type database struct {
@@ -109,7 +112,7 @@ func createApp(withLog *os.File) (*App, error) {
 	//init server
 	app.initServer()
 	//start clean up task
-	go app.pvpDatabase.cleanupBucket(72, "PVPRESULTS", &app)
+	go app.pvpDatabase.cleanupBucket(24, "PVPRESULTS", &app)
 	//start update db task
 	go app.semistaticDatabase.startUpdaterService(5, "SHINY", "value", &app, getbase.GetShinyBase)
 	go app.semistaticDatabase.startUpdaterService(12, "RAIDS", "value", &app, getbase.GetRaidsList)
@@ -158,7 +161,8 @@ func (dbs *database) addStaticBase(path, bucketName string) error {
 func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
-		app.metrics.appCounters.With(prometheus.Labels{"type": "cleanup_pvp_count"}).Inc()
+		app.metrics.appGaugeCount.With(
+			prometheus.Labels{"type": fmt.Sprintf("cleanup_%v_count", strings.ToLower(bucketName))}).Inc()
 
 		err := dbs.value.Update(func(tx *bolt.Tx) error {
 			var obj appl.PvpResults
@@ -166,7 +170,7 @@ func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
 
 			b.ForEach(func(k, v []byte) error {
 				if err := json.Unmarshal(v, &obj); err != nil {
-					return fmt.Errorf("Error during %v bucket cleanup %v", bucketName, err)
+					return fmt.Errorf("Error while cleaning bucket %v: %v", bucketName, err)
 				}
 				if time.Now().Sub(obj.CreatedAt) > time.Duration(timer)*time.Hour {
 					b.Delete(k)
@@ -176,8 +180,8 @@ func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
 			return nil
 		})
 		if err != nil {
-			app.metrics.appCounters.With(prometheus.Labels{"type": "cleanup_pvp_error_count"}).Inc()
-			log.WithFields(log.Fields{"location": "cleanupBucket"}).Error(err)
+			app.metrics.appGaugeCount.With(prometheus.Labels{"type": fmt.Sprintf("cleanup_%v_error_count", strings.ToLower(bucketName))}).Inc()
+			log.WithFields(log.Fields{"location": "cleanupBucket: " + bucketName}).Error(err)
 			continue
 		}
 	}
@@ -187,10 +191,10 @@ func (dbs *database) startUpdaterService(timer uint, bucketName, key string, app
 	//start updater service
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "update_db_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "update_db_count"}).Inc()
 		if err := dbs.updateBase(bucketName, key, funcCall); err != nil {
-			app.metrics.dbCounters.With(prometheus.Labels{"type": "update_db_error_count"}).Inc()
-			log.WithFields(log.Fields{"location": "updaterService, " + bucketName}).Error(err)
+			app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "update_db_error_count"}).Inc()
+			log.WithFields(log.Fields{"location": "updater: " + bucketName}).Error(err)
 			continue
 		}
 	}
@@ -283,6 +287,9 @@ func (rh rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if rh.app.corsEnabled {
 		setupCors(&w, r)
 	}
+
+	rh.app.registerUserAgent(r.Header.Get("User-Agent"), getIP(r))
+
 	//handle options method
 	if (*r).Method == "OPTIONS" && rh.app.corsEnabled {
 		w.WriteHeader(200)
@@ -333,22 +340,46 @@ func checkLimits(remoteAddr, limiterType string) error {
 	return nil
 }
 
+//registers new user and returns true if it is a bot
+func (a *App) registerUserAgent(agent, ip string) bool {
+	ua := user_agent.New(agent)
+	switch ua.Bot() {
+	case true:
+		go a.metrics.userGaugeCount.With(prometheus.Labels{"type": "bots_count"}).Inc()
+	default:
+		if !limiter.CheckExistence(ip) {
+			go a.recordGeo(ip)
+			go a.metrics.userGaugeCount.With(prometheus.Labels{"type": "visitors_count"}).Inc()
+		}
+	}
+	return ua.Bot()
+}
+
+func (a *App) recordGeo(ip string) {
+	code, err := geoip.GetCode(ip)
+	if err != nil {
+		log.WithFields(log.Fields{"location": "geoIP"}).Errorf("An error accured while getting user country code: %v", err)
+		return
+	}
+	a.metrics.locations.With(prometheus.Labels{"country": code}).Inc()
+	return
+}
+
 func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	agent := r.Header.Get("User-Agent")
-	log.WithFields(log.Fields{"location": r.RequestURI}).Println("User-agent: " + agent)
+	ip := getIP(r)
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New visitor, User-agent: " + agent)
 	//SEO actions
-	//check if an user if bot
-	ua := user_agent.New(agent)
-	//if he doesn't serve him usual page and check his limits
-	if !ua.Bot() {
+	//if it is a user
+	if !app.registerUserAgent(agent, ip) {
 		//Check visitor's requests limit
-		if err := checkLimits(getIP(r), "limiterPage"); err != nil {
+		if err := checkLimits(ip, "limiterPage"); err != nil {
 			return err
 		}
 		http.ServeFile(*w, r, "./interface/build/200.html")
 		return nil
 	}
-	//otherwise prebuilded page
+	//if it is a bot
 	s := strings.Split(r.RequestURI, "/")
 	switch s[1] {
 	case "":
@@ -443,52 +474,36 @@ func (a *App) listen() {
 }
 
 func (a *App) initMetrics() *http.Server {
-	a.metrics.appCounters = prometheus.NewGaugeVec(
+	a.metrics.appGaugeCount = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{Name: "app_calls", Help: "Number of app calls by type"},
+		[]string{"type"})
+	a.metrics.userGaugeCount = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{Name: "user_calls", Help: "Number of user calls by type"},
+		[]string{"type"})
+	a.metrics.dbGaugeCount = prometheus.NewGaugeVec(
 		prometheus.GaugeOpts{
-			Name: "app_calls",
-			Help: "Number of app calls by type",
-		},
-		[]string{"type"},
-	)
-	a.metrics.dbCounters = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Name: "db_calls",
-			Help: "Number of base calls by type",
-		},
-		[]string{"type"},
-	)
-	a.metrics.apiCounters = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Name: "api_calls",
-			Help: "Number of api calls by type",
-		},
-		[]string{"type"},
-	)
-	a.metrics.userCounters = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "user",
-			Help: "User related metrics",
-		},
-		[]string{"type"},
-	)
-	a.metrics.ipLocations = prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "locations",
-			Help: "Number of connections by country",
-		},
-		[]string{"country"},
-	)
-	a.metrics.histogram = prometheus.NewSummaryVec(prometheus.SummaryOpts{
-		Name:       "request_duration_ms",
-		Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001},
-	}, []string{"code"})
+			Name: "db_calls", Help: "Number of base calls by type"},
+		[]string{"type"})
+	a.metrics.apiGaugeCount = prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{Name: "api_calls", Help: "Number of api calls by type"},
+		[]string{"type"})
+	a.metrics.userCount = prometheus.NewCounterVec(
+		prometheus.CounterOpts{Name: "user_count", Help: "User related metrics"},
+		[]string{"type"})
+	a.metrics.locations = prometheus.NewCounterVec(
+		prometheus.CounterOpts{Name: "locations", Help: "Number of connections by country"},
+		[]string{"country"})
+	a.metrics.latency = prometheus.NewSummaryVec(
+		prometheus.SummaryOpts{Name: "request_duration_ms", Objectives: map[float64]float64{0.5: 0.05, 0.9: 0.01, 0.99: 0.001}},
+		[]string{"code"})
 
-	prometheus.MustRegister(a.metrics.appCounters)
-	prometheus.MustRegister(a.metrics.dbCounters)
-	prometheus.MustRegister(a.metrics.apiCounters)
-	prometheus.MustRegister(a.metrics.ipLocations)
-	prometheus.MustRegister(a.metrics.histogram)
-	prometheus.MustRegister(a.metrics.userCounters)
+	prometheus.MustRegister(a.metrics.appGaugeCount)
+	prometheus.MustRegister(a.metrics.userGaugeCount)
+	prometheus.MustRegister(a.metrics.dbGaugeCount)
+	prometheus.MustRegister(a.metrics.apiGaugeCount)
+	prometheus.MustRegister(a.metrics.locations)
+	prometheus.MustRegister(a.metrics.latency)
+	prometheus.MustRegister(a.metrics.userCount)
 
 	metrics := chi.NewRouter()
 	metrics.Handle("/metrics", promhttp.Handler())
