@@ -61,8 +61,9 @@ type authResp struct {
 }
 
 func register(w *http.ResponseWriter, r *http.Request, app *App) error {
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New reg request from: " + r.Header.Get("User-Agent"))
 	if r.Method != http.MethodPost {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -71,21 +72,21 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	form := new(users.SubmitForm)
 	if err := parseBody(r, &form); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	if err := form.VerifyRegForm(ip); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Registration form err"), http.StatusBadRequest, err.Error())
 	}
 	form.Encode(false)
 	if err := userauth.CheckUserExistance(app.mongo.client, form); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Registration data err"), http.StatusConflict, err.Error())
 	}
 	id, err := userauth.Signup(app.mongo.client, form)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Registration err"), http.StatusInternalServerError, err.Error())
 	}
 	browser, os := browserAndOs(r.Header.Get("User-Agent"))
@@ -95,17 +96,18 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		IP:      ip,
 	}, id)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		log.WithFields(log.Fields{"location": r.RequestURI}).Errorf("Token creation failed")
 		tokens = &users.Tokens{}
 	}
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("New user: %v has just registered", tokens.UserID)
-	app.metrics.userCounters.With(prometheus.Labels{"type": "new_users"}).Inc()
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("New user: %v has just registered", tokens.UserID)
+	go app.metrics.userCount.With(prometheus.Labels{"type": "new_users"}).Inc()
+	go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_count"}).Inc()
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reg_error_count"}).Inc()
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
@@ -174,8 +176,9 @@ func respond(w *http.ResponseWriter, target interface{}) error {
 }
 
 func reset(w *http.ResponseWriter, r *http.Request, app *App) error {
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New reset request from: " + r.Header.Get("User-Agent"))
 	if r.Method != http.MethodPost {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -184,30 +187,31 @@ func reset(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	form := new(users.SubmitForm)
 	if err := parseBody(r, &form); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	if err := form.VerifyResetForm(ip); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword form err"), http.StatusBadRequest, err.Error())
 
 	}
 	info, err := userauth.ResetPass(app.mongo.client, form)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, err.Error())
 	}
 
 	if err := SendResetEmail(info); err != nil {
 		log.WithFields(log.Fields{"location": r.RequestURI}).Printf("Send email error %v", err)
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, "Error while sending email")
 	}
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User with email %v has just requested password reset %v", info.Email, info.RestoreKey)
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User with email %v has just requested password reset %v", info.Email, info.RestoreKey)
+	go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reset_count"}).Inc()
 
 	if err := respond(w, "ok"); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "reset_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
@@ -252,8 +256,9 @@ func parseTemplate(templateFileName string, data interface{}) (string, error) {
 }
 
 func restoreConfirm(w *http.ResponseWriter, r *http.Request, app *App) error {
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New restore request from: " + r.Header.Get("User-Agent"))
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		app.metrics.appGaugeCount.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -265,22 +270,24 @@ func restoreConfirm(w *http.ResponseWriter, r *http.Request, app *App) error {
 	username, err := userauth.ConfirmRestorePass(app.mongo.client, restoreKey)
 	if err != nil {
 		log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User %v got an error while resetting their password %v", username, err)
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Reset pasword err"), http.StatusBadRequest, err.Error())
 	}
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User %v has just reseted their password", username)
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User %v has just reseted their password", username)
+	go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "restore_count"}).Inc()
 
 	if err := respond(w, "ok"); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "restore_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
 }
 
 func login(w *http.ResponseWriter, r *http.Request, app *App) error {
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New login request from: " + r.Header.Get("User-Agent"))
 	if r.Method != http.MethodPost {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		app.metrics.userGaugeCount.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -289,11 +296,11 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 	form := new(users.SubmitForm)
 	if err := parseBody(r, &form); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	if err := form.VerifyLogForm(ip); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Login form err"), http.StatusBadRequest, err.Error())
 	}
 	form.Encode(false)
@@ -304,24 +311,26 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 		IP:      ip,
 	})
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Login error"), http.StatusBadRequest, err.Error())
 	}
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has logged in", tokens.UserID)
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has logged in", tokens.UserID)
+	go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "login_count"}).Inc()
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Expires: tokens.AToken.Expires, Username: form.Username}); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "login_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "login_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
 }
 
 func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New refresh request from: " + r.Header.Get("User-Agent"))
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		app.metrics.userGaugeCount.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -339,24 +348,26 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 		IP:      ip,
 	}, rCookie)
 	if err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
 		discardCookie(w)
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
 	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just refreshed their token", tokens.UserID)
+	go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "refresh_count"}).Inc()
 
 	setCookie(w, tokens)
 	if err = respond(w, authResp{Expires: tokens.AToken.Expires, Username: uname}); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "refresh_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
 }
 
 func logout(w *http.ResponseWriter, r *http.Request, app *App) error {
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New logout request from: " + r.Header.Get("User-Agent"))
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -369,24 +380,26 @@ func logout(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return err
 	}
 	if err = userauth.Logout(app.mongo.client, accSession); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
 	discardCookie(w)
 
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just just logged out", accSession.UserID)
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just just logged out", accSession.UserID)
+	go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_count"}).Inc()
 
 	if err = respond(w, "Ok"); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
 }
 
 func logoutAll(w *http.ResponseWriter, r *http.Request, app *App) error {
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New logout all request from: " + r.Header.Get("User-Agent"))
 	if r.Method != http.MethodGet {
-		app.metrics.dbCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_all_error_count"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
@@ -399,15 +412,16 @@ func logoutAll(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return err
 	}
 	if err = userauth.LogoutAll(app.mongo.client, accSession); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_all_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Refresh error"), http.StatusBadRequest, err.Error())
 	}
 
 	discardCookie(w)
-	log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just ended all their sessions", accSession.UserID)
+	go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has just ended all their sessions", accSession.UserID)
+	go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_all_count"}).Inc()
 
 	if err = respond(w, "Logged out"); err != nil {
-		go app.metrics.appCounters.With(prometheus.Labels{"type": "logout_error_count"}).Inc()
+		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "logout_all_error_count"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("Write response error"), http.StatusInternalServerError, err.Error())
 	}
 	return nil
