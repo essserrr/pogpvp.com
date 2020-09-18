@@ -162,7 +162,7 @@ func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
 		app.metrics.appGaugeCount.With(
-			prometheus.Labels{"type": fmt.Sprintf("cleanup_%v_count", strings.ToLower(bucketName))}).Inc()
+			prometheus.Labels{"type": fmt.Sprintf("cleanup_%v", strings.ToLower(bucketName))}).Inc()
 
 		err := dbs.value.Update(func(tx *bolt.Tx) error {
 			var obj appl.PvpResults
@@ -180,7 +180,7 @@ func (dbs *database) cleanupBucket(timer uint, bucketName string, app *App) {
 			return nil
 		})
 		if err != nil {
-			app.metrics.appGaugeCount.With(prometheus.Labels{"type": fmt.Sprintf("cleanup_%v_error_count", strings.ToLower(bucketName))}).Inc()
+			app.metrics.appGaugeCount.With(prometheus.Labels{"type": fmt.Sprintf("cleanup_%v_error", strings.ToLower(bucketName))}).Inc()
 			log.WithFields(log.Fields{"location": "cleanupBucket: " + bucketName}).Error(err)
 			continue
 		}
@@ -191,9 +191,9 @@ func (dbs *database) startUpdaterService(timer uint, bucketName, key string, app
 	//start updater service
 	for {
 		time.Sleep(time.Duration(timer) * time.Hour)
-		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "update_db_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "update_db"}).Inc()
 		if err := dbs.updateBase(bucketName, key, funcCall); err != nil {
-			app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "update_db_error_count"}).Inc()
+			app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "update_db_error"}).Inc()
 			log.WithFields(log.Fields{"location": "updater: " + bucketName}).Error(err)
 			continue
 		}
@@ -345,11 +345,11 @@ func (a *App) registerUserAgent(agent, ip string) bool {
 	ua := user_agent.New(agent)
 	switch ua.Bot() {
 	case true:
-		go a.metrics.userGaugeCount.With(prometheus.Labels{"type": "bots_count"}).Inc()
+		go a.metrics.userGaugeCount.With(prometheus.Labels{"type": "bots"}).Inc()
 	default:
 		if !limiter.CheckExistence(ip) {
 			go a.recordGeo(ip)
-			go a.metrics.userGaugeCount.With(prometheus.Labels{"type": "visitors_count"}).Inc()
+			go a.metrics.userGaugeCount.With(prometheus.Labels{"type": "visitors"}).Inc()
 		}
 	}
 	return ua.Bot()
@@ -488,7 +488,7 @@ func (a *App) initMetrics() *http.Server {
 		prometheus.GaugeOpts{Name: "api_calls", Help: "Number of api calls by type"},
 		[]string{"type"})
 	a.metrics.userCount = prometheus.NewCounterVec(
-		prometheus.CounterOpts{Name: "user_count", Help: "User related metrics"},
+		prometheus.CounterOpts{Name: "total", Help: "Total counters"},
 		[]string{"type"})
 	a.metrics.locations = prometheus.NewCounterVec(
 		prometheus.CounterOpts{Name: "locations", Help: "Number of connections by country"},

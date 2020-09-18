@@ -24,7 +24,7 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
@@ -53,10 +53,10 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	case "pvpoke":
 		pvpReq.answer = app.pvpDatabase.readBase("PVPRESULTS", pvpReq.pvpBaseKey+"pvpoke")
 		log.WithFields(log.Fields{"location": r.RequestURI}).Println("Pvpoke enabled")
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_pvpoke_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_pvpoke"}).Inc()
 	default:
 		pvpReq.answer = app.pvpDatabase.readBase("PVPRESULTS", pvpReq.pvpBaseKey)
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp"}).Inc()
 	}
 
 	switch pvpReq.answer {
@@ -113,13 +113,13 @@ func (spr *singlePvpReq) singlePvpWrap(app *App, r *http.Request) error {
 	}
 
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 	}
 	//Create json answer from pvpResult
 	spr.answer, err = json.Marshal(pvpResult)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error"}).Inc()
 		return fmt.Errorf("PvP result marshal error: %v", err)
 	}
 	if !pvpResult.IsRandom {
@@ -131,7 +131,7 @@ func (spr *singlePvpReq) singlePvpWrap(app *App, r *http.Request) error {
 		}
 	}
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error"}).Inc()
 		return err
 	}
 	return nil
@@ -145,7 +145,7 @@ func getUserMovelist(w *http.ResponseWriter, r *http.Request, app *App) *map[str
 	moves, err := useractions.GetUserMoves(app.mongo.client, accSession)
 	if err != nil {
 		go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("Error while getting user %v moves: %v", accSession.UserID, err)
-		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "get_user_moves_err"}).Inc()
+		go app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "get_user_moves_err"}).Inc()
 		return &map[string]appl.MoveBaseEntry{}
 	}
 	switch moves {
@@ -153,7 +153,7 @@ func getUserMovelist(w *http.ResponseWriter, r *http.Request, app *App) *map[str
 		return &map[string]appl.MoveBaseEntry{}
 	default:
 		go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has got their custom moves", accSession.UserID)
-		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "get_user_moves"}).Inc()
+		go app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "get_user_moves"}).Inc()
 		return moves
 	}
 }
@@ -162,7 +162,7 @@ func (a *App) writePvp(battleRes []byte, key string) {
 	//put it into the base
 	err := a.pvpDatabase.createNewEntry("PVPRESULTS", key, battleRes)
 	if err != nil {
-		a.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error_count"}).Inc()
+		a.metrics.appGaugeCount.With(prometheus.Labels{"type": "single_pvp_error"}).Inc()
 		log.WithFields(log.Fields{"location": "writePvp"}).Error(err)
 		return
 	}
@@ -190,7 +190,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 
@@ -203,7 +203,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	//Read request body
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 	}
 
@@ -212,7 +212,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	//Parse request
 	pvpReq.attacker, pvpReq.defender, pvpReq.constr, err = parser.ParseConstructorRequest(body)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error"}).Inc()
 		return err
 	}
 
@@ -239,14 +239,14 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	}
 
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("PvP error"), http.StatusBadRequest, err.Error())
 	}
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("Calculated constructor pvp: " + pvpReq.isPvpoke)
 	//Create json answer from pvpResult
 	answer, err := json.Marshal(pvpResult)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "constructor_pvp_error"}).Inc()
 		return fmt.Errorf("PvP result marshal error: %v", err)
 	}
 	//Write answer
@@ -264,7 +264,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 
@@ -275,18 +275,18 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Read request body
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	//Parse request
 	matrixObj := matrixPvpReq{}
 	matrixObj.rowA, matrixObj.rowB, err = parser.ParseMatrixRequest(body)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 		return err
 	}
 	if len(matrixObj.rowA) > 50 || len(matrixObj.rowB) > 50 {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Parties with length more than 50 are not allowed")
 	}
 	//Start new PvP
@@ -317,7 +317,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Create json answer from pvpResult
 	answer, err := json.Marshal(matrixObj.result)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 		return fmt.Errorf("PvP result marshal error: %v", err)
 	}
 	//Write answer
@@ -376,7 +376,7 @@ func (mp *matrixPvpReq) calculateMatrix(shields uint8) error {
 	}
 	close(mp.errChan)
 	if errStr := mp.errChan.Flush(); errStr != "" {
-		go mp.app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+		go mp.app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 		return fmt.Errorf(errStr)
 	}
 	mp.result = append(mp.result, singleMatrixResults)
@@ -444,7 +444,7 @@ func (mp *matrixPvpReq) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 				//Create json from singleBattleResult
 				newBaseEntry, err := json.Marshal(battleRes)
 				if err != nil {
-					go mp.app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+					go mp.app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 					go log.WithFields(log.Fields{"location": "writeMatrixRwsult"}).Error(fmt.Errorf("Matrix PvP result marshal error: %v", err))
 					return
 				}
@@ -460,7 +460,7 @@ func (mp *matrixPvpReq) runMatrixPvP(singleMatrixResults *[]appl.MatrixResult) {
 	default: //if result exists
 		var singleBattleResult appl.PvpResults
 		if err = json.Unmarshal(baseEntry, &singleBattleResult); err != nil {
-			go mp.app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error_count"}).Inc()
+			go mp.app.metrics.appGaugeCount.With(prometheus.Labels{"type": "matrix_pvp_error"}).Inc()
 			mp.errChan <- fmt.Errorf("Matrix PvP result unmarshal error: %v", err)
 			return
 		}
@@ -480,14 +480,14 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
 	if err := checkLimits(getIP(r), "limiterPve"); err != nil {
 		return err
 	}
-	go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve_count"}).Inc()
+	go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve"}).Inc()
 
 	//Parse request
 	inDat, err := parser.ParseRaidRequest(chi.URLParam(r, "attacker"), chi.URLParam(r, "boss"), chi.URLParam(r, "obj"), chi.URLParam(r, "booster"))
@@ -499,7 +499,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Start new raid
 	pveResult, err := sim.CalculteCommonPve(inDat)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve_error"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
 	}
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("Common pve calculated")
@@ -507,7 +507,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Create json answer from pvpResult
 	answer, err := json.Marshal(pveResult)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "common_pve_error"}).Inc()
 		return fmt.Errorf("PvE result marshal error: %v", err)
 	}
 
@@ -526,18 +526,18 @@ func customPveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
 	if err := checkLimits(getIP(r), "limiterPve"); err != nil {
 		return err
 	}
-	go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_count"}).Inc()
+	go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve"}).Inc()
 
 	req := appl.IntialDataPve{}
 	if err := parseBody(r, &req); err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	req.CustomMoves = getUserMovelist(w, r, app)
@@ -548,7 +548,7 @@ func customPveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Start new raid
 	pveResult, err := sim.CalculteCustomPve(req)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error"}).Inc()
 		return errors.NewHTTPError(fmt.Errorf("PvE error"), http.StatusBadRequest, err.Error())
 	}
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("Custom pve calculated")
@@ -556,7 +556,7 @@ func customPveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//Create json answer from pvpResult
 	answer, err := json.Marshal(pveResult)
 	if err != nil {
-		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error_count"}).Inc()
+		go app.metrics.appGaugeCount.With(prometheus.Labels{"type": "custom_pve_error"}).Inc()
 		return fmt.Errorf("PvE result marshal error: %v", err)
 	}
 
@@ -577,7 +577,7 @@ func returnUserPokemon(w *http.ResponseWriter, r *http.Request, app *App) []appl
 	pokemon, err := useractions.GetUserPokemon(app.mongo.client, accSession)
 	if err != nil {
 		go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("Error while getting user %v pokemon: %v", accSession.UserID, err)
-		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "get_user_pokemon_err"}).Inc()
+		go app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "get_user_pokemon_err"}).Inc()
 		return []appl.UserPokemon{}
 	}
 	switch pokemon {
@@ -585,7 +585,7 @@ func returnUserPokemon(w *http.ResponseWriter, r *http.Request, app *App) []appl
 		return []appl.UserPokemon{}
 	default:
 		go log.WithFields(log.Fields{"location": r.RequestURI}).Printf("User: %v has got their custom pokemon", accSession.UserID)
-		go app.metrics.userGaugeCount.With(prometheus.Labels{"type": "get_user_pokemon"}).Inc()
+		go app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "get_user_pokemon"}).Inc()
 		return pokemon
 	}
 }

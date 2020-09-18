@@ -46,42 +46,42 @@ type authForm struct {
 func (dbs *database) suAuthorization(login, password string, app *App) error {
 	go log.WithFields(log.Fields{"location": "API: SU auth"}).Println("Started SU auth")
 	if login == "" {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusBadRequest, "There must be login")
 	}
 	if password == "" {
-		app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error_count"}).Inc()
+		app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusBadRequest, "There must be password")
 	}
 
 	pass := dbs.readBase("SUPERADMINS", login)
 	if pass == nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusProxyAuthRequired, "Incorrect login")
 	}
 	if string(pass[:]) != password {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_auth_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusBadRequest, "Incorrect password")
 	}
 	return nil
 }
 
 func newsAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
-	go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news_count"}).Inc()
+	go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news"}).Inc()
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New news API call")
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news_count_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news _error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news_count_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news _error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	var newsRequest newsRequest
 	if err = json.Unmarshal(body, &newsRequest); err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news_count_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news _error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while parsing request body")
 	}
 
@@ -156,21 +156,21 @@ func (dbs *database) updateNews(newsKey uint64, news rawNews, bucketName []strin
 }
 
 func logAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
-	go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log_count"}).Inc()
+	go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log"}).Inc()
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New log API call")
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log_count_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log _error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log_count_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log _error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	var authForm newsRequest
 	if err = json.Unmarshal(body, &authForm); err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log_count_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log _error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while parsing request body")
 	}
 
@@ -195,22 +195,22 @@ func logAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 }
 
 func dbUpdateAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
-	go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update_count"}).Inc()
+	go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update"}).Inc()
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New DB update API call")
 
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	var authForm baseRequest
 	if err = json.Unmarshal(body, &authForm); err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update_error_count"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_db_update_error"}).Inc()
 		return errors.NewHTTPError(err, 400, "Error while parsing request body")
 	}
 

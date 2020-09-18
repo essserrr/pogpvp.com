@@ -21,7 +21,7 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
-		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "base_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
@@ -56,7 +56,7 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//return base
 	base := app.semistaticDatabase.readBase(bucketName, value)
 	if base == nil {
-		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "base_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Base not exists")
 	}
 	//set up etag
@@ -76,7 +76,7 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	defer timer.ObserveDuration().Milliseconds()
 	//Check if method is allowed
 	if r.Method != http.MethodGet {
-		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
@@ -105,12 +105,12 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 
 	newsHeadersBase, err := app.newsDatabse.readNews(bucketName, bucketKey)
 	if err != nil {
-		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error"}).Inc()
 		return err
 	}
 	answer, err := json.Marshal(newsHeadersBase)
 	if err != nil {
-		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error_count"}).Inc()
+		app.metrics.dbGaugeCount.With(prometheus.Labels{"type": "news_base_error"}).Inc()
 		return fmt.Errorf("Marshal error: %v", err)
 	}
 
