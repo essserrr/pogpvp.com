@@ -27,7 +27,7 @@ func pvpHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(getIP(r), "limiterPvp"); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pvp_count"}).Inc()
@@ -191,7 +191,7 @@ func constructorPvpHandler(w *http.ResponseWriter, r *http.Request, app *App) er
 	}
 
 	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(getIP(r), "limiterPvp"); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "constructor_pvp"}).Inc()
@@ -264,7 +264,7 @@ func matrixHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	}
 
 	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(getIP(r), "limiterPvp"); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "matrix_pvp"}).Inc()
@@ -467,7 +467,7 @@ func pveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(getIP(r), "limiterPve"); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "pve_count"}).Inc()
@@ -512,7 +512,7 @@ func customPveHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method is not allowed")
 	}
 	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterPvp", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(getIP(r), "limiterPve"); err != nil {
 		return err
 	}
 	go app.metrics.appCounters.With(prometheus.Labels{"type": "custom_pve_count"}).Inc()

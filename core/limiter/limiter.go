@@ -10,56 +10,80 @@ import (
 	"golang.org/x/time/rate"
 )
 
+var visitorLimiter limiter
+
 func init() {
-	go cleanupVisitors()
+	visitorLimiter.visitors = make(map[string]*visitor)
+	go visitorLimiter.cleanupVisitors()
+}
+
+type limiter struct {
+	sync.RWMutex
+	visitors map[string]*visitor
 }
 
 type visitor struct {
-	limiterPvp  *rate.Limiter
-	limiterBase *rate.Limiter
-	limiterPage *rate.Limiter
-	lastSeen    time.Time
+	limiterPvp         *rate.Limiter
+	limiterPve         *rate.Limiter
+	limiterUserProfile *rate.Limiter
+	limiterBase        *rate.Limiter
+	limiterPage        *rate.Limiter
+	lastSeen           time.Time
 }
 
-var visitors = make(map[string]*visitor)
-var mu sync.RWMutex
-
-//GetVisitor check visitors limits
-func GetVisitor(ip, limiterType string, ipLocations *prometheus.CounterVec) *rate.Limiter {
-	mu.Lock()
-	defer mu.Unlock()
-
-	v, exists := visitors[ip]
-	if !exists {
-		go recordGeo(ip, ipLocations)
-
-		limiterPage := rate.NewLimiter(14, 10)
-		limiterBase := rate.NewLimiter(14, 10)
-		limiterPvp := rate.NewLimiter(14, 10)
-
-		// Include the current time when creating a new visitor.
-		visitors[ip] = &visitor{limiterPvp, limiterBase, limiterPage, time.Now()}
-
-		switch limiterType {
-		case "limiterPvp":
-			return limiterPvp
-		case "limiterBase":
-			return limiterBase
-		default:
-			return limiterPage
+func (l *limiter) cleanupVisitors() {
+	for {
+		time.Sleep(20 * time.Minute)
+		l.Lock()
+		for ip, v := range l.visitors {
+			if time.Since(v.lastSeen) > 120*time.Minute {
+				delete(l.visitors, ip)
+			}
 		}
+		l.Unlock()
 	}
+}
 
+//CheckVisitorLimit check visitors limits
+func CheckVisitorLimit(ip, limiterType string) bool {
+	visitorLimiter.Lock()
+	defer visitorLimiter.Unlock()
+	v, exists := visitorLimiter.visitors[ip]
+	if !exists {
+		visitor := newVesitor()
+		return visitorLimiter.checkLimits(ip, limiterType, visitor)
+	}
 	// Update the last seen time for the visitor.
-	v.lastSeen = time.Now()
+	return visitorLimiter.checkLimits(ip, limiterType, v)
+}
+
+func newVesitor() *visitor {
+	return &visitor{
+		limiterPvp:         rate.NewLimiter(10, 10),
+		limiterPve:         rate.NewLimiter(10, 10),
+		limiterUserProfile: rate.NewLimiter(10, 10),
+		limiterBase:        rate.NewLimiter(10, 10),
+		limiterPage:        rate.NewLimiter(10, 10),
+	}
+}
+
+func (l *limiter) checkLimits(ip, limiterType string, vis *visitor) bool {
+	var isAllowed bool
 	switch limiterType {
 	case "limiterPvp":
-		return v.limiterPvp
+		isAllowed = vis.limiterPvp.Allow()
+	case "limiterPve":
+		isAllowed = vis.limiterPve.Allow()
+	case "limiterUserProfile":
+		isAllowed = vis.limiterUserProfile.Allow()
 	case "limiterBase":
-		return v.limiterBase
+		isAllowed = vis.limiterBase.Allow()
 	default:
-		return v.limiterPage
+		isAllowed = vis.limiterPage.Allow()
 	}
+	vis.lastSeen = time.Now()
+	l.visitors[ip] = vis
+	return isAllowed
 }
 
 func recordGeo(ip string, ipLocations *prometheus.CounterVec) {
@@ -70,17 +94,4 @@ func recordGeo(ip string, ipLocations *prometheus.CounterVec) {
 	}
 	ipLocations.With(prometheus.Labels{"country": code}).Inc()
 	return
-}
-
-func cleanupVisitors() {
-	for {
-		time.Sleep(20 * time.Minute)
-		mu.Lock()
-		for ip, v := range visitors {
-			if time.Since(v.lastSeen) > 30*time.Minute {
-				delete(visitors, ip)
-			}
-		}
-		mu.Unlock()
-	}
 }

@@ -325,10 +325,9 @@ func (rh rootHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func checkLimits(RemoteAddr, limiterType string, ipLocations *prometheus.CounterVec) error {
+func checkLimits(remoteAddr, limiterType string) error {
 	//Check visitor's requests limit
-	limiter := limiter.GetVisitor(RemoteAddr, limiterType, ipLocations)
-	if limiter.Allow() == false {
+	if limiter.CheckVisitorLimit(remoteAddr, limiterType) == false {
 		return errors.NewHTTPError(nil, http.StatusTooManyRequests, "Too many Requests")
 	}
 	return nil
@@ -343,7 +342,7 @@ func serveIndex(w *http.ResponseWriter, r *http.Request, app *App) error {
 	//if he doesn't serve him usual page and check his limits
 	if !ua.Bot() {
 		//Check visitor's requests limit
-		if err := checkLimits(getIP(r), "limiterPage", app.metrics.ipLocations); err != nil {
+		if err := checkLimits(getIP(r), "limiterPage"); err != nil {
 			return err
 		}
 		http.ServeFile(*w, r, "./interface/build/200.html")

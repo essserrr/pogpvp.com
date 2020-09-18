@@ -43,7 +43,7 @@ func changePassword(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	form := new(users.SubmitForm)
@@ -81,7 +81,7 @@ func getUserInfo(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
@@ -108,7 +108,7 @@ func getUserUsessions(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
@@ -135,7 +135,7 @@ func getUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
@@ -163,7 +163,7 @@ func setUserMoves(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
@@ -197,7 +197,7 @@ func setUserBroker(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 
@@ -235,7 +235,7 @@ func getUserBroker(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
@@ -263,7 +263,7 @@ func getFilteredBrokers(w *http.ResponseWriter, r *http.Request, app *App) error
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	req := new(users.FilteredBrokerRequest)
@@ -325,7 +325,7 @@ func getUserCollection(w *http.ResponseWriter, r *http.Request, app *App) error 
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
@@ -353,7 +353,7 @@ func setUserCollection(w *http.ResponseWriter, r *http.Request, app *App) error 
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)

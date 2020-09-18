@@ -23,7 +23,7 @@ func dbCallHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(getIP(r), "limiterBase"); err != nil {
 		return err
 	}
 
@@ -77,7 +77,7 @@ func newsHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	//Check visitor's requests limit
-	if err := checkLimits(getIP(r), "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(getIP(r), "limiterBase"); err != nil {
 		return err
 	}
 	var (

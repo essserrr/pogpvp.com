@@ -66,7 +66,7 @@ func register(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	form := new(users.SubmitForm)
@@ -179,7 +179,7 @@ func reset(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	form := new(users.SubmitForm)
@@ -257,7 +257,7 @@ func restoreConfirm(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	restoreKey := chi.URLParam(r, "id")
@@ -284,7 +284,7 @@ func login(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	form := new(users.SubmitForm)
@@ -325,7 +325,7 @@ func refresh(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	rCookie, err := r.Cookie("__rjwt")
@@ -360,7 +360,7 @@ func logout(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
@@ -390,7 +390,7 @@ func logoutAll(w *http.ResponseWriter, r *http.Request, app *App) error {
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	ip := getIP(r)
-	if err := checkLimits(ip, "limiterBase", app.metrics.ipLocations); err != nil {
+	if err := checkLimits(ip, "limiterUserProfile"); err != nil {
 		return err
 	}
 	accSession, err := newAccessSession(r)
