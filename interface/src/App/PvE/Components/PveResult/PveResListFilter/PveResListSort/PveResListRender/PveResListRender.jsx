@@ -19,7 +19,6 @@ class PveResListRender extends React.Component {
     render() {
         const upperBound = this.props.list.length >= this.props.n * 25 ? this.props.n * 25 : this.props.list.length
         const isNextPage = this.props.list.length > upperBound
-        console.log(this.props.list.length, upperBound)
         return (
             <>
                 {this.props.list.slice(0, upperBound).map((elem, i) =>

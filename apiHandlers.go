@@ -71,17 +71,17 @@ func newsAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New news API call")
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news _error"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news _error"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	var newsRequest newsRequest
 	if err = json.Unmarshal(body, &newsRequest); err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news _error"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_news_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while parsing request body")
 	}
 
@@ -160,17 +160,17 @@ func logAPIHandler(w *http.ResponseWriter, r *http.Request, app *App) error {
 	go log.WithFields(log.Fields{"location": r.RequestURI}).Println("New log API call")
 	//Check if method is allowed
 	if r.Method != http.MethodPost {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log _error"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log_error"}).Inc()
 		return errors.NewHTTPError(nil, http.StatusMethodNotAllowed, "Method not allowed")
 	}
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log _error"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while reading request body")
 	}
 	var authForm newsRequest
 	if err = json.Unmarshal(body, &authForm); err != nil {
-		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log _error"}).Inc()
+		go app.metrics.apiGaugeCount.With(prometheus.Labels{"type": "api_log_error"}).Inc()
 		return errors.NewHTTPError(err, http.StatusBadRequest, "Error while parsing request body")
 	}
 
