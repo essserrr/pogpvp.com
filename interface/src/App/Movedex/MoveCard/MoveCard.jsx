@@ -60,7 +60,6 @@ class MoveCard extends React.Component {
                 isError: false,
                 loading: false,
 
-                moveTable: this.props.bases.moveBase,
                 move: this.props.bases.moveBase[this.props.match.params.id],
             })
 

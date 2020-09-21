@@ -46,7 +46,7 @@ class PokeCard extends React.Component {
             return
         }
         //if error input somehow
-        if (!this.props.bases.pokemonBase || this.state.scrollList || this.state.miscTable || this.state.moveTable) {
+        if (!this.props.bases.pokemonBase || !this.state.scrollList || !this.state.miscTable || !this.props.bases.moveBase) {
             this.setState({
                 error: strings.pokerr,
                 showResult: false,
@@ -118,7 +118,6 @@ class PokeCard extends React.Component {
                 scrollList: scrollList,
                 position: position,
 
-                moveTable: this.props.bases.moveBase,
                 miscTable: result,
 
                 pok: this.props.bases.pokemonBase[id],
@@ -203,14 +202,14 @@ class PokeCard extends React.Component {
                                 <IconBlock
                                     pokMisc={this.state.pokMisc}
                                     value={this.state.pok}
-                                    moveTable={this.state.moveTable}
+                                    moveTable={this.props.bases.moveBase}
                                     pokTable={this.props.bases.pokemonBase}
                                 />
                                 {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
                                     <DescrBlock value={this.state.pokMisc.Description} />}
                                 <RedirectBlock
                                     value={this.state.pok}
-                                    moveTable={this.state.moveTable}
+                                    moveTable={this.props.bases.moveBase}
                                     pokTable={this.props.bases.pokemonBase}
                                 />
                                 <SliderBlock
@@ -228,10 +227,10 @@ class PokeCard extends React.Component {
                                         <div className={"row m-0"}>
                                             {this.state.pok.QuickMoves.length > 0 &&
                                                 <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
-                                                    moveTable={this.state.moveTable} title={strings.qm} pok={this.state.pok} />}
+                                                    moveTable={this.props.bases.moveBase} title={strings.qm} pok={this.state.pok} />}
                                             {this.state.pok.ChargeMoves.length > 0 &&
                                                 <MoveCol value={this.state.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
-                                                    moveTable={this.state.moveTable} title={strings.chm} pok={this.state.pok} />}
+                                                    moveTable={this.props.bases.moveBase} title={strings.chm} pok={this.state.pok} />}
                                         </div>
                                     </UnmountClosed>}
 
