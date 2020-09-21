@@ -37,7 +37,7 @@ class RenderPvpRating extends React.Component {
                         class={"pvprating-render__card col-12 p-0 mt-2"}
                         name={
                             <div className="d-flex justify-content-between pl-2">
-                                {"#" + (i + 1)}
+                                {"#" + (elem.rank)}
                                 <div className="text-center">
                                     {pokName + ((pokName !== elem.Name) ? " (" + strings.options.type.shadow + ")" : "")}
                                 </div>

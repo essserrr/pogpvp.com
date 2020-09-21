@@ -132,7 +132,7 @@ class PvpRating extends React.Component {
                 isError: false,
                 loading: false,
 
-                ratingList: result,
+                ratingList: result.map((value, i) => { value.rank = i + 1; return value }),
             })
 
         } catch (e) {
