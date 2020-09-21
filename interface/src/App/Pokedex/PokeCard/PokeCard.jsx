@@ -46,7 +46,7 @@ class PokeCard extends React.Component {
             return
         }
         //if error input somehow
-        if (!this.state.pokTable || this.state.scrollList || this.state.miscTable || this.state.moveTable) {
+        if (!this.props.bases.pokemonBase || this.state.scrollList || this.state.miscTable || this.state.moveTable) {
             this.setState({
                 error: strings.pokerr,
                 showResult: false,
@@ -55,7 +55,7 @@ class PokeCard extends React.Component {
             });
         }
         let id = decodeURIComponent(this.props.match.params.id)
-        if (!this.state.pokTable[id]) {
+        if (!this.props.bases.pokemonBase[id]) {
             this.setState({
                 error: strings.pokerr,
                 showResult: false,
@@ -65,7 +65,7 @@ class PokeCard extends React.Component {
             return
         }
 
-        let position = this.findPosition(id, Number(this.state.pokTable[id].Number) - 1, this.state.scrollList)
+        let position = this.findPosition(id, Number(this.props.bases.pokemonBase[id].Number) - 1, this.state.scrollList)
 
         this.setState({
             showResult: true,
@@ -74,7 +74,7 @@ class PokeCard extends React.Component {
 
             position: position,
 
-            pok: this.state.pokTable[id],
+            pok: this.props.bases.pokemonBase[id],
             pokMisc: this.state.miscTable.Misc[id],
         });
     }
@@ -119,7 +119,6 @@ class PokeCard extends React.Component {
                 position: position,
 
                 moveTable: this.props.bases.moveBase,
-                pokTable: this.props.bases.pokemonBase,
                 miscTable: result,
 
                 pok: this.props.bases.pokemonBase[id],
@@ -205,14 +204,14 @@ class PokeCard extends React.Component {
                                     pokMisc={this.state.pokMisc}
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
-                                    pokTable={this.state.pokTable}
+                                    pokTable={this.props.bases.pokemonBase}
                                 />
                                 {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
                                     <DescrBlock value={this.state.pokMisc.Description} />}
                                 <RedirectBlock
                                     value={this.state.pok}
                                     moveTable={this.state.moveTable}
-                                    pokTable={this.state.pokTable}
+                                    pokTable={this.props.bases.pokemonBase}
                                 />
                                 <SliderBlock
                                     onClick={this.onClick}
@@ -241,7 +240,7 @@ class PokeCard extends React.Component {
                                         <div className={"row m-0"}>
                                             <EvoBlock
                                                 miscTable={this.state.miscTable.Misc}
-                                                pokTable={this.state.pokTable}
+                                                pokTable={this.props.bases.pokemonBase}
 
                                                 value={this.state.miscTable.Families[this.state.pokMisc.Family]}
                                                 familyName={this.state.pokMisc.Family}
@@ -264,7 +263,7 @@ class PokeCard extends React.Component {
                                         <CpBlock
                                             pok={this.state.pok}
                                             locale={strings.cpcalc}
-                                            pokTable={this.state.pokTable}
+                                            pokTable={this.props.bases.pokemonBase}
                                         />
                                     </div>
                                 </UnmountClosed>

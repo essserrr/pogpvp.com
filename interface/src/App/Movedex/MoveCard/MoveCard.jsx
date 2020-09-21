@@ -60,7 +60,6 @@ class MoveCard extends React.Component {
                 isError: false,
                 loading: false,
 
-                pokTable: this.props.bases.pokemonBase,
                 moveTable: this.props.bases.moveBase,
                 move: this.props.bases.moveBase[this.props.match.params.id],
             })
@@ -134,7 +133,7 @@ class MoveCard extends React.Component {
                                     <UnmountClosed isOpened={this.state.active.use}>
                                         <UsesList
                                             move={this.state.move}
-                                            pokTable={this.state.pokTable}
+                                            pokTable={this.props.bases.pokemonBase}
                                         />
                                     </UnmountClosed>
                                 </>}
