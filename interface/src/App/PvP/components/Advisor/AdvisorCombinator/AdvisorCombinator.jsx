@@ -8,16 +8,21 @@ class AdvisorCombinator extends React.PureComponent {
         let rateList = this.props.leftPanel.listForBattle.map((elem, i) => {
             let j = this.props.rightPanel.listForBattle.length * i
             let maxj = j + this.props.rightPanel.listForBattle.length
-            let singleRate = 0
+            let avgRateSum = 0
             let zeros = {}
 
             for (; j < maxj; j++) {
-                singleRate += this.props.pvpData[0][j].Rate
-                if (this.props.pvpData[0][j].Rate <= 500) {
-                    zeros[this.props.pvpData[0][j].K] = true
-                }
+                //increase sum
+                avgRateSum += this.props.pvpData[0][j].Rate
+                //if 2 matchups are bad then it is a lose
+                //if pvp is triple we start from 0 loses, other wise from one
+                let loses = this.props.pvpData.length > 1 ? 0 : 1
+                //if pvp is triple, we skip 0 entry
+                let from = this.props.pvpData.length > 1 ? 1 : 0
+                for (let shieldComb = from; shieldComb < this.props.pvpData.length; shieldComb++) { if (this.props.pvpData[shieldComb][j].Rate <= 500) { loses++ } }
+                if (loses >= 2) { zeros[this.props.pvpData[0][j].K] = true }
             }
-            return { rate: singleRate / this.props.rightPanel.listForBattle.length, zeros: zeros }
+            return { rate: avgRateSum / this.props.rightPanel.listForBattle.length, zeros: zeros }
         });
 
         let parties = []
