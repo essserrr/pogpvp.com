@@ -6,7 +6,7 @@ import { Switch, Route } from "react-router-dom";
 const PvpRatingRouter = () => (
 
     <Switch>
-        <Route path="/pvprating/:league(great|ultra|master|premier|premierultra)/:type(overall|00|11|22|01|12)"
+        <Route path="/pvprating/:league(great|ultra|master|premier|premierultra|cupflying)/:type(overall|00|11|22|01|12)"
             component={PvpRating} />
         <Route path="/pvprating/*" component={PvpRating} />
         <Route path="/pvprating" component={PvpRating} />

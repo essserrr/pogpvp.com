@@ -21,6 +21,13 @@ import (
 /*
 	getbase.GenerateRatingInitialData(80)
 
+	//first
+	rating.WriteRating(0, 0, false, 999999999, 2, 200, "flyingCup")
+	rating.WriteRating(0, 1, false, 999999999, 2, 200, "flyingCup")
+	rating.WriteRating(1, 1, false, 999999999, 5, 200, "flyingCup")
+	rating.WriteRating(1, 2, false, 999999999, 8, 150, "flyingCup")
+	rating.WriteRating(2, 2, false, 999999999, 15, 80, "flyingCup")
+
 	rating.WriteRating(0, 0, false, 999999999, 2, 200, "premierUltra")
 	rating.WriteRating(0, 1, false, 999999999, 2, 200, "premierUltra")
 	rating.WriteRating(1, 1, false, 999999999, 5, 200, "premierUltra")
@@ -81,6 +88,8 @@ type weightedList struct {
 	GreatPremier  weightedLeague
 	UltraPremier  weightedLeague
 	MasterPremier weightedLeague
+
+	FlyingCup weightedLeague
 }
 
 type weightedLeague map[string]uint32
@@ -114,6 +123,7 @@ func WriteRating(shieldsA, shieldsB uint8, fromFile bool, dumpInterval, sleepTim
 	rateObj.writeRatingByShieldsNumber()
 }
 
+//second
 func (rs *ratingStruct) writeRatingByShieldsNumber() {
 	file, err := ioutil.ReadFile(path.Join(os.Getenv("PVP_SIMULATOR_ROOT") + "./bases/rating/generated/maxIV.json"))
 	if err != nil {
@@ -143,6 +153,9 @@ func (rs *ratingStruct) writeRatingByShieldsNumber() {
 	case "premierUltra":
 		rs.dest = "./bases/rating/ratePremierUltra" + strconv.FormatInt(int64(rs.shieldsA), 10) + strconv.FormatInt(int64(rs.shieldsB), 10) + ".json"
 		rs.calculateLeagueRating(maxIV.Ultra, "./bases/rating/generated/moveSetListPremierUltra.json")
+	case "flyingCup":
+		rs.dest = "./bases/rating/rateCupFlying" + strconv.FormatInt(int64(rs.shieldsA), 10) + strconv.FormatInt(int64(rs.shieldsB), 10) + ".json"
+		rs.calculateLeagueRating(maxIV.Great, "./bases/rating/generated/moveSetListCupFlying.json")
 	}
 
 }
@@ -425,6 +438,7 @@ func (m *moveset) toString() string {
 	return m.Quick + m.Charge[0] + m.Charge[1]
 }
 
+//third
 func ProcessRating() {
 	//open weights
 	weights := weightedList{}
@@ -450,6 +464,9 @@ func ProcessRating() {
 	setUpProcessing("./bases/rating/generated/moveSetListPremierUltra.json",
 		"./bases/rating/overallPremierUltra.json", "./API/ratingAPI/avgOverallPremierUltra.json",
 		"PremierUltra", weights.UltraPremier)
+	setUpProcessing("./bases/rating/generated/moveSetListCupFlying.json",
+		"./bases/rating/overallCupFlying.json", "./API/ratingAPI/avgOverallCupFlying.json",
+		"CupFlying", weights.FlyingCup)
 }
 
 func setUpProcessing(movesetAdr, overallAdr, overallDest, league string, weights weightedLeague) {
@@ -477,9 +494,10 @@ func setUpProcessing(movesetAdr, overallAdr, overallDest, league string, weights
 
 }
 
+//fourth
 //WriteOverall generates overall raw rating from generated data
 func WriteOverall() {
-	template := []string{"Great", "Ultra", "Master", "Premier", "PremierUltra"}
+	template := []string{"Great", "Ultra", "Master", "Premier", "PremierUltra", "CupFlying"}
 	for _, value := range template {
 		generateOverall(value)
 	}
