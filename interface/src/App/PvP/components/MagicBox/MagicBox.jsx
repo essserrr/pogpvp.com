@@ -19,7 +19,6 @@ class MagicBox extends PureComponent {
                         <CloseButton
                             onClick={this.props.onClick}
                             attr={this.props.attr}
-                            className="close mx-0"
                         />
                     </div>
                     {this.props.title && <div className="col-12 mx-2 pl-0 pr-2 fBolder">

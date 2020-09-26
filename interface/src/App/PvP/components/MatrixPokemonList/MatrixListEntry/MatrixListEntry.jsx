@@ -10,8 +10,6 @@ const MatrixListEntry = React.memo(function (props) {
                 onClick={props.onPokemonDelete}
                 attr={props.attr}
                 index={props.index}
-
-                className="close mx-0"
             />
             <div className="matrix-list-entry__thead ">
                 {props.thead}

@@ -216,7 +216,6 @@ class CommonPve extends React.PureComponent {
                 ...this.state[role],
                 [event.target.name]: event.target.value
             },
-            stateModified: true,
         });
     }
 

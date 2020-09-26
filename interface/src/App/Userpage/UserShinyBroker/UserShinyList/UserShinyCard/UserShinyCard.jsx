@@ -27,7 +27,7 @@ const UserShinyCard = React.memo(function (props) {
                 />}
                 {props.value.Type === "Shiny" ? <Shiny className="ushinycard__shiny" /> : null}
             </div>
-            {props.onClick && <CloseButton attr={props.attr} index={props.value.Name} className="close" onClick={props.onClick} />}
+            {props.onClick && <CloseButton attr={props.attr} index={props.value.Name} onClick={props.onClick} />}
         </div>
     )
 })

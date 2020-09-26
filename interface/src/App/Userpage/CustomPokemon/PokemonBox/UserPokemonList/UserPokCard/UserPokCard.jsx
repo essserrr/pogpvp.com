@@ -52,7 +52,7 @@ const UserPokCard = React.memo(function (props) {
                     </div>
                     <div>{`${props.Lvl}:${props.Atk}/${props.Def}/${props.Sta}`}</div>
                 </div>
-                {props.onClick && <CloseButton attr={props.attr} index={props.index} className="close" onClick={props.onClick} />}
+                {props.onClick && <CloseButton attr={props.attr} index={props.index} onClick={props.onClick} />}
             </div>
 
             <ShortMove

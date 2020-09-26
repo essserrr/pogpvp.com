@@ -23,7 +23,7 @@ const UserMove = React.memo(function (props) {
                     />
                     {props.move.Title}
                 </div>
-                <CloseButton className="close " onClick={() => props.onMoveDelete(props.move)} />
+                <CloseButton onClick={() => props.onMoveDelete(props.move)} />
                 <div className="col-12 px-0 mx-1 usermove__body">{props.move.MoveCategory === "Fast Move" ? strings.moveconstr.catopt.q : strings.moveconstr.catopt.ch}</div>
             </div>
         </div>
