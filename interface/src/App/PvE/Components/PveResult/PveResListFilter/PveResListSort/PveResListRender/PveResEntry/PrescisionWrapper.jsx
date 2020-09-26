@@ -28,7 +28,6 @@ class PrescisionWrapper extends React.PureComponent {
     render() {
         return (
             <PveResEntry
-                key={this.props.key}
                 i={this.props.i}
                 customResult={this.props.customResult}
 

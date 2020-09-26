@@ -198,8 +198,9 @@ class PveResEntry extends React.PureComponent {
     }
 
     generateCards() {
-        return this.props.pokemonRes.Result.map((stats) =>
+        return this.props.pokemonRes.Result.map((stats, i) =>
             <PveCardBody
+                key={i}
                 stats={stats}
                 moveTable={this.props.moveTable}
                 snapshot={this.props.snapshot}
@@ -274,7 +275,7 @@ class PveResEntry extends React.PureComponent {
                                 {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
                                     <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
 
-                                <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"pres"}>
+                                <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
                                     <SubmitButton
                                         label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
                                         action="Precision"
@@ -282,7 +283,7 @@ class PveResEntry extends React.PureComponent {
                                         class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
                                     />
                                 </div>
-                                {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" key={"break"}>
+                                {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
                                     <SubmitButton
                                         label={pveStrings.break}
                                         action="Breakpoints"
