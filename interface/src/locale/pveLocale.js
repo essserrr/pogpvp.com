@@ -32,7 +32,7 @@ export const pveLocale = {
 
         playernumbTip: "Expected number of players. The more players, the faster a boss accumulates energy, the stronger and more often he hits.",
 
-
+        player: "Player",
         party: "group",
         parties: "groups",
         none: "None",
@@ -126,7 +126,7 @@ export const pveLocale = {
 
         playernumbTip: "Ожидаемое число игрков в рейде. Чем более игроков, тем быстрее босс накапливает энергию, тем сильнее и чаще он бьет.",
 
-
+        player: "Игрок",
         party: "группа",
         parties: "группы",
         none: "Нет",

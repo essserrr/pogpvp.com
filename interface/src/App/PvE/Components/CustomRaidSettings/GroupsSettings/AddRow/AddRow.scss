@@ -1,0 +1,27 @@
+$button-active: #01b0cf;
+
+.add-row {
+    -webkit-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+
+    i {
+        &:hover {
+            & + .add-row__line {
+                visibility: visible;
+            }
+        }
+    }
+}
+
+.add-row__line {
+    visibility: hidden;
+    height: 4px;
+    border-radius: 2px;
+
+    margin-left: 10px;
+    margin-right: 10px;
+    border-top: 2px solid $button-active;
+    border-bottom: 2px solid $button-active;
+    -webkit-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}

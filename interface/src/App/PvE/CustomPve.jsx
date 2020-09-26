@@ -8,7 +8,7 @@ import Errors from "../PvP/components/Errors/Errors"
 import PveResult from "./Components/PveResult/PveResult"
 import Loader from "../PvpRating/Loader"
 
-import { returnMovePool, pveattacker, boss, pveobj, checkLvl, checkIV, pveUserSettings, pveCutomParty } from "../../js/indexFunctions.js"
+import { returnMovePool, pveattacker, boss, pveobj, pveUserSettings, pveCutomParty } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
@@ -63,24 +63,6 @@ class CustomPve extends React.PureComponent {
         });
     }
 
-
-    onIvChange(event, role) {
-        this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: checkIV(event.target.value) + "",
-            },
-        });
-    }
-
-    onLevelChange(event, role) {
-        this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: checkLvl(event.target.value) + "",
-            },
-        });
-    }
 
     onTypeChange(event, role) {
         this.setState({
@@ -144,6 +126,25 @@ class CustomPve extends React.PureComponent {
         })
     }
 
+    onPlayerAdd() {
+        this.setState({
+            userSettings: {
+                ...this.state.userSettings,
+                UserPlayers: [...this.state.userSettings.UserPlayers, [pveCutomParty(), pveCutomParty(), pveCutomParty()]]
+            },
+        });
+    }
+
+    onPlayerDelete(event) {
+        let index = Number(event.target.getAttribute("index"))
+        this.setState({
+            userSettings: {
+                ...this.state.userSettings,
+                UserPlayers: [...this.state.userSettings.UserPlayers.slice(0, index), ...this.state.userSettings.UserPlayers.slice(index + 1)]
+            },
+        });
+    }
+
     onChange(event, name) {
         //check if it`s a name change
         if (event.target === undefined) {
@@ -164,22 +165,14 @@ class CustomPve extends React.PureComponent {
             }
         }
         let role = event.target.getAttribute("attr")
-        //check if it's an iv change
-        if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (event.target.name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
+        let targetName = event.target.getAttribute("name")
+
         if (event.target.value === "Select...") {
             this.setState({
                 [role]: {
                     ...this.state[role],
                     showMenu: true,
-                    isSelected: event.target.name,
+                    isSelected: targetName,
                 },
             });
             return
@@ -190,21 +183,29 @@ class CustomPve extends React.PureComponent {
             return
         }
         //if it's an type change
-        if (event.target.name === "IsShadow") {
+        if (targetName === "IsShadow") {
             this.onTypeChange(event, role)
             return
         }
-        if (event.target.name === "SupportSlotEnabled") {
+        if (targetName === "SupportSlotEnabled") {
             this.onSupportEnable(event, role)
             return
         }
+        if (role === "deletePlayer") {
+            this.onPlayerDelete(event)
+            return
+        }
+        if (targetName === "addPlayer") {
+            this.onPlayerAdd()
+            return
+        }
+
         //otherwise follow general pattern
         this.setState({
             [role]: {
                 ...this.state[role],
-                [event.target.name]: event.target.value
+                [targetName]: event.target.value
             },
-            stateModified: true,
         });
     }
 
@@ -278,6 +279,7 @@ class CustomPve extends React.PureComponent {
             loading: true,
         })
 
+        console.log(this.makeRequestObject())
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/custom/", {
                 method: "POST",

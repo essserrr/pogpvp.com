@@ -325,8 +325,8 @@ class Breakpoints extends React.PureComponent {
                         decimal={1}
                     />
                 </div>
-                <div className="col-12 d-flex p-0" >
-                    <FaButton class="fab fa fa-minus clickable align-self-center mr-3"
+                <div className="col-12 d-flex align-items-center p-0" >
+                    <FaButton class="fab fa fa-minus mr-3"
                         name="minus"
                         onClick={this.onPlusMinus}
                     />
@@ -341,7 +341,7 @@ class Breakpoints extends React.PureComponent {
                         min={Number(this.props.snapshot.attackerObj.Lvl)}
                         max={45}
                     />
-                    <FaButton class="fab fa fa-plus clickable align-self-center ml-3"
+                    <FaButton class="fab fa fa-plus ml-3"
                         name="plus"
                         onClick={this.onPlusMinus}
                     />
