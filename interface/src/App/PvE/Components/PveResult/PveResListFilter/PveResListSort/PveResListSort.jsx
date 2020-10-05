@@ -41,6 +41,15 @@ class PveResListSort extends React.Component {
 
 
     render() {
+        let list = []
+        switch (this.props.needsAvg) {
+            case true:
+                list = this.props.list
+                break
+            default:
+                list = this.props.sort === "dps" ? this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180,) : this.sortByDamage()
+        }
+
         return (
             <PveResListRender
                 n={this.props.n}
@@ -58,7 +67,7 @@ class PveResListSort extends React.Component {
                 showBreakpoints={this.props.showBreakpoints}
                 loadMore={this.props.loadMore}
 
-                list={this.props.sort === "dps" ? this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180,) : this.sortByDamage()}
+                list={list}
             />
         );
     }
