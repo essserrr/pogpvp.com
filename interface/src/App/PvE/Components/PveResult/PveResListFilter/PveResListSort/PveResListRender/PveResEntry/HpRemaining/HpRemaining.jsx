@@ -11,11 +11,11 @@ let pveStrings = new LocalizedStrings(pveLocale)
 const HpRemaining = React.memo(function (props) {
     pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <>
-            {props.locale}{(props.tierHP - props.DAvg)}
-            {" (" + (props.tierHP - props.DMax) + "-" + (props.tierHP - props.DMin) + ")"}
-            <span className="hp-remaining ml-1">{props.NOfWins > 0 ? " " + pveStrings.winrate + " " + props.NOfWins + "%" : ""}</span>
-        </>
+        <div className="hp-remaining col-12 px-0 ">
+            {`${pveStrings.hprem}${props.avg}`}
+            {(props.max !== undefined && props.min !== undefined) && ` (${props.max}-${props.min})`}
+            {props.nbOfWins > 0 && <span className="hp-remaining__win ml-1">{` ${pveStrings.winrate} ${props.nbOfWins}%`}</span>}
+        </div>
     )
 });
 
