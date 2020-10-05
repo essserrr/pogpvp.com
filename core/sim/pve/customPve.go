@@ -52,9 +52,14 @@ func ReturnCustomRaid(inDat *app.IntialDataPve) ([]PveResult, error) {
 		}
 	}
 
-	sort.Sort(byAvgDamage(conObj.resArray))
+	switch inDat.FindInCollection {
+	case true:
+		sort.Sort(byAvgDamage(conObj.resArray))
+		return conObj.resArray[:1], nil
+	default:
+		return conObj.resArray, nil
+	}
 
-	return conObj.resArray[:1], nil
 }
 
 //validateCustomData validates initial data and crops it down if necessary
@@ -350,11 +355,6 @@ func (co *conStruct) groupWrapper() error {
 	if err != nil {
 		return err
 	}
-	switch len(co.attackerGroups) {
-	case 1:
-		co.startCustomPve(true)
-	default:
-		return &customError{"Not implemented"}
-	}
+	co.startCustomPve(true)
 	return nil
 }
