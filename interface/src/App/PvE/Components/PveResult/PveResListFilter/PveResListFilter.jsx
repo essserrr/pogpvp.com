@@ -28,6 +28,7 @@ class PveResListFilter extends React.Component {
     render() {
         return (
             <PveResListSort
+                needsAvg={this.props.needsAvg}
                 n={this.props.n}
                 customResult={this.props.customResult}
 
