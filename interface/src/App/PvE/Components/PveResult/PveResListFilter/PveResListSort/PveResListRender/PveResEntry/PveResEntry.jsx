@@ -2,15 +2,11 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 
-import Loader from "../../../../../../../Registration/RegForm/AuthButton/Loader/Loader"
-import SubmitButton from "../../../../../../../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../../../../../../../PvP/components/Errors/Errors"
-import HpBar from "./PhBar/HpBar"
-import HpRemaining from "./HpRemaining/HpRemaining"
-import FightStats from "./FightStats/FightStats"
 import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
 import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
 import PveCardBody from "./PveCardBody/PveCardBody"
+import PveResultCollapseList from "./PveResultCollapseList/PveResultCollapseList"
+import PveResultFullStatistics from "./PveResultFullStatistics/PveResultFullStatistics"
 
 import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../../../../../js/indexFunctions"
 import { getCookie } from "../../../../../../../../js/getCookie"
@@ -47,7 +43,7 @@ class PveResEntry extends React.PureComponent {
         })
     }
 
-    damageString(damage) {
+    cropDamage(damage) {
         return this.props.tables.hp[this.props.snapshot.bossObj.Tier] < damage ? this.props.tables.hp[this.props.snapshot.bossObj.Tier] : damage
     }
 
@@ -209,6 +205,37 @@ class PveResEntry extends React.PureComponent {
         );
     }
 
+    processStats(avgStats) {
+        let dAvg = (avgStats.DAvg / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)
+        let dMin = (avgStats.DMin / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)
+        let dMax = (avgStats.DMax / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)
+
+        let tAvg = (avgStats.TAvg / 1000).toFixed(0)
+
+        return {
+            dAvg: dAvg,
+            dMin: dMin,
+            dMax: dMax,
+
+            tAvg: (avgStats.TAvg / 1000).toFixed(0),
+            tMin: (avgStats.TMin / 1000).toFixed(0),
+            tMax: (avgStats.TMax / 1000).toFixed(0),
+
+            dpsAvg: (avgStats.DAvg / (this.props.tables.timer[this.props.snapshot.bossObj.Tier] - tAvg)).toFixed(1),
+            dpsMin: (avgStats.DMin / (this.props.tables.timer[this.props.snapshot.bossObj.Tier] - tAvg)).toFixed(1),
+            dpsMax: (avgStats.DMax / (this.props.tables.timer[this.props.snapshot.bossObj.Tier] - tAvg)).toFixed(1),
+
+            plAvg: (100 / dAvg).toFixed(2),
+            plMin: Math.ceil(100 / dMax),
+            plMax: Math.ceil(100 / dMin),
+
+            ttwAvg: Math.ceil((this.props.tables.timer[this.props.snapshot.bossObj.Tier] - tAvg) * 100 / dAvg),
+
+            FMin: avgStats.FMin,
+            FMax: avgStats.FMax,
+        }
+    }
+
     render() {
         let avgStats = this.collect()
         let partyLen = this.props.pokemonRes.Party.length
@@ -238,61 +265,46 @@ class PveResEntry extends React.PureComponent {
                     />}
 
                 <div className="col-12 p-0">
-                    <div className="row m-0 justify-content-between">
-                        <div className="col-12 p-0">
-                            <HpBar
-                                upbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(avgStats.DMin)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                                lowbound={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(avgStats.DMax)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                                length={((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.damageString(avgStats.DAvg)) / (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1)}
-                            />
-                        </div>
-                        <div className="col-12 p-0 fBolder">
-                            <HpRemaining
-                                locale={pveStrings.hprem}
-                                DAvg={this.damageString(avgStats.DAvg)}
-                                DMax={this.damageString(avgStats.DMax)}
-                                DMin={this.damageString(avgStats.DMin)}
-                                NOfWins={avgStats.NOfWins}
-                                tierHP={this.props.tables.hp[this.props.snapshot.bossObj.Tier]}
-                            />
-                        </div>
-                        <div className="col p-0">
-                            <FightStats
-                                locale={pveStrings.s}
-                                tables={this.props.tables}
-                                snapshot={this.props.snapshot}
-                                avgStats={avgStats}
-                            />
-                        </div>
-                        <div onClick={this.onClick} className="clickable align-self-end ">
-                            <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
-                        </div>
-                    </div>
+                    <PveResultFullStatistics
+                        bounds={{
+                            up: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMin)) /
+                                (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
+                            low: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMax)) /
+                                (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
+                            avg: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DAvg)) /
+                                (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
+
+                        }}
+
+                        remain={{
+                            avg: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DAvg),
+                            max: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMax),
+                            min: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMin),
+                            nbOfWins: avgStats.NOfWins,
+                        }}
+
+
+                        stats={this.processStats(avgStats)}
+
+                        onClick={this.onClick}
+                        showCollapse={this.state.showCollapse}
+
+                    />
                     <div className={"col-12 p-0 " + (this.state.showCollapse ? "pve-resentry__card-separator" : "")}>
                         <UnmountClosed isOpened={this.state.showCollapse}>
-                            <div className="row m-0  mt-1">
+                            <PveResultCollapseList
+                                isError={this.state.isError}
+                                error={this.state.error}
 
-                                {this.state.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
-                                    <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
+                                loading={this.state.loading}
 
-                                <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
-                                    <SubmitButton
-                                        label={this.state.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
-                                        action="Precision"
-                                        onSubmit={this.rerunWithPrecision}
-                                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                                    />
-                                </div>
-                                {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
-                                    <SubmitButton
-                                        label={pveStrings.break}
-                                        action="Breakpoints"
-                                        onSubmit={this.defineBreakpoints}
-                                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                                    />
-                                </div>}
+                                customResult={this.props.customResult}
+
+                                rerunWithPrecision={this.rerunWithPrecision}
+                                defineBreakpoints={this.defineBreakpoints}
+                            >
                                 {this.state.colElement}
-                            </div>
+                            </PveResultCollapseList>
                         </UnmountClosed>
                     </div>
                 </div>
