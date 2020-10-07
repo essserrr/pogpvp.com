@@ -1,13 +1,15 @@
 import React from "react"
-import PlayerResEntry from "./PlayerResEntry/PlayerResEntry"
+import StatisticsSet from "./StatisticsSet/StatisticsSet"
 
-class PlayerRes extends React.PureComponent {
+import "./PlayerResEntry.scss"
+
+class PlayerResEntry extends React.PureComponent {
 
     render() {
         return (
-            <div className="row mx-0">
+            <div className="player-res-entr row mx-0 py-1 my-1 px-2">
                 <div className="col-12 px-0">
-                    <PlayerResEntry
+                    <StatisticsSet
                         {...this.props}
                         value={this.props.value.overall}
                     />
@@ -21,4 +23,4 @@ class PlayerRes extends React.PureComponent {
 }
 
 
-export default PlayerRes;
+export default PlayerResEntry;

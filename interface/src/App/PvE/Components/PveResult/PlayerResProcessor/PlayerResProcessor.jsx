@@ -1,16 +1,16 @@
 import React from "react"
 
-import PlayerRes from "./PlayerRes/PlayerRes"
+import PlayerResEntry from "./PlayerResEntry/PlayerResEntry"
 
-class PlayersAvg extends React.PureComponent {
+class PlayerResProcessor extends React.PureComponent {
 
     sumDamage() {
         //create new
         let setOfResults = {
             overall: {
-                avg: { dmg: 0, playerImpact: [], isWin: false, timeTotal: 0 },
-                max: { dmg: 0, playerImpact: [], isWin: false, timeTotal: 0 },
-                min: { dmg: 999999, playerImpact: [], isWin: false, timeTotal: 0 },
+                avg: { dAvg: 0, playerImpact: [], isWin: false, ttwAvg: 0 },
+                max: { dAvg: 0, playerImpact: [], isWin: false, ttwAvg: 0 },
+                min: { dAvg: 999999, playerImpact: [], isWin: false, ttwAvg: 0 },
             },
             detailed: {},
         }
@@ -22,16 +22,16 @@ class PlayersAvg extends React.PureComponent {
                 if (!setOfResults.detailed[key]) {
                     setOfResults.detailed[key] = {
                         results: [],
-                        avg: { dmg: 0, playerImpact: [], isWin: false, },
-                        max: { dmg: 0, playerImpact: [], isWin: false, },
-                        min: { dmg: 0, playerImpact: [], isWin: false, },
+                        avg: { dAvg: 0, playerImpact: [], isWin: false, },
+                        max: { dAvg: 0, playerImpact: [], isWin: false, },
+                        min: { dAvg: 0, playerImpact: [], isWin: false, },
                     }
                 }
                 //sum dmg
                 setOfResults.detailed[key].results.push(vsBossResult)
-                setOfResults.detailed[key].avg.dmg += vsBossResult.DAvg
-                setOfResults.detailed[key].max.dmg += vsBossResult.DMax
-                setOfResults.detailed[key].min.dmg += vsBossResult.DMin
+                setOfResults.detailed[key].avg.dAvg += vsBossResult.DAvg
+                setOfResults.detailed[key].max.dAvg += vsBossResult.DMax
+                setOfResults.detailed[key].min.dAvg += vsBossResult.DMin
             })
         });
 
@@ -54,15 +54,15 @@ class PlayersAvg extends React.PureComponent {
         const bossHP = this.props.tables.hp[this.props.snapshot.bossObj.Tier]
         const battleTimer = this.props.tables.timer[this.props.snapshot.bossObj.Tier]
 
-        switch (partyResult.dmg >= bossHP) {
+        switch (partyResult.dAvg >= bossHP) {
             //process win
             case true:
-                partyResult.dmg = this.noMoreThanBossHP(partyResult.dmg, bossHP)
+                partyResult.dAvg = this.noMoreThanBossHP(partyResult.dAvg, bossHP)
                 partyResult.isWin = true
                 //estimate each player impact
                 partyResult.playerImpact = this.estimateImpact(eachPlayerResult, dmgType)
                 //write time total
-                partyResult.timeTotal = partyResult.playerImpact.reduce((max, player) => player.time > max ? player.time : max, 0)
+                partyResult.ttwAvg = partyResult.playerImpact.reduce((max, player) => player.time > max ? player.time : max, 0)
                 break
             //process lose
             default:
@@ -72,10 +72,10 @@ class PlayersAvg extends React.PureComponent {
                 eachPlayerResult.forEach(player => {
                     const timeSpent = battleTimer - player[`T${timeType}`] / 1000
                     if (avgTime < timeSpent) { avgTime = timeSpent }
-                    partyResult.playerImpact.push({ dmg: player[`D${dmgType}`], time: timeSpent })
+                    partyResult.playerImpact.push({ dAvg: player[`D${dmgType}`], time: timeSpent })
                 })
                 //write time total
-                partyResult.timeTotal = Math.ceil((avgTime) * bossHP / partyResult.dmg)
+                partyResult.ttwAvg = Math.ceil((avgTime) * bossHP / partyResult.dAvg)
         }
 
         return partyResult
@@ -90,25 +90,25 @@ class PlayersAvg extends React.PureComponent {
         //calculate players dps
         let playersAvgDPS = this.calculateDPS(eachPlayerResult, battleTimer, statType)
         //get average ttw
-        let timeTotal = this.calculateTTW(playersAvgDPS, bossHP)
+        let ttwAvg = this.calculateTTW(playersAvgDPS, bossHP)
         //exclude players which live less than ttw
         eachPlayerResult.forEach((player, id) => {
-            if (timeTotal > (battleTimer - player.TAvg / 1000)) {
-                sum.push({ dmg: player[`D${statType}`], time: battleTimer - player.TAvg / 1000 })
+            if (ttwAvg > (battleTimer - player.TAvg / 1000)) {
+                sum.push({ dAvg: player[`D${statType}`], time: battleTimer - player.TAvg / 1000 })
                 eachPlayerResult = [...eachPlayerResult.slice(0, id), ...eachPlayerResult.slice(id + 1, eachPlayerResult.length)]
                 playersAvgDPS = [...playersAvgDPS.slice(0, id), ...playersAvgDPS.slice(id + 1, playersAvgDPS.length)]
             }
         })
 
         //extract exluded players damage from boss hp
-        bossHP -= sum.reduce((sum, value) => value.dmg + sum, 0)
+        bossHP -= sum.reduce((sum, value) => value.dAvg + sum, 0)
         //calculate dps
         playersAvgDPS = this.calculateDPS(eachPlayerResult, battleTimer, statType)
         //get average ttw
-        timeTotal = this.calculateTTW(playersAvgDPS, bossHP)
+        ttwAvg = this.calculateTTW(playersAvgDPS, bossHP)
 
         eachPlayerResult.forEach((player, id) => {
-            sum.push({ dmg: playersAvgDPS[id] * timeTotal, time: timeTotal })
+            sum.push({ dAvg: playersAvgDPS[id] * ttwAvg, time: ttwAvg })
         })
 
         return sum
@@ -131,11 +131,11 @@ class PlayersAvg extends React.PureComponent {
         let nOfWin = 0
         // eslint-disable-next-line
         for (const [key, value] of Object.entries(setOfResults.detailed)) {
-            if (setOfResults.overall.max.dmg < value.max.dmg) { setOfResults.overall.max = value.max }
-            if (setOfResults.overall.min.dmg > value.min.dmg) { setOfResults.overall.min = value.min }
+            if (setOfResults.overall.max.dAvg < value.max.dAvg) { setOfResults.overall.max = value.max }
+            if (setOfResults.overall.min.dAvg > value.min.dAvg) { setOfResults.overall.min = value.min }
 
-            setOfResults.overall.avg.dmg += value.avg.dmg
-            setOfResults.overall.avg.timeTotal += value.avg.timeTotal
+            setOfResults.overall.avg.dAvg += value.avg.dAvg
+            setOfResults.overall.avg.ttwAvg += value.avg.ttwAvg
             if (value.avg.isWin) { nOfWin++ }
         }
         console.log(nOfWin)
@@ -143,8 +143,8 @@ class PlayersAvg extends React.PureComponent {
         const numberOfBosses = Object.entries(setOfResults.detailed).length
         setOfResults.overall.avg.isWin = nOfWin >= numberOfBosses / 2
         setOfResults.overall.avg.winrate = nOfWin / numberOfBosses
-        setOfResults.overall.avg.dmg /= numberOfBosses
-        setOfResults.overall.avg.timeTotal /= numberOfBosses
+        setOfResults.overall.avg.dAvg /= numberOfBosses
+        setOfResults.overall.avg.ttwAvg = (setOfResults.overall.avg.ttwAvg / numberOfBosses).toFixed(0)
 
         return setOfResults
     }
@@ -153,40 +153,16 @@ class PlayersAvg extends React.PureComponent {
         return value > bossHP ? bossHP : value
     }
 
-
-    /*
-{overall: {…}, detailed: {…}}
-detailed:
-AbomasnowPowder SnowBlizzard:
-avg: {dmg: 2445, playerImpact: Array(2), isWin: false, timeTotal: 511}
-boss: {name: "Abomasnow", quick: "Powder Snow", charge: "Blizzard"}
-max: {dmg: 3840, playerImpact: Array(2), isWin: false, timeTotal: 584}
-min: {dmg: 1920, playerImpact: Array(2), isWin: false, timeTotal: 512}
-__proto__: Object
-AbomasnowPowder SnowEnergy Ball: {avg: {…}, max: {…}, min: {…}, boss: {…}}
-AbomasnowPowder SnowOutrage: {avg: {…}, max: {…}, min: {…}, boss: {…}}
-AbomasnowPowder SnowWeather Ball Ice: {avg: {…}, max: {…}, min: {…}, boss: {…}}
-AbomasnowRazor LeafBlizzard: {avg: {…}, max: {…}, min: {…}, boss: {…}}
-AbomasnowRazor LeafEnergy Ball: {avg: {…}, max: {…}, min: {…}, boss: {…}}
-AbomasnowRazor LeafOutrage: {avg: {…}, max: {…}, min: {…}, boss: {…}}
-AbomasnowRazor LeafWeather Ball Ice: {avg: {…}, max: {…}, min: {…}, boss: {…}}
-__proto__: Object
-overall:
-avg: {dmg: 2172.25, playerImpact: Array(0), isWin: false, timeTotal: 544.25, winrate: 0}
-max: {dmg: 4146, playerImpact: Array(2), isWin: false, timeTotal: 425}
-min: {dmg: 1168, playerImpact: Array(2), isWin: false, timeTotal: 666}
-    */
-
     render() {
         let summedDamgObj = this.sumDamage()
         summedDamgObj = this.processResult(summedDamgObj)
         summedDamgObj = this.findOverall(summedDamgObj)
-        console.log(this.props)
+        console.log(summedDamgObj)
 
 
 
         return (
-            <PlayerRes
+            <PlayerResEntry
                 {...this.props}
                 value={summedDamgObj}
             />
@@ -196,4 +172,4 @@ min: {dmg: 1168, playerImpact: Array(2), isWin: false, timeTotal: 666}
 }
 
 
-export default PlayersAvg;
+export default PlayerResProcessor;

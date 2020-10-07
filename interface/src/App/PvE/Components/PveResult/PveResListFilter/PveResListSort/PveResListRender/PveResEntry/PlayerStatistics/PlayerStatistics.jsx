@@ -4,7 +4,7 @@ import HpBar from "../PhBar/HpBar"
 import HpRemaining from "../HpRemaining/HpRemaining"
 import FightStats from "../FightStats/FightStats"
 
-class PveResultFullStatistics extends React.PureComponent {
+class PlayerStatistics extends React.PureComponent {
     render() {
         return (
             <div className="row mx-0 justify-content-between">
@@ -23,7 +23,7 @@ class PveResultFullStatistics extends React.PureComponent {
                         {...this.props.stats}
                     />
                 </div>
-                {<div onClick={this.props.onClick} className="clickable align-self-end ">
+                {!this.props.disableCollapse && <div onClick={this.props.onClick} className="clickable align-self-end ">
                     <i className={this.props.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
                 </div>}
             </div>
@@ -31,6 +31,6 @@ class PveResultFullStatistics extends React.PureComponent {
     }
 };
 
-export default PveResultFullStatistics;
+export default PlayerStatistics;
 
 
