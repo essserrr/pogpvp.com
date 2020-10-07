@@ -1,5 +1,4 @@
 import React from "react"
-import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 
 import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
@@ -9,17 +8,12 @@ import PveResultCollapseList from "./PveResultCollapseList/PveResultCollapseList
 import PveResultFullStatistics from "./PveResultFullStatistics/PveResultFullStatistics"
 
 import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../../../../../js/indexFunctions"
-import { getCookie } from "../../../../../../../../js/getCookie"
-import { pveLocale } from "../../../../../../../../locale/pveLocale"
 
 import "./PveResEntry.scss"
-
-let pveStrings = new LocalizedStrings(pveLocale)
 
 class PveResEntry extends React.PureComponent {
     constructor(props) {
         super(props);
-        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {
             showCollapse: false,
@@ -237,8 +231,8 @@ class PveResEntry extends React.PureComponent {
     }
 
     render() {
-        let avgStats = this.collect()
-        let partyLen = this.props.pokemonRes.Party.length
+        const avgStats = this.collect()
+        const partyLen = this.props.pokemonRes.Party.length
         return (
             <div className={"pve-resentry__card row m-0 py-1 my-1 px-2 justify-content-between"}
                 key={this.props.pokemonRes.Party[partyLen - 1].Name + this.props.pokemonRes.Party[partyLen - 1].Quick + this.props.pokemonRes.Party[partyLen - 1].Charge}>
