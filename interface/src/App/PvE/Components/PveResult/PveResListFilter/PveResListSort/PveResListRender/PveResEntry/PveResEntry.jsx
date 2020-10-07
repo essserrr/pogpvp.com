@@ -5,7 +5,7 @@ import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
 import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
 import PveCardBody from "./PveCardBody/PveCardBody"
 import PveResultCollapseList from "./PveResultCollapseList/PveResultCollapseList"
-import PveResultFullStatistics from "./PveResultFullStatistics/PveResultFullStatistics"
+import PveResultFullStatistics from "./PlayerStatistics/PlayerStatistics"
 
 import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../../../../../js/indexFunctions"
 

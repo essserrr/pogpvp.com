@@ -1,5 +1,16 @@
 export const pveLocale = {
     en: {
+        playerAvg: {
+            avg: "On average",
+            max: "The best-case scenario",
+            min: "The worst-case scenario",
+        },
+
+        resType: {
+            player: "Player group results",
+            individ: "Individual player results",
+        },
+
         supen: "Enable pokemon-supporter",
         sup: "Pokemon-supporter",
 
@@ -93,6 +104,17 @@ export const pveLocale = {
     },
 
     ru: {
+        playerAvg: {
+            avg: "В среднем",
+            max: "В лучшем случае",
+            min: "В худшем случае",
+        },
+
+        resType: {
+            player: "Результаты группы игроков",
+            individ: "Результаты отдельных игроков",
+        },
+
         supen: "Включить покемона поддержки",
         sup: "Покемон поддержки",
 
