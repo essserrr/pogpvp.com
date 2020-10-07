@@ -8,7 +8,8 @@ import Breakpoints from "./Breakpoints/Breakpoints"
 import PveWillow from "./PveWillow/PveWillow"
 import PveResListFilter from "./PveResListFilter/PveResListFilter"
 import SingleSliderButton from "../../../EggsList/SingleSliderButton/SingleSliderButton"
-import PlayersAvg from "./PlayersAvg/PlayersAvg"
+import PlayerResProcessor from "./PlayerResProcessor/PlayerResProcessor"
+import PveResTitle from "./PveResTitle/PveResTitle"
 
 import { locale } from "../../../../locale/locale"
 import { pveLocale } from "../../../../locale/pveLocale"
@@ -161,17 +162,29 @@ class PveResult extends React.PureComponent {
                             />
                         </div>}
                     {this.props.needsAvg &&
-                        <div className={"col-12 px-0"}>
-                            <PlayersAvg
-                                value={this.props.result}
+                        <>
+                            <div className={"col-12 px-0 mt-2"}>
+                                <PveResTitle>
+                                    {`${pvestrings.resType.player}:`}
+                                </PveResTitle>
+                            </div>
+                            <div className={"col-12 px-0"}>
+                                <PlayerResProcessor
+                                    value={this.props.result}
 
-                                snapshot={this.props.snapshot}
-                                tables={this.props.tables}
+                                    snapshot={this.props.snapshot}
+                                    tables={this.props.tables}
 
-                                pokemonTable={this.props.pokemonTable}
-                                moveTable={this.props.moveTable}
-                            />
-                        </div>}
+                                    pokemonTable={this.props.pokemonTable}
+                                    moveTable={this.props.moveTable}
+                                />
+                            </div>
+                            <div className={"col-12 px-0 mt-2"}>
+                                <PveResTitle>
+                                    {`${pvestrings.resType.individ}:`}
+                                </PveResTitle>
+                            </div>
+                        </>}
                     <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
                         <PveResListFilter
                             needsAvg={this.props.needsAvg}
