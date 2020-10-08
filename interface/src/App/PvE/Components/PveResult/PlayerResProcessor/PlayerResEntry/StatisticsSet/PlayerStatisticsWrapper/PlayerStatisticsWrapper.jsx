@@ -8,7 +8,6 @@ class PlayerStatisticsWrapper extends React.PureComponent {
 
     render() {
         const bossHP = this.props.tables.hp[this.props.snapshot.bossObj.Tier]
-
         return (
             <div className="row mx-0">
                 {this.props.title && <div className="pl-stat-wrapper__title col-12 px-0">
@@ -25,7 +24,7 @@ class PlayerStatisticsWrapper extends React.PureComponent {
 
                         remain={{
                             avg: (bossHP - this.props.value.dAvg).toFixed(0),
-                            nbOfWins: 0,
+                            nbOfWins: (this.props.value.nbOfWins),
                         }}
 
 

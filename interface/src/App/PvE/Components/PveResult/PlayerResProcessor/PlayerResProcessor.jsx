@@ -8,9 +8,9 @@ class PlayerResProcessor extends React.PureComponent {
         //create new
         let setOfResults = {
             overall: {
-                avg: { dAvg: 0, playerImpact: [], isWin: false, ttwAvg: 0 },
-                max: { dAvg: 0, playerImpact: [], isWin: false, ttwAvg: 0 },
-                min: { dAvg: 999999, playerImpact: [], isWin: false, ttwAvg: 0 },
+                avg: { dAvg: 0, playerImpact: [], nbOfWins: 0, ttwAvg: 0 },
+                max: { dAvg: 0, playerImpact: [], nbOfWins: 0, ttwAvg: 0 },
+                min: { dAvg: 999999, playerImpact: [], nbOfWins: 0, ttwAvg: 0 },
             },
             detailed: {},
         }
@@ -22,9 +22,9 @@ class PlayerResProcessor extends React.PureComponent {
                 if (!setOfResults.detailed[key]) {
                     setOfResults.detailed[key] = {
                         results: [],
-                        avg: { dAvg: 0, playerImpact: [], isWin: false, },
-                        max: { dAvg: 0, playerImpact: [], isWin: false, },
-                        min: { dAvg: 0, playerImpact: [], isWin: false, },
+                        avg: { dAvg: 0, playerImpact: [], nbOfWins: 0, },
+                        max: { dAvg: 0, playerImpact: [], nbOfWins: 0, },
+                        min: { dAvg: 0, playerImpact: [], nbOfWins: 0, },
                     }
                 }
                 //sum dmg
@@ -58,7 +58,7 @@ class PlayerResProcessor extends React.PureComponent {
             //process win
             case true:
                 partyResult.dAvg = this.noMoreThanBossHP(partyResult.dAvg, bossHP)
-                partyResult.isWin = true
+                partyResult.nbOfWins = 100
                 //estimate each player impact
                 partyResult.playerImpact = this.estimateImpact(eachPlayerResult, dmgType)
                 //write time total
@@ -66,7 +66,7 @@ class PlayerResProcessor extends React.PureComponent {
                 break
             //process lose
             default:
-                partyResult.isWin = false
+                partyResult.nbOfWins = 0
                 //for each player write their impact and sum avg time
                 let avgTime = 0
                 eachPlayerResult.forEach(player => {
@@ -128,7 +128,7 @@ class PlayerResProcessor extends React.PureComponent {
     }
 
     findOverall(setOfResults) {
-        let nOfWin = 0
+        let wins = 0
         // eslint-disable-next-line
         for (const [key, value] of Object.entries(setOfResults.detailed)) {
             if (setOfResults.overall.max.dAvg < value.max.dAvg) { setOfResults.overall.max = value.max }
@@ -136,13 +136,11 @@ class PlayerResProcessor extends React.PureComponent {
 
             setOfResults.overall.avg.dAvg += value.avg.dAvg
             setOfResults.overall.avg.ttwAvg += value.avg.ttwAvg
-            if (value.avg.isWin) { nOfWin++ }
+            if (value.avg.nbOfWins > 0) { wins++ }
         }
-        console.log(nOfWin)
 
         const numberOfBosses = Object.entries(setOfResults.detailed).length
-        setOfResults.overall.avg.isWin = nOfWin >= numberOfBosses / 2
-        setOfResults.overall.avg.winrate = nOfWin / numberOfBosses
+        setOfResults.overall.avg.nbOfWins = (wins / numberOfBosses * 100).toFixed(1)
         setOfResults.overall.avg.dAvg /= numberOfBosses
         setOfResults.overall.avg.ttwAvg = (setOfResults.overall.avg.ttwAvg / numberOfBosses).toFixed(0)
 
@@ -157,9 +155,6 @@ class PlayerResProcessor extends React.PureComponent {
         let summedDamgObj = this.sumDamage()
         summedDamgObj = this.processResult(summedDamgObj)
         summedDamgObj = this.findOverall(summedDamgObj)
-        console.log(summedDamgObj)
-
-
 
         return (
             <PlayerResEntry
