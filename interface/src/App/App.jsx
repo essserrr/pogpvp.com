@@ -5,7 +5,7 @@ import { getCookie } from "../js/getCookie"
 import { refresh } from '../AppStore/Actions/refresh'
 import { endLoading, startLoading } from '../AppStore/Actions/actions'
 import Main from "./Main.jsx"
-import Navbar from "./Navbar/Navbar.jsx"
+import NavbarWrapper from "./NavbarWrapper/NavbarWrapper"
 import Footer from "./Footer/Footer"
 import Loader from "./PvpRating/Loader"
 import "./App.scss"
@@ -39,7 +39,7 @@ class App extends Component {
                     innerClass="col-auto p-0 align-self-center"
                 /> :
                 <>
-                    <Navbar />
+                    <NavbarWrapper />
                     <Main />
                     <Footer />
                 </>

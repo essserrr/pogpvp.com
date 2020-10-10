@@ -1,4 +1,5 @@
 import React from "react"
+import { Collapse } from "react-collapse"
 
 import "./DropdownMenu.scss"
 
@@ -43,7 +44,9 @@ export default class DropdownMenu extends React.PureComponent {
                     aria-labelledby="navbarDropdownMenuLink"
                     onClick={this.onClick}
                 >
-                    {this.props.list}
+                    <Collapse isOpened={this.state.showDropdown}>
+                        {this.props.list}
+                    </Collapse>
                 </div>
             </li>
         );
