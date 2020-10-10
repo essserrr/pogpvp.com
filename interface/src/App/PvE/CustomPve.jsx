@@ -21,8 +21,8 @@ class CustomPve extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            userSettings: { ...pveUserSettings(), FindInCollection: false },
-            bossObj: { ...boss(strings.tips.nameSearch), Name: "Abomasnow" },
+            userSettings: pveUserSettings(),
+            bossObj: boss(strings.tips.nameSearch),
             pveObj: pveobj(),
 
             result: [],

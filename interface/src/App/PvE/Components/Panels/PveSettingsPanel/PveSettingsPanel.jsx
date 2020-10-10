@@ -115,7 +115,7 @@ class PveSettingsPanel extends React.PureComponent {
                         tipClass="infoTip"
                     />
                 </div>}
-                <div className="col-6 px-0 my-1 px-1">
+                {this.props.forCustomPve && this.props.findInCollection && <div className="col-6 px-0 my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
 
@@ -137,7 +137,7 @@ class PveSettingsPanel extends React.PureComponent {
                         tip={pveStrings.sizetip}
                         tipClass="infoTip"
                     />
-                </div>
+                </div>}
                 <div className="col-6 px-0  my-1 px-1">
                     <SelectGroup
                         class="input-group input-group-sm"
