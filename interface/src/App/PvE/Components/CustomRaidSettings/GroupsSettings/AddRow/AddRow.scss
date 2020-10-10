@@ -16,12 +16,14 @@ $button-active: #01b0cf;
 .add-row__line {
     visibility: hidden;
     height: 3px;
-    border-radius: 2px;
 
     margin-left: 10px;
     margin-right: 10px;
-    border-top: 2px solid $button-active;
-    border-bottom: 2px solid $button-active;
+
+    border-radius: 2px;
+    border: 2px solid $button-active;
+    background-color: $button-active;
+
     -webkit-transition: all 0.1s linear;
     transition: all 0.1s linear;
 }
