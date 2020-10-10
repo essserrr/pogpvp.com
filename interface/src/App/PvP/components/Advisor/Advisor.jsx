@@ -113,10 +113,11 @@ class Advisor extends React.PureComponent {
                     <div className="row justify-content-center m-0 mt-3">
                         <SubmitButton
                             action="Load more"
-                            label={strings.buttons.loadmore}
                             onSubmit={this.loadMore}
                             class="submit-button--lg btn btn-primary btn-sm"
-                        />
+                        >
+                            {strings.buttons.loadmore}
+                        </SubmitButton>
                     </div>}
             </div>
         );

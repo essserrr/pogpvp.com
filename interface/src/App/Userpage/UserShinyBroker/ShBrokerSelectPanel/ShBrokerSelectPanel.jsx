@@ -88,8 +88,10 @@ class ShBrokerSelectPanel extends React.PureComponent {
                     <SubmitButton
                         class="submit-button--lg btn btn-primary btn-sm mx-0"
                         attr={this.props.attr}
-                        label={strings.impExp}
-                        onSubmit={this.props.onTurnOnImport} />
+                        onSubmit={this.props.onTurnOnImport}
+                    >
+                        {strings.impExp}
+                    </SubmitButton>
                 </div>}
 
                 {!this.props.checked && <div className="col-12 px-0 mt-3 mb-2">

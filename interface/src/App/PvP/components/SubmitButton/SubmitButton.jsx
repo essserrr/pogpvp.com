@@ -14,7 +14,7 @@ const SubmitButton = React.memo(function (props) {
             disabled={props.disabled}
             onClick={props.onSubmit}
         >
-            {props.label}
+            {props.children}
         </button>
     )
 });

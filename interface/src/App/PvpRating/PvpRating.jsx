@@ -337,10 +337,11 @@ class PvpRating extends React.Component {
                                                 {(this.state.isNextPage && !this.state.searchState) &&
                                                     <SubmitButton
                                                         action="Load more"
-                                                        label={strings.buttons.loadmore}
                                                         onSubmit={this.onLoadMore}
                                                         class="submit-button--lg btn btn-primary btn-sm"
-                                                    />}
+                                                    >
+                                                        {strings.buttons.loadmore}
+                                                    </SubmitButton>}
                                             </div>
                                         </>}
                                 </div>

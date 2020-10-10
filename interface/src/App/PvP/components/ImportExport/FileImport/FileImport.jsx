@@ -125,10 +125,11 @@ class FileImport extends React.PureComponent {
 
                     <div className="row mx-0 justify-content-center align-items-center my-3">
                         <SubmitButton
-                            label={strings.import.read}
                             onSubmit={this.onSubmit}
                             class="submit-button btn btn-primary btn-sm p-0 m-0"
-                        />
+                        >
+                            {strings.import.read}
+                        </SubmitButton>
                     </div>
                 </form>
             </div>

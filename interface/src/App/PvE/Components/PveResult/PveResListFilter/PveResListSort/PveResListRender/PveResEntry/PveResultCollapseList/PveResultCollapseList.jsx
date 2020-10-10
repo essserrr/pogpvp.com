@@ -19,19 +19,21 @@ class PveResultCollapseList extends React.PureComponent {
 
                 {!this.props.needsAverage && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
                     <SubmitButton
-                        label={this.props.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
                         action="Precision"
                         onSubmit={this.props.rerunWithPrecision}
                         class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                    />
+                    >
+                        {this.props.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
+                    </SubmitButton>
                 </div>}
                 {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
                     <SubmitButton
-                        label={pveStrings.break}
                         action="Breakpoints"
                         onSubmit={this.props.defineBreakpoints}
                         class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                    />
+                    >
+                        {pveStrings.break}
+                    </SubmitButton>
                 </div>}
                 {this.props.children}
             </div>

@@ -351,11 +351,12 @@ class CustomPve extends React.PureComponent {
                             <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
                     <div className="col-12 d-flex justify-content-center p-0 my-1" >
                         <SubmitButton
-                            label={strings.buttons.calculate}
                             action="Calculate"
                             onSubmit={this.submitForm}
                             class="btn btn-primary"
-                        />
+                        >
+                            {strings.buttons.calculate}
+                        </SubmitButton>
                     </div>
 
                     {this.state.loading &&

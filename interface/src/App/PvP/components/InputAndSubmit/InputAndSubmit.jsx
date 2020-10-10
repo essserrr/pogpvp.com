@@ -64,11 +64,12 @@ class InputAndSubmit extends React.PureComponent {
                     />
                     <SubmitButton
                         action={this.props.action}
-                        label={this.props.label}
                         attr={this.props.attr}
                         onSubmit={this.onSubmit}
                         class="submit-button btn btn-primary btn-sm p-0 m-0"
-                    />
+                    >
+                        {this.props.label}
+                    </SubmitButton>
                 </div>
             </>
         )

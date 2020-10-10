@@ -751,11 +751,12 @@ class SinglePvp extends React.PureComponent {
                                     </div>
                                     <div className="align-self-center">
                                         <SubmitButton
-                                            label={strings.buttons.letsbattle}
                                             action="Let's Battle"
                                             onSubmit={this.submitForm}
                                             class="btn btn-primary"
-                                        />
+                                        >
+                                            {strings.buttons.letsbattle}
+                                        </SubmitButton>
                                     </div >
                                     <div>
                                         {(this.state.defender.name && this.props.pokemonTable[this.state.defender.name]) &&

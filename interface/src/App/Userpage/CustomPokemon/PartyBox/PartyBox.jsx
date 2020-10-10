@@ -132,13 +132,17 @@ class PartyBox extends React.PureComponent {
                         <SubmitButton
                             class="submit-button--lg btn btn-primary btn-sm mx-3"
                             attr={this.props.attr}
-                            label={strings.userpok.savegroup}
-                            onSubmit={this.onGroupAdd} />
+                            onSubmit={this.onGroupAdd}
+                        >
+                            {strings.userpok.savegroup}
+                        </SubmitButton>
                         <SubmitButton
                             class="submit-button--lg btn btn-primary btn-sm mx-3"
                             attr={this.props.attr}
-                            label={strings.userpok.deletegroup}
-                            onSubmit={this.onGroupDelete} />
+                            onSubmit={this.onGroupDelete}
+                        >
+                            {strings.userpok.deletegroup}
+                        </SubmitButton>
                     </div>
                 </div>
 

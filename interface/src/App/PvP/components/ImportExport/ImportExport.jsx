@@ -210,10 +210,11 @@ class ImportExport extends React.PureComponent {
 
                 <div className="row mx-0 justify-content-center mt-2 mb-3">
                     <SubmitButton
-                        label={strings.buttons.copy}
                         onSubmit={this.onCopy}
                         class="submit-button--sm btn btn-primary btn-sm p-0 m-0"
-                    />
+                    >
+                        {strings.buttons.copy}
+                    </SubmitButton>
                 </div>
 
 
@@ -225,11 +226,12 @@ class ImportExport extends React.PureComponent {
                 <div className="row mx-0 justify-content-center mt-3 mb-1">
                     <SubmitButton
                         action={this.props.action}
-                        label={strings.buttons.imp}
                         attr={this.props.attr}
                         onSubmit={this.onSubmit}
                         class="submit-button btn btn-primary btn-sm p-0 m-0"
-                    />
+                    >
+                        {strings.buttons.imp}
+                    </SubmitButton>
                 </div>
             </>
         )

@@ -416,9 +416,10 @@ class RedactPokemon extends React.PureComponent {
                             class="submit-button btn btn-primary btn-sm p-0 m-0  mx-1"
                             attr={this.props.redact.attr}
                             action={"Add pokemon"}
-                            label={strings.buttons.submitchange}
                             onSubmit={this.onPokemonSubmit}
-                        />
+                        >
+                            {strings.buttons.submitchange}
+                        </SubmitButton>
                     </div>
                 }
             />

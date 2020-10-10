@@ -447,9 +447,10 @@ class MatrixPanel extends React.PureComponent {
                                 class="submit-button btn btn-primary btn-sm p-0 m-0  mx-1"
                                 attr={this.props.attr}
                                 action={"Add pokemon"}
-                                label={strings.buttons.addpokemon}
                                 onSubmit={this.onPokemonSubmit}
-                            />
+                            >
+                                {strings.buttons.addpokemon}
+                            </SubmitButton>
                         </div>
                     }
                 />}
@@ -504,10 +505,11 @@ class MatrixPanel extends React.PureComponent {
                     class="submit-button btn btn-primary btn-sm mt-0  mx-0"
                     attr={this.props.attr}
                     action="Add pokemon"
-                    label={strings.buttons.addpokemon}
                     stat={"showPokSelect"}
                     onSubmit={this.props.onChange}
-                />
+                >
+                    {strings.buttons.addpokemon}
+                </SubmitButton>
 
                 <SelectGroup
                     class="input-group input-group-sm mt-1"
@@ -532,17 +534,20 @@ class MatrixPanel extends React.PureComponent {
                         attr={this.props.attr}
                         stat={"showSavePanel"}
                         action="Save"
-                        label={strings.buttons.save}
                         onSubmit={this.props.onChange}
-                    />
+                    >
+                        {strings.buttons.save}
+                    </SubmitButton>
 
 
                     <SubmitButton
                         class="submit-button--sm btn btn-primary btn-sm mx-0"
                         attr={this.props.attr}
                         action={"Delete"}
-                        label={strings.buttons.delete}
-                        onSubmit={this.props.onChange} />
+                        onSubmit={this.props.onChange}
+                    >
+                        {strings.buttons.delete}
+                    </SubmitButton>
                 </div>
                 <div className="row justify-content-center m-0 pt-2" >
                     <SubmitButton
@@ -550,8 +555,10 @@ class MatrixPanel extends React.PureComponent {
                         attr={this.props.attr}
                         stat="showImportExportPanel"
                         action={"Import/Export"}
-                        label={strings.buttons.impExp}
-                        onSubmit={this.props.onChange} />
+                        onSubmit={this.props.onChange}
+                    >
+                        {strings.buttons.impExp}
+                    </SubmitButton>
                 </div>
                 <div className="matrix-panel--bolder">
                     {strings.tips.matrixPanel}
@@ -629,9 +636,10 @@ class MatrixPanel extends React.PureComponent {
                         class="submit-button btn btn-primary btn-sm mx-0 pl-1 col-8"
                         action="Advisor"
                         disabled={this.props.advDisabled}
-
-                        label={strings.advisor.adv}
-                        onSubmit={this.props.onAdvisorSubmit} />
+                        onSubmit={this.props.onAdvisorSubmit}
+                    >
+                        {strings.advisor.adv}
+                    </SubmitButton>
 
                     <ReactTooltip
                         className={"infoTip"}

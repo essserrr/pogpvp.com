@@ -106,7 +106,7 @@ class SimulatorPanel extends React.PureComponent {
                     <div className="row m-0">
                         <PveSettingsPanel
                             forCustomPve={this.props.forCustomPve}
-                            findInCollection={this.props.value.userSettings.FindInCollection}
+                            findInCollection={this.props.value.userSettings && this.props.value.userSettings.FindInCollection}
                             title={pveStrings.raid}
                             attr={"pveObj"}
                             value={this.props.value.pveObj}

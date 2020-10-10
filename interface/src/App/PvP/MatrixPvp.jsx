@@ -715,10 +715,11 @@ class MatrixPvp extends React.PureComponent {
                                 <div className="order-2 order-lg-3 d-flex justify-content-center mx-0 px-0 col-12  mt-2 mt-lg-0" >
                                     <SubmitButton
                                         action="Let's Battle"
-                                        label={strings.buttons.letsbattle}
                                         onSubmit={this.submitForm}
                                         class="btn btn-primary"
-                                    />
+                                    >
+                                        {strings.buttons.letsbattle}
+                                    </SubmitButton>
                                 </div>
                             </div>
                         </div>

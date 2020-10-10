@@ -62,14 +62,18 @@ class PokemonBox extends React.PureComponent {
                     <SubmitButton
                         class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"
                         attr={this.props.attr}
-                        label={strings.userpok.addpok}
-                        onSubmit={this.props.onPokemonAdd} />
+                        onSubmit={this.props.onPokemonAdd}
+                    >
+                        {strings.userpok.addpok}
+                    </SubmitButton>
                     <div className="pokbox__text col-12 col-md-auto mx-1 px-0 text-center">{strings.userpok.or}</div>
                     <SubmitButton
                         class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"
                         attr={this.props.attr}
-                        label={strings.impExp}
-                        onSubmit={this.props.onTurnOnImport} />
+                        onSubmit={this.props.onTurnOnImport}
+                    >
+                        {strings.impExp}
+                    </SubmitButton>
                 </div>
 
                 <div className="col-12 px-0">
