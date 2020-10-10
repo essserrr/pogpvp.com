@@ -28,10 +28,13 @@ class PlayerStatisticsWrapper extends React.PureComponent {
                         }}
 
 
-                        stats={{ ...this.props.value, dAvg: (this.props.value.dAvg / bossHP * 100).toFixed(1) }}
+                        stats={{ ttwAvg: this.props.value.ttwAvg, dAvg: (this.props.value.dAvg / bossHP * 100).toFixed(1) }}
 
-                        onClick={this.onClick}
-                        showCollapse={false}
+                        impact={this.props.value.playerImpact}
+                        bossHP={bossHP}
+
+                        onClick={this.props.onClick}
+                        showCollapse={this.props.showCollapse}
                         disableCollapse={this.props.disableCollapse}
                     />
                 </div>

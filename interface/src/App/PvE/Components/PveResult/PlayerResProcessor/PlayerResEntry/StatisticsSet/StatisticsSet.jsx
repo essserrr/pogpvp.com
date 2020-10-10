@@ -18,7 +18,7 @@ const StatisticsSet = React.memo(function (props) {
                     {...props}
                     value={props.value.avg}
                     title={`${pveStrings.playerAvg.avg}:`}
-                    disableCollapse={true}
+                    disableCollapse={props.disabled.avg}
                 />
             </div>
             <div className="col-12 px-0">
@@ -26,7 +26,7 @@ const StatisticsSet = React.memo(function (props) {
                     {...props}
                     value={props.value.max}
                     title={`${pveStrings.playerAvg.max}:`}
-                    disableCollapse={true}
+                    disableCollapse={props.disabled.max}
                 />
             </div>
             <div className="col-12 px-0">
@@ -34,7 +34,9 @@ const StatisticsSet = React.memo(function (props) {
                     {...props}
                     value={props.value.min}
                     title={`${pveStrings.playerAvg.min}:`}
-                    disableCollapse={false}
+                    disableCollapse={props.disabled.min}
+                    onClick={props.onClick}
+                    showCollapse={props.showCollapse}
                 />
             </div>
         </div>

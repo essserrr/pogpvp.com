@@ -8,6 +8,7 @@ const DetailedStatisticsGenerator = React.memo(function (props) {
                 key={detailed[0]}
                 {...props}
                 value={detailed[1]}
+                disabled={{ avg: true, max: true, min: true, }}
             />
         )
     )

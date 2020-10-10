@@ -21,8 +21,8 @@ class CustomPve extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            userSettings: pveUserSettings(),
-            bossObj: boss(strings.tips.nameSearch),
+            userSettings: { ...pveUserSettings(), FindInCollection: false },
+            bossObj: { ...boss(strings.tips.nameSearch), Name: "Abomasnow" },
             pveObj: pveobj(),
 
             result: [],
@@ -279,7 +279,6 @@ class CustomPve extends React.PureComponent {
             loading: true,
         })
 
-        console.log(this.makeRequestObject())
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ? process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/request/custom/", {
                 method: "POST",
@@ -373,6 +372,7 @@ class CustomPve extends React.PureComponent {
                         <div className="custompve__results-panel col-12 col-md-10 col-lg-6 justify-content-center p-0" >
                             <PveResult
                                 customResult={true}
+                                needsAvg={!this.state.snapshot.attackerObj.FindInCollection && this.state.snapshot.attackerObj.UserPlayers.length > 1}
 
                                 date={this.state.date}
                                 result={this.state.result}

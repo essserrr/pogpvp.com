@@ -1,16 +1,17 @@
 import React from "react"
-import DetailedResult from "./DetailedResult/DetailedResult"
+
+import StatisticsSet from "../../StatisticsSet/StatisticsSet"
+import CollapseCard from "../../../../PveResListFilter/PveResListSort/PveResListRender/PveResEntry/CollapseCardWrapper/CollapseCard/CollapseCard"
 
 const DetailedWrapper = React.memo(function (props) {
     return (
-        <div className="row mx-0">
-            <div className="col-12 my-1 px-0">
-                <DetailedResult
-                    {...props}
-                />
-            </div>
-        </div>
-
+        <CollapseCard
+            pokQick={props.moveTable[props.value.boss.quick]}
+            pokCh={props.moveTable[props.value.boss.charge]}
+            weather={props.snapshot.pveObj.Weather}
+        >
+            <StatisticsSet {...props} />
+        </CollapseCard>
     )
 });
 

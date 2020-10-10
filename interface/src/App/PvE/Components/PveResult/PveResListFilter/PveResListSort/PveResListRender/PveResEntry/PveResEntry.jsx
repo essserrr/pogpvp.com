@@ -3,7 +3,7 @@ import { UnmountClosed } from "react-collapse"
 
 import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
 import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
-import PveCardBody from "./PveCardBody/PveCardBody"
+import CollapseCardWrapper from "./CollapseCardWrapper/CollapseCardWrapper"
 import PveResultCollapseList from "./PveResultCollapseList/PveResultCollapseList"
 import PveResultFullStatistics from "./PlayerStatistics/PlayerStatistics"
 
@@ -189,7 +189,7 @@ class PveResEntry extends React.PureComponent {
 
     generateCards() {
         return this.props.pokemonRes.Result.map((stats, i) =>
-            <PveCardBody
+            <CollapseCardWrapper
                 key={i}
                 stats={stats}
                 moveTable={this.props.moveTable}

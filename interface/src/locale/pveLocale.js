@@ -4,6 +4,7 @@ export const pveLocale = {
             avg: "On average",
             max: "The best-case scenario",
             min: "The worst-case scenario",
+            byPlayer: "Damage by player",
         },
 
         resType: {
@@ -108,6 +109,7 @@ export const pveLocale = {
             avg: "В среднем",
             max: "В лучшем случае",
             min: "В худшем случае",
+            byPlayer: "Урон игроков",
         },
 
         resType: {
