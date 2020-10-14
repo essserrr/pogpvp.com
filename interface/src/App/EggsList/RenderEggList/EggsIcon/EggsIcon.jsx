@@ -4,6 +4,7 @@ import LocalizedStrings from "react-localization"
 import { ReactComponent as Egg2km } from "../../../../icons/egg2km.svg"
 import { ReactComponent as Egg5km } from "../../../../icons/egg5km.svg"
 import { ReactComponent as Egg10km } from "../../../../icons/egg10km.svg"
+import { ReactComponent as Egg12km } from "../../../../icons/egg12km.svg"
 import { ReactComponent as Egg7km } from "../../../../icons/egg7km.svg"
 
 import { getCookie } from "../../../../js/getCookie"
@@ -27,8 +28,13 @@ const EggsIcon = React.memo(function (props) {
                 return <><Egg2km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 2 km"}</>
             case "10KM Eggs (50KM)":
                 return <><Egg10km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 10 km (50 km Adveture Sync)"}</>
-            default:
+            case "5KM Eggs (25KM)":
                 return <><Egg5km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 5 km (25 km Adveture Sync)"}</>
+            case "12KM Strange Eggs":
+                return <><Egg12km className={"icon48 mr-1"} />{strings.tierlist.eggs + " 12 km (Team GO Rocket)"}</>
+            default:
+                return <>Unknow egg tier</>
+
         }
     }
     return (

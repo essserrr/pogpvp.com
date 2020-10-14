@@ -5,9 +5,8 @@ class FilteredEggsList extends React.Component {
         if (!this.props.filter) {
             return true
         }
-        if (!this.props.filter.eggs0 && !this.props.filter.eggs1 && !this.props.filter.eggs2 && !this.props.filter.eggs3 && !this.props.filter.eggs4 && !this.props.filter.eggs5) {
-            return true
-        }
+        let filterProduct = Object.entries(this.props.filter).reduce((sum, value) => { return value[0].includes("eggs") ? sum * !value[1] : sum }, true)
+        if (filterProduct) { return true }
         return this.props.filter[elem.key]
     }
 

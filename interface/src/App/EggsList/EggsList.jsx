@@ -84,9 +84,8 @@ class EggsList extends React.Component {
         if (!filter) {
             return true
         }
-        if (!filter.eggs0 && !filter.eggs1 && !filter.eggs2 && !filter.eggs3 && !filter.eggs4 && !filter.eggs5) {
-            return true
-        }
+        let filterProduct = Object.entries(filter).reduce((sum, value) => { return value[0].includes("eggs") ? sum * !value[1] : sum }, true)
+        if (filterProduct) { return true }
         return filter[elem.key]
     }
 

@@ -80,8 +80,8 @@ func validateCustomData(inDat *app.IntialDataPve) error {
 			return &customError{"You haven't specified any players"}
 		}
 		//crop players if needed
-		if len(inDat.UserPlayers) > 3 {
-			inDat.UserPlayers = inDat.UserPlayers[:3]
+		if len(inDat.UserPlayers) > 5 {
+			inDat.UserPlayers = inDat.UserPlayers[:5]
 		}
 		//for every player
 		for player, party := range inDat.UserPlayers {

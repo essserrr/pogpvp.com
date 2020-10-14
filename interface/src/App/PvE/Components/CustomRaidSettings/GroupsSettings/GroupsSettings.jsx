@@ -19,7 +19,7 @@ class GroupsSettings extends React.PureComponent {
                         </div>
                     )}
                 </div>
-                {this.props.value.length < 3 &&
+                {this.props.value.length < 5 &&
                     <div className="col-12 px-0 mt-3">
                         <AddRow
                             name="addPlayer"

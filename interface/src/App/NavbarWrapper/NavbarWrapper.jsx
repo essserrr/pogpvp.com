@@ -119,7 +119,16 @@ class NavbarWrapper extends React.PureComponent {
                         class="mr-1"
                         dropClass="dropdown-menu-right"
                         label={<i className="fa fa-globe fa-2x clickable" aria-hidden="true"></i>}
-                        list={this.state.dropdownLanguages}
+                        list={<>
+                            <div key="ru" name="ru" className="navbar__lang-button clickable"
+                                onClick={this.onClick}>
+                                <Ru title={"Русский"} className="icon24 mx-1"></Ru> {"Русский"}
+                            </div>
+                            <div key="en" name="en" className="navbar__lang-button clickable"
+                                onClick={this.onClick}>
+                                <En title={"English"} className="icon24 mx-1"></En> {"English"}
+                            </div>
+                        </>}
                     />
                     <Search class="mr-2" />
                 </>}
