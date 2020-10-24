@@ -1,10 +1,14 @@
 import React, { Suspense, lazy } from "react"
 import LocalizedStrings from "react-localization"
-import { connect } from 'react-redux'
 import { Switch, Route } from "react-router-dom"
 
-import { setSession } from "../../AppStore/Actions/actions"
-import UpageButtons from "./ProfileButtons/ProfileButtons"
+import Grid from '@material-ui/core/Grid';
+import CardHeader from '@material-ui/core/CardHeader';
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+
+import GreyPaper from '../Components/GreyPaper';
+import UserPageTabs from "./UserPageTabs/UserPageTabs"
 import SiteHelm from "../SiteHelm/SiteHelm"
 
 import "./Userpage.scss"
@@ -20,33 +24,46 @@ const UserShinyBroker = lazy(() => import("./UserShinyBroker/UserShinyBroker"))
 
 let strings = new LocalizedStrings(userLocale)
 
-class Userpage extends React.Component {
-    constructor(props) {
-        super(props)
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const useStyles = makeStyles((theme) => ({
+    userpageTitle: {
+        borderBottom: `1px solid ${theme.palette.divider}`,
+    },
+    container: {
+        padding: "24px",
+        paddingLeft: "24px",
+        [theme.breakpoints.down('md')]: {
+            paddingRight: "16px",
+            paddingLeft: "16px",
+        },
+        [theme.breakpoints.down('sm')]: {
+            paddingRight: "8px",
+            paddingLeft: "8px",
+        },
+    },
+}));
 
+const Userpage = React.memo(function Userpage(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
 
-    render() {
-        return (
-            <div className="container-fluid mb-5 p-2">
-                <SiteHelm
-                    url="https://pogpvp.com/profile"
-                    header={strings.pageheaders.usr}
-                    descr={strings.pagedescriptions.usr}
-                    noindex={true}
-                />
-                <div className="row m-0 justify-content-center" >
-                    <div className="col-12 col-lg-12 mt-4 p-0 profile align-self-center">
-                        <div className="row mx-0" >
-
-                            <div className="col-12 px-0 text-center profile__title">
-                                <div className="row mx-0">
-                                    <div style={{ width: "144px", height: "1px" }}></div>
-                                    <div className="col px-0">{strings.upage.prof}</div>
-                                </div>
-                            </div>
-                            <UpageButtons history={this.props.history} activePath={this.props.match.params.type} />
+    return (
+        <Grid container justify="center">
+            <SiteHelm
+                url="https://pogpvp.com/profile"
+                header={strings.pageheaders.usr}
+                descr={strings.pagedescriptions.usr}
+                noindex={true}
+            />
+            <GreyPaper elevation={3} >
+                <Grid container>
+                    <Grid item xs={12} className={classes.userpageTitle}>
+                        <CardHeader title={strings.upage.prof} />
+                    </Grid>
+                    <Grid item xs={"auto"}>
+                        <UserPageTabs activePath={props.match.params.type} />
+                    </Grid>
+                    <Grid item xs>
+                        <Container className={classes.container}>
                             <Suspense >
                                 <Switch>
                                     <Route path="/profile/pokemon" component={CustomPokemon} />
@@ -56,23 +73,14 @@ class Userpage extends React.Component {
                                     <Route path="/profile/security" component={Security} />
                                 </Switch>
                             </Suspense>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
+                        </Container>
+                    </Grid>
+                </Grid>
+            </GreyPaper>
+        </Grid>
+    );
+});
 
-const mapDispatchToProps = dispatch => {
-    return {
-        setSession: value => dispatch(setSession(value))
-    }
-}
 
-export default connect(
-    state => ({
-        session: state.session,
-    }), mapDispatchToProps
-)(Userpage)
+export default Userpage;
 
