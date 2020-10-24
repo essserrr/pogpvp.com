@@ -1,12 +1,13 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import { getCookie } from "../../../js/getCookie";
 import { timeLocale } from "../../../locale/timeLocale";
 
 let strings = new LocalizedStrings(timeLocale);
 
-const TimeConverter = React.memo(function (props) {
+const TimeConverter = React.memo(function TimeConverter(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     function timeConverter(timestamp) {
@@ -18,12 +19,19 @@ const TimeConverter = React.memo(function (props) {
         const hour = a.getHours()
         const min = a.getMinutes()
         const sec = a.getSeconds()
-        return date + " " + month + " " + year + (props.getTime ? " " + hour + ":" + min + ":" + sec : "")
+        return date + " " + month + " " + year + (props.getHours ? " " + hour + ":" + min + ":" + sec : "")
     }
 
     return (
-        timeConverter(props.time)
+        timeConverter(props.timestamp)
     )
 });
 
 export default TimeConverter;
+
+TimeConverter.propTypes = {
+    timestamp: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+};

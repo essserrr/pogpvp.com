@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from "react";
 import LocalizedStrings from "react-localization";
 import { Switch, Route } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -30,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         padding: "24px",
-        paddingLeft: "24px",
         [theme.breakpoints.down('md')]: {
             paddingRight: "16px",
             paddingLeft: "16px",
@@ -84,3 +84,6 @@ const Userpage = React.memo(function Userpage(props) {
 
 export default Userpage;
 
+UserPageTabs.propTypes = {
+    match: PropTypes.object.isRequired,
+};
