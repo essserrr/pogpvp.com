@@ -11,24 +11,36 @@ const useStyles = makeStyles((theme) => ({
     appGrid: {
         minHeight: "100vh",
     },
+    footerMargin: {
+        marginTop: "30px",
+        [theme.breakpoints.down('md')]: {
+            marginTop: "50px",
+        }
+    },
+    navbarMargin: {
+        marginBottom: "25px",
+        [theme.breakpoints.down('md')]: {
+            marginBottom: "25px",
+        }
+    }
 }));
 
-const AppGrid = React.memo(function AppGrid() {
+const AppGrid = function AppGrid() {
     const classes = useStyles();
 
     return (
         <Grid container direction="column" className={classes.appGrid}>
-            <Grid item xs={"auto"}>
+            <Grid item xs={"auto"} className={classes.navbarMargin}>
                 <NavbarWrapper />
             </Grid>
             <Grid item xs>
                 <Main />
             </Grid>
-            <Grid item xs={"auto"}>
+            <Grid item xs={"auto"} className={classes.footerMargin}>
                 <Footer />
             </Grid>
         </Grid>
     );
-});
+};
 
 export default AppGrid;
