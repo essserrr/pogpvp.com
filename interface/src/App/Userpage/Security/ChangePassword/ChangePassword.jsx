@@ -13,8 +13,6 @@ import { userLocale } from "../../../../locale/userLocale";
 
 import PassChangeForm from "./PassChangeForm/PassChangeForm";
 
-import "./ChangePassword.scss"
-
 let strings = new LocalizedStrings(userLocale);
 
 class ChangePassword extends React.PureComponent {
@@ -131,8 +129,8 @@ class ChangePassword extends React.PureComponent {
             form: checkedForm,
         })
 
-        return Object.entries(this.state.form).reduce((sum, entry) => {
-            return sum && entry[1].error !== ""
+        return Object.values(this.state.form).reduce((sum, value) => {
+            return sum && value.error === ""
         }, true)
     }
 
@@ -149,7 +147,11 @@ class ChangePassword extends React.PureComponent {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json", },
-                body: JSON.stringify(this.state.form)
+                body: JSON.stringify({
+                    password: this.state.form.password.value,
+                    newPassword: this.state.form.newPassword.value,
+                    checkPassword: this.state.form.checkPassword.value,
+                })
             })
             //parse answer
             let result = await response.json()
