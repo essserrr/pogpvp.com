@@ -20,7 +20,7 @@ const InfoTable = React.memo(function InfoTable(props) {
 
     return (
         <TableContainer>
-            <Table aria-label="info table" className={classes.table}>
+            <Table className={classes.table}>
                 <TableBody>
                     {props.children.map((row) => (
                         <TableRow key={row.name}>

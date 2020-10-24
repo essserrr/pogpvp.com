@@ -4,13 +4,12 @@ import { connect } from "react-redux";
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 
 import SiteHelm from "../../SiteHelm/SiteHelm";
 import TimeConverter from "./TimeConverter";
-import ContentTitle from "../ContentTitle/ContentTitle"
-import InfoTable from "./InfoTable/InfoTable"
+import UserPageContent from "../UserPageContent/UserPageContent";
+import InfoTable from "./InfoTable/InfoTable";
 
 import { refresh } from "../../../AppStore/Actions/refresh";
 import LocalizedStrings from "react-localization";
@@ -58,6 +57,7 @@ class Info extends React.PureComponent {
     }
 
     render() {
+        console.log(this.state.loading)
         return (
             <Grid container justify="center">
                 <SiteHelm
@@ -67,27 +67,23 @@ class Info extends React.PureComponent {
                     noindex={true}
                 />
 
-                {this.state.loading && <LinearProgress color="secondary" />}
+                {this.state.loading &&
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
                 {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
                 {this.state.error === "" && !this.state.loading && this.state.uInfo.Username &&
                     <Grid item sm={12} md={8} lg={6}>
-                        <Grid item xs={12}>
-                            <ContentTitle>
-                                {strings.info.title}
-                            </ContentTitle>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Box mt={3}>
-                                <InfoTable>
-                                    {[
-                                        { name: strings.info.name, info: this.state.uInfo.Username, },
-                                        { name: strings.info.email, info: this.state.uInfo.Email, },
-                                        { name: strings.info.reg, info: <TimeConverter timestamp={this.state.uInfo.RegAt} getHours={false} />, },
-                                    ]}
-                                </InfoTable>
-                            </Box>
-                        </Grid>
+                        <UserPageContent title={strings.info.title}>
+                            <InfoTable>
+                                {[
+                                    { name: strings.info.name, info: this.state.uInfo.Username, },
+                                    { name: strings.info.email, info: this.state.uInfo.Email, },
+                                    { name: strings.info.reg, info: <TimeConverter timestamp={this.state.uInfo.RegAt} getHours={false} />, },
+                                ]}
+                            </InfoTable>
+                        </UserPageContent>
                     </Grid>}
             </Grid>
         )
