@@ -1,9 +1,10 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
+import Alert from '@material-ui/lab/Alert';
+
 import Loader from "../../../../../../../../Registration/RegForm/AuthButton/Loader/Loader"
 import SubmitButton from "../../../../../../../../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../../../../../../../../PvP/components/Errors/Errors"
 import { pveLocale } from "../../../../../../../../../locale/pveLocale"
 
 let pveStrings = new LocalizedStrings(pveLocale)
@@ -15,7 +16,7 @@ class PveResultCollapseList extends React.PureComponent {
             <div className="row m-0  mt-1">
 
                 {this.props.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
-                    <Errors class="alert alert-danger p-2" value={this.props.error} /></div>}
+                    <Alert variant="filled" severity="error">{this.props.error}</Alert></div>}
 
                 {!this.props.needsAverage && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
                     <SubmitButton

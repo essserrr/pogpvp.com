@@ -3,10 +3,11 @@ import LocalizedStrings from "react-localization";
 import { loadReCaptcha } from 'react-recaptcha-google'
 import { connect } from 'react-redux'
 
+import Alert from '@material-ui/lab/Alert';
+
 import { setSession } from "../../AppStore/Actions/actions"
 
 import RegForm from "./RegForm/RegForm"
-import Errors from "../PvP/components/Errors/Errors"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Registration.scss"
 
@@ -219,7 +220,7 @@ class Registration extends React.Component {
                             {strings.signup.reg}
                         </div>
                         {this.state.error !== "" && <div className="col-12 p-0">
-                            <Errors value={this.state.error} class="alert alert-danger m-2 p-2" />
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert>
                         </div>}
                         <div className="col-12 p-0">
                             <RegForm {...this.state.inputs} loading={this.state.loading} notOk={this.state.notOk}

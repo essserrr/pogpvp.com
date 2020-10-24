@@ -4,11 +4,12 @@ import ReactTooltip from "react-tooltip"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SearchableSelect from "../PvP/components/SearchableSelect/SearchableSelect"
 import Stats from "../PvP/components/Stats/Stats"
-import Errors from "../PvP/components/Errors/Errors"
 import EvoList from "./EvoList/EvoList"
 import Loader from "../PvpRating/Loader"
 
@@ -142,7 +143,7 @@ class Evolve extends React.Component {
                                 locale={strings.tips.loading}
                                 loading={this.state.loading}
                             />}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult &&
                                 <div className="row justify-content-between p-0 m-0">
                                     <div className="col-12 px-2">

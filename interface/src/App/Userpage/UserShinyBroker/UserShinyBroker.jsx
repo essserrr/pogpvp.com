@@ -2,9 +2,10 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import SiteHelm from "../../SiteHelm/SiteHelm"
 import ShBrokerForm from "./ShBrokerForm/ShBrokerForm"
-import Errors from "../../PvP/components/Errors/Errors"
 import Loader from "../../PvpRating/Loader"
 import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
@@ -436,7 +437,7 @@ class UserShinyBroker extends React.PureComponent {
 
                     {!!this.state.error &&
                         <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Errors class="alert alert-danger p-2" value={this.state.error} />
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert >
                         </div>}
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React from "react"
-import Errors from "../PvP/components/Errors/Errors"
 
+import Alert from '@material-ui/lab/Alert';
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../locale/locale"
@@ -73,7 +73,7 @@ class NewsWrap extends React.Component {
                                 />
                             </div>}
                         <div className="col-md-10 col-lg-8 p-0">
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult &&
                                 <>
                                     {this.state.news &&

@@ -1,11 +1,12 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
+import Alert from '@material-ui/lab/Alert';
+
 import Pokemon from "./components/Pokemon";
 import Result from "./components/Result";
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import PvpReconstruction from "./components/PvpReconstruction/PvpReconstruction"
-import Errors from "./components/Errors/Errors"
 import Indicators from "./components/Indicators/Indicators"
 import URL from "./components/URL/URL"
 import MagicBox from "./components/MagicBox/MagicBox"
@@ -701,7 +702,7 @@ class SinglePvp extends React.PureComponent {
                                             {this.state.showResult &&
                                                 <Result value={this.state.result} isSingle={true} />}
                                             {this.state.isError &&
-                                                <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                                                <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                                         </div>
                                         {this.state.url && this.state.showResult &&
                                             <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >

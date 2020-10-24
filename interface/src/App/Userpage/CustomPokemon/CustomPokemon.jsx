@@ -2,10 +2,11 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import EditMenu from "./EditMenu/EditMenu"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import SiteHelm from "../../SiteHelm/SiteHelm"
-import Errors from "../../PvP/components/Errors/Errors"
 import Loader from "../../PvpRating/Loader"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
 import PokemonPanel from "../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
@@ -660,13 +661,12 @@ class CustomPokemon extends React.PureComponent {
                             </div>
                             {Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
                                 <div className="col-12 pt-2">
-                                    <Errors class="alert alert-danger p-2" value={
-                                        Object.values(this.state.notOk).reduce((sum, val, index) => {
+                                    <Alert variant="filled" severity="error">
+                                        {Object.values(this.state.notOk).reduce((sum, val, index) => {
                                             sum.push(<div key={index} className="col-12 py-1">{val}</div>)
                                             return sum
-                                        }, [])
-                                    }
-                                    />
+                                        }, [])}
+                                    </Alert >
                                 </div>}
                             <div className="col-12 pt-2">
                                 <PokemonBox
@@ -722,7 +722,7 @@ class CustomPokemon extends React.PureComponent {
 
                     {!!this.state.error &&
                         <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Errors class="alert alert-danger p-2" value={this.state.error} />
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert >
                         </div>}
                 </div>
             </div>

@@ -1,10 +1,11 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
 
+import Alert from '@material-ui/lab/Alert';
+
 import SelectGroup from "../SelectGroup/SelectGroup"
 import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
 import SubmitButton from "../SubmitButton/SubmitButton"
-import Errors from "../Errors/Errors"
 
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
@@ -263,16 +264,10 @@ class Constructor extends React.PureComponent {
         return (
             <div className="row justify-content-center m-0 my-1">
                 {(this.props.lastChangesAt > this.props.round) && <div className="col-12 p-0">
-                    <Errors
-                        class="alert alert-danger m-0 p-2 "
-                        value={strings.constructor.alertchanges1st + this.props.lastChangesAt + strings.constructor.alertchanges2nd}
-                    />
+                    <Alert variant="filled" severity="error">{strings.constructor.alertchanges1st + this.props.lastChangesAt + strings.constructor.alertchanges2nd}</Alert >
                 </div>}
                 {this.props.stateModified && <div className="col-12 p-0 my-1">
-                    <Errors
-                        class="alert alert-danger p-2 "
-                        value={strings.constructor.alertmodified}
-                    />
+                    <Alert variant="filled" severity="error">{strings.constructor.alertmodified}</Alert >
                 </div>}
                 <div className="constructor__title col-12 p-0">
                     {strings.constructor.newaction + this.props.round + ":"}

@@ -3,10 +3,11 @@ import LocalizedStrings from "react-localization";
 import { loadReCaptcha } from 'react-recaptcha-google'
 import { connect } from 'react-redux'
 
+import Alert from '@material-ui/lab/Alert';
+
 import { setSession } from "../../AppStore/Actions/actions"
 
 import RestorePassForm from "./RestorePassForm/RestorePassForm"
-import Errors from "../PvP/components/Errors/Errors"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import "./Restore.scss"
 
@@ -160,7 +161,7 @@ class Restore extends React.Component {
                             {strings.restore.res}
                         </div>
                         {this.state.error !== "" && <div className="col-12 p-0">
-                            <Errors value={this.state.error} class="alert alert-danger m-2 p-2" />
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert>
                         </div>}
                         <div className="col-12 p-0">
                             <RestorePassForm {...this.state.inputs} loading={this.state.loading} notOk={this.state.notOk}
@@ -169,9 +170,7 @@ class Restore extends React.Component {
                         {this.state.ok &&
                             <div className="row mx-0 justify-content-center">
                                 <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                                    <Errors
-                                        class={"alert alert-success p-2"}
-                                        value={strings.restore.ok} />
+                                    <Alert variant="filled" severity="error">{strings.restore.ok}</Alert>
                                 </div>
                             </div>}
                     </div>

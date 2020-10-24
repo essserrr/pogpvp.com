@@ -4,9 +4,10 @@ import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import Errors from "../../PvP/components/Errors/Errors"
 import Loader from "../../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
 import MoveCol from "./MoveBlock/MoveCol"
@@ -178,7 +179,7 @@ class PokeCard extends React.Component {
                                     locale={strings.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult && this.state.pok && <>
                                 {this.state.scrollList && !(this.state.position === undefined) &&
                                     <NavigationBlock

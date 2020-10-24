@@ -3,10 +3,11 @@ import { getCookie } from "../../../../js/getCookie"
 import { connect } from 'react-redux'
 import LocalizedStrings from "react-localization"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { userLocale } from "../../../../locale/userLocale"
 import { refresh } from "../../../../AppStore/Actions/refresh"
 import { setSession } from "../../../../AppStore/Actions/actions"
-import Errors from "../../../PvP/components/Errors/Errors"
 import AuthButton from "../../../Registration/RegForm/AuthButton/AuthButton"
 
 import "./Sessions.scss"
@@ -63,7 +64,7 @@ class Sessions extends React.PureComponent {
                 </div>
                 {this.state.error !== "" &&
                     <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                        <Errors class="alert alert-danger p-2" value={this.state.error} />
+                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
 
                     </div>}
                 {this.state.error === "" &&

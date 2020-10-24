@@ -3,7 +3,8 @@ import LocalizedStrings from "react-localization"
 import SiteHelm from "../SiteHelm/SiteHelm"
 import { Link } from "react-router-dom"
 
-import Errors from "../PvP/components/Errors/Errors"
+import Alert from '@material-ui/lab/Alert';
+
 import Loader from "../PvpRating/Loader"
 import NavigationBlock from "../Pokedex/PokeCard/NavigationBlock/NavigationBlock"
 import News from "./News/News"
@@ -118,7 +119,7 @@ class NewsPages extends React.Component {
                                         loading={this.state.loading}
                                     />
                                 </div>}
-                            {this.state.isError && <Errors class="alert alert-danger m-2 p-2" value={this.state.error} />}
+                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult && <>
                                 {this.state.newsList && this.state.newsList}
                                 <NavigationBlock

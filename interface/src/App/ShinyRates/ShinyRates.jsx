@@ -2,8 +2,9 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import Errors from "../PvP/components/Errors/Errors"
 import ShinyTableFilter from "./ShinyTableFilter/ShinyTableFilter"
 import Loader from "../PvpRating/Loader"
 import SiteHelm from "../SiteHelm/SiteHelm"
@@ -112,8 +113,8 @@ class ShinyRates extends React.Component {
                                     locale={strings.tips.loading}
                                     loading={this.state.loading}
                                 />}
-                            <Errors class="alert alert-danger m-0 p-2 mb-2" value={"Function will be depricated soon."} />
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                            <Alert variant="filled" severity="error">{"Function will be depricated soon."}</Alert >
+                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult &&
                                 <ShinyTableFilter
                                     list={this.state.shinyRates}

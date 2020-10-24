@@ -3,11 +3,12 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import RatingPages from "./RatingPages/RatingPages"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../PvP/components/Errors/Errors"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup"
 import RatingDescr from "./RatingDescr/RatingDescr"
 import Loader from "./Loader"
@@ -307,7 +308,7 @@ class PvpRating extends React.Component {
                                             locale={strings.tips.loading}
                                             loading={this.state.loading}
                                         />}
-                                    {this.state.isError && <Errors class="alert alert-danger py-2" value={this.state.error} />}
+                                    {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                                     {this.state.showResult &&
                                         <>
                                             <div className="col px-2 py-2">

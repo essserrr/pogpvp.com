@@ -1,9 +1,10 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
+import Alert from '@material-ui/lab/Alert';
+
 import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../PvP/components/Errors/Errors"
 import PveResult from "./Components/PveResult/PveResult"
 import Loader from "../PvpRating/Loader"
 
@@ -313,7 +314,7 @@ class CommonPve extends React.PureComponent {
                     </div>
                     {this.state.isError &&
                         <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
-                            <Errors class="alert alert-danger p-2" value={this.state.error} /></div>}
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert ></div>}
                     <div className="col-12 d-flex justify-content-center p-0 my-1" >
                         <SubmitButton action="Calculate" onSubmit={this.submitForm} class="btn btn-primary"
                         >

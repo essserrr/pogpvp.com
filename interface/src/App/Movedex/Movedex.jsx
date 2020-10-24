@@ -3,9 +3,10 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import MovedexListFilter from "./MovedexListFilter/MovedexListFilter"
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
@@ -144,7 +145,7 @@ class Movedex extends React.Component {
                                     locale={strings.loading}
                                     loading={this.state.loading}
                                 />}
-                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult &&
                                 <>
                                     <Input

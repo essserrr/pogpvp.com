@@ -3,9 +3,10 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { refresh } from "../../AppStore/Actions/refresh"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import Errors from "../PvP/components/Errors/Errors"
 import Loader from "../PvpRating/Loader"
 import ShBrokerForm from "../Userpage/UserShinyBroker/ShBrokerForm/ShBrokerForm"
 import ShBrokerSelectPanel from "../Userpage/UserShinyBroker/ShBrokerSelectPanel/ShBrokerSelectPanel"
@@ -358,11 +359,11 @@ class ShinyBroker extends React.Component {
                                 </div>}
                                 {!!this.state.submittingError &&
                                     <div className="col-12 col-md-10 col-lg-9 px-0 mt-3">
-                                        <Errors class="alert alert-danger p-2" value={this.state.submittingError} />
+                                        <Alert variant="filled" severity="error">{this.state.submittingError}</Alert >
                                     </div>}
                                 {!!this.state.error &&
                                     <div className="col-12 col-md-10 col-lg-9 px-0 mt-3">
-                                        <Errors class="alert alert-danger p-2" value={this.state.error} />
+                                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
                                     </div>}
                                 {!!this.props.bases.pokemonBase && this.state.selectedUsers.length > 0 &&
                                     <div className="col-12 p-3">

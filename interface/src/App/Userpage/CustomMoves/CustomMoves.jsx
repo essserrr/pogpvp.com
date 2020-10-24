@@ -3,6 +3,8 @@ import { getCookie } from "../../../js/getCookie"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
 import { refresh } from "../../../AppStore/Actions/refresh"
 import { setCustomMoves } from "../../../AppStore/Actions/actions"
@@ -10,7 +12,6 @@ import MoveList from "./MoveList/MoveList"
 import Loader from "../../PvpRating/Loader"
 
 import SiteHelm from "../../SiteHelm/SiteHelm"
-import Errors from "../../PvP/components/Errors/Errors"
 import LabelAndInput from "./LabelAndInput/LabelAndInput"
 import TypeCategory from "./TypeCategory/TypeCategory"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
@@ -382,7 +383,7 @@ class Move extends React.PureComponent {
                     </div>
                     {this.state.error !== "" &&
                         <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Errors class="alert alert-danger p-2" value={this.state.error} />
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert >
 
                         </div>}
                     <div className="col-12 px-1">

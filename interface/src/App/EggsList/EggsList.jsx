@@ -3,8 +3,9 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import Errors from "../PvP/components/Errors/Errors"
 import RenderEggList from "./RenderEggList/RenderEggList"
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
 import Loader from "../PvpRating/Loader"
@@ -124,7 +125,7 @@ class EggsList extends React.Component {
                                         </div>
                                     </div>
                                 </>}
-                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.tierList &&
                                 <RenderEggList
                                     list={this.state.tierList}

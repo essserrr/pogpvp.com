@@ -1,8 +1,9 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
+import Alert from '@material-ui/lab/Alert';
+
 import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../../../PvP/components/Errors/Errors"
 import PokemonPanel from "../../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
 
 import { getCookie } from "../../../../js/getCookie"
@@ -43,13 +44,12 @@ class EditMenu extends React.PureComponent {
                 </div>
                 {Object.values(this.props.editNotOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
                     <div className="col-12 mx-2 mb-3 ">
-                        <Errors class="alert alert-danger p-2" value={
-                            Object.values(this.props.editNotOk).reduce((sum, val, index) => {
+                        <Alert variant="filled" severity="error">
+                            {Object.values(this.props.editNotOk).reduce((sum, val, index) => {
                                 sum.push(<div key={index} className="col-12 py-1">{val}</div>)
                                 return sum
-                            }, [])
-                        }
-                        />
+                            }, [])}
+                        </Alert >
                     </div>}
                 <SubmitButton
                     class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"

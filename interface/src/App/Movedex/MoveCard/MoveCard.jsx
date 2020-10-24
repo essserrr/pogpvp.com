@@ -4,9 +4,10 @@ import LocalizedStrings from "react-localization"
 import { UnmountClosed } from "react-collapse"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import Errors from "../../PvP/components/Errors/Errors"
 import Loader from "../../PvpRating/Loader"
 import MoveCardTitle from "./MoveCardTitle/MoveCardTitle"
 import ChargeMove from "./CardBody/ChargeMove"
@@ -100,7 +101,7 @@ class MoveCard extends React.Component {
                                     loading={this.state.loading}
                                 />}
                             {this.state.isError &&
-                                <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                                <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult && this.state.move &&
                                 <>
                                     <MoveCardTitle move={this.state.move} />

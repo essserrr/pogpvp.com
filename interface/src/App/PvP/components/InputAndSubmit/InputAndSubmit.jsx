@@ -1,9 +1,10 @@
 import React from "react";
+
+import Alert from '@material-ui/lab/Alert';
+
 import SubmitButton from "../SubmitButton/SubmitButton"
 import Input from "../Input/Input"
-import Errors from "../Errors/Errors"
 import ReactTooltip from "react-tooltip"
-
 
 class InputAndSubmit extends React.PureComponent {
     constructor(props) {
@@ -45,7 +46,7 @@ class InputAndSubmit extends React.PureComponent {
     render() {
         return (
             <>
-                {this.state.isError && <Errors class="alert alert-danger p-2 mt-2" value={this.state.error} />}
+                {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                 <ReactTooltip
                     className={"infoTip"}
                     id={"partyNameInput" + this.props.attr} effect="solid"

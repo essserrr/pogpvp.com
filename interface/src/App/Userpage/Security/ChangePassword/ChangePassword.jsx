@@ -3,9 +3,10 @@ import { getCookie } from "../../../../js/getCookie"
 import LocalizedStrings from "react-localization"
 import { connect } from 'react-redux'
 
+import Alert from '@material-ui/lab/Alert';
+
 import { refresh } from "../../../../AppStore/Actions/refresh"
 import { userLocale } from "../../../../locale/userLocale"
-import Errors from "../../../PvP/components/Errors/Errors"
 
 import PassChangeForm from "./PassChangeForm/PassChangeForm"
 
@@ -152,7 +153,7 @@ class ChangePassword extends React.PureComponent {
 
                 {this.state.error !== "" &&
                     <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                        <Errors class="alert alert-danger p-2" value={this.state.error} />
+                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
                     </div>}
                 <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
                     <PassChangeForm
@@ -166,9 +167,7 @@ class ChangePassword extends React.PureComponent {
                 </div>
                 {this.state.ok &&
                     <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                        <Errors
-                            class={"alert alert-success p-2"}
-                            value={strings.security.ok} />
+                        <Alert variant="filled" severity="error">{strings.security.ok}</Alert >
                     </div>}
             </div>
         )

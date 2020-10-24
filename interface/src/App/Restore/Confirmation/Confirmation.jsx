@@ -3,7 +3,8 @@ import LocalizedStrings from "react-localization"
 import Loader from "../../PvpRating/Loader"
 import { Link } from "react-router-dom"
 
-import Errors from "../../PvP/components/Errors/Errors"
+import Alert from '@material-ui/lab/Alert';
+
 import SiteHelm from "../../SiteHelm/SiteHelm"
 import "./Confirmation.scss"
 
@@ -69,7 +70,7 @@ class Confirmation extends React.Component {
                             {this.state.ok &&
                                 <>
                                     <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                                        <Errors class={"alert alert-success p-2"} value={strings.restore.confok} />
+                                        <Alert variant="filled" severity="error">{strings.restore.confok}</Alert >
                                     </div>
                                     <div className="col-12 col-md-10 col-lg-9 px-0 pt-3 confirmation__text text-center">
                                         <Link title={strings.signin.tolog} to="/login">{strings.signin.tolog}</Link>
@@ -77,7 +78,7 @@ class Confirmation extends React.Component {
                                 </>}
                             {this.state.error &&
                                 <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                                    <Errors value={strings.restore.confnotok} class="alert alert-danger m-2 p-2" />
+                                    <Alert variant="filled" severity="error">{strings.restore.confnotok}</Alert >
                                 </div>
                             }
                         </div>

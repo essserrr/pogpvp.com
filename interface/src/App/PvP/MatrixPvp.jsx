@@ -2,13 +2,14 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
 import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
 import { addParty } from "../../AppStore/Actions/actions"
 import { deleteParty } from "../../AppStore/Actions/actions"
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
-import Errors from "./components/Errors/Errors"
 
 
 import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
@@ -698,7 +699,7 @@ class MatrixPvp extends React.PureComponent {
                                                     }
                                                 />}
                                             {this.state.isError &&
-                                                <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
+                                                <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                                         </div>
                                     </div>
                                 </div>}
