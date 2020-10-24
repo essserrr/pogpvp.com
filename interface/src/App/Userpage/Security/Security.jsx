@@ -1,15 +1,18 @@
-import React from "react"
-import { getCookie } from "../../../js/getCookie"
-import { connect } from 'react-redux'
-import LocalizedStrings from "react-localization"
+import React from "react";
+import { getCookie } from "../../../js/getCookie";
+import { connect } from 'react-redux';
+import LocalizedStrings from "react-localization";
 
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import ChangePassword from "./ChangePassword/ChangePassword"
-import Sessions from "./Sessions/Sessions"
-import { userLocale } from "../../../locale/userLocale"
-import { refresh } from "../../../AppStore/Actions/refresh"
-import Loader from "../../PvpRating/Loader"
-import Errors from "../../PvP/components/Errors/Errors"
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Alert from '@material-ui/lab/Alert';
+
+import SiteHelm from "../../SiteHelm/SiteHelm";
+import ChangePassword from "./ChangePassword/ChangePassword";
+import Sessions from "./Sessions/Sessions";
+import { userLocale } from "../../../locale/userLocale";
+import { refresh } from "../../../AppStore/Actions/refresh";
 
 let strings = new LocalizedStrings(userLocale);
 
@@ -57,21 +60,16 @@ class Security extends React.PureComponent {
 
     render() {
         return (
-            <div className="col px-0 text-center">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/security"
                     header={strings.pageheaders.usrsec}
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
-                {this.state.loading &&
-                    <Loader
-                        color="black"
-                        weight="500"
-                        locale={strings.loading}
-                        loading={this.state.loading}
-                    />}
-                {this.state.error !== "" && <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                {this.state.loading && <LinearProgress color="secondary" />}
+                {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+
                 {this.state.error === "" && <div className="row mx-0 justify-content-center">
                     <div className="col-12 px-0">
                         <ChangePassword />
@@ -80,7 +78,7 @@ class Security extends React.PureComponent {
                         <Sessions list={this.state.sessions} />
                     </div>}
                 </div>}
-            </div>
+            </Grid>
         )
     }
 }
