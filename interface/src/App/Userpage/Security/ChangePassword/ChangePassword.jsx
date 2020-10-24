@@ -1,14 +1,17 @@
-import React from "react"
-import { getCookie } from "../../../../js/getCookie"
-import LocalizedStrings from "react-localization"
-import { connect } from 'react-redux'
+import React from "react";
+import { getCookie } from "../../../../js/getCookie";
+import LocalizedStrings from "react-localization";
+import { connect } from 'react-redux';
 
 import Alert from '@material-ui/lab/Alert';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Snackbar from '@material-ui/core/Snackbar';
 
-import { refresh } from "../../../../AppStore/Actions/refresh"
-import { userLocale } from "../../../../locale/userLocale"
+import { refresh } from "../../../../AppStore/Actions/refresh";
+import { userLocale } from "../../../../locale/userLocale";
 
-import PassChangeForm from "./PassChangeForm/PassChangeForm"
+import PassChangeForm from "./PassChangeForm/PassChangeForm";
 
 import "./ChangePassword.scss"
 
@@ -22,64 +25,86 @@ class ChangePassword extends React.PureComponent {
         this.state = {
             loading: false,
             form: {
-                password: "",
-                checkPassword: "",
-                newPassword: "",
-            },
-            notOk: {
-                password: "",
-                checkPassword: "",
-                newPassword: "",
+                password: {
+                    value: "",
+                    error: "",
+                },
+                checkPassword: {
+                    value: "",
+                    error: "",
+                },
+                newPassword: {
+                    value: "",
+                    error: "",
+                },
             },
             error: "",
         }
-        this.onChange = this.onChange.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
     }
 
-    onChange(event) {
+    onChange = (event) => {
         this.setState({
             form: {
                 ...this.state.form,
-                [event.target.name]: event.target.value,
+                [event.target.name]: {
+                    ...this.state.form[event.target.name],
+                    value: event.target.value,
+                },
             },
-            notOk: {
-                ...this.state.notOk,
-                [event.target.name]: this.check(event.target.value, event.target.name)
-            }
         })
     }
 
-    check(str, type) {
-        if (!str || str === "") { return (strings.err.ness) }
+    onBlur = (event) => {
+        this.setState({
+            form: {
+                ...this.state.form,
+                [event.target.name]: {
+                    ...this.state.form[event.target.name],
+                    error: this.check(event.target.value, event.target.name, this.state.form.newPassword.value),
+                },
+            },
+        })
+    }
+
+    onBlurNewPassword = (event) => {
+        const checkPassErr = this.state.form.checkPassword.value !== "" ? this.check(this.state.form.checkPassword.value, "checkPassword", event.target.value) : ""
+        this.setState({
+            form: {
+                ...this.state.form,
+                [event.target.name]: {
+                    ...this.state.form[event.target.name],
+                    error: this.check(event.target.value, event.target.name),
+                },
+                checkPassword: {
+                    ...this.state.form.checkPassword,
+                    error: checkPassErr,
+                }
+            },
+        })
+    }
+
+    check(str, type, newPass) {
+        if (!str || str.replace(" ", "") === "") { return (strings.err.ness) }
         switch (type) {
             case "checkPassword":
-                return this.checkPass(str, true)
+                return this.checkPass(str, true, newPass)
             default:
                 return this.checkPass(str)
         }
     }
 
-    checkPass(str, isConf) {
-        if (str.length < 6) {
-            return strings.signup.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c
-        }
-        if (str.length > 20) {
-            return strings.signup.pass + strings.err.lesseq.l2 + "20" + strings.err.lesseq.c
-        }
-        if (this.checkRegexp(str)) {
-            return strings.signup.pass + strings.err.symb
-        }
-        if (isConf && str !== this.state.form.newPassword) {
-            return strings.err.match
-        }
+    checkPass(str, isCheck, newPass) {
+        if (str.length < 6) return strings.signup.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c;
+        if (str.length > 20) return strings.signup.pass + strings.err.lesseq.l2 + "20" + strings.err.lesseq.c;
+        if (this.checkRegexp(str)) return strings.signup.pass + strings.err.symb;
+        if (isCheck && newPass && str !== newPass) return strings.err.match;
         return ""
     }
 
     checkRegexp = str => !str.match("^([A-Za-z0-9@_\\-\\.!$%^&*+=]*)$")
 
 
-    onSubmit() {
+    onSubmit = () => {
         if (!this.validate()) {
             return
         }
@@ -88,19 +113,27 @@ class ChangePassword extends React.PureComponent {
 
 
     validate() {
-        let notPass = this.check(this.state.form.password, "password")
-        let notChPass = this.check(this.state.form.checkPassword, "checkPassword")
-        let notNewPass = this.check(this.state.form.newPassword, "newPassword")
+        let checkedForm = {}
+        Object.entries(this.state.form).forEach((entry) => {
+            const [fieldKey, fieldValue] = entry
+            const error = this.check(fieldValue.value, fieldKey)
+            checkedForm = {
+                ...checkedForm,
+                [fieldKey]: {
+                    ...checkedForm[fieldKey],
+                    value: fieldValue.value,
+                    error: error,
+                }
+            }
+        })
 
-        switch (notPass !== "" || notChPass !== "" || notNewPass !== "") {
-            case true:
-                this.setState({
-                    notOk: { password: notPass, checkPassword: notChPass, newPassword: notNewPass },
-                })
-                return false
-            default:
-                return true
-        }
+        this.setState({
+            form: checkedForm,
+        })
+
+        return Object.entries(this.state.form).reduce((sum, entry) => {
+            return sum && entry[1].error !== ""
+        }, true)
     }
 
     async chPass() {
@@ -127,12 +160,12 @@ class ChangePassword extends React.PureComponent {
                 loading: false,
                 ok: true,
                 form: {
-                    password: "",
-                    checkPassword: "",
-                    newPassword: "",
+                    password: { value: "", error: "", },
+                    checkPassword: { value: "", error: "", },
+                    newPassword: { value: "", error: "", },
                 },
             })
-            await new Promise(res => setTimeout(res, 2500));
+            await new Promise(res => setTimeout(res, 4000));
             this.setState({ ok: false })
 
         } catch (e) {
@@ -143,43 +176,37 @@ class ChangePassword extends React.PureComponent {
         }
     }
 
-
     render() {
         return (
-            <div className="row mx-0 p-3 text-center justify-content-center">
-                <div className="chpass__title col-12 col-md-10 col-lg-9 px-0">
-                    {strings.security.chpass}
-                </div>
-
-                {this.state.error !== "" &&
-                    <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
-                    </div>}
-                <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
+            <Grid container justify="center">
+                <Grid item xs={12}>
                     <PassChangeForm
-                        {...this.state.form}
-
                         loading={this.state.loading}
-                        notOk={this.state.notOk}
+                        form={this.state.form}
                         onChange={this.onChange}
                         onSubmit={this.onSubmit}
+                        onBlur={this.onBlur}
+                        onBlurNewPassword={this.onBlurNewPassword}
                     />
-                </div>
-                {this.state.ok &&
-                    <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                        <Alert variant="filled" severity="error">{strings.security.ok}</Alert >
-                    </div>}
-            </div>
+                </ Grid>
+                {this.state.error !== "" &&
+                    <Box mt={2}>
+                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                    </Box>}
+                <Snackbar open={this.state.ok} onClose={() => { this.setState({ ok: false }) }}>
+                    <Alert variant="filled" severity="success">{strings.security.ok}</Alert >
+                </Snackbar>
+            </ Grid>
         )
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         refresh: () => dispatch(refresh()),
     }
-}
+};
 
 export default connect(
     null, mapDispatchToProps
-)(ChangePassword)
+)(ChangePassword);
