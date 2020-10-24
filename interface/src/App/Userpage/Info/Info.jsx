@@ -8,17 +8,14 @@ import Grid from '@material-ui/core/Grid';
 import SiteHelm from "../../SiteHelm/SiteHelm";
 import TimeConverter from "./TimeConverter";
 import ContentTitle from "../ContentTitle/ContentTitle"
-
+import InfoTable from "./InfoTable/InfoTable"
 
 import Errors from "../../PvP/components/Errors/Errors";
 import { refresh } from "../../../AppStore/Actions/refresh";
 import LocalizedStrings from "react-localization";
 import { userLocale } from "../../../locale/userLocale";
 
-import "./Info.scss";
-
 let strings = new LocalizedStrings(userLocale)
-
 
 class Info extends React.PureComponent {
     constructor(props) {
@@ -30,7 +27,6 @@ class Info extends React.PureComponent {
             error: "",
         }
     }
-
 
     async componentDidMount() {
         this.setState({
@@ -60,8 +56,6 @@ class Info extends React.PureComponent {
         }
     }
 
-
-
     render() {
         return (
             <Grid container justify="center">
@@ -83,18 +77,13 @@ class Info extends React.PureComponent {
                                 {strings.info.title}
                             </ContentTitle>
                         </Grid>
-                        <div className="col px-0 py-2 user-info--border user-info__goverable-col">
-                            <span className={"user-info__text"}>{strings.info.name + ": "}</span>
-                            <span className={"font-weight-bold"}>{this.state.uInfo.Username}</span>
-                        </div>
-                        <div className="col px-0 py-2 user-info--border user-info__goverable-col">
-                            <span className={"user-info__text"}>{strings.info.email + ": "}</span>
-                            <span className={"font-weight-bold"}>{this.state.uInfo.Email}</span>
-                        </div>
-                        <div className="col px-0 py-2 user-info__goverable-col">
-                            <span className={"user-info__text"}>{strings.info.reg + ": "}</span>
-                            <span className={"font-weight-bold"}><TimeConverter timestamp={this.state.uInfo.RegAt} getHours={false} /></span>
-                        </div>
+                        <InfoTable>
+                            {[
+                                { name: strings.info.name, info: this.state.uInfo.Username, },
+                                { name: strings.info.email, info: this.state.uInfo.Email, },
+                                { name: strings.info.reg, info: <TimeConverter timestamp={this.state.uInfo.RegAt} getHours={false} />, },
+                            ]}
+                        </InfoTable>
                     </Grid>}
             </Grid>
         )

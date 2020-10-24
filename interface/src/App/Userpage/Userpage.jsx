@@ -84,6 +84,6 @@ const Userpage = React.memo(function Userpage(props) {
 
 export default Userpage;
 
-UserPageTabs.propTypes = {
+Userpage.propTypes = {
     match: PropTypes.object.isRequired,
 };

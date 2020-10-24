@@ -9,6 +9,14 @@ const theme = createMuiTheme({
       main: "#eff0f1",
     },
   },
+  overrides: {
+    MuiTableCell: {
+      body: {
+        borderWidth: 1,
+        borderColor: "rgba(0, 0, 0, 0.12)",
+      }
+    }
+  }
 });
 
 export default theme;
