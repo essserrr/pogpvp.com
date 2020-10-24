@@ -1,6 +1,6 @@
-import React, { Suspense, lazy } from "react"
-import LocalizedStrings from "react-localization"
-import { Switch, Route } from "react-router-dom"
+import React, { Suspense, lazy } from "react";
+import LocalizedStrings from "react-localization";
+import { Switch, Route } from "react-router-dom";
 
 import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -8,21 +8,21 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 
 import GreyPaper from '../Components/GreyPaper';
-import UserPageTabs from "./UserPageTabs/UserPageTabs"
-import SiteHelm from "../SiteHelm/SiteHelm"
+import UserPageTabs from "./UserPageTabs/UserPageTabs";
+import SiteHelm from "../SiteHelm/SiteHelm";
 
-import "./Userpage.scss"
+import "./Userpage.scss";
 
-import { getCookie } from "../../js/getCookie"
-import { userLocale } from "../../locale/userLocale"
+import { getCookie } from "../../js/getCookie";
+import { userLocale } from "../../locale/userLocale";
 
-const Info = lazy(() => import("./Info/Info"))
-const Security = lazy(() => import("./Security/Security"))
-const CustomPokemon = lazy(() => import("./CustomPokemon/CustomPokemon"))
-const CustomMoves = lazy(() => import("./CustomMoves/CustomMoves"))
-const UserShinyBroker = lazy(() => import("./UserShinyBroker/UserShinyBroker"))
+const Info = lazy(() => import("./Info/Info"));
+const Security = lazy(() => import("./Security/Security"));
+const CustomPokemon = lazy(() => import("./CustomPokemon/CustomPokemon"));
+const CustomMoves = lazy(() => import("./CustomMoves/CustomMoves"));
+const UserShinyBroker = lazy(() => import("./UserShinyBroker/UserShinyBroker"));
 
-let strings = new LocalizedStrings(userLocale)
+let strings = new LocalizedStrings(userLocale);
 
 const useStyles = makeStyles((theme) => ({
     userpageTitle: {
@@ -54,7 +54,7 @@ const Userpage = React.memo(function Userpage(props) {
                 descr={strings.pagedescriptions.usr}
                 noindex={true}
             />
-            <GreyPaper elevation={3} >
+            <GreyPaper elevation={4} >
                 <Grid container>
                     <Grid item xs={12} className={classes.userpageTitle}>
                         <CardHeader title={strings.upage.prof} />
