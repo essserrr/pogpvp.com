@@ -1,24 +1,25 @@
-import React from "react"
-import { getCookie } from "../../../../js/getCookie"
-import { connect } from 'react-redux'
-import LocalizedStrings from "react-localization"
+import React from "react";
+import { getCookie } from "../../../../js/getCookie";
+import { connect } from 'react-redux';
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import Alert from '@material-ui/lab/Alert';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
-import { userLocale } from "../../../../locale/userLocale"
-import { refresh } from "../../../../AppStore/Actions/refresh"
-import { setSession } from "../../../../AppStore/Actions/actions"
-import AuthButton from "../../../Registration/RegForm/AuthButton/AuthButton"
-
-import "./Sessions.scss"
+import { userLocale } from "../../../../locale/userLocale";
+import { refresh } from "../../../../AppStore/Actions/refresh";
+import { setSession } from "../../../../AppStore/Actions/actions";
+import AuthButton from "../../../Registration/RegForm/AuthButton/AuthButton";
+import SessionsTable from "./SessionsTable/SessionsTable";
 
 let strings = new LocalizedStrings(userLocale);
 
 class Sessions extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
         this.state = {
             loading: false,
             sessions: [],
@@ -27,7 +28,7 @@ class Sessions extends React.PureComponent {
         this.onClick = this.onClick.bind(this)
     }
 
-    async onClick() {
+    onClick = async () => {
         this.setState({
             loading: true,
             error: "",
@@ -58,37 +59,25 @@ class Sessions extends React.PureComponent {
 
     render() {
         return (
-            <div className="row mx-0 p-3 text-center justify-content-center">
-                <div className="col-12 col-md-10 col-lg-9 px-0 sessions__title">
-                    {strings.security.acts}
-                </div>
-                {this.state.error !== "" &&
-                    <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
+            <Grid container justify="center">
+                {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
-                    </div>}
                 {this.state.error === "" &&
-                    this.props.list.map((val, key) =>
-                        <div key={key}
-                            className={"col-12 col-md-10 col-lg-9 px-0 px-0 py-2 sessions__hoverable-col"}
-
-                        >
-                            <span className="sessions__text">{`${strings.security.br}: `}</span>
-                            <span className="font-weight-bold">{val.Browser + ", "}</span>
-                            <span className="sessions__text">{`${strings.security.os}: `}</span>
-                            <span className="font-weight-bold">{val.OS + ", "}</span>
-                            <span className="sessions__text">{`${strings.security.ip}: `}</span>
-                            <span className="font-weight-bold">{val.IP}</span>
-                        </div>
-                    )}
-                <div className="col-12 col-md-10 col-lg-9 px-0 mt-3 d-flex justify-content-center">
-                    <AuthButton
-                        loading={this.state.loading}
-                        title={strings.security.soutall}
-                        onClick={this.onClick}
-                    />
-                </div>
-            </div>
+                    <Grid item xs={12}>
+                        <SessionsTable>
+                            {this.props.children}
+                        </SessionsTable>
+                    </ Grid>}
+                <Grid container item xs={12} justify="center">
+                    <Box mt={2}>
+                        <AuthButton
+                            loading={this.state.loading}
+                            title={strings.security.soutall}
+                            onClick={this.onClick}
+                        />
+                    </Box>
+                </ Grid>
+            </ Grid>
         )
     }
 }
@@ -98,10 +87,31 @@ const mapDispatchToProps = dispatch => {
         refresh: () => dispatch(refresh()),
         setSession: (value) => dispatch(setSession(value)),
     }
-}
+};
 
 export default connect(
     state => ({
         session: state.session,
     }), mapDispatchToProps
-)(Sessions)
+)(Sessions);
+
+Sessions.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(
+            PropTypes.shape({
+                Browser: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.node,
+                ]),
+                OS: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.node,
+                ]),
+                IP: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.node,
+                ]),
+            })
+        ),
+    ]),
+};

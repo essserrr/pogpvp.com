@@ -9,13 +9,13 @@ import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 
 import SiteHelm from "../../SiteHelm/SiteHelm";
+import UserPageContent from "../UserPageContent/UserPageContent";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import Sessions from "./Sessions/Sessions";
 import { userLocale } from "../../../locale/userLocale";
 import { refresh } from "../../../AppStore/Actions/refresh";
 
 let strings = new LocalizedStrings(userLocale);
-
 
 class Security extends React.PureComponent {
     constructor(props) {
@@ -67,17 +67,26 @@ class Security extends React.PureComponent {
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
-                {this.state.loading && <LinearProgress color="secondary" />}
+                {this.state.loading &&
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
                 {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
-                {this.state.error === "" && <div className="row mx-0 justify-content-center">
-                    <div className="col-12 px-0">
-                        <ChangePassword />
-                    </div>
-                    {this.state.sessions.length > 0 && <div className="col-12 px-0">
-                        <Sessions list={this.state.sessions} />
-                    </div>}
-                </div>}
+                {this.state.error === "" && !this.state.loading &&
+                    <Grid item sm={12} md={10} lg={8}>
+                        <UserPageContent title={strings.security.chpass}>
+                            <ChangePassword />
+                        </UserPageContent>
+                        {this.state.sessions.length > 0 &&
+                            <>
+                                <UserPageContent title={strings.security.acts}>
+                                    <Sessions>
+                                        {this.state.sessions}
+                                    </Sessions>
+                                </UserPageContent>
+                            </>}
+                    </Grid>}
             </Grid>
         )
     }
