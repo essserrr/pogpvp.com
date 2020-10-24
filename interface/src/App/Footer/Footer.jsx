@@ -12,14 +12,19 @@ let strings = new LocalizedStrings(userLocale)
 
 const useStyles = makeStyles((theme) => ({
     footer: {
+        marginTop: "30px",
         padding: "10px 23px 10px 23px",
 
         fontStyle: "italic",
         fontFamily: `"Times New Roman", Times, serif`,
-        color: theme.palette.text.primary,
+        color: theme.palette.primary.text,
         textAlign: "center",
         fontSize: "12px",
         lineHeight: "14px",
+
+        [theme.breakpoints.down('md')]: {
+            marginTop: "50px",
+        }
     },
 }));
 

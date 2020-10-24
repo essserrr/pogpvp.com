@@ -11,11 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 const useStyles = makeStyles((theme) => ({
     mainCell: {
         fontWeight: 500,
-    },
-    table: {
-        "& tr": {
-
-        },
+        textTransform: "uppercase",
     },
 }));
 

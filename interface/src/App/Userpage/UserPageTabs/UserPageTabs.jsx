@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
                     justifyContent: "center",
                     [theme.breakpoints.down('sm')]: {
                         paddingRight: "4px",
-                        paddingLeft: "2px",
+                        paddingLeft: "4px",
                     }
 
                 }
