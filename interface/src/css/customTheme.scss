@@ -25,33 +25,8 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-
-    min-height: 100vh;
     position: relative;
     margin: 0;
-    padding-bottom: 30px; //height of the footer
-}
-
-@media (max-width: 1200px) {
-    body {
-        padding-bottom: 40px;
-    }
-}
-@media (max-width: 992px) {
-    body {
-        padding-bottom: 40px;
-    }
-}
-@media (max-width: 768px) {
-    body {
-        padding-bottom: 50px;
-    }
-}
-
-@media (max-width: 576px) {
-    body {
-        padding-bottom: 95px;
-    }
 }
 
 //tips style

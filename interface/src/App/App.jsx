@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { getCookie } from "../js/getCookie"
 import { refresh } from '../AppStore/Actions/refresh'
 import { endLoading, startLoading } from '../AppStore/Actions/actions'
-import Main from "./Main.jsx"
-import NavbarWrapper from "./NavbarWrapper/NavbarWrapper"
-import Footer from "./Footer/Footer"
+import AppGrid from "./AppGrid.jsx"
 import Loader from "./PvpRating/Loader"
 import "./App.scss"
 
@@ -38,11 +36,7 @@ class App extends Component {
                     class="row m-0 justify-content-center app"
                     innerClass="col-auto p-0 align-self-center"
                 /> :
-                <>
-                    <NavbarWrapper />
-                    <Main />
-                    <Footer />
-                </>
+                <AppGrid />
         );
     }
 }
