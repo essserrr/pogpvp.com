@@ -5,7 +5,9 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: theme.palette.primary.background,
+        backgroundColor: theme.palette.background.main,
+        flex: "0 0 100%",
+        maxWidth: "100%",
     },
 }));
 

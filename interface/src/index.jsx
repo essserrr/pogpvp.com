@@ -26,7 +26,6 @@ if (rootElement.hasChildNodes()) {
             <BrowserRouter>
                 <Provider store={store}>
                     <PersistGate loading={null} persistor={persistor}>
-
                         <App />
                     </PersistGate>
                 </Provider>
