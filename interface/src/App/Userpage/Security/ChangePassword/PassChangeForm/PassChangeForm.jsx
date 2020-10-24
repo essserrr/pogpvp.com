@@ -17,59 +17,52 @@ const PassChangeForm = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <Grid container justify="center">
+        <Grid container justify="center" spacing={2}>
             <Grid item xs={12} md={6}>
-                <Box p={1}>
-                    <AuthInput
-                        label={strings.security.oldpass}
-                        type="password"
-                        name="password"
+                <AuthInput
+                    label={strings.security.oldpass}
+                    type="password"
+                    name="password"
 
-                        errorText={props.form.password.error}
-                        value={props.form.password.value}
-                        onChange={props.onChange}
-                        onBlur={props.onBlur}
+                    errorText={props.form.password.error}
+                    value={props.form.password.value}
+                    onChange={props.onChange}
+                    onBlur={props.onBlur}
 
-                        autoComplete="off"
-                    />
-                </Box>
+                    autoComplete="off"
+                />
             </Grid>
             <Grid item xs={12} md={6}>
-                <Box p={1}>
-                    <AuthInput
-                        label={strings.security.npass}
-                        type="password"
-                        name="newPassword"
+                <AuthInput
+                    label={strings.security.npass}
+                    type="password"
+                    name="newPassword"
 
-                        errorText={props.form.newPassword.error}
-                        value={props.form.newPassword.value}
-                        onChange={props.onChange}
-                        onBlur={props.onBlurNewPassword}
+                    errorText={props.form.newPassword.error}
+                    value={props.form.newPassword.value}
+                    onChange={props.onChange}
+                    onBlur={props.onBlurNewPassword}
 
-                        autoComplete="off"
+                    autoComplete="off"
 
-                    />
-                </Box>
+                />
             </Grid>
             <Grid item xs={12} md={6}>
-                <Box p={1}>
-                    <AuthInput
-                        label={strings.security.confnpass}
-                        type="password"
-                        name="checkPassword"
+                <AuthInput
+                    label={strings.security.confnpass}
+                    type="password"
+                    name="checkPassword"
 
-                        errorText={props.form.checkPassword.error}
-                        value={props.form.checkPassword.value}
-                        onChange={props.onChange}
-                        onBlur={props.onBlur}
+                    errorText={props.form.checkPassword.error}
+                    value={props.form.checkPassword.value}
+                    onChange={props.onChange}
+                    onBlur={props.onBlur}
 
-                        autoComplete="off"
-
-                    />
-                </Box>
+                    autoComplete="off"
+                />
             </Grid>
             <Grid item container justify="center" xs={12}>
-                <Box mt={2}>
+                <Box mt={1}>
                     <AuthButton
                         loading={props.loading}
                         title={strings.security.chpass}

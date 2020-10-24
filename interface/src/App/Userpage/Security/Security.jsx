@@ -80,11 +80,13 @@ class Security extends React.PureComponent {
                         </UserPageContent>
                         {this.state.sessions.length > 0 &&
                             <>
-                                <UserPageContent title={strings.security.acts}>
-                                    <Sessions>
-                                        {this.state.sessions}
-                                    </Sessions>
-                                </UserPageContent>
+                                <Box mt={5}>
+                                    <UserPageContent title={strings.security.acts}>
+                                        <Sessions>
+                                            {this.state.sessions}
+                                        </Sessions>
+                                    </UserPageContent>
+                                </Box>
                             </>}
                     </Grid>}
             </Grid>
