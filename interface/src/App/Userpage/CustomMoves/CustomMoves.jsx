@@ -250,7 +250,8 @@ class Move extends React.PureComponent {
         })
     }
 
-    onMoveOpen(move) {
+    onMoveOpen(event, move) {
+        if (event.target.getAttribute("name") === "closeButton") return;
         this.setState({
             Title: move.Title,
             MoveCategory: move.MoveCategory,
@@ -340,11 +341,14 @@ class Move extends React.PureComponent {
                                 </Grid>
                             </Grid>
                         </UserPageContent>
-                        <UserPageContent title={`${strings.moveconstr.umoves} ${customMoves.length}/100`}>
-                            <CustomMoveListWrapper onMoveOpen={this.onMoveOpen} onMoveDelete={this.onMoveDelete}>
-                                {this.state.moves}
-                            </CustomMoveListWrapper>
-                        </UserPageContent>
+
+                        <Box mt={5}>
+                            <UserPageContent title={`${strings.moveconstr.umoves} ${customMoves.length}/100`}>
+                                <CustomMoveListWrapper onMoveOpen={this.onMoveOpen} onMoveDelete={this.onMoveDelete}>
+                                    {this.state.moves}
+                                </CustomMoveListWrapper>
+                            </UserPageContent>
+                        </Box>
                     </Grid>}
             </Grid>
         );
