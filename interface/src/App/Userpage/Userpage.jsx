@@ -59,10 +59,10 @@ const Userpage = React.memo(function Userpage(props) {
                     <Grid item xs={12} className={classes.userpageTitle}>
                         <CardHeader title={strings.upage.prof} />
                     </Grid>
-                    <Grid item xs={"auto"}>
+                    <Grid item xs={4} sm={3} md={2} lg={2}>
                         <UserPageTabs activePath={props.match.params.type} />
                     </Grid>
-                    <Grid item xs>
+                    <Grid item xs={8} sm={9} md={10} lg={10}>
                         <Container className={classes.container}>
                             <Suspense >
                                 <Switch>
