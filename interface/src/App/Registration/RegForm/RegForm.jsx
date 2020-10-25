@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization"
 import { ReCaptcha } from 'react-recaptcha-google'
 import { Link } from "react-router-dom"
 
-import AuthInput from "./AuthInput/AuthInput"
+import InputWithError from "../../Components/InputWithError/InputWithError"
 import AuthButton from "./AuthButton/AuthButton"
 import "./RegForm.scss"
 
@@ -34,53 +34,49 @@ class LoginForm extends React.PureComponent {
         return (
             <>
                 <div className="col-12 p-0">
-                    <AuthInput
-                        labelLeft={strings.signup.uname}
-                        place={strings.signup.uname}
+                    <InputWithError
+                        label={strings.signup.uname}
                         type="text"
                         name="username"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.username}
+                        errorText={this.props.notOk.username}
                         value={this.props.username}
                         onChange={this.props.onChange}
                     />
                 </div>
                 <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.email}
-                        place={strings.signup.email}
+                    <InputWithError
+                        label={strings.signup.email}
                         type="email"
                         name="email"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.email}
+                        errorText={this.props.notOk.email}
                         value={this.props.email}
                         onChange={this.props.onChange}
                     />
                 </div>
                 <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.pass}
-                        place={strings.signup.pass}
+                    <InputWithError
+                        label={strings.signup.pass}
                         type="password"
                         name="password"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.password}
+                        errorText={this.props.notOk.password}
                         value={this.props.password}
                         onChange={this.props.onChange}
                     />
                 </div>
                 <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.cpass}
-                        place={strings.signup.cpass}
+                    <InputWithError
+                        label={strings.signup.cpass}
                         type="password"
                         name="checkPassword"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.checkPassword}
+                        errorText={this.props.notOk.checkPassword}
                         value={this.props.checkPassword}
                         onChange={this.props.onChange}
                     />

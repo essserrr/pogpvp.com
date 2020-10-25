@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { ReCaptcha } from 'react-recaptcha-google'
 
-import AuthInput from "../../Registration/RegForm/AuthInput/AuthInput"
+import InputWithError from "../../Components/InputWithError/InputWithError"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
 import "./RestorePassForm.scss"
 
@@ -33,14 +33,13 @@ class RestorePassForm extends React.PureComponent {
         return (
             <>
                 <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.email}
-                        place={strings.signup.email}
+                    <InputWithError
+                        label={strings.signup.email}
                         type="email"
                         name="email"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.email}
+                        errorText={this.props.notOk.email}
                         value={this.props.email}
                         onChange={this.props.onChange}
                     />

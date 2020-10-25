@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
-    authInput: {
+    inputWithError: {
         width: "100%",
     },
     helperText: {
@@ -15,20 +15,27 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const AuthInput = React.memo(function (props) {
-    const { label, type, name, errorText, onChange, ...other } = props;
+const InputWithError = React.memo(function InputWithError(props) {
+    const { errorText, helperText, helperDisabled, ...other } = props;
     const classes = useStyles();
+
+    let selectedText = "default"
+    if (errorText) {
+        selectedText = errorText
+    }
+    if (helperText) {
+        selectedText = helperText
+    }
+    if (helperDisabled) {
+        selectedText = ""
+    }
 
     return (
         <TextField
-            label={label}
-            type={type}
-            name={name}
-            helperText={errorText !== "" ? errorText : "default"}
+            helperText={selectedText}
             error={errorText !== ""}
-            onChange={onChange}
 
-            className={classes.authInput}
+            className={classes.inputWithError}
             FormHelperTextProps={{
                 className: classes.helperText,
             }}
@@ -38,9 +45,9 @@ const AuthInput = React.memo(function (props) {
     )
 })
 
-export default AuthInput;
+export default InputWithError;
 
-AuthInput.propTypes = {
+InputWithError.propTypes = {
     label: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.node,
@@ -51,5 +58,11 @@ AuthInput.propTypes = {
         PropTypes.string,
         PropTypes.node,
     ]),
+    helperText: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
     onChange: PropTypes.func,
+    helperDisabled: PropTypes.bool,
+    className: PropTypes.string,
 };
