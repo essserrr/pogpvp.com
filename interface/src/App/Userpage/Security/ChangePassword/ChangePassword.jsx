@@ -112,26 +112,15 @@ class ChangePassword extends React.PureComponent {
 
     validate() {
         let checkedForm = {}
-        Object.entries(this.state.form).forEach((entry) => {
-            const [fieldKey, fieldValue] = entry
-            const error = this.check(fieldValue.value, fieldKey)
-            checkedForm = {
-                ...checkedForm,
-                [fieldKey]: {
-                    ...checkedForm[fieldKey],
-                    value: fieldValue.value,
-                    error: error,
-                }
-            }
-        })
+        for (const [fieldKey, fieldValue] of Object.entries(this.state.form)) {
+            checkedForm[fieldKey] = { value: fieldValue.value, error: this.check(fieldValue.value, fieldKey), }
+        }
 
         this.setState({
             form: checkedForm,
         })
 
-        return Object.values(this.state.form).reduce((sum, value) => {
-            return sum && value.error === ""
-        }, true)
+        return Object.values(this.state.form).reduce((sum, value) => sum && value.error === "", true)
     }
 
     async chPass() {

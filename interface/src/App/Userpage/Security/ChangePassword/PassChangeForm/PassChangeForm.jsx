@@ -17,7 +17,7 @@ const PassChangeForm = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <Grid component="form" container justify="center" spacing={2}>
+        <Grid container justify="center" spacing={2}>
             <Grid item xs={12} md={6}>
                 <InputWithError
                     label={strings.security.oldpass}
