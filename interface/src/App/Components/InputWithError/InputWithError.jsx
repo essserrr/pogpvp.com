@@ -8,15 +8,10 @@ const useStyles = makeStyles((theme) => ({
     inputWithError: {
         width: "100%",
     },
-    helperText: {
-        "&:not(.Mui-error)": {
-            visibility: "hidden",
-        }
-    }
 }));
 
 const InputWithError = React.memo(function InputWithError(props) {
-    const { errorText, helperText, helperDisabled, ...other } = props;
+    const { errorText, helperText, helperDisabled, children, ...other } = props;
     const classes = useStyles();
 
     let selectedText = "default"
@@ -33,21 +28,27 @@ const InputWithError = React.memo(function InputWithError(props) {
     return (
         <TextField
             helperText={selectedText}
-            error={errorText !== ""}
+            error={!!errorText}
 
             className={classes.inputWithError}
             FormHelperTextProps={{
-                className: classes.helperText,
+                style: { visibility: selectedText === "default" ? "hidden" : "visible" }
             }}
 
             {...other}
-        />
+        >
+            {!!children ? children : null}
+        </TextField>
     )
-})
+});
 
 export default InputWithError;
 
 InputWithError.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.arrayOf(PropTypes.node),
+    ]),
     label: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.node,
