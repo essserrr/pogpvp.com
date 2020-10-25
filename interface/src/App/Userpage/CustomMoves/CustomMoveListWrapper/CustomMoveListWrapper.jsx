@@ -66,8 +66,8 @@ class CustomMoveListWrapper extends React.PureComponent {
         const customMoves = Object.entries(this.props.children).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))
 
         return (
-            <Grid container justify="center" spacing={1}>
-                <Grid item xs={12} md={6}>
+            <Grid container justify="center">
+                <Grid item xs={12}>
                     <CustomMoveList
                         onMoveOpen={this.props.onMoveOpen}
                         onMoveDelete={this.props.onMoveDelete}
