@@ -111,8 +111,8 @@ class Move extends React.PureComponent {
             Subject: { value: "", error: "", },
             Probability: { value: 0, error: "", },
             StageDelta: { value: 0, error: "", },
-            PvpDurationSeconds: { value: 0, error: "", },
-            PvpDuration: { value: 0, error: "", },
+            PvpDurationSeconds: { value: 0.5, error: "", },
+            PvpDuration: { value: 1, error: "", },
         };
 
         this.setState({
@@ -194,14 +194,14 @@ class Move extends React.PureComponent {
     }
 
     checkCooldown(cooldown, name) {
-        let cooldownNumb = Number(cooldown)
+        const cooldownNumb = Number(cooldown)
         if (Number.isNaN(cooldownNumb)) { return strings.moveconstr.err.wrong + strings.moveconstr.err.cd1 }
         if (cooldownNumb <= 0) { return strings.moveconstr.err.cd2 + strings.moveconstr.err.larzerofem }
         if (Math.abs(cooldown) > 60) { return strings.moveconstr.err.cdallowed }
 
-        let newCd = { ...this.state.inputs, [name]: cooldown }
+        const newCd = { ...this.state.inputs, [name]: { value: cooldownNumb } }
 
-        if (Number(newCd.Cooldown) < Number(newCd.DamageWindow) + Number(newCd.DodgeWindow)) {
+        if (Number(newCd.Cooldown.value) < Number(newCd.DamageWindow.value) + Number(newCd.DodgeWindow.value)) {
             return strings.moveconstr.err.sumwind
         }
         return ""
@@ -220,11 +220,12 @@ class Move extends React.PureComponent {
         if (!this.validate() || Object.keys(this.state.moves).length > 100) {
             return
         }
+        const moveName = this.state.inputs.Title.value.trim()
         this.setState({
             moves: {
                 ...this.state.moves,
-                [this.state.Title]: {
-                    Title: this.state.inputs.Title.value.trim(),
+                [moveName]: {
+                    Title: moveName,
                     MoveCategory: this.state.inputs.MoveCategory.value,
                     MoveType: Number(this.state.inputs.MoveType.value),
 
@@ -293,12 +294,11 @@ class Move extends React.PureComponent {
             checkedInputs[key] = { value: input.value, error: this.check(input.value, key), }
         }
         this.setState({ inputs: checkedInputs, })
-        return !Object.values(checkedInputs).reduce((sum, value) => sum && value.error === "", true)
+        return Object.values(checkedInputs).reduce((sum, value) => sum && value.error === "", true)
     }
 
     render() {
         const customMoves = Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))
-
         return (
             <Grid container justify="center">
                 <SiteHelm

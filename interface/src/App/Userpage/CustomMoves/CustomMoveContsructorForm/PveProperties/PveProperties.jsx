@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
 
 import InputWithError from "../../../../Components/InputWithError/InputWithError";
 import WithIcon from "../../../../Components/WithIcon/WithIcon";
@@ -20,7 +21,9 @@ const PveProperties = React.memo(function PveProperties(props) {
     return (
         <Grid container justify="center" {...other}>
             <Grid item xs={12}>
-                {strings.moveconstr.pve.title}
+                <Typography align="center" style={{ fontWeight: "bold" }}>
+                    {strings.moveconstr.pve.title}
+                </Typography>
             </Grid>
             <Grid item xs={12}>
                 <WithIcon tip={strings.moveconstr.pve.tips.d}>

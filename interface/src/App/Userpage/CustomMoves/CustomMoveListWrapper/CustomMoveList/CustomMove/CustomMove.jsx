@@ -60,7 +60,7 @@ const CustomMove = React.memo(function CustomMove(props) {
                     {props.move.Title}
                 </Grid>
                 <CloseButton onClick={() => props.onMoveDelete(props.move)} />
-                <Grid className={classes.customMoveBody}>
+                <Grid item xs={12} className={classes.customMoveBody}>
                     {props.move.MoveCategory === "Fast Move" ? strings.moveconstr.catopt.q : strings.moveconstr.catopt.ch}
                 </Grid>
             </Grid>

@@ -64,7 +64,6 @@ class CustomMoveListWrapper extends React.PureComponent {
 
     render() {
         const customMoves = Object.entries(this.props.children).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))
-
         return (
             <Grid container justify="center">
                 <Grid item xs={12}>

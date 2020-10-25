@@ -8,7 +8,7 @@ import AuthButton from "../../../Registration/RegForm/AuthButton/AuthButton";
 import InputWithError from "../../../Components/InputWithError/InputWithError"
 import TypeAndCategory from "./TypeAndCategory/TypeAndCategory";
 import PveProperties from "./PveProperties/PveProperties";
-import PvpForm from "./PvpForm/PvpForm";
+import PvpProperties from "./PvpProperties/PvpProperties";
 import { getCookie } from "../../../../js/getCookie";
 import { userLocale } from "../../../../locale/UserPage/CustomMoves/CustomMoves";
 
@@ -43,13 +43,15 @@ const CustomMoveContsructorForm = React.memo(function CustomMoveContsructorForm(
             <Grid item xs={12} md={6}>
                 <PveProperties spacing={2}
                     DodgeWindow={props.DodgeWindow} DamageWindow={props.DamageWindow} Cooldown={props.Cooldown}
-                    Energy={props.Energy} Damage={props.Damage} moveCategory={props.moveCategory} onChange={props.onChange} />
-            </Grid>
-            {/*<Grid item xs={12} md={6}>
-                <PvpForm {...props} moveCategory={props.MoveCategory.value}
-                    onChange={props.onChange}
+                    Energy={props.Energy} Damage={props.Damage} moveCategory={props.MoveCategory.value} onChange={props.onChange}
                 />
-    </Grid>*/}
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <PvpProperties spacing={2}
+                    PvpDamage={props.PvpDamage} PvpEnergy={props.PvpEnergy} PvpDurationSeconds={props.PvpDurationSeconds} Probability={props.Probability}
+                    Stat={props.Stat} StageDelta={props.StageDelta} Subject={props.Subject} moveCategory={props.MoveCategory.value} onChange={props.onChange}
+                />
+            </Grid>
             <Grid item xs={12} container justify="center">
                 <AuthButton
                     title={strings.moveconstr.add}
