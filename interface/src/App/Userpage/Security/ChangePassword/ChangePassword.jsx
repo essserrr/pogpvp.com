@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import { refresh } from "../../../../AppStore/Actions/refresh";
-import { userLocale } from "../../../../locale/userLocale";
+import { userLocale } from "../../../../locale/UserPage/Security/Security";
 
 import PassChangeForm from "./PassChangeForm/PassChangeForm";
 
@@ -92,9 +92,9 @@ class ChangePassword extends React.PureComponent {
     }
 
     checkPass(str, isCheck, newPass) {
-        if (str.length < 6) return strings.signup.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c;
-        if (str.length > 20) return strings.signup.pass + strings.err.lesseq.l2 + "20" + strings.err.lesseq.c;
-        if (this.checkRegexp(str)) return strings.signup.pass + strings.err.symb;
+        if (str.length < 6) return strings.security.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c;
+        if (str.length > 20) return strings.security.pass + strings.err.lesseq.l2 + "20" + strings.err.lesseq.c;
+        if (this.checkRegexp(str)) return strings.security.pass + strings.err.symb;
         if (isCheck && newPass && str !== newPass) return strings.err.match;
         return ""
     }

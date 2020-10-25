@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import AuthInput from "../../../../Registration/RegForm/AuthInput/AuthInput";
+import InputWithError from "../../../../Components/InputWithError/InputWithError";
 import AuthButton from "../../../../Registration/RegForm/AuthButton/AuthButton";
 
-import { getCookie } from "../../../../../js/getCookie"
-import { userLocale } from "../../../../../locale/userLocale"
+import { getCookie } from "../../../../../js/getCookie";
+import { userLocale } from "../../../../../locale/UserPage/Security/Security";
 
 let strings = new LocalizedStrings(userLocale)
 
@@ -17,9 +17,9 @@ const PassChangeForm = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <Grid container justify="center" spacing={2}>
+        <Grid component="form" container justify="center" spacing={2}>
             <Grid item xs={12} md={6}>
-                <AuthInput
+                <InputWithError
                     label={strings.security.oldpass}
                     type="password"
                     name="password"
@@ -33,7 +33,7 @@ const PassChangeForm = React.memo(function (props) {
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <AuthInput
+                <InputWithError
                     label={strings.security.npass}
                     type="password"
                     name="newPassword"
@@ -48,7 +48,7 @@ const PassChangeForm = React.memo(function (props) {
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <AuthInput
+                <InputWithError
                     label={strings.security.confnpass}
                     type="password"
                     name="checkPassword"
@@ -77,7 +77,7 @@ const PassChangeForm = React.memo(function (props) {
 
 export default PassChangeForm;
 
-AuthInput.propTypes = {
+PassChangeForm.propTypes = {
     form: PropTypes.object,
     props: PropTypes.bool,
     onChange: PropTypes.func,

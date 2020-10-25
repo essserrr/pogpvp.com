@@ -8,7 +8,7 @@ import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import { userLocale } from "../../../../locale/userLocale";
+import { userLocale } from "../../../../locale/UserPage/Security/Security";
 import { refresh } from "../../../../AppStore/Actions/refresh";
 import { setSession } from "../../../../AppStore/Actions/actions";
 import AuthButton from "../../../Registration/RegForm/AuthButton/AuthButton";
