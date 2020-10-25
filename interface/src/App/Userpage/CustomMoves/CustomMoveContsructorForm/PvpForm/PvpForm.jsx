@@ -1,11 +1,11 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import LabelAndInput from "../LabelAndInput/LabelAndInput"
-import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup"
+import LabelAndInput from "../../LabelAndInput/LabelAndInput"
+import SelectGroup from "../../../../PvP/components/SelectGroup/SelectGroup"
 
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
+import { getCookie } from "../../../../../js/getCookie"
+import { userLocale } from "../../../../../locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale)
 
