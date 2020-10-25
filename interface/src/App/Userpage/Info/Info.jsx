@@ -74,7 +74,7 @@ class Info extends React.PureComponent {
                 {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
                 {this.state.error === "" && !this.state.loading && this.state.uInfo.Username &&
-                    <Grid item sm={12} md={8} lg={6}>
+                    <Grid item xs={12} md={8} lg={6}>
                         <UserPageContent title={strings.info.title}>
                             <InfoTable>
                                 {[

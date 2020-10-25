@@ -8,7 +8,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 
-import GreyPaper from '../Components/GreyPaper';
+import GreyPaper from '../Components/GreyPaper/GreyPaper';
 import UserPageTabs from "./UserPageTabs/UserPageTabs";
 import SiteHelm from "../SiteHelm/SiteHelm";
 
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: `1px solid ${theme.palette.divider}`,
     },
     container: {
-        padding: "24px",
+        padding: "24px 40px 24px 40px",
         [theme.breakpoints.down('md')]: {
             paddingRight: "16px",
             paddingLeft: "16px",
