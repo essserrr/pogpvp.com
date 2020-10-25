@@ -180,7 +180,7 @@ func (lf *SubmitForm) VerifyResetForm(ip string) error {
 
 func checkLength(str, strType string, minLen, maxLen int) error {
 	if str == "" {
-		return fmt.Errorf("%v is reqired", strType)
+		return fmt.Errorf("%v is required", strType)
 	}
 	if len(str) < minLen {
 		return fmt.Errorf("%v must be longer than %v", strType, minLen)
