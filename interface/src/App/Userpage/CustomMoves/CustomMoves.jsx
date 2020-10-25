@@ -1,23 +1,29 @@
-import React from "react"
-import { getCookie } from "../../../js/getCookie"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import { getCookie } from "../../../js/getCookie";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
 import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
 import { refresh } from "../../../AppStore/Actions/refresh"
 import { setCustomMoves } from "../../../AppStore/Actions/actions"
-import MoveList from "./MoveList/MoveList"
-import Loader from "../../PvpRating/Loader"
+import CustomMoveListWrapper from "./CustomMoveListWrapper/CustomMoveListWrapper"
+import UserPageContent from "../UserPageContent/UserPageContent";
 
 import SiteHelm from "../../SiteHelm/SiteHelm"
-import LabelAndInput from "./LabelAndInput/LabelAndInput"
 import TypeCategory from "./TypeCategory/TypeCategory"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
 import PveForm from "./PveForm/PveForm"
 import PvpForm from "./PvpForm/PvpForm"
-import { userLocale } from "../../../locale/userLocale"
+
+import InputWithError from "../../Components/InputWithError/InputWithError"
+
+
+import { userLocale } from "../../../locale/UserPage/CustomMoves/CustomMoves"
 
 import "./MoveConstructor.scss"
 
@@ -52,12 +58,10 @@ class Move extends React.PureComponent {
 
             loading: false,
             error: "",
-            ok: false,
         }
         this.onChange = this.onChange.bind(this)
         this.onInputsChange = this.onInputsChange.bind(this)
 
-        this.onSaveChanges = this.onSaveChanges.bind(this)
         this.onMoveAdd = this.onMoveAdd.bind(this)
         this.onMoveOpen = this.onMoveOpen.bind(this)
         this.onMoveDelete = this.onMoveDelete.bind(this)
@@ -277,42 +281,11 @@ class Move extends React.PureComponent {
         return !Object.values(notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
     }
 
-    async onSaveChanges() {
-        this.setState({
-            submitting: true, error: "", ok: false,
-        })
-        try {
-            await this.props.refresh()
-            const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
-                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/setmoves", {
-                method: "POST",
-                credentials: "include",
-                headers: { "Content-Type": "application/json", },
-                body: JSON.stringify({ Moves: this.state.moves })
-            })
-            //parse answer
-            const data = await response.json();
-            //if response is not ok, handle error
-            if (!response.ok) {
-                throw data.detail
-            }
-            //set global movelist
-            this.props.setCustomMoves(this.state.moves)
-            //show ok
-            this.setState({ submitting: false, ok: true, })
-            await new Promise(res => setTimeout(res, 2500));
-            this.setState({ ok: false })
-        } catch (e) {
-            this.setState({
-                submitting: false,
-                error: String(e),
-            });
-        }
-    }
-
     render() {
+        const customMoves = Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))
+
         return (
-            <div className="col p-2 p-md-3">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/move"
                     header={strings.pageheaders.usrmoves}
@@ -320,83 +293,60 @@ class Move extends React.PureComponent {
                     noindex={true}
                 />
                 {this.state.loading &&
-                    <Loader
-                        color="black"
-                        weight="500"
-                        locale={strings.loading}
-                        loading={this.state.loading}
-                    />}
-                {!this.state.loading && <div className="row mx-0 justify-content-center">
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
+                {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
-                    <div className="col-12 px-1 mb-4 text-center">
-                        <div className="moveconstr__title col-12 px-0">
-                            {strings.moveconstr.constr}
-                        </div>
-                    </div>
-                    <div className="col-12 px-0 mt-1">
-                        <div className="row mx-0 justify-content-center">
-                            <div className="col-12 col-md-6 px-1">
-                                <LabelAndInput
-                                    labelWidth="125px"
-                                    label={strings.moveconstr.title}
+                {this.state.error === "" && !this.state.loading &&
+                    <Grid item xs={12}>
+                        <UserPageContent title={strings.moveconstr.constr}>
+                            <Grid container justify="center" spacing={1}>
+                                <Grid item xs={12} container justify="center">
+                                    <Grid item xs={12} md={6}>
+                                        <InputWithError
+                                            label={strings.moveconstr.title}
+                                            name={"Title"}
+                                            type={"text"}
 
-                                    attr={""}
-                                    name={"Title"}
+                                            value={this.state.Title}
+                                            errorText={this.state.notOk.Title}
 
-                                    value={this.state.Title}
-                                    notOk={this.state.notOk.Title}
+                                            onChange={this.onChange}
+                                        />
+                                    </Grid>
+                                </Grid>
 
-                                    type={"text"}
+                                <Grid item xs={12} container justify="center">
+                                    <TypeCategory onChange={this.onChange}
+                                        moveCategory={this.state.MoveCategory} moveType={this.state.MoveType} />
+                                </Grid>
 
-                                    onChange={this.onChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <TypeCategory onChange={this.onChange}
-                        moveCategory={this.state.MoveCategory} moveType={this.state.MoveType} />
-                    <div className="col-12 col-md-6 px-1">
-                        <PveForm {...this.state.inputs} moveCategory={this.state.MoveCategory} notOk={this.state.notOk}
-                            onChange={this.onInputsChange} />
-                    </div>
-                    <div className="col-12 col-md-6 px-1">
-                        <PvpForm {...this.state.inputs} moveCategory={this.state.MoveCategory} notOk={this.state.notOk}
-                            onChange={this.onInputsChange}
-                        />
-                    </div>
-                    <div className="col-12 px-1">
-                        <div className="row m-0 pt-3 justify-content-center">
-                            <AuthButton
-                                title={strings.moveconstr.add}
-                                onClick={this.onMoveAdd}
-                                disabled={
-                                    Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="col-12 px-0 mt-4">
-                        <MoveList moves={Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))}
-                            onMoveOpen={this.onMoveOpen}
-                            onMoveDelete={this.onMoveDelete}
-                        />
-                    </div>
-                    {this.state.error !== "" &&
-                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Alert variant="filled" severity="error">{this.state.error}</Alert >
-
-                        </div>}
-                    <div className="col-12 px-1">
-                        <div className="row m-0 py-2 justify-content-center">
-                            <AuthButton
-                                loading={this.state.submitting}
-                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
-                                onClick={this.onSaveChanges}
-                            />
-                        </div>
-                    </div>
-                </div>}
-            </div>
+                                <Grid item xs={12} md={6}>
+                                    <PveForm {...this.state.inputs} moveCategory={this.state.MoveCategory} notOk={this.state.notOk}
+                                        onChange={this.onInputsChange} />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                    <PvpForm {...this.state.inputs} moveCategory={this.state.MoveCategory} notOk={this.state.notOk}
+                                        onChange={this.onInputsChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} container justify="center">
+                                    <AuthButton
+                                        title={strings.moveconstr.add}
+                                        onClick={this.onMoveAdd}
+                                        disabled={Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </UserPageContent>
+                        <UserPageContent title={`${strings.moveconstr.umoves} ${customMoves.length}/100`}>
+                            <CustomMoveListWrapper onMoveOpen={this.onMoveOpen} onMoveDelete={this.onMoveDelete}>
+                                {this.state.moves}
+                            </CustomMoveListWrapper>
+                        </UserPageContent>
+                    </Grid>}
+            </Grid>
         );
     }
 }
