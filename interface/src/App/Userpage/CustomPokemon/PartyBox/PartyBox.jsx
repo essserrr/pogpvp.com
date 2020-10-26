@@ -1,14 +1,16 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
+import Grid from '@material-ui/core/Grid';
+
 import ActiveParty from "./ActiveParty/ActiveParty"
 import PokemonSelect from "./PokemonSelect/PokemonSelect"
 import PartiesSelect from "./PartiesSelect/PartiesSelect"
-import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
-import Input from "../../../PvP/components/Input/Input"
+import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton"
+import Input from "App/PvP/components/Input/Input"
 
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
+import { getCookie } from "js/getCookie"
+import { userLocale } from "locale/userLocale"
 
 import "./PartyBox.scss"
 
@@ -91,8 +93,8 @@ class PartyBox extends React.PureComponent {
 
     render() {
         return (
-            <div className="row mx-0 justify-content-center">
-                <div className="col-7 px-0 px-1">
+            <Grid container justify="center" spacing={2}>
+                <Grid item xs={7}>
                     <PartiesSelect
                         label={strings.userpok.parties}
                         attr="activeParty"
@@ -102,9 +104,9 @@ class PartyBox extends React.PureComponent {
                         activePartyName={this.state.activePartyName}
                         onChange={this.onPartySelect}
                     />
-                </div>
+                </Grid>
 
-                <div className="col-6 px-1 mt-2">
+                <Grid item xs={6}>
                     <PokemonSelect
                         label={strings.userpok.selectpok}
                         attr="activeParty"
@@ -113,8 +115,8 @@ class PartyBox extends React.PureComponent {
                         list={this.props.userPokemon}
                         onChange={this.onPokemonAdd}
                     />
-                </div>
-                <div className="col-6 px-1 mt-2">
+                </Grid>
+                <Grid item xs={6}>
                     <div className="partybox__text col-12 px-0">{strings.userpok.partyname}</div>
                     <Input
                         attr={"enteredName"}
@@ -123,43 +125,46 @@ class PartyBox extends React.PureComponent {
                         onChange={this.onNameChange}
                         place={strings.userpok.partyname}
                     />
-                </div>
+                </Grid>
 
-                <div className="col-12 px-0 mt-3">
-                    <div className="row  justify-content-center align-items-center mx-0" >
-                        <SubmitButton
-                            class="submit-button--lg btn btn-primary btn-sm mx-3"
-                            attr={this.props.attr}
-                            onSubmit={this.onGroupAdd}
-                        >
-                            {strings.userpok.savegroup}
-                        </SubmitButton>
-                        <SubmitButton
-                            class="submit-button--lg btn btn-primary btn-sm mx-3"
-                            attr={this.props.attr}
-                            onSubmit={this.onGroupDelete}
-                        >
-                            {strings.userpok.deletegroup}
-                        </SubmitButton>
-                    </div>
-                </div>
+                <Grid item xs={12}>
+                    <Grid container justify="center" alignItems="center" spacing={2}>
+                        <Grid container item xs={12} md={6} justify="center">
+                            <SubmitButton
+                                class="submit-button--lg btn btn-primary btn-sm"
+                                attr={this.props.attr}
+                                onSubmit={this.onGroupAdd}
+                            >
+                                {strings.userpok.savegroup}
+                            </SubmitButton>
+                        </Grid>
+                        <Grid container item xs={12} md={6} justify="center">
+                            <SubmitButton
+                                class="submit-button--lg btn btn-primary btn-sm"
+                                attr={this.props.attr}
+                                onSubmit={this.onGroupDelete}
+                            >
+                                {strings.userpok.deletegroup}
+                            </SubmitButton>
+                        </Grid>
+                    </Grid>
+                </Grid>
 
-                <div className="col-12 px-0 mt-2 mb-2">
+                <Grid item xs={12}>
                     <ActiveParty
                         maxSize={6}
                         label={strings.userpok.actparty}
                         attr="activeParty"
-                        list={this.state.activeParty}
-
-
                         moveTable={this.props.moveTable}
                         pokemonTable={this.props.pokemonTable}
 
                         onPokemonDelete={this.onPokemonDelete}
-                    />
-                </div>
+                    >
+                        {this.state.activeParty}
+                    </ActiveParty>
+                </Grid>
 
-            </div>
+            </Grid>
         );
     }
 }

@@ -1,37 +1,83 @@
 import React from "react"
+import PropTypes from 'prop-types';
 
-import UserPokCard from "../../PokemonBox/UserPokemonList/UserPokCard/UserPokCard"
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-import "./ActiveParty.scss"
+import UserPokCard from "App/Userpage/CustomPokemon/PokemonBox/UserPokemonList/UserPokCard/UserPokCard";
 
-class ActiveParty extends React.PureComponent {
-    render() {
-        return (
-            <>
-                <div className="user-active-party__title col-12 px-0">
-                    {`${this.props.label} ${this.props.list.length}/${this.props.maxSize}`}
-                </div>
-                <div className="user-active-party row mx-0 py-1 justify-content-around">
-                    {this.props.list.map((value, index) =>
+const useStyles = makeStyles((theme) => ({
+    activeParty: {
+        minHeight: "62px",
+        maxHeight: "250px",
+
+        paddingTop: `${theme.spacing(1)}px`,
+        paddingBottom: `${theme.spacing(1)}px`,
+
+        border: `1px solid ${theme.palette.text.primary}`,
+        borderRadius: "5px",
+
+        overflowY: "auto",
+    },
+
+    activePartyTitle: {
+        fontWeight: "400",
+        fontSize: "13pt",
+    },
+}));
+
+const ActiveParty = React.memo(function ActiveParty(props) {
+    const classes = useStyles();
+
+    return (
+        <Grid container>
+            <Grid item xs={12} className={classes.activePartyTitle}>
+                {`${props.label} ${props.children.length}/${props.maxSize}`}
+            </Grid>
+            <Grid item xs={12}>
+                <Grid container justify="space-around" className={classes.activeParty}>
+                    {props.children.map((value, index) =>
                         <UserPokCard
                             style={{ minWidth: "190px" }}
                             key={index}
                             index={index}
 
-                            attr={this.props.attr}
+                            attr={props.attr}
 
-                            moveTable={this.props.moveTable}
-                            pokemonTable={this.props.pokemonTable}
+                            moveTable={props.moveTable}
+                            pokemonTable={props.pokemonTable}
 
-                            onClick={this.props.onPokemonDelete}
+                            onClick={props.onPokemonDelete}
 
                             {...value}
                         />)}
-                </div>
-            </>
-        );
-    }
-}
+                </Grid>
+            </Grid>
+        </Grid>
+    )
+});
 
-export default ActiveParty
+export default ActiveParty;
 
+ActiveParty.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.array,
+        PropTypes.arrayOf(PropTypes.node),
+    ]),
+
+    onPokemonDelete: PropTypes.func,
+
+    pokemonTable: PropTypes.object.isRequired,
+    moveTable: PropTypes.object.isRequired,
+
+    attr: PropTypes.string,
+
+    maxSize: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+};
