@@ -1,9 +1,11 @@
 import React from "react"
 import ReactTooltip from "react-tooltip"
 
+import Grid from '@material-ui/core/Grid';
+
 import PokemonIconer from "../../../../../PvP/components/PokemonIconer/PokemonIconer"
 import CloseButton from "../../../../../PvP/components/MagicBox/CloseButton"
-import ShortMove from "../../../../../PvpRating/RMoveRow/ShortMove/ShortMove"
+import ColoredMove from "../../../../../Components/ColoredMove/ColoredMove"
 import { calculateCP } from "../../../../../../js/indexFunctions"
 
 import { ReactComponent as Shadow } from "../../../../../../icons/shadow.svg"
@@ -55,18 +57,23 @@ const UserPokCard = React.memo(function (props) {
                 {props.onClick && <CloseButton attr={props.attr} index={props.index} onClick={props.onClick} />}
             </div>
 
-            <ShortMove
-                class={`col-12 px-1  mb-1 type-color${props.moveTable[props.QuickMove].MoveType} text`}
-                value={props.QuickMove}
-            />
-            <ShortMove
-                class={`col-12 px-1 type-color${props.moveTable[props.ChargeMove].MoveType} text`}
-                value={props.ChargeMove}
-            />
-            {props.ChargeMove2 && props.moveTable[props.ChargeMove2] && <ShortMove
-                class={`col-12 px-1 mt-1 type-color${props.moveTable[props.ChargeMove2].MoveType} text`}
-                value={props.ChargeMove2}
-            />}
+            <ColoredMove my={1}
+                type={props.moveTable[props.QuickMove].MoveType}
+            >
+                {props.QuickMove}
+            </ColoredMove>
+            <ColoredMove my={1}
+                type={props.moveTable[props.ChargeMove].MoveType}
+            >
+                {props.ChargeMove}
+            </ColoredMove>
+            {props.ChargeMove2 && props.moveTable[props.ChargeMove2] &&
+                <ColoredMove my={1}
+                    type={props.moveTable[props.ChargeMove2].MoveType}
+                >
+                    {props.ChargeMove2}
+                </ColoredMove>}
+
         </div>
     )
 })
