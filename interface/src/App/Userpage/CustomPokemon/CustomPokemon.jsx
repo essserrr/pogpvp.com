@@ -315,11 +315,9 @@ class CustomPokemon extends React.PureComponent {
     }
 
     onPokemonDelete(event) {
-        let attr = event.target.getAttribute("attr")
-        let index = Number(event.target.getAttribute("index"))
-
+        const index = Number(event.index)
         this.setState({
-            [attr]: this.state.userPokemon.filter((val, key) => index !== key),
+            [event.attr]: this.state.userPokemon.filter((val, key) => index !== key),
         })
     }
 

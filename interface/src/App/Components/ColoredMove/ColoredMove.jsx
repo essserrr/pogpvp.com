@@ -24,7 +24,6 @@ const ColoredMove = React.memo(function (props) {
     const { children, className, weather, type, ...other } = props;
     const { moveColor, moveContainer } = useStyles({ type: type })();
 
-    console.log(weather)
     return (
         <>
             {weather !== undefined &&
@@ -32,7 +31,7 @@ const ColoredMove = React.memo(function (props) {
                     folderName="/weather/"
                     fileName={weather}
                     size="24" />}
-            <Box className={`${moveColor} ${moveContainer} ${className}`}  {...other}>
+            <Box className={`${moveColor} ${moveContainer} ${className}`}  {...other} >
                 {children}
             </Box >
         </>

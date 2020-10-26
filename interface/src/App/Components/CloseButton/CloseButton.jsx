@@ -14,9 +14,10 @@ const useStyles = makeStyles((theme) => ({
 
 const CloseButton = React.memo(function CloseButton(props) {
     const classes = useStyles();
+    const { onClick, ...other } = props;
 
     return (
-        <CloseIcon className={classes.closeButton} name="closeButton" {...props} />
+        <CloseIcon className={classes.closeButton} name="closeButton" onClick={onClick} {...other} />
     );
 });
 

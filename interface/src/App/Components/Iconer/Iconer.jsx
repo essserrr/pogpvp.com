@@ -29,7 +29,6 @@ const Iconer = React.memo(function Iconer(props) {
         }
     }
 
-    console.log(`/images${folderName}${fileName}.${folderName === "/art/" ? "jpg" : "png"}`)
     return (
         navigator.userAgent !== "ReactSnap" &&
         <img

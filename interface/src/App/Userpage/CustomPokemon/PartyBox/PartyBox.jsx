@@ -46,11 +46,9 @@ class PartyBox extends React.PureComponent {
     }
 
     onPokemonDelete(event) {
-        let attr = event.target.getAttribute("attr")
-        let index = Number(event.target.getAttribute("index"))
-
+        const index = Number(event.index)
         this.setState({
-            [attr]: this.state[attr].filter((val, key) => index !== key),
+            [event.attr]: this.state[event.attr].filter((val, key) => index !== key),
         })
     }
 
