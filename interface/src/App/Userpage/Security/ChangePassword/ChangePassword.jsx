@@ -1,5 +1,4 @@
 import React from "react";
-import { getCookie } from "../../../../js/getCookie";
 import LocalizedStrings from "react-localization";
 import { connect } from 'react-redux';
 
@@ -8,10 +7,11 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { refresh } from "../../../../AppStore/Actions/refresh";
-import { userLocale } from "../../../../locale/UserPage/Security/Security";
+import { refresh } from "AppStore/Actions/refresh";
+import { userLocale } from "locale/UserPage/Security/Security";
+import { getCookie } from "js/getCookie";
 
-import PassChangeForm from "./PassChangeForm/PassChangeForm";
+import PassChangeForm from "App/Userpage/Security/ChangePassword/PassChangeForm/PassChangeForm";
 
 let strings = new LocalizedStrings(userLocale);
 

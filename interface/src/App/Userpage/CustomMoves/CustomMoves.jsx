@@ -1,5 +1,4 @@
 import React from "react";
-import { getCookie } from "../../../js/getCookie";
 import LocalizedStrings from "react-localization";
 import { connect } from "react-redux";
 
@@ -8,18 +7,16 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
-import { refresh } from "../../../AppStore/Actions/refresh"
-import { setCustomMoves } from "../../../AppStore/Actions/actions"
-import CustomMoveListWrapper from "./CustomMoveListWrapper/CustomMoveListWrapper"
-import UserPageContent from "../UserPageContent/UserPageContent";
+import { getCustomMoves } from "AppStore/Actions/getCustomMoves"
+import { refresh } from "AppStore/Actions/refresh"
+import { setCustomMoves } from "AppStore/Actions/actions"
+import CustomMoveListWrapper from "App/Userpage/CustomMoves/CustomMoveListWrapper/CustomMoveListWrapper"
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
 
-import SiteHelm from "../../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 import CustomMoveContsructorForm from "./CustomMoveContsructorForm/CustomMoveContsructorForm";
-
-import { userLocale } from "../../../locale/UserPage/CustomMoves/CustomMoves"
-
-import "./MoveConstructor.scss"
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves"
 
 let strings = new LocalizedStrings(userLocale);
 

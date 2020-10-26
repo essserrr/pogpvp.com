@@ -1,5 +1,4 @@
 import React from "react";
-import { getCookie } from "../../../js/getCookie";
 import { connect } from 'react-redux';
 import LocalizedStrings from "react-localization";
 
@@ -8,12 +7,14 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 
-import SiteHelm from "../../SiteHelm/SiteHelm";
-import UserPageContent from "../UserPageContent/UserPageContent";
-import ChangePassword from "./ChangePassword/ChangePassword";
-import Sessions from "./Sessions/Sessions";
-import { userLocale } from "../../../locale/UserPage/Security/Security";
-import { refresh } from "../../../AppStore/Actions/refresh";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
+import ChangePassword from "App/Userpage/Security/ChangePassword/ChangePassword";
+import Sessions from "App/Userpage/Security/Sessions/Sessions";
+
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/Security/Security";
+import { refresh } from "AppStore/Actions/refresh";
 
 let strings = new LocalizedStrings(userLocale);
 

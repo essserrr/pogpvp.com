@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from 'prop-types';
 import LocalizedStrings from "react-localization";
 
-import Type from "../../../../../PvP/components/CpAndTypes/Type";
-import CloseButton from "../../../../../Components/CloseButton/CloseButton";
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { getCookie } from "../../../../../../js/getCookie";
-import { userLocale } from "../../../../../../locale/UserPage/CustomMoves/CustomMoves";
+import Type from "App/PvP/components/CpAndTypes/Type";
+import CloseButton from "App/Components/CloseButton/CloseButton";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
 
 const useStyles = makeStyles((theme) => ({
     customMove: {

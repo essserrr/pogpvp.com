@@ -1,19 +1,20 @@
 import React from "react";
-import { getCookie } from "../../../js/getCookie";
 import { connect } from "react-redux";
+import LocalizedStrings from "react-localization";
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Alert from '@material-ui/lab/Alert';
 
-import SiteHelm from "../../SiteHelm/SiteHelm";
-import TimeConverter from "./TimeConverter";
-import UserPageContent from "../UserPageContent/UserPageContent";
-import InfoTable from "./InfoTable/InfoTable";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import TimeConverter from "App/Userpage/Info/TimeConverter";
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
+import InfoTable from "App/Userpage/Info/InfoTable/InfoTable";
 
-import { refresh } from "../../../AppStore/Actions/refresh";
-import LocalizedStrings from "react-localization";
-import { userLocale } from "../../../locale/UserPage/Info/Info";
+import { refresh } from "AppStore/Actions/refresh";
+
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/Info/Info";
 
 let strings = new LocalizedStrings(userLocale)
 

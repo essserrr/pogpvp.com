@@ -6,11 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 
-import InputWithError from "../../../../Components/InputWithError/InputWithError";
-import WithIcon from "../../../../Components/WithIcon/WithIcon";
+import InputWithError from "App/Components/InputWithError/InputWithError";
+import WithIcon from "App/Components/WithIcon/WithIcon";
 
-import { getCookie } from "../../../../../js/getCookie";
-import { userLocale } from "../../../../../locale/UserPage/CustomMoves/CustomMoves";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
 
 let strings = new LocalizedStrings(userLocale)
 

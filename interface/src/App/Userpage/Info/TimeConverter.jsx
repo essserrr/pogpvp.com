@@ -2,8 +2,8 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
-import { getCookie } from "../../../js/getCookie";
-import { timeLocale } from "../../../locale/timeLocale";
+import { getCookie } from "js/getCookie";
+import { timeLocale } from "locale/timeLocale";
 
 let strings = new LocalizedStrings(timeLocale);
 

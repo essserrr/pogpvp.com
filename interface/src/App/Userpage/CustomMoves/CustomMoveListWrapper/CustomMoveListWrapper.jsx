@@ -8,13 +8,13 @@ import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { refresh } from "../../../../AppStore/Actions/refresh";
-import { setCustomMoves } from "../../../../AppStore/Actions/actions";
+import { refresh } from "AppStore/Actions/refresh";
+import { setCustomMoves } from "AppStore/Actions/actions";
 
-import AuthButton from "../../../Registration/RegForm/AuthButton/AuthButton"
-import CustomMoveList from "./CustomMoveList/CustomMoveList"
-import { getCookie } from "../../../../js/getCookie";
-import { userLocale } from "../../../../locale/UserPage/CustomMoves/CustomMoves";
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton"
+import CustomMoveList from "App/Userpage/CustomMoves/CustomMoveListWrapper/CustomMoveList/CustomMoveList"
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
 
 let strings = new LocalizedStrings(userLocale)
 

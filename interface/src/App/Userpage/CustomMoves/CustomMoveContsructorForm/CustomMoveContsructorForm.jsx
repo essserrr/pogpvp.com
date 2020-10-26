@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 
-import AuthButton from "../../../Registration/RegForm/AuthButton/AuthButton";
-import InputWithError from "../../../Components/InputWithError/InputWithError"
-import TypeAndCategory from "./TypeAndCategory/TypeAndCategory";
-import PveProperties from "./PveProperties/PveProperties";
-import PvpProperties from "./PvpProperties/PvpProperties";
-import { getCookie } from "../../../../js/getCookie";
-import { userLocale } from "../../../../locale/UserPage/CustomMoves/CustomMoves";
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import InputWithError from "App/Components/InputWithError/InputWithError"
+import TypeAndCategory from "App/Userpage/CustomMoves/CustomMoveContsructorForm/TypeAndCategory/TypeAndCategory";
+import PveProperties from "App/Userpage/CustomMoves/CustomMoveContsructorForm/PveProperties/PveProperties";
+import PvpProperties from "App/Userpage/CustomMoves/CustomMoveContsructorForm/PvpProperties/PvpProperties";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
 
 let strings = new LocalizedStrings(userLocale)
 

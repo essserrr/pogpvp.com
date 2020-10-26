@@ -9,8 +9,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import { getCookie } from "../../../../../js/getCookie";
-import { userLocale } from "../../../../../locale/UserPage/Security/Security";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/Security/Security";
 
 let strings = new LocalizedStrings(userLocale);
 

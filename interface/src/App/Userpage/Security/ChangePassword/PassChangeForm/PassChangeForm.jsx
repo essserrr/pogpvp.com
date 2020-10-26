@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import InputWithError from "../../../../Components/InputWithError/InputWithError";
-import AuthButton from "../../../../Registration/RegForm/AuthButton/AuthButton";
+import InputWithError from "App/Components/InputWithError/InputWithError";
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 
-import { getCookie } from "../../../../../js/getCookie";
-import { userLocale } from "../../../../../locale/UserPage/Security/Security";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/Security/Security";
 
 let strings = new LocalizedStrings(userLocale)
 
