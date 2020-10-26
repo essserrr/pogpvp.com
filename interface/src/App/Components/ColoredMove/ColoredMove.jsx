@@ -14,7 +14,7 @@ const useStyles = props => makeStyles(theme => {
         },
         moveContainer: {
             fontWeight: "500",
-            padding: "0.1rem 0.3rem 0.1rem 0.3rem",
+            padding: `${theme.spacing(0.2)}px ${theme.spacing(0.5)}px ${theme.spacing(0.2)}px ${theme.spacing(0.5)}px`,
             borderRadius: "5px",
         },
     })

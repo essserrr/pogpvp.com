@@ -14,8 +14,8 @@ import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
 const useStyles = makeStyles((theme) => ({
     customMove: {
         maxWidth: "150px",
-        padding: "4px",
-        borderRadius: "4px",
+        padding: `${theme.spacing(0.5)}px`,
+        borderRadius: `${theme.spacing(0.5)}px`,
         border: `1px solid ${theme.palette.text.primary}`,
 
         cursor: "pointer",

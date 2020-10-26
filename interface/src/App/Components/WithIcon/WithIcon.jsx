@@ -9,7 +9,7 @@ import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles((theme) => ({
     iconMargin: {
-        marginRight: "8px",
+        marginRight: `${theme.spacing(1)}px`,
     },
     defaultIcon: {
         "&:hover": {

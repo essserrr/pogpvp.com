@@ -12,8 +12,8 @@ let strings = new LocalizedStrings(userLocale)
 
 const useStyles = makeStyles((theme) => ({
     footer: {
-        marginTop: "30px",
-        padding: "10px 23px 10px 23px",
+        marginTop: `${theme.spacing(4)}px`,
+        padding: `${theme.spacing(1)}px ${theme.spacing(3)}px ${theme.spacing(1)}px ${theme.spacing(3)}px`,
 
         fontStyle: "italic",
         fontFamily: `"Times New Roman", Times, serif`,
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         lineHeight: "14px",
 
         [theme.breakpoints.down('md')]: {
-            marginTop: "50px",
+            marginTop: `${theme.spacing(6)}`,
         }
     },
 }));

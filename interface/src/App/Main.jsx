@@ -38,15 +38,15 @@ const ShinyBroker = lazy(() => import("./ShinyBroker/ShinyBroker"))
 
 const useStyles = makeStyles((theme) => ({
     mainPadding: {
-        paddingRight: "24px",
-        paddingLeft: "24px",
+        paddingRight: `${theme.spacing(3)}px`,
+        paddingLeft: `${theme.spacing(3)}px`,
         [theme.breakpoints.down('md')]: {
-            paddingRight: "16px",
-            paddingLeft: "16px",
+            paddingRight: `${theme.spacing(2)}px`,
+            paddingLeft: `${theme.spacing(2)}px`,
         },
         [theme.breakpoints.down('sm')]: {
-            paddingRight: "4px",
-            paddingLeft: "4px",
+            paddingRight: `${theme.spacing(0.5)}px`,
+            paddingLeft: `${theme.spacing(0.5)}px`,
         },
     }
 }));

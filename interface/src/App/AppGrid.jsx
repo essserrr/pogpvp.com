@@ -12,15 +12,15 @@ const useStyles = makeStyles((theme) => ({
         minHeight: "100vh",
     },
     footerMargin: {
-        marginTop: "30px",
+        marginTop: `${theme.spacing(4)}px`,
         [theme.breakpoints.down('md')]: {
-            marginTop: "50px",
+            marginTop: `${theme.spacing(6)}px`,
         }
     },
     navbarMargin: {
-        marginBottom: "25px",
+        marginBottom: `${theme.spacing(3)}px`,
         [theme.breakpoints.down('md')]: {
-            marginBottom: "25px",
+            marginBottom: `${theme.spacing(3)}px`,
         }
     }
 }));

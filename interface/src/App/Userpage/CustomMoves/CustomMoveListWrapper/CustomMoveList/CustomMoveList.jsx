@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         overflowX: "auto",
         overflowY: "hidden",
         "&>div": {
-            margin: "4px",
+            margin: `${theme.spacing(0.5)}px`,
         },
     },
 }));

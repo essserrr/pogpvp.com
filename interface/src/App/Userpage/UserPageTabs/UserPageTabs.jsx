@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
                     flexDirection: "column",
                     justifyContent: "center",
                     [theme.breakpoints.down('sm')]: {
-                        paddingRight: "4px",
-                        paddingLeft: "4px",
+                        paddingRight: `${theme.spacing(0.5)}px`,
+                        paddingLeft: `${theme.spacing(0.5)}px`,
                     }
 
                 }

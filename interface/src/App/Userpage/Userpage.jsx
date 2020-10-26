@@ -30,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
         borderBottom: `1px solid ${theme.palette.divider}`,
     },
     container: {
-        padding: "24px 40px 24px 40px",
+        padding: `${theme.spacing(3)}px ${theme.spacing(5)}px ${theme.spacing(3)}px ${theme.spacing(5)}px`,
         [theme.breakpoints.down('md')]: {
-            paddingRight: "16px",
-            paddingLeft: "16px",
+            paddingRight: `${theme.spacing(2)}px`,
+            paddingLeft: `${theme.spacing(2)}px`,
         },
         [theme.breakpoints.down('sm')]: {
-            paddingRight: "8px",
-            paddingLeft: "8px",
+            paddingRight: `${theme.spacing(1)}px`,
+            paddingLeft: `${theme.spacing(1)}px`,
         },
     },
 }));
