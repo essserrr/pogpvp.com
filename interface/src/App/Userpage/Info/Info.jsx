@@ -58,7 +58,6 @@ class Info extends React.PureComponent {
     }
 
     render() {
-        console.log(this.state.loading)
         return (
             <Grid container justify="center">
                 <SiteHelm
