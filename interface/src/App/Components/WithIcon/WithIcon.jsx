@@ -22,7 +22,7 @@ const WithIcon = React.memo(function WithIcon(props) {
     const classes = useStyles();
 
     return (
-        <Grid container alignItems="center" justify="flex-start">
+        <Grid container alignItems="center" justify="center">
             <Grid item xs={"auto"} className={classes.iconMargin}>
                 <Tooltip title={<Typography color="inherit">{!!props.tip ? props.tip : ""}</Typography>}>
                     {!!props.icon ? props.icon : <InfoIcon className={classes.defaultIcon} />}

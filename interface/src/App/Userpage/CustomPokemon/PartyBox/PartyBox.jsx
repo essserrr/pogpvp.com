@@ -3,11 +3,11 @@ import LocalizedStrings from "react-localization"
 
 import Grid from '@material-ui/core/Grid';
 
-import ActiveParty from "./ActiveParty/ActiveParty"
-import PokemonSelect from "./PokemonSelect/PokemonSelect"
-import PartiesSelect from "./PartiesSelect/PartiesSelect"
-import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton"
-import Input from "App/PvP/components/Input/Input"
+import ActiveParty from "App/Userpage/CustomPokemon/PartyBox/ActiveParty/ActiveParty";
+import PokemonSelect from "App/Userpage/CustomPokemon/PartyBox/PokemonSelect/PokemonSelect";
+import PartiesSelect from "App/Userpage/CustomPokemon/PartyBox/PartiesSelect/PartiesSelect";
+import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton";
+import InputWithError from "App/Components/InputWithError/InputWithError";
 
 import { getCookie } from "js/getCookie"
 import { userLocale } from "locale/userLocale"
@@ -40,10 +40,10 @@ class PartyBox extends React.PureComponent {
 
 
     onPokemonAdd(event, selectOption) {
-        if (this.state[selectOption.name[0]].length >= 6) { return }
+        if (this.state[selectOption.name].length >= 6) { return }
 
         this.setState({
-            [selectOption.name[0]]: [...this.state[selectOption.name[0]], this.props.userPokemon[event.index]]
+            [selectOption.name]: [...this.state[selectOption.name], this.props.userPokemon[selectOption.index]]
         })
     }
 
@@ -94,49 +94,18 @@ class PartyBox extends React.PureComponent {
     render() {
         return (
             <Grid container justify="center" spacing={2}>
-                <Grid item xs={7}>
-                    <PartiesSelect
-                        label={strings.userpok.parties}
-                        attr="activeParty"
-                        maxSize={24}
-
-                        list={this.props.userParties}
-                        activePartyName={this.state.activePartyName}
-                        onChange={this.onPartySelect}
-                    />
-                </Grid>
-
-                <Grid item xs={6}>
-                    <PokemonSelect
-                        label={strings.userpok.selectpok}
-                        attr="activeParty"
-
-                        pokemonTable={this.props.pokemonTable}
-                        list={this.props.userPokemon}
-                        onChange={this.onPokemonAdd}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <div className="partybox__text col-12 px-0">{strings.userpok.partyname}</div>
-                    <Input
-                        attr={"enteredName"}
-                        value={this.state.enteredName}
-
-                        onChange={this.onNameChange}
-                        place={strings.userpok.partyname}
-                    />
-                </Grid>
-
                 <Grid item xs={12}>
-                    <Grid container justify="center" alignItems="center" spacing={2}>
-                        <Grid container item xs={12} md={6} justify="center">
-                            <SubmitButton
-                                class="submit-button--lg btn btn-primary btn-sm"
-                                attr={this.props.attr}
-                                onSubmit={this.onGroupAdd}
-                            >
-                                {strings.userpok.savegroup}
-                            </SubmitButton>
+                    <Grid container justify="center" alignItems="flex-end" spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            <PartiesSelect
+                                label={strings.userpok.parties}
+                                attr="activeParty"
+                                maxSize={24}
+
+                                list={this.props.userParties}
+                                activePartyName={this.state.activePartyName}
+                                onChange={this.onPartySelect}
+                            />
                         </Grid>
                         <Grid container item xs={12} md={6} justify="center">
                             <SubmitButton
@@ -148,6 +117,37 @@ class PartyBox extends React.PureComponent {
                             </SubmitButton>
                         </Grid>
                     </Grid>
+                </Grid>
+
+                <Grid item xs={6}>
+                    <PokemonSelect
+                        label={strings.userpok.selectpok}
+                        name="activeParty"
+                        pokemonTable={this.props.pokemonTable}
+                        onChange={this.onPokemonAdd}
+
+                    >
+                        {this.props.userPokemon}
+                    </PokemonSelect>
+                </Grid>
+                <Grid item xs={6}>
+                    <InputWithError
+                        label={strings.userpok.partyname}
+                        attr="enteredName"
+                        value={this.state.enteredName}
+
+                        onChange={this.onNameChange}
+                    />
+                </Grid>
+
+                <Grid item container xs={12} justify="center">
+                    <SubmitButton
+                        class="submit-button--lg btn btn-primary btn-sm"
+                        attr={this.props.attr}
+                        onSubmit={this.onGroupAdd}
+                    >
+                        {strings.userpok.savegroup}
+                    </SubmitButton>
                 </Grid>
 
                 <Grid item xs={12}>
