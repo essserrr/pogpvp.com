@@ -9,6 +9,10 @@ import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
 import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
 import MoveSelect from "App/Components/MoveSelect/MoveSelect"
+import WithIcon from "App/Components/WithIcon/WithIcon"
+import InputWithError from "App/Components/InputWithError/InputWithError"
+
+import MenuItem from '@material-ui/core/MenuItem';
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
@@ -194,28 +198,21 @@ class PvePokemon extends React.PureComponent {
 
 
                 {this.props.canBeShadow && <div className={(this.props.colSize ? this.props.colSize : "col-6 px-1 my-1") + (this.props.attr === "editPokemon" ? " order-2" : "")}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
-
-                        name="IsShadow"
-                        value={this.props.value.IsShadow}
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={
-                            <>
-                                <option value="false" key="Normal">{strings.options.type.normal}</option>
-                                <option value="true" key="Shadow">{strings.options.type.shadow}</option>
-                            </>}
-
-                        labelWidth="88px"
-                        label={strings.title.type}
-
-                        place={"top"}
-                        for={this.props.attr + "attackerIsShadow"}
-
+                    <WithIcon
                         tip={strings.tips.shadow}
-                        tipClass="infoTip"
-                    />
+                    >
+                        <InputWithError
+                            select
+                            name="IsShadow"
+                            value={this.props.value.IsShadow}
+                            attr={this.props.attr}
+                            label={strings.title.type}
+                            onChange={this.props.onChange}
+                        >
+                            <MenuItem value="false" attr={this.props.attr}>{strings.options.type.normal}</MenuItem>
+                            <MenuItem value="true" attr={this.props.attr}>{strings.options.type.shadow}</MenuItem>
+                        </InputWithError>
+                    </WithIcon>
                 </div>}
 
 
