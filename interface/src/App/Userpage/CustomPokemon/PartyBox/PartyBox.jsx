@@ -75,10 +75,11 @@ class PartyBox extends React.PureComponent {
         })
     }
 
-    onPartySelect(event) {
+    onPartySelect(event, selectOption) {
+        console.log(event, selectOption)
         this.setState({
-            activePartyName: event.value,
-            activeParty: this.props.userParties[event.value],
+            activePartyName: selectOption.value1,
+            activeParty: this.props.userParties[selectOption.value1],
         })
 
     }
@@ -99,13 +100,13 @@ class PartyBox extends React.PureComponent {
                         <Grid item xs={12} md={6}>
                             <PartiesSelect
                                 label={strings.userpok.parties}
-                                attr="activeParty"
+                                name="activeParty"
                                 maxSize={24}
-
-                                list={this.props.userParties}
                                 activePartyName={this.state.activePartyName}
                                 onChange={this.onPartySelect}
-                            />
+                            >
+                                {this.props.userParties}
+                            </PartiesSelect>
                         </Grid>
                         <Grid container item xs={12} md={6} justify="center">
                             <SubmitButton

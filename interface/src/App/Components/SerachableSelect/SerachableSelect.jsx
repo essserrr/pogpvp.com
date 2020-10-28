@@ -17,16 +17,14 @@ const SerachableSelect = React.memo(function SerachableSelect(props) {
 
     return (
         <Autocomplete
-            {...other}
             className={classes.serachableSelect}
             options={props.children}
-            getOptionLabel={(option) => option.title}
-
+            getOptionLabel={(option) => typeof option === 'string' ? option : option.title}
 
             onChange={(event, selectOption) => onChange(event, { type: type, name: name, category: category, attr: attr, ...selectOption })}
-
-
             renderInput={(params) => <TextField {...params} label={label} helperText={helperText} />}
+
+            {...other}
         />
     )
 });
