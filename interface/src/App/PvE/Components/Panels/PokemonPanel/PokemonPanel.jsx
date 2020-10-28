@@ -10,14 +10,10 @@ import { getCookie } from "../../../../../js/getCookie"
 let strings = new LocalizedStrings(locale)
 let pveStrings = new LocalizedStrings(pveLocale)
 
-class PokemonPanel extends React.PureComponent {
-    constructor(props) {
-        super(props);
+const PokemonPanel = React.memo(function PokemonPanel(props) {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
 
-    render() {
         return (
             <div className="row mx-0 justify-content-center align-items-center">
                 {this.props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>}
@@ -28,9 +24,7 @@ class PokemonPanel extends React.PureComponent {
                 </div>
 
             </div>
-        )
-    }
-
-}
+       )
+});
 
 export default PokemonPanel

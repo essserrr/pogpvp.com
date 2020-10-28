@@ -8,6 +8,7 @@ import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
 import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
+import MoveSelect from "App/Components/MoveSelect/MoveSelect"
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
@@ -127,71 +128,67 @@ class PvePokemon extends React.PureComponent {
 
 
                 <div className={this.props.colSize ? this.props.colSize : "col-6 px-1  my-1"}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
+                                        <MoveSelect
+                                        value={this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined &&
+                                            this.props.value.QuickMove}
+                                            moveType={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ? 
+                                                this.props.moveTable[this.props.value.QuickMove].MoveType : ""}
 
-                        name="QuickMove"
-                        value={this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined &&
-                            this.props.value.QuickMove}
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={this.props.value.quickMovePool}
+                                        name="QuickMove"
+                                        attr={this.props.attr}
+                                        onChange={this.props.onChange}
 
-                        labelWidth="88px"
-                        label={strings.title.quickMove}
-                        labelStyle={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
-                            `type-color${this.props.moveTable[this.props.value.QuickMove].MoveType} text` : ""}
+                                        label={strings.title.quickMove}
 
-                        place={"top"}
-                        for={"QuickMove" + this.props.attr}
-                        tip={<>{strings.tips.quick}<br />
-                            {this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined && <>
-                                {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].Damage)}<br />
-                                {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].Energy)}<br />
-                                {"Cooldown: " + (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)}<br />
-                                {"DPS: " + (this.props.moveTable[this.props.value.QuickMove].Damage /
-                                    (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                                {"EPS: " + (this.props.moveTable[this.props.value.QuickMove].Energy /
-                                    (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                            </>}</>}
-                        tipClass="infoTip"
-                    />
+                                        tip={<>
+                                            {strings.tips.quick}<br />
+                                            {this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined && 
+                                            <>
+                                            {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].Damage)}<br />
+                                            {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].Energy)}<br />
+                                            {"Cooldown: " + (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)}<br />
+                                            {"DPS: " + (this.props.moveTable[this.props.value.QuickMove].Damage /
+                                                    (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
+                                            {"EPS: " + (this.props.moveTable[this.props.value.QuickMove].Energy /
+                                                    (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
+                                            </>}
+                                        </>}
+                                        >
+                                        {this.props.value.quickMovePool}
+                                        </MoveSelect>
+
                 </div>
                 <div className={this.props.colSize ? this.props.colSize : "col-6 px-1 my-1"}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
+                                    <MoveSelect
+                                        value={(this.props.value.ChargeMove && this.props.value.ChargeMove !== "Select..."
+                                        && this.props.moveTable[this.props.value.ChargeMove] !== undefined) ? this.props.value.ChargeMove : ""}
+                                            moveType={(this.props.moveTable[this.props.value.ChargeMove] !== undefined) ? 
+                                                this.props.moveTable[this.props.value.ChargeMove].MoveType : ""}
 
-                        name="ChargeMove"
-                        value={(this.props.value.ChargeMove && this.props.value.ChargeMove !== "Select..."
-                            && this.props.moveTable[this.props.value.ChargeMove] !== undefined) ? this.props.value.ChargeMove : ""}
+                                        name="ChargeMove"
+                                        attr={this.props.attr}
+                                        onChange={this.props.onChange}
 
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={this.props.value.chargeMovePool}
+                                        label={strings.title.chargeMove}
 
-                        labelWidth="88px"
-                        label={strings.title.chargeMove}
-                        labelStyle={(this.props.moveTable[this.props.value.ChargeMove] !== undefined) ?
-                            `type-color${this.props.moveTable[this.props.value.ChargeMove].MoveType} text` : ""}
-
-                        place={"top"}
-                        for={"ChargeMove" + this.props.attr}
-
-                        tip={<>{strings.tips.charge}<br />
-                            {(this.props.value.ChargeMove && this.props.value.ChargeMove !== "Select...") &&
-                                this.props.moveTable[this.props.value.ChargeMove] !== undefined &&
-                                <>
-                                    {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove].Damage)}<br />
-                                    {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove].Energy)}<br />
-                                    {"Cooldown: " + (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000)}<br />
-                                    {"DPS: " + (this.props.moveTable[this.props.value.ChargeMove].Damage / (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000)).toFixed(2)}<br />
-                                    {"DPS*DPE: " + (this.props.moveTable[this.props.value.ChargeMove].Damage /
-                                        (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000) *
-                                        this.props.moveTable[this.props.value.ChargeMove].Damage /
-                                        -this.props.moveTable[this.props.value.ChargeMove].Energy).toFixed(2)}<br />
-                                </>}</>}
-                        tipClass="infoTip"
-                    />
+                                        tip={<>
+                                        {strings.tips.charge}<br />
+                                        {(this.props.value.ChargeMove && this.props.value.ChargeMove !== "Select...") &&
+                                            this.props.moveTable[this.props.value.ChargeMove] !== undefined &&
+                                            <>
+                                                {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove].Damage)}<br />
+                                                {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove].Energy)}<br />
+                                                {"Cooldown: " + (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000)}<br />
+                                                {"DPS: " + (this.props.moveTable[this.props.value.ChargeMove].Damage / (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000)).toFixed(2)}<br />
+                                                {"DPS*DPE: " + (this.props.moveTable[this.props.value.ChargeMove].Damage /
+                                                    (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000) *
+                                                    this.props.moveTable[this.props.value.ChargeMove].Damage /
+                                                    -this.props.moveTable[this.props.value.ChargeMove].Energy).toFixed(2)}<br />
+                                            </>}
+                                            </>}
+                                        >
+                                        {this.props.value.chargeMovePool}
+                                        </MoveSelect>              
                 </div>
 
 
@@ -226,40 +223,35 @@ class PvePokemon extends React.PureComponent {
 
                 {this.props.hasSecondCharge && <div
                     className={(this.props.colSize ? this.props.colSize : "col-6 px-1 my-1") + (this.props.attr === "editPokemon" ? " order-1" : "")}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
+<MoveSelect
+                                        value={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select..."
+                                        && this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ? this.props.value.ChargeMove2 : ""}
+                                            moveType={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ? 
+                                                this.props.moveTable[this.props.value.ChargeMove2].MoveType : ""}
 
-                        name="ChargeMove2"
-                        value={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select..."
-                            && this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ? this.props.value.ChargeMove2 : ""}
+                                        name="ChargeMove2"
+                                        attr={this.props.attr}
+                                        onChange={this.props.onChange}
 
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={this.props.value.chargeMovePool}
+                                        label={strings.title.chargeMove}
 
-                        labelWidth="88px"
-                        label={strings.title.chargeMove}
-                        labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
-                            `type-color${this.props.moveTable[this.props.value.ChargeMove2].MoveType} text` : ""}
-
-                        place={"top"}
-                        for={"ChargeMove" + this.props.attr}
-
-                        tip={<>{strings.tips.charge}<br />
-                            {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") &&
-                                this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
-                                <>
-                                    {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].Damage)}<br />
-                                    {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].Energy)}<br />
-                                    {"Cooldown: " + (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)}<br />
-                                    {"DPS: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage / (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)).toFixed(2)}<br />
-                                    {"DPS*DPE: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage /
-                                        (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000) *
-                                        this.props.moveTable[this.props.value.ChargeMove2].Damage /
-                                        -this.props.moveTable[this.props.value.ChargeMove2].Energy).toFixed(2)}<br />
-                                </>}</>}
-                        tipClass="infoTip"
-                    />
+                                        tip={<>{strings.tips.charge}<br />
+                                        {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") &&
+                                            this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
+                                            <>
+                                                {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].Damage)}<br />
+                                                {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].Energy)}<br />
+                                                {"Cooldown: " + (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)}<br />
+                                                {"DPS: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage / (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)).toFixed(2)}<br />
+                                                {"DPS*DPE: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage /
+                                                    (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000) *
+                                                    this.props.moveTable[this.props.value.ChargeMove2].Damage /
+                                                    -this.props.moveTable[this.props.value.ChargeMove2].Energy).toFixed(2)}<br />
+                                            </>}
+                                            </>}
+                                        >
+                                        {this.props.value.chargeMovePool}
+                                        </MoveSelect> 
                 </div>}
                 {this.props.canBeShadow && this.props.attr === "attackerObj" && <div className="col-6 px-1 my-1">
                     <Checkbox

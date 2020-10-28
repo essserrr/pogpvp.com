@@ -19,36 +19,24 @@ export function checkShadow(name, pokTable) {
 }
 
 export function returnMovePool(name, pokTable, locale, isBoss, additionalQ, addtionalCh) {
-    if (pokTable[name] === undefined || name === "") {
+    if (!pokTable || !name || !pokTable[name]) {
         return { quickMovePool: [], chargeMovePool: [] }
     }
-    //make array of moves
-    let quickRaw = [...pokTable[name].QuickMoves];
-    let chargeRaw = [...pokTable[name].ChargeMoves];
+    const pokemon = pokTable[name]
     //filter empty values and elite moves for boses
-    let quickFiltered = quickRaw.filter((elem) => {
-        if (isBoss) {
-            if (pokTable[name].EliteMoves[elem] === 1) { return false }
-        }
-        return elem !== "";
-    });
-    let chargeFiltered = chargeRaw.filter((elem) => {
-        if (isBoss) {
-            if (pokTable[name].EliteMoves[elem] === 1) { return false }
-            if (elem === "Return") { return false }
-        }
-        return elem !== "";
-    });
+    let quickFiltered = pokemon.QuickMoves.filter(elem => (isBoss && !!pokemon.EliteMoves[elem]) ? false : elem !== "");
+    let chargeFiltered = pokemon.ChargeMoves.filter(elem => (isBoss && (!!pokemon.EliteMoves[elem] || elem === "Return")) ? false : elem !== "");
+
     //make options array
     let quickMovePool = quickFiltered.map((moveName) => {
-        return <option value={moveName} key={moveName}>{moveName + (pokTable[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
+        return <option value={moveName} key={moveName}>{moveName + (pokemon.EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
     pushAdditional(additionalQ, quickFiltered, quickMovePool)
     quickMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
     quickMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
 
     let chargeMovePool = chargeFiltered.map((moveName) => {
-        return <option value={moveName} key={moveName}>{moveName + (pokTable[name].EliteMoves[moveName] === 1 ? "*" : "")}</option>;
+        return <option value={moveName} key={moveName}>{moveName + (pokemon.EliteMoves[moveName] === 1 ? "*" : "")}</option>;
     });
     pushAdditional(addtionalCh, chargeFiltered, chargeMovePool)
     chargeMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
@@ -611,19 +599,19 @@ export function selectQuick(movelist, moveTable, pokName, pokTable) {
     //for every move
     movelist.forEach(function (move) {
         //exept select option
-        if (move.key === "Select..." || move.key === "") {
+        if (move.value === "Select..." || move.value === "") {
             return
         }
-        let duration = moveTable[move.key].PvpDurationSeconds
-        let damage = moveTable[move.key].PvpDamage
-        let energy = moveTable[move.key].PvpEnergy
+        let duration = moveTable[move.value].PvpDurationSeconds
+        let damage = moveTable[move.value].PvpDamage
+        let energy = moveTable[move.value].PvpEnergy
         //define stab
-        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.value].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = Math.pow(((damage * stab) / duration) * Math.pow(energy / duration, 1.9), 1 / 2)
         if (score > bestScore) {
             bestScore = score
-            bestName = moveTable[move.key].Title
+            bestName = moveTable[move.value].Title
         }
     });
     return bestName
@@ -635,18 +623,18 @@ export function selectQuickRaids(movelist, moveTable, pokName, pokTable) {
     //for every move
     movelist.forEach(function (move) {
         //exept select option
-        if (move.key === "Select..." || move.key === "") {
+        if (move.value === "Select..." || move.value === "") {
             return
         }
-        let duration = moveTable[move.key].Cooldown / 1000
-        let damage = moveTable[move.key].Damage
+        let duration = moveTable[move.value].Cooldown / 1000
+        let damage = moveTable[move.value].Damage
         //define stab
-        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.value].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = (damage * stab) / duration
         if (score > bestScore) {
             bestScore = score
-            bestName = moveTable[move.key].Title
+            bestName = moveTable[move.value].Title
         }
     });
     return bestName
@@ -661,31 +649,31 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
     //for every move
     movelist.forEach((move) => {
         //exept select option
-        if (move.key === "Select..." || move.key === "") {
+        if (move.value === "Select..." || move.value === "") {
             return
         }
         //filter self-harm moves
-        if (moveTable[move.key].StageDelta < 0 && moveTable[move.key].Subject === "Self") {
+        if (moveTable[move.value].StageDelta < 0 && moveTable[move.value].Subject === "Self") {
             return
         }
-        let damage = moveTable[move.key].PvpDamage
-        let energy = -moveTable[move.key].PvpEnergy
-        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
+        let damage = moveTable[move.value].PvpDamage
+        let energy = -moveTable[move.value].PvpEnergy
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.value].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = stab * damage / Math.pow(energy, 2)
         switch (true) {
             case score > bestScore:
                 bestScore = score
                 bestEnergy = energy
-                primaryName = moveTable[move.key].Title
-                primaryType = moveTable[move.key].MoveType
+                primaryName = moveTable[move.value].Title
+                primaryType = moveTable[move.value].MoveType
                 break
             case score === bestScore:
                 if (energy < bestEnergy) {
                     bestScore = score
                     bestEnergy = energy
-                    primaryName = moveTable[move.key].Title
-                    primaryType = moveTable[move.key].MoveType
+                    primaryName = moveTable[move.value].Title
+                    primaryType = moveTable[move.value].MoveType
                 }
                 break
             default:
@@ -701,12 +689,12 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
 
     movelist.forEach((move) => {
         //exept select option and primary move
-        if (move.key === "Select..." || move.key === "" || move.key === primaryName) {
+        if (move.value === "Select..." || move.value === "" || move.value === primaryName) {
             return
         }
-        let damage = moveTable[move.key].PvpDamage
-        let energy = -moveTable[move.key].PvpEnergy
-        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
+        let damage = moveTable[move.value].PvpDamage
+        let energy = -moveTable[move.value].PvpEnergy
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.value].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = stab * damage / Math.pow(energy, 2)
 
@@ -714,23 +702,23 @@ export function selectCharge(movelist, moveTable, pokName, pokTable) {
             case score > bestScore:
                 bestScore = score
                 bestEnergy = energy
-                secodaryName = moveTable[move.key].Title
-                secondaryType = moveTable[move.key].MoveType
+                secodaryName = moveTable[move.value].Title
+                secondaryType = moveTable[move.value].MoveType
                 break
             case score === bestScore:
                 if (energy < bestEnergy) {
                     bestScore = score
                     bestEnergy = energy
-                    secodaryName = moveTable[move.key].Title
-                    secondaryType = moveTable[move.key].MoveType
+                    secodaryName = moveTable[move.value].Title
+                    secondaryType = moveTable[move.value].MoveType
                 }
                 break
             case primaryType === secondaryType:
-                if (primaryType !== moveTable[move.key].MoveType) {
+                if (primaryType !== moveTable[move.value].MoveType) {
                     bestScore = score
                     bestEnergy = energy
-                    secodaryName = moveTable[move.key].Title
-                    secondaryType = moveTable[move.key].MoveType
+                    secodaryName = moveTable[move.value].Title
+                    secondaryType = moveTable[move.value].MoveType
                 }
                 break
             default:
@@ -748,18 +736,18 @@ export function selectChargeRaids(movelist, moveTable, pokName, pokTable) {
     //for every move
     movelist.forEach((move) => {
         //exept select option
-        if (move.key === "Select..." || move.key === "") {
+        if (move.value === "Select..." || move.kevaluey === "") {
             return
         }
-        let damage = moveTable[move.key].Damage
-        let energy = -moveTable[move.key].Energy
-        let duration = moveTable[move.key].Cooldown / 1000
-        let stab = (pokTable[pokName].Type.includes(moveTable[move.key].MoveType) ? 1.2 : 1)
+        let damage = moveTable[move.value].Damage
+        let energy = -moveTable[move.value].Energy
+        let duration = moveTable[move.value].Cooldown / 1000
+        let stab = (pokTable[pokName].Type.includes(moveTable[move.value].MoveType) ? 1.2 : 1)
         //and calculate score
         let score = (stab * damage / duration) * (stab * damage / energy)
         if (score > bestScore) {
             bestScore = score
-            primaryName = moveTable[move.key].Title
+            primaryName = moveTable[move.value].Title
         }
     })
 
