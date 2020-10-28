@@ -1,31 +1,33 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
+import MenuItem from '@material-ui/core/MenuItem';
+
 import Iconer from "App/Components/Iconer/Iconer";
-import WithIcon from 'App/Components/WithIcon';
-import InputWithError from 'App/Components/InputWithError';
+import WithIcon from 'App/Components/WithIcon/WithIcon';
+import InputWithError from 'App/Components/InputWithError/InputWithError';
 
 
 const MoveSelect = React.memo(function MoveSelect(props) {
     const { label, attr, name, value, onChange, tip, moveType, children, ...other } = props;
 
+    console.log(moveType)
     return (
-    <WithIcon tip={tip} icon={moveType !== "" ? <Iconer fileName={moveType} folderName="/type/" size="18" /> : "" }>
-                        <InputWithError
-                            label={label}
-                            select
+        <WithIcon tip={tip} icon={moveType !== "" ? <Iconer fileName={String(moveType)} folderName="/type/" size="18" /> : ""}>
+            <InputWithError
+                label={label}
+                select
 
-                            attr={attr}
-                            name={name}
-                            value={value}
+                name={name}
+                value={value}
+                attr={attr}
 
-                            onChange={onChange}
-                            {...other}
-                        >
-                            {props.children.map(move =>
-                            <MenuItem value={move.value}>{move.title}</MenuItem>)}
-                        </InputWithError>
-    </WithIcon>
+                onChange={onChange}
+                {...other}
+            >
+                {children ? children.map((move, key) => <MenuItem key={key} value={move.value} attr={attr} >{move.title}</MenuItem>) : []}
+            </InputWithError>
+        </WithIcon>
     )
 });
 
@@ -35,6 +37,7 @@ MoveSelect.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.node,
         PropTypes.arrayOf(PropTypes.node),
+        PropTypes.arrayOf(PropTypes.object),
     ]),
     label: PropTypes.oneOfType([
         PropTypes.string,

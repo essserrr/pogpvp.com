@@ -13,8 +13,9 @@ import MagicBox from "./components/MagicBox/MagicBox"
 import Constructor from "./components/Constructor/Constructor"
 import Loader from "../PvpRating/Loader"
 
+import { MovePoolBuilder } from "js/movePoolBuilder"
 import {
-    calculateEffStat, pokemon, encodeQueryData, returnMovePool, calculateMaximizedStats, processHP,
+    calculateEffStat, pokemon, encodeQueryData, calculateMaximizedStats, processHP,
     processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
 } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
@@ -203,42 +204,25 @@ class SinglePvp extends React.PureComponent {
     }
 
     onMoveAdd(value, attr, category) {
-        switch (category.includes("Charge")) {
-            case true:
-                var newMovePool = [...this.state[attr].chargeMovePool]
+        const pool = category.includes("Charge") ? "chargeMovePool" : "quickMovePool"
+        var newMovePool = [...this.state[attr][pool]]
 
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        chargeMovePool: newMovePool,
-                        [category]: value,
-                    },
-                    stateModified: true,
-                });
-                break
-            default:
-                newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        quickMovePool: newMovePool,
-                        [category]: value,
-                    },
-                    stateModified: true,
-                });
-                break
-        }
+        newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+        this.setState({
+            [attr]: {
+                ...this.state[attr],
+                showMenu: false,
+                isSelected: undefined,
+                [pool]: newMovePool,
+                [category]: value,
+            },
+            stateModified: true,
+        });
     }
 
     onUserPokemonSelect(index, role) {
         let selectedPok = this.props.userPokemon[index]
-
+        console.log(selectedPok)
         //get movepool
         let moves = new MovePoolBuilder();
         moves.createMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
@@ -286,16 +270,19 @@ class SinglePvp extends React.PureComponent {
                 case "ChargeMove2":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
                     return
-                case "userPokemon":
-                    this.onUserPokemonSelect(event.index, name.name[0])
-                    return
                 default:
                     this.onNameChange(event, name.name[0])
                     return
             }
         }
-        let role = event.target.getAttribute("attr")
-        let action = event.target.getAttribute("action")
+        if (name.category === "userPokemon") {
+            this.onUserPokemonSelect(name.index, name.attr)
+            return
+        }
+
+
+        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
+        let action = event.target.getAttribute ? event.target.getAttribute("action") : name.props.action
         //check if it's an initial stat change
         if (action === "defaultStatMaximizer") {
             this.statMaximizer(event, role)

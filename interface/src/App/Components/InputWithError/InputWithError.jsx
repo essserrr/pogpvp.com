@@ -31,7 +31,7 @@ const InputWithError = React.memo(function InputWithError(props) {
             FormHelperTextProps={{
                 style: { visibility: !!selectedText ? "visible" : "hidden" }
             }}
-            inputProps={{ attr: attr }}
+            inputProps={{ "data-attr": attr }}
 
             {...other}
         >

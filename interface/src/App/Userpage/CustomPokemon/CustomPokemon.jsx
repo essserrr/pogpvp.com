@@ -23,7 +23,7 @@ import { getCookie } from "../../../js/getCookie"
 import { userLocale } from "../../../locale/userLocale"
 import { locale } from "../../../locale/locale"
 import { MovePoolBuilder } from "js/movePoolBuilder"
-import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
+import { separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
 import { translareMove, translateName } from "./translator"
 
 import "./CustomPokemon.scss"
@@ -208,7 +208,7 @@ class CustomPokemon extends React.PureComponent {
                 break
             default:
                 newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, {value: value, title: `${value}*`});
+                newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
                 this.setState({
                     [attr]: {
                         ...this.state[attr],
@@ -223,7 +223,8 @@ class CustomPokemon extends React.PureComponent {
     }
 
 
-    onChange(event, name) {
+    onChange(event, name, ...other) {
+        console.log(event, name, other)
         //check if it`s a name change
         if (event.target === undefined) {
             switch (name.name[1]) {
@@ -238,7 +239,7 @@ class CustomPokemon extends React.PureComponent {
                     return
             }
         }
-        let role = event.target.getAttribute("attr")
+        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
         //check if it's an iv change
         if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
             this.onIvChange(event, role)
@@ -350,10 +351,12 @@ class CustomPokemon extends React.PureComponent {
     }
 
     onCloseOuterMenu(event) {
-        let role = event.target.getAttribute("attr")
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
+        const name = event.target.name ? event.target.name : event.target.getAttribute("name")
+        if (!(event.target === event.currentTarget) && name !== "closeButton") {
             return
         }
+        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
+
         this.setState({
             [role]: !this.state[role],
         })

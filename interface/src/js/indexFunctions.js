@@ -18,47 +18,6 @@ export function checkShadow(name, pokTable) {
     return name
 }
 
-export function returnMovePool(name, pokTable, locale, isBoss, additionalQ, addtionalCh) {
-    if (!pokTable || !name || !pokTable[name]) {
-        return { quickMovePool: [], chargeMovePool: [] }
-    }
-    const pokemon = pokTable[name]
-    //filter empty values and elite moves for boses
-    let quickFiltered = pokemon.QuickMoves.filter(elem => (isBoss && !!pokemon.EliteMoves[elem]) ? false : elem !== "");
-    let chargeFiltered = pokemon.ChargeMoves.filter(elem => (isBoss && (!!pokemon.EliteMoves[elem] || elem === "Return")) ? false : elem !== "");
-
-    //make options array
-    let quickMovePool = quickFiltered.map((moveName) => {
-        return <option value={moveName} key={moveName}>{moveName + (pokemon.EliteMoves[moveName] === 1 ? "*" : "")}</option>;
-    });
-    pushAdditional(additionalQ, quickFiltered, quickMovePool)
-    quickMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
-    quickMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
-
-    let chargeMovePool = chargeFiltered.map((moveName) => {
-        return <option value={moveName} key={moveName}>{moveName + (pokemon.EliteMoves[moveName] === 1 ? "*" : "")}</option>;
-    });
-    pushAdditional(addtionalCh, chargeFiltered, chargeMovePool)
-    chargeMovePool.unshift(<option value={""} key={""}>{locale.none}</option>)
-    chargeMovePool.push(<option value={"Select..."} key={"Select..."}>{locale.select}</option>)
-
-    return { quickMovePool, chargeMovePool }
-}
-
-function pushAdditional(additional, set, target) {
-    if (!additional || !set || !target) {
-        return
-    }
-    //iterate over additional moves
-    additional.forEach((item, i) => {
-        //if addirional move is invalid somehow  - continue
-        if (!item) { return }
-        if (!set.includes(item)) {
-            target.push(<option value={item} key={item}>{item + "*"}</option>)
-        }
-    });
-}
-
 export function calculateMaximizedStats(name, lvlCap, pokTable, options) {
     if (pokTable[name] === undefined) {
         return [];
@@ -736,7 +695,7 @@ export function selectChargeRaids(movelist, moveTable, pokName, pokTable) {
     //for every move
     movelist.forEach((move) => {
         //exept select option
-        if (move.value === "Select..." || move.kevaluey === "") {
+        if (move.value === "Select..." || move.value === "") {
             return
         }
         let damage = moveTable[move.value].Damage

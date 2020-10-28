@@ -11,20 +11,20 @@ let strings = new LocalizedStrings(locale)
 let pveStrings = new LocalizedStrings(pveLocale)
 
 const PokemonPanel = React.memo(function PokemonPanel(props) {
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-        return (
-            <div className="row mx-0 justify-content-center align-items-center">
-                {this.props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>}
-                <div className="col-12 px-0">
-                    <PvePokemon
-                        {...this.props}
-                    />
-                </div>
-
+    return (
+        <div className="row mx-0 justify-content-center align-items-center">
+            {props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{props.title}</h5></div>}
+            <div className="col-12 px-0">
+                <PvePokemon
+                    {...props}
+                />
             </div>
-       )
+
+        </div>
+    )
 });
 
 export default PokemonPanel

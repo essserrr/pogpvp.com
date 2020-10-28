@@ -572,7 +572,8 @@ class MatrixPvp extends React.PureComponent {
     }
 
     onPokRedactOff(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
+        const name = event.target.name ? event.target.name : event.target.getAttribute("name")
+        if (!(event.target === event.currentTarget) && name !== "closeButton") {
             return
         }
         this.setState({

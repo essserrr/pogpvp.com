@@ -42,7 +42,12 @@ const Iconer = React.memo(function Iconer(props) {
     )
 });
 
-export default Iconer;
+export default class CustomPokemon extends React.Component {
+    render() {
+        return <Iconer {...this.props} />
+    }
+}
+
 
 Iconer.propTypes = {
     fileName: PropTypes.string,

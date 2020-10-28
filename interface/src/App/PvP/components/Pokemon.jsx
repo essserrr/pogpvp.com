@@ -10,6 +10,8 @@ import EffectiveStats from "./EffectiveStats/EffectiveStats"
 import MagicBox from "./MagicBox/MagicBox"
 import PokemonSelect from "../../Userpage/CustomPokemon/PartyBox/PokemonSelect/PokemonSelect"
 
+import MoveSelect from "App/Components/MoveSelect/MoveSelect";
+
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/getCookie"
@@ -73,9 +75,10 @@ class Pokemon extends React.PureComponent {
                             category="userPokemon"
 
                             pokemonTable={this.props.pokemonTable}
-                            list={this.props.userPokemon}
                             onChange={this.props.onChange}
-                        />
+                        >
+                            {this.props.userPokemon}
+                        </PokemonSelect>
                     </div>}
 
                 {this.props.pokList &&
@@ -196,105 +199,105 @@ class Pokemon extends React.PureComponent {
                             tipClass="infoTip"
                         />
 
-<MoveSelect
-                                        value={this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined && this.props.value.QuickMove}
-                                            moveType={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
-                                                this.props.moveTable[this.props.value.QuickMove].MoveType : ""}
+                        <MoveSelect
+                            value={this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined && this.props.value.QuickMove}
+                            moveType={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
+                                this.props.moveTable[this.props.value.QuickMove].MoveType : ""}
 
-                                        name="QuickMove"
-                                        attr={this.props.attr}
-                                        onChange={this.props.onChange}
+                            name="QuickMove"
+                            attr={this.props.attr}
+                            onChange={this.props.onChange}
 
-                                        label={strings.title.quickMove}
+                            label={strings.title.quickMove}
 
-                                        tip={<>{strings.tips.quick}<br />
-                                        {this.props.value.QuickMove && <>
-                                            {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].PvpDamage)}<br />
-                                            {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].PvpEnergy)}
-                                            {(this.props.moveTable[this.props.value.QuickMove].Probability !== 0) && (<>
-                                                <br />{strings.move.probability + this.props.moveTable[this.props.value.QuickMove].Probability}
-                                                <br />{strings.move.target + this.props.moveTable[this.props.value.QuickMove].Subject}
-                                                <br />{strings.move.stat + this.props.moveTable[this.props.value.QuickMove].Stat}
-                                                <br />{strings.move.stage + this.props.moveTable[this.props.value.QuickMove].StageDelta}
+                            tip={<>{strings.tips.quick}<br />
+                                {this.props.value.QuickMove && <>
+                                    {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].PvpDamage)}<br />
+                                    {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].PvpEnergy)}
+                                    {(this.props.moveTable[this.props.value.QuickMove].Probability !== 0) && (<>
+                                        <br />{strings.move.probability + this.props.moveTable[this.props.value.QuickMove].Probability}
+                                        <br />{strings.move.target + this.props.moveTable[this.props.value.QuickMove].Subject}
+                                        <br />{strings.move.stat + this.props.moveTable[this.props.value.QuickMove].Stat}
+                                        <br />{strings.move.stage + this.props.moveTable[this.props.value.QuickMove].StageDelta}
+                                    </>)}
+                                </>}</>}
+                        >
+                            {this.props.value.quickMovePool}
+                        </MoveSelect>
+
+
+
+
+
+
+
+
+
+                        <MoveSelect
+                            value={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select..." &&
+                                this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ? this.props.value.ChargeMove1 : ""}
+                            moveType={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
+                                this.props.moveTable[this.props.value.ChargeMove1].MoveType : ""}
+
+                            name="ChargeMove1"
+                            attr={this.props.attr}
+                            onChange={this.props.onChange}
+
+                            label={strings.title.chargeMove}
+
+                            tip={<>{strings.tips.charge}<br />
+                                {(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") &&
+                                    this.props.moveTable[this.props.value.ChargeMove1] !== undefined &&
+                                    <>
+                                        {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove1].PvpDamage)}<br />
+                                        {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove1].PvpEnergy)}
+                                        {(this.props.moveTable[this.props.value.ChargeMove1].Probability !== 0) && (<>
+                                            <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove1].Probability}
+                                            <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove1].Subject}
+                                            <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove1].Stat}
+                                            <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove1].StageDelta}
+                                        </>)}
+                                    </>}</>}
+                        >
+                            {this.props.value.chargeMovePool}
+                        </MoveSelect>
+
+
+
+
+
+
+
+                        <MoveSelect
+                            value={(this.props.value.ChargeMove2 && this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
+                                this.props.value.ChargeMove2 !== "Select...") ?
+                                this.props.value.ChargeMove2 : ""}
+                            moveType={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
+                                this.props.moveTable[this.props.value.ChargeMove2].MoveType : ""}
+
+                            name="ChargeMove2"
+                            attr={this.props.attr}
+                            onChange={this.props.onChange}
+
+                            label={strings.title.chargeMove}
+
+                            tip={
+                                <>{strings.tips.charge}<br />
+                                    {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") &&
+                                        this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
+                                        <>
+                                            {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].PvpDamage)}<br />
+                                            {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].PvpEnergy)}
+                                            {(this.props.moveTable[this.props.value.ChargeMove2].Probability !== 0) && (<>
+                                                <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove2].Probability}
+                                                <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove2].Subject}
+                                                <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove2].Stat}
+                                                <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove2].StageDelta}
                                             </>)}
                                         </>}</>}
-                                        >
-                                        {this.props.value.quickMovePool}
-                                        </MoveSelect> 
-
-
-
-
-
-
-
-
-
-                                        <MoveSelect
-                                        value={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select..." &&
-                                        this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ? this.props.value.ChargeMove1 : ""}
-                                            moveType={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
-                                                this.props.moveTable[this.props.value.ChargeMove1].MoveType : ""}
-
-                                        name="ChargeMove1"
-                                        attr={this.props.attr}
-                                        onChange={this.props.onChange}
-
-                                        label={strings.title.chargeMove}
-
-                                        tip={<>{strings.tips.charge}<br />
-                                        {(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") &&
-                                            this.props.moveTable[this.props.value.ChargeMove1] !== undefined &&
-                                            <>
-                                                {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove1].PvpDamage)}<br />
-                                                {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove1].PvpEnergy)}
-                                                {(this.props.moveTable[this.props.value.ChargeMove1].Probability !== 0) && (<>
-                                                    <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove1].Probability}
-                                                    <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove1].Subject}
-                                                    <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove1].Stat}
-                                                    <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove1].StageDelta}
-                                                </>)}
-                                            </>}</>}
-                                        >
-                                        {this.props.value.chargeMovePool}
-                                        </MoveSelect> 
-
-
-
-
-
-
-
-                                        <MoveSelect
-                                        value={(this.props.value.ChargeMove2 && this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
-                                            this.props.value.ChargeMove2 !== "Select...") ?
-                                            this.props.value.ChargeMove2 : ""}
-                                            moveType={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
-                                                this.props.moveTable[this.props.value.ChargeMove2].MoveType : ""}
-
-                                        name="ChargeMove2"
-                                        attr={this.props.attr}
-                                        onChange={this.props.onChange}
-
-                                        label={strings.title.chargeMove}
-
-                                        tip={
-                                            <>{strings.tips.charge}<br />
-                                                {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") &&
-                                                    this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
-                                                    <>
-                                                        {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].PvpDamage)}<br />
-                                                        {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].PvpEnergy)}
-                                                        {(this.props.moveTable[this.props.value.ChargeMove2].Probability !== 0) && (<>
-                                                            <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove2].Probability}
-                                                            <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove2].Subject}
-                                                            <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove2].Stat}
-                                                            <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove2].StageDelta}
-                                                        </>)}
-                                                    </>}</>}
-                                        >
-                                        {this.props.value.chargeMovePool}
-                                        </MoveSelect> 
+                        >
+                            {this.props.value.chargeMovePool}
+                        </MoveSelect>
                     </>}
             </div>
         )

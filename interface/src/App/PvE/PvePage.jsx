@@ -14,7 +14,8 @@ import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
 import { refresh } from "../../AppStore/Actions/refresh"
-import { extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker } from "../../js/indexFunctions"
+import { MovePoolBuilder } from "js/movePoolBuilder"
+import { extractRaidData, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
@@ -201,7 +202,7 @@ class PvePage extends React.Component {
 
     setUpPokemon(pok, pokemonTable, isBoss) {
         let moves = new MovePoolBuilder();
-        moves.createMovePool(pok.Name, pokemonTable, strings.options.moveSelect,            isBoss, [pok.QuickMove], [pok.ChargeMove])
+        moves.createMovePool(pok.Name, pokemonTable, strings.options.moveSelect, isBoss, [pok.QuickMove], [pok.ChargeMove])
         pok.quickMovePool = moves.quickMovePool
         pok.chargeMovePool = moves.chargeMovePool
         return pok

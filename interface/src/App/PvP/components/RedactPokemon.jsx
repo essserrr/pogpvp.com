@@ -2,8 +2,10 @@ import React from "react";
 import Pokemon from "./Pokemon";
 import MagicBox from "./MagicBox/MagicBox"
 import SubmitButton from "./SubmitButton/SubmitButton"
+
+import { MovePoolBuilder } from "js/movePoolBuilder"
 import {
-    returnMovePool, calculateMaximizedStats, processInitialStats, checkLvl, checkIV,
+    calculateMaximizedStats, processInitialStats, checkLvl, checkIV,
     calculateEffStat, selectCharge, selectQuick
 } from "../../../js/indexFunctions.js"
 import { getCookie } from "../../../js/getCookie"
@@ -205,34 +207,19 @@ class RedactPokemon extends React.PureComponent {
     }
 
     onMoveAdd(value, attr, category) {
-        switch (category.includes("Charge")) {
-            case true:
-                let newMovePool = [...this.state[attr].chargeMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        chargeMovePool: newMovePool,
-                        [category]: value,
-                    }
-                });
-                break
-            default:
-                newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        quickMovePool: newMovePool,
-                        [category]: value,
-                    }
-                });
-                break
-        }
+        const pool = category.includes("Charge") ? "chargeMovePool" : "quickMovePool"
+
+        let newMovePool = [...this.state[attr][pool]]
+        newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+        this.setState({
+            [attr]: {
+                ...this.state[attr],
+                showMenu: false,
+                isSelected: undefined,
+                [pool]: newMovePool,
+                [category]: value,
+            }
+        });
     }
 
     onUserPokemonSelect(index, role) {
@@ -285,16 +272,17 @@ class RedactPokemon extends React.PureComponent {
                 case "ChargeMove2":
                     this.onMoveAdd(event.value, name.name[0], name.name[1])
                     return
-                case "userPokemon":
-                    this.onUserPokemonSelect(event.index, name.name[0])
-                    return
                 default:
                     this.onNameChange(event, name.name[0])
                     return
             }
         }
-        let role = event.target.getAttribute("attr")
-        let action = event.target.getAttribute("action")
+        if (name.category === "userPokemon") {
+            this.onUserPokemonSelect(name.index, name.attr)
+            return
+        }
+        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
+        let action = event.target.getAttribute ? event.target.getAttribute("action") : name.props.action
         //check if it's an initial stat change
         if (action === "defaultStatMaximizer") {
             this.statMaximizer(event, role)

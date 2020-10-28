@@ -18,9 +18,8 @@ import MatrixDescr from "./components/Description/MatrixDescr"
 import SingleDescr from "./components/Description/SingleDescr"
 import Loader from "../PvpRating/Loader"
 
-import {
-    extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase, calculateEffStat
-} from "../../js/indexFunctions"
+import { MovePoolBuilder } from "js/movePoolBuilder"
+import { extractPokemon, extractData, calculateMaximizedStats, returnPokList, separateMovebase, calculateEffStat } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
@@ -33,8 +32,7 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.Energy = hisResult.EnergyRemained
 
     let moves = new MovePoolBuilder();
-    moves.createMovePool((pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2]))
-
+    moves.createMovePool(pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
     pok.quickMovePool = moves.quickMovePool
     pok.chargeMovePool = moves.chargeMovePool
 

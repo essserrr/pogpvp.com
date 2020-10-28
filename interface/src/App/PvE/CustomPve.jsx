@@ -9,7 +9,8 @@ import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import PveResult from "./Components/PveResult/PveResult"
 import Loader from "../PvpRating/Loader"
 
-import { returnMovePool, pveattacker, boss, pveobj, pveUserSettings, pveCutomParty } from "../../js/indexFunctions.js"
+import { MovePoolBuilder } from "js/movePoolBuilder"
+import { pveattacker, boss, pveobj, pveUserSettings, pveCutomParty } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
@@ -75,34 +76,18 @@ class CustomPve extends React.PureComponent {
 
 
     onMoveAdd(value, attr, category) {
-        switch (category.includes("Charge")) {
-            case true:
-                var newMovePool = [...this.state[attr].chargeMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        chargeMovePool: newMovePool,
-                        [category]: value,
-                    },
-                });
-                break
-            default:
-                newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        quickMovePool: newMovePool,
-                        [category]: value,
-                    },
-                });
-                break
-        }
+        const pool = category.includes("Charge") ? "chargeMovePool" : "quickMovePool"
+        var newMovePool = [...this.state[attr][pool]]
+        newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+        this.setState({
+            [attr]: {
+                ...this.state[attr],
+                showMenu: false,
+                isSelected: undefined,
+                [pool]: newMovePool,
+                [category]: value,
+            },
+        });
     }
 
     onChangeMode(mode) {
@@ -164,8 +149,8 @@ class CustomPve extends React.PureComponent {
                     return
             }
         }
-        let role = event.target.getAttribute("attr")
-        let targetName = event.target.getAttribute("name")
+        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
+        let targetName = event.target.getAttribute ? event.target.getAttribute("name") : event.target.name
 
         if (event.target.value === "Select...") {
             this.setState({
