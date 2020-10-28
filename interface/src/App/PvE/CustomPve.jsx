@@ -47,10 +47,9 @@ class CustomPve extends React.PureComponent {
 
     onNameChange(event, name) {
         //get movepool
-        switch (name) {
-            default:
-                var moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect, true)
-        }
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect, name === "bossObj")
+
         //set state
         this.setState({
             [name]: {

@@ -32,7 +32,9 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.HP = hisResult.HP
     pok.Energy = hisResult.EnergyRemained
 
-    let moves = returnMovePool(pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
+    let moves = new MovePoolBuilder();
+    moves.createMovePool((pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2]))
+
     pok.quickMovePool = moves.quickMovePool
     pok.chargeMovePool = moves.chargeMovePool
 

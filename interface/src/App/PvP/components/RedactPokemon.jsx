@@ -19,7 +19,8 @@ class RedactPokemon extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         //get movepool
-        let moves = returnMovePool(props.redact.pokemon.name, props.pokemonTable, strings.options.moveSelect, false,
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(props.redact.pokemon.name, props.pokemonTable, strings.options.moveSelect, false,
             [props.redact.pokemon.QuickMove], [props.redact.pokemon.ChargeMove1, props.redact.pokemon.ChargeMove2])
         //create default iv set
         let ivSet = calculateMaximizedStats(props.redact.pokemon.name, props.value.maximizer.level, props.pokemonTable)
@@ -96,7 +97,8 @@ class RedactPokemon extends React.PureComponent {
 
     onNameChange(event, name) {
         //get movepool
-        let moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
         let quick = selectQuick(moves.quickMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         let charge = selectCharge(moves.chargeMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         //create default iv set
@@ -237,7 +239,8 @@ class RedactPokemon extends React.PureComponent {
         let selectedPok = this.props.userPokemon[index]
 
         //get movepool
-        let moves = returnMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
         //set state
         this.setState({
             [role]: {

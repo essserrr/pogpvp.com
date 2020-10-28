@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import InputWithError from "App/Components/InputWithError/InputWithError";
-import Iconer from "App/Components/Iconer/Iconer"
+import Iconer from "App/Components/Iconer/Iconer";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";

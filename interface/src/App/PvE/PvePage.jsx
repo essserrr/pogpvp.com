@@ -200,8 +200,8 @@ class PvePage extends React.Component {
     }
 
     setUpPokemon(pok, pokemonTable, isBoss) {
-        let moves = returnMovePool(pok.Name, pokemonTable, strings.options.moveSelect,
-            isBoss, [pok.QuickMove], [pok.ChargeMove])
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(pok.Name, pokemonTable, strings.options.moveSelect,            isBoss, [pok.QuickMove], [pok.ChargeMove])
         pok.quickMovePool = moves.quickMovePool
         pok.chargeMovePool = moves.chargeMovePool
         return pok

@@ -94,7 +94,10 @@ class SinglePvp extends React.PureComponent {
 
     onNameChange(event, name) {
         //get movepool
-        let moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
+
+
         let quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
         let charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
         //create default iv set
@@ -237,7 +240,8 @@ class SinglePvp extends React.PureComponent {
         let selectedPok = this.props.userPokemon[index]
 
         //get movepool
-        let moves = returnMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
         //set state
         this.setState({
             [role]: {

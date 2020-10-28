@@ -83,16 +83,8 @@ class CommonPve extends React.PureComponent {
 
     onNameChange(event, name) {
         //get movepool
-        switch (name) {
-            case "attackerObj":
-                var moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
-                break
-            case "supportPokemon":
-                moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
-                break
-            default:
-                moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect, true)
-        }
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect, name === "bossObj")
         //set state
         this.setState({
             [name]: {

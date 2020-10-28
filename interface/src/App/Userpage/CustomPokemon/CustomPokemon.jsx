@@ -22,6 +22,7 @@ import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
 import { getCookie } from "../../../js/getCookie"
 import { userLocale } from "../../../locale/userLocale"
 import { locale } from "../../../locale/locale"
+import { MovePoolBuilder } from "js/movePoolBuilder"
 import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
 import { translareMove, translateName } from "./translator"
 
@@ -145,16 +146,8 @@ class CustomPokemon extends React.PureComponent {
 
     onNameChange(event, name) {
         //get movepool
-        switch (name) {
-            case "attackerObj":
-                var moves = returnMovePool(event.value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
-                break
-            case "supportPokemon":
-                moves = returnMovePool(event.value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
-                break
-            default:
-                moves = returnMovePool(event.value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect, true)
-        }
+        var moves = new MovePoolBuilder();
+        moves.createMovePool(event.value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
         //set state
         this.setState({
             [name]: {
@@ -215,7 +208,7 @@ class CustomPokemon extends React.PureComponent {
                 break
             default:
                 newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
+                newMovePool.splice((newMovePool.length - 2), 0, {value: value, title: `${value}*`});
                 this.setState({
                     [attr]: {
                         ...this.state[attr],
@@ -324,7 +317,8 @@ class CustomPokemon extends React.PureComponent {
 
     onPokemonEdit(pok) {
         //get movepool
-        var moves = returnMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
+        var moves = new MovePoolBuilder();
+        moves.createMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
 
         this.setState({
             showEdit: true,
