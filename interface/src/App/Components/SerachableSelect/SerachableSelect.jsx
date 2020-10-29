@@ -14,14 +14,13 @@ const useStyles = makeStyles((theme) => ({
 const SerachableSelect = React.memo(function SerachableSelect(props) {
     const { helperText, children, label, type, name, category, attr, onChange, ...other } = props;
     const classes = useStyles();
-
     return (
         <Autocomplete
             className={classes.serachableSelect}
             options={props.children}
             getOptionLabel={(option) => typeof option === 'string' ? option : option.title}
-
-            onChange={(event, selectOption) => onChange(event, { type: type, name: name, category: category, attr: attr, ...selectOption })}
+            name={name}
+            onChange={(event, ...otherOptions) => onChange(event, { type: type, name: name, category: category, attr: attr, }, ...otherOptions)}
             renderInput={(params) => <TextField {...params} label={label} helperText={helperText} />}
 
             {...other}

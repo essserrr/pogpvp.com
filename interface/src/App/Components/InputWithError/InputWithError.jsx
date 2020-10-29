@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const InputWithError = React.memo(function InputWithError(props) {
-    const { errorText, helperText, children, attr, ...other } = props;
+    const { errorText, helperText, children, attr, name, type, category, onChange, ...other } = props;
     const classes = useStyles();
 
     let selectedText = ""
@@ -26,12 +26,12 @@ const InputWithError = React.memo(function InputWithError(props) {
         <TextField
             helperText={selectedText}
             error={!!errorText}
-
+            name={name}
             className={classes.inputWithError}
             FormHelperTextProps={{
                 style: { visibility: !!selectedText ? "visible" : "hidden" }
             }}
-            inputProps={{ "data-attr": attr }}
+            onChange={(event, ...otherOptions) => onChange(event, { type: type, name: name, category: category, attr: attr, }, ...otherOptions)}
 
             {...other}
         >
