@@ -110,7 +110,7 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     returnPokList(pokBase) {
-        return Object.entries(pokBase).map((value) => ({ value: value[0], label: <div style={{ textAlign: "left" }}>{value[0]}</div>, }))
+        return Object.entries(pokBase).map((value) => ({ value: value[0], title: value[0], }))
     }
 
 

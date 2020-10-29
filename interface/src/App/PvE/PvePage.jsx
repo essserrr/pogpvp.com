@@ -14,8 +14,12 @@ import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
 import { refresh } from "../../AppStore/Actions/refresh"
-import { MovePoolBuilder } from "js/movePoolBuilder"
-import { extractRaidData, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker } from "../../js/indexFunctions"
+
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { separateMovebase } from "js/separateMovebase";
+import { returnPokList } from "js/returnPokList";
+
+import { extractRaidData, extractPveObj, extractPveBoss, extractPveAttacker } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 

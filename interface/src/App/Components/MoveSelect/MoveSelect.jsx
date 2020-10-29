@@ -11,7 +11,6 @@ import InputWithError from 'App/Components/InputWithError/InputWithError';
 const MoveSelect = React.memo(function MoveSelect(props) {
     const { label, attr, name, value, onChange, tip, moveType, children, ...other } = props;
 
-    console.log(moveType)
     return (
         <WithIcon tip={tip} icon={moveType !== "" ? <Iconer fileName={String(moveType)} folderName="/type/" size="18" /> : ""}>
             <InputWithError
@@ -25,7 +24,7 @@ const MoveSelect = React.memo(function MoveSelect(props) {
                 onChange={onChange}
                 {...other}
             >
-                {children ? children.map((move, key) => <MenuItem key={key} value={move.value} attr={attr} >{move.title}</MenuItem>) : []}
+                {children ? children.map((move, key) => <MenuItem key={key} value={move.value} >{move.title}</MenuItem>) : []}
             </InputWithError>
         </WithIcon>
     )

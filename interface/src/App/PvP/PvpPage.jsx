@@ -18,8 +18,11 @@ import MatrixDescr from "./components/Description/MatrixDescr"
 import SingleDescr from "./components/Description/SingleDescr"
 import Loader from "../PvpRating/Loader"
 
-import { MovePoolBuilder } from "js/movePoolBuilder"
-import { extractPokemon, extractData, calculateMaximizedStats, returnPokList, separateMovebase, calculateEffStat } from "../../js/indexFunctions"
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { separateMovebase } from "js/separateMovebase";
+import { returnPokList } from "js/returnPokList";
+
+import { extractPokemon, extractData, calculateMaximizedStats, calculateEffStat } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
 
