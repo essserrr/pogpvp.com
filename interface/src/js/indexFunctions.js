@@ -1,6 +1,3 @@
-import React from "react";
-import PokemonIconer from "../App/PvP/components/PokemonIconer/PokemonIconer"
-
 export const capitalizeFirst = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|-|["'([{])+\S/g, match => match.toUpperCase());
 
@@ -470,55 +467,6 @@ export function pveUserSettings() {
 export function pveCutomParty() {
     return { title: "", party: [] }
 }
-
-export function returnPokList(pokBase, addNone, locale) {
-    let pokList = [];
-    if (addNone) {
-        pokList.push({
-            value: locale,
-            label: <div style={{ textAlign: "left" }} >{locale}</div>,
-        });
-    }
-    //create pokemons list
-    for (const [key, value] of Object.entries(pokBase)) {
-        pokList.push({
-            value: key,
-            label: <div style={{ textAlign: "left" }}>
-                <PokemonIconer
-                    src={value.Number + (value.Forme !== "" ? "-" + value.Forme : "")}
-                    class={"icon24 mr-1"}
-                />{key}
-            </div>,
-        });
-    }
-    return pokList
-}
-
-export function separateMovebase(movebase) {
-    let chargeMoveList = [];
-    let quickMoveList = [];
-    //create pokemons list
-
-    for (const [key, value] of Object.entries(movebase)) {
-        switch (value.MoveCategory) {
-            case "Charge Move":
-                chargeMoveList.push({
-                    value: key,
-                    label: key,
-                });
-                break
-            case "Fast Move":
-                quickMoveList.push({
-                    value: key,
-                    label: key,
-                });
-                break
-            default:
-        }
-    }
-    return { chargeMoveList, quickMoveList }
-}
-
 
 export function extractPokemon(array) {
     return {
