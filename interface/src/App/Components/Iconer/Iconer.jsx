@@ -9,8 +9,17 @@ const Iconer = React.memo(function Iconer(props) {
     let i = 0
 
     function addDefaultSrc(event) {
-        switch (folderName === "/art/") {
-            case true:
+        switch (folderName) {
+            case "/pokemons/":
+                if (i === 0) {
+                    event.target.src = iconList[0] + fileName + ".png"
+                }
+                if (i === 1) {
+                    event.target.src = "/images/missingno.png"
+                }
+                i++
+                break
+            case "/art/":
                 if (i === 0) {
                     let withoutForme = fileName.split("-")
                     event.target.src = "/images" + folderName + withoutForme[0] + ".jpg"

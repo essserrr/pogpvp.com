@@ -4,8 +4,7 @@ import { calculateCP, calculateBossCP } from "../../../../js/indexFunctions.js"
 const CP = React.memo(function (props) {
 
     return (
-        <div className={props.class}>
-            CP: {props.isBoss ? calculateBossCP(
+        "CP: " + (props.isBoss ? calculateBossCP(
             props.name,
             props.tier,
             props.pokemonTable,
@@ -14,8 +13,7 @@ const CP = React.memo(function (props) {
             props.Atk,
             props.Def,
             props.Sta,
-            props.pokemonTable)}
-        </div>
+            props.pokemonTable))
     )
 });
 

@@ -51,8 +51,6 @@ class PvePokemon extends React.PureComponent {
                 {(this.props.pokemonTable[this.props.value.Name]) &&
                     <div className="col-12 px-0  my-1">
                         <CpAndTyping
-                            class="d-flex dont90 justify-content-center align-items-center"
-
                             Lvl={this.props.value.Lvl}
                             Atk={this.props.value.Atk}
                             Def={this.props.value.Def}
