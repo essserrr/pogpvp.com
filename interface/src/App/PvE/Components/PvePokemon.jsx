@@ -1,9 +1,6 @@
 import React from "react"
 
-
-import SearchableSelect from "../../PvP/components/SearchableSelect/SearchableSelect"
 import Stats from "../../PvP/components/Stats/Stats"
-import SelectGroup from "../../PvP/components/SelectGroup/SelectGroup"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
 import Checkbox from "../../RaidsList/Checkbox/Checkbox"
@@ -11,6 +8,7 @@ import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 import MoveSelect from "App/Components/MoveSelect/MoveSelect"
 import WithIcon from "App/Components/WithIcon/WithIcon"
 import InputWithError from "App/Components/InputWithError/InputWithError"
+import SerachableSelect from 'App/Components/SerachableSelect/SerachableSelect';
 
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -36,12 +34,17 @@ class PvePokemon extends React.PureComponent {
                     title={strings.title.selectMove}
                     onClick={this.props.onClick}
                     attr={this.props.attr}
-                    element={<SearchableSelect
-                        list={this.props.value.isSelected && this.props.value.isSelected.includes("Charge") ? this.props.chargeMoveList : this.props.quickMoveList}
-                        attr={this.props.attr}
-                        category={this.props.value.isSelected}
-                        onChange={this.props.onChange}
-                    />}
+                    element={
+                        <SerachableSelect
+                            disableClearable
+                            label={"Move name"}
+
+                            name={this.props.value.isSelected}
+                            attr={this.props.attr}
+                            onChange={this.props.onChange}
+                        >
+                            {this.props.value.isSelected && this.props.value.isSelected.includes("Charge") ? this.props.chargeMoveList : this.props.quickMoveList}
+                        </SerachableSelect>}
                 />}
 
 
@@ -67,12 +70,16 @@ class PvePokemon extends React.PureComponent {
                     <div className="row mx-0 justify-content-between align-items-center">
                         {this.props.pokList &&
                             <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
-                                <SearchableSelect
+                                <SerachableSelect
+                                    disableClearable
+                                    label={"Pokemon name"}
                                     value={this.props.value.Name}
-                                    list={this.props.pokList}
+                                    name="Name"
                                     attr={this.props.attr}
                                     onChange={this.props.onChange}
-                                />
+                                >
+                                    {this.props.pokList}
+                                </SerachableSelect>
                             </div>}
                         {this.props.attr !== "bossObj" &&
                             <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
@@ -90,39 +97,33 @@ class PvePokemon extends React.PureComponent {
 
                         {this.props.attr === "bossObj" &&
                             <div className="col-6 px-1">
-                                <SelectGroup
-                                    class="input-group input-group-sm"
-                                    name="Tier"
-                                    value={this.props.value.Tier}
-                                    attr={this.props.attr}
-                                    onChange={this.props.onChange}
-                                    options={
-                                        <>
-                                            <option value="0" key="0">{pveStrings.tierlist + " 1"}</option>
-                                            <option value="2" key="2">{pveStrings.tierlist + " 3"}</option>
-                                            <option value="4" key="4">{pveStrings.tierlist + " 5"}</option>
-                                            <option value="4" key="5">{pveStrings.mega}</option>
-                                            <option value="5" key="6">{pveStrings.tierlist + " 5.5"}</option>
-                                        </>
-                                    }
 
-                                    labelWidth="88px"
-                                    label={pveStrings.tier}
-                                    place={"top"}
-                                    for={"bossTier"}
 
+                                <WithIcon
                                     tip={<>
-                                        <div key="tiertip">
-                                            Max HP:<br />
-                                            {pveStrings.tierlist + " 1 - 600 HP"}<br />
-                                            {pveStrings.tierlist + " 3 - 3600 HP"}<br />
-                                            {pveStrings.tierlist + " 5 - 15000 HP"}<br />
-                                            {pveStrings.mega + " - 15000 HP"}<br />
-                                            {pveStrings.tierlist + " 5.5 - 22500 HP"}<br />
-                                        </div>
+                                        Max HP:<br />
+                                        {pveStrings.tierlist + " 1 - 600 HP"}<br />
+                                        {pveStrings.tierlist + " 3 - 3600 HP"}<br />
+                                        {pveStrings.tierlist + " 5 - 15000 HP"}<br />
+                                        {pveStrings.mega + " - 15000 HP"}<br />
+                                        {pveStrings.tierlist + " 5.5 - 22500 HP"}<br />
                                     </>}
-                                    tipClass="infoTip"
-                                />
+                                >
+                                    <InputWithError
+                                        select
+                                        name="Tier"
+                                        value={this.props.value.Tier}
+                                        attr={this.props.attr}
+                                        label={pveStrings.tier}
+                                        onChange={this.props.onChange}
+                                    >
+                                        <MenuItem value="0">{pveStrings.tierlist + " 1"}</MenuItem>
+                                        <MenuItem value="2">{pveStrings.tierlist + " 3"}</MenuItem>
+                                        <MenuItem value="4">{pveStrings.tierlist + " 5"}</MenuItem>
+                                        <MenuItem value="4">{pveStrings.mega}</MenuItem>
+                                        <MenuItem value="5">{pveStrings.tierlist + " 5.5"}</MenuItem>
+                                    </InputWithError>
+                                </WithIcon>
                             </div>}
                     </div>
                 </div>
@@ -162,6 +163,7 @@ class PvePokemon extends React.PureComponent {
                     </MoveSelect>
 
                 </div>
+
                 <div className={this.props.colSize ? this.props.colSize : "col-6 px-1 my-1"}>
                     <MoveSelect
                         value={(this.props.value.ChargeMove && this.props.value.ChargeMove !== "Select..."
@@ -194,8 +196,6 @@ class PvePokemon extends React.PureComponent {
                         {this.props.value.chargeMovePool}
                     </MoveSelect>
                 </div>
-
-
 
                 {this.props.canBeShadow && <div className={(this.props.colSize ? this.props.colSize : "col-6 px-1 my-1") + (this.props.attr === "editPokemon" ? " order-2" : "")}>
                     <WithIcon
@@ -250,6 +250,7 @@ class PvePokemon extends React.PureComponent {
                         {this.props.value.chargeMovePool}
                     </MoveSelect>
                 </div>}
+
                 {this.props.canBeShadow && this.props.attr === "attackerObj" && <div className="col-6 px-1 my-1">
                     <Checkbox
                         class={"form-check form-check-inline m-0 p-0"}
