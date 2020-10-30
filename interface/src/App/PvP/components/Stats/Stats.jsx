@@ -7,7 +7,7 @@ import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
 
 import Grid from '@material-ui/core/Grid';
-import InputWithError from 'App/Components/InputWithError/InputWithError';
+import Input from 'App/Components/Input/Input';
 
 import "./Stats.scss"
 
@@ -39,7 +39,7 @@ const Stats = React.memo(function (props) {
             </ReactTooltip>*/}
             <Grid container >
                 <Grid item xs >
-                    <InputWithError
+                    <Input
                         label={strings.stats.lvl}
                         name="Lvl"
                         attr={props.attr}
@@ -48,7 +48,7 @@ const Stats = React.memo(function (props) {
                     />
                 </Grid>
                 <Grid item xs >
-                    <InputWithError
+                    <Input
                         name="Atk"
                         attr={props.attr}
                         value={props.Atk}
@@ -57,7 +57,7 @@ const Stats = React.memo(function (props) {
                     />
                 </Grid>
                 <Grid item xs >
-                    <InputWithError
+                    <Input
                         name="Def"
                         attr={props.attr}
                         value={props.Def}
@@ -66,7 +66,7 @@ const Stats = React.memo(function (props) {
                     />
                 </Grid>
                 <Grid item xs >
-                    <InputWithError
+                    <Input
                         name="Sta"
                         attr={props.attr}
                         value={props.Sta}

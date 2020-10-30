@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import Iconer from "App/Components/Iconer/Iconer";
 import WithIcon from 'App/Components/WithIcon/WithIcon';
-import InputWithError from 'App/Components/InputWithError/InputWithError';
+import Input from 'App/Components/Input/Input';
 
 
 const MoveSelect = React.memo(function MoveSelect(props) {
@@ -13,7 +13,7 @@ const MoveSelect = React.memo(function MoveSelect(props) {
 
     return (
         <WithIcon tip={tip} icon={moveType !== "" ? <Iconer fileName={String(moveType)} folderName="/type/" size="18" /> : ""}>
-            <InputWithError
+            <Input
                 label={label}
                 select
 
@@ -25,7 +25,7 @@ const MoveSelect = React.memo(function MoveSelect(props) {
                 {...other}
             >
                 {children ? children.map((move, key) => <MenuItem key={key} value={move.value} >{move.title}</MenuItem>) : []}
-            </InputWithError>
+            </Input>
         </WithIcon>
     )
 });

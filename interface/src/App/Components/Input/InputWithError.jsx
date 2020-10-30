@@ -5,12 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
-    inputWithError: {
+    Input: {
         width: "100%",
     },
 }));
 
-const InputWithError = React.memo(function InputWithError(props) {
+const Input = React.memo(function Input(props) {
     const { errorText, helperText, children, attr, name, type, category, onChange, ...other } = props;
     const classes = useStyles();
 
@@ -27,7 +27,7 @@ const InputWithError = React.memo(function InputWithError(props) {
             helperText={selectedText}
             error={!!errorText}
             name={name}
-            className={classes.inputWithError}
+            className={classes.Input}
             FormHelperTextProps={{
                 style: { visibility: !!selectedText ? "visible" : "hidden" }
             }}
@@ -40,9 +40,9 @@ const InputWithError = React.memo(function InputWithError(props) {
     )
 });
 
-export default InputWithError;
+export default Input;
 
-InputWithError.propTypes = {
+Input.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.node,
         PropTypes.arrayOf(PropTypes.node),
