@@ -1,9 +1,9 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
-import Type from "../../../PvP/components/CpAndTypes/Type"
+import { getCookie } from "js/getCookie"
+import { dexLocale } from "locale/dexLocale"
+import Iconer from "App/Components/Iconer/Iconer"
 
 import "./MoveCardTitle.scss"
 
@@ -14,9 +14,11 @@ const MoveCardTitle = React.memo(function (props) {
 
     return (
         <div className="movecard-title row m-0 p-0 pb-1 mb-2">
-            <Type
-                class={"ml-2  mr-1 icon24 align-self-center"}
-                code={props.move.MoveType}
+            <Iconer
+                className={"ml-2  mr-1 icon24 align-self-center"}
+                size={24}
+                folderName="/type/"
+                fileName={props.move.MoveType}
             />
             <h3 className={"align-self-center m-0"}>
                 {props.move.Title}

@@ -5,7 +5,8 @@ import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIcone
 import WeatherBoosted from "./WeatherBoosted"
 
 import { pveLocale } from "../../../../../locale/pveLocale"
-import { tierHP, weather, calculateCP } from "../../../../../js/indexFunctions"
+import { tierHP } from "js/bases/tierHP";
+import { weather, calculateCP } from "../../../../../js/indexFunctions"
 import { getCookie } from "../../../../../js/getCookie"
 
 import "./PveWillow.scss"

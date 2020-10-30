@@ -1,9 +1,9 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import Type from "../../../../../PvP/components/CpAndTypes/Type"
-import { getCookie } from "../../../../../../js/getCookie"
-import { locale } from "../../../../../../locale/locale"
+import Iconer from "App/Components/Iconer/Iconer"
+import { getCookie } from "js/getCookie"
+import { locale } from "locale/locale"
 
 import "./CardBody.scss"
 
@@ -20,14 +20,18 @@ const CardBody = React.memo(function (props) {
                     <span className="mr-2">
                         {strings.rating.type}
                     </span>
-                    {(props.pokemonTable[props.name].Type[0] !== undefined) && <Type
-                        class={"ratingcard-body__icon"}
-                        code={props.pokemonTable[props.name].Type[0]}
-                    />}
-                    {(props.pokemonTable[props.name].Type[1] !== undefined) && <Type
-                        class={"ratingcard-body__icon ml-2"}
-                        code={props.pokemonTable[props.name].Type[1]}
-                    />}
+                    {(props.pokemonTable[props.name].Type[0] !== undefined) &&
+                        <Iconer
+                            className={"ratingcard-body__icon"}
+                            folderName="/type/"
+                            fileName={props.pokemonTable[props.name].Type[0]}
+                        />}
+                    {(props.pokemonTable[props.name].Type[1] !== undefined) &&
+                        <Iconer
+                            className={"ratingcard-body__icon ml-2"}
+                            folderName="/type/"
+                            fileName={props.pokemonTable[props.name].Type[1]}
+                        />}
                 </div>
                 {strings.rating.avgRate + " " + props.entry.AvgRate} <br />
                 {strings.rating.avgWin + " " + (props.entry.AvgWinrate * 100).toFixed(0) + "%"}

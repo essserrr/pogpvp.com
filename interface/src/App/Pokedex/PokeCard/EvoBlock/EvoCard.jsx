@@ -6,8 +6,8 @@ import { getCookie } from "../../../../js/getCookie"
 import { dexLocale } from "../../../../locale/dexLocale"
 
 
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
-import Type from "../../../PvP/components/CpAndTypes/Type"
+import Iconer from "App/Components/Iconer/Iconer"
+
 
 import "./EvoCard.scss"
 
@@ -24,22 +24,26 @@ const EvoCard = React.memo(function (props) {
 
             </div>
             <div className="col-12 p-0 mt-1">
-                <Type
-                    class={"icon18"}
-                    code={props.pokTable[props.name].Type[0]}
+                <Iconer
+                    className={"icon18"}
+                    size={18}
+                    folderName="/type/"
+                    fileName={props.pokTable[props.name].Type[0]}
                 />
-                {props.pokTable[props.name].Type.length > 1 && <Type
-                    class={"ml-2 icon18"}
-                    code={props.pokTable[props.name].Type[1]}
+                {props.pokTable[props.name].Type.length > 1 && <Iconer
+                    className={"ml-2 icon18"}
+                    size={18}
+                    folderName="/type/"
+                    fileName={props.pokTable[props.name].Type[1]}
                 />}
             </div>
             <div className="col-12 p-0 mt-1">
                 <Link title={strings.dexentr + props.name}
                     to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + (encodeURIComponent(props.name))}>
-                    <PokemonIconer
-                        src={props.pokTable[props.name].Number + (props.pokTable[props.name].Forme !== "" ? "-" + props.pokTable[props.name].Forme : "")}
-                        folder="/art/"
-                        class={"dex-evocard__icon m-1"}
+                    <Iconer
+                        fileNAme={props.pokTable[props.name].Number + (props.pokTable[props.name].Forme !== "" ? "-" + props.pokTable[props.name].Forme : "")}
+                        folderName="/art/"
+                        className={"dex-evocard__icon m-1"}
                     />
                 </Link>
             </div>

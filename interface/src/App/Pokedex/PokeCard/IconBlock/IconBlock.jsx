@@ -2,11 +2,10 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { useMediaQuery } from 'react-responsive'
 
-import Type from "../../../PvP/components/CpAndTypes/Type"
-import { calculateCP } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
+import Iconer from "App/Components/Iconer/Iconer"
+import { calculateCP } from "js/indexFunctions"
+import { getCookie } from "js/getCookie"
+import { dexLocale } from "locale/dexLocale"
 import StatsTriangle from "../StatsTriangle/StatsTriangle"
 
 import "./IconBlock.scss"
@@ -23,10 +22,10 @@ const IconBlock = React.memo(function (props) {
                 <div className={"pokedex-iconblock__title"}># {props.value.Number} <span>{props.value.Title}</span></div>
             </div>}
             <div className="col-12 col-sm-auto p-0 d-flex justify-content-center" style={{ height: "fit-content" }}>
-                <PokemonIconer
-                    src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
-                    class={"pokedex-iconblock__icon mr-3"}
-                    folder={"/art/"}
+                <Iconer
+                    fileName={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
+                    className={"pokedex-iconblock__icon mr-3"}
+                    folderName={"/art/"}
                 />
             </div>
             <div className="col p-0 mt-2 mt-sm-0">
@@ -42,13 +41,17 @@ const IconBlock = React.memo(function (props) {
                             </div>}
                         <div className="pokedex-iconblock--text col-12 d-flex p-0 mt-1">
                             <span className="pokedex-iconblock--text align-self-center">{strings.mt.tp + ":"}</span>
-                            <Type
-                                class={"ml-2  mr-1 icon24 align-self-center"}
-                                code={props.value.Type[0]}
+                            <Iconer
+                                className={"ml-2  mr-1 icon24 align-self-center"}
+                                size={24}
+                                folderName="/type/"
+                                fileName={props.value.Type[0]}
                             />
-                            {props.value.Type.length > 1 && <Type
-                                class={"ml-2  mr-1 icon24 align-self-center"}
-                                code={props.value.Type[1]}
+                            {props.value.Type.length > 1 && <Iconer
+                                className={"ml-2  mr-1 icon24 align-self-center"}
+                                size={24}
+                                folderName="/type/"
+                                fileName={props.value.Type[1]}
                             />}
                         </div>
                         <div className="pokedex-iconblock--text col-12 p-0 mt-1">

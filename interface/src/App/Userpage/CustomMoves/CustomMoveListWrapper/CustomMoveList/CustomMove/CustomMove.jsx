@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 
-import Type from "App/PvP/components/CpAndTypes/Type";
+import Iconer from "App/Components/Iconer/Iconer"
 import CloseButton from "App/Components/CloseButton/CloseButton";
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
@@ -53,9 +53,10 @@ const CustomMove = React.memo(function CustomMove(props) {
         <Paper className={classes.customMove} onClick={(event) => props.onMoveOpen(event, props.move)}>
             <Grid container>
                 <Grid item xs className={classes.customMoveTitle}>
-                    <Type
-                        class={"mr-1 mb-1 icon18"}
-                        code={props.move.MoveType}
+                    <Iconer
+                        size={18}
+                        folderName="/type/"
+                        fileName={props.move.MoveType}
                     />
                     {props.move.Title}
                 </Grid>

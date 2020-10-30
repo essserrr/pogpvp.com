@@ -2,16 +2,16 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 
 import Result from "../../../../../../Result"
-import Type from "../../../../../../CpAndTypes/Type"
+import Iconer from "App/Components/Iconer/Iconer"
 import TableBody from "./TableBody/TableBody"
 import TypingThead from "./TypingThead/TypingThead"
 import SingleMoveLine from "./SingleMoveLine/SingleMoveLine"
 import SinglePokLine from "./SinglePokLine/SinglePokLine"
 import ZeroPokemon from "./ZeroPokemon/ZeroPokemon"
 
-import { locale } from "../../../../../../../../../locale/locale"
-import { effectivenessData } from "../../../../../../../../../js/indexFunctions"
-import { getCookie } from "../../../../../../../../../js/getCookie"
+import { locale } from "locale/locale"
+import { effectivenessData } from "js/indexFunctions"
+import { getCookie } from "js/getCookie"
 
 import "./AdvisorPanelBody.scss"
 
@@ -42,17 +42,21 @@ class AdvisorPanelBody extends React.PureComponent {
             let multipl = (elem * arr[1][i] * arr[2][i]).toFixed(1)
             switch (true) {
                 case multipl < 1:
-                    strong.push(<Type
+                    strong.push(<Iconer
                         key={"strongDef" + i}
-                        class={"icon24 m-1"}
-                        code={i}
+                        className={"icon24 m-1"}
+                        size={24}
+                        folderName="/type/"
+                        fileName={i}
                     />)
                     break
                 case multipl > 1:
-                    weak.push(<Type
+                    weak.push(<Iconer
                         key={"weakDef" + i}
-                        class={"icon24 m-1"}
-                        code={i}
+                        className={"icon24 m-1"}
+                        size={24}
+                        folderName="/type/"
+                        fileName={i}
                     />)
                     break
                 default:
@@ -95,17 +99,21 @@ class AdvisorPanelBody extends React.PureComponent {
             });
             switch (true) {
                 case zeroCount / arr.length > 0.5:
-                    zeros.push(<Type
+                    zeros.push(<Iconer
                         key={"zeroOff" + i}
-                        class={"icon24 m-1"}
-                        code={i}
+                        className={"icon24 m-1"}
+                        size={24}
+                        folderName="/type/"
+                        fileName={i}
                     />)
                     break
                 case cumulative.toFixed(1) > 1:
-                    strong.push(<Type
+                    strong.push(<Iconer
                         key={"strongOff" + i}
-                        class={"icon24 m-1"}
-                        code={i}
+                        className={"icon24 m-1"}
+                        size={24}
+                        folderName="/type/"
+                        fileName={i}
                     />)
                     break
                 default:

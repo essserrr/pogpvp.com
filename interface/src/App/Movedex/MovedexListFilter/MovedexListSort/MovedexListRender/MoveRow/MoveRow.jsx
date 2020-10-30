@@ -2,9 +2,9 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { Link } from "react-router-dom"
 
-import Type from "../../../../../PvP/components/CpAndTypes/Type"
-import { getCookie } from "../../../../../../js/getCookie"
-import { dexLocale } from "../../../../../../locale/dexLocale"
+import Iconer from "App/Components/Iconer/Iconer"
+import { getCookie } from "js/getCookie"
+import { dexLocale } from "locale/dexLocale"
 
 import "./MoveRow.scss"
 
@@ -35,9 +35,10 @@ const MoveRow = React.memo(function (props) {
                     </Link>
                 </th>
                 <td className="align-middle px-0 " >
-                    <Type
-                        class={"moverow__icon mx-1"}
-                        code={props.value.MoveType}
+                    <Iconer
+                        className={"moverow__icon mx-1"}
+                        folderName="/type/"
+                        fileName={props.value.MoveType}
                     />
                 </td>
                 <td className="moverow--separate-line align-middle px-0 px-sm-1 px-md-3 " >{props.value.Damage}</td>
