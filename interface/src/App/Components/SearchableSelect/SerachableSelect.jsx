@@ -6,17 +6,17 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const useStyles = makeStyles((theme) => ({
-    serachableSelect: {
+    SearchableSelect: {
         width: "100%",
     },
 }));
 
-const SerachableSelect = React.memo(function SerachableSelect(props) {
+const SearchableSelect = React.memo(function SearchableSelect(props) {
     const { helperText, children, label, type, name, category, attr, onChange, ...other } = props;
     const classes = useStyles();
     return (
         <Autocomplete
-            className={classes.serachableSelect}
+            className={classes.SearchableSelect}
             options={props.children}
             getOptionLabel={(option) => typeof option === 'string' ? option : option.title}
             name={name}
@@ -28,9 +28,9 @@ const SerachableSelect = React.memo(function SerachableSelect(props) {
     )
 });
 
-export default SerachableSelect;
+export default SearchableSelect;
 
-SerachableSelect.propTypes = {
+SearchableSelect.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.object),
     ]),

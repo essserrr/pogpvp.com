@@ -1,6 +1,6 @@
 import React from "react";
 
-import SerachableSelect from 'App/Components/SerachableSelect/SerachableSelect';
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 
 const PartiesSelect = React.memo(function PokemonSelect(props) {
     const { children, label, name, onChange, maxSize, activePartyName, ...other } = props;
@@ -9,7 +9,7 @@ const PartiesSelect = React.memo(function PokemonSelect(props) {
     const fullLabel = `${label} (${list.length}/${maxSize})`;
 
     return (
-        <SerachableSelect
+        <SearchableSelect
             disableClearable
             label={fullLabel}
             value={String(activePartyName)}
@@ -18,7 +18,7 @@ const PartiesSelect = React.memo(function PokemonSelect(props) {
             {...other}
         >
             {list}
-        </SerachableSelect>
+        </SearchableSelect>
     )
 });
 

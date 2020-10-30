@@ -1,6 +1,6 @@
 import React from "react"
 
-import CP from "../../../PvP/components/CpAndTypes/CP"
+import CP from "App/Components/CpAndTypes/CP"
 import Stats from "../../../PvP/components/Stats/Stats"
 
 import "./CpCalc.scss"

@@ -2,13 +2,13 @@ import React from "react"
 
 import Stats from "../../PvP/components/Stats/Stats"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
-import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
+import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes"
 import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
 import MoveSelect from "App/Components/MoveSelect/MoveSelect"
 import WithIcon from "App/Components/WithIcon/WithIcon"
-import InputWithError from "App/Components/InputWithError/InputWithError"
-import SerachableSelect from 'App/Components/SerachableSelect/SerachableSelect';
+import Input from "App/Components/Input/Input"
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 
 import MenuItem from '@material-ui/core/MenuItem';
 
@@ -35,7 +35,7 @@ class PvePokemon extends React.PureComponent {
                     onClick={this.props.onClick}
                     attr={this.props.attr}
                     element={
-                        <SerachableSelect
+                        <SearchableSelect
                             disableClearable
                             label={"Move name"}
 
@@ -44,7 +44,7 @@ class PvePokemon extends React.PureComponent {
                             onChange={this.props.onChange}
                         >
                             {this.props.value.isSelected && this.props.value.isSelected.includes("Charge") ? this.props.chargeMoveList : this.props.quickMoveList}
-                        </SerachableSelect>}
+                        </SearchableSelect>}
                 />}
 
 
@@ -68,7 +68,7 @@ class PvePokemon extends React.PureComponent {
                     <div className="row mx-0 justify-content-between align-items-center">
                         {this.props.pokList &&
                             <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
-                                <SerachableSelect
+                                <SearchableSelect
                                     disableClearable
                                     label={"Pokemon name"}
                                     value={this.props.value.Name}
@@ -77,7 +77,7 @@ class PvePokemon extends React.PureComponent {
                                     onChange={this.props.onChange}
                                 >
                                     {this.props.pokList}
-                                </SerachableSelect>
+                                </SearchableSelect>
                             </div>}
                         {this.props.attr !== "bossObj" &&
                             <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
@@ -107,7 +107,7 @@ class PvePokemon extends React.PureComponent {
                                         {pveStrings.tierlist + " 5.5 - 22500 HP"}<br />
                                     </>}
                                 >
-                                    <InputWithError
+                                    <Input
                                         select
                                         name="Tier"
                                         value={this.props.value.Tier}
@@ -120,7 +120,7 @@ class PvePokemon extends React.PureComponent {
                                         <MenuItem value="4">{pveStrings.tierlist + " 5"}</MenuItem>
                                         <MenuItem value="4">{pveStrings.mega}</MenuItem>
                                         <MenuItem value="5">{pveStrings.tierlist + " 5.5"}</MenuItem>
-                                    </InputWithError>
+                                    </Input>
                                 </WithIcon>
                             </div>}
                     </div>
@@ -199,7 +199,7 @@ class PvePokemon extends React.PureComponent {
                     <WithIcon
                         tip={strings.tips.shadow}
                     >
-                        <InputWithError
+                        <Input
                             select
                             name="IsShadow"
                             value={this.props.value.IsShadow}
@@ -209,7 +209,7 @@ class PvePokemon extends React.PureComponent {
                         >
                             <MenuItem value="false" attr={this.props.attr}>{strings.options.type.normal}</MenuItem>
                             <MenuItem value="true" attr={this.props.attr}>{strings.options.type.shadow}</MenuItem>
-                        </InputWithError>
+                        </Input>
                     </WithIcon>
                 </div>}
 

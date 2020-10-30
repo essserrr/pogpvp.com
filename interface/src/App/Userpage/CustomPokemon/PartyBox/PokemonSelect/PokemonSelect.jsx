@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import SerachableSelect from 'App/Components/SerachableSelect/SerachableSelect';
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 import { calculateCP } from "js/indexFunctions";
 
 
@@ -16,7 +16,7 @@ const PokemonSelect = React.memo(function PokemonSelect(props) {
     }
 
     return (
-        <SerachableSelect
+        <SearchableSelect
             disableClearable
             label={label}
             name={name}
@@ -24,7 +24,7 @@ const PokemonSelect = React.memo(function PokemonSelect(props) {
             {...other}
         >
             {makePokList(children)}
-        </SerachableSelect>
+        </SearchableSelect>
     )
 });
 
