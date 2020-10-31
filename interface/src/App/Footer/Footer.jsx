@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
         fontStyle: "italic",
         fontFamily: `"Times New Roman", Times, serif`,
-        color: theme.palette.primary.text,
+        color: theme.palette.text.primary,
         textAlign: "center",
         fontSize: "12px",
         lineHeight: "14px",

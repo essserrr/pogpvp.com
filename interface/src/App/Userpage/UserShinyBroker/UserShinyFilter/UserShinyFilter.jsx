@@ -7,7 +7,7 @@ class UserShinyFilter extends React.PureComponent {
 
         return (
             <UserShinyList
-                elemntsOnPage={50}
+                elementsOnPage={50}
 
                 attr={this.props.attr}
                 pokemonTable={this.props.pokemonTable}

@@ -17,8 +17,8 @@ class UserShinyList extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             page: 1,
-            infiniteList: props.list.slice(0, props.elemntsOnPage > props.list.length ? props.list.length : props.elemntsOnPage),
-            isNext: props.elemntsOnPage > props.list.length ? false : true
+            infiniteList: props.list.slice(0, props.elementsOnPage > props.list.length ? props.list.length : props.elementsOnPage),
+            isNext: props.elementsOnPage > props.list.length ? false : true
         }
     }
 
@@ -28,20 +28,20 @@ class UserShinyList extends React.PureComponent {
         }
 
         this.setState({
-            infiniteList: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
+            infiniteList: this.props.list.slice(0, this.props.elementsOnPage > this.props.list.length ? this.props.list.length : this.props.elementsOnPage),
             page: 1,
-            isNext: this.props.elemntsOnPage > this.props.list.length ? false : true
+            isNext: this.props.elementsOnPage > this.props.list.length ? false : true
         })
     }
 
 
     fetchMoreData = () => {
-        let page = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? this.state.page : (this.state.page + 1)
-        let upperBound = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : (this.state.page + 1) * this.props.elemntsOnPage
-        let isNext = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? false : true
+        let page = (this.state.page + 1) * this.props.elementsOnPage > this.props.list.length ? this.state.page : (this.state.page + 1)
+        let upperBound = (this.state.page + 1) * this.props.elementsOnPage > this.props.list.length ? this.props.list.length : (this.state.page + 1) * this.props.elementsOnPage
+        let isNext = (this.state.page + 1) * this.props.elementsOnPage > this.props.list.length ? false : true
 
         this.setState({
-            infiniteList: this.state.infiniteList.concat(this.props.list.slice(this.state.page * this.props.elemntsOnPage, upperBound)),
+            infiniteList: this.state.infiniteList.concat(this.props.list.slice(this.state.page * this.props.elementsOnPage, upperBound)),
             page: page,
             isNext: isNext
         })

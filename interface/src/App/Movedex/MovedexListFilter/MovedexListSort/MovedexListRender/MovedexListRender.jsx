@@ -17,7 +17,7 @@ class MovedexListSort extends React.Component {
                     />
                 </>}
                 activeFilter={this.props.sort}
-                elemntsOnPage={40}
+                elementsOnPage={40}
             />
         );
     }
