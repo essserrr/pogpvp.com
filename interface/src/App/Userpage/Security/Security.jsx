@@ -72,7 +72,8 @@ class Security extends React.PureComponent {
                     <Grid item xs={12}>
                         <LinearProgress color="secondary" />
                     </ Grid>}
-                {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+                {this.state.error !== "" &&
+                    <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
                 {this.state.error === "" && !this.state.loading &&
                     <Grid item xs={12} md={10} lg={8}>

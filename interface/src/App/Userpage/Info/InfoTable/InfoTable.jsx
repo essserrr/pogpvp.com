@@ -22,8 +22,8 @@ const InfoTable = React.memo(function InfoTable(props) {
         <TableContainer>
             <Table className={classes.table}>
                 <TableBody>
-                    {props.children.map((row) => (
-                        <TableRow key={row.name}>
+                    {props.children.map((row, rowIndex) => (
+                        <TableRow key={rowIndex}>
                             <TableCell className={classes.mainCell} component="th" scope="row">{row.name}</TableCell>
                             <TableCell align="center">{row.info}</TableCell>
                         </TableRow>
