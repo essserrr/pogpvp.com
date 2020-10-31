@@ -7,7 +7,7 @@ import ActiveParty from "App/Userpage/CustomPokemon/PartyBox/ActiveParty/ActiveP
 import PokemonSelect from "App/Userpage/CustomPokemon/PartyBox/PokemonSelect/PokemonSelect";
 import PartiesSelect from "App/Userpage/CustomPokemon/PartyBox/PartiesSelect/PartiesSelect";
 import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton";
-import InputWithError from "App/Components/InputWithError/InputWithError";
+import Input from "App/Components/Input/Input";
 
 import { getCookie } from "js/getCookie"
 import { userLocale } from "locale/userLocale"
@@ -132,7 +132,7 @@ class PartyBox extends React.PureComponent {
                     </PokemonSelect>
                 </Grid>
                 <Grid item xs={6}>
-                    <InputWithError
+                    <Input
                         label={strings.userpok.partyname}
                         attr="enteredName"
                         value={this.state.enteredName}

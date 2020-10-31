@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
 import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
-import InputWithError from "App/Components/InputWithError/InputWithError"
+import Input from "App/Components/Input/Input"
 import TypeAndCategory from "App/Userpage/CustomMoves/CustomMoveContsructorForm/TypeAndCategory/TypeAndCategory";
 import PveProperties from "App/Userpage/CustomMoves/CustomMoveContsructorForm/PveProperties/PveProperties";
 import PvpProperties from "App/Userpage/CustomMoves/CustomMoveContsructorForm/PvpProperties/PvpProperties";
@@ -22,7 +22,7 @@ const CustomMoveContsructorForm = React.memo(function CustomMoveContsructorForm(
 
             <Grid item xs={12} container justify="center">
                 <Grid item xs={12} md={6}>
-                    <InputWithError
+                    <Input
                         label={strings.moveconstr.title}
                         name={"Title"}
                         type={"text"}

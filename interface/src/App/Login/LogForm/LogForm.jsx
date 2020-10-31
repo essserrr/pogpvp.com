@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization";
 import { ReCaptcha } from 'react-recaptcha-google'
 import { Link } from "react-router-dom"
 
-import InputWithError from "../../Components/InputWithError/InputWithError"
+import Input from "App/Components/Input/Input"
 import AuthButton from "../../Registration/RegForm//AuthButton/AuthButton"
 import "./LogForm.scss"
 
@@ -34,7 +34,7 @@ class LoginForm extends React.PureComponent {
         return (
             <>
                 <div className="col-12 p-0">
-                    <InputWithError
+                    <Input
                         label={strings.signup.uname}
                         type="text"
                         name="username"
@@ -46,7 +46,7 @@ class LoginForm extends React.PureComponent {
                     />
                 </div>
                 <div className="col-12 p-0 pt-2">
-                    <InputWithError
+                    <Input
                         label={strings.signup.pass}
                         type="password"
                         name="password"

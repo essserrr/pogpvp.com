@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import InputWithError from "App/Components/InputWithError/InputWithError";
+import Input from "App/Components/Input/Input";
 import Iconer from "App/Components/Iconer/Iconer";
 
 import { getCookie } from "js/getCookie";
@@ -28,7 +28,7 @@ const TypeAndCategory = React.memo(function TypeAndCategory(props) {
     return (
         <Grid container justify="center" {...other}>
             <Grid item xs={12} md={6}>
-                <InputWithError
+                <Input
                     label={strings.moveconstr.category}
                     select
 
@@ -38,10 +38,10 @@ const TypeAndCategory = React.memo(function TypeAndCategory(props) {
                 >
                     <MenuItem value="Fast Move" >{strings.moveconstr.catopt.q}</MenuItem>
                     <MenuItem value="Charge Move" >{strings.moveconstr.catopt.ch}</MenuItem>
-                </InputWithError>
+                </Input>
             </Grid>
             <Grid item xs={12} md={6}>
-                <InputWithError
+                <Input
                     label={strings.moveconstr.type}
                     name="MoveType"
                     select
@@ -67,7 +67,7 @@ const TypeAndCategory = React.memo(function TypeAndCategory(props) {
                     <MenuItem value="15" ><Iconer fileName="15" folderName="/type/" size="18" className={classes.icon} />Rock</MenuItem>
                     <MenuItem value="16" ><Iconer fileName="16" folderName="/type/" size="18" className={classes.icon} />Steel</MenuItem>
                     <MenuItem value="17" ><Iconer fileName="17" folderName="/type/" size="18" className={classes.icon} />Water</MenuItem>
-                </InputWithError>
+                </Input>
             </Grid>
         </Grid>
     )

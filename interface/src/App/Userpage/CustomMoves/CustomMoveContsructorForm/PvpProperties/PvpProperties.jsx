@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 
-import InputWithError from "App/Components/InputWithError/InputWithError";
+import Input from "App/Components/Input/Input";
 import WithIcon from "App/Components/WithIcon/WithIcon";
 
 import { getCookie } from "js/getCookie";
@@ -27,7 +27,7 @@ const PvpProperties = React.memo(function PvpProperties(props) {
             </Grid>
             <Grid item xs={12}>
                 <WithIcon tip={strings.moveconstr.pvp.tips.d}>
-                    <InputWithError
+                    <Input
                         label={strings.moveconstr.pvp.d}
                         name="PvpDamage"
                         type="text"
@@ -41,7 +41,7 @@ const PvpProperties = React.memo(function PvpProperties(props) {
             </Grid>
             <Grid item xs={12}>
                 <WithIcon tip={strings.moveconstr.pvp.tips.e}>
-                    <InputWithError
+                    <Input
                         label={strings.moveconstr.pvp.e}
                         name="PvpEnergy"
                         type="text"
@@ -56,7 +56,7 @@ const PvpProperties = React.memo(function PvpProperties(props) {
             <Grid item xs={12}>
                 {props.moveCategory === "Fast Move" &&
                     <WithIcon tip={strings.moveconstr.pvp.tips.cd}>
-                        <InputWithError
+                        <Input
                             label={strings.moveconstr.pvp.cd}
                             select
 
@@ -69,13 +69,13 @@ const PvpProperties = React.memo(function PvpProperties(props) {
                             <MenuItem value="1" >2</MenuItem>
                             <MenuItem value="1.5" >3</MenuItem>
                             <MenuItem value="2" >4</MenuItem>
-                        </InputWithError>
+                        </Input>
                     </WithIcon>}
             </Grid>
             {props.moveCategory === "Charge Move" && <>
                 <Grid item xs={12}>
                     <WithIcon tip={strings.moveconstr.pvp.tips.prob}>
-                        <InputWithError
+                        <Input
                             label={strings.moveconstr.pvp.prob}
                             name="Probability"
                             type="text"
@@ -90,7 +90,7 @@ const PvpProperties = React.memo(function PvpProperties(props) {
                 <Grid item xs={12}>
 
                     <WithIcon tip={strings.moveconstr.pvp.tips.stat}>
-                        <InputWithError
+                        <Input
                             label={strings.moveconstr.pvp.stat}
                             select
 
@@ -103,12 +103,12 @@ const PvpProperties = React.memo(function PvpProperties(props) {
                             <MenuItem value="Atk" >{strings.moveconstr.statopt.a}</MenuItem>
                             <MenuItem value="Def" >{strings.moveconstr.statopt.d}</MenuItem>
                             <MenuItem value="Atk,Def" >{strings.moveconstr.statopt.ad}</MenuItem>
-                        </InputWithError>
+                        </Input>
                     </WithIcon>
                 </Grid>
                 <Grid item xs={12}>
                     <WithIcon tip={strings.moveconstr.pvp.tips.stage}>
-                        <InputWithError
+                        <Input
                             label={strings.moveconstr.pvp.stage}
                             select
 
@@ -126,12 +126,12 @@ const PvpProperties = React.memo(function PvpProperties(props) {
                             <MenuItem value="2" >2</MenuItem>
                             <MenuItem value="3" >3</MenuItem>
                             <MenuItem value="4" >4</MenuItem>
-                        </InputWithError>
+                        </Input>
                     </WithIcon>
                 </Grid>
                 <Grid item xs={12}>
                     <WithIcon tip={strings.moveconstr.pvp.tips.subj}>
-                        <InputWithError
+                        <Input
                             label={strings.moveconstr.pvp.subj}
                             select
 
@@ -143,7 +143,7 @@ const PvpProperties = React.memo(function PvpProperties(props) {
                             <MenuItem value="" >{strings.moveconstr.subjopt.n}</MenuItem>
                             <MenuItem value="Opponent" >{strings.moveconstr.subjopt.o}</MenuItem>
                             <MenuItem value="Self" >{strings.moveconstr.subjopt.s}</MenuItem>
-                        </InputWithError>
+                        </Input>
                     </WithIcon>
                 </Grid>
             </>}

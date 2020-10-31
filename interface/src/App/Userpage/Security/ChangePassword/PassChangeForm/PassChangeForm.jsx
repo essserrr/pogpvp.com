@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import InputWithError from "App/Components/InputWithError/InputWithError";
+import Input from "App/Components/Input/Input";
 import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 
 import { getCookie } from "js/getCookie";
@@ -19,7 +19,7 @@ const PassChangeForm = React.memo(function (props) {
     return (
         <Grid container justify="center" spacing={2}>
             <Grid item xs={12} md={6}>
-                <InputWithError
+                <Input
                     label={strings.security.oldpass}
                     type="password"
                     name="password"
@@ -33,7 +33,7 @@ const PassChangeForm = React.memo(function (props) {
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <InputWithError
+                <Input
                     label={strings.security.npass}
                     type="password"
                     name="newPassword"
@@ -48,7 +48,7 @@ const PassChangeForm = React.memo(function (props) {
                 />
             </Grid>
             <Grid item xs={12} md={6}>
-                <InputWithError
+                <Input
                     label={strings.security.confnpass}
                     type="password"
                     name="checkPassword"

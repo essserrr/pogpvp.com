@@ -1,5 +1,5 @@
 import React from "react"
-import Input from "../Input/Input"
+
 import ReactTooltip from "react-tooltip"
 
 import LocalizedStrings from "react-localization"

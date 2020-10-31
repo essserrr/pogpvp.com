@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
 
-import InputWithError from "App/Components/InputWithError/InputWithError";
+import Input from "App/Components/Input/Input";
 import WithIcon from "App/Components/WithIcon/WithIcon";
 
 import { getCookie } from "js/getCookie";
@@ -27,7 +27,7 @@ const PveProperties = React.memo(function PveProperties(props) {
             </Grid>
             <Grid item xs={12}>
                 <WithIcon tip={strings.moveconstr.pve.tips.d}>
-                    <InputWithError
+                    <Input
                         label={strings.moveconstr.pve.d}
                         name="Damage"
                         type="text"
@@ -42,7 +42,7 @@ const PveProperties = React.memo(function PveProperties(props) {
             {props.moveCategory === "Fast Move" &&
                 <Grid item xs={12}>
                     <WithIcon tip={strings.moveconstr.pve.tips.e}>
-                        <InputWithError
+                        <Input
                             label={strings.moveconstr.pve.e}
                             type={"text"}
                             name={"Energy"}
@@ -57,7 +57,7 @@ const PveProperties = React.memo(function PveProperties(props) {
             {props.moveCategory === "Charge Move" &&
                 <Grid item xs={12}>
                     <WithIcon tip={strings.moveconstr.pve.tips.e}>
-                        <InputWithError
+                        <Input
                             label={strings.moveconstr.pve.e}
                             select
 
@@ -69,13 +69,13 @@ const PveProperties = React.memo(function PveProperties(props) {
                             <MenuItem value="-33">-33</MenuItem>
                             <MenuItem value="-50">-50</MenuItem>
                             <MenuItem value="-100">-100</MenuItem>
-                        </InputWithError>
+                        </Input>
                     </WithIcon>
                 </Grid>}
 
             <Grid item xs={12}>
                 <WithIcon tip={strings.moveconstr.pve.tips.cd}>
-                    <InputWithError
+                    <Input
                         label={strings.moveconstr.pve.cd}
                         name={"Cooldown"}
                         type={"text"}
@@ -89,7 +89,7 @@ const PveProperties = React.memo(function PveProperties(props) {
             </Grid>
             <Grid item xs={12}>
                 <WithIcon tip={strings.moveconstr.pve.tips.dmgwd}>
-                    <InputWithError
+                    <Input
                         label={strings.moveconstr.pve.dmgwd}
                         name={"DamageWindow"}
                         type={"text"}
@@ -103,7 +103,7 @@ const PveProperties = React.memo(function PveProperties(props) {
             </Grid>
             <Grid item xs={12}>
                 <WithIcon tip={strings.moveconstr.pve.tips.dwd}>
-                    <InputWithError
+                    <Input
                         label={strings.moveconstr.pve.dwd}
                         name={"DodgeWindow"}
                         type={"text"}
