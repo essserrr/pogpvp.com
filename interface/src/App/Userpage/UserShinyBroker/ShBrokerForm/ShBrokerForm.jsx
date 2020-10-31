@@ -1,7 +1,9 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import LabelAndInput from "../../CustomMoves/LabelAndInput/LabelAndInput"
+import Input from "App/Components/Input/Input"
+
+
 import Country from "./CountryAndRegion/Country/Country"
 import Region from "./CountryAndRegion/Region/Region"
 
@@ -52,32 +54,27 @@ class ShBrokerForm extends React.PureComponent {
                     />
                 </div>
                 <div className="col-12 col-md-10 col-lg-6 px-1 py-1">
-                    <LabelAndInput
-                        labelWidth="151px"
+                    <Input
                         label={strings.shbroker.city}
-                        place={this.props.placeholders.cityPlace}
-
                         name="City"
-                        type={"text"}
+                        type="text"
 
                         value={this.props.value.City}
-                        notOk={this.props.notOk.City}
+                        errorText={this.props.notOk.City}
 
                         onChange={this.props.onChange}
                     />
                 </div>
 
                 <div className="col-12 col-md-10 col-lg-6 px-1 py-1">
-                    <LabelAndInput
-                        labelWidth="151px"
+                    <Input
                         label={strings.shbroker.cont}
-                        place={this.props.placeholders.contPlace}
 
                         name="Contacts"
-                        type={"text"}
+                        type="text"
 
                         value={this.props.value.Contacts}
-                        notOk={this.props.notOk.Contacts}
+                        errorText={this.props.notOk.Contacts}
 
                         onChange={this.props.onChange}
                     />
