@@ -62,7 +62,7 @@ class PokemonBox extends React.PureComponent {
 
     render() {
         return (
-            <Grid container justify="center">
+            <Grid container justify="center" spacing={2}>
                 {this.props.showImportExportPanel &&
                     <MagicBox
                         onClick={this.props.onTurnOnImport}
@@ -80,7 +80,9 @@ class PokemonBox extends React.PureComponent {
                         }
                     />}
 
-
+                <Grid item xs={12}>
+                    {this.props.children}
+                </Grid>
                 <Grid item xs={12}>
                     <SubmitRow
                         attr={this.props.attr}
@@ -89,6 +91,7 @@ class PokemonBox extends React.PureComponent {
                     />
                 </Grid>
 
+
                 <Grid item xs={12}>
                     <PokemonBoxTitle
                         onClick={this.onClick}
@@ -96,20 +99,16 @@ class PokemonBox extends React.PureComponent {
                         limit={this.props.limit}
                         showCollapse={this.state.showCollapse}
                     />
-                </Grid>
 
-
-                <Grid item xs={12}>
                     <Collapse in={this.state.showCollapse}>
-                        <Filters
-                            value={this.state.filters}
-                            attr="filters"
-                            onChange={this.onChange}
-                        />
+                        <Box mb={2}>
+                            <Filters
+                                value={this.state.filters}
+                                attr="filters"
+                                onChange={this.onChange}
+                            />
+                        </Box>
                     </Collapse>
-                </Grid>
-
-                <Grid item xs={12}>
                     <UserFilteredList
                         attr={this.props.attr}
                         moveTable={this.props.moveTable}
@@ -146,5 +145,7 @@ SubmitRow.PropTypes = {
     pokemonTable: PropTypes.object,
     moveTable: PropTypes.object,
     userList: PropTypes.arrayOf(PropTypes.object),
+
+    children: PropTypes.node.isRequired
 };
 
