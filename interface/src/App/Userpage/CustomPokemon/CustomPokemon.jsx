@@ -374,7 +374,6 @@ class CustomPokemon extends React.PureComponent {
         return index === -1 ? defaults : index
     }
 
-
     parseScv(scv, firstRow) {
         switch (true) {
             case (firstRow.length < 17):
@@ -450,8 +449,7 @@ class CustomPokemon extends React.PureComponent {
 
             importedArr.push({ Name, IsShadow, QuickMove, ChargeMove, ChargeMove2, Lvl, Atk, Def, Sta, CP })
         })
-        if (importedArr.length > 1500) { importedArr.slice(0, 1500) }
-        return importedArr
+        return importedArr.length > 1500 ? importedArr.slice(0, 1500) : importedArr
     }
 
 

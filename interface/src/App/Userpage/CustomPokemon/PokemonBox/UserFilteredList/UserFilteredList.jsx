@@ -37,16 +37,15 @@ class UserFilteredList extends React.PureComponent {
     render() {
         return (
             <UserPokemonList
-                elemntsOnPage={20}
+                elementsOnPage={20}
                 attr={this.props.attr}
-
                 moveTable={this.props.moveTable}
                 pokemonTable={this.props.pokemonTable}
-                list={this.applyFilter()}
-
                 onPokemonDelete={this.props.onPokemonDelete}
                 onPokemonEdit={this.props.onPokemonEdit}
-            />
+            >
+                {this.applyFilter()}
+            </UserPokemonList>
         );
     }
 }
