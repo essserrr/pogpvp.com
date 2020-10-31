@@ -19,7 +19,7 @@ const ChargeMoveTip = React.memo(function ChargeMoveTip(props) {
                 <>
                     {`${strings.move.damage}${moveTable[moveName].Damage}`}<br />
                     {`${strings.move.energy}${-moveTable[moveName].Energy}`}<br />
-                    {`Cooldown: ${moveTable[moveName].Cooldown / 1000}`}<br />
+                    {`${strings.move.cooldown}: ${moveTable[moveName].Cooldown / 1000}`}<br />
                     {`DPS: ${(moveTable[moveName].Damage / (moveTable[moveName].Cooldown / 1000)).toFixed(2)}`}<br />
                     {`DPS*DPE: ${(moveTable[moveName].Damage / (moveTable[moveName].Cooldown / 1000) * moveTable[moveName].Damage / -moveTable[moveName].Energy).toFixed(2)}`}<br />
                 </>}

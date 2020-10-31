@@ -175,7 +175,8 @@ const PvePokemon = React.memo(function PvePokemon(props) {
             </Grid>
 
             {props.canBeShadow &&
-                <Grid item xs={props.colSize ? props.colSize : 6} order={props.attr === "editPokemon" ? "2" : ""}>
+
+                <Grid item xs={props.colSize ? props.colSize : 6} style={{ order: props.attr === "editPokemon" ? "2" : "" }}>
                     <WithIcon
                         tip={tipStrings.shadow}
                     >
@@ -194,7 +195,7 @@ const PvePokemon = React.memo(function PvePokemon(props) {
                 </Grid>}
 
             {props.hasSecondCharge &&
-                <Grid item xs={props.colSize ? props.colSize : 6} order={props.attr === "editPokemon" ? "1" : ""}>
+                <Grid item xs={props.colSize ? props.colSize : 6} style={{ order: props.attr === "editPokemon" ? "1" : "" }}>
                     <MoveSelect
                         value={(props.value.ChargeMove2 && props.value.ChargeMove2 !== "Select..."
                             && props.moveTable[props.value.ChargeMove2] !== undefined) ? props.value.ChargeMove2 : ""}

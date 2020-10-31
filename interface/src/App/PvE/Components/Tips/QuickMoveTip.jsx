@@ -18,7 +18,7 @@ const QuickMoveTip = React.memo(function QuickMoveTip(props) {
                 <>
                     {`${strings.move.damage}${moveTable[moveName].Damage}`}<br />
                     {`${strings.move.energy}${moveTable[moveName].Energy}`}<br />
-                    {`Cooldown: ${moveTable[moveName].Cooldown / 1000}`}<br />
+                    {`${strings.move.cooldown}: ${moveTable[moveName].Cooldown / 1000}`}<br />
                     {`DPS: ${(moveTable[moveName].Damage / (moveTable[moveName].Cooldown / 1000)).toFixed(2)}`}<br />
                     {`EPS: ${(moveTable[moveName].Energy / (moveTable[moveName].Cooldown / 1000)).toFixed(2)}`}<br />
                 </>}
