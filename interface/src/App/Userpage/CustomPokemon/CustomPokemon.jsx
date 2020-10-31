@@ -3,29 +3,36 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+
+
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
+import ErrorSum from "App/Userpage/CustomPokemon/ErrorSum/ErrorSum";
 
 import EditMenu from "./EditMenu/EditMenu"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
 import SiteHelm from "../../SiteHelm/SiteHelm"
-import Loader from "../../PvpRating/Loader"
 import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
 import PokemonPanel from "../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
 import PokemonBox from "./PokemonBox/PokemonBox"
 import PartyBox from "./PartyBox/PartyBox"
 
-import { refresh } from "../../../AppStore/Actions/refresh"
-import { setCustomPokemon } from "../../../AppStore/Actions/actions"
-import { getCustomPokemon } from "../../../AppStore/Actions/getCustomPokemon"
-import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
-import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
-import { getCookie } from "../../../js/getCookie"
-import { userLocale } from "../../../locale/userLocale"
-import { locale } from "../../../locale/locale"
-import { MovePoolBuilder } from "js/movePoolBuilder"
-import { separateMovebase } from "js/separateMovebase"
+import { refresh } from "AppStore/Actions/refresh";
+import { setCustomPokemon } from "AppStore/Actions/actions";
+import { getCustomPokemon } from "AppStore/Actions/getCustomPokemon";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getCustomMoves } from "AppStore/Actions/getCustomMoves";
+import { getCookie } from "js/getCookie";
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { separateMovebase } from "js/separateMovebase";
+import { locale } from "locale/locale";
+import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
-import { getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
+
+import { getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "js/indexFunctions"
 import { translareMove, translateName } from "./translator"
 
 import "./CustomPokemon.scss"
@@ -556,24 +563,23 @@ class CustomPokemon extends React.PureComponent {
 
 
     render() {
+        const isFalseInput = Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
+
         return (
-            <div className="col pt-2 px-2">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/pokemon"
                     header={strings.pageheaders.usrpok}
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
-                <div className="row mx-0 justify-content-center" >
-                    {this.state.loading &&
-                        <Loader
-                            color="black"
-                            weight="500"
-                            locale={strings.loading}
-                            loading={this.state.loading}
-                        />}
+                {this.state.loading &&
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
 
-                    {(this.state.showEdit) && <MagicBox
+                {(this.state.showEdit) &&
+                    <MagicBox
                         onClick={this.onCloseOuterMenu}
                         attr={"showEdit"}
                         element={
@@ -595,69 +601,57 @@ class CustomPokemon extends React.PureComponent {
 
 
                                 onPokemonEditSubmit={this.onPokemonEditSubmit}
-
                             />}
-
                     />}
 
-                    {!this.state.loading && !this.state.error &&
-                        <>
-                            <div className="col-12 pt-2 text-center">
-                                <div className="user-pokemon__title col-12 px-0 mb-4">{strings.userpok.poktitle}</div>
-                            </div>
-                            <div className="col-12">
-                                <PokemonPanel
-                                    attr="activePokemon"
-                                    canBeShadow={true}
+                {!this.state.loading && !this.state.error &&
+                    <Grid item xs={12}>
+                        <UserPageContent title={strings.userpok.poktitle}>
+                            <PokemonPanel
+                                attr="activePokemon"
+                                canBeShadow={true}
 
-                                    pokemonTable={this.props.bases.pokemonBase}
-                                    moveTable={this.state.moveTable}
+                                pokemonTable={this.props.bases.pokemonBase}
+                                moveTable={this.state.moveTable}
 
-                                    hasSecondCharge={true}
+                                hasSecondCharge={true}
 
-                                    pokList={this.state.pokList}
-                                    chargeMoveList={this.state.chargeMoveList}
-                                    quickMoveList={this.state.quickMoveList}
+                                pokList={this.state.pokList}
+                                chargeMoveList={this.state.chargeMoveList}
+                                quickMoveList={this.state.quickMoveList}
 
-                                    value={this.state.activePokemon}
+                                value={this.state.activePokemon}
 
-                                    onChange={this.onChange}
+                                onChange={this.onChange}
 
-                                    onClick={this.onMenuClose}
-                                />
-                            </div>
-                            {Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
-                                <div className="col-12 pt-2">
-                                    <Alert variant="filled" severity="error">
-                                        {Object.values(this.state.notOk).reduce((sum, val, index) => {
-                                            sum.push(<div key={index} className="col-12 py-1">{val}</div>)
-                                            return sum
-                                        }, [])}
-                                    </Alert >
-                                </div>}
-                            <div className="col-12 pt-2">
-                                <PokemonBox
-                                    limit={1500}
-                                    attr="userPokemon"
+                                onClick={this.onMenuClose}
+                            />
 
-                                    onImport={this.onImport}
-                                    onTurnOnImport={this.onTurnOnImport}
-                                    showImportExportPanel={this.state.showImport}
+                            {isFalseInput &&
+                                <ErrorSum>
+                                    {this.state.notOk}
+                                </ErrorSum>}
+                            <PokemonBox
+                                limit={1500}
+                                attr="userPokemon"
+
+                                onImport={this.onImport}
+                                onTurnOnImport={this.onTurnOnImport}
+                                showImportExportPanel={this.state.showImport}
 
 
-                                    onPokemonAdd={this.onPokemonAdd}
-                                    onPokemonDelete={this.onPokemonDelete}
-                                    onPokemonEdit={this.onPokemonEdit}
+                                onPokemonAdd={this.onPokemonAdd}
+                                onPokemonDelete={this.onPokemonDelete}
+                                onPokemonEdit={this.onPokemonEdit}
 
-                                    pokemonTable={this.props.bases.pokemonBase}
-                                    moveTable={this.state.moveTable}
-                                    userList={this.state.userPokemon}
-                                />
-                            </div>
-                            <div className="col-12 pt-2 text-center">
-                                <div className="user-pokemon__title col-12 px-0 mt-2 mb-4">{strings.userpok.grouptitle}</div>
-                            </div>
-                            <div className="col-12">
+                                pokemonTable={this.props.bases.pokemonBase}
+                                moveTable={this.state.moveTable}
+                                userList={this.state.userPokemon}
+                            />
+                        </UserPageContent>
+
+                        <Box mt={5}>
+                            <UserPageContent title={strings.userpok.grouptitle}>
                                 <PartyBox
                                     limit={24}
                                     attr="userParties"
@@ -671,28 +665,29 @@ class CustomPokemon extends React.PureComponent {
                                     onGroupAdd={this.onGroupAdd}
                                     onGroupDelete={this.onGroupDelete}
                                 />
-                            </div>
-                        </>}
+                            </UserPageContent>
+                        </Box>
+                    </Grid>}
 
-
-
-                    {!this.state.error && this.state.userPokemon && <div className="col-12 px-1">
-                        <div className="row m-0 py-2 mb-2 justify-content-center">
+                {!this.state.loading && !this.state.error && this.state.userPokemon &&
+                    <Grid item container xs={12} justify="center">
+                        <Box pt={3}>
                             <AuthButton
                                 loading={this.state.submitting}
-                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
+                                title={this.state.ok ? "Ok" : strings.userpok.changes}
                                 onClick={this.onSaveChanges}
                                 disabled={false}
                             />
-                        </div>
-                    </div>}
+                        </Box>
+                    </Grid>}
 
-                    {!!this.state.error &&
-                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
+                {!!this.state.error &&
+                    <Grid item xs={12} md={10} lg={9} >
+                        <Box pt={3}>
                             <Alert variant="filled" severity="error">{this.state.error}</Alert >
-                        </div>}
-                </div>
-            </div>
+                        </Box>
+                    </Grid>}
+            </Grid>
         );
     }
 }
