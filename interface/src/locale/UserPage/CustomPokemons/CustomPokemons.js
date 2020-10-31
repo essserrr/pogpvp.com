@@ -56,7 +56,7 @@ export const userLocale = {
             usrpok: "User page: User pokemon  |  PogPvP.com",
         },
         pagedescriptions: {
-            reg: "User sign up form",
+            usr: "User page",
         },
     },
 

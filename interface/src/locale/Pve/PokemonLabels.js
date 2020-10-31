@@ -1,6 +1,7 @@
 export const labels = {
     en: {
         selectPok: "Pokemon name",
+        moveName: "Move name",
         selectMove: "Select move",
 
         quickMove: "Quick",
@@ -13,6 +14,7 @@ export const labels = {
 
     ru: {
         selectPok: "Имя покемона",
+        moveName: "Название умения",
         selectMove: "Выберите умение",
 
         quickMove: "Быстрое",
