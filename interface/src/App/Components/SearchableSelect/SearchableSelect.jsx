@@ -17,9 +17,11 @@ const SearchableSelect = React.memo(function SearchableSelect(props) {
     return (
         <Autocomplete
             className={classes.SearchableSelect}
+            name={name}
+
             options={props.children}
             getOptionLabel={(option) => typeof option === 'string' ? option : option.title}
-            name={name}
+
             onChange={(event, ...otherOptions) => onChange(event, { type: type, name: name, category: category, attr: attr, }, ...otherOptions)}
             renderInput={(params) => <TextField {...params} label={label} helperText={helperText} />}
 

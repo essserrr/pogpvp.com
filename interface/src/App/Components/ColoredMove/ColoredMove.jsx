@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 
-import Iconer from "../Iconer/Iconer";
+import Iconer from "App/Components/Iconer/Iconer";
 
 const useStyles = props => makeStyles(theme => {
     return ({

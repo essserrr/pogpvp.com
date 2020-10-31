@@ -30,10 +30,16 @@ const useStyles = makeStyles((theme) => ({
     },
 
     customMoveTitle: {
+        display: "flex",
+        alignItems: "center",
+
         fontWeight: "bold",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
+        "& img": {
+            marginRight: `${theme.spacing(1)}px`,
+        }
     },
 
     customMoveBody: {

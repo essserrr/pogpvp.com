@@ -5,14 +5,13 @@ const Iconer = React.memo(function Iconer(props) {
     const { fileName, folderName, className, size, ...other } = props;
 
     //if we are looking for a pokemon icon
-    let iconList = ["/images/low/",]
     let i = 0
 
     function addDefaultSrc(event) {
         switch (folderName) {
             case "/pokemons/":
                 if (i === 0) {
-                    event.target.src = iconList[0] + fileName + ".png"
+                    event.target.src = "/images/low/" + fileName + ".png"
                 }
                 if (i === 1) {
                     event.target.src = "/images/missingno.png"
@@ -25,7 +24,7 @@ const Iconer = React.memo(function Iconer(props) {
                     event.target.src = "/images" + folderName + withoutForme[0] + ".jpg"
                 }
                 if (i === 1) {
-                    event.target.src = iconList[0] + fileName + ".png"
+                    event.target.src = "/images/low/" + fileName + ".png"
                 }
                 if (i === 2) {
                     event.target.src = "/images/missingno.png"

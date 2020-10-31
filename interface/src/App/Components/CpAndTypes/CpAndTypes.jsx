@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Iconer from "App/Components/Iconer/Iconer";
 import { ReactComponent as Shadow } from "icons/shadow.svg";
-import CP from "./CP";
+import CP from "App/Components/CpAndTypes/CP";
 
 const useStyles = makeStyles((theme) => ({
     shadowIcon: {

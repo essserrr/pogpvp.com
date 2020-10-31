@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import InfoIcon from '@material-ui/icons/Info';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 const useStyles = makeStyles((theme) => ({
     iconMargin: {
@@ -27,7 +27,7 @@ const WithIcon = React.memo(function WithIcon(props) {
                 <Tooltip title={<Typography color="inherit">{!!props.tip ? props.tip : ""}</Typography>}>
                     {!!props.icon ?
                         props.icon :
-                        <InfoIcon className={classes.defaultIcon} />}
+                        <HelpOutlineIcon className={classes.defaultIcon} />}
                 </Tooltip>
             </Grid>
             <Grid item xs>

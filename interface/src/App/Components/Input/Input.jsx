@@ -24,13 +24,18 @@ const Input = React.memo(function Input(props) {
     return (
 
         <TextField
+            className={classes.Input}
+
+            name={name}
+            type={type}
+
             helperText={selectedText}
             error={!!errorText}
-            name={name}
-            className={classes.Input}
+
             FormHelperTextProps={{
                 style: { visibility: !!selectedText ? "visible" : "hidden" }
             }}
+
             onChange={(event, ...otherOptions) => onChange(event, { type: type, name: name, category: category, attr: attr, }, ...otherOptions)}
 
             {...other}
