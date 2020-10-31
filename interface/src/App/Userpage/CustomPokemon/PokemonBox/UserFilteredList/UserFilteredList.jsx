@@ -1,7 +1,7 @@
-import React from "react"
+import React from "react";
 import PropTypes from 'prop-types';
 
-import UserPokemonList from "../UserPokemonList/UserPokemonList"
+import UserPokemonList from "App/Userpage/CustomPokemon/PokemonBox/UserPokemonList/UserPokemonList";
 
 
 class UserFilteredList extends React.PureComponent {

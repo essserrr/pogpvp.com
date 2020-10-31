@@ -3,6 +3,8 @@ export const userLocale = {
         impExp: "Import/Export",
 
         userpok: {
+            have: "Pokemon you have",
+
             changes: "Save changes",
             poktitle: "User pokemon",
             grouptitle: "User groups",
@@ -62,6 +64,8 @@ export const userLocale = {
         impExp: "Импорт/Экспорт",
 
         userpok: {
+            have: "Ваши покемоны",
+
             changes: "Сохранить изменения",
             poktitle: "Покемоны пользователя",
             grouptitle: "Группы пользователя",
