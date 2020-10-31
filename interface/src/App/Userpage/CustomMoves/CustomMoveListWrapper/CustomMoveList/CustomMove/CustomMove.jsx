@@ -62,7 +62,7 @@ const CustomMove = React.memo(function CustomMove(props) {
                     <Iconer
                         size={18}
                         folderName="/type/"
-                        fileName={props.move.MoveType}
+                        fileName={String(props.move.MoveType)}
                     />
                     {props.move.Title}
                 </Grid>
