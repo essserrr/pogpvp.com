@@ -1,5 +1,5 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
 
 import Grid from '@material-ui/core/Grid';
 
@@ -9,12 +9,10 @@ import PartiesSelect from "App/Userpage/CustomPokemon/PartyBox/PartiesSelect/Par
 import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton";
 import Input from "App/Components/Input/Input";
 
-import { getCookie } from "js/getCookie"
-import { userLocale } from "locale/userLocale"
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
-import "./PartyBox.scss"
-
-let strings = new LocalizedStrings(userLocale)
+let strings = new LocalizedStrings(userLocale);
 
 class PartyBox extends React.PureComponent {
     constructor(props) {
@@ -76,7 +74,6 @@ class PartyBox extends React.PureComponent {
     }
 
     onPartySelect(event, selectOption) {
-        console.log(event, selectOption)
         this.setState({
             activePartyName: selectOption.value1,
             activeParty: this.props.userParties[selectOption.value1],
