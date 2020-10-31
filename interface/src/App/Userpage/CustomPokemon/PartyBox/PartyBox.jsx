@@ -19,7 +19,10 @@ class PartyBox extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            enteredName: "",
+            enteredName: {
+                value: "",
+                error: ""
+            },
             activePartyName: "",
             activeParty: []
         }
@@ -37,11 +40,10 @@ class PartyBox extends React.PureComponent {
 
 
 
-    onPokemonAdd(event, selectOption) {
-        if (this.state[selectOption.name].length >= 6) { return }
-
+    onPokemonAdd(event, attributes, selectOption) {
+        if (this.state[attributes.name].length >= 6) { return }
         this.setState({
-            [selectOption.name]: [...this.state[selectOption.name], this.props.userPokemon[selectOption.index]]
+            [attributes.name]: [...this.state[attributes.name], this.props.userPokemon[selectOption.index]]
         })
     }
 
@@ -54,15 +56,27 @@ class PartyBox extends React.PureComponent {
 
 
     onGroupAdd() {
-        if (this.state.activeParty.length === 0 || this.state.enteredName.replace(" ", "") === "") { return }
+        if (this.state.activeParty.length === 0 || !this.validate()) { return }
         if (Object.keys(this.props.userParties).length >= 24) { return }
 
-        let deTrailedPartyName = this.state.enteredName.replace(/^[^\w]+|[^\w]+$/g, "")
+        let deTrailedPartyName = this.state.enteredName.value.replace(/^[^\w]+|[^\w]+$/g, "")
         this.props.onGroupAdd(this.state.activeParty, deTrailedPartyName)
         this.setState({
             activePartyName: "",
             activeParty: [],
         })
+    }
+
+    validate() {
+        const err = this.check(this.state.enteredName.value, "enteredName")
+        this.setState({
+            enteredName: {
+                ...this.state.enteredName,
+                error: err,
+                value: this.state.enteredName.value,
+            },
+        })
+        return err === ""
     }
 
     onGroupDelete() {
@@ -73,7 +87,7 @@ class PartyBox extends React.PureComponent {
         })
     }
 
-    onPartySelect(event, selectOption) {
+    onPartySelect(event, attributes, selectOption) {
         this.setState({
             activePartyName: selectOption.value1,
             activeParty: this.props.userParties[selectOption.value1],
@@ -82,10 +96,32 @@ class PartyBox extends React.PureComponent {
     }
 
     onNameChange(event) {
-        let attr = event.target.getAttribute("attr")
+        let name = event.target.name
+        const value = event.target.value.replace(/[/\\?%*:{}|["'<>]/g, "");
+
         this.setState({
-            [attr]: event.target.value.replace(/[/\\?%*:{}|["'<>]/g, ""),
+            [name]: {
+                ...this.state[name],
+                error: this.check(value, name),
+                value: value,
+            },
         })
+    }
+
+    check(value, type) {
+        switch (type) {
+            case "enteredName":
+                return this.checkName(value)
+            default:
+                return ""
+        }
+    }
+
+    checkName(name) {
+        if (name === "") {
+            return strings.err.ness
+        }
+        return ""
     }
 
 
@@ -131,8 +167,9 @@ class PartyBox extends React.PureComponent {
                 <Grid item xs={6}>
                     <Input
                         label={strings.userpok.partyname}
-                        attr="enteredName"
-                        value={this.state.enteredName}
+                        name="enteredName"
+                        value={this.state.enteredName.value}
+                        errorText={this.state.enteredName.error}
 
                         onChange={this.onNameChange}
                     />
