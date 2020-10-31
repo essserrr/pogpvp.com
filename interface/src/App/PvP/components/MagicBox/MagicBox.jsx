@@ -23,7 +23,7 @@ const MagicBox = React.memo(function MagicBox(props) {
     const { open, title, children, attr, onClick, ...other } = props;
 
     return (
-        <Dialog PaperProps={{ className: classes.magicBox }} open={open}
+        <Dialog PaperProps={{ className: classes.magicBox }} open={open} scroll={"body"}
             onClose={(event, ...other) => { onClick(event, { attr: attr }, ...other) }}
             {...other}>
             <Box px={2} pt={2} pb={3}>

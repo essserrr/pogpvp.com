@@ -136,12 +136,15 @@ class CustomPokemon extends React.PureComponent {
         return Object.entries(pokBase).map((value) => ({ value: value[0], title: value[0], }))
     }
 
-    onMenuClose(event) {
-        let role = event.target.getAttribute("attr")
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
+    onCloseOuterMenu(event, attributes) {
+        let role = attributes.attr
+        this.setState({
+            [role]: !this.state[role],
+        })
+    }
 
+    onMenuClose(event, attributes) {
+        let role = attributes.attr
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -327,26 +330,6 @@ class CustomPokemon extends React.PureComponent {
             editPokemon: {},
         })
     }
-
-    onCloseOuterMenu(event) {
-        const name = event.target.name ? event.target.name : event.target.getAttribute("name")
-        if (!(event.target === event.currentTarget) && name !== "closeButton") {
-            return
-        }
-        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
-
-        this.setState({
-            [role]: !this.state[role],
-        })
-    }
-
-
-
-
-
-
-
-
 
     onTurnOnImport(event) {
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
@@ -564,7 +547,7 @@ class CustomPokemon extends React.PureComponent {
 
     render() {
         //const isFalseInput = Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
-
+        console.log(strings.pagedescriptions.usr)
         return (
             <Grid container justify="center">
                 <SiteHelm
@@ -578,32 +561,31 @@ class CustomPokemon extends React.PureComponent {
                         <LinearProgress color="secondary" />
                     </ Grid>}
 
-                {(this.state.showEdit) &&
-                    <MagicBox
-                        onClick={this.onCloseOuterMenu}
-                        attr={"showEdit"}
-                        element={
-                            <EditMenu
-                                attr="editPokemon"
+                <MagicBox
+                    open={Boolean(this.state.showEdit)}
+                    onClick={this.onCloseOuterMenu}
+                    attr={"showEdit"}
+                >
+                    <EditMenu
+                        attr="editPokemon"
 
-                                pokemonTable={this.props.bases.pokemonBase}
-                                moveTable={this.state.moveTable}
+                        pokemonTable={this.props.bases.pokemonBase}
+                        moveTable={this.state.moveTable}
 
-                                pokList={this.state.pokList}
-                                chargeMoveList={this.state.chargeMoveList}
-                                quickMoveList={this.state.quickMoveList}
+                        pokList={this.state.pokList}
+                        chargeMoveList={this.state.chargeMoveList}
+                        quickMoveList={this.state.quickMoveList}
 
-                                editPokemon={this.state.editPokemon}
-                                editNotOk={this.state.editNotOk}
+                        editPokemon={this.state.editPokemon}
+                        editNotOk={this.state.editNotOk}
 
-                                onChange={this.onChange}
-                                onMenuClose={this.onMenuClose}
+                        onChange={this.onChange}
+                        onMenuClose={this.onMenuClose}
 
 
-                                onPokemonEditSubmit={this.onPokemonEditSubmit}
-                            />}
-                    />}
-
+                        onPokemonEditSubmit={this.onPokemonEditSubmit}
+                    />
+                </MagicBox>
                 {!this.state.loading && !this.state.error &&
                     <Grid item xs={12}>
                         <UserPageContent title={strings.userpok.poktitle}>
