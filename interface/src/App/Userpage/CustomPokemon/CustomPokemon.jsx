@@ -343,6 +343,12 @@ class CustomPokemon extends React.PureComponent {
 
 
 
+
+
+
+
+
+
     onTurnOnImport(event) {
         if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
             return
@@ -358,7 +364,6 @@ class CustomPokemon extends React.PureComponent {
             userPokemon: obj.type === "string" ? this.parseString(obj.value) : this.parseScv(obj.value.slice(1, obj.value.length), obj.value[0])
         });
     }
-
 
     makeGoverningObject(header, toFind, defaults) {
         const objectFields = ["nameIndex", "lvlIndex", "atkIndex", "defIndex", "staIndex", "quickIndex", "chargeIndex", "charge2Index", "isShadowIndex"]
@@ -451,8 +456,6 @@ class CustomPokemon extends React.PureComponent {
         })
         return importedArr.length > 1500 ? importedArr.slice(0, 1500) : importedArr
     }
-
-
 
     parseString(str) {
         let importedList = str.split("\n")
