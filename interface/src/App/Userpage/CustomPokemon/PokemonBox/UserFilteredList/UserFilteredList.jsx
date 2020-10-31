@@ -1,30 +1,29 @@
 import React from "react"
+import PropTypes from 'prop-types';
 
 import UserPokemonList from "../UserPokemonList/UserPokemonList"
 
 
 class UserFilteredList extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.applyFilter = this.applyFilter.bind(this)
+    check(pok) {
+        const orFilter = ["ChargeMove", "ChargeMove2"];
+        const equalAndFilter = ["Atk", "Def", "Sta", "Lvl", "IsShadow"];
+        const containsAndFilter = ["Name", "QuickMove",];
+
+        return (
+            orFilter.reduce((sum, value) => sum || this.contains(pok[value], value), false) &&
+            equalAndFilter.reduce((sum, value) => sum && this.equal(pok[value], value), true) &&
+            containsAndFilter.reduce((sum, value) => sum && this.contains(pok[value], value), true)
+        )
     }
 
-    applyFilter() {
-        return this.props.userList.filter((value) => {
-            return (this.containsFilter(value.Name, "Name") * this.containsFilter(value.QuickMove, "QuickMove") *
-                (this.containsFilter(value.ChargeMove, "ChargeMove") || this.containsFilter(value.ChargeMove2, "ChargeMove")) * this.equalFilter(value.Atk, "Atk") *
-                this.equalFilter(value.Def, "Def") * this.equalFilter(value.Sta, "Sta") *
-                this.equalFilter(value.Lvl, "Lvl") * this.equalFilter(value.IsShadow, "IsShadow"))
-        })
-    }
-
-    equalFilter(value, key) {
+    equal(value, key) {
         if (this.props.filters[key] === "" || String(this.props.filters[key]) === String(value)) {
             return true
         }
         return false
     }
-    containsFilter(value, key) {
+    contains(value, key) {
         if (this.props.filters[key] === "") {
             return true
         }
@@ -44,11 +43,20 @@ class UserFilteredList extends React.PureComponent {
                 onPokemonDelete={this.props.onPokemonDelete}
                 onPokemonEdit={this.props.onPokemonEdit}
             >
-                {this.applyFilter()}
+                {this.props.children.filter((value) => this.check(value))}
             </UserPokemonList>
         );
     }
 }
 
-export default UserFilteredList
+export default UserFilteredList;
 
+UserFilteredList.propTypes = {
+    onPokemonEdit: PropTypes.func,
+    onPokemonDelete: PropTypes.func,
+    pokemonTable: PropTypes.object.isRequired,
+    moveTable: PropTypes.object.isRequired,
+    attr: PropTypes.string,
+
+    children: PropTypes.arrayOf(PropTypes.object),
+};

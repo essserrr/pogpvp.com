@@ -20,7 +20,6 @@ const styles = theme => ({
 class UserPokemonList extends React.PureComponent {
     constructor(props) {
         super(props);
-
         this.state = {
             page: 1,
             infiniteList: props.children.slice(0, props.elementsOnPage > props.children.length ? props.children.length : props.elementsOnPage),

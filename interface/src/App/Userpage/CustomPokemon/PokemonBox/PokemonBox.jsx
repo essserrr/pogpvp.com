@@ -117,12 +117,12 @@ class PokemonBox extends React.PureComponent {
                         pokemonTable={this.props.pokemonTable}
 
                         filters={this.state.filters}
-                        userList={this.props.userList}
-
 
                         onPokemonDelete={this.props.onPokemonDelete}
                         onPokemonEdit={this.props.onPokemonEdit}
-                    />
+                    >
+                        {this.props.userList}
+                    </UserFilteredList>
                 </div>
             </>
         );
