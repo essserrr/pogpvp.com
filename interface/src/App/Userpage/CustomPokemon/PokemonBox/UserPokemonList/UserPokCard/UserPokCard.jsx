@@ -10,8 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import ColoredMove from "App/Components/ColoredMove/ColoredMove";
 import CloseButton from "App/Components/CloseButton/CloseButton";
+import CP from "App/Components/CpAndTypes/CP";
 import Iconer from "App/Components/Iconer/Iconer";
-import { calculateCP } from "js/indexFunctions";
 
 import { ReactComponent as Shadow } from "icons/shadow.svg";
 
@@ -60,6 +60,7 @@ const UserPokCard = React.memo(function UserPokCard(props) {
         }
     }
 
+    const pokemon = props.pokemonTable[props.Name];
 
     return (
         <Paper elevation={4} className={classes.upokcard}
@@ -69,11 +70,10 @@ const UserPokCard = React.memo(function UserPokCard(props) {
 
                 <Tooltip title={<Typography color="inherit">{props.Name}</Typography>}>
                     <Grid item xs="auto" className={classes.upokcardContainer}>
-                        {props.pokemonTable[props.Name] &&
-
+                        {pokemon &&
                             <Iconer
                                 folderName="/pokemons/"
-                                fileName={props.pokemonTable[props.Name].Number + (props.pokemonTable[props.Name].Forme !== "" ? "-" + props.pokemonTable[props.Name].Forme : "")}
+                                fileName={`${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`}
                                 size={48}
                             />}
                         {String(props.IsShadow) === "true" && <Shadow className={classes.upokcardShadow} />}
@@ -83,7 +83,8 @@ const UserPokCard = React.memo(function UserPokCard(props) {
                 <Grid item xs>
                     <Box>
                         {props.forCustomPve && `#${props.index + 1} `}
-                        {`CP:${calculateCP(props.Name, props.Lvl, props.Atk, props.Def, props.Sta, props.pokemonTable)}`}
+                        {`CP: `}
+                        <CP name={props.Name} Lvl={props.Lvl} Atk={props.Atk} Def={props.Def} Sta={props.Sta} pokemonTable={props.pokemonTable} />
                     </Box>
                     <Box>
                         {`${props.Lvl}:${props.Atk}/${props.Def}/${props.Sta}`}
