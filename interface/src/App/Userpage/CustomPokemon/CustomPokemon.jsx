@@ -9,7 +9,6 @@ import Box from '@material-ui/core/Box';
 
 
 import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
-import ErrorSum from "App/Userpage/CustomPokemon/ErrorSum/ErrorSum";
 
 import EditMenu from "./EditMenu/EditMenu"
 import MagicBox from "../../PvP/components/MagicBox/MagicBox"
@@ -564,7 +563,7 @@ class CustomPokemon extends React.PureComponent {
 
 
     render() {
-        const isFalseInput = Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
+        //const isFalseInput = Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
 
         return (
             <Grid container justify="center">
@@ -608,30 +607,6 @@ class CustomPokemon extends React.PureComponent {
                 {!this.state.loading && !this.state.error &&
                     <Grid item xs={12}>
                         <UserPageContent title={strings.userpok.poktitle}>
-                            <PokemonPanel
-                                attr="activePokemon"
-                                canBeShadow={true}
-
-                                pokemonTable={this.props.bases.pokemonBase}
-                                moveTable={this.state.moveTable}
-
-                                hasSecondCharge={true}
-
-                                pokList={this.state.pokList}
-                                chargeMoveList={this.state.chargeMoveList}
-                                quickMoveList={this.state.quickMoveList}
-
-                                value={this.state.activePokemon}
-
-                                onChange={this.onChange}
-
-                                onClick={this.onMenuClose}
-                            />
-
-                            {isFalseInput &&
-                                <ErrorSum>
-                                    {this.state.notOk}
-                                </ErrorSum>}
                             <PokemonBox
                                 limit={1500}
                                 attr="userPokemon"
@@ -648,7 +623,29 @@ class CustomPokemon extends React.PureComponent {
                                 pokemonTable={this.props.bases.pokemonBase}
                                 moveTable={this.state.moveTable}
                                 userList={this.state.userPokemon}
-                            />
+                            >
+                                <PokemonPanel
+                                    attr="activePokemon"
+                                    canBeShadow={true}
+
+                                    pokemonTable={this.props.bases.pokemonBase}
+                                    moveTable={this.state.moveTable}
+
+                                    hasSecondCharge={true}
+
+                                    pokList={this.state.pokList}
+                                    chargeMoveList={this.state.chargeMoveList}
+                                    quickMoveList={this.state.quickMoveList}
+
+                                    value={this.state.activePokemon}
+
+                                    onChange={this.onChange}
+
+                                    onClick={this.onMenuClose}
+                                />
+                            </PokemonBox>
+
+
                         </UserPageContent>
 
                         <Box mt={5}>

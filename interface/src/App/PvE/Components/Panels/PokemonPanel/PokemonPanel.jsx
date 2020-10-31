@@ -1,25 +1,16 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
 
-import PvePokemon from "../../PvePokemon"
-
-import { locale } from "../../../../../locale/locale"
-import { pveLocale } from "../../../../../locale/pveLocale"
-import { getCookie } from "../../../../../js/getCookie"
-
-let strings = new LocalizedStrings(locale)
-let pveStrings = new LocalizedStrings(pveLocale)
+import PvePokemon from "../../PvePokemon";
 
 const PokemonPanel = React.memo(function PokemonPanel(props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const { title, ...other } = props;
 
     return (
         <div className="row mx-0 justify-content-center align-items-center">
-            {props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{props.title}</h5></div>}
+            {title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{title}</h5></div>}
             <div className="col-12 px-0">
                 <PvePokemon
-                    {...props}
+                    {...other}
                 />
             </div>
 
