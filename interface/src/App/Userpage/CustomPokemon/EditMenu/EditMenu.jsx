@@ -23,7 +23,7 @@ class EditMenu extends React.PureComponent {
             <div className="row justify-content-center">
                 <div className="col-12 mb-3 px-0">
                     <PokemonPanel
-                        colSize="col-12 my-1"
+                        colSize={12}
                         attr={this.props.attr}
                         canBeShadow={true}
                         hasSecondCharge={true}
