@@ -394,6 +394,7 @@ class UserShinyBroker extends React.PureComponent {
                                 onTurnOnImport={this.onTurnOnImport}
                                 showImportExportPanel={this.state.HaveImport}
 
+                                Amount={this.state.inputs.HaveAmount}
 
                                 pokList={this.state.pokList}
                                 onPokemonAdd={this.onPokemonAdd}
@@ -413,6 +414,8 @@ class UserShinyBroker extends React.PureComponent {
                             onImport={this.onImport}
                             onTurnOnImport={this.onTurnOnImport}
                             showImportExportPanel={this.state.WantImport}
+
+                            Amount={this.state.inputs.WantAmount}
 
                             pokList={this.state.pokList}
                             onPokemonAdd={this.onPokemonAdd}

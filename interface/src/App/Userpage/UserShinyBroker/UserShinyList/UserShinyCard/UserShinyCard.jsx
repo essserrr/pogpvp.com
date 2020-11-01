@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const UserShinyCard = React.memo(function (props) {
+const UserShinyCard = React.memo(function UserShinyCard(props) {
     const classes = useStyles();
 
     function onClickWrapper(event) {
@@ -52,7 +52,7 @@ const UserShinyCard = React.memo(function (props) {
             <Grid container alignItems="center" className={classes.uShCard}>
                 {props.value.Amount && `${props.value.Amount}X`}
                 <Tooltip title={<Typography color="inherit">{props.value.Name}</Typography>}>
-                    <Grid xs="auto" className={classes.uShCardContainer}>
+                    <Grid item xs="auto" className={classes.uShCardContainer}>
                         {pokemon &&
                             <Iconer
                                 size={36}
