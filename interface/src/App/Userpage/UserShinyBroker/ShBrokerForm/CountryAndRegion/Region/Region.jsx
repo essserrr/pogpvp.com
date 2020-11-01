@@ -1,10 +1,7 @@
-import React from "react"
+import React from "react";
 
-import SearchableSelect from "../../../../../PvP/components/SearchableSelect/SearchableSelect"
-import LabelPrepend from "../../../../../PvP/components/SelectGroup/LabelPrepend"
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 import { CountryRegionData } from "../crlist"
-
-import "./Region.scss"
 
 class Region extends React.PureComponent {
     returnRegionList() {
@@ -18,34 +15,22 @@ class Region extends React.PureComponent {
             return []
         }
 
-        return [{ value: "", label: this.props.defaultOption, }, ...selectedCountry[0][1].map((value) => ({ value: value, label: value, }))]
+        return [{ value: "", label: this.props.defaultOption, }, ...selectedCountry[0][1].map((value) => ({ value: value, title: value, }))]
     }
 
     render() {
         let list = this.returnRegionList()
 
         return (
-            <div className="input-group input-group-sm">
-                <LabelPrepend
-                    label={this.props.label}
-
-                    labelWidth={this.props.labelWidth}
-                    tipClass="infoTip"
-                    for={this.props.for}
-                    place={"top"}
-                    tip={this.props.tip}
-                />
-                <SearchableSelect
-                    class={"region-box " + (this.props.notOk !== "" ? "region-input--alert" : "")}
-                    classPrefix="region--prefix "
-
-                    value={this.props.selectValue}
-
-                    list={list}
-                    onChange={this.props.onChange}
-                />
-                {this.props.notOk !== "" && <div className="col-12 px-0 region-input__alert-text text-left">{this.props.notOk}</div>}
-            </div>
+            <SearchableSelect
+                disableClearable
+                label={this.props.label}
+                value={this.props.selectValue}
+                onChange={this.props.onChange}
+                errorText={this.props.notOk}
+            >
+                {list}
+            </SearchableSelect>
         );
     }
 }
