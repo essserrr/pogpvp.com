@@ -1,22 +1,39 @@
 import React from "react"
-import ReactTooltip from "react-tooltip"
 import LocalizedStrings from "react-localization"
 
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import Grid from '@material-ui/core/Grid';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { withStyles } from "@material-ui/core/styles";
+
+import TextField from '@material-ui/core/TextField';
 
 import SubmitButton from "../../SubmitButton/SubmitButton"
 
 import { locale } from "../../../../../locale/locale"
-import { getCookie } from "../../../../../js/getCookie"
-
-import "./FileImport.scss"
+import { getCookie } from "js/getCookie"
 
 let strings = new LocalizedStrings(locale)
+
+
+const styles = theme => ({
+    defaultIcon: {
+        "&:hover": {
+            fill: theme.palette.secondary.light,
+        }
+    },
+
+    fileInput: {
+        opacity: "0%",
+        width: "100%",
+    },
+});
 
 class FileImport extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
 
         this.state = {
             labelTitle: strings.import.file,
@@ -85,44 +102,45 @@ class FileImport extends React.PureComponent {
 
 
     render() {
+        const { classes } = this.props;
+
+
         return (
-            <div className="row mx-0">
-                <form className="col-12 px-0" onSubmit={this.onSubmit}>
+            <Grid component="form" container spacing={2} onSubmit={this.onSubmit}>
 
-                    <ReactTooltip
-                        className={"infoTip"}
-                        id={"imp-exp" + this.props.attr} effect="solid"
-                        place={"bottom"}
-                        multiline={true}
-                    >
-                        {this.props.tips}
-                    </ReactTooltip>
-
-
-
-                    <div className="row mx-0 mt-3 mb-2">
-                        <div className="col px-0">
+                <Grid item xs={12}>
+                    <Grid container justify="space-between" spacing={1}>
+                        <Grid item xs>
                             {this.props.label}
-                        </div>
-                        <i data-tip data-for={"imp-exp" + this.props.attr} className="align-self-center fas fa-info-circle fa-lg ml-4"></i>
-                    </div>
-                    <div className="custom-file">
-                        <input
-                            type="file"
-                            className="custom-file-input"
+                        </Grid>
+                        <Tooltip title={<Typography color="inherit">{this.props.tips}</Typography>}>
+                            <HelpOutlineIcon className={classes.defaultIcon} />
+                        </Tooltip>
+                    </Grid>
+                </Grid>
 
-                            ref={this.fileInput}
-                            id="customFile"
+                <Grid item xs={12}>
+                    <TextField
+                        type="file"
+                        label={this.state.labelTitle}
 
-                            lang={this.state.lang}
-                            accept={this.props.acceptFile}
+                        inputProps={{
+                            className: classes.fileInput,
+                            ref: this.fileInput,
+                            lang: this.state.lang,
+                            accept: this.props.acceptFile,
+                        }}
 
-                            onClick={this.onClick}
-                            onChange={this.onChange}
-                        />
-                        <label className="importfile__select-button custom-file-label" htmlFor="customFile">{this.state.labelTitle}</label>
-                    </div>
+                        InputLabelProps={{
+                            shrink: false,
+                        }}
 
+                        onClick={this.onClick}
+                        onChange={this.onChange}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
                     <div className="row mx-0 justify-content-center align-items-center my-3">
                         <SubmitButton
                             onSubmit={this.onSubmit}
@@ -131,11 +149,11 @@ class FileImport extends React.PureComponent {
                             {strings.import.read}
                         </SubmitButton>
                     </div>
-                </form>
-            </div>
+                </Grid>
+            </Grid>
         )
     }
 
 }
 
-export default FileImport
+export default withStyles(styles, { withTheme: true })(FileImport);
