@@ -254,10 +254,11 @@ PvePokemon.propTypes = {
 
     attr: PropTypes.string,
     value: PropTypes.object.isRequired,
-    notOk: PropTypes.object.isRequired,
+    notOk: PropTypes.object,
 
     colSize: PropTypes.number,
 
+    pokList: PropTypes.arrayOf(PropTypes.object),
     chargeMoveList: PropTypes.arrayOf(PropTypes.object),
     quickMoveList: PropTypes.arrayOf(PropTypes.object),
 

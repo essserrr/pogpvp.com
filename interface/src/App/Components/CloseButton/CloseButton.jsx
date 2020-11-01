@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {
-        corsor: "pointer",
+        cursor: "pointer",
         "&:hover": {
             fill: theme.palette.error.main
         }

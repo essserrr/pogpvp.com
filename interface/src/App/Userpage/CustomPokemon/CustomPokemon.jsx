@@ -349,7 +349,7 @@ class CustomPokemon extends React.PureComponent {
         //get movepool
         var moves = new MovePoolBuilder();
         moves.createMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect, false,
-            [pok.QuickMove], [pok.ChargeMove, pok.ChargeMove])
+            [pok.QuickMove], [pok.ChargeMove, pok.ChargeMove2])
 
         this.setState({
             showEdit: true,
