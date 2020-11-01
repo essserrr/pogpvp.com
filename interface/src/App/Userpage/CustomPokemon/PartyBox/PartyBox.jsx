@@ -1,5 +1,6 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 
@@ -16,7 +17,7 @@ let strings = new LocalizedStrings(userLocale);
 
 class PartyBox extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             enteredName: {
@@ -204,5 +205,17 @@ class PartyBox extends React.PureComponent {
     }
 }
 
-export default PartyBox
+export default PartyBox;
 
+PartyBox.propTypes = {
+    onGroupAdd: PropTypes.func,
+    onGroupDelete: PropTypes.func,
+
+    userParties: PropTypes.object,
+    userPokemon: PropTypes.arrayOf(PropTypes.object),
+
+    attr: PropTypes.string,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+};

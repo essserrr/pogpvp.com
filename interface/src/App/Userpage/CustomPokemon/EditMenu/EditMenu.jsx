@@ -13,7 +13,6 @@ import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
 let strings = new LocalizedStrings(userLocale);
 
-
 const EditMenu = React.memo(function EditMenu(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
@@ -62,10 +61,9 @@ EditMenu.propTypes = {
     onPokemonEditSubmit: PropTypes.func,
 
     attr: PropTypes.string,
-    value: PropTypes.object.isRequired,
+    value: PropTypes.object,
     notOk: PropTypes.object,
 
-    pokList: PropTypes.arrayOf(PropTypes.object),
     chargeMoveList: PropTypes.arrayOf(PropTypes.object),
     quickMoveList: PropTypes.arrayOf(PropTypes.object),
 
