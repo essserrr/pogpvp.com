@@ -11,6 +11,8 @@ const styles = theme => ({
     uPokList: {
         minHeight: "62px",
         maxHeight: "250px",
+        padding: `${theme.spacing(1)}px`,
+
         border: `1px solid ${theme.palette.text.primary}`,
         borderRadius: "5px",
         overflowY: "auto",
