@@ -98,9 +98,10 @@ class ShBrokerSelectPanel extends React.PureComponent {
                     <UserShinyFilter
                         attr={this.props.attr}
                         pokemonTable={this.props.pokemonTable}
-                        list={this.props.userList}
                         onPokemonDelete={this.props.onPokemonDelete}
-                    />
+                    >
+                        {this.props.userList}
+                    </UserShinyFilter>
                 </div>}
             </>
         );
