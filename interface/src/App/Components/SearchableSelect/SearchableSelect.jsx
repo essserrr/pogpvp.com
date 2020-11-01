@@ -12,8 +12,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchableSelect = React.memo(function SearchableSelect(props) {
-    const { helperText, children, label, type, name, category, attr, onChange, ...other } = props;
+    const { helperText, errorText, children, label, type, name, category, attr, onChange, ...other } = props;
     const classes = useStyles();
+
+
+    let selectedText = ""
+    if (errorText) {
+        selectedText = errorText
+    }
+    if (helperText) {
+        selectedText = helperText
+    }
     return (
         <Autocomplete
             className={classes.SearchableSelect}
@@ -23,7 +32,7 @@ const SearchableSelect = React.memo(function SearchableSelect(props) {
             getOptionLabel={(option) => typeof option === 'string' ? option : option.title}
 
             onChange={(event, ...otherOptions) => onChange(event, { type: type, name: name, category: category, attr: attr, }, ...otherOptions)}
-            renderInput={(params) => <TextField {...params} label={label} helperText={helperText} />}
+            renderInput={(params) => <TextField {...params} label={label} helperText={selectedText} error={!!errorText} />}
 
             {...other}
         />
@@ -45,10 +54,8 @@ SearchableSelect.propTypes = {
     category: PropTypes.string,
     attr: PropTypes.string,
 
-    helperText: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.node,
-    ]),
+    helperText: PropTypes.string,
+    errorText: PropTypes.string,
     onChange: PropTypes.func,
     className: PropTypes.string,
 };

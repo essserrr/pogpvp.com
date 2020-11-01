@@ -47,11 +47,12 @@ class CustomPokemon extends React.PureComponent {
         pvpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             activePokemon: getUserPok(),
-            editPokemon: {},
-            showEdit: false,
+            activePokemonNotOk: {},
 
-            notOk: {},
-            editNotOk: {},
+            editPokemon: {},
+            editPokemonNotOk: {},
+
+            showEdit: false,
 
             pokList: {},
             moveTable: {},
@@ -159,6 +160,8 @@ class CustomPokemon extends React.PureComponent {
         //get movepool
         var moves = new MovePoolBuilder();
         moves.createMovePool(value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
+        const quickMove = selectQuickRaids(moves.quickMovePool, this.state.moveTable, value, this.props.bases.pokemonBase)
+        const chargeMove = selectChargeRaids(moves.chargeMovePool, this.state.moveTable, value, this.props.bases.pokemonBase)
         //set state
         this.setState({
             [name]: {
@@ -166,9 +169,15 @@ class CustomPokemon extends React.PureComponent {
                 Name: value,
                 quickMovePool: moves.quickMovePool,
                 chargeMovePool: moves.chargeMovePool,
-                QuickMove: selectQuickRaids(moves.quickMovePool, this.state.moveTable, value, this.props.bases.pokemonBase),
-                ChargeMove: selectChargeRaids(moves.chargeMovePool, this.state.moveTable, value, this.props.bases.pokemonBase),
+                QuickMove: quickMove,
+                ChargeMove: chargeMove,
                 ChargeMove2: "",
+            },
+            [`${name}NotOk`]: {
+                ...this.state[`${name}NotOk`],
+                Name: this.check(value, "Name"),
+                QuickMove: this.check(quickMove, "QuickMove"),
+                ChargeMove: this.check(chargeMove, "ChargeMove"),
             },
         });
     }
@@ -204,6 +213,10 @@ class CustomPokemon extends React.PureComponent {
                 isSelected: undefined,
                 [pool]: newMovePool,
                 [category]: value,
+            },
+            [`${attr}NotOk`]: {
+                ...this.state[`${attr}NotOk`],
+                [category]: this.check(value, category),
             },
         });
     }
@@ -251,17 +264,22 @@ class CustomPokemon extends React.PureComponent {
             [role]: {
                 ...this.state[role],
                 [name]: event.target.value
-            }
+            },
+            [`${role}NotOk`]: {
+                ...this.state[`${role}NotOk`],
+                [name]: this.check(event.target.value, name),
+            },
         });
     }
 
     onPokemonAdd(event) {
         let attr = event.target.getAttribute("attr")
         if (this.state[attr].length >= 1500) { return }
+
         let err = this.validate(this.state.activePokemon)
         if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
             this.setState({
-                notOk: err,
+                activePokemonNotOk: err,
             })
             return
         }
@@ -271,22 +289,31 @@ class CustomPokemon extends React.PureComponent {
 
         this.setState({
             [attr]: [...this.state.userPokemon, newPok],
-            notOk: {},
+            activePokemonNotOk: {},
         })
     }
 
     validate(obj) {
-        let errObj = {}
-        if (obj.Name === "") {
-            errObj.Name = strings.userpok.err.errname
+        return {
+            Name: this.check(obj.Name, "Name"),
+            QuickMove: this.check(obj.QuickMove, "QuickMove"),
+            ChargeMove: obj.ChargeMove === "" && obj.ChargeMove2 === "" ? this.check(obj.ChargeMove, "ChargeMove") : "",
         }
-        if (obj.QuickMove === "") {
-            errObj.Quick = strings.userpok.err.errq
+    }
+
+    check(value, type) {
+        switch (type) {
+            case "Name":
+                return value === "" ? strings.userpok.err.errname : ""
+            case "QuickMove":
+                return value === "" ? strings.userpok.err.errq : ""
+            case "ChargeMove":
+                return value === "" ? strings.userpok.err.errch : ""
+            case "ChargeMove2":
+                return value === "" ? strings.userpok.err.errch : ""
+            default:
+                return ""
         }
-        if (obj.ChargeMove === "") {
-            errObj.Charge = strings.userpok.err.errch
-        }
-        return errObj
     }
 
     onPokemonDelete(event) {
@@ -300,7 +327,8 @@ class CustomPokemon extends React.PureComponent {
     onPokemonEdit(pok) {
         //get movepool
         var moves = new MovePoolBuilder();
-        moves.createMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
+        moves.createMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect, false,
+            [pok.QuickMove], [pok.ChargeMove, pok.ChargeMove2])
 
         this.setState({
             showEdit: true,
@@ -317,7 +345,7 @@ class CustomPokemon extends React.PureComponent {
         let err = this.validate(this.state.editPokemon)
         if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
             this.setState({
-                editNotOk: err,
+                editPokemonNotOk: err,
             })
             return
         }
@@ -326,7 +354,7 @@ class CustomPokemon extends React.PureComponent {
         this.setState({
             showEdit: false,
             userPokemon: newList,
-            editNotOk: {},
+            editPokemonNotOk: {},
             editPokemon: {},
         })
     }
@@ -547,7 +575,6 @@ class CustomPokemon extends React.PureComponent {
 
     render() {
         //const isFalseInput = Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
-        console.log(strings.pagedescriptions.usr)
         return (
             <Grid container justify="center">
                 <SiteHelm
@@ -577,7 +604,7 @@ class CustomPokemon extends React.PureComponent {
                         quickMoveList={this.state.quickMoveList}
 
                         editPokemon={this.state.editPokemon}
-                        editNotOk={this.state.editNotOk}
+                        notOk={this.state.editPokemonNotOk}
 
                         onChange={this.onChange}
                         onMenuClose={this.onMenuClose}
@@ -620,6 +647,7 @@ class CustomPokemon extends React.PureComponent {
                                     quickMoveList={this.state.quickMoveList}
 
                                     value={this.state.activePokemon}
+                                    notOk={this.state.activePokemonNotOk}
 
                                     onChange={this.onChange}
 

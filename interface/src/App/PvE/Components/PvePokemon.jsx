@@ -78,6 +78,8 @@ const PvePokemon = React.memo(function PvePokemon(props) {
                                 disableClearable
                                 label={labelStrings.selectPok}
                                 value={props.value.Name}
+                                errorText={props.notOk && !!props.notOk.Name ? props.notOk.Name : ""}
+
                                 name="Name"
                                 attr={props.attr}
                                 onChange={props.onChange}
@@ -130,8 +132,10 @@ const PvePokemon = React.memo(function PvePokemon(props) {
 
             <Grid item xs={props.colSize ? props.colSize : 6}>
                 <MoveSelect
-                    value={props.value.QuickMove && props.moveTable[props.value.QuickMove] !== undefined &&
+                    value={props.value.QuickMove && !!props.moveTable[props.value.QuickMove] &&
                         props.value.QuickMove}
+                    errorText={props.notOk && !!props.notOk.QuickMove ? props.notOk.QuickMove : ""}
+
                     moveType={(props.moveTable[props.value.QuickMove] !== undefined) ?
                         props.moveTable[props.value.QuickMove].MoveType : ""}
 
@@ -153,8 +157,10 @@ const PvePokemon = React.memo(function PvePokemon(props) {
 
             <Grid item xs={props.colSize ? props.colSize : 6}>
                 <MoveSelect
-                    value={(props.value.ChargeMove && props.value.ChargeMove !== "Select..."
-                        && props.moveTable[props.value.ChargeMove] !== undefined) ? props.value.ChargeMove : ""}
+                    value={(props.value.ChargeMove !== "Select..." && !!props.moveTable[props.value.ChargeMove]) ?
+                        props.value.ChargeMove : ""}
+                    errorText={props.notOk && !!props.notOk.ChargeMove ? props.notOk.ChargeMove : ""}
+
                     moveType={(props.moveTable[props.value.ChargeMove] !== undefined) ?
                         props.moveTable[props.value.ChargeMove].MoveType : ""}
 
@@ -175,7 +181,6 @@ const PvePokemon = React.memo(function PvePokemon(props) {
             </Grid>
 
             {props.canBeShadow &&
-
                 <Grid item xs={props.colSize ? props.colSize : 6} style={{ order: props.attr === "editPokemon" ? "2" : "" }}>
                     <WithIcon
                         tip={tipStrings.shadow}
@@ -197,10 +202,11 @@ const PvePokemon = React.memo(function PvePokemon(props) {
             {props.hasSecondCharge &&
                 <Grid item xs={props.colSize ? props.colSize : 6} style={{ order: props.attr === "editPokemon" ? "1" : "" }}>
                     <MoveSelect
-                        value={(props.value.ChargeMove2 && props.value.ChargeMove2 !== "Select..."
-                            && props.moveTable[props.value.ChargeMove2] !== undefined) ? props.value.ChargeMove2 : ""}
+                        value={(props.value.ChargeMove2 !== "Select..." && !!props.moveTable[props.value.ChargeMove2]) ?
+                            props.value.ChargeMove2 : ""}
+                        errorText={props.notOk && !!props.notOk.ChargeMove2 ? props.notOk.ChargeMove2 : ""}
 
-                        moveType={(props.moveTable[props.value.ChargeMove2] !== undefined) ?
+                        moveType={(!!props.moveTable[props.value.ChargeMove2]) ?
                             props.moveTable[props.value.ChargeMove2].MoveType : ""}
 
                         name="ChargeMove2"
@@ -245,7 +251,8 @@ PvePokemon.propTypes = {
     onChange: PropTypes.func,
 
     attr: PropTypes.string,
-    value: PropTypes.object,
+    value: PropTypes.object.isRequired,
+    notOk: PropTypes.object.isRequired,
 
     colSize: PropTypes.number,
 

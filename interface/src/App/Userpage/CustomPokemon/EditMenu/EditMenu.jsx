@@ -31,7 +31,7 @@ class EditMenu extends React.PureComponent {
 
                         pokemonTable={this.props.pokemonTable}
                         moveTable={this.props.moveTable}
-
+                        notOk={this.props.notOk}
 
                         pokList={this.props.pokList}
                         chargeMoveList={this.props.chargeMoveList}

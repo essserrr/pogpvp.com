@@ -222,7 +222,6 @@ class SinglePvp extends React.PureComponent {
 
     onUserPokemonSelect(index, role) {
         let selectedPok = this.props.userPokemon[index]
-        console.log(selectedPok)
         //get movepool
         let moves = new MovePoolBuilder();
         moves.createMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
