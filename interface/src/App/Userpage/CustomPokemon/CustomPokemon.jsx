@@ -373,9 +373,6 @@ class CustomPokemon extends React.PureComponent {
     }
 
     onTurnOnImport(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
         this.setState({
             showImport: !this.state.showImport
         });
