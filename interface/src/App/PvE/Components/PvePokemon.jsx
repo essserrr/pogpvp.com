@@ -63,6 +63,8 @@ const PvePokemon = React.memo(function PvePokemon(props) {
                         Def={props.value.Def}
                         Sta={props.value.Sta}
 
+                        isShadow={props.value.IsShadow === "true"}
+
                         pokemonTable={props.pokemonTable}
                         name={props.value.Name}
                         tier={props.value.Tier}

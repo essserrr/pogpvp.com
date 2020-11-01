@@ -98,6 +98,9 @@ class Pokemon extends React.PureComponent {
                             Atk={this.props.value.Atk}
                             Def={this.props.value.Def}
                             Sta={this.props.value.Sta}
+
+                            isShadow={this.props.value.IsShadow === "true"}
+
                             pokemonTable={this.props.pokemonTable}
                             name={this.props.value.name}
                         />

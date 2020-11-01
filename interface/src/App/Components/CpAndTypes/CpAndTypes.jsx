@@ -37,6 +37,7 @@ const CpAndTyping = React.memo(function CpAndTyping(props) {
                 {isShadow && <Shadow className={classes.shadowIcon} />}
             </Box>
             <Box mr={1}>
+                {"CP: "}
                 <CP
                     name={name}
                     tier={tier}
