@@ -6,15 +6,14 @@ import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-
+import Snackbar from '@material-ui/core/Snackbar';
 
 import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
-
 import EditMenu from "./EditMenu/EditMenu"
-import MagicBox from "../../PvP/components/MagicBox/MagicBox"
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
-import PokemonPanel from "../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
+import MagicBox from "App/PvP/components/MagicBox/MagicBox"
+import SiteHelm from "App/SiteHelm/SiteHelm"
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton"
+import PokemonPanel from "App/PvE/Components/Panels/PokemonPanel/PokemonPanel"
 import PokemonBox from "./PokemonBox/PokemonBox"
 import PartyBox from "./PartyBox/PartyBox"
 
@@ -27,24 +26,17 @@ import { getCustomMoves } from "AppStore/Actions/getCustomMoves";
 import { getCookie } from "js/getCookie";
 import { MovePoolBuilder } from "js/movePoolBuilder";
 import { separateMovebase } from "js/separateMovebase";
-import { locale } from "locale/locale";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
-
 
 import { getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "js/indexFunctions"
 import { translareMove, translateName } from "./translator"
 
-import "./CustomPokemon.scss"
-
 let strings = new LocalizedStrings(userLocale);
-let pvpStrings = new LocalizedStrings(locale);
-
 
 class CustomPokemon extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        pvpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             activePokemon: getUserPok(),
             activePokemonNotOk: {},
@@ -159,7 +151,7 @@ class CustomPokemon extends React.PureComponent {
     onNameChange(value, name) {
         //get movepool
         var moves = new MovePoolBuilder();
-        moves.createMovePool(value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
+        moves.createMovePool(value, this.props.bases.pokemonBase, strings.moveSelect)
         const quickMove = selectQuickRaids(moves.quickMovePool, this.state.moveTable, value, this.props.bases.pokemonBase)
         const chargeMove = selectChargeRaids(moves.chargeMovePool, this.state.moveTable, value, this.props.bases.pokemonBase)
         //set state
@@ -348,7 +340,7 @@ class CustomPokemon extends React.PureComponent {
     onPokemonEdit(pok) {
         //get movepool
         var moves = new MovePoolBuilder();
-        moves.createMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect, false,
+        moves.createMovePool(pok.Name, this.props.bases.pokemonBase, strings.moveSelect, false,
             [pok.QuickMove], [pok.ChargeMove, pok.ChargeMove2])
 
         this.setState({
@@ -552,7 +544,7 @@ class CustomPokemon extends React.PureComponent {
             this.props.setCustomPokemon({ Pokemon: this.state.userPokemon, Parties: this.state.userParties })
             //show ok
             this.setState({ submitting: false, ok: true, })
-            await new Promise(res => setTimeout(res, 2500));
+            await new Promise(res => setTimeout(res, 4000));
             this.setState({ ok: false })
         } catch (e) {
             this.setState({
@@ -703,7 +695,7 @@ class CustomPokemon extends React.PureComponent {
                         <Box pt={3}>
                             <AuthButton
                                 loading={this.state.submitting}
-                                title={this.state.ok ? "Ok" : strings.userpok.changes}
+                                title={strings.userpok.changes}
                                 onClick={this.onSaveChanges}
                                 disabled={false}
                             />
@@ -716,6 +708,10 @@ class CustomPokemon extends React.PureComponent {
                             <Alert variant="filled" severity="error">{this.state.error}</Alert >
                         </Box>
                     </Grid>}
+
+                <Snackbar open={this.state.ok} onClose={() => { this.setState({ ok: false }) }}>
+                    <Alert variant="filled" severity="success">{strings.success}</Alert >
+                </Snackbar>
             </Grid>
         );
     }

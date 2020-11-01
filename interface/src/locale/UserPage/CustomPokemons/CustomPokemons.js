@@ -1,7 +1,12 @@
 export const userLocale = {
     en: {
         impExp: "Import/Export",
+        success: "Pokemon have been successfully saved",
 
+        moveSelect: {
+            select: "Select...",
+            none: "None",
+        },
         userpok: {
             have: "Pokemon you have",
 
@@ -62,7 +67,12 @@ export const userLocale = {
 
     ru: {
         impExp: "Импорт/Экспорт",
+        success: "Покемоны успешно сохранены",
 
+        moveSelect: {
+            select: "Выбор...",
+            none: "Нет",
+        },
         userpok: {
             have: "Ваши покемоны",
 

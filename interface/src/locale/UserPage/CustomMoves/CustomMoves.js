@@ -42,7 +42,7 @@ export const userLocale = {
             broker: "Shiny broker: helps you to trade your shiny pokemon in Pokemon go",
         },
         moveconstr: {
-            success: "Moves successfully changed",
+            success: "Moves have been successfully saved",
             add: "Add move",
             changes: "Save changes",
             umoves: "User moves",
