@@ -1,5 +1,4 @@
 import React from "react";
-import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
@@ -12,18 +11,12 @@ import SubmitRow from "App/Userpage/CustomPokemon/PokemonBox/SubmitRow/SubmitRow
 
 
 import UserFilteredList from "./UserFilteredList/UserFilteredList"
-import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
-import ImportExport from "../../../PvP/components/ImportExport/ImportExport"
-
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
-
-let strings = new LocalizedStrings(userLocale)
+import MagicBox from "App/PvP/components/MagicBox/MagicBox"
+import ImportExport from "App/PvP/components/ImportExport/ImportExport"
 
 class PokemonBox extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showCollapse: false,
 
@@ -63,22 +56,21 @@ class PokemonBox extends React.PureComponent {
     render() {
         return (
             <Grid container justify="center" spacing={2}>
-                {this.props.showImportExportPanel &&
-                    <MagicBox
-                        onClick={this.props.onTurnOnImport}
-                        attr={this.props.attr}
-                        element={
-                            <ImportExport
-                                type="userPokemon"
-                                initialValue={Object.values(this.props.userList)}
-                                pokemonTable={this.props.pokemonTable}
+                <MagicBox
+                    open={this.props.showImportExportPanel}
+                    onClick={this.props.onTurnOnImport}
+                    attr={this.props.attr}
+                >
+                    <ImportExport
+                        type="userPokemon"
+                        initialValue={Object.values(this.props.userList)}
+                        pokemonTable={this.props.pokemonTable}
 
-                                action="Import/Export"
-                                attr={this.props.attr}
-                                onChange={this.props.onImport}
-                            />
-                        }
-                    />}
+                        action="Import/Export"
+                        attr={this.props.attr}
+                        onChange={this.props.onImport}
+                    />
+                </MagicBox>
 
                 <Grid item xs={12}>
                     {this.props.children}

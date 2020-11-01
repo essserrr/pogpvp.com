@@ -11,10 +11,10 @@ import TextField from '@material-ui/core/TextField';
 
 import SubmitButton from "../../SubmitButton/SubmitButton"
 
-import { locale } from "../../../../../locale/locale"
+import { impExp } from "locale/ImportExport/ImportExport"
 import { getCookie } from "js/getCookie"
 
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(impExp)
 
 
 const styles = theme => ({

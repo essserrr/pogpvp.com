@@ -7,6 +7,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { withStyles } from "@material-ui/core/styles";
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 import ImportTips from "./ImportTips/ImportTips";
 import FileImport from "./FileImport/FileImport"
@@ -21,6 +24,9 @@ let impExpStrings = new LocalizedStrings(impExp)
 
 
 const styles = theme => ({
+    container: {
+        marginTop: `${theme.spacing(1)}px`,
+    },
     textArea: {
         border: `1px solid ${theme.palette.text.primary}`,
         display: "block",
@@ -51,6 +57,7 @@ class ImportExport extends React.PureComponent {
             value: this.formatActiveList(props.initialValue),
 
             loadedFile: null,
+            ok: false,
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -100,9 +107,12 @@ class ImportExport extends React.PureComponent {
         })
     }
 
-    onCopy() {
+    async onCopy() {
         this.textArea.current.select();
         document.execCommand('copy');
+        this.setState({ ok: true, })
+        await new Promise(res => setTimeout(res, 4000));
+        this.setState({ ok: false })
     }
 
     onclick() {
@@ -160,14 +170,14 @@ class ImportExport extends React.PureComponent {
         const { classes } = this.props;
 
         return (
-            <Grid container justify="center" spacing={2}>
+            <Grid container justify="center" spacing={2} className={classes.container}>
                 {this.props.type === "userPokemon" &&
                     <Grid item xs={12}>
                         <FileImport
                             attr="csvFile"
                             acceptFile=".csv"
 
-                            label={strings.import.fromfile}
+                            label={impExpStrings.import.fromfile}
                             tips={<>
                                 {impExpStrings.importtips.matrix.impCalcy}
                                 <br /><br />
@@ -190,20 +200,20 @@ class ImportExport extends React.PureComponent {
                 </Grid>
 
                 <Grid item xs={12}>
+                    <textarea onChange={this.onChange} value={this.state.value} ref={this.textArea}
+                        className={classes.textArea} rows="7">
+                    </textarea>
+                </Grid>
+
+                <Grid item xs={12}>
                     <Grid container justify="center">
                         <SubmitButton
                             onSubmit={this.onCopy}
                             class="submit-button--sm btn btn-primary btn-sm p-0 m-0"
                         >
-                            {strings.buttons.copy}
+                            {impExpStrings.copy}
                         </SubmitButton>
                     </Grid>
-                </Grid>
-
-                <Grid item xs={12}>
-                    <textarea onChange={this.onChange} value={this.state.value} ref={this.textArea}
-                        className={classes.textArea} rows="7">
-                    </textarea>
                 </Grid>
 
                 <Grid item xs={12}>
@@ -214,10 +224,16 @@ class ImportExport extends React.PureComponent {
                             onSubmit={this.onSubmit}
                             class="submit-button btn btn-primary btn-sm p-0 m-0"
                         >
-                            {strings.buttons.imp}
+                            {impExpStrings.imp}
                         </SubmitButton>
                     </Grid>
                 </Grid>
+
+
+
+                <Snackbar open={this.state.ok} onClose={() => { this.setState({ ok: false }) }}>
+                    <Alert variant="filled" severity="success">{impExpStrings.success}</Alert >
+                </Snackbar>
             </Grid>
         )
     }

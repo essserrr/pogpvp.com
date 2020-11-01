@@ -4,7 +4,18 @@ export const impExp = {
         atk: "Atk",
         def: "Def",
         sta: "Sta",
+
         impExp: "import from string",
+        success: "Copied",
+
+        copy: "Copy",
+        imp: "Import",
+
+        import: {
+            fromfile: "Import from file",
+            read: "Read file",
+            file: "Choose file",
+        },
 
         importtips: {
             matrix: {
@@ -41,7 +52,18 @@ export const impExp = {
         atk: "Атк",
         def: "Защ",
         sta: "Здр",
+
         impExp: "Импорт из строки",
+        success: "Скопировано",
+
+        copy: "Скопировать",
+        imp: "Импорт",
+
+        import: {
+            fromfile: "Импорт из файла",
+            read: "Прочесть файл",
+            file: "Выберите файл",
+        },
 
         importtips: {
             matrix: {

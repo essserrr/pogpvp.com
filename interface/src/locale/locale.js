@@ -137,12 +137,6 @@ export const locale = {
         },
 
 
-        import: {
-            fromfile: "Import from file",
-            read: "Read file",
-            file: "Choose file",
-        },
-
         tips: {
             impExp: "Enter or copy your Pokemon",
             search: "Please, enter more than 3 characters",
@@ -182,9 +176,11 @@ export const locale = {
         buttons: {
             byrating: "Sort by rating",
             byzeros: "Sort by bad matchups",
+
             copy: "Copy",
+
             impExp: "Import/Export",
-            imp: "Import",
+
             calculate: "Calculate",
             letsbattle: "Let's Battle",
             addpokemon: "Add pokemon",
@@ -430,12 +426,6 @@ export const locale = {
             lvl: "Ур",
         },
 
-        import: {
-            fromfile: "Импорт из файла",
-            read: "Прочесть файл",
-            file: "Выберите файл",
-        },
-
         tips: {
             impExp: "Введите или скопируйте ваших покемонов",
             search: "Введите более 3 символов",
@@ -475,8 +465,9 @@ export const locale = {
             byrating: "Сортировать по рейтингу",
             byzeros: "Сортировать по уязвимостям",
             copy: "Скопировать",
+
             impExp: "Импорт/Экспорт",
-            imp: "Импорт",
+
             calculate: "Посчитать",
             letsbattle: "В бой!",
             addpokemon: "Добавить покемона",
