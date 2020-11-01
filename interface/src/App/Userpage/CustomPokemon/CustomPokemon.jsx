@@ -138,17 +138,17 @@ class CustomPokemon extends React.PureComponent {
     }
 
     onCloseOuterMenu(event, attributes) {
-        let role = attributes.attr
+        let attr = attributes.attr
         this.setState({
-            [role]: !this.state[role],
+            [attr]: !this.state[attr],
         })
     }
 
     onMenuClose(event, attributes) {
-        let role = attributes.attr
+        let attr = attributes.attr
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 showMenu: false,
                 isSelected: undefined,
             }
@@ -183,90 +183,111 @@ class CustomPokemon extends React.PureComponent {
     }
 
 
-    onIvChange(event, role) {
+    onIvChange(event, attr) {
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: String(checkIV(event.target.value)),
             },
         });
     }
 
-    onLevelChange(event, role) {
+    onLevelChange(event, attr) {
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: String(checkLvl(event.target.value)),
             },
         });
     }
 
-    onMoveAdd(value, attr, category) {
-        const pool = category.includes("Charge") ? "chargeMovePool" : "quickMovePool"
-
-        let newMovePool = [...this.state[attr][pool]]
+    onMoveAdd(value, attr, name) {
+        const pool = name.includes("Charge") ? "chargeMovePool" : "quickMovePool";
+        let newMovePool = [...this.state[attr][pool]];
         newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+
+        const selectedObject = {
+            ...this.state[attr],
+            showMenu: false,
+            isSelected: undefined,
+            [pool]: newMovePool,
+            [name]: value,
+        }
+
         this.setState({
-            [attr]: {
-                ...this.state[attr],
-                showMenu: false,
-                isSelected: undefined,
-                [pool]: newMovePool,
-                [category]: value,
-            },
+            [attr]: selectedObject,
             [`${attr}NotOk`]: {
                 ...this.state[`${attr}NotOk`],
-                [category]: this.check(value, category),
+                [name]: this.check(value, name),
+                ChargeMove: selectedObject.ChargeMove === "" && selectedObject.ChargeMove2 === "" ?
+                    this.check(value, "ChargeMove") : "",
+            },
+        });
+    }
+
+    onChargeChange(event, attr) {
+        const selectedObject = {
+            ...this.state[attr],
+            [event.target.name]: event.target.value
+        }
+        this.setState({
+            [attr]: selectedObject,
+            [`${attr}NotOk`]: {
+                ...this.state[`${attr}NotOk`],
+                ChargeMove: selectedObject.ChargeMove === "" && selectedObject.ChargeMove2 === "" ?
+                    this.check(event.target.value, "ChargeMove") : "",
             },
         });
     }
 
 
     onChange(event, atrributes, eventItem, ...other) {
-        console.log(event.target, atrributes, eventItem, other)
-
-        const role = atrributes.attr
+        const attr = atrributes.attr
         const name = atrributes.name
         //check if it`s a name change
         if (eventItem && eventItem.value !== undefined) {
             switch (name) {
                 case "Name":
-                    this.onNameChange(eventItem.value, role)
+                    this.onNameChange(eventItem.value, attr)
                     return
                 default:
-                    this.onMoveAdd(eventItem.value, role, name)
+                    this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
 
-        //check if it's an iv change
-        if (name === "Sta" || name === "Def" || name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
         if (event.target.value === "Select...") {
             this.setState({
-                [role]: {
-                    ...this.state[role],
+                [attr]: {
+                    ...this.state[attr],
                     showMenu: true,
                     isSelected: name,
                 }
             });
             return
         }
+        //check if it's an iv change
+        if (name === "Sta" || name === "Def" || name === "Atk") {
+            this.onIvChange(event, attr)
+            return
+        }
+        //check if it's an level change
+        if (name === "Lvl") {
+            this.onLevelChange(event, attr)
+            return
+        }
+        if (name === "ChargeMove" || name === "ChargeMove2") {
+            this.onChargeChange(event, attr)
+            return
+        }
         //otherwise follow general pattern
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [name]: event.target.value
             },
-            [`${role}NotOk`]: {
-                ...this.state[`${role}NotOk`],
+            [`${attr}NotOk`]: {
+                ...this.state[`${attr}NotOk`],
                 [name]: this.check(event.target.value, name),
             },
         });
@@ -328,7 +349,7 @@ class CustomPokemon extends React.PureComponent {
         //get movepool
         var moves = new MovePoolBuilder();
         moves.createMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect, false,
-            [pok.QuickMove], [pok.ChargeMove, pok.ChargeMove2])
+            [pok.QuickMove], [pok.ChargeMove, pok.ChargeMove])
 
         this.setState({
             showEdit: true,

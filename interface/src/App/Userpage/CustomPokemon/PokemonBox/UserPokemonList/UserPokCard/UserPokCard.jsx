@@ -95,16 +95,16 @@ const UserPokCard = React.memo(function UserPokCard(props) {
 
             </Grid>
 
-            <ColoredMove mt={1}
+            {props.QuickMove && <ColoredMove mt={1}
                 type={props.moveTable[props.QuickMove].MoveType}
             >
                 {props.QuickMove}
-            </ColoredMove>
-            <ColoredMove mt={1}
+            </ColoredMove>}
+            {props.ChargeMove && <ColoredMove mt={1}
                 type={props.moveTable[props.ChargeMove].MoveType}
             >
                 {props.ChargeMove}
-            </ColoredMove>
+            </ColoredMove>}
             {props.ChargeMove2 && props.moveTable[props.ChargeMove2] &&
                 <ColoredMove mt={1}
                     type={props.moveTable[props.ChargeMove2].MoveType}

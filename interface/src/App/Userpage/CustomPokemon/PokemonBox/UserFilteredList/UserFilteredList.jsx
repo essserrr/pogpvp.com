@@ -6,12 +6,10 @@ import UserPokemonList from "App/Userpage/CustomPokemon/PokemonBox/UserPokemonLi
 
 class UserFilteredList extends React.PureComponent {
     check(pok) {
-        const orFilter = ["ChargeMove", "ChargeMove2"];
         const equalAndFilter = ["Atk", "Def", "Sta", "Lvl", "IsShadow"];
         const containsAndFilter = ["Name", "QuickMove",];
-
         return (
-            orFilter.reduce((sum, value) => sum || this.contains(pok[value], value), false) &&
+            (this.contains(pok["ChargeMove"], "ChargeMove") || this.contains(pok["ChargeMove2"], "ChargeMove")) &&
             equalAndFilter.reduce((sum, value) => sum && this.equal(pok[value], value), true) &&
             containsAndFilter.reduce((sum, value) => sum && this.contains(pok[value], value), true)
         )
