@@ -42,7 +42,7 @@ const UserShinyCard = React.memo(function UserShinyCard(props) {
     function onClickWrapper(event) {
         if (props.onClick) {
             event.stopPropagation()
-            props.onClick({ attr: props.attr, index: props.index })
+            props.onClick({ attr: props.attr, index: props.value.Name })
         }
     }
 

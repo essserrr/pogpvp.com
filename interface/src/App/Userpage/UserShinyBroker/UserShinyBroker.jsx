@@ -196,35 +196,35 @@ class UserShinyBroker extends React.PureComponent {
         return !str.match("^([A-Za-z0-9@_\\-\\.,!():$%^&*+= ]*)$")
     }
 
-    onPokemonAdd(event, args) {
-        if (Object.keys(this.state[args.name[0]]).length >= 400) { return }
-
+    onPokemonAdd(event, attributes, eventItem) {
+        if (Object.keys(this.state[attributes.attr]).length >= 400) { return }
         this.setState({
-            [args.name[0]]: {
-                ...this.state[args.name[0]],
-                [event.value]: { Name: event.value, Type: "Shiny", Amount: this.state.inputs[args.name[0] + "Amount"], },
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
+                [eventItem.value]: {
+                    Name: eventItem.value,
+                    Type: "Shiny",
+                    Amount: this.state.inputs[attributes.attr + "Amount"],
+                },
             }
         })
     }
 
-    onPokemonDelete(event) {
-        let attr = event.target.getAttribute("attr")
-        let index = event.target.getAttribute("index")
-
-        let updatedObj = { ...this.state[attr] }
-        delete updatedObj[index]
+    onPokemonDelete(attributes) {
+        console.log(attributes)
+        let updatedObj = { ...this.state[attributes.attr] }
+        delete updatedObj[attributes.index]
 
         this.setState({
-            [attr]: updatedObj,
+            [attributes.attr]: updatedObj,
         })
     }
 
-    onAmountChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onAmountChange(event, attributes) {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                [attr + event.target.name]: event.target.value,
+                [attributes.attr + event.target.name]: event.target.value,
             },
         })
     }
@@ -279,11 +279,8 @@ class UserShinyBroker extends React.PureComponent {
         }
     }
 
-    onTurnOnImport(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-        let role = event.target.getAttribute("attr")
+    onTurnOnImport(event, attributes) {
+        let role = attributes ? attributes.attr : event.target.getAttribute("attr");
         this.setState({
             [role + "Import"]: !this.state[role + "Import"]
         });

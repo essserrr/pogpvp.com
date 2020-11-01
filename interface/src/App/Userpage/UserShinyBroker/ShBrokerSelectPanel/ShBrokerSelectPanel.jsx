@@ -61,6 +61,7 @@ const ShBrokerSelectPanel = React.memo(function ShBrokerSelectPanel(props) {
             {!props.checked &&
                 <Grid item xs={12} md={6}>
                     <SearchableSelect
+                        disableClearable
                         label={strings.pokname}
                         attr={props.attr}
                         onChange={props.onPokemonAdd}

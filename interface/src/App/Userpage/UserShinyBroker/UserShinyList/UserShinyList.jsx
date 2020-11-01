@@ -31,7 +31,7 @@ class UserShinyList extends React.PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.list === prevProps.list) {
+        if (this.props.children === prevProps.children) {
             return
         }
 
