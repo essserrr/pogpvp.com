@@ -1,38 +1,42 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
-import { CountryRegionData } from "../crlist"
+import { CountryRegionData } from "../crlist";
 
-class Region extends React.PureComponent {
-    returnRegionList() {
-        if (!this.props.country) {
-            return []
-        }
+const Region = React.memo(function Region(props) {
 
-        let selectedCountry = CountryRegionData.filter((value) => value[0] === this.props.country)
+    function returnRegionList() {
+        if (!props.country) return [];
 
-        if (!selectedCountry) {
-            return []
-        }
+        const selectedCountry = CountryRegionData.find(value => value[0] === props.country)
+        if (!selectedCountry) return [];
 
-        return [{ value: "", label: this.props.defaultOption, }, ...selectedCountry[0][1].map((value) => ({ value: value, title: value, }))]
+        return [{ value: "", title: props.defaultOption, }, ...selectedCountry[1].map((value) => ({ value: value, title: value, }))]
     }
 
-    render() {
-        let list = this.returnRegionList()
 
-        return (
-            <SearchableSelect
-                disableClearable
-                label={this.props.label}
-                value={this.props.selectValue}
-                onChange={this.props.onChange}
-                errorText={this.props.notOk}
-            >
-                {list}
-            </SearchableSelect>
-        );
-    }
-}
+    return (
+        <SearchableSelect
+            disableClearable
+            label={props.label}
+            value={props.value}
+            onChange={props.onChange}
+            errorText={props.notOk}
+        >
+            {returnRegionList()}
+        </SearchableSelect>
+    )
+});
 
-export default Region
+export default Region;
+
+
+Region.propTypes = {
+    value: PropTypes.string,
+    notOk: PropTypes.string,
+    label: PropTypes.string,
+    country: PropTypes.string,
+
+    onChange: PropTypes.func,
+};

@@ -1,29 +1,33 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 import { CountryRegionData } from "../crlist";
 
-class Country extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            countriesList: [{ value: "", label: props.defaultOption, }, ...CountryRegionData.map((value) => ({ value: value[0], title: value[0], }))]
-        }
-    }
+const cuntriesList = CountryRegionData.map((value) => ({ value: value[0], title: value[0], }));
 
-    render() {
-        return (
-            <SearchableSelect
-                disableClearable
-                label={this.props.label}
-                value={this.props.selectValue}
-                onChange={this.props.onChange}
-                errorText={this.props.notOk}
-            >
-                {this.state.countriesList}
-            </SearchableSelect>
-        );
-    }
-}
+const Country = React.memo(function Country(props) {
 
-export default Country
+    return (
+        <SearchableSelect
+            disableClearable
+            label={props.label}
+            value={props.value}
+            onChange={props.onChange}
+            errorText={props.notOk}
+        >
+            {[{ value: "", title: props.defaultOption, }, ...cuntriesList]}
+        </SearchableSelect>
+    )
+});
+
+export default Country;
+
+Country.propTypes = {
+    value: PropTypes.string,
+    notOk: PropTypes.string,
+    label: PropTypes.string,
+    country: PropTypes.string,
+
+    onChange: PropTypes.func,
+};

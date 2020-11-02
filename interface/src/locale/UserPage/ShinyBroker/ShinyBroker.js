@@ -26,19 +26,19 @@ export const shinyBroker = {
             have: "Pokemon you have",
             want: "Pokemon you want",
 
-            region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Region\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            region: "Region",
             rPlaceYours: "Select your region",
             rPlace: "Select region (optional)",
 
-            country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Country\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            country: "Country",
             cPlaceYours: "Select your country",
             cPlace: "Select country (required)",
 
-            city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0City\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            city: "City",
             cityPlaceYours: "Enter your city name",
             cityPlace: "Enter name (optional)",
 
-            cont: "\xa0\xa0\xa0\xa0\xa0Contact details\xa0\xa0\xa0\xa0\xa0\xa0",
+            cont: "Contact details",
             contPlaceYours: "Enter your contact details",
             contPlace: "Enter contact details (optional)",
 
@@ -82,15 +82,15 @@ export const shinyBroker = {
             have: "Ваши покемоны",
             want: "Нужные вам покемоны",
 
-            country: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Страна\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            country: "Страна",
             cPlaceYours: "Выберите вашу страну",
             cPlace: "Выберите страну (обязательно)",
 
-            region: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Регион\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            region: "Регион",
             rPlaceYours: "Выберите ваш регион",
             rPlace: "Выберите регион (опционально)",
 
-            city: "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0Город\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0",
+            city: "Город",
             cityPlaceYours: "Введите название вашего города",
             cityPlace: "Введите название города (опционально)",
 
