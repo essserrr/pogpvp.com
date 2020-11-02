@@ -20,6 +20,7 @@ const Region = React.memo(function Region(props) {
         <SearchableSelect
             disableClearable
             label={props.label}
+
             value={props.value}
             onChange={props.onChange}
             errorText={props.notOk}

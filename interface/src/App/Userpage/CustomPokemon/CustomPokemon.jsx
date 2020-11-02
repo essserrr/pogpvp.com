@@ -687,7 +687,7 @@ class CustomPokemon extends React.PureComponent {
                         </Box>
                     </Grid>}
 
-                {!this.state.loading && !this.state.error && this.state.userPokemon &&
+                {!this.state.loading && this.state.userPokemon &&
                     <Grid item container xs={12} justify="center">
                         <Box pt={3}>
                             <AuthButton
