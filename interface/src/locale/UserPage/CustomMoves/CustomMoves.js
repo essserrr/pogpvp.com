@@ -1,45 +1,10 @@
 export const userLocale = {
     en: {
-        err: {
-            token: "You must check the captcha",
-            ness: "Necessary field",
-            match: "Passwords don't match",
-            symb: " contains prohibited symbols",
-            symb2: " contain prohibited symbols",
-
-            emailf: "Incorrect Email format",
-            lesseq: {
-                l1: " must be less than or equal ",
-                l2: " must be less than or equal ",
-                l3: " must be less than or equal ",
-                c: " characters",
-            },
-            longer: {
-                l1: " must be longer than ",
-                l2: " must be longer than ",
-                l3: " must be longer than ",
-            },
-        },
         pageheaders: {
-            reg: "User sign up form  |  PogPvP.com",
-
-            log: "Log in form  |  PogPvP.com",
-
-            usr: "User page  |  PogPvP.com",
-            usrinfo: "User page: User info  |  PogPvP.com",
-            usrsec: "User page: Security  |  PogPvP.com",
-            usrmoves: "User page: User's moves  |  PogPvP.com",
-            usrbroker: "User page: Shiny broker  |  PogPvP.com",
-            usrpok: "User page: User pokemon  |  PogPvP.com",
-
-            broker: "Shiny broker  |  PogPvP.com",
+            usrmoves: "User page: User moves  |  PogPvP.com",
         },
         pagedescriptions: {
-            reg: "User sign up form",
             usr: "User page",
-            log: "Log in form",
-
-            broker: "Shiny broker: helps you to trade your shiny pokemon in Pokemon go",
         },
         moveconstr: {
             success: "Moves have been successfully saved",
@@ -134,45 +99,11 @@ export const userLocale = {
     },
 
     ru: {
-        err: {
-            token: "Вы должны пройти проверку",
-            ness: "Обязательное поле",
-            match: "Пароли не совпадают",
-            symb: " содержит запрещенные символы",
-            symb2: " содержат запрещенные символы",
-
-            emailf: "Неверный формат адреса электронной почты",
-            lesseq: {
-                l1: " должно быть меньше либо равно ",
-                l2: " должен быть меньше либо равен ",
-                l3: " должны быть меньше либо равны ",
-                c: " символов",
-            },
-            longer: {
-                l1: " должно быть длиннее, чем ",
-                l2: " должен быть длиннее, чем ",
-                l3: " должны быть длиннее, чем ",
-            },
-        },
         pageheaders: {
-            reg: "Форма регистрации пользователя  |  PogPvP.com",
-            log: "Форма входа  |  PogPvP.com",
-
-            usr: "Страница пользователя  |  PogPvP.com",
-            usrinfo: "Страница пользователя: Информация о пользователе  |  PogPvP.com",
-            usrsec: "Страница пользователя: Безопасность  |  PogPvP.com",
             usrmoves: "Страница пользователя: Умения пользователя  |  PogPvP.com",
-            usrbroker: "Страница пользователя: Шайни брокер  |  PogPvP.com",
-            usrpok: "Страница пользователя: Покемоны пользователя  |  PogPvP.com",
-
-            broker: "Шайни брокер  |  PogPvP.com",
         },
         pagedescriptions: {
-            reg: "Форма регистрации пользователя",
             usr: "Страница пользователя",
-            log: "Форма входа",
-
-            broker: "Шайни брокер: помощь в поиске шайни для обмена в Pokemon go",
         },
         moveconstr: {
             success: "Умения успешно сохранены",

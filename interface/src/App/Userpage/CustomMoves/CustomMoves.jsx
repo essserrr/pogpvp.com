@@ -16,14 +16,17 @@ import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
 import SiteHelm from "App/SiteHelm/SiteHelm";
 import CustomMoveContsructorForm from "./CustomMoveContsructorForm/CustomMoveContsructorForm";
 import { getCookie } from "js/getCookie";
-import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves"
+import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
+import { errors } from "locale/UserPage/Errors";
 
 let strings = new LocalizedStrings(userLocale);
+let errorStrings = new LocalizedStrings(errors);
 
-class Move extends React.PureComponent {
+class CustomMoves extends React.PureComponent {
     constructor(props) {
         super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             inputs: {
                 Title: { value: "", error: "", },
@@ -158,9 +161,9 @@ class Move extends React.PureComponent {
     }
 
     checkTitle(str) {
-        if (str.length < 2) { return strings.moveconstr.err.mt1 + strings.err.longer.l1 + "2" + strings.err.lesseq.c }
-        if (str.length > 20) { return strings.moveconstr.err.mt1 + strings.err.lesseq.l1 + "20" + strings.err.lesseq.c }
-        if (this.checkRegexp(str)) { return strings.moveconstr.err.mt1 + strings.err.symb }
+        if (str.length < 2) { return strings.moveconstr.err.mt1 + errorStrings.err.longer.l1 + "2" + errorStrings.err.lesseq.c }
+        if (str.length > 20) { return strings.moveconstr.err.mt1 + errorStrings.err.lesseq.l1 + "20" + errorStrings.err.lesseq.c }
+        if (this.checkRegexp(str)) { return strings.moveconstr.err.mt1 + errorStrings.err.symb }
         if (!str.replace(/\s/g, '').length) { return strings.moveconstr.err.wrong + strings.moveconstr.err.mt2 }
         return ""
     }
@@ -249,7 +252,7 @@ class Move extends React.PureComponent {
     }
 
     onMoveOpen(event, move) {
-        if (event.target.getAttribute("name") === "closeButton") return;
+        if (event.target.getAttribute && event.target.getAttribute("name") === "closeButton") return;
         this.setState({
             inputs: {
                 Title: { value: move.Title, error: "", },
@@ -346,4 +349,4 @@ export default connect(
     state => ({
         customMoves: state.customMoves,
     }), mapDispatchToProps
-)(Move)
+)(CustomMoves)

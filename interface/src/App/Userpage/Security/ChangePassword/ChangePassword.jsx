@@ -7,19 +7,22 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { refresh } from "AppStore/Actions/refresh";
-import { userLocale } from "locale/UserPage/Security/Security";
-import { getCookie } from "js/getCookie";
-
 import PassChangeForm from "App/Userpage/Security/ChangePassword/PassChangeForm/PassChangeForm";
 
+import { refresh } from "AppStore/Actions/refresh";
+import { userLocale } from "locale/UserPage/Security/Security";
+import { errors } from "locale/UserPage/Errors";
+import { getCookie } from "js/getCookie";
+
+
+let errorStrings = new LocalizedStrings(errors);
 let strings = new LocalizedStrings(userLocale);
 
 class ChangePassword extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             loading: false,
             form: {
@@ -82,7 +85,7 @@ class ChangePassword extends React.PureComponent {
     }
 
     check(str, type, newPass) {
-        if (!str || str.replace(" ", "") === "") { return (strings.err.ness) }
+        if (!str || str.replace(" ", "") === "") { return (errorStrings.err.ness) }
         switch (type) {
             case "checkPassword":
                 return this.checkPass(str, true, newPass)
@@ -92,10 +95,10 @@ class ChangePassword extends React.PureComponent {
     }
 
     checkPass(str, isCheck, newPass) {
-        if (str.length < 6) return strings.security.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c;
-        if (str.length > 20) return strings.security.pass + strings.err.lesseq.l2 + "20" + strings.err.lesseq.c;
-        if (this.checkRegexp(str)) return strings.security.pass + strings.err.symb;
-        if (isCheck && newPass && str !== newPass) return strings.err.match;
+        if (str.length < 6) return strings.security.pass + errorStrings.err.longer.l2 + "6" + errorStrings.err.lesseq.c;
+        if (str.length > 20) return strings.security.pass + errorStrings.err.lesseq.l2 + "20" + errorStrings.err.lesseq.c;
+        if (this.checkRegexp(str)) return strings.security.pass + errorStrings.err.symb;
+        if (isCheck && newPass && str !== newPass) return errorStrings.err.match;
         return ""
     }
 

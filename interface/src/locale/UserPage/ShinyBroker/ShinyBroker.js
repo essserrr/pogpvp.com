@@ -2,6 +2,18 @@ export const shinyBroker = {
     en: {
         impExp: "Import/Export",
         pokname: "Pokemon name",
+        shbr: "Shiny broker",
+
+        success: "Pokemon have been successfully saved",
+
+
+        pageheaders: {
+            usrbroker: "User page: Shiny broker  |  PogPvP.com",
+        },
+        pagedescriptions: {
+            usr: "User page",
+        },
+
 
         shbroker: {
             int: {
@@ -20,6 +32,7 @@ export const shinyBroker = {
                 dethave: "Can offer:",
                 detwant: "Wants:",
             },
+            changes: "Save changes",
 
             find: "Find trainers",
 
@@ -45,6 +58,7 @@ export const shinyBroker = {
             amount: "Amount",
 
             err: {
+                wrong: "Wrong fromat of ",
                 c1: "City name",
                 c2: "city name",
 
@@ -57,6 +71,17 @@ export const shinyBroker = {
     ru: {
         impExp: "Импорт/Экспорт",
         pokname: "Имя покемона",
+        shbr: "Шайни брокер",
+
+        success: "Покемоны успешно сохранены",
+
+        pageheaders: {
+            usrbroker: "Страница пользователя: Шайни брокер  |  PogPvP.com",
+        },
+        pagedescriptions: {
+            usr: "Страница пользователя",
+        },
+
 
         shbroker: {
             int: {
@@ -75,7 +100,7 @@ export const shinyBroker = {
                 dethave: "Может предложить:",
                 detwant: "Хочет взамен:",
             },
-
+            changes: "Сохранить изменения",
 
             find: "Найти тренеров",
 
@@ -101,6 +126,7 @@ export const shinyBroker = {
             amount: "Количество",
 
             err: {
+                wrong: "Неверный формат ",
                 c1: "Название города",
                 c2: "названия города",
 

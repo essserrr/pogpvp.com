@@ -12,13 +12,16 @@ import Input from "App/Components/Input/Input";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
+import { errors } from "locale/UserPage/Errors";
 
 let strings = new LocalizedStrings(userLocale);
+let errorStrings = new LocalizedStrings(errors);
 
 class PartyBox extends React.PureComponent {
     constructor(props) {
         super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             enteredName: {
                 value: "",
@@ -120,7 +123,7 @@ class PartyBox extends React.PureComponent {
 
     checkName(name) {
         if (name === "") {
-            return strings.err.ness
+            return errorStrings.err.ness
         }
         return ""
     }

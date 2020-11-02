@@ -1,6 +1,6 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -9,27 +9,26 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
-import SiteHelm from "App/SiteHelm/SiteHelm"
-import ShBrokerForm from "./ShBrokerForm/ShBrokerForm"
-import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel"
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton"
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import ShBrokerForm from "./ShBrokerForm/ShBrokerForm";
+import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel";
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 
-import { shinyDict } from "./ShinyDict"
-import { refresh } from "AppStore/Actions/refresh"
-import { getPokemonBase } from "AppStore/Actions/getPokemonBase"
-import { getCookie } from "js/getCookie"
-import { userLocale } from "locale/userLocale"
+import { shinyDict } from "./ShinyDict";
+import { refresh } from "AppStore/Actions/refresh";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { getCookie } from "js/getCookie";
+import { shinyBroker } from "locale/UserPage/ShinyBroker/ShinyBroker";
+import { errors } from "locale/UserPage/Errors";
 
-import "./UserShinyBroker.scss"
-
-let strings = new LocalizedStrings(userLocale);
-
+let strings = new LocalizedStrings(shinyBroker);
+let errorStrings = new LocalizedStrings(errors);
 
 class UserShinyBroker extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             inputs: {
                 Country: "", Region: "", City: "", Contacts: "", HaveAmount: "1", WantAmount: "1",
@@ -181,18 +180,18 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     checkCity(str) {
-        if (str.length < 1) { return strings.shbroker.err.c1 + strings.err.longer.l1 + "1" + strings.err.lesseq.c }
-        if (str.length > 36) { return strings.shbroker.err.c1 + strings.err.lesseq.l1 + "36" + strings.err.lesseq.c }
-        if (this.checkRegexp(str)) { return strings.shbroker.err.c1 + strings.err.symb2 }
-        if (!str.replace(/\s/g, '').length) { return strings.moveconstr.err.wrong + strings.shbroker.err.c2 }
+        if (str.length < 1) { return strings.shbroker.err.c1 + errorStrings.err.longer.l1 + "1" + errorStrings.err.lesseq.c }
+        if (str.length > 36) { return strings.shbroker.err.c1 + errorStrings.err.lesseq.l1 + "36" + errorStrings.err.lesseq.c }
+        if (this.checkRegexp(str)) { return strings.shbroker.err.c1 + errorStrings.err.symb2 }
+        if (!str.replace(/\s/g, '').length) { return strings.shbroker.err.wrong + strings.shbroker.err.c2 }
         return ""
     }
 
     checkContacts(str) {
-        if (str.length < 1) { return strings.shbroker.err.cd1 + strings.err.longer.l3 + "1" + strings.err.lesseq.c }
-        if (str.length > 150) { return strings.shbroker.err.cd1 + strings.err.lesseq.l3 + "150" + strings.err.lesseq.c }
-        if (this.checkRegexp(str)) { return strings.shbroker.err.cd1 + strings.err.symb2 }
-        if (!str.replace(/\s/g, '').length) { return strings.moveconstr.err.wrong + strings.shbroker.err.cd2 }
+        if (str.length < 1) { return strings.shbroker.err.cd1 + errorStrings.err.longer.l3 + "1" + errorStrings.err.lesseq.c }
+        if (str.length > 150) { return strings.shbroker.err.cd1 + errorStrings.err.lesseq.l3 + "150" + errorStrings.err.lesseq.c }
+        if (this.checkRegexp(str)) { return strings.shbroker.err.cd1 + errorStrings.err.symb2 }
+        if (!str.replace(/\s/g, '').length) { return strings.shbroker.err.wrong + strings.shbroker.err.cd2 }
         return ""
     }
 
@@ -362,7 +361,7 @@ class UserShinyBroker extends React.PureComponent {
 
 
                 {!this.state.loading && this.state.pokList &&
-                    <UserPageContent title={strings.upage.shbr}>
+                    <UserPageContent title={strings.shbr}>
                         <Grid container justify="center" spacing={2}>
                             <Grid item xs={12}>
                                 <ShBrokerForm
@@ -431,7 +430,7 @@ class UserShinyBroker extends React.PureComponent {
                         <Box pt={3}>
                             <AuthButton
                                 loading={this.state.submitting}
-                                title={strings.moveconstr.changes}
+                                title={strings.shbroker.changes}
                                 onClick={this.onSaveChanges}
                                 disabled={Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
                             />
