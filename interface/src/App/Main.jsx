@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import Loader from "./PvpRating/Loader";
 
 import { getCookie } from "../js/getCookie";
 import { loaderLocale } from "../locale/loaderLocale";
@@ -57,16 +57,7 @@ const Main = function GreyPaper() {
 
     return (
         <Container component="main" className={classes.mainPadding}>
-            <Suspense fallback={
-                <Loader
-                    color="white"
-                    weight="500"
-                    locale={strings.loading}
-                    loading={true}
-
-                    class="row justify-content-center text-white"
-                    innerClass="col-auto mt-1  mt-md-2"
-                />}>
+            <Suspense fallback={<LinearProgress color="secondary" />}>
                 <Switch>
                     <Route exact path="/" component={IndexPageRouter} />
                     <Route exact path="/" component={NewsPageRouter} />
