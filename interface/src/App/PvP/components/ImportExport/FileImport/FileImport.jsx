@@ -27,6 +27,8 @@ const styles = theme => ({
     fileInput: {
         opacity: "0%",
         width: "100%",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
     },
 });
 
