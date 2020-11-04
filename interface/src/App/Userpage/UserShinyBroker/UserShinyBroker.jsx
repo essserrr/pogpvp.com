@@ -12,7 +12,7 @@ import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
 import SiteHelm from "App/SiteHelm/SiteHelm";
 import ShBrokerForm from "./ShBrokerForm/ShBrokerForm";
 import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel";
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 import SaveIcon from '@material-ui/icons/Save';
 
 import { shinyDict } from "./ShinyDict";
@@ -429,7 +429,7 @@ class UserShinyBroker extends React.PureComponent {
                 {!this.state.loading && this.state.pokList &&
                     <Grid item container xs={12} justify="center">
                         <Box pt={3}>
-                            <AuthButton
+                            <Button
                                 loading={this.state.submitting}
                                 title={strings.shbroker.changes}
                                 endIcon={<SaveIcon />}

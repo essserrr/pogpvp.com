@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { ReactComponent as LogoutIcon } from "icons/logout.svg";
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 import SessionsTable from "App/Userpage/Security/Sessions/SessionsTable/SessionsTable";
 
 import { userLocale } from "locale/UserPage/Security/Security";
@@ -72,7 +72,7 @@ class Sessions extends React.PureComponent {
                     </ Grid>}
                 <Grid container item xs={12} justify="center">
                     <Box mt={2}>
-                        <AuthButton
+                        <Button
                             loading={this.state.loading}
                             title={strings.security.soutall}
                             endIcon={<LogoutIcon width={24} height={24} fill="white" />}

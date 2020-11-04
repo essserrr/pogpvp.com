@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
@@ -19,7 +19,7 @@ const SubmitRow = React.memo(function SubmitRow(props) {
 
     return (
         <Grid item xs={12} container justify="center" alignItems="center">
-            <AuthButton
+            <Button
                 attr={props.attr}
                 disabled={Object.values(props.notOk).reduce((sum, val) => sum || (val !== ""), false)}
                 onClick={props.onPokemonAdd}
@@ -27,7 +27,7 @@ const SubmitRow = React.memo(function SubmitRow(props) {
                 endIcon={<AddCircleIcon />}
             />
             <Box fontWeight={500} fontSize={"12pt"} mx={2} >{strings.userpok.or}</Box>
-            <AuthButton
+            <Button
                 attr={props.attr}
                 onClick={props.onTurnOnImport}
                 title={strings.impExp}

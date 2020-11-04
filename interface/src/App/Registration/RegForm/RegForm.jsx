@@ -4,7 +4,7 @@ import { ReCaptcha } from 'react-recaptcha-google'
 import { Link } from "react-router-dom"
 
 import Input from "App/Components/Input/Input"
-import AuthButton from "./AuthButton/AuthButton"
+import Button from "App/Components/Button/Button";
 import "./RegForm.scss"
 
 import { getCookie } from "../../../js/getCookie"
@@ -101,7 +101,7 @@ class LoginForm extends React.PureComponent {
                     <Link title={strings.pol.p} to="/privacy">{strings.pol.p}</Link> {strings.and} <Link title={strings.pol.t} to="/terms">{strings.pol.t}</Link>
                 </div>
                 <div className="row m-0 pt-3 justify-content-center">
-                    <AuthButton
+                    <Button
                         title={strings.signup.toreg}
                         onClick={this.onSubmit}
                         loading={this.props.loading}

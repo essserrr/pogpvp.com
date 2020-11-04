@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization"
 
 import Alert from '@material-ui/lab/Alert';
 
-import Loader from "../../../../../../../../Registration/RegForm/AuthButton/Loader/Loader"
+import Loader from "App/Components/Button/Button";
 import SubmitButton from "../../../../../../../../PvP/components/SubmitButton/SubmitButton"
 import { pveLocale } from "../../../../../../../../../locale/pveLocale"
 

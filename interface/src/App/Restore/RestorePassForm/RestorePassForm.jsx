@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization"
 import { ReCaptcha } from 'react-recaptcha-google'
 
 import Input from "App/Components/Input/Input"
-import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
+import Button from "App/Components/Button/Button";
 import "./RestorePassForm.scss"
 
 import { getCookie } from "../../../js/getCookie"
@@ -60,7 +60,7 @@ class RestorePassForm extends React.PureComponent {
                         <div className="col-12 px-0 text-center reg-form__alert-text">{this.props.notOk.token}</div>}
                 </div>
                 <div className="row m-0 pt-3 justify-content-center">
-                    <AuthButton
+                    <Button
                         title={strings.restore.tores}
                         onClick={this.onSubmit}
                         loading={this.props.loading}

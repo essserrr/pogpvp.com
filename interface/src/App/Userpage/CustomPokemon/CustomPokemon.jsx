@@ -13,7 +13,7 @@ import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
 import EditMenu from "./EditMenu/EditMenu"
 import MagicBox from "App/PvP/components/MagicBox/MagicBox"
 import SiteHelm from "App/SiteHelm/SiteHelm"
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton"
+import Button from "App/Components/Button/Button"
 import PokemonPanel from "App/PvE/Components/Panels/PokemonPanel/PokemonPanel"
 import PokemonBox from "./PokemonBox/PokemonBox"
 import PartyBox from "./PartyBox/PartyBox"
@@ -692,7 +692,7 @@ class CustomPokemon extends React.PureComponent {
                 {!this.state.loading && this.state.userPokemon &&
                     <Grid item container xs={12} justify="center">
                         <Box pt={3}>
-                            <AuthButton
+                            <Button
                                 loading={this.state.submitting}
                                 title={strings.userpok.changes}
                                 onClick={this.onSaveChanges}

@@ -1,26 +1,26 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import Button from '@material-ui/core/Button';
+import MaterialButton from '@material-ui/core/Button';
 import Loader from "./Loader/Loader";
 
-const AuthButton = React.memo(function (props) {
+const Button = React.memo(function (props) {
     const { endIcon, loading, title, onClick, ...other } = props;
 
     return (
-        <Button onClick={onClick}
+        <MaterialButton onClick={onClick}
             endIcon={loading ? <Loader duration="1.5s" /> : endIcon}
             type="submit" variant="contained" color="primary"
             {...other}
         >
             {title}
-        </Button>
+        </MaterialButton>
     )
 })
 
-export default AuthButton;
+export default Button;
 
-AuthButton.propTypes = {
+Button.propTypes = {
     endIcon: PropTypes.node,
     loading: PropTypes.bool,
 

@@ -14,7 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import UserShinyFilter from "../UserShinyFilter/UserShinyFilter";
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 import MagicBox from "App/PvP/components/MagicBox/MagicBox";
 import ImportExport from "App/PvP/components/ImportExport/ImportExport";
 
@@ -109,7 +109,7 @@ const ShBrokerSelectPanel = React.memo(function ShBrokerSelectPanel(props) {
             {props.onImport &&
                 <Grid item xs={12}>
                     <Grid container justify="center" alignItems="center">
-                        <AuthButton
+                        <Button
                             attr={props.attr}
                             onClick={props.onTurnOnImport}
                             title={strings.impExp}

@@ -11,7 +11,7 @@ import Loader from "../PvpRating/Loader"
 import ShBrokerForm from "../Userpage/UserShinyBroker/ShBrokerForm/ShBrokerForm"
 import ShBrokerSelectPanel from "../Userpage/UserShinyBroker/ShBrokerSelectPanel/ShBrokerSelectPanel"
 
-import AuthButton from "../Registration/RegForm/AuthButton/AuthButton"
+import Button from "App/Components/Button/Button";
 import SelectedUsers from "./SelectedUsers/SelectedUsers"
 
 import { getCookie } from "../../js/getCookie"
@@ -348,7 +348,7 @@ class ShinyBroker extends React.Component {
 
                                     <div className="col-12 px-1">
                                         <div className="row m-0 pt-2 justify-content-center">
-                                            <AuthButton
+                                            <Button
                                                 loading={this.state.submitting}
                                                 title={this.state.ok ? "Ok" : strings.shbroker.find}
                                                 onClick={this.onSubmitFilter}

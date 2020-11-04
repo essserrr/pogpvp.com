@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 import Input from "App/Components/Input/Input"
 import TypeAndCategory from "App/Userpage/CustomMoves/CustomMoveContsructorForm/TypeAndCategory/TypeAndCategory";
 import PveProperties from "App/Userpage/CustomMoves/CustomMoveContsructorForm/PveProperties/PveProperties";
@@ -54,7 +54,7 @@ const CustomMoveContsructorForm = React.memo(function CustomMoveContsructorForm(
                 />
             </Grid>
             <Grid item xs={12} container justify="center">
-                <AuthButton
+                <Button
                     title={strings.moveconstr.add}
                     onClick={props.onMoveAdd}
                     endIcon={<AddCircleIcon />}

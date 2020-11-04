@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 
 import { impExp } from "locale/ImportExport/ImportExport"
 import { getCookie } from "js/getCookie"
@@ -146,7 +146,7 @@ class FileImport extends React.PureComponent {
 
                 <Grid item xs={12}>
                     <Grid container justify="center">
-                        <AuthButton
+                        <Button
                             onClick={this.onSubmit}
                             title={strings.import.read}
                             endIcon={<FolderOpenIcon />}

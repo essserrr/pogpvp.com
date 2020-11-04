@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 import ActiveParty from "App/Userpage/CustomPokemon/PartyBox/ActiveParty/ActiveParty";
 import PokemonSelect from "App/Userpage/CustomPokemon/PartyBox/PokemonSelect/PokemonSelect";
 import PartiesSelect from "App/Userpage/CustomPokemon/PartyBox/PartiesSelect/PartiesSelect";
@@ -148,7 +148,7 @@ class PartyBox extends React.PureComponent {
                             </PartiesSelect>
                         </Grid>
                         <Grid container item xs={12} md={6} justify="center">
-                            <AuthButton
+                            <Button
                                 attr={this.props.attr}
                                 onClick={this.onGroupDelete}
                                 title={strings.userpok.deletegroup}
@@ -181,7 +181,7 @@ class PartyBox extends React.PureComponent {
                 </Grid>
 
                 <Grid item container xs={12} justify="center">
-                    <AuthButton
+                    <Button
                         attr={this.props.attr}
                         onClick={this.onGroupAdd}
                         title={strings.userpok.savegroup}

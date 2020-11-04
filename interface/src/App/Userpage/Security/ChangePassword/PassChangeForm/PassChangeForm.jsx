@@ -7,7 +7,7 @@ import Box from '@material-ui/core/Box';
 import SaveIcon from '@material-ui/icons/Save';
 
 import Input from "App/Components/Input/Input";
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/Security/Security";
@@ -64,7 +64,7 @@ const PassChangeForm = React.memo(function PassChangeForm(props) {
             </Grid>
             <Grid item container justify="center" xs={12}>
                 <Box mt={1}>
-                    <AuthButton
+                    <Button
                         loading={props.loading}
                         title={strings.security.chpass}
                         onClick={props.onSubmit}

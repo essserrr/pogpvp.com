@@ -12,7 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 import ImportTips from "./ImportTips/ImportTips";
 import FileImport from "./FileImport/FileImport"
 
@@ -210,7 +210,7 @@ class ImportExport extends React.PureComponent {
 
                 <Grid item xs={12}>
                     <Grid container justify="center">
-                        <AuthButton
+                        <Button
                             onClick={this.onCopy}
                             title={impExpStrings.copy}
                             endIcon={<FileCopyIcon />}
@@ -220,7 +220,7 @@ class ImportExport extends React.PureComponent {
 
                 <Grid item xs={12}>
                     <Grid container justify="center">
-                        <AuthButton
+                        <Button
                             onClick={this.onSubmit}
                             title={impExpStrings.imp}
                             endIcon={<ImportExportIcon />}

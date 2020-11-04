@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import SaveIcon from '@material-ui/icons/Save';
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 import PokemonPanel from "App/PvE/Components/Panels/PokemonPanel/PokemonPanel";
 
 import { getCookie } from "js/getCookie";
@@ -41,7 +41,7 @@ const EditMenu = React.memo(function EditMenu(props) {
                 />
             </Grid>
             <Box mt={3}>
-                <AuthButton
+                <Button
                     attr={props.attr}
                     disabled={Object.values(props.notOk).reduce((sum, val) => sum || (val !== ""), false)}
                     onClick={props.onPokemonEditSubmit}

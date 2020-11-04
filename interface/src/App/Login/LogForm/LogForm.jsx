@@ -9,7 +9,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import ReCaptchaWithErr from "./ReCaptchaWithErr/ReCaptchaWithErr"
 import Input from "App/Components/Input/Input";
-import AuthButton from "App/Registration/RegForm//AuthButton/AuthButton";
+import Button from "App/Components/Button/Button";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/Login/Login";
@@ -71,7 +71,7 @@ class LoginForm extends React.PureComponent {
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container justify="center">
-                        <AuthButton
+                        <Button
                             title={strings.signin.tolog}
                             onClick={this.onSubmit}
                             loading={this.props.loading}

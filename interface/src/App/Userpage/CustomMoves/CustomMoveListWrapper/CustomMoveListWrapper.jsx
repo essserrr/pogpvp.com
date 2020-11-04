@@ -12,7 +12,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import { refresh } from "AppStore/Actions/refresh";
 import { setCustomMoves } from "AppStore/Actions/actions";
 
-import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton"
+import Button from "App/Components/Button/Button"
 import CustomMoveList from "App/Userpage/CustomMoves/CustomMoveListWrapper/CustomMoveList/CustomMoveList"
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
@@ -77,7 +77,7 @@ class CustomMoveListWrapper extends React.PureComponent {
                 </Grid>
                 <Grid item xs={12} container justify="center">
                     <Box mt={2}>
-                        <AuthButton
+                        <Button
                             loading={this.state.submitting}
                             title={strings.moveconstr.changes}
                             endIcon={<SaveIcon />}
