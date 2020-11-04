@@ -9,11 +9,12 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { withStyles } from "@material-ui/core/styles";
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
-
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 import ImportTips from "./ImportTips/ImportTips";
 import FileImport from "./FileImport/FileImport"
-import SubmitButton from "../SubmitButton/SubmitButton"
 
 import { locale } from "../../../../locale/locale"
 import { impExp } from "locale/ImportExport/ImportExport";
@@ -191,7 +192,9 @@ class ImportExport extends React.PureComponent {
                 <Grid item xs={12}>
                     <Grid container justify="space-between" spacing={1}>
                         <Grid item xs>
-                            {impExpStrings.impExp}
+                            <Typography>
+                                {impExpStrings.impExp}
+                            </Typography>
                         </Grid>
                         <Tooltip title={<Typography color="inherit">{<ImportTips type={this.props.type} />}</Typography>}>
                             <HelpOutlineIcon className={classes.defaultIcon} />
@@ -207,25 +210,21 @@ class ImportExport extends React.PureComponent {
 
                 <Grid item xs={12}>
                     <Grid container justify="center">
-                        <SubmitButton
-                            onSubmit={this.onCopy}
-                            class="submit-button--sm btn btn-primary btn-sm p-0 m-0"
-                        >
-                            {impExpStrings.copy}
-                        </SubmitButton>
+                        <AuthButton
+                            onClick={this.onCopy}
+                            title={impExpStrings.copy}
+                            endIcon={<FileCopyIcon />}
+                        />
                     </Grid>
                 </Grid>
 
                 <Grid item xs={12}>
                     <Grid container justify="center">
-                        <SubmitButton
-                            action={this.props.action}
-                            attr={this.props.attr}
-                            onSubmit={this.onSubmit}
-                            class="submit-button btn btn-primary btn-sm p-0 m-0"
-                        >
-                            {impExpStrings.imp}
-                        </SubmitButton>
+                        <AuthButton
+                            onClick={this.onSubmit}
+                            title={impExpStrings.imp}
+                            endIcon={<ImportExportIcon />}
+                        />
                     </Grid>
                 </Grid>
 

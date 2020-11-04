@@ -3,11 +3,13 @@ import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import DeleteIcon from '@material-ui/icons/Delete';
 
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 import ActiveParty from "App/Userpage/CustomPokemon/PartyBox/ActiveParty/ActiveParty";
 import PokemonSelect from "App/Userpage/CustomPokemon/PartyBox/PokemonSelect/PokemonSelect";
 import PartiesSelect from "App/Userpage/CustomPokemon/PartyBox/PartiesSelect/PartiesSelect";
-import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton";
 import Input from "App/Components/Input/Input";
 
 import { getCookie } from "js/getCookie";
@@ -146,13 +148,12 @@ class PartyBox extends React.PureComponent {
                             </PartiesSelect>
                         </Grid>
                         <Grid container item xs={12} md={6} justify="center">
-                            <SubmitButton
-                                class="submit-button--lg btn btn-primary btn-sm"
+                            <AuthButton
                                 attr={this.props.attr}
-                                onSubmit={this.onGroupDelete}
-                            >
-                                {strings.userpok.deletegroup}
-                            </SubmitButton>
+                                onClick={this.onGroupDelete}
+                                title={strings.userpok.deletegroup}
+                                endIcon={<DeleteIcon />}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>
@@ -180,13 +181,12 @@ class PartyBox extends React.PureComponent {
                 </Grid>
 
                 <Grid item container xs={12} justify="center">
-                    <SubmitButton
-                        class="submit-button--lg btn btn-primary btn-sm"
+                    <AuthButton
                         attr={this.props.attr}
-                        onSubmit={this.onGroupAdd}
-                    >
-                        {strings.userpok.savegroup}
-                    </SubmitButton>
+                        onClick={this.onGroupAdd}
+                        title={strings.userpok.savegroup}
+                        endIcon={<AddCircleIcon />}
+                    />
                 </Grid>
 
                 <Grid item xs={12}>

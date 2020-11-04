@@ -13,6 +13,7 @@ import SiteHelm from "App/SiteHelm/SiteHelm";
 import ShBrokerForm from "./ShBrokerForm/ShBrokerForm";
 import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel";
 import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
+import SaveIcon from '@material-ui/icons/Save';
 
 import { shinyDict } from "./ShinyDict";
 import { refresh } from "AppStore/Actions/refresh";
@@ -283,7 +284,7 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     onTurnOnImport(event, attributes) {
-        let role = attributes ? attributes.attr : event.target.getAttribute("attr");
+        let role = attributes ? attributes.attr : event.currentTarget.getAttribute("attr");
         this.setState({
             [role + "Import"]: !this.state[role + "Import"]
         });
@@ -431,8 +432,9 @@ class UserShinyBroker extends React.PureComponent {
                             <AuthButton
                                 loading={this.state.submitting}
                                 title={strings.shbroker.changes}
+                                endIcon={<SaveIcon />}
                                 onClick={this.onSaveChanges}
-                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
+                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum || val !== "", false)}
                             />
                         </Box>
                     </Grid>}

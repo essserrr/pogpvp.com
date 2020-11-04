@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
+import SaveIcon from '@material-ui/icons/Save';
 
 import { refresh } from "AppStore/Actions/refresh";
 import { setCustomMoves } from "AppStore/Actions/actions";
@@ -79,6 +80,7 @@ class CustomMoveListWrapper extends React.PureComponent {
                         <AuthButton
                             loading={this.state.submitting}
                             title={strings.moveconstr.changes}
+                            endIcon={<SaveIcon />}
                             onClick={this.onSaveChanges}
                         />
                     </Box>

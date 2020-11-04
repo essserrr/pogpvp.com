@@ -6,10 +6,10 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import { withStyles } from "@material-ui/core/styles";
-
 import TextField from '@material-ui/core/TextField';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
-import SubmitButton from "../../SubmitButton/SubmitButton"
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 
 import { impExp } from "locale/ImportExport/ImportExport"
 import { getCookie } from "js/getCookie"
@@ -111,7 +111,9 @@ class FileImport extends React.PureComponent {
                 <Grid item xs={12}>
                     <Grid container justify="space-between" spacing={1}>
                         <Grid item xs>
-                            {this.props.label}
+                            <Typography>
+                                {this.props.label}
+                            </Typography>
                         </Grid>
                         <Tooltip title={<Typography color="inherit">{this.props.tips}</Typography>}>
                             <HelpOutlineIcon className={classes.defaultIcon} />
@@ -141,14 +143,13 @@ class FileImport extends React.PureComponent {
                 </Grid>
 
                 <Grid item xs={12}>
-                    <div className="row mx-0 justify-content-center align-items-center my-3">
-                        <SubmitButton
-                            onSubmit={this.onSubmit}
-                            class="submit-button btn btn-primary btn-sm p-0 m-0"
-                        >
-                            {strings.import.read}
-                        </SubmitButton>
-                    </div>
+                    <Grid container justify="center">
+                        <AuthButton
+                            onClick={this.onSubmit}
+                            title={strings.import.read}
+                            endIcon={<FolderOpenIcon />}
+                        />
+                    </Grid>
                 </Grid>
             </Grid>
         )

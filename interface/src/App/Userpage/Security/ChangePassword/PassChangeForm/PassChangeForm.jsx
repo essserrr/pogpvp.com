@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import SaveIcon from '@material-ui/icons/Save';
 
 import Input from "App/Components/Input/Input";
 import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
@@ -67,6 +68,7 @@ const PassChangeForm = React.memo(function (props) {
                         loading={props.loading}
                         title={strings.security.chpass}
                         onClick={props.onSubmit}
+                        endIcon={<SaveIcon />}
                         disabled={Object.values(props.form).reduce((sum, value) => sum || value.error !== "", false)}
                     />
                 </Box>

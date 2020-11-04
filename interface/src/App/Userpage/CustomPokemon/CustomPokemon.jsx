@@ -7,6 +7,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Snackbar from '@material-ui/core/Snackbar';
+import SaveIcon from '@material-ui/icons/Save';
 
 import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
 import EditMenu from "./EditMenu/EditMenu"
@@ -286,7 +287,7 @@ class CustomPokemon extends React.PureComponent {
     }
 
     onPokemonAdd(event) {
-        let attr = event.target.getAttribute("attr")
+        let attr = event.currentTarget.getAttribute("attr")
         if (this.state[attr].length >= 1500) { return }
 
         let err = this.validate(this.state.activePokemon)
@@ -695,6 +696,7 @@ class CustomPokemon extends React.PureComponent {
                                 title={strings.userpok.changes}
                                 onClick={this.onSaveChanges}
                                 disabled={false}
+                                endIcon={<SaveIcon />}
                             />
                         </Box>
                     </Grid>}

@@ -3,6 +3,7 @@ import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 import Input from "App/Components/Input/Input"
@@ -56,6 +57,7 @@ const CustomMoveContsructorForm = React.memo(function CustomMoveContsructorForm(
                 <AuthButton
                     title={strings.moveconstr.add}
                     onClick={props.onMoveAdd}
+                    endIcon={<AddCircleIcon />}
                     disabled={props.submitDisabled}
                 />
             </Grid>

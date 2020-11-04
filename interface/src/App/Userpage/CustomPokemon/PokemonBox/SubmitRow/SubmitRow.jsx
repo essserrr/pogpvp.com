@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
-import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton"
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
@@ -17,21 +19,19 @@ const SubmitRow = React.memo(function SubmitRow(props) {
 
     return (
         <Grid item xs={12} container justify="center" alignItems="center">
-            <SubmitButton
-                class="submit-button--lg btn btn-primary btn-sm"
+            <AuthButton
                 attr={props.attr}
-                onSubmit={props.onPokemonAdd}
-            >
-                {strings.userpok.addpok}
-            </SubmitButton>
+                onClick={props.onPokemonAdd}
+                title={strings.userpok.addpok}
+                endIcon={<AddCircleIcon />}
+            />
             <Box fontWeight={500} fontSize={"12pt"} mx={2} >{strings.userpok.or}</Box>
-            <SubmitButton
-                class="submit-button--lg btn btn-primary btn-sm"
+            <AuthButton
                 attr={props.attr}
-                onSubmit={props.onTurnOnImport}
-            >
-                {strings.impExp}
-            </SubmitButton>
+                onClick={props.onTurnOnImport}
+                title={strings.impExp}
+                endIcon={<ImportExportIcon />}
+            />
         </Grid>
     )
 });

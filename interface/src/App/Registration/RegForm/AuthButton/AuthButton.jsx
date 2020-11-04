@@ -1,20 +1,29 @@
-import React from "react"
-import Loader from "./Loader/Loader"
-import "./AuthButton.scss"
+import React from "react";
+import PropTypes from 'prop-types';
+
+import Button from '@material-ui/core/Button';
+import Loader from "./Loader/Loader";
 
 const AuthButton = React.memo(function (props) {
+    const { endIcon, loading, title, onClick, ...other } = props;
+
     return (
-        <button
-            onClick={props.onClick}
-            disabled={props.disabled}
-            className="button"
-            type="submit"
+        <Button onClick={onClick}
+            endIcon={loading ? <Loader duration="1.5s" /> : endIcon}
+            type="submit" variant="contained" color="primary"
+            {...other}
         >
-            <div className="button__item p-1">
-                {props.loading ? <Loader duration="1.5s" /> : props.title}
-            </div>
-        </button>
+            {title}
+        </Button>
     )
 })
 
-export default AuthButton
+export default AuthButton;
+
+AuthButton.propTypes = {
+    endIcon: PropTypes.node,
+    loading: PropTypes.bool,
+
+    title: PropTypes.string,
+    onClick: PropTypes.func,
+};

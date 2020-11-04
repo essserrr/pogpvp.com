@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import SaveIcon from '@material-ui/icons/Save';
 
-import SubmitButton from "App/PvP/components/SubmitButton/SubmitButton";
+import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 import PokemonPanel from "App/PvE/Components/Panels/PokemonPanel/PokemonPanel";
 
 import { getCookie } from "js/getCookie";
@@ -40,13 +41,12 @@ const EditMenu = React.memo(function EditMenu(props) {
                 />
             </Grid>
             <Box mt={3}>
-                <SubmitButton
-                    class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"
+                <AuthButton
                     attr={props.attr}
-                    onSubmit={props.onPokemonEditSubmit}
-                >
-                    {strings.userpok.changes}
-                </SubmitButton>
+                    onClick={props.onPokemonEditSubmit}
+                    title={strings.userpok.changes}
+                    endIcon={<SaveIcon />}
+                />
             </Box>
         </Grid>
     )
