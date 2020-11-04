@@ -7,8 +7,7 @@ import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-
-import GreyPaper from '../Components/GreyPaper/GreyPaper';
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import SiteHelm from "../SiteHelm/SiteHelm";
 import LogForm from "./LogForm/LogForm";
 
