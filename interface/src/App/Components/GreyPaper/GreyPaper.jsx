@@ -10,14 +10,20 @@ const useStyles = makeStyles((theme) => ({
         flex: "0 0 100%",
         maxWidth: "100%",
     },
+    padding: {
+        padding: `${theme.spacing(3)}px`,
+        [theme.breakpoints.down('md')]: {
+            padding: `${theme.spacing(2)}px`,
+        },
+    }
 }));
 
 const GreyPaper = function GreyPaper(props) {
     const classes = useStyles();
-    const { children, className, ...other } = props;
+    const { children, className, enablePadding, ...other } = props;
 
     return (
-        <Paper className={`${classes.root} ${className}`} {...other}>
+        <Paper className={`${classes.root} ${enablePadding ? classes.padding : ""} ${className}`} {...other}>
             {children}
         </Paper>
     );
@@ -30,5 +36,6 @@ GreyPaper.propTypes = {
         PropTypes.node,
         PropTypes.arrayOf(PropTypes.node),
     ]),
+    enablePadding: PropTypes.bool,
     className: PropTypes.string,
 };
