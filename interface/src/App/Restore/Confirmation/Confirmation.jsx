@@ -1,15 +1,17 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import Loader from "../../PvpRating/Loader"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
 
 import Alert from '@material-ui/lab/Alert';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import "./Confirmation.scss"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import SiteHelm from "App/SiteHelm/SiteHelm"
 
-import { getCookie } from "../../../js/getCookie"
-import { userLocale } from "../../../locale/userLocale"
+import { getCookie } from "js/getCookie"
+import { userLocale } from "locale/userLocale"
 
 let strings = new LocalizedStrings(userLocale);
 
@@ -26,7 +28,6 @@ class Confirmation extends React.Component {
     }
 
     async componentDidMount() {
-
         try {
             let response = await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST :
@@ -48,43 +49,40 @@ class Confirmation extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid mb-5">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/restore"
-                    header={strings.pageheaders.reg}
-                    descr={strings.pagedescriptions.reg}
+                    header={strings.pageheaders.res}
+                    descr={strings.pagedescriptions.res}
                     noindex={true}
                 />
-                <div className="row m-0 justify-content-center">
-                    <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 confirmation align-self-center">
-                        {this.state.loading && <Loader
-                            color="black"
-                            weight="500"
-                            locale={strings.loading}
-                            loading={this.state.loading}
 
-                            class="row justify-content-center text-white"
-                            innerClass="col-auto mt-1  mt-md-2"
-                        />}
-                        <div className="row mx-0 justify-content-center">
+                <Grid item xs={10} sm={8} md={6} lg={4}>
+                    <GreyPaper elevation={4} enablePadding={true} >
+                        <Grid container justify="center" spacing={2}>
+                            {this.state.loading &&
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
                             {this.state.ok &&
                                 <>
-                                    <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                                        <Alert variant="filled" severity="error">{strings.restore.confok}</Alert >
-                                    </div>
-                                    <div className="col-12 col-md-10 col-lg-9 px-0 pt-3 confirmation__text text-center">
-                                        <Link title={strings.signin.tolog} to="/login">{strings.signin.tolog}</Link>
-                                    </div>
+                                    <Grid item xs={12}>
+                                        <Alert variant="filled" severity="success">{strings.restore.confok}</Alert >
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Typography variant="h6" align="center">
+                                            <Link title={strings.signin.tolog} to="/login">{strings.signin.tolog}</Link>
+                                        </Typography>
+                                    </Grid>
                                 </>}
                             {this.state.error &&
-                                <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
+                                <Grid item xs={12}>
                                     <Alert variant="filled" severity="error">{strings.restore.confnotok}</Alert >
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                </Grid>}
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         )
     }
 }
