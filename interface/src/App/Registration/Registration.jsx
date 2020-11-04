@@ -7,12 +7,11 @@ import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import { setSession } from "AppStore/Actions/actions";
-
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import RegForm from "./RegForm/RegForm";
 import SiteHelm from "../SiteHelm/SiteHelm";
 
+import { setSession } from "AppStore/Actions/actions";
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/Registration/Registration";
 import { errors } from "locale/UserPage/Errors";
