@@ -106,7 +106,7 @@ class LoginForm extends React.PureComponent {
                         onClick={this.onSubmit}
                         loading={this.props.loading}
                         disabled={
-                            Object.values(this.props.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)} />
+                            Object.values(this.props.notOk).reduce((sum, val) => sum || (val !== ""), false)} />
 
                 </div>
                 <div className="col-12 p-0 pt-3 reg-form--text text-center">

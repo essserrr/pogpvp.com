@@ -196,7 +196,7 @@ class ShinyBroker extends React.Component {
         }
 
         this.setState({ notOk: notOk, })
-        return !Object.values(notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
+        return !Object.values(notOk).reduce((sum, val) => sum || (val !== ""), false)
     }
 
     async onSubmitFilter() {

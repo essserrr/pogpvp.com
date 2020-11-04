@@ -291,7 +291,7 @@ class CustomPokemon extends React.PureComponent {
         if (this.state[attr].length >= 1500) { return }
 
         let err = this.validate(this.state.activePokemon)
-        if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
+        if (Object.values(err).reduce((sum, val) => sum || (val !== ""), false)) {
             this.setState({
                 activePokemonNotOk: err,
             })
@@ -357,7 +357,7 @@ class CustomPokemon extends React.PureComponent {
 
     onPokemonEditSubmit() {
         let err = this.validate(this.state.editPokemon)
-        if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
+        if (Object.values(err).reduce((sum, val) => sum || (val !== ""), false)) {
             this.setState({
                 editPokemonNotOk: err,
             })
@@ -640,6 +640,7 @@ class CustomPokemon extends React.PureComponent {
                                 onPokemonDelete={this.onPokemonDelete}
                                 onPokemonEdit={this.onPokemonEdit}
 
+                                notOk={this.state.activePokemonNotOk}
                                 pokemonTable={this.props.bases.pokemonBase}
                                 moveTable={this.state.moveTable}
                                 userList={this.state.userPokemon}

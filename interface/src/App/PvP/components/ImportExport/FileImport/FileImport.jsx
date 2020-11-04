@@ -72,7 +72,7 @@ class FileImport extends React.PureComponent {
     checkFileFormat(fileName) {
         let allowedFormats = this.props.acceptFile.split(", ")
         if (allowedFormats.length === 0) { return true }
-        return allowedFormats.reduce((sum, val) => sum + (fileName.includes(val) ? true : false), false)
+        return allowedFormats.reduce((sum, val) => sum || fileName.includes(val), false)
     }
 
     resetActiveFile() {

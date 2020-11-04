@@ -240,7 +240,7 @@ class UserShinyBroker extends React.PureComponent {
         }
 
         this.setState({ notOk: notOk, })
-        return !Object.values(notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
+        return !Object.values(notOk).reduce((sum, val) => sum || (val !== ""), false)
     }
 
     async onSaveChanges() {
@@ -434,7 +434,7 @@ class UserShinyBroker extends React.PureComponent {
                                 title={strings.shbroker.changes}
                                 endIcon={<SaveIcon />}
                                 onClick={this.onSaveChanges}
-                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum || val !== "", false)}
+                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum || (val !== ""), false)}
                             />
                         </Box>
                     </Grid>}

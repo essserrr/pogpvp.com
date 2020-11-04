@@ -65,7 +65,7 @@ class RestorePassForm extends React.PureComponent {
                         onClick={this.onSubmit}
                         loading={this.props.loading}
                         disabled={
-                            Object.values(this.props.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)} />
+                            Object.values(this.props.notOk).reduce((sum, val) => sum || (val !== ""), false)} />
 
                 </div>
             </>
