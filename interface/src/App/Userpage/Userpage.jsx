@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import LocalizedStrings from "react-localization";
 import { Switch, Route } from "react-router-dom";
 import PropTypes from 'prop-types';
@@ -12,16 +12,14 @@ import GreyPaper from '../Components/GreyPaper/GreyPaper';
 import UserPageTabs from "./UserPageTabs/UserPageTabs";
 import SiteHelm from "../SiteHelm/SiteHelm";
 
-import "./Userpage.scss";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/UserPage";
 
-import { getCookie } from "../../js/getCookie";
-import { userLocale } from "../../locale/userLocale";
-
-const Info = lazy(() => import("./Info/Info"));
-const Security = lazy(() => import("./Security/Security"));
-const CustomPokemon = lazy(() => import("./CustomPokemon/CustomPokemon"));
-const CustomMoves = lazy(() => import("./CustomMoves/CustomMoves"));
-const UserShinyBroker = lazy(() => import("./UserShinyBroker/UserShinyBroker"));
+import Info from "./Info/Info";
+import Security from "./Security/Security";
+import CustomPokemon from "./CustomPokemon/CustomPokemon";
+import CustomMoves from "./CustomMoves/CustomMoves";
+import UserShinyBroker from "./UserShinyBroker/UserShinyBroker";
 
 let strings = new LocalizedStrings(userLocale);
 
@@ -64,15 +62,13 @@ const Userpage = React.memo(function Userpage(props) {
                     </Grid>
                     <Grid item xs={8} sm={9} md={10} lg={10}>
                         <Container className={classes.container}>
-                            <Suspense >
-                                <Switch>
-                                    <Route path="/profile/pokemon" component={CustomPokemon} />
-                                    <Route path="/profile/move" component={CustomMoves} />
-                                    <Route path="/profile/shinybroker" component={UserShinyBroker} />
-                                    <Route path="/profile/info" component={Info} />
-                                    <Route path="/profile/security" component={Security} />
-                                </Switch>
-                            </Suspense>
+                            <Switch>
+                                <Route path="/profile/pokemon" component={CustomPokemon} />
+                                <Route path="/profile/move" component={CustomMoves} />
+                                <Route path="/profile/shinybroker" component={UserShinyBroker} />
+                                <Route path="/profile/info" component={Info} />
+                                <Route path="/profile/security" component={Security} />
+                            </Switch>
                         </Container>
                     </Grid>
                 </Grid>
