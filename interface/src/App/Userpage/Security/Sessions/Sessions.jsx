@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { ReactComponent as LogoutIcon } from "icons/logout.svg";
 
 import AuthButton from "App/Registration/RegForm/AuthButton/AuthButton";
 import SessionsTable from "App/Userpage/Security/Sessions/SessionsTable/SessionsTable";
@@ -75,7 +75,7 @@ class Sessions extends React.PureComponent {
                         <AuthButton
                             loading={this.state.loading}
                             title={strings.security.soutall}
-                            endIcon={<ExitToAppIcon />}
+                            endIcon={<LogoutIcon width={24} height={24} fill="white" />}
                             onClick={this.onClick}
                         />
                     </Box>
