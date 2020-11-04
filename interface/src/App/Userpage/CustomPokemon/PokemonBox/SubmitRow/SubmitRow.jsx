@@ -21,6 +21,7 @@ const SubmitRow = React.memo(function SubmitRow(props) {
         <Grid item xs={12} container justify="center" alignItems="center">
             <AuthButton
                 attr={props.attr}
+                disabled={Object.values(props.notOk).reduce((sum, val) => sum || (val !== ""), false)}
                 onClick={props.onPokemonAdd}
                 title={strings.userpok.addpok}
                 endIcon={<AddCircleIcon />}
@@ -41,6 +42,6 @@ export default SubmitRow;
 SubmitRow.propTypes = {
     onTurnOnImport: PropTypes.func,
     onPokemonAdd: PropTypes.func,
-
+    notOk: PropTypes.object,
     attr: PropTypes.string,
 };

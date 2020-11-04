@@ -78,6 +78,7 @@ class PokemonBox extends React.PureComponent {
                 <Grid item xs={12}>
                     <SubmitRow
                         attr={this.props.attr}
+                        notOk={this.props.notOk}
                         onPokemonAdd={this.props.onPokemonAdd}
                         onTurnOnImport={this.props.onTurnOnImport}
                     />
@@ -134,6 +135,7 @@ SubmitRow.PropTypes = {
     onPokemonDelete: PropTypes.func,
     onPokemonEdit: PropTypes.func,
 
+    notOk: PropTypes.object,
     pokemonTable: PropTypes.object,
     moveTable: PropTypes.object,
     userList: PropTypes.arrayOf(PropTypes.object),

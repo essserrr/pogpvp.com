@@ -43,6 +43,7 @@ const EditMenu = React.memo(function EditMenu(props) {
             <Box mt={3}>
                 <AuthButton
                     attr={props.attr}
+                    disabled={Object.values(props.notOk).reduce((sum, val) => sum || (val !== ""), false)}
                     onClick={props.onPokemonEditSubmit}
                     title={strings.userpok.changes}
                     endIcon={<SaveIcon />}
