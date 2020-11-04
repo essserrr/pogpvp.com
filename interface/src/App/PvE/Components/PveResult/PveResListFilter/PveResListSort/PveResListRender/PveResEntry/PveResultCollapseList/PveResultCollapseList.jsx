@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization"
 
 import Alert from '@material-ui/lab/Alert';
 
-import Loader from "App/Components/Button/Button";
 import SubmitButton from "../../../../../../../../PvP/components/SubmitButton/SubmitButton"
 import { pveLocale } from "../../../../../../../../../locale/pveLocale"
 
@@ -24,7 +23,7 @@ class PveResultCollapseList extends React.PureComponent {
                         onSubmit={this.props.rerunWithPrecision}
                         class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
                     >
-                        {this.props.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
+                        {this.props.loading ? pveStrings.pres : pveStrings.pres}
                     </SubmitButton>
                 </div>}
                 {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
