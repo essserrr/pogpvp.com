@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 
-import { privacy } from "locale/Privacy/privacy;"
+import { privacy } from "locale/Privacy/privacy";
 import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(privacy)
