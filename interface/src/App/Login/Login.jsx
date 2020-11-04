@@ -1,25 +1,30 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { loadReCaptcha } from 'react-recaptcha-google'
-import { connect } from 'react-redux'
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { loadReCaptcha } from 'react-recaptcha-google';
+import { connect } from 'react-redux';
 
 import Alert from '@material-ui/lab/Alert';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import { setSession } from "../../AppStore/Actions/actions"
 
-import SiteHelm from "../SiteHelm/SiteHelm"
-import "./Login.scss"
-import LogForm from "./LogForm/LogForm"
+import GreyPaper from '../Components/GreyPaper/GreyPaper';
+import SiteHelm from "../SiteHelm/SiteHelm";
+import LogForm from "./LogForm/LogForm";
 
-import { getCookie } from "../../js/getCookie"
-import { userLocale } from "../../locale/userLocale"
+import { setSession } from "AppStore/Actions/actions";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/Login/Login";
+import { errors } from "locale/UserPage/Errors";
 
 let strings = new LocalizedStrings(userLocale);
+let errorStrings = new LocalizedStrings(errors);
 
 class Login extends React.Component {
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             inputs: { username: "", password: "", token: "" },
             notOk: { username: "", password: "", token: "" },
@@ -36,32 +41,16 @@ class Login extends React.Component {
     }
 
     verifyCallback(recaptchaToken) {
-        switch (!recaptchaToken) {
-            case true:
-                this.setState({
-                    inputs: {
-                        ...this.state.inputs,
-                        token: recaptchaToken,
-                    },
-                    notOk: {
-                        ...this.state.notOk,
-                        token: strings.err.token,
-                    }
-                })
-                break
-            default:
-                this.setState({
-                    inputs: {
-                        ...this.state.inputs,
-                        token: recaptchaToken,
-                    },
-                    notOk: {
-                        ...this.state.notOk,
-                        token: ""
-                    }
-                })
-        }
-
+        this.setState({
+            inputs: {
+                ...this.state.inputs,
+                token: recaptchaToken,
+            },
+            notOk: {
+                ...this.state.notOk,
+                token: !recaptchaToken ? errorStrings.err.token : "",
+            }
+        })
     }
 
     onChange(event) {
@@ -78,42 +67,43 @@ class Login extends React.Component {
     }
 
     check(str, type) {
-        if (!str || str === "") {
-            return (strings.err.ness)
+        if (!str || str.replace(" ", "") === "") {
+            return (errorStrings.err.ness)
         }
         switch (type) {
             case "username":
                 return this.checkUname(str)
-            default:
+            case "password":
                 return this.checkPass(str)
+            case "token":
+                return !str ? errorStrings.err.token : ""
+            default:
+                return ""
         }
     }
 
-    checkPass(str, isConf) {
+    checkPass(str) {
         if (str.length < 6) {
-            return strings.signup.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c
+            return strings.signin.pass + errorStrings.err.longer.l2 + "6" + errorStrings.err.lesseq.c
         }
         if (str.length > 20) {
-            return strings.signup.pass + strings.err.lesseq.l2 + "20" + strings.err.lesseq.c
+            return strings.signin.pass + errorStrings.err.lesseq.l2 + "20" + errorStrings.err.lesseq.c
         }
         if (this.checkRegexp(str)) {
-            return strings.signup.pass + strings.err.symb
-        }
-        if (isConf && str !== this.state.inputs.password) {
-            return strings.err.match
+            return strings.signin.pass + errorStrings.err.symb
         }
         return ""
     }
 
     checkUname(str) {
         if (str.length < 4) {
-            return strings.signup.uname + strings.err.longer.l1 + "4" + strings.err.lesseq.c
+            return strings.signin.uname + errorStrings.err.longer.l1 + "4" + errorStrings.err.lesseq.c
         }
         if (str.length > 16) {
-            return strings.signup.uname + strings.err.lesseq.l1 + "16" + strings.err.lesseq.c
+            return strings.signin.uname + errorStrings.err.lesseq.l1 + "16" + errorStrings.err.lesseq.c
         }
         if (this.checkRegexp(str)) {
-            return strings.signup.uname + strings.err.symb
+            return strings.signin.uname + errorStrings.err.symb
         }
         return ""
     }
@@ -129,21 +119,15 @@ class Login extends React.Component {
         this.login(resetCaptcha)
     }
 
-
     validate() {
-        let notUname = this.check(this.state.inputs.username, "username")
-        let notPass = this.check(this.state.inputs.password, "password")
-        let notToken = !this.state.inputs.token ? strings.err.token : ""
+        let errors = {}
+        Object.entries(this.state.inputs).forEach((value) => errors[value[0]] = this.check(value[1], value[0]))
 
-        switch (notUname !== "" || notPass !== "" || notToken !== "") {
-            case true:
-                this.setState({
-                    notOk: { username: notUname, password: notPass, token: notToken },
-                })
-                return false
-            default:
-                return true
-        }
+        this.setState({
+            notOk: errors,
+        })
+
+        return Object.values(errors).reduce((sum, value) => sum && value === "", true)
     }
 
     async login(resetCaptcha) {
@@ -185,27 +169,33 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid my-5">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/login"
                     header={strings.pageheaders.log}
                     descr={strings.pagedescriptions.log}
                 />
-                <div className="row m-0 justify-content-center">
-                    <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 login align-self-center">
-                        <div className="col-12 p-0 login__text text-center">
-                            {strings.signin.log}
-                        </div>
-                        {this.state.error !== "" && <div className="col-12 p-0">
-                            <Alert variant="filled" severity="error">{this.state.error}</Alert>
-                        </div>}
-                        <div className="col-12 p-0">
-                            <LogForm {...this.state.inputs} loading={this.state.loading} notOk={this.state.notOk}
-                                onSubmit={this.onSubmit} onChange={this.onChange} verifyCallback={this.verifyCallback} />
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+                <Grid item xs={10} sm={8} md={6} lg={4}>
+                    <GreyPaper elevation={4} enablePadding={true} >
+                        <Grid container justify="center" spacing={2}>
+                            <Grid item xs={12}>
+                                <Typography variant="h5" align="center">
+                                    {strings.signin.log}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <LogForm inputs={this.state.inputs} loading={this.state.loading} notOk={this.state.notOk}
+                                    onSubmit={this.onSubmit} onChange={this.onChange} verifyCallback={this.verifyCallback} />
+                            </Grid>
+                            {this.state.error !== "" &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert>
+                                </Grid>}
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         )
     }
 }

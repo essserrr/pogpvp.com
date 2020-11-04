@@ -14,7 +14,7 @@ import { userLocale } from "locale/UserPage/Security/Security";
 
 let strings = new LocalizedStrings(userLocale)
 
-const PassChangeForm = React.memo(function (props) {
+const PassChangeForm = React.memo(function PassChangeForm(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (

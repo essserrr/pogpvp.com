@@ -1,13 +1,13 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
-import { ReCaptcha } from 'react-recaptcha-google';
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { withStyles } from "@material-ui/core/styles";
 
+import ReCaptchaWithErr from "./ReCaptchaWithErr/ReCaptchaWithErr"
 import Input from "App/Components/Input/Input";
 import AuthButton from "App/Registration/RegForm//AuthButton/AuthButton";
 
@@ -15,16 +15,6 @@ import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/Login/Login";
 
 let strings = new LocalizedStrings(userLocale);
-
-const styles = theme => ({
-    errorText: {
-        color: theme.palette.error.main,
-        textAlign: "center",
-    },
-    questions: {
-        textAlign: "center",
-    },
-});
 
 class LoginForm extends React.PureComponent {
     constructor() {
@@ -35,6 +25,7 @@ class LoginForm extends React.PureComponent {
     }
 
     onLoadRecaptcha() {
+        console.log(this.pogCaptcha)
         if (this.pogCaptcha) {
             this.pogCaptcha.reset();
         }
@@ -45,8 +36,6 @@ class LoginForm extends React.PureComponent {
     }
 
     render() {
-        const { classes } = this.props;
-
         return (
             <Grid container justify="center" spacing={2}>
                 <Grid item xs={12}>
@@ -73,23 +62,12 @@ class LoginForm extends React.PureComponent {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Grid container justify="center">
-                        <Grid item xs={"auto"}>
-                            {navigator.userAgent !== "ReactSnap" && <ReCaptcha
-                                ref={(el) => { this.pogCaptcha = el }}
-                                hl={getCookie("appLang")}
-                                data-theme="dark"
-                                render="explicit"
-                                sitekey={process.env.REACT_APP_CAPTCHA_KEY}
-                                onloadCallback={this.onLoadRecaptcha}
-                                verifyCallback={this.props.verifyCallback}
-                            />}
-                        </Grid>
-                        {this.props.notOk.token !== "" &&
-                            <Grid item xs={12} className={classes.errorText}>
-                                {this.props.notOk.token}
-                            </Grid>}
-                    </Grid>
+                    <ReCaptchaWithErr
+                        reference={(el) => { this.pogCaptcha = el }}
+                        errorText={this.props.notOk.token}
+                        onloadCallback={this.onLoadRecaptcha}
+                        verifyCallback={this.props.verifyCallback}
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container justify="center">
@@ -102,18 +80,22 @@ class LoginForm extends React.PureComponent {
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={12} className={classes.questions}>
-                    {strings.signin.newsup} <Link title={strings.signin.toreg} to="/registration">{strings.signin.toreg}</Link>
+                <Grid item xs={12}>
+                    <Typography component="div" variant="caption" align="center" >
+                        {strings.signin.newsup} <Link title={strings.signin.toreg} to="/registration">{strings.signin.toreg}</Link>
+                    </Typography>
                 </Grid>
-                <Grid item xs={12} className={classes.questions}>
-                    {strings.signin.forg} <Link title={strings.signin.rest} to="/restore">{strings.signin.rest}</Link>
+                <Grid item xs={12}>
+                    <Typography component="div" variant="caption" align="center" >
+                        {strings.signin.forg} <Link title={strings.signin.rest} to="/restore">{strings.signin.rest}</Link>
+                    </Typography>
                 </Grid>
             </Grid>
         );
     }
 }
 
-export default withStyles(styles, { withTheme: true })(LoginForm);
+export default LoginForm;
 
 LoginForm.propTypes = {
     verifyCallback: PropTypes.func,
