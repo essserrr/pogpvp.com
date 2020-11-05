@@ -44,11 +44,7 @@ const Iconer = React.memo(function Iconer(props) {
             onError={addDefaultSrc}
             className={className}
             alt=""
-
-            {...(!className ?
-                { style: { width: `${!!size ? `${size}px` : "auto"}`, height: `${!!size ? `${size}px` : "auto"}`, }, }
-                :
-                null)}
+            style={{ width: `${!!size ? `${size}px` : "auto"}`, height: `${!!size ? `${size}px` : "auto"}`, }}
             {...other}
         />
     )

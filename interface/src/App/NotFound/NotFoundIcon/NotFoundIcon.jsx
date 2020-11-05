@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
     icon: {
         position: "absolute",
-        width: "85px",
+        width: "85px !important",
         zIndex: 1,
     },
 
