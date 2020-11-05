@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { getCookie } from "js/getCookie";
@@ -39,9 +39,9 @@ const PokemonBoxTitle = React.memo(function PokemonBoxTitle(props) {
 
                     <Box marginX={1}>
                         {props.showCollapse ?
-                            <ExpandLessIcon style={{ fontSize: '28px' }} />
+                            <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
                             :
-                            <ExpandMoreIcon style={{ fontSize: '28px' }} />
+                            <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />
                         }
                     </Box>
                 </Grid>

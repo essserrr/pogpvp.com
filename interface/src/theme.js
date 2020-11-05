@@ -82,7 +82,11 @@ const theme = createMuiTheme({
                 text: "black",
                 background: "#3590d1",
             },
-        }
+        },
+
+        news: {
+            border: "#acacac",
+        },
     },
     overrides: {
         MuiTableCell: {
