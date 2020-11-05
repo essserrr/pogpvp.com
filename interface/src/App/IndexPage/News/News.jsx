@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         overflow: "hidden",
     },
     newsTitle: {
-        padding: `${theme.spacing(1)}px`,
+        padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
         backgroundColor: theme.palette.background.main,
         borderBottom: `1px solid ${theme.palette.news.border}`,
     },

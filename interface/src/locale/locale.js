@@ -40,7 +40,6 @@ export const locale = {
             url: "\xa0\xa0\xa0\xa0PvP url\xa0\xa0\xa0\xa0",
             counter: "Pokemons",
             savegroupplaceholder: "Party name",
-            latestnews: "Latest News",
             evolveTool: "Select pokemon you want to evolve",
             pvpoke: "Pvpoke-like rules",
             about: "About simulator",
@@ -95,7 +94,6 @@ export const locale = {
             evolution: "Evolution calc  |  PogPvP.com",
             raids: "Raids list  |  PogPvP.com",
             eggs: "Eggs list  |  PogPvP.com",
-            main: "PogPvP.com | Pokemon GO PvP simulator, raid simulator, PvP ratings, current raids, pokedex, movedex, eggs list, shiny rates, and more",
         },
 
         pagedescriptions: {
@@ -107,7 +105,6 @@ export const locale = {
             single: "Pokemon GO single PvP simulator. Pokemon GO PvP battle between two mons",
             matrix: "Pokemon GO matrix PvP simulator. Pokemon GO PvP battle between two or more mons. Pokemon GO PvP party advisor",
             shiny: "Pokemon GO shiny rates. Daily shiny rates updates, largest sample size",
-            main: "Pokemon GO PvP simulator, Pokemon GO PvP ratings, Pokemon GO raid simulator, Pokemon GO PvP ratings, Pokemon GO current raids, Pokemon GO pokedex, Pokemon GO movedex, Pokemon GO eggs list, Pokemon GO shiny rates",
         },
 
         effStats: {
@@ -187,8 +184,6 @@ export const locale = {
             save: "Save",
             delete: "Delete",
             savegroup: "Save party",
-            nextpage: "Recent news",
-            prevpage: "Old news",
             loadmore: "Load more",
             home: "Main page",
             submitchange: "Submit changes",
@@ -327,7 +322,6 @@ export const locale = {
             url: "\xa0\xa0Ссылка\xa0\xa0",
             counter: "Покемонов",
             savegroupplaceholder: "Введите имя группы",
-            latestnews: "Последние новости",
             evolveTool: "Выберите покемона для эволюции",
             pvpoke: "Правила Pvpoke",
             about: "О симуляторе",
@@ -382,7 +376,6 @@ export const locale = {
             evolution: "Калькулятор эволюций  |  PogPvP.com",
             raids: "Список текущих рейдов  |  PogPvP.com",
             eggs: "Список покемонов из яиц  |  PogPvP.com",
-            main: "PogPvP.com | Pokemon GO PvP симулятор, Pokemon GO симулятор рейдов, Pokemon GO PvP рейтинг, Pokemon GO покедекс, Pokemon GO мувдекс, Pokemon GO список текущих рейлов, Pokemon GO список текущих покемонов из яиц, Pokemon GO шансы на шайни",
 
         },
 
@@ -396,7 +389,6 @@ export const locale = {
             single: "Симулятор одиночного PvP в Pokemon GO. Симулятор боев между двумя покемонами в Pokemon GO",
             matrix: "Симулятор группового PvP в Pokemon GO. Симулятор боев между двумя и более покемонами в Pokemon GO",
             shiny: "Шансы на шайни в Pokemon GO. Ежедневные обновления шансов на шайни, самая большая выборка",
-            main: "Pokemon GO PvP симулятор, Pokemon GO симулятор рейдов, Pokemon GO PvP рейтинг, Pokemon GO покедекс, Pokemon GO мувдекс, Pokemon GO список текущих рейлов, Pokemon GO список текущих покемонов из яиц, Pokemon GO шансы на шайни",
         },
 
         effStats: {
@@ -474,8 +466,6 @@ export const locale = {
             save: "Сохранить",
             delete: "Удалить",
             savegroup: "Сохранить группу",
-            nextpage: "К новостям новее",
-            prevpage: "К новостям старше",
             loadmore: "Загрузить еще",
             home: "Главная страница",
             submitchange: "Подвердить изменения",
