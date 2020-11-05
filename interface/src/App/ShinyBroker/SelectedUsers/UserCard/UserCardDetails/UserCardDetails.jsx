@@ -31,7 +31,7 @@ const UserCardDetails = React.memo(function UserCardDetails(props) {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Grid container alignItems="flex-start" spacing={1}>
+                <Grid container alignItems="center" justify="center" spacing={1}>
                     <Grid item xs={12}>
                         <Typography variant="h6" align="center">
                             {strings.shbroker.int.dethave}
@@ -42,7 +42,7 @@ const UserCardDetails = React.memo(function UserCardDetails(props) {
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <Grid container alignItems="flex-start" spacing={1}>
+                <Grid container alignItems="center" justify="center" spacing={1}>
                     <Grid item xs={12}>
                         <Typography variant="h6" align="center">
                             {strings.shbroker.int.detwant}
