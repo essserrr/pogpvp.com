@@ -43,8 +43,12 @@ const Iconer = React.memo(function Iconer(props) {
             src={`/images${folderName}${fileName}.${folderName === "/art/" ? "jpg" : "png"}`}
             onError={addDefaultSrc}
             className={className}
-            style={{ width: `${!!size ? `${size}px` : "auto"}`, height: `${!!size ? `${size}px` : "auto"}`, }}
             alt=""
+
+            {...(!className ?
+                { style: { width: `${!!size ? `${size}px` : "auto"}`, height: `${!!size ? `${size}px` : "auto"}`, }, }
+                :
+                null)}
             {...other}
         />
     )
