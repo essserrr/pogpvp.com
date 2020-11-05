@@ -1,35 +1,45 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import LocalizedStrings from "react-localization";
 
-import { getCookie } from "../../../../js/getCookie"
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import IconButton from '@material-ui/core/IconButton';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { makeStyles } from '@material-ui/core/styles';
 
-import LocalizedStrings from "react-localization"
-import { locale } from "../../../../locale/locale"
+import { getCookie } from "js/getCookie";
+import { locale } from "locale/Navbar/Navbar";
 
-import "./LoginReg.scss"
+let strings = new LocalizedStrings(locale);
 
-let strings = new LocalizedStrings(locale)
+const useStyles = makeStyles((theme) => ({
+    iconStyle: {
+        color: "white",
+        width: 36,
+        height: 36,
+    },
+}));
 
+const LoginReg = React.memo(function LoginReg() {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
 
-class LoginReg extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
-
-    render() {
-        return (
-            <>
-                <Link className="align-self-center loginReg__link" title={strings.navbar.lin} to="/login">
-                    <i className="fas fa-sign-in-alt fa-2x mr-3 clickable"></i>
+    return (
+        <>
+            <IconButton style={{ outline: "none" }} >
+                <Link title={strings.navbar.lin} to="/login">
+                    <ExitToAppIcon className={classes.iconStyle} />
                 </Link>
-                <Link className="align-self-center loginReg__link" title={strings.navbar.sup} to="/registration">
-                    <i className="fas fa-user-plus fa-2x mr-3 clickable"></i>
+            </IconButton>
+
+            <IconButton style={{ outline: "none" }}>
+                <Link title={strings.navbar.sup} to="/registration">
+                    <PersonAddIcon className={classes.iconStyle} />
                 </Link>
-            </>
-        );
-    }
-}
+            </IconButton>
+        </>
+    )
+});
 
 
 export default LoginReg
