@@ -10,9 +10,8 @@ import ImportExportIcon from '@material-ui/icons/ImportExport';
 
 import Input from "App/Components/Input/Input";
 import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 
+import Switch from "App/Components/Switch/Switch";
 import UserShinyFilter from "../UserShinyFilter/UserShinyFilter";
 import Button from "App/Components/Button/Button";
 import MagicBox from "App/PvP/components/MagicBox/MagicBox";
@@ -46,15 +45,12 @@ const ShBrokerSelectPanel = React.memo(function ShBrokerSelectPanel(props) {
 
             {props.onCheckboxChange && props.session.username &&
                 <Grid item xs={12}>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={!!props.checked}
-                                onChange={props.onCheckboxChange}
-                                attr={`${props.attr}Custom`}
-                                name={"SupportSlotEnabled"}
-                                color="primary"
-                            />}
+                    <Switch
+                        checked={Boolean(props.checked)}
+                        onChange={props.onCheckboxChange}
+                        attr={`${props.attr}Custom`}
+                        name={"SupportSlotEnabled"}
+                        color="primary"
                         label={strings.shbroker.int.choose}
                     />
                 </Grid>}
