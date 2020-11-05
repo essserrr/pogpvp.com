@@ -196,7 +196,8 @@ class ImportExport extends React.PureComponent {
                                 {impExpStrings.impExp}
                             </Typography>
                         </Grid>
-                        <Tooltip title={<Typography color="inherit">{<ImportTips type={this.props.type} />}</Typography>}>
+                        <Tooltip placement="top" arrow
+                            title={<Typography color="inherit">{<ImportTips type={this.props.type} />}</Typography>}>
                             <HelpOutlineIcon className={classes.defaultIcon} />
                         </Tooltip>
                     </Grid>

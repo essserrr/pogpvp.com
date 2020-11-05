@@ -24,7 +24,8 @@ const WithIcon = React.memo(function WithIcon(props) {
     return (
         <Grid container alignItems="center" justify="center">
             <Grid item xs={"auto"} className={classes.iconMargin}>
-                <Tooltip title={<Typography color="inherit">{!!props.tip ? props.tip : ""}</Typography>}>
+                <Tooltip placement="top" arrow
+                    title={<Typography color="inherit">{!!props.tip ? props.tip : ""}</Typography>}>
                     {!!props.icon ?
                         props.icon :
                         <HelpOutlineIcon className={classes.defaultIcon} />}

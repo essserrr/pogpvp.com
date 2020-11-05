@@ -117,7 +117,8 @@ class FileImport extends React.PureComponent {
                                 {this.props.label}
                             </Typography>
                         </Grid>
-                        <Tooltip title={<Typography color="inherit">{this.props.tips}</Typography>}>
+                        <Tooltip placement="top" arrow
+                            title={<Typography color="inherit">{this.props.tips}</Typography>}>
                             <HelpOutlineIcon className={classes.defaultIcon} />
                         </Tooltip>
                     </Grid>

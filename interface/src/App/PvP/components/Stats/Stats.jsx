@@ -18,7 +18,8 @@ const Stats = React.memo(function (props) {
     return (
         <Grid container >
             <Grid item xs >
-                <Tooltip title={<Typography color="inherit">{`${strings.stats.lvl}: 1-45`}</Typography>}>
+                <Tooltip placement="top" arrow
+                    title={<Typography color="inherit">{`${strings.stats.lvl}: 1-45`}</Typography>}>
                     <Box>
                         <Input
                             label={strings.stats.lvl}
@@ -31,7 +32,8 @@ const Stats = React.memo(function (props) {
                 </Tooltip>
             </Grid>
             <Grid item xs >
-                <Tooltip title={<Typography color="inherit">{`${strings.effStats.atk} IV: 0-15`}</Typography>}>
+                <Tooltip placement="top" arrow
+                    title={<Typography color="inherit">{`${strings.effStats.atk} IV: 0-15`}</Typography>}>
                     <Box>
                         <Input
                             name="Atk"
@@ -44,7 +46,8 @@ const Stats = React.memo(function (props) {
                 </Tooltip>
             </Grid>
             <Grid item xs >
-                <Tooltip title={<Typography color="inherit">{`${strings.effStats.def} IV: 0-15`}</Typography>}>
+                <Tooltip placement="top" arrow
+                    title={<Typography color="inherit">{`${strings.effStats.def} IV: 0-15`}</Typography>}>
                     <Box>
                         <Input
                             name="Def"
@@ -57,7 +60,8 @@ const Stats = React.memo(function (props) {
                 </Tooltip>
             </Grid>
             <Grid item xs >
-                <Tooltip title={<Typography color="inherit">{`${strings.effStats.sta} IV: 0-15`}</Typography>}>
+                <Tooltip placement="top" arrow
+                    title={<Typography color="inherit">{`${strings.effStats.sta} IV: 0-15`}</Typography>}>
                     <Box>
                         <Input
                             name="Sta"

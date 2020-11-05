@@ -68,7 +68,8 @@ const UserPokCard = React.memo(function UserPokCard(props) {
             onClick={props.onPokemonEdit ? onPokemonOpenWrapper : null}>
             <Grid container alignItems="flex-start">
 
-                <Tooltip title={<Typography color="inherit">{props.Name}</Typography>}>
+                <Tooltip placement="top" arrow
+                    title={<Typography color="inherit">{props.Name}</Typography>}>
                     <Grid item xs="auto" className={classes.upokcardContainer}>
                         {pokemon &&
                             <Iconer

@@ -51,7 +51,8 @@ const UserShinyCard = React.memo(function UserShinyCard(props) {
         <Paper elevation={4} className={classes.paper}>
             <Grid container alignItems="center" className={classes.uShCard}>
                 {props.value.Amount && `${props.value.Amount}X`}
-                <Tooltip title={<Typography color="inherit">{props.value.Name}</Typography>}>
+                <Tooltip placement="top" arrow
+                    title={<Typography color="inherit">{props.value.Name}</Typography>}>
                     <Grid item xs="auto" className={classes.uShCardContainer}>
                         {pokemon &&
                             <Iconer
