@@ -22,7 +22,7 @@ const ShBrokerForm = React.memo(function ShBrokerForm(props) {
                 <Country
                     label={strings.shbroker.country}
 
-                    defaultOption={props.placeholders.cPlace}
+                    defaultOption={strings.shbroker.cPlace}
                     notOk={props.notOk.Country}
 
                     attr="Country"
@@ -37,7 +37,7 @@ const ShBrokerForm = React.memo(function ShBrokerForm(props) {
                 <Region
                     label={strings.shbroker.region}
 
-                    defaultOption={props.placeholders.rPlace}
+                    defaultOption={strings.shbroker.rPlace}
                     notOk={props.notOk.Region}
                     country={props.value.Country}
 
@@ -48,7 +48,7 @@ const ShBrokerForm = React.memo(function ShBrokerForm(props) {
 
                 />
             </Grid>
-            <Grid item xs={12} md={10} lg={6}>
+            <Grid item xs={12} md={6}>
                 <Input
                     label={strings.shbroker.city}
                     name="City"
@@ -61,7 +61,7 @@ const ShBrokerForm = React.memo(function ShBrokerForm(props) {
                 />
             </Grid>
 
-            <Grid item xs={12} md={10} lg={6}>
+            <Grid item xs={12} md={6}>
                 <Input
                     label={strings.shbroker.cont}
 

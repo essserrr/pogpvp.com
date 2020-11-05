@@ -366,12 +366,6 @@ class UserShinyBroker extends React.PureComponent {
                         <Grid container justify="center" spacing={2}>
                             <Grid item xs={12}>
                                 <ShBrokerForm
-                                    placeholders={{
-                                        cPlace: strings.shbroker.cPlaceYours, rPlace: strings.shbroker.rPlaceYours,
-                                        cityPlace: strings.shbroker.cityPlaceYours, contPlace: strings.shbroker.contPlaceYours
-                                    }}
-
-
                                     onChange={this.onChange}
                                     selectCountry={this.selectCountry}
                                     selectRegion={this.selectRegion}
