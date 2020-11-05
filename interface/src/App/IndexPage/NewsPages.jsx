@@ -120,16 +120,17 @@ class NewsPages extends React.Component {
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <NavigationBlock
-                                        class="row m-0 px-4 py-2 "
+                                    <Box px={2} mb={1}>
+                                        <NavigationBlock
+                                            prevTitle={this.state.prevPageExists ? strings.buttons.nextpage : null}
+                                            nextTitle={this.state.nextPageExists ? strings.buttons.prevpage : null}
 
-                                        prevTitle={this.state.prevPageExists ? strings.buttons.nextpage : null}
-                                        nextTitle={this.state.nextPageExists ? strings.buttons.prevpage : null}
-
-                                        prev={this.state.prevPageExists ? `/news/page/${pageNumber ? Number(pageNumber) - 1 : 1}` : null}
-                                        next={this.state.nextPageExists ? `/news/page/${pageNumber ? Number(pageNumber) + 1 : 1}` : null}
-                                    />
+                                            prev={this.state.prevPageExists ? `/news/page/${(pageNumber ? Number(pageNumber) : 1) - 1}` : null}
+                                            next={this.state.nextPageExists ? `/news/page/${(pageNumber ? Number(pageNumber) : 1) + 1}` : null}
+                                        />
+                                    </Box>
                                 </Grid>
+
                             </>}
 
                         </Grid>
