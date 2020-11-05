@@ -14,7 +14,7 @@ import SiteHelm from "../SiteHelm/SiteHelm";
 
 import { setSession } from "AppStore/Actions/actions";
 import { getCookie } from "js/getCookie";
-import { userLocale } from "locale/userLocale";
+import { userLocale } from "locale/Restore/Restore";
 import { errors } from "locale/UserPage/Errors";
 
 let strings = new LocalizedStrings(userLocale);

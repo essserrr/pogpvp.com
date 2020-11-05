@@ -7,8 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import { getCookie } from "../../../js/getCookie";
-import { userLocale } from "../../../locale/userLocale";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/UserPage";
 
 let strings = new LocalizedStrings(userLocale);
 

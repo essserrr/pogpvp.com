@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import { getCookie } from "../../js/getCookie";
-import { userLocale } from "../../locale/userLocale";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/Footer/Footer";
 
 let strings = new LocalizedStrings(userLocale)
 

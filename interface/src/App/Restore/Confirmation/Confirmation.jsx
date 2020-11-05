@@ -10,8 +10,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import SiteHelm from "App/SiteHelm/SiteHelm"
 
-import { getCookie } from "js/getCookie"
-import { userLocale } from "locale/userLocale"
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/Restore/Restore";
 
 let strings = new LocalizedStrings(userLocale);
 
