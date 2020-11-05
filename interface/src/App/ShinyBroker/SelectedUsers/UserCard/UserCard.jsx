@@ -43,8 +43,8 @@ const UserCard = React.memo(function UserCard(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-
             </TableRow>
+
             <TableRow>
                 <TableCell style={{ padding: 0 }} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>

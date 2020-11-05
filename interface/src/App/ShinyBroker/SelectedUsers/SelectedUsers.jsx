@@ -1,45 +1,47 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import UserCard from "./UserCard/UserCard"
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
-import { getCookie } from "../../../js/getCookie"
-import { userLocale } from "../../../locale/userLocale"
+import UserCard from "./UserCard/UserCard";
 
-import "./SelectedUsers.scss"
+import { getCookie } from "js/getCookie";
+import { shinyBroker } from "locale/UserPage/ShinyBroker/ShinyBroker";
 
-let strings = new LocalizedStrings(userLocale)
+let strings = new LocalizedStrings(shinyBroker);
 
-class SelectedUsers extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const SelectedUsers = React.memo(function SelectedUsers(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-    render() {
-        return (
-            <div className="seluser row mx-0  p-1 justify-content-start">
-                <div className="col-12 px-0">
-                    <div className="seluser-header row mx-0 px-2 py-1 align-items-center justify-content-between text-center">
-                        <div className="seluser__cell col-2 px-0 px-sm-1 text-left">{strings.shbroker.int.name}</div>
-                        <div className="seluser__cell col-3 px-0 px-sm-1">{strings.shbroker.int.country}</div>
-                        <div className="seluser__cell col-2 px-0 px-sm-1">{strings.shbroker.int.region}</div>
-                        <div className="seluser__cell col-2 px-0 px-sm-1">{strings.shbroker.int.city}</div>
-                        <div className="seluser__cell col-1 px-0 px-sm-1">{strings.shbroker.int.have}</div>
-                        <div className="seluser__cell col-1 px-0 px-sm-1">{strings.shbroker.int.want}</div>
-                        <div className="seluser__cell col-1 px-0 px-sm-1"></div>
-                    </div>
-                </div>
-                {Object.values(this.props.list).map((value) =>
-                    <div key={value.Username} className="col-12 px-0">
-                        <UserCard
-                            value={value}
-                            pokemonTable={this.props.pokemonTable}
-                        />
-                    </div>)}
-            </div>
-        );
-    }
-}
+    return (
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <TableCell align="left">{strings.shbroker.int.name}</TableCell>
+                    <TableCell align="center">{strings.shbroker.int.country}</TableCell>
+                    <TableCell align="center">{strings.shbroker.int.region}</TableCell>
+                    <TableCell align="center">{strings.shbroker.int.city}</TableCell>
+                    <TableCell align="center">{strings.shbroker.int.have}</TableCell>
+                    <TableCell align="center">{strings.shbroker.int.want}</TableCell>
+                    <TableCell />
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {Object.values(props.list).map((value, key) => <UserCard key={key} value={value} pokemonTable={props.pokemonTable} />)}
+            </TableBody>
+        </Table>
+    )
+});
 
-export default SelectedUsers
+
+export default SelectedUsers;
+
+UserCard.propTypes = {
+    list: PropTypes.object,
+    pokemonTable: PropTypes.object,
+};
