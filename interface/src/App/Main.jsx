@@ -17,7 +17,6 @@ let strings = new LocalizedStrings(loaderLocale)
 
 const PvpRouter = lazy(() => import("./PvP/PvpRouter.jsx"))
 const PveRouter = lazy(() => import("./PvE/PveRouter.jsx"))
-const IndexPageRouter = lazy(() => import("./IndexPage/IndexRouter.jsx"))
 const NewsPageRouter = lazy(() => import("./IndexPage/NewsPageRouter.jsx"))
 const NewsRouter = lazy(() => import("./IndexPage/NewsRouter.jsx"))
 const ShinyRates = lazy(() => import("./ShinyRates/ShinyRates.jsx"))
@@ -59,7 +58,6 @@ const Main = function GreyPaper() {
         <Container component="main" className={classes.mainPadding}>
             <Suspense fallback={<LinearProgress color="secondary" />}>
                 <Switch>
-                    <Route exact path="/" component={IndexPageRouter} />
                     <Route exact path="/" component={NewsPageRouter} />
                     <Route path="/news/id" component={NewsRouter} />
                     <Route path="/news" component={NewsPageRouter} />
