@@ -1,16 +1,18 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
 
-import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/getCookie"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
+import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import "./NotFound.scss"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import NotFoundIcon from "./NotFoundIcon/NotFoundIcon";
+import { locale } from "locale/NotFound/NotFound";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale)
-
 
 class NotFound extends React.Component {
     constructor(props) {
@@ -37,46 +39,47 @@ class NotFound extends React.Component {
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/"
                     header={strings.notfound}
                     descr={strings.notfound}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-2 pb-2">
-                        <div className="not-found col-sm-12 col-md-7 col-lg-5 p-0 pb-4">
-                            <div className="row justify-content-center m-0"  >
-                                <div className="not-found--text align-self-center">
-                                    4
-                                </div>
-                                <div className="not-found__window align-self-center">
-                                    <PokemonIconer
-                                        src={"404"}
-                                        folder="/"
-                                        class={"not-found__icon"} />
-                                </div>
-                                <div className="not-found--text align-self-center">
-                                    4
-                                </div>
-                                <h5 className="col-12 font-weight-bold align-self-center text-center ">
+
+                <Grid item xs={12} md={7} lg={5}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" alignItems="center">
+
+                            <Grid item xs={12} ref={this.notFound}>
+                                <NotFoundIcon />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Typography variant="h6" align="center">
                                     {strings.notfound}
-                                </h5>
-                                <div tabIndex="0" ref={this.notFound}></div>
-                                <Link title={strings.buttons.home}
-                                    className="not-found__link--text row ml-2 mr-1 font-weight-bold text-center"
-                                    to={"/"}>
-                                    <i className="fas fa-angle-double-left align-self-center  mr-1"></i>
-                                    {strings.return}
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div >
-            </>
+                                </Typography>
+                            </Grid>
+
+                            <Grid item xs={12} ref={this.notFound}>
+                                <Grid container justify="center">
+
+                                    <Typography variant="h6" align="center">
+                                        <Link title={strings.buttons.home} to={"/"} style={{ display: "flex", alignItems: "center" }}>
+                                            <DoubleArrowIcon style={{ transform: "rotate(180deg)" }} />
+                                            {strings.return}
+                                        </Link>
+                                    </Typography>
+
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }
 
-export default NotFound
+export default NotFound;
 

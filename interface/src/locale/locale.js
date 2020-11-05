@@ -7,10 +7,8 @@ export const locale = {
         dexentr: "View dex for ",
         topcounters: "Find top counters against ",
 
-        notfound: "Error 404 - Page not found",
         oopsReg: "Oops... To use this function you need to sign up first",
 
-        return: "Return to main page",
         advisor: {
             adv: "Advisor",
             willow: "Hey Trainer, how about trying out these Pokémon?",
@@ -185,7 +183,6 @@ export const locale = {
             delete: "Delete",
             savegroup: "Save party",
             loadmore: "Load more",
-            home: "Main page",
             submitchange: "Submit changes",
         },
 
@@ -289,10 +286,8 @@ export const locale = {
         dexentr: "Открыть декс для ",
         topcounters: "Найти лучших покемонов против ",
 
-        notfound: "Ошибка 404 - Страница не найдена",
         oopsReg: "Ой... Что бы воспользоваться этой функцией, вы должны сначала зарегистрироваться",
 
-        return: "Вернуться на главную страницу",
         advisor: {
             adv: "Советчик",
             willow: "Эй, Тренер, как на счет того, что бы попробовать этих покемонов?",
@@ -467,7 +462,6 @@ export const locale = {
             delete: "Удалить",
             savegroup: "Сохранить группу",
             loadmore: "Загрузить еще",
-            home: "Главная страница",
             submitchange: "Подвердить изменения",
         },
 
