@@ -128,34 +128,6 @@ class ShinyBroker extends React.Component {
         }
     }
 
-    selectCountry(val) {
-        this.setState({
-            inputs: {
-                ...this.state.inputs,
-                Country: val.value,
-                Region: "",
-            },
-            notOk: {
-                ...this.state.notOk,
-                Country: this.check(val.value, "Country"),
-            }
-
-        });
-    }
-
-    selectRegion(val) {
-        this.setState({
-            inputs: {
-                ...this.state.inputs,
-                Region: val.value
-            },
-            notOk: {
-                ...this.state.notOk,
-                Region: this.check(val.value, "Region"),
-            }
-        });
-    }
-
     checkSelect(str, name) {
         if (name === "Country" && str === "") { return strings.shbroker.cPlace }
         return ""
@@ -181,7 +153,6 @@ class ShinyBroker extends React.Component {
         return !str.match("^([A-Za-z0-9@_\\-\\.,!():$%^&*+= ]*)$")
     }
 
-
     validate() {
         let notOk = {}
         for (const [key, value] of Object.entries(this.state.inputs)) {
@@ -190,7 +161,7 @@ class ShinyBroker extends React.Component {
                     notOk[key] = this.check(value, key)
                     break
                 default:
-                    notOk[key] = ""
+                    notOk[key] = this.state.notOk[key]
 
             }
         }
@@ -200,13 +171,12 @@ class ShinyBroker extends React.Component {
     }
 
     async onSubmitFilter() {
+        if (!this.validate()) {
+            return
+        }
         this.setState({
             submitting: true, submittingError: "", ok: false,
         })
-        if (!this.validate()) {
-            this.setState({ submitting: false, })
-            return
-        }
         await this.props.refresh()
         try {
             const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
@@ -240,33 +210,57 @@ class ShinyBroker extends React.Component {
         }
     }
 
-    onPokemonAdd(event, args) {
-        if (Object.keys(this.state[args.name[0]]).length > 10) { return }
+    selectCountry(event, atrributes, eventItem) {
+        this.setState({
+            inputs: {
+                ...this.state.inputs,
+                Country: eventItem.value,
+                Region: "",
+            },
+            notOk: {
+                ...this.state.notOk,
+                Country: this.check(eventItem.value, "Country"),
+            }
+
+        });
+    }
+
+    selectRegion(event, atrributes, eventItem) {
+        this.setState({
+            inputs: {
+                ...this.state.inputs,
+                Region: eventItem.value
+            },
+            notOk: {
+                ...this.state.notOk,
+                Region: this.check(eventItem.value, "Region"),
+            }
+        });
+    }
+
+    onPokemonAdd(event, atrributes, eventItem) {
+        if (Object.keys(this.state[atrributes.attr]).length > 10) { return }
 
         this.setState({
-            [args.name[0]]: {
-                ...this.state[args.name[0]],
-                [event.value]: { Name: event.value, Type: "Shiny", },
+            [atrributes.attr]: {
+                ...this.state[atrributes.attr],
+                [eventItem.value]: { Name: eventItem.value, Type: "Shiny", },
             }
         })
     }
 
     onPokemonDelete(event) {
-        let attr = event.target.getAttribute("attr")
-        let index = event.target.getAttribute("index")
-
-        let updatedObj = { ...this.state[attr] }
-        delete updatedObj[index]
+        let updatedObj = { ...this.state[event.attr] }
+        delete updatedObj[event.index]
 
         this.setState({
-            [attr]: updatedObj,
+            [event.attr]: updatedObj,
         })
     }
 
-    onCheckboxChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onCheckboxChange(event, atrributes, eventItem) {
         this.setState({
-            [attr]: !this.state[attr]
+            [atrributes.attr]: eventItem,
         })
     }
 
@@ -297,11 +291,6 @@ class ShinyBroker extends React.Component {
                                         {strings.shbroker.int.title}
                                     </div>
                                     <ShBrokerForm
-                                        placeholders={{
-                                            cPlace: strings.shbroker.cPlace, rPlace: strings.shbroker.rPlace,
-                                            cityPlace: strings.shbroker.cityPlace, contPlace: strings.shbroker.contPlace
-                                        }}
-
                                         onChange={this.onChange}
                                         selectCountry={this.selectCountry}
                                         selectRegion={this.selectRegion}
@@ -352,7 +341,7 @@ class ShinyBroker extends React.Component {
                                                 loading={this.state.submitting}
                                                 title={this.state.ok ? "Ok" : strings.shbroker.find}
                                                 onClick={this.onSubmitFilter}
-                                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
+                                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum || (val !== ""), false)}
                                             />
                                         </div>
                                     </div>
