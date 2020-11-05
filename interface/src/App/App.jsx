@@ -7,8 +7,6 @@ import { getCookie } from "../js/getCookie"
 import { refresh } from '../AppStore/Actions/refresh'
 import { endLoading, startLoading } from '../AppStore/Actions/actions'
 import AppGrid from "./AppGrid.jsx"
-import "./App.scss"
-
 
 class App extends Component {
     componentDidMount = () => {

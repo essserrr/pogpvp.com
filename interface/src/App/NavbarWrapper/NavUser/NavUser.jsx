@@ -1,31 +1,51 @@
-import React from "react"
-import DropdownMenu from "../DropdownMenu"
-import { Link } from "react-router-dom"
-import { connect } from 'react-redux'
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import { connect } from 'react-redux';
 
-import { refresh } from "../../../AppStore/Actions/refresh"
-import { setSession } from "../../../AppStore/Actions/actions"
-import { getCookie } from "../../../js/getCookie"
-import LoginReg from "./LoginReg/LoginReg"
+import { makeStyles } from '@material-ui/core/styles';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import { ReactComponent as LogoutIcon } from "icons/logout.svg";
 
-import LocalizedStrings from "react-localization"
-import { locale } from "../../../locale/locale"
+import DropdownMenu from "../DropdownMenu";
+import { refresh } from "AppStore/Actions/refresh";
+import { setSession } from "AppStore/Actions/actions";
+import { getCookie } from "js/getCookie";
+import LoginReg from "./LoginReg/LoginReg";
+import { locale } from "locale/Navbar/Navbar";
 
-import "./NavUser.scss"
+const useStyles = makeStyles((theme) => ({
+    iconStyle: {
+        width: 32,
+        height: 32,
+        marginRight: `${theme.spacing(1)}px`,
 
-let strings = new LocalizedStrings(locale)
+        [theme.breakpoints.down("md")]: {
+            marginRight: "0px",
+        },
+    },
+    navuserText: {
+        width: "100%",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
 
-
-class User extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
-        this.onClick = this.onClick.bind(this)
+        [theme.breakpoints.down("md")]: {
+            width: "0px",
+        },
     }
+}));
 
-    async onClick() {
-        await this.props.refresh()
+let strings = new LocalizedStrings(locale);
+
+const User = React.memo(function User(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
+
+
+    async function onClick() {
+        await props.refresh()
         try {
             await fetch(((navigator.userAgent !== "ReactSnap") ?
                 process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/auth/logout", {
@@ -33,40 +53,28 @@ class User extends React.PureComponent {
                 credentials: "include",
                 headers: { "Content-Type": "application/json", }
             })
-            this.props.setSession({ expires: 0, uname: "" })
+            props.setSession({ expires: 0, uname: "" })
 
         } catch (e) {
-            this.props.setSession({ expires: 0, uname: "" })
+            props.setSession({ expires: 0, uname: "" })
         }
     }
 
-
-    render() {
-        return (
-            this.props.session.username ?
-                <DropdownMenu
-                    class="mr-1"
-                    dropClass="dropdown-menu-right"
-                    list={
-                        <>
-                            <Link key="profile" className="dropdown-item " to="/profile/info">
-                                <i className="far fa-address-card fa-lg mr-1"></i>
-                                {strings.navbar.prof}</Link>
-                            <div key="logout" name="logout" className="dropdown-item navuser--padding"
-                                onClick={this.onClick}>
-                                <i className="fas fa-sign-out-alt fa-lg mr-1"></i>{strings.navbar.sout}
-                            </div>
-                        </>
-                    }
-                    label={
-                        <>
-                            <i className="fas fa-user fa-2x clickable"></i><span className="navuser__text">{this.props.session.username}</span>
-                        </>}
-
-                /> : <LoginReg />
-        );
-    }
-}
+    return (
+        props.session.username ?
+            <DropdownMenu icon={<AccountCircleIcon />} label={<div className={classes.navuserText}>{props.session.username + "FFFFFFFFFFF"}</div>}>
+                <Link to="/profile/info">
+                    <AccountBoxIcon className={classes.iconStyle} />
+                    {strings.navbar.prof}
+                </Link>
+                <div onClick={onClick}>
+                    <LogoutIcon className={classes.iconStyle} />{strings.navbar.sout}
+                </div>
+            </DropdownMenu>
+            :
+            <LoginReg />
+    )
+});
 
 const mapDispatchToProps = dispatch => {
     return {
