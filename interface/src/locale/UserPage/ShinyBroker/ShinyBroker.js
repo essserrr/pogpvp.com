@@ -8,10 +8,12 @@ export const shinyBroker = {
 
 
         pageheaders: {
+            broker: "Shiny broker  |  PogPvP.com",
             usrbroker: "User page: Shiny broker  |  PogPvP.com",
         },
         pagedescriptions: {
             usr: "User page",
+            broker: "Shiny broker: helps you to trade your shiny pokemon in Pokemon go",
         },
 
 
@@ -76,9 +78,11 @@ export const shinyBroker = {
         success: "Покемоны успешно сохранены",
 
         pageheaders: {
+            broker: "Шайни брокер  |  PogPvP.com",
             usrbroker: "Страница пользователя: Шайни брокер  |  PogPvP.com",
         },
         pagedescriptions: {
+            broker: "Шайни брокер: помощь в поиске шайни для обмена в Pokemon go",
             usr: "Страница пользователя",
         },
 
