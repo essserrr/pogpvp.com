@@ -3,6 +3,7 @@ import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -20,7 +21,12 @@ const useStyles = makeStyles((theme) => ({
     },
     filter: {
         cursor: "pointer",
-    }
+    },
+    iconButton: {
+        outline: "none !important",
+        width: 28,
+        height: 28,
+    },
 }));
 
 const PokemonBoxTitle = React.memo(function PokemonBoxTitle(props) {
@@ -28,20 +34,25 @@ const PokemonBoxTitle = React.memo(function PokemonBoxTitle(props) {
     const classes = useStyles();
 
     return (
-        <Grid container justify="space-between" alignContent="center" className={classes.pokBoxTitle}>
+        <Grid container justify="space-between" alignItems="center" className={classes.pokBoxTitle}>
             <Grid item>
                 {`${strings.userpok.have} (${props.have}/${props.limit})`}
             </Grid>
 
             <Grid item xs="auto" onClick={props.onClick} className={classes.filter}>
-                <Grid container alignContent="center">
+                <Grid container alignItems="center">
                     <Box>{strings.userpok.filt}</Box>
 
                     <Box marginX={1}>
                         {props.showCollapse ?
-                            <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
+                            <IconButton className={classes.iconButton}>
+                                <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
+                            </IconButton>
+
                             :
-                            <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />
+                            <IconButton className={classes.iconButton}>
+                                <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />
+                            </IconButton>
                         }
                     </Box>
                 </Grid>
