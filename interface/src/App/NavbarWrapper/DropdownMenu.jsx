@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DropdownMenu = React.memo(function DropdownMenu(props) {
     const classes = useStyles();
+    const { icon, label, children } = props
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
@@ -46,10 +47,10 @@ const DropdownMenu = React.memo(function DropdownMenu(props) {
     return (
         <>
             <IconButton style={{ outline: "none" }} onClick={handleMenuOpen} color="inherit">
-                {React.cloneElement(props.icon, {
-                    className: `${classes.iconStyle} ${props.label ? classes.iconStyleMargin : ""}`,
+                {React.cloneElement(icon, {
+                    className: `${classes.iconStyle} ${label ? classes.iconStyleMargin : ""}`,
                 })}
-                {props.label}
+                {label}
             </IconButton>
             <Menu
                 keepMounted
@@ -61,7 +62,7 @@ const DropdownMenu = React.memo(function DropdownMenu(props) {
 
                 className={classes.menu}
             >
-                {props.children.map((value, key) =>
+                {children.map((value, key) =>
                     <MenuItem className={classes.menuItem} key={key} onClick={handleMenuClose}>{value}</MenuItem>)}
             </Menu>
         </>
