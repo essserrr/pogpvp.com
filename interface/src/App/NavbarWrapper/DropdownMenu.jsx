@@ -1,56 +1,82 @@
-import React from "react"
-import { Collapse } from "react-collapse"
+import React from "react";
+import propTypes from 'prop-types';
 
-import "./DropdownMenu.scss"
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
-export default class DropdownMenu extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.wrapperRef = React.createRef();
+const useStyles = makeStyles((theme) => ({
+    iconStyle: {
+        width: 36,
+        height: 36,
+    },
+    iconStyleMargin: {
+        marginRight: `${theme.spacing(1)}px`,
+    },
+    menuItem: {
+        padding: 0,
+        "& > *": {
+            width: "100%",
+            hegiht: "100%",
 
-        this.state = {
-            showDropdown: false,
-        };
-        this.handleClickOutside = this.handleClickOutside.bind(this);
-    }
+            padding: `${theme.spacing(0.75)}px ${theme.spacing(2)}px`,
 
-    onClick = () => this.setState({ showDropdown: !this.state.showDropdown });
-    componentDidMount() {
-        document.addEventListener("mousedown", this.handleClickOutside);
-    }
-    componentWillUnmount() {
-        document.removeEventListener("mousedown", this.handleClickOutside);
-    }
-    handleClickOutside(event) {
-        if (this.state.showDropdown && this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
-            this.setState({ showDropdown: false });
-        }
-    }
+            color: theme.palette.text.primary,
+            "&:hover": {
+                color: theme.palette.text.primary,
+            }
+        },
+    },
+}));
+
+const DropdownMenu = React.memo(function DropdownMenu(props) {
+    const classes = useStyles();
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const isMenuOpen = Boolean(anchorEl);
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    return (
+        <>
+            <IconButton style={{ outline: "none" }} onClick={handleMenuOpen} color="inherit">
+                {React.cloneElement(props.icon, {
+                    className: `${classes.iconStyle} ${props.label ? classes.iconStyleMargin : ""}`,
+                })}
+                {props.label}
+            </IconButton>
+            <Menu
+                keepMounted
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+
+                className={classes.menu}
+            >
+                {props.children.map((value, key) =>
+                    <MenuItem className={classes.menuItem} key={key} onClick={handleMenuClose}>{value}</MenuItem>)}
+            </Menu>
+        </>
+    )
+});
 
 
-    render() {
-        return (
-            <li className={"cust-dropdown-menu nav-item dropdown " + (this.props.class ? this.props.class : "")}
-                ref={this.wrapperRef} onClick={this.onClick}>
-                <div className="cust-dropdown-menu--font  nav-link dropdown-toggle d-flex align-items-center"
-                    id="navbarDropdownMenuLink"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                    {this.props.label}
-                </div>
-                <div className={(this.props.dropClass ? this.props.dropClass : "")
-                    + ((this.state.showDropdown) ? " dropdown-menu show" : " dropdown-menu")}
-                    aria-labelledby="navbarDropdownMenuLink"
-                    onClick={this.onClick}
-                >
-                    <Collapse isOpened={this.state.showDropdown}>
-                        {this.props.list}
-                    </Collapse>
-                </div>
-            </li>
-        );
-    }
-}
+export default DropdownMenu;
 
+DropdownMenu.propTypes = {
+    label: propTypes.oneOfType([
+        propTypes.string,
+        propTypes.node,
+    ]),
+    icon: propTypes.node,
 
+    children: propTypes.arrayOf(propTypes.node).isRequired,
+};
