@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const EggsTier = React.memo(function (props) {
+const EggsTier = React.memo(function EggsTier(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     regionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const classes = useStyles();

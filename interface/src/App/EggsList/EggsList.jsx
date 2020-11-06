@@ -128,10 +128,11 @@ class EggsList extends React.Component {
                             {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.tierList &&
                                 <RenderEggList
-                                    list={this.state.tierList}
                                     pokTable={this.props.bases.pokemonBase}
                                     filter={this.state.filter}
-                                />}
+                                >
+                                    {this.state.tierList}
+                                </RenderEggList>}
                         </div>
                     </div>
                 </div >
