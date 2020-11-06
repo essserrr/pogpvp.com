@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import { getCookie } from "js/getCookie";
-import { timeLocale } from "locale/timeLocale";
+import { timeLocale } from "locale/Components/TimeConverter/timeLocale";
 
 let strings = new LocalizedStrings(timeLocale);
 
