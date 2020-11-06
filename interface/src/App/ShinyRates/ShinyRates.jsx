@@ -76,15 +76,12 @@ class ShinyRates extends React.Component {
 
     }
 
-    onClick(event) {
-        let fieldName = event.currentTarget.getAttribute("name")
-        let fieldType = event.currentTarget.getAttribute("coltype")
-
+    onClick(event, atrributes, ...other) {
         this.setState({
             active: {
-                field: fieldName,
-                type: fieldType,
-                order: this.state.active.field === fieldName ? !this.state.active.order : true
+                field: atrributes.name,
+                type: atrributes.coltype,
+                order: this.state.active.field === atrributes.name ? !this.state.active.order : true
             },
         });
     }

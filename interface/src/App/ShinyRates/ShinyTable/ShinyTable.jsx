@@ -36,11 +36,7 @@ class ShinyTable extends React.Component {
                 <table className="table  table-sm text-center">
                     <ShinyTableThead
                         onClick={this.props.onClick}
-                        firstColumn={this.props.firstColumn}
-                        secondColumn={this.props.secondColumn}
-                        thirdColumn={this.props.thirdColumn}
-                        fourthColumn={this.props.fourthColumn}
-
+                        active={this.props.active}
                     />
                     <tbody>
                         {this.parseShinyRates()}

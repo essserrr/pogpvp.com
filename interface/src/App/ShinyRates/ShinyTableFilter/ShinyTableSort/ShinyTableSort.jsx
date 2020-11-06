@@ -37,10 +37,9 @@ class ShinyTableSort extends React.Component {
 
                 onClick={this.props.onClick}
                 onChange={this.props.onChange}
-                firstColumn={this.props.firstColumn}
-                secondColumn={this.props.secondColumn}
-                thirdColumn={this.props.thirdColumn}
-                fourthColumn={this.props.fourthColumn}
+
+                active={this.props.filter}
+
 
                 pokTable={this.props.pokTable}
             />
