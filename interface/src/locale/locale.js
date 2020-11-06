@@ -1,6 +1,5 @@
 export const locale = {
     en: {
-        search: "Search...",
         userPok: "User pokemon",
         allPok: "All pokemon",
 
@@ -134,7 +133,6 @@ export const locale = {
 
         tips: {
             impExp: "Enter or copy your Pokemon",
-            search: "Please, enter more than 3 characters",
             strategy: {
                 greedy: "When greedy mode is on, pokemon uses shields whenever it results in higher battle rating",
                 shieldSaving: "When shieldsaving mode is on, pokemon prioritizes shields number over battle rating if it doesn't lead him to guaranteed victory",
@@ -279,7 +277,6 @@ export const locale = {
 
 
     ru: {
-        search: "Поиск...",
         userPok: "Покемоны пользователя",
         allPok: "Все покемоны",
 
@@ -415,7 +412,6 @@ export const locale = {
 
         tips: {
             impExp: "Введите или скопируйте ваших покемонов",
-            search: "Введите более 3 символов",
             strategy: {
                 greedy: "Когда жадный режим включен, покемон использует щиты каждый раз, когда это приводит к более высокому итоговому рейтингу",
                 shieldSaving: "Когда включен режим сохранения щитов, покемон будет использовать щит только тогда, когда это приводит его к гарантированной победе",

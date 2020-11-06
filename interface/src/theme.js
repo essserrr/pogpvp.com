@@ -94,6 +94,9 @@ const theme = createMuiTheme({
                 borderWidth: 1,
                 borderColor: "rgba(0, 0, 0, 0.12)",
             }
+        },
+        MuiAppBar: {
+            colorDefault: "#1a1a1a",
         }
     }
 });
