@@ -8,7 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import { ReactComponent as LogoutIcon } from "icons/logout.svg";
 
-import DropdownMenu from "../DropdownMenu";
+import DropdownMenu from "App/NavbarWrapper/DropdownMenu/DropdownMenu";
 import { refresh } from "AppStore/Actions/refresh";
 import { setSession } from "AppStore/Actions/actions";
 import { getCookie } from "js/getCookie";
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
             marginRight: "0px",
         },
     },
-    navuserText: {
+    navUserText: {
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
@@ -34,7 +34,11 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("md")]: {
             width: "0px",
         },
-    }
+    },
+    listItem: {
+        display: "flex",
+        alignItems: "center",
+    },
 }));
 
 let strings = new LocalizedStrings(locale);
@@ -62,12 +66,12 @@ const User = React.memo(function User(props) {
 
     return (
         props.session.username ?
-            <DropdownMenu icon={<AccountCircleIcon />} label={<div className={classes.navuserText}>{props.session.username + "FFFFFFFFFFF"}</div>}>
-                <Link to="/profile/info">
+            <DropdownMenu icon={<AccountCircleIcon />} label={<div className={classes.navUserText}>{props.session.username}</div>}>
+                <Link className={classes.listItem} to="/profile/info">
                     <AccountBoxIcon className={classes.iconStyle} />
                     {strings.navbar.prof}
                 </Link>
-                <div onClick={onClick}>
+                <div className={classes.listItem} onClick={onClick}>
                     <LogoutIcon className={classes.iconStyle} />{strings.navbar.sout}
                 </div>
             </DropdownMenu>
