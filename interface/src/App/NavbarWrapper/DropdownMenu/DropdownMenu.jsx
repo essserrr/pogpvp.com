@@ -3,8 +3,9 @@ import propTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+
+import MenuItemLink from './MenuItemLink';
 
 const useStyles = makeStyles((theme) => ({
     iconStyle: {
@@ -13,20 +14,6 @@ const useStyles = makeStyles((theme) => ({
     },
     iconStyleMargin: {
         marginRight: `${theme.spacing(1)}px`,
-    },
-    menuItem: {
-        padding: 0,
-        "& > *": {
-            width: "100%",
-            hegiht: "100%",
-
-            padding: `${theme.spacing(0.75)}px ${theme.spacing(2)}px`,
-
-            color: theme.palette.text.primary,
-            "&:hover": {
-                color: theme.palette.text.primary,
-            }
-        },
     },
 }));
 
@@ -63,7 +50,7 @@ const DropdownMenu = React.memo(function DropdownMenu(props) {
                 className={classes.menu}
             >
                 {children.map((value, key) =>
-                    <MenuItem className={classes.menuItem} key={key} onClick={handleMenuClose}>{value}</MenuItem>)}
+                    <MenuItemLink key={key} onClick={handleMenuClose}>{value}</MenuItemLink>)}
             </Menu>
         </>
     )
