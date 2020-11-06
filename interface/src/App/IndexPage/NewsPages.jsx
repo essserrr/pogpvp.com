@@ -8,12 +8,12 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import NewsList from "./NewsList/NewsList"
-import NavigationBlock from "App/Pokedex/PokeCard/NavigationBlock/NavigationBlock"
-import IndexPageTitle from "./IndexPageTitle/IndexPageTitle"
+import NewsList from "./NewsList/NewsList";
+import NavigationBlock from "App/Pokedex/PokeCard/NavigationBlock/NavigationBlock";
+import IndexPageTitle from "./IndexPageTitle/IndexPageTitle";
 
-import { locale } from "locale/News/News"
-import { getCookie } from "js/getCookie"
+import { locale } from "locale/News/News";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale)
 

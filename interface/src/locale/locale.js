@@ -43,16 +43,6 @@ export const locale = {
             aboutrate: "About rating",
         },
 
-        shinyrates: {
-            searchplaceholder: "Search name",
-            pokname: "Name",
-            rate1: "Statis",
-            rate2: "tics",
-            rateest: "Rate",
-            checks: "Sample",
-            tip: "Estimated shiny rate based on the current sample size",
-        },
-
         options: {
             moveSelect: {
                 select: "Select...",
@@ -87,7 +77,6 @@ export const locale = {
             single: "Single PvP  |  PogPvP.com",
             common: "Raid simulator  |  PogPvP.com",
             matrix: "Matrix PvP  |  PogPvP.com",
-            shiny: "Shiny Rates  |  PogPvP.com",
             evolution: "Evolution calc  |  PogPvP.com",
             raids: "Raids list  |  PogPvP.com",
             eggs: "Eggs list  |  PogPvP.com",
@@ -101,7 +90,6 @@ export const locale = {
             common: "Pokemon GO raid simulator. Find the best counters to the current raid bosses in Pokemon GO",
             single: "Pokemon GO single PvP simulator. Pokemon GO PvP battle between two mons",
             matrix: "Pokemon GO matrix PvP simulator. Pokemon GO PvP battle between two or more mons. Pokemon GO PvP party advisor",
-            shiny: "Pokemon GO shiny rates. Daily shiny rates updates, largest sample size",
         },
 
         effStats: {
@@ -294,17 +282,6 @@ export const locale = {
             aboutrate: "О рейтинге",
         },
 
-        shinyrates: {
-            searchplaceholder: "Поиск по имени",
-            pokname: "Имя",
-            rate1: "Статис",
-            rate2: "тика",
-            rateest: "Шанс",
-            checks: "Выборка",
-            tip: "Оценочный шанс на шайни исходя из текущей выборки",
-
-        },
-
         options: {
             moveSelect: {
                 select: "Выбор...",
@@ -338,7 +315,6 @@ export const locale = {
             single: "Одиночное PvP  |  PogPvP.com",
             common: "Симулятор рейдов  |  PogPvP.com",
             matrix: "Групповое PvP  |  PogPvP.com",
-            shiny: "Шансы на шайни  |  PogPvP.com",
             evolution: "Калькулятор эволюций  |  PogPvP.com",
             raids: "Список текущих рейдов  |  PogPvP.com",
             eggs: "Список покемонов из яиц  |  PogPvP.com",
@@ -354,7 +330,6 @@ export const locale = {
 
             single: "Симулятор одиночного PvP в Pokemon GO. Симулятор боев между двумя покемонами в Pokemon GO",
             matrix: "Симулятор группового PvP в Pokemon GO. Симулятор боев между двумя и более покемонами в Pokemon GO",
-            shiny: "Шансы на шайни в Pokemon GO. Ежедневные обновления шансов на шайни, самая большая выборка",
         },
 
         effStats: {

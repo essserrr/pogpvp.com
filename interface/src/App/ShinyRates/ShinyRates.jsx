@@ -1,18 +1,19 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import ShinyTableFilter from "./ShinyTableFilter/ShinyTableFilter"
-import Loader from "../PvpRating/Loader"
-import SiteHelm from "../SiteHelm/SiteHelm"
+import Input from 'App/Components/Input/Input';
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import ShinyTableFilter from "./ShinyTableFilter/ShinyTableFilter";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 
-import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/getCookie"
-
-import "./ShinyRates.scss"
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { locale } from "locale/ShinyRates/ShinyRates";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale);
 
@@ -94,58 +95,76 @@ class ShinyRates extends React.Component {
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/shinyrates"
                     header={strings.pageheaders.shiny}
                     descr={strings.pagedescriptions.shiny}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="shiny-rates col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+                <Grid item xs={12} md={10} lg={8}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" spacing={2}>
+
                             {this.state.loading &&
-                                <Loader
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.tips.loading}
-                                    loading={this.state.loading}
-                                />}
-                            <Alert variant="filled" severity="error">{"Function will be depricated soon."}</Alert >
-                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
+                            <Grid item xs={12}>
+                                <Alert variant="filled" severity="error">{"Function will be depricated soon."}</Alert >
+                            </Grid>
+
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </Grid>}
+
+
                             {this.state.showResult &&
-                                <ShinyTableFilter
-                                    list={this.state.shinyRates}
-                                    value={this.state.name}
-                                    filter={this.state.active}
+                                <>
+                                    <Grid item xs={12}>
+                                        <Input
+                                            onChange={this.onChange}
+                                            label={strings.shinyrates.searchplaceholder}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <ShinyTableFilter
+                                            value={this.state.name}
+                                            filter={this.state.active}
 
-                                    onClick={this.onClick}
-                                    onChange={this.onChange}
-                                    firstColumn={this.state.active.field === "Name"}
-                                    secondColumn={this.state.active.field === "Odds"}
-                                    thirdColumn={this.state.active.field === "Odds"}
-                                    fourthColumn={this.state.active.field === "Checks"}
+                                            onClick={this.onClick}
+                                            onChange={this.onChange}
+                                            firstColumn={this.state.active.field === "Name"}
+                                            secondColumn={this.state.active.field === "Odds"}
+                                            thirdColumn={this.state.active.field === "Odds"}
+                                            fourthColumn={this.state.active.field === "Checks"}
 
-                                    pokTable={this.props.bases.pokemonBase}
-                                />}
-                        </div>
-                    </div>
-                </div >
-            </>
+                                            pokTable={this.props.bases.pokemonBase}
+                                        >
+                                            {this.state.shinyRates}
+                                        </ShinyTableFilter>
+                                    </Grid>
+                                </>}
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         getPokemonBase: () => dispatch(getPokemonBase()),
     }
-}
+};
 
 export default connect(
     state => ({
         bases: state.bases,
     }), mapDispatchToProps
-)(ShinyRates)
+)(ShinyRates);
 
 
 
