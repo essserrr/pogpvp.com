@@ -8,7 +8,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import { ReactComponent as LogoutIcon } from "icons/logout.svg";
 
-import DropdownMenu from "App/NavbarWrapper/DropdownMenu/DropdownMenu";
+import DropdownMenu from "App/Navbar/DropdownMenu/DropdownMenu";
 import { refresh } from "AppStore/Actions/refresh";
 import { setSession } from "AppStore/Actions/actions";
 import { getCookie } from "js/getCookie";

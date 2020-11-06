@@ -3,9 +3,9 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import Main from "./Main.jsx"
-import NavbarWrapper from "./NavbarWrapper/NavbarWrapper"
-import Footer from "./Footer/Footer"
+import Main from "./Main.jsx";
+import Navbar from "./Navbar/Navbar";
+import Footer from "./Footer/Footer";
 
 const useStyles = makeStyles((theme) => ({
     appGrid: {
@@ -31,7 +31,7 @@ const AppGrid = function AppGrid() {
     return (
         <Grid container direction="column" className={classes.appGrid}>
             <Grid item xs={"auto"} className={classes.navbarMargin}>
-                <NavbarWrapper />
+                <Navbar />
             </Grid>
             <Grid item xs>
                 <Main />

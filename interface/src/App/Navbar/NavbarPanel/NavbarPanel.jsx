@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 let strings = new LocalizedStrings(locale)
 
-const Navbar = React.memo(function Navbar(props) {
+const NavbarPanel = React.memo(function NavbarPanel(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const classes = useStyles();
 
@@ -92,9 +92,9 @@ const Navbar = React.memo(function Navbar(props) {
     )
 });
 
-export default Navbar;
+export default NavbarPanel;
 
-Navbar.propTypes = {
+NavbarPanel.propTypes = {
     leftPanel: propTypes.arrayOf(propTypes.node).isRequired,
     rightPanel: propTypes.arrayOf(propTypes.node).isRequired,
 };
