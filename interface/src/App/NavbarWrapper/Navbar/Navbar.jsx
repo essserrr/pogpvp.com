@@ -1,49 +1,72 @@
-import React from "react"
-import { Link } from "react-router-dom"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import { Link } from "react-router-dom";
+import LocalizedStrings from "react-localization";
+import propTypes from 'prop-types';
 
-import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/getCookie"
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
 
-import NavbarCollapse from "../NavbarCollapse/NavbarCollapse"
-import { ReactComponent as Logo } from "../../../icons/logo.svg"
 
-import "./Navbar.scss"
+import { locale } from "locale/Navbar/Navbar";
+import { getCookie } from "js/getCookie";
+import { ReactComponent as Logo } from "icons/logo.svg";
+
+const useStyles = makeStyles((theme) => ({
+    logo: {
+        width: 48,
+        height: 48,
+    },
+    grow: {
+        flexGrow: 1,
+    },
+    sectionDesktop: {
+        display: 'flex',
+        [theme.breakpoints.down('md')]: {
+            display: 'none',
+        },
+    },
+    sectionMobile: {
+        display: 'none',
+        [theme.breakpoints.down('md')]: {
+            display: 'flex',
+        },
+    },
+}));
 
 let strings = new LocalizedStrings(locale)
 
-const Navbar = React.memo(function (props) {
+const Navbar = React.memo(function Navbar(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
+
     return (
-        <nav className="navbar-style navbar navbar-expand-lg navbar-light px-0 pt-1 pb-1">
+        <AppBar position="static" color="default">
+            <Toolbar >
 
-            <Link title={strings.buttons.home} className="navbar-brand ml-2 mr-1" to="/">
-                <Logo id="logoicon" className={"icon48"} />
-            </Link>
+                <IconButton style={{ outline: "none" }}>
+                    <Link title={strings.home} to="/">
+                        <Logo className={classes.logo} />
+                    </Link>
+                </IconButton>
 
-            <button type="button" className="navbar-toggler ml-auto" onClick={props.onExpand} aria-label="Toggle navigation">
-                <span className="navbar-toggler-icon"></span>
-            </button>
+                <div className={classes.sectionDesktop}>
+                    {props.leftPanel}
+                </div>
 
-            <div className={"col-12 col-lg-auto order-3  order-lg-2 px-0"} >
-                <NavbarCollapse isOpened={props.isOpened}>
-                    <ul className="navbar-nav ml-1 ml-lg-0 mr-auto">
-                        {props.leftPanel}
-                    </ul>
-                </NavbarCollapse>
-            </div>
+                <div className={classes.grow} />
 
-            <div className="order-2 order-lg-3 ml-0 ml-lg-auto" >
-                <ul className="navbar-nav flex-row ml-auto ">
+                {props.rightPanel}
 
-                    {props.rightPanel}
-
-                </ul>
-            </div>
-        </nav>
+            </Toolbar>
+        </AppBar>
     )
 });
 
-
-
 export default Navbar;
+
+Navbar.propTypes = {
+    leftPanel: propTypes.node.isRequired,
+    rightPanel: propTypes.node.isRequired,
+};

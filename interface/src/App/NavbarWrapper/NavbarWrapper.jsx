@@ -1,8 +1,11 @@
-import React from "react"
+import React from "react";
+
+import ForumIcon from '@material-ui/icons/Forum';
+import LanguageIcon from '@material-ui/icons/Language';
+import TelegramIcon from '@material-ui/icons/Telegram';
 
 import Navbar from "./Navbar/Navbar"
-
-import DropdownMenu from "./DropdownMenu"
+import DropdownMenu from "App/NavbarWrapper/DropdownMenu/DropdownMenu"
 import NavUser from "./NavUser/NavUser"
 import { Link } from "react-router-dom"
 import { withRouter } from "react-router"
@@ -23,50 +26,9 @@ let strings = new LocalizedStrings(locale)
 
 
 class NavbarWrapper extends React.PureComponent {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        this.state = {
-            dropdownPvP: [
-                <Link key="singlePVP" className="dropdown-item " to="/pvp/single">{strings.navbar.single}</Link>,
-                <Link key="matrixPVP" className="dropdown-item " to="/pvp/matrix">{strings.navbar.matrix}</Link>,
-                <Link key="pvpRating" className="dropdown-item " to="/pvprating">{strings.navbar.pvprating}</Link>,
-            ],
-            dropdownPvE: [
-                <Link key="raidsList" className="dropdown-item " to="/raids">{strings.navbar.raids}</Link>,
-                <Link key="commonRaid" className="dropdown-item " to="/pve/common">{strings.navbar.raidsim}</Link>,
-                <Link key="customRaid" className="dropdown-item " to="/pve/custom">{strings.navbar.userRaidsim}</Link>,
-            ],
-            dropdownDex: [
-                <Link key="movedex" className="dropdown-item " to="/movedex">{strings.navbar.movedex}</Link>,
-                <Link key="pokedex" className="dropdown-item " to="/pokedex">{strings.navbar.pokedex}</Link>,
-            ],
-            dropdownOther: [
-                <Link key="evolutions" className="dropdown-item " to="/evolution">{strings.navbar.evo}</Link>,
-                <Link key="eggsList" className="dropdown-item " to="/eggs">{strings.navbar.eggs}</Link>,
-                <Link key="shinyBroker" className="dropdown-item " to="/shinybroker">{strings.navbar.shbroker}</Link>,
-            ],
-            dropdownSocialMedia: [
-                <a key="telegram" className="dropdown-item d-flex align-items-center" title={"Telegram"} href="https://t.me/pogpvp">
-                    <i className="fab fa-telegram fa-2x mr-2 clickable"></i><span>{strings.navbar.tlg}</span>
-                </a>,
-                <a key="patreon" className="dropdown-item d-flex align-items-center" title={"Patreon"} href="https://www.patreon.com/pogpvp">
-                    <i className="fab fa-patreon fa-2x mr-2 clickable"></i><span>{strings.navbar.patr}</span>
-                </a>,
-            ],
-            dropdownLanguages: [
-                <div key="ru" name="ru" className="navbar__lang-button clickable"
-                    onClick={this.onClick}>
-                    <Ru title={"Русский"} className="icon24 mx-1"></Ru> {"Русский"}
-                </div>,
-                <div key="en" name="en" className="navbar__lang-button clickable"
-                    onClick={this.onClick}>
-                    <En title={"English"} className="icon24 mx-1"></En> {"English"}
-                </div>,
-            ],
-            expanded: false,
-        };
-        this.onExpand = this.onExpand.bind(this);
         this.onClick = this.onClick.bind(this);
     }
 
@@ -75,65 +37,57 @@ class NavbarWrapper extends React.PureComponent {
         this.props.history.go()
     }
 
-    onExpand(event) {
-        event.preventDefault();
-        this.setState({
-            expanded: !this.state.expanded,
-        })
-    }
-
     render() {
+        const flexStyle = { display: "flex", alignItems: "center" }
+
         return (
             <Navbar
-                leftPanel={<>
-                    <DropdownMenu
-                        list={this.state.dropdownPvP}
-                        label={<><Battle id="battleicon" className={"icon36 mr-1"} />{strings.navbar.pvpTools}</>}
-                    />
+                leftPanel={
+                    <>
+                        <DropdownMenu icon={<Battle />} label={strings.navbar.pvpTools}>
+                            <Link to="/pvp/single">{strings.navbar.single}</Link>
+                            <Link to="/pvp/matrix">{strings.navbar.matrix}</Link>
+                            <Link to="/pvprating">{strings.navbar.pvprating}</Link>
+                        </DropdownMenu>
 
-                    <DropdownMenu
-                        list={this.state.dropdownPvE}
-                        label={<><Redgym id="redgym" className={"icon36 mr-1"} />{strings.navbar.pveTools}</>}
+                        <DropdownMenu icon={<Redgym />} label={strings.navbar.pveTools}>
+                            <Link to="/raids">{strings.navbar.raids}</Link>
+                            <Link to="/pve/common">{strings.navbar.raidsim}</Link>
+                            <Link to="/pve/custom">{strings.navbar.userRaidsim}</Link>
+                        </DropdownMenu>
+                        <DropdownMenu icon={<Dex />} label={strings.navbar.dex}>
+                            <Link to="/movedex">{strings.navbar.movedex}</Link>
+                            <Link to="/pokedex">{strings.navbar.pokedex}</Link>
+                        </DropdownMenu>
+                        <DropdownMenu icon={<Others />} label={strings.navbar.otherTools}>
+                            <Link to="/evolution">{strings.navbar.evo}</Link>
+                            <Link to="/eggs">{strings.navbar.eggs}</Link>
+                            <Link to="/shinybroker">{strings.navbar.shbroker}</Link>
+                        </DropdownMenu>
+                    </>}
 
-                    />
-                    <DropdownMenu
-                        list={this.state.dropdownDex}
-                        label={<><Dex id="redgym" className={"icon36 mr-1"} />{strings.navbar.dex}</>}
+                rightPanel={
+                    <>
+                        <NavUser />
+                        <DropdownMenu icon={<ForumIcon />}>
+                            <a style={flexStyle} title={"Telegram"} href="https://t.me/pogpvp">
+                                <TelegramIcon style={{ fontSize: 32, marginRight: "8px" }} /><span>{strings.navbar.tlg}</span>
+                            </a>
+                            <a style={flexStyle} title={"Patreon"} href="https://www.patreon.com/pogpvp">
+                                <TelegramIcon style={{ fontSize: 32, marginRight: "8px" }} /><span>{strings.navbar.patr}</span>
+                            </a>
+                        </DropdownMenu>
 
-                    />
-                    <DropdownMenu
-                        list={this.state.dropdownOther}
-                        label={<><Others id="othericon" className={"icon36 mr-1"} />{strings.navbar.otherTools}</>}
-                    />
-                </>}
-
-                rightPanel={<>
-                    <NavUser />
-                    <DropdownMenu
-                        class="mr-1"
-                        dropClass="dropdown-menu-right"
-                        label={<i className="fas fa-hashtag fa-2x clickable" aria-hidden="true"></i>}
-                        list={this.state.dropdownSocialMedia}
-                    />
-                    <DropdownMenu
-                        class="mr-1"
-                        dropClass="dropdown-menu-right"
-                        label={<i className="fa fa-globe fa-2x clickable" aria-hidden="true"></i>}
-                        list={<>
-                            <div key="ru" name="ru" className="navbar__lang-button clickable"
-                                onClick={this.onClick}>
-                                <Ru title={"Русский"} className="icon24 mx-1"></Ru> {"Русский"}
+                        <DropdownMenu icon={<LanguageIcon />}>
+                            <div style={flexStyle} name="ru" onClick={this.onClick}>
+                                <Ru title={"Русский"} style={{ width: 32, height: 32, marginRight: "8px" }} />{"Русский"}
                             </div>
-                            <div key="en" name="en" className="navbar__lang-button clickable"
-                                onClick={this.onClick}>
-                                <En title={"English"} className="icon24 mx-1"></En> {"English"}
+                            <div style={flexStyle} name="en" onClick={this.onClick}>
+                                <En title={"English"} style={{ width: 32, height: 32, marginRight: "8px" }} />{"English"}
                             </div>
-                        </>}
-                    />
-                    <Search class="mr-2" />
-                </>}
-                isOpened={this.state.expanded}
-                onExpand={this.onExpand}
+                        </DropdownMenu>
+                        <Search />
+                    </>}
             />
         );
     }
