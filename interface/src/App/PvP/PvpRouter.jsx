@@ -1,34 +1,16 @@
 
-import React, { Suspense, lazy } from "react"
-import Loader from "../PvpRating/Loader"
-import { Switch, Route } from "react-router-dom"
-import LocalizedStrings from "react-localization"
+import React, { Suspense, lazy } from "react";
+import { Switch, Route } from "react-router-dom";
 
-import { getCookie } from "../../js/getCookie"
-import { loaderLocale } from "../../locale/loaderLocale"
-
-let strings = new LocalizedStrings(loaderLocale)
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const NotFound = lazy(() => import("../NotFound/NotFound"))
 const PvpPage = lazy(() => import("./PvpPage.jsx"))
 
 class PvpRouter extends React.Component {
-    constructor(props) {
-        super(props)
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
-
     render() {
         return (
-            <Suspense fallback={<Loader
-                color="white"
-                weight="500"
-                locale={strings.loading}
-                loading={true}
-
-                class="row justify-content-center text-white"
-                innerClass="col-auto mt-1  mt-md-2"
-            />}>
+            <Suspense fallback={<LinearProgress color="secondary" />}>
                 <Switch>
                     <Route path="/pvp/:type(matrix|single)/:league/:pok1/:pok2/:simtype" component={PvpPage} />
                     <Route path="/pvp/:type(matrix|single)/:league/:pok1/:pok2" component={PvpPage} />

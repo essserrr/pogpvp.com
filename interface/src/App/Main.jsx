@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from "react";
 import { Switch, Route } from "react-router-dom";
-import LocalizedStrings from "react-localization";
 import { connect } from 'react-redux';
 
 import Container from '@material-ui/core/Container';
@@ -8,12 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-
 import { getCookie } from "../js/getCookie";
-import { loaderLocale } from "../locale/loaderLocale";
-
-let strings = new LocalizedStrings(loaderLocale)
-
 
 const PvpRouter = lazy(() => import("./PvP/PvpRouter.jsx"))
 const PveRouter = lazy(() => import("./PvE/PveRouter.jsx"))
@@ -51,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Main = function GreyPaper() {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const classes = useStyles();
 
     return (
