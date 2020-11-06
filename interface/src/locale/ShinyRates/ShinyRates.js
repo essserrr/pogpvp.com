@@ -1,5 +1,6 @@
 export const locale = {
     en: {
+        dexentr: "View dex for",
         shinyrates: {
             searchplaceholder: "Search name",
             pokname: "Name",
@@ -35,6 +36,7 @@ export const locale = {
 
 
     ru: {
+        dexentr: "Открыть декс для",
         shinyrates: {
             searchplaceholder: "Поиск по имени",
             pokname: "Имя",

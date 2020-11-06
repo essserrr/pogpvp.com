@@ -1,17 +1,62 @@
-import React from "react"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import propTypes from 'prop-types';
 
-import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/getCookie"
+import { makeStyles } from '@material-ui/core/styles';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
-import "./ShinyTableTr.scss"
+import Iconer from "App/Components/Iconer/Iconer";
 
-let strings = new LocalizedStrings(locale)
+import { locale } from "locale/ShinyRates/ShinyRates";
+import { getCookie } from "js/getCookie";
 
-const ShinyTableTr = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+let strings = new LocalizedStrings(locale);
+
+const useStyles = makeStyles((theme) => ({
+    link: {
+        fontSize: "1.1em",
+        marginLeft: `${theme.spacing(0.5)}px`,
+        color: theme.palette.text.link,
+        "&:hover": {
+            textDecoration: "underline",
+        },
+    },
+    tr: {
+        position: "relative",
+        "-webkit-transition": 'all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)',
+        transition: "all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)",
+        "&::after": {
+            content: '""',
+            borderRadius: "5px",
+            position: "absolute",
+            zIndex: -1,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
+            opacity: 0,
+            "-webkit-transition": 'all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)',
+            transition: "all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)",
+        },
+
+        "&:hover": {
+            transform: "scale(1.02, 1.02)",
+            "-webkit-transform": "scale(1.02, 1.02)",
+        },
+        "&:hover::after": {
+            opacity: 1,
+            display: "block",
+        }
+    },
+}));
+
+const ShinyTableTr = React.memo(function ShinyTableTr(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const classes = useStyles();
+    const pokemon = props.pokTable[props.pok.Name];
 
     function processRate(chance) {
         let ratesList = [24, 60, 90, 120, 240, 450, 800,]
@@ -46,27 +91,31 @@ const ShinyTableTr = React.memo(function (props) {
     }
 
     return (
-        <tr className="shinytable-tr">
-            <th className="text-center align-middle  text-sm-left px-0" scope="row">
-                <PokemonIconer
-                    src={props.pokTable[props.pok.Name].Number + (props.pokTable[props.pok.Name].Forme !== "" ? "-" + props.pokTable[props.pok.Name].Forme : "")}
-                    class={"shinytable-tr__icon mr-1 "} />
+        <TableRow className={classes.tr}>
+            <TableCell component="th" scope="row" align="left">
+                <Iconer
+                    fileName={pokemon.Number + (pokemon.Forme !== "" ? "-" + pokemon.Forme : "")}
+                    folderName="/pokemons/"
+                    size={36}
+                />
 
-                <Link className="shinytable-tr__link"
-                    title={strings.dexentr + props.pok.Name}
+                <Link className={classes.link}
+                    title={`${strings.dexentr} ${props.pok.Name}`}
                     to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.pok.Name)}>
                     {props.pok.Name}
                 </Link>
-            </th>
-            <td className="px-0 align-middle" >{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</td>
-            <td className="px-0 align-middle" >{"1/" + processRate(props.pok.Odds)}</td>
-            <td className="px-0 align-middle" >{props.pok.Checks}</td>
-        </tr>
+            </TableCell>
+            <TableCell align="center">{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</TableCell>
+            <TableCell align="center">{"1/" + processRate(props.pok.Odds)}</TableCell>
+            <TableCell align="center">{props.pok.Checks}</TableCell>
+        </TableRow>
     )
 
 });
 
 export default ShinyTableTr;
 
-
-
+ShinyTableTr.propTypes = {
+    pok: propTypes.object.isRequired,
+    pokTable: propTypes.object.isRequired,
+};

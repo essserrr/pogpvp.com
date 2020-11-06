@@ -3,7 +3,7 @@ export const locale = {
         userPok: "User pokemon",
         allPok: "All pokemon",
 
-        dexentr: "View dex for ",
+        dexentr: "View dex for",
         topcounters: "Find top counters against ",
 
         oopsReg: "Oops... To use this function you need to sign up first",
@@ -254,7 +254,7 @@ export const locale = {
         userPok: "Покемоны пользователя",
         allPok: "Все покемоны",
 
-        dexentr: "Открыть декс для ",
+        dexentr: "Открыть декс для",
         topcounters: "Найти лучших покемонов против ",
 
         oopsReg: "Ой... Что бы воспользоваться этой функцией, вы должны сначала зарегистрироваться",

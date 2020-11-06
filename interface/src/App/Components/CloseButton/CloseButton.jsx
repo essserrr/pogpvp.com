@@ -24,8 +24,8 @@ const CloseButton = React.memo(function CloseButton(props) {
     const { onClick, ...other } = props;
 
     return (
-        <IconButton className={classes.iconButton}>
-            <CloseIcon className={classes.closeButton} name="closeButton" onClick={onClick} {...other} />
+        <IconButton className={classes.iconButton} onClick={onClick}>
+            <CloseIcon className={classes.closeButton} name="closeButton" {...other} />
         </IconButton>
     );
 });
