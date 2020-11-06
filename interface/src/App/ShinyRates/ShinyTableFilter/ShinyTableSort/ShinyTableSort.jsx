@@ -1,53 +1,55 @@
-import React from "react"
+import React from "react";
+import propTypes from 'prop-types';
 
-import ShinyTable from "../../ShinyTable/ShinyTable"
+import ShinyTable from "../../ShinyTable/ShinyTable";
 
-class ShinyTableSort extends React.Component {
+const ShinyTableSort = React.memo(function ShinyTableSort(props) {
 
-    sortNumber() {
-        switch (this.props.filter.order) {
+    const sortNumber = () => {
+        switch (props.filter.order) {
             case true:
-                return this.props.list.sort((a, b) => { return a[1][this.props.filter.field] - b[1][this.props.filter.field] })
+                return props.children.sort((a, b) => { return a[1][props.filter.field] - b[1][props.filter.field] })
             default:
-                return this.props.list.sort((a, b) => { return b[1][this.props.filter.field] - a[1][this.props.filter.field] })
+                return props.children.sort((a, b) => { return b[1][props.filter.field] - a[1][props.filter.field] })
         }
     }
 
-    sortString() {
-        switch (this.props.filter.order) {
+    const sortString = () => {
+        switch (props.filter.order) {
             case true:
-                return this.props.list.sort((a, b) => {
-                    if (a[1][this.props.filter.field] < b[1][this.props.filter.field]) { return -1; }
-                    if (b[1][this.props.filter.field] < a[1][this.props.filter.field]) { return 1; }
+                return props.children.sort((a, b) => {
+                    if (a[1][props.filter.field] < b[1][props.filter.field]) { return -1; }
+                    if (b[1][props.filter.field] < a[1][props.filter.field]) { return 1; }
                     return 0;
                 })
             default:
-                return this.props.list.sort((a, b) => {
-                    if (a[1][this.props.filter.field] > b[1][this.props.filter.field]) { return -1; }
-                    if (b[1][this.props.filter.field] > a[1][this.props.filter.field]) { return 1; }
+                return props.children.sort((a, b) => {
+                    if (a[1][props.filter.field] > b[1][props.filter.field]) { return -1; }
+                    if (b[1][props.filter.field] > a[1][props.filter.field]) { return 1; }
                     return 0;
                 })
         }
     }
 
-    render() {
-        return (
-            <ShinyTable
-                list={this.props.filter.type === "number" ? this.sortNumber() : this.sortString()}
+    return (
+        <ShinyTable
+            onClick={props.onClick}
+            active={props.filter}
+            pokTable={props.pokTable}
+        >
+            {props.filter.type === "number" ? sortNumber() : sortString()}
+        </ShinyTable>
+    )
+});
 
-                onClick={this.props.onClick}
-                onChange={this.props.onChange}
+export default ShinyTableSort;
 
-                active={this.props.filter}
+ShinyTableSort.propTypes = {
+    filter: propTypes.object.isRequired,
+    pokTable: propTypes.object.isRequired,
 
+    onClick: propTypes.func,
 
-                pokTable={this.props.pokTable}
-            />
-        );
-    }
-}
-
-export default ShinyTableSort
-
-
+    children: propTypes.arrayOf(propTypes.array),
+};
 
