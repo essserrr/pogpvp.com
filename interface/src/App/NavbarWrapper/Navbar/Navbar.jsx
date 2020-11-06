@@ -7,7 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-
+import MenuIcon from '@material-ui/icons/Menu';
+import Drawer from '@material-ui/core/Drawer';
 
 import { locale } from "locale/Navbar/Navbar";
 import { getCookie } from "js/getCookie";
@@ -33,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
             display: 'flex',
         },
     },
+    drawer: {
+        padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(2)}px ${theme.spacing(2)}px`,
+    },
 }));
 
 let strings = new LocalizedStrings(locale)
@@ -41,32 +45,56 @@ const Navbar = React.memo(function Navbar(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const classes = useStyles();
 
+    const [state, setState] = React.useState(false);
+
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+        setState(open);
+    };
+
     return (
-        <AppBar position="static" color="default">
-            <Toolbar >
+        <>
+            <AppBar position="static" color="default">
+                <Toolbar >
 
-                <IconButton style={{ outline: "none" }}>
-                    <Link title={strings.home} to="/">
-                        <Logo className={classes.logo} />
-                    </Link>
-                </IconButton>
+                    <IconButton style={{ outline: "none" }}>
+                        <Link title={strings.home} to="/">
+                            <Logo className={classes.logo} />
+                        </Link>
+                    </IconButton>
 
-                <div className={classes.sectionDesktop}>
-                    {props.leftPanel}
-                </div>
+                    <div className={classes.sectionDesktop}>
+                        {props.leftPanel}
+                    </div>
 
-                <div className={classes.grow} />
+                    <div className={classes.grow} />
 
-                {props.rightPanel}
+                    <IconButton edge="start" className={classes.sectionMobile} color="inherit" style={{ outline: "none" }}
+                        onClick={toggleDrawer(true)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
 
-            </Toolbar>
-        </AppBar>
+                    {props.rightPanel}
+
+                </Toolbar>
+            </AppBar>
+            {props.leftPanel && <Drawer open={state} onClose={toggleDrawer(false)} classes={{ paper: classes.drawer }}>
+                {props.leftPanel.map((value, key) =>
+                    React.cloneElement(value, {
+                        closeDrawer: toggleDrawer(false),
+                    })
+                )}
+            </Drawer>}
+        </>
     )
 });
 
 export default Navbar;
 
 Navbar.propTypes = {
-    leftPanel: propTypes.node.isRequired,
-    rightPanel: propTypes.node.isRequired,
+    leftPanel: propTypes.arrayOf(propTypes.node).isRequired,
+    rightPanel: propTypes.arrayOf(propTypes.node).isRequired,
 };

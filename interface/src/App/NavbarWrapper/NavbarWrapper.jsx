@@ -42,52 +42,48 @@ class NavbarWrapper extends React.PureComponent {
 
         return (
             <Navbar
-                leftPanel={
-                    <>
-                        <DropdownMenu icon={<Battle />} label={strings.navbar.pvpTools}>
-                            <Link to="/pvp/single">{strings.navbar.single}</Link>
-                            <Link to="/pvp/matrix">{strings.navbar.matrix}</Link>
-                            <Link to="/pvprating">{strings.navbar.pvprating}</Link>
-                        </DropdownMenu>
+                leftPanel={[
+                    <DropdownMenu key="pvp" icon={<Battle />} label={strings.navbar.pvpTools}>
+                        <Link to="/pvp/single">{strings.navbar.single}</Link>
+                        <Link to="/pvp/matrix">{strings.navbar.matrix}</Link>
+                        <Link to="/pvprating">{strings.navbar.pvprating}</Link>
+                    </DropdownMenu>,
+                    <DropdownMenu key="pve" icon={<Redgym />} label={strings.navbar.pveTools}>
+                        <Link to="/raids">{strings.navbar.raids}</Link>
+                        <Link to="/pve/common">{strings.navbar.raidsim}</Link>
+                        <Link to="/pve/custom">{strings.navbar.userRaidsim}</Link>
+                    </DropdownMenu>,
+                    <DropdownMenu key="dex" icon={<Dex />} label={strings.navbar.dex}>
+                        <Link to="/movedex">{strings.navbar.movedex}</Link>
+                        <Link to="/pokedex">{strings.navbar.pokedex}</Link>
+                    </DropdownMenu>,
+                    <DropdownMenu key="other" icon={<Others />} label={strings.navbar.otherTools}>
+                        <Link to="/evolution">{strings.navbar.evo}</Link>
+                        <Link to="/eggs">{strings.navbar.eggs}</Link>
+                        <Link to="/shinybroker">{strings.navbar.shbroker}</Link>
+                    </DropdownMenu>,
+                ]}
 
-                        <DropdownMenu icon={<Redgym />} label={strings.navbar.pveTools}>
-                            <Link to="/raids">{strings.navbar.raids}</Link>
-                            <Link to="/pve/common">{strings.navbar.raidsim}</Link>
-                            <Link to="/pve/custom">{strings.navbar.userRaidsim}</Link>
-                        </DropdownMenu>
-                        <DropdownMenu icon={<Dex />} label={strings.navbar.dex}>
-                            <Link to="/movedex">{strings.navbar.movedex}</Link>
-                            <Link to="/pokedex">{strings.navbar.pokedex}</Link>
-                        </DropdownMenu>
-                        <DropdownMenu icon={<Others />} label={strings.navbar.otherTools}>
-                            <Link to="/evolution">{strings.navbar.evo}</Link>
-                            <Link to="/eggs">{strings.navbar.eggs}</Link>
-                            <Link to="/shinybroker">{strings.navbar.shbroker}</Link>
-                        </DropdownMenu>
-                    </>}
-
-                rightPanel={
-                    <>
-                        <NavUser />
-                        <DropdownMenu icon={<ForumIcon />}>
-                            <a style={flexStyle} title={"Telegram"} href="https://t.me/pogpvp">
-                                <TelegramIcon style={{ fontSize: 32, marginRight: "8px" }} /><span>{strings.navbar.tlg}</span>
-                            </a>
-                            <a style={flexStyle} title={"Patreon"} href="https://www.patreon.com/pogpvp">
-                                <TelegramIcon style={{ fontSize: 32, marginRight: "8px" }} /><span>{strings.navbar.patr}</span>
-                            </a>
-                        </DropdownMenu>
-
-                        <DropdownMenu icon={<LanguageIcon />}>
-                            <div style={flexStyle} name="ru" onClick={this.onClick}>
-                                <Ru title={"Русский"} style={{ width: 32, height: 32, marginRight: "8px" }} />{"Русский"}
-                            </div>
-                            <div style={flexStyle} name="en" onClick={this.onClick}>
-                                <En title={"English"} style={{ width: 32, height: 32, marginRight: "8px" }} />{"English"}
-                            </div>
-                        </DropdownMenu>
-                        <Search />
-                    </>}
+                rightPanel={[
+                    <NavUser key="user" />,
+                    <DropdownMenu key="media" icon={<ForumIcon />}>
+                        <a style={flexStyle} title={"Telegram"} href="https://t.me/pogpvp">
+                            <TelegramIcon style={{ fontSize: 32, marginRight: "8px" }} /><span>{strings.navbar.tlg}</span>
+                        </a>
+                        <a style={flexStyle} title={"Patreon"} href="https://www.patreon.com/pogpvp">
+                            <TelegramIcon style={{ fontSize: 32, marginRight: "8px" }} /><span>{strings.navbar.patr}</span>
+                        </a>
+                    </DropdownMenu>,
+                    <DropdownMenu key="lang" icon={<LanguageIcon />}>
+                        <div style={flexStyle} name="ru" onClick={this.onClick}>
+                            <Ru title={"Русский"} style={{ width: 32, height: 32, marginRight: "8px" }} />{"Русский"}
+                        </div>
+                        <div style={flexStyle} name="en" onClick={this.onClick}>
+                            <En title={"English"} style={{ width: 32, height: 32, marginRight: "8px" }} />{"English"}
+                        </div>
+                    </DropdownMenu>,
+                    <Search key="search" />,
+                ]}
             />
         );
     }

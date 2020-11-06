@@ -14,7 +14,7 @@ let strings = new LocalizedStrings(locale);
 
 const useStyles = makeStyles((theme) => ({
     iconStyle: {
-        color: "white",
+        color: "black",
         width: 36,
         height: 36,
     },
