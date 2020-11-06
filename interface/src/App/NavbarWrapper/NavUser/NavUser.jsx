@@ -16,13 +16,11 @@ import LoginReg from "./LoginReg/LoginReg";
 import { locale } from "locale/Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
-    iconStyle: {
-        width: 32,
-        height: 32,
-        marginRight: `${theme.spacing(1)}px`,
-
+    dropdown: {
         [theme.breakpoints.down("md")]: {
-            marginRight: "0px",
+            "& svg": {
+                marginRight: 0,
+            }
         },
     },
     navUserText: {
@@ -38,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
     listItem: {
         display: "flex",
         alignItems: "center",
+    },
+    listIconStyle: {
+        width: 32,
+        height: 32,
+        marginRight: `${theme.spacing(1)}px`,
     },
 }));
 
@@ -66,13 +69,14 @@ const User = React.memo(function User(props) {
 
     return (
         props.session.username ?
-            <DropdownMenu icon={<AccountCircleIcon />} label={<div className={classes.navUserText}>{props.session.username}</div>}>
+            <DropdownMenu className={classes.dropdown}
+                icon={<AccountCircleIcon />} label={<div className={classes.navUserText}>{props.session.username}</div>}>
                 <Link className={classes.listItem} to="/profile/info">
-                    <AccountBoxIcon className={classes.iconStyle} />
+                    <AccountBoxIcon className={classes.listIconStyle} />
                     {strings.navbar.prof}
                 </Link>
                 <div className={classes.listItem} onClick={onClick}>
-                    <LogoutIcon className={classes.iconStyle} />{strings.navbar.sout}
+                    <LogoutIcon className={classes.listIconStyle} />{strings.navbar.sout}
                 </div>
             </DropdownMenu>
             :
