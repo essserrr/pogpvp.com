@@ -23,10 +23,7 @@ export const locale = {
         },
 
         tierlist: {
-            raidtier: "Tier",
-            mega: "Mega raids",
             eggs: "Eggs",
-            regionals: "Show regionals",
         },
     },
 
@@ -58,12 +55,8 @@ export const locale = {
             matrix: "Симулятор группового PvP в Pokemon GO. Симулятор боев между двумя и более покемонами в Pokemon GO",
         },
 
-
         tierlist: {
-            raidtier: "Уровень",
-            mega: "Мега рейды",
             eggs: "Яйца",
-            regionals: "Показать регионалок",
         },
     }
 }
