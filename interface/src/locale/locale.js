@@ -39,11 +39,9 @@ export const locale = {
             evolveTool: "Select pokemon you want to evolve",
             pvpoke: "Pvpoke-like rules",
             about: "About simulator",
-            aboutrate: "About rating",
         },
 
         pageheaders: {
-            pvprating: "PvP Rating  |  PogPvP.com",
             single: "Single PvP  |  PogPvP.com",
             common: "Raid simulator  |  PogPvP.com",
             matrix: "Matrix PvP  |  PogPvP.com",
@@ -51,7 +49,6 @@ export const locale = {
         },
 
         pagedescriptions: {
-            pvprating: "Pokemon GO PvP Rating. All Pokemon GO PvP matchups. Pokemon GO PvP counters by league",
             evolution: "Pokemon GO evolution calculator. Know your mon's CP after evolution in Pokemon GO",
             common: "Pokemon GO raid simulator. Find the best counters to the current raid bosses in Pokemon GO",
             single: "Pokemon GO single PvP simulator. Pokemon GO PvP battle between two mons",
@@ -224,11 +221,9 @@ export const locale = {
             evolveTool: "Выберите покемона для эволюции",
             pvpoke: "Правила Pvpoke",
             about: "О симуляторе",
-            aboutrate: "О рейтинге",
         },
 
         pageheaders: {
-            pvprating: "PvP рейтинг  |  PogPvP.com",
             single: "Одиночное PvP  |  PogPvP.com",
             common: "Симулятор рейдов  |  PogPvP.com",
             matrix: "Групповое PvP  |  PogPvP.com",
@@ -236,7 +231,6 @@ export const locale = {
         },
 
         pagedescriptions: {
-            pvprating: "PvP рейтинг пекемонов в Pokemon GO. Все PvP матчапы в Pokemon GO. Лучшие PvP контры в Pokemon GO",
             evolution: "Калькулятор эволюций в Pokemon GO. Знай CP своего покемона в Pokemon GO после эволюции!",
             common: "Симулятор рейдов в Pokemon GO. Найди лучшего покемона против любого босса в Pokemon GO",
             single: "Симулятор одиночного PvP в Pokemon GO. Симулятор боев между двумя покемонами в Pokemon GO",

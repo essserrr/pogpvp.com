@@ -44,16 +44,12 @@ const PokemonBoxTitle = React.memo(function PokemonBoxTitle(props) {
                     <Box>{strings.userpok.filt}</Box>
 
                     <Box marginX={1}>
-                        {props.showCollapse ?
-                            <IconButton className={classes.iconButton}>
+                        <IconButton className={classes.iconButton}>
+                            {props.showCollapse ?
                                 <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
-                            </IconButton>
-
-                            :
-                            <IconButton className={classes.iconButton}>
-                                <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />
-                            </IconButton>
-                        }
+                                :
+                                <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />}
+                        </IconButton>
                     </Box>
                 </Grid>
             </Grid>
