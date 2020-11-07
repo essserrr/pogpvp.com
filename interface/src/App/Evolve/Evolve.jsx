@@ -5,13 +5,15 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
 import SearchableSelect from "../PvP/components/SearchableSelect/SearchableSelect"
 import Stats from "../PvP/components/Stats/Stats"
 import EvoList from "./EvoList/EvoList"
-import Loader from "../PvpRating/Loader"
+
 
 import { locale } from "../../locale/locale"
 import { checkLvl, checkIV, } from "../../js/indexFunctions"
@@ -137,12 +139,12 @@ class Evolve extends React.Component {
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-2 pb-2">
                         <div className="evolve col-sm-12 col-md-10 col-lg-6 mx-0 py-4">
-                            {this.state.loading && <Loader
-                                color="black"
-                                weight="500"
-                                locale={strings.tips.loading}
-                                loading={this.state.loading}
-                            />}
+
+                            {this.state.loading &&
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
                             {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult &&
                                 <div className="row justify-content-between p-0 m-0">

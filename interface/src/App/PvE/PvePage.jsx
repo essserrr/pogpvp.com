@@ -3,9 +3,11 @@ import SiteHelm from "../SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+
 import CustomPve from "./CustomPve"
 import CommonPve from "./CommonPve"
-import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating//DropWithArrow/DropWithArrow"
 import CommonDescr from "./Components/Description/CommonDescr"
 
@@ -232,17 +234,12 @@ class PvePage extends React.Component {
                 />
                 <div className="container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
                     <div className="row mx-0 mx-lg-2 justify-content-center">
-                        {this.state.loading && <div className="col-12 p-0 mb-4"  >
-                            <Loader
-                                color="white"
-                                weight="500"
-                                locale={strings.tips.loading}
-                                loading={this.state.loading}
 
-                                class={"row m-0 justify-content-center"}
-                                innerClass={"col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"}
-                            />
-                        </div>}
+                        {this.state.loading &&
+                            <Grid item xs={12}>
+                                <LinearProgress color="secondary" />
+                            </ Grid>}
+
                         <div className="col-12 px-1">
                             {this.state.isLoaded && this.props.match.params.type === "common" && <CommonPve
                                 pokemonTable={this.props.bases.pokemonBase}

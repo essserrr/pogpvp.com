@@ -3,6 +3,8 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
 import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
@@ -18,7 +20,6 @@ import { getCookie } from "../../js/getCookie"
 import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
 import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
-import Loader from "../PvpRating/Loader"
 
 import "./MatrixPvp.scss"
 
@@ -704,15 +705,12 @@ class MatrixPvp extends React.PureComponent {
                                         </div>
                                     </div>
                                 </div>}
+
                             {this.state.loading &&
-                                <div className="col-12 mt-2 order-lg-2" >
-                                    <Loader
-                                        color="white"
-                                        weight="500"
-                                        locale={strings.tips.loading}
-                                        loading={this.state.loading}
-                                    />
-                                </div>}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
                             <div className="align-self-end order-1 order-lg-3 col px-0">
                                 <div className="order-2 order-lg-3 d-flex justify-content-center mx-0 px-0 col-12  mt-2 mt-lg-0" >
                                     <SubmitButton

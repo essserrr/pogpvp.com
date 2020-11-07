@@ -4,6 +4,8 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
@@ -11,7 +13,6 @@ import RatingPages from "./RatingPages/RatingPages"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import SelectGroup from "../PvP/components/SelectGroup/SelectGroup"
 import RatingDescr from "./RatingDescr/RatingDescr"
-import Loader from "./Loader"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"
 import Input from "../PvP/components/Input/Input"
 
@@ -301,13 +302,12 @@ class PvpRating extends React.Component {
                             </div>
                             <div className="row justify-content-center m-0">
                                 <div className="pvp-rating__module col-md-12 col-lg-12 p-2 m-0">
+
                                     {this.state.loading &&
-                                        <Loader
-                                            color="black"
-                                            weight="500"
-                                            locale={strings.tips.loading}
-                                            loading={this.state.loading}
-                                        />}
+                                        <Grid item xs={12}>
+                                            <LinearProgress color="secondary" />
+                                        </ Grid>}
+
                                     {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                                     {this.state.showResult &&
                                         <>

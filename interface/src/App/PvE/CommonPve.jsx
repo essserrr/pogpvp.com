@@ -2,11 +2,12 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 import SimulatorPanel from "./Components/SimulatorPanel"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
 import PveResult from "./Components/PveResult/PveResult"
-import Loader from "../PvpRating/Loader"
 
 import { MovePoolBuilder } from "js/movePoolBuilder"
 import { pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV } from "../../js/indexFunctions.js"
@@ -298,14 +299,9 @@ class CommonPve extends React.PureComponent {
                     </div>
 
                     {this.state.loading &&
-                        <div className="col-12 mt-2 mb-3">
-                            <Loader
-                                color="white"
-                                weight="500"
-                                locale={strings.tips.loading}
-                                loading={this.state.loading}
-                            />
-                        </div>}
+                        <Grid item xs={12}>
+                            <LinearProgress color="secondary" />
+                        </ Grid>}
 
                     {this.state.showResult && this.state.result && this.state.result.length > 0 &&
                         <div className="commonpve__results-panel col-12 col-md-10 col-lg-6 justify-content-center p-0" >

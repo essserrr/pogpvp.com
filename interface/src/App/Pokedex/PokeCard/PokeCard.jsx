@@ -5,10 +5,10 @@ import { UnmountClosed } from "react-collapse"
 import { connect } from "react-redux"
 
 import Alert from '@material-ui/lab/Alert';
-
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import Loader from "../../PvpRating/Loader"
 import IconBlock from "./IconBlock/IconBlock"
 import MoveCol from "./MoveBlock/MoveCol"
 import EffTable from "./EffBlock/EffTable"
@@ -172,13 +172,12 @@ class PokeCard extends React.Component {
                 <div className="container-fluid mt-3 mb-5">
                     <div className=" row justify-content-center px-1 px-sm-2 pb-2">
                         <div className="pokedex-card mx-3 mb-2 col-12 col-md-10 col-lg-8 p-2 p-md-4">
+
                             {this.state.loading &&
-                                <Loader
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.loading}
-                                    loading={this.state.loading}
-                                />}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
                             {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult && this.state.pok && <>
                                 {this.state.scrollList && !(this.state.position === undefined) &&

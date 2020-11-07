@@ -4,10 +4,11 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 import MovedexListFilter from "./MovedexListFilter/MovedexListFilter"
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import Loader from "../PvpRating/Loader"
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
 import MoveDescr from "./MoveDescr/MoveDescr"
 import DoubleSlider from "./MoveCard/DoubleSlider/DoubleSlider"
@@ -138,13 +139,12 @@ class Movedex extends React.Component {
                     </div>
                     <div className="row justify-content-center px-1 px-sm-2 pb-2">
                         <div className="movedex__module col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+
                             {this.state.loading &&
-                                <Loader
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.loading}
-                                    loading={this.state.loading}
-                                />}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
                             {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult &&
                                 <>

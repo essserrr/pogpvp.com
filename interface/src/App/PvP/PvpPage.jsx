@@ -5,6 +5,9 @@ import LocalizedStrings from "react-localization"
 import ReactTooltip from "react-tooltip"
 import { connect } from "react-redux"
 
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+
 import { getCustomPokemon } from "../../AppStore/Actions/getCustomPokemon"
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
@@ -16,7 +19,6 @@ import SelectGroup from "./components/SelectGroup/SelectGroup"
 import Checkbox from "../RaidsList/Checkbox/Checkbox"
 import MatrixDescr from "./components/Description/MatrixDescr"
 import SingleDescr from "./components/Description/SingleDescr"
-import Loader from "../PvpRating/Loader"
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
 import { separateMovebase } from "js/separateMovebase";
@@ -284,17 +286,12 @@ class PvpPage extends React.Component {
                         </div>
                     </div>
                     <div className="row  mx-0 mx-lg-2 justify-content-center">
-                        {this.state.loading && <div className="col-12  mb-4"  >
-                            <Loader
-                                color="white"
-                                weight="500"
-                                locale={strings.tips.loading}
-                                loading={this.state.loading}
 
-                                class="row  m-0 p-0 justify-content-center"
-                                innerClass="col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"
-                            />
-                        </div>}
+                        {this.state.loading &&
+                            <Grid item xs={12}>
+                                <LinearProgress color="secondary" />
+                            </ Grid>}
+
                         <div className="pvppage__main-panel col-12 m-0 p-0">
                             {(this.state.isLoaded && (this.props.match.params.type === "single")) &&
                                 <SinglePvp

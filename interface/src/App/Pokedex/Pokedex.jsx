@@ -4,10 +4,11 @@ import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 import PokedexListFilter from "./PokedexListFilter/PokedexListFilter"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import Loader from "../PvpRating/Loader"
 import TypeRow from "../Movedex/TypeRow/TypeRow"
 import GenRow from "./GenRow/GenRow"
 import Input from "../PvP/components/Input/Input"
@@ -111,14 +112,12 @@ class Pokedex extends React.Component {
                 <div className="container-fluid mt-3 mb-5">
                     <div className="row justify-content-center px-1 px-sm-2 pb-2">
                         <div className="pokedex col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+
                             {this.state.loading &&
-                                <Loader
-                                    class="row justify-content-center mb-2"
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.loading}
-                                    loading={this.state.loading}
-                                />}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
                             {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                             {this.state.showResult &&
                                 <>
@@ -136,14 +135,11 @@ class Pokedex extends React.Component {
                                         filter={this.state.filter}
                                         onFilter={this.onFilter}
                                     />
+
                                     {this.state.loadingTable &&
-                                        <Loader
-                                            class="row justify-content-center my-2"
-                                            color="black"
-                                            weight="500"
-                                            locale={strings.loading}
-                                            loading={this.state.loading}
-                                        />}
+                                        <Grid item xs={12}>
+                                            <LinearProgress color="secondary" />
+                                        </ Grid>}
 
                                     <PokedexListFilter
                                         name={this.state.name}

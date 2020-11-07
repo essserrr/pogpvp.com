@@ -2,6 +2,8 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
 import Pokemon from "./components/Pokemon";
 import Result from "./components/Result";
@@ -11,7 +13,6 @@ import Indicators from "./components/Indicators/Indicators"
 import URL from "./components/URL/URL"
 import MagicBox from "./components/MagicBox/MagicBox"
 import Constructor from "./components/Constructor/Constructor"
-import Loader from "../PvpRating/Loader"
 
 import { MovePoolBuilder } from "js/movePoolBuilder"
 import {
@@ -711,15 +712,12 @@ class SinglePvp extends React.PureComponent {
                                             </div>}
                                     </div>
                                 </div>}
+
                             {this.state.loading &&
-                                <div className="col-12 mt-2 order-lg-2" >
-                                    <Loader
-                                        color="white"
-                                        weight="500"
-                                        locale={strings.tips.loading}
-                                        loading={this.state.loading}
-                                    />
-                                </div>}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
                             <div className="align-self-end order-1 order-lg-3 col px-0">
                                 <div className="order-1 order-lg-3 d-flex justify-content-between mx-0 px-0 col-12  mt-2 mt-lg-0" >
                                     <div>
