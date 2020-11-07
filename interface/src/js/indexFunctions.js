@@ -718,27 +718,6 @@ export var typeDecoder = [
     "Water",
 ]
 
-export var weatherDecoder = [
-    "2",
-    "7",
-    "5",
-    "2",
-    "4",
-    "4",
-    "1",
-    "5",
-    "7",
-    "1",
-    "1",
-    "6",
-    "3",
-    "4",
-    "5",
-    "3",
-    "6",
-    "2",
-]
-
 export var typeEncoder = {
     "Bug": 0,
     "Dark": 1,
