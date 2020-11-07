@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     sliderGroup: {
         overflow: "hidden",
         border: `2px solid ${theme.palette.primary.main}`,
-        borderRadius: "7px",
+        borderRadius: `${theme.spacing(0.5)}px`,
 
         "-webkit-transition": "all 0.4s linear",
         transition: "all 0.4s linear",

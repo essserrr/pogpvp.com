@@ -35,12 +35,13 @@ const useStyles = makeStyles((theme) => ({
 
 const SliderButton = React.memo(function SliderButton(props) {
     const classes = useStyles();
-    const { className, attr, onClick, children, ...other } = props;
+    const { className, attr, onClick, children, toggled, ...other } = props;
 
     return (
         <button
             className={`${classes.sliderButton} ${className ? className : ""}`}
             attr={attr}
+            toggled={String(toggled)}
             onClick={onClick}
             {...other}
         >
@@ -54,6 +55,7 @@ export default SliderButton;
 SliderButton.propTypes = {
     className: PropTypes.string,
     attr: PropTypes.string,
+    toggled: PropTypes.bool.isRequired,
 
     onClick: PropTypes.func,
     children: PropTypes.oneOfType([
