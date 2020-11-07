@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 
 import RaidTier from "./RaidTier/RaidTier"
-import IconMultiplicator from "./IconMultiplicator/IconMultiplicator"
+import RaidIcon from "./RaidIcon/RaidIcon"
 import FilteredRaidList from "./FilteredRaidList/FilteredRaidList"
 
 import { locale } from "../../../locale/locale"
@@ -29,7 +29,7 @@ class RenderRaidList extends React.Component {
             class="raid-list__separator"
 
             title={
-                <IconMultiplicator
+                <RaidIcon
                     title={value.name !== "Mega Raids" ? `${strings.tierlist.raidtier} ${value.value}` : strings.tierlist.mega}
                     n={value.value} />}
             list={this.props.list[value.name]}
