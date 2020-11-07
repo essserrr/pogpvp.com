@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 let strings = new LocalizedStrings(locale)
 
-const RaidTier = React.memo(function (props) {
+const RaidTier = React.memo(function RaidTier(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const classes = useStyles();
 

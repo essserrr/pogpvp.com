@@ -41,10 +41,9 @@ class RenderRaidList extends React.Component {
 
     render() {
         return (
-            <FilteredRaidList
-                list={this.returnRaidList()}
-                filter={this.props.filter}
-            />
+            <FilteredRaidList filter={this.props.filter}>
+                {this.returnRaidList()}
+            </FilteredRaidList>
         );
     }
 }
