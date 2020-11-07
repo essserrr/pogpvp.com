@@ -1,22 +1,22 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "../SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import RenderEggList from "./RenderEggList/RenderEggList"
-import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
-import Loader from "../PvpRating/Loader"
-import SingleSliderButton from "./SingleSliderButton/SingleSliderButton"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import RenderEggList from "./RenderEggList/RenderEggList";
+import ButtonsBlock from "./ButtonsBlock/ButtonsBlock";
+import SingleSliderButton from "./SingleSliderButton/SingleSliderButton";
 
-import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import { getCookie } from "js/getCookie";
+import { locale } from "locale/Eggs/Eggs";
 
-import "./EggsList.scss"
-
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(locale);
 
 class EggsList extends React.Component {
     constructor(props) {
@@ -92,51 +92,64 @@ class EggsList extends React.Component {
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/eggs"
                     header={strings.pageheaders.eggs}
                     descr={strings.pagedescriptions.eggs}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-2 pb-2">
-                        <div className="eggs-list col-sm-12 col-md-11 col-lg-8 mx-0 py-4">
+
+                <Grid item xs={12} md={11} lg={8}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" spacing={2}>
+
                             {this.state.loading &&
-                                <Loader
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.tips.loading}
-                                    loading={this.state.loading}
-                                />}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </Grid>}
+
                             {this.state.tierList &&
                                 <>
-                                    <ButtonsBlock
-                                        filter={this.state.filter}
-                                        onFilter={this.onChange}
-                                    />
-                                    <div className="row justify-content-center m-0">
-                                        <div className="col-12 col-sm-6 p-0 mb-3" >
-                                            <SingleSliderButton
-                                                attr="showReg"
-                                                title={strings.tierlist.regionals}
-                                                isActive={this.state.filter.showReg}
-                                                onClick={this.onChange}
-                                            />
-                                        </div>
-                                    </div>
+                                    <Grid item xs={12}>
+                                        <ButtonsBlock
+                                            filter={this.state.filter}
+                                            onFilter={this.onChange}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <Grid container justify="center">
+                                            <Grid item xs={12} sm={6}>
+                                                <SingleSliderButton
+                                                    attr="showReg"
+                                                    title={strings.tierlist.regionals}
+                                                    isActive={this.state.filter.showReg}
+                                                    onClick={this.onChange}
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
                                 </>}
-                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+
                             {this.state.tierList &&
-                                <RenderEggList
-                                    pokTable={this.props.bases.pokemonBase}
-                                    filter={this.state.filter}
-                                >
-                                    {this.state.tierList}
-                                </RenderEggList>}
-                        </div>
-                    </div>
-                </div >
-            </>
+                                <Grid item xs={12}>
+                                    <RenderEggList
+                                        pokTable={this.props.bases.pokemonBase}
+                                        filter={this.state.filter}
+                                    >
+                                        {this.state.tierList}
+                                    </RenderEggList>
+                                </Grid>}
+
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }
