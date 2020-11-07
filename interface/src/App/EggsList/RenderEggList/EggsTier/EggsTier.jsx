@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
             borderBottom: `1px solid ${theme.palette.text.disabled}`,
         },
     },
+    card: {
+        maxWidth: "190px",
+    },
 }));
 
 const EggsTier = React.memo(function EggsTier(props) {
@@ -77,7 +80,7 @@ const EggsTier = React.memo(function EggsTier(props) {
             }
             const pokemon = props.pokTable[name]
             result.push(
-                <Grid key={name + "wrap"} item xs={6} sm={4} lg={3}>
+                <Grid key={name + "wrap"} item xs={6} sm={4} lg={3} className={classes.card}>
                     <PokemonCard
                         title={
                             <Box display="flex" flexWrap="wrap" justifyContent="center" alignItems="center" padding={0.25}>
@@ -116,7 +119,7 @@ const EggsTier = React.memo(function EggsTier(props) {
                 </Grid>}
 
             <Grid item xs={12}>
-                <Grid container justify="center" spacing={1}>
+                <Grid container justify="space-around" spacing={1}>
                     {makeCards()}
                 </Grid>
             </Grid>

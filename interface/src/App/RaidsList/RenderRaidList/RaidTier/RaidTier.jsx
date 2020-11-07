@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
             borderBottom: `1px solid ${theme.palette.text.disabled}`,
         },
     },
+    card: {
+        maxWidth: "210px",
+    },
 }));
 
 
@@ -71,7 +74,7 @@ const RaidTier = React.memo(function RaidTier(props) {
             const pokemon = props.pokTable[name];
 
             result.push(
-                <Grid key={name + "wrap"} item xs={6} sm={4} lg={3}>
+                <Grid key={name + "wrap"} item xs={6} sm={4} lg={3} className={classes.card}>
 
                     <PokemonCard
                         title={
@@ -109,7 +112,7 @@ const RaidTier = React.memo(function RaidTier(props) {
                 </Grid>}
 
             <Grid item xs={12}>
-                <Grid container justify="center" spacing={1}>
+                <Grid container justify="space-around" spacing={1}>
                     {makeCards()}
                 </Grid>
             </Grid>
