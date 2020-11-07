@@ -1,8 +1,5 @@
 export const locale = {
     en: {
-        userPok: "User pokemon",
-        allPok: "All pokemon",
-
         dexentr: "View dex for",
         searchplaceholder: "Search name",
 
@@ -132,9 +129,6 @@ export const locale = {
 
 
     ru: {
-        userPok: "Покемоны пользователя",
-        allPok: "Все покемоны",
-
         dexentr: "Открыть декс для",
         searchplaceholder: "Поиск по имени",
 

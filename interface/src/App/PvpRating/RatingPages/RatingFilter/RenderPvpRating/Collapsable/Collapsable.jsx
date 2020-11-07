@@ -174,13 +174,13 @@ class Collapsable extends React.PureComponent {
                             </Grid>
                         </RowWrap>
 
-                        <RowWrap xs={12} sm={11} sm={10} title={strings.rating.movesets}>
+                        <RowWrap xs={12} md={11} sm={10} title={strings.rating.movesets}>
                             <Grid container justify="center" spacing={1}>
                                 {this.createMovesetList(this.props.container.Movesets)}
                             </Grid>
                         </RowWrap>
 
-                        <RowWrap disableIcon={true} xs={12} sm={11} sm={10} title={<Typography align="center">{strings.rating.stats}</Typography>}>
+                        <RowWrap disableIcon={true} xs={12} md={11} sm={10} title={<Typography align="center">{strings.rating.stats}</Typography>}>
                             <Typography align="center" variant="body1">
                                 {statStrings.atk + ": " + this.state.aMaxStats.Atk + ", " +
                                     statStrings.def + ": " + this.state.aMaxStats.Def + ", " +

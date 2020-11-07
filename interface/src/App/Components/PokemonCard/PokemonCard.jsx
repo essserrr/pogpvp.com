@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
 
 const PokemonCard = React.memo(function (props) {
     const classes = useStyles();
-    const { title, icon, body, footer, className, ...other } = props;
+    const { title, icon, body, footer, className, gridProps, ...other } = props;
 
     return (
         <Paper elevation={4} className={`${classes.pokeCard} ${className ? className : ""}`} {...other}>
-            <Grid container justify="center" alignItems="center">
+            <Grid container justify="center" alignItems="center" {...gridProps}>
                 <Grid item xs={12} className={`${classes.title} pokeCard-title`}>
                     {title}
                 </Grid>
