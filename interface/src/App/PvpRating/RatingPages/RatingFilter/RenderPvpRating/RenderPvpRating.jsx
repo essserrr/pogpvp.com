@@ -26,7 +26,7 @@ class RenderPvpRating extends React.Component {
 
     render() {
         return (
-            this.props.list.reduce((result, elem, i) => {
+            this.props.children.reduce((result, elem, i) => {
                 let pokName = checkShadow(elem.Name, this.props.pokemonTable)
                 if (!pokName) {
                     return result
@@ -57,7 +57,7 @@ class RenderPvpRating extends React.Component {
                         body={<CardBody
                             name={pokName}
                             pokemonTable={this.props.pokemonTable}
-                            maxWeighted={this.props.list[0].AvgRateWeighted}
+                            maxWeighted={this.props.children[0].AvgRateWeighted}
                             entry={elem}
                         />}
                         footer={<Collapsable

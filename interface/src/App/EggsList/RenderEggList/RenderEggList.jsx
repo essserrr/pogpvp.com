@@ -35,7 +35,7 @@ export default RenderEggList;
 
 RenderEggList.propTypes = {
     pokTable: PropTypes.object.isRequired,
-    props: PropTypes.object,
+    filter: PropTypes.object,
     children: PropTypes.object,
 };
 
