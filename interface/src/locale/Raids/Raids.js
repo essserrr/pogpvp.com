@@ -1,14 +1,7 @@
 export const locale = {
     en: {
-        userPok: "User pokemon",
-        allPok: "All pokemon",
-
-        dexentr: "View dex for",
-        topcounters: "Find top counters against ",
-
-        oopsReg: "Oops... To use this function you need to sign up first",
-
-
+        topcounters: "Find top counters against",
+        none: "None",
 
         pageheaders: {
             pvprating: "PvP Rating  |  PogPvP.com",
@@ -40,13 +33,8 @@ export const locale = {
 
 
     ru: {
-        userPok: "Покемоны пользователя",
-        allPok: "Все покемоны",
-
-        dexentr: "Открыть декс для",
-        topcounters: "Найти лучших покемонов против ",
-
-        oopsReg: "Ой... Что бы воспользоваться этой функцией, вы должны сначала зарегистрироваться",
+        topcounters: "Найти лучших покемонов против",
+        none: "Нет",
 
         pageheaders: {
             pvprating: "PvP рейтинг  |  PogPvP.com",

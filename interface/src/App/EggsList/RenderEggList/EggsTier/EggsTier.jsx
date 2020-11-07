@@ -128,6 +128,7 @@ const EggsTier = React.memo(function EggsTier(props) {
 export default EggsTier;
 
 EggsTier.propTypes = {
+    list: PropTypes.array,
     showReg: PropTypes.bool,
     title: PropTypes.oneOfType([
         PropTypes.string,
