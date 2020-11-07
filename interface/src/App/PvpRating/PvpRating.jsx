@@ -259,7 +259,7 @@ class PvpRating extends React.Component {
                         </Grid>
 
                         <Grid item xs={12}>
-                            <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+                            <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
                                 <DropWithArrow title={strings.aboutrate}>
                                     <RatingDescr />
                                 </DropWithArrow>

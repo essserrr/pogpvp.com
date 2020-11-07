@@ -1,67 +1,60 @@
-import React from "react"
+import React from "react";
+import LocalizedStrings from "react-localization";
 
-import LocalizedStrings from "react-localization"
-import { singleTips } from "../../../locale/ratingTips"
-import { getCookie } from "../../../js/getCookie"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-let tips = new LocalizedStrings(singleTips)
+import { singleTips } from "locale/Rating/ratingTips";
+import { getCookie } from "js/getCookie";
 
-const RatingDescr = React.memo(function (props) {
+let tips = new LocalizedStrings(singleTips);
+
+const RatingDescr = React.memo(function RatingDescr() {
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
     return (
-        <>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.intr}
-            </p>
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
-                {tips.rate}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.ratep1}
-            </p>
-            <p className="col-12 m-0 px-1" >
-                {tips.ratep2}
-            </p>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.ratep3}
-            </p>
+        <Grid container justify="center">
+
+            <Typography variant="body2" gutterBottom>{tips.intr}</Typography>
+
+            <Typography variant="h6" align="center" gutterBottom>{tips.rate}</Typography>
+
+            <Typography variant="body2" gutterBottom>{tips.ratep1}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.ratep2}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.ratep3}</Typography>
+
+            <Typography variant="h6" align="center" gutterBottom>{tips.alg}</Typography>
+
+            <Grid item xs={12}>
+                <Typography variant="body2" gutterBottom>{tips.algp1}</Typography>
+
+                <Typography variant="body2" gutterBottom>
+                    <ul>
+                        <li>
+                            {tips.algul1.li1}
+                        </li>
+                        <li>
+                            {tips.algul1.li2}
+                        </li>
+                        <li>
+                            {tips.algul1.li3}
+                        </li>
+                        <li>
+                            {tips.algul1.li4}
+                        </li>
+                    </ul>
+                </Typography>
+            </Grid>
 
 
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
-                {tips.alg}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.algp1}
-            </p>
-            <ul className="col-12 m-0 px-3 px-sm-5">
-                <li>
-                    {tips.algul1.li1}
-                </li>
-                <li>
-                    {tips.algul1.li2}
-                </li>
-                <li>
-                    {tips.algul1.li3}
-                </li>
-                <li>
-                    {tips.algul1.li4}
-                </li>
-            </ul>
+            <Typography variant="h6" align="center" gutterBottom>{tips.move}</Typography>
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
-                {tips.move}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.movep1}
-            </p>
-            <p className="col-12 font-weight-bold m-0 px-1 " >
-                {tips.movep2}
-            </p>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.movep3}
-            </p>
-        </>
+            <Typography variant="body2" gutterBottom>{tips.movep1}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.movep2}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.movep3}</Typography>
+
+        </Grid>
     )
 
 });
