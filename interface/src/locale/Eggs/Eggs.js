@@ -24,6 +24,7 @@ export const locale = {
 
         tierlist: {
             eggs: "Eggs",
+            regionals: "Show regionals",
         },
     },
 
@@ -57,6 +58,7 @@ export const locale = {
 
         tierlist: {
             eggs: "Яйца",
+            regionals: "Показать регионалок",
         },
     }
 }

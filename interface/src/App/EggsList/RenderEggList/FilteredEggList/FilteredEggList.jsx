@@ -22,9 +22,3 @@ export default FilteredEggsList;
 FilteredEggsList.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node),
 };
-
-
-
-
-
-

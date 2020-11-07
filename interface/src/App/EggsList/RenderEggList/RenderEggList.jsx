@@ -24,9 +24,7 @@ const RenderEggList = React.memo(function RenderEggList(props) {
 
     return (
         <Grid container justify="center" spacing={2}>
-            <FilteredEggsList
-                filter={props.filter}
-            >
+            <FilteredEggsList filter={props.filter} >
                 {returnEggsList()}
             </FilteredEggsList>
         </Grid>
@@ -35,10 +33,10 @@ const RenderEggList = React.memo(function RenderEggList(props) {
 
 export default RenderEggList;
 
-FilteredEggsList.propTypes = {
+RenderEggList.propTypes = {
     pokTable: PropTypes.object.isRequired,
     props: PropTypes.object,
-    children: PropTypes.arrayOf(PropTypes.object),
+    children: PropTypes.object,
 };
 
 
