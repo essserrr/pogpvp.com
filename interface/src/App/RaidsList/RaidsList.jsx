@@ -109,11 +109,9 @@ class RaidsList extends React.Component {
 
 
                             {this.state.originalList &&
-                                <RenderRaidList
-                                    list={this.state.originalList}
-                                    filter={this.state.filter}
-                                    pokTable={this.props.bases.pokemonBase}
-                                />}
+                                <RenderRaidList filter={this.state.filter} pokTable={this.props.bases.pokemonBase}>
+                                    {this.state.originalList}
+                                </RenderRaidList>}
                         </div>
                     </div>
                 </div >
