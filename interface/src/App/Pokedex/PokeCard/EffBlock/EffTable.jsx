@@ -2,6 +2,12 @@ import React from "react"
 import { effectivenessData } from "../../../../js/indexFunctions"
 import LocalizedStrings from "react-localization"
 
+import Typography from '@material-ui/core/Typography';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+
 import { getCookie } from "../../../../js/getCookie"
 import { dexLocale } from "../../../../locale/dexLocale"
 import EffIcon from "./EffIcon"
@@ -50,26 +56,32 @@ const EffTable = React.memo(function (props) {
 
 
     return (
-        <table className={"eff-table table table-sm table-hover text-center"} >
-            <tbody>
-                {(props.reverse ? weak.length > 0 : effective.length > 0) && <tr>
-                    <th className="align-middle py-1" scope="row" >
-                        {props.reverse ? strings.dmore : strings.resist}
-                    </th>
-                    <td className="align-middle py-1" >
-                        {props.reverse ? weak : effective}
-                    </td>
-                </tr>}
-                {(props.reverse ? effective.length > 0 : weak.length > 0) && <tr>
-                    <th className="align-middle py-1" scope="row" >
-                        {props.reverse ? strings.dless : strings.weak}
-                    </th>
-                    <td className="align-middle py-1" >
-                        {props.reverse ? effective : weak}
-                    </td>
-                </tr>}
-            </tbody>
-        </table>
+        <Table>
+            <TableBody>
+                {(props.reverse ? weak.length > 0 : effective.length > 0) &&
+                    <TableRow>
+                        <TableCell component="th" align="center" scope="row" >
+                            <Typography variant="body1">
+                                {props.reverse ? strings.dmore : strings.resist}
+                            </Typography>
+                        </TableCell>
+                        <TableCell align="center" >
+                            {props.reverse ? weak : effective}
+                        </TableCell>
+                    </TableRow>}
+                {(props.reverse ? effective.length > 0 : weak.length > 0) &&
+                    <TableRow>
+                        <TableCell component="th" align="center" scope="row" >
+                            <Typography variant="body1">
+                                {props.reverse ? strings.dless : strings.weak}
+                            </Typography>
+                        </TableCell>
+                        <TableCell align="center" >
+                            {props.reverse ? effective : weak}
+                        </TableCell>
+                    </TableRow>}
+            </TableBody>
+        </Table>
     )
 });
 

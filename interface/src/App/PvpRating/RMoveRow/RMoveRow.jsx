@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import ColoredMove from "App/Components/ColoredMove/ColoredMove";
-
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+
+import ColoredMove from "App/Components/ColoredMove/ColoredMove";
 
 const useStyles = makeStyles((theme) => ({
     rMove: {
