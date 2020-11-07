@@ -1,25 +1,25 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "../SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import RenderRaidList from "./RenderRaidList/RenderRaidList"
-import Loader from "../PvpRating/Loader"
-import ButtonsBlock from "./ButtonsBlock/ButtonsBlock"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase";
+import RenderRaidList from "./RenderRaidList/RenderRaidList";
+import ButtonsBlock from "./ButtonsBlock/ButtonsBlock";
 
-import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/getCookie"
+import { locale } from "locale/Raids/Raids";
+import { getCookie } from "js/getCookie";
 
-import "./RaidsList.scss"
-
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(locale);
 
 class RaidsList extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,
@@ -82,40 +82,46 @@ class RaidsList extends React.Component {
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/raids"
                     header={strings.pageheaders.raids}
                     descr={strings.pagedescriptions.raids}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-2 pb-2">
-                        <div className="raid-list col-sm-12 col-md-11 col-lg-8 py-4">
-                            {this.state.loading &&
-                                <Loader
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.tips.loading}
-                                    loading={this.state.loading}
-                                />}
+                <Grid item xs={12} md={11} lg={8}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" spacing={2}>
 
-                            {this.state.originalList && <>
-                                <ButtonsBlock
-                                    filter={this.state.filter}
-                                    onFilter={this.onChange}
-                                />
-                            </>}
-                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+                            {this.state.loading &&
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </Grid>}
 
 
                             {this.state.originalList &&
-                                <RenderRaidList filter={this.state.filter} pokTable={this.props.bases.pokemonBase}>
-                                    {this.state.originalList}
-                                </RenderRaidList>}
-                        </div>
-                    </div>
-                </div >
-            </>
+                                <>
+                                    <Grid item xs={12}>
+                                        <ButtonsBlock
+                                            filter={this.state.filter}
+                                            onFilter={this.onChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <RenderRaidList filter={this.state.filter} pokTable={this.props.bases.pokemonBase}>
+                                            {this.state.originalList}
+                                        </RenderRaidList>
+                                    </Grid>
+                                </>}
+
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }
