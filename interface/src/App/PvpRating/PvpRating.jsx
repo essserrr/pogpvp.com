@@ -66,14 +66,11 @@ class PvpRating extends React.Component {
                 <option value="01" key="01">{strings.rating.sheilds + " 0 x 1"}</option>,
                 <option value="12" key="12">{strings.rating.sheilds + " 1 x 2"}</option>,
             ],
-
-            showDescription: false,
         };
         this.updateState = this.updateState.bind(this);
         this.onLoadMore = this.onLoadMore.bind(this);
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onShowDescr = this.onShowDescr.bind(this);
     }
 
 
@@ -236,12 +233,6 @@ class PvpRating extends React.Component {
         }
     }
 
-    onShowDescr() {
-        this.setState({
-            showDescription: !this.state.showDescription,
-        })
-    }
-
     render() {
         return (
             <Grid container justify="center">
@@ -296,16 +287,9 @@ class PvpRating extends React.Component {
 
                         <Grid item xs={12}>
                             <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
-                                <DropWithArrow
-                                    onShow={this.onShowDescr}
-                                    show={this.state.showDescription}
-                                    title={strings.aboutrate}
-                                    elem={<RatingDescr />}
-
-                                    faOpened="align-self-center fas fa-angle-up fa-lg "
-                                    faClosed="align-self-center fas fa-angle-down fa-lg"
-                                    outClass="col-12 d-flex justify-content-between p-0 pb-1 clickable"
-                                    inClass="row justify-content-center m-0" />
+                                <DropWithArrow title={strings.aboutrate}>
+                                    <RatingDescr />
+                                </DropWithArrow>
                             </GreyPaper>
                         </Grid>
 

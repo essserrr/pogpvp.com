@@ -214,12 +214,6 @@ class PvePage extends React.Component {
         return pok
     }
 
-    onClick() {
-        this.setState({
-            showCollapse: !this.state.showCollapse
-        })
-    }
-
     changeUrl(url) {
         this.props.history.push(url)
     }
@@ -260,16 +254,9 @@ class PvePage extends React.Component {
                         {((this.props.match.params.type === "custom" && !!getCookie("sid")) ||
                             this.props.match.params.type === "common") &&
                             <div className="pvepage__descr col-12 col-md-10 col-lg-6 px-3 py-2" >
-                                <DropWithArrow
-                                    onShow={this.onClick}
-                                    show={this.state.showCollapse}
-                                    title={strings.title.about}
-                                    elem={<CommonDescr />}
-
-                                    faOpened="align-self-center fas fa-angle-up fa-lg "
-                                    faClosed="align-self-center fas fa-angle-down fa-lg"
-                                    outClass="row justify-content-between m-0 pb-1 clickable"
-                                    inClass="row justify-content-center m-0" />
+                                <DropWithArrow title={strings.title.about}>
+                                    <CommonDescr />
+                                </DropWithArrow>
                             </div>}
                     </div>
                 </div >

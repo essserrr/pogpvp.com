@@ -73,12 +73,10 @@ class PvpPage extends React.Component {
                 <option value="master" key="master">{strings.options.league.master}</option>,
             ],
             loading: false,
-            showCollapse: false,
         };
         this.onChange = this.onChange.bind(this);
         this.updateState = this.updateState.bind(this);
         this.onPvpokeEnable = this.onPvpokeEnable.bind(this);
-        this.onClick = this.onClick.bind(this);
         this.changeUrl = this.changeUrl.bind(this);
     }
 
@@ -224,11 +222,6 @@ class PvpPage extends React.Component {
             [event.target.name]: !Boolean(this.state[event.target.name]),
         })
     }
-    onClick() {
-        this.setState({
-            showCollapse: !this.state.showCollapse
-        })
-    }
 
     changeUrl(url) {
         this.props.history.push(url)
@@ -312,17 +305,9 @@ class PvpPage extends React.Component {
                     </div>
                     <div className="row justify-content-center px-1">
                         <div className="pvppage__descr-panel col-12 p-0 px-3 py-2" >
-                            <DropWithArrow
-                                onShow={this.onClick}
-                                show={this.state.showCollapse}
-                                title={strings.title.about}
-                                elem={this.state.isLoaded &&
-                                    ((this.props.match.params.type === "matrix") ? <MatrixDescr /> : <SingleDescr />)}
-
-                                faOpened="align-self-center fas fa-angle-up fa-lg "
-                                faClosed="align-self-center fas fa-angle-down fa-lg"
-                                outClass="row justify-content-between m-0 pb-1 clickable"
-                                inClass="row justify-content-center m-0" />
+                            <DropWithArrow title={strings.title.about}>
+                                {this.state.isLoaded && ((this.props.match.params.type === "matrix") ? <MatrixDescr /> : <SingleDescr />)}
+                            </DropWithArrow>
                         </div>
                     </div>
                 </div >

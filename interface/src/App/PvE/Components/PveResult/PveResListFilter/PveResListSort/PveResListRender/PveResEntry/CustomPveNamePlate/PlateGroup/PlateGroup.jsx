@@ -14,25 +14,13 @@ class PlateGroup extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
-        this.state = {
-            showCollapse: false,
-        };
-        this.onClick = this.onClick.bind(this);
     }
 
-    onClick() {
-        this.setState({
-            showCollapse: !this.state.showCollapse,
-        })
-    }
 
     render() {
         return (
             <div className="col-12 px-0 my-1">
                 <DropWithArrow
-                    onShow={this.onClick}
-                    show={this.state.showCollapse}
                     title={
                         <div className="row mx-0 align-items-center">
                             <div style={{ textTransform: "capitalize" }} className="col-auto px-0 mr-2">{`${strings.party} ${this.props.subGroup + 1}`}</div>
@@ -43,8 +31,9 @@ class PlateGroup extends React.PureComponent {
                                     pokemonTable={this.props.pokemonTable}
                                 />
                             )}
-                        </div>}
-                    elem={this.props.party.map((value, index) =>
+                        </div>}>
+
+                    {this.props.party.map((value, index) =>
                         <UserPokCard
                             key={index}
                             index={(this.props.subGroup * 6) + index}
@@ -64,12 +53,7 @@ class PlateGroup extends React.PureComponent {
                             onPokemonEdit={this.props.defineBreakpoints}
                         />)}
 
-                    faOpened="align-self-center fas fa-angle-up fa-lg "
-                    faClosed="align-self-center fas fa-angle-down fa-lg"
-                    outClass="row justify-content-between m-0 pb-1 clickable"
-                    inClass="row justify-content-center m-0" />
-
-
+                </DropWithArrow>
 
 
 
