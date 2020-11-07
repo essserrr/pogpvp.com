@@ -18,7 +18,7 @@ import Input from "../PvP/components/Input/Input"
 
 import { capitalizeFirst } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import { locale } from "locale/Rating/Rating"
 
 import "./PvpRating.scss"
 
@@ -316,7 +316,7 @@ class PvpRating extends React.Component {
                                                     value={this.state.name}
                                                     class="pvp-rating--border form-control"
                                                     onChange={this.onChangeInput}
-                                                    place={strings.shinyrates.searchplaceholder}
+                                                    place={strings.searchplaceholder}
                                                 />
                                             </div>
 
@@ -329,9 +329,10 @@ class PvpRating extends React.Component {
                                                     pokemonTable={this.props.bases.pokemonBase}
                                                     moveTable={this.props.bases.moveBase}
                                                     searchState={this.state.searchState}
-                                                    list={this.state.ratingList}
                                                     originalList={this.state.ratingList}
-                                                />
+                                                >
+                                                    {this.state.ratingList}
+                                                </RatingPages>
                                             </div>
 
                                             <div className="col d-flex p-0 pt-3 justify-content-center">

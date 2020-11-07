@@ -1,25 +1,21 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import RatingFilter from "./RatingFilter/RatingFilter"
+import RatingFilter from "./RatingFilter/RatingFilter";
 
-class RatingPages extends React.Component {
+const RatingPages = React.memo(function RatingPages(props) {
+    const { children, searchState, n, ...other } = props;
+    return (
+        <RatingFilter searchState={searchState} {...other}>
+            {searchState ? children : children.slice(0, n)}
+        </RatingFilter>
+    )
+});
 
-    render() {
-        return (
-            <RatingFilter
-                name={this.props.name}
-                league={this.props.league}
-                combination={this.props.combination}
-                pokemonTable={this.props.pokemonTable}
-                moveTable={this.props.moveTable}
-                searchState={this.props.searchState}
-                originalList={this.props.originalList}
-                list={this.props.searchState ? this.props.list : this.props.list.slice(0, this.props.n)}
-            />
+export default RatingPages;
 
-        );
-    }
-}
-
-
-export default RatingPages
+RatingPages.propTypes = {
+    n: PropTypes.number,
+    searchState: PropTypes.bool,
+    children: PropTypes.array,
+};
