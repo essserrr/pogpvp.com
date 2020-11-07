@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: `${theme.spacing(1)}px`,
     },
     body: {
-        padding: `${theme.spacing(1)}px`,
+        paddingRight: `${theme.spacing(2)}px`,
     },
     score: {
         backgroundColor: theme.palette.background.main,
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
         fontSize: "1.2rem",
         fontWeight: "bold",
+        textAlign: "center",
     },
 }));
 

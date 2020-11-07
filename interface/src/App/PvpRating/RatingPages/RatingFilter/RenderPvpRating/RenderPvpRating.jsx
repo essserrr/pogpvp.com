@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
         position: "relative",
         height: "100%",
         lineHeight: "inherit",
+        margin: `${theme.spacing(2)}px`
     },
     shadowIcon: {
         position: "absolute",
@@ -41,55 +43,60 @@ const RenderPvpRating = React.memo(function RenderPvpRating(props) {
     const classes = useStyles();
 
     return (
-        props.children.reduce((result, elem, i) => {
-            const pokName = checkShadow(elem.Name, props.pokemonTable);
-            if (!pokName) { return result }
-            const pokemon = props.pokemonTable[pokName];
+        <Grid container spacing={2}>
 
-            result.push(
-                <PokemonCard
-                    key={elem.Name}
-                    gridProps={{ spacing: 1 }}
 
-                    title={
-                        <Box display="flex" justifyContent="space-between" alignItems="center">
-                            <Typography variant="h6" align="center">
-                                {"#" + (elem.rank)}
-                            </Typography>
-                            <Typography variant="h6" align="center">
-                                {pokName + ((pokName !== elem.Name) ? " (" + optionsStrings.options.type.shadow + ")" : "")}
-                            </Typography>
-                            <Box />
-                        </Box>}
+            {props.children.reduce((result, elem, i) => {
+                const pokName = checkShadow(elem.Name, props.pokemonTable);
+                if (!pokName) { return result }
+                const pokemon = props.pokemonTable[pokName];
 
-                    icon={
-                        <Link className={classes.iconContainer}
-                            title={strings.dexentr + pokName} to={(navigator.userAgent === "ReactSnap") ? "/" : `/pokedex/id/${encodeURIComponent(pokName)}`}>
+                result.push(
+                    <Grid item xs={12} key={elem.Name}>
+                        <PokemonCard
+                            title={
+                                <Box display="flex" justifyContent="space-between" alignItems="center" mx={2}>
+                                    <Typography variant="h6" align="center">
+                                        {"#" + (elem.rank)}
+                                    </Typography>
+                                    <Typography variant="h6" align="center">
+                                        {pokName + ((pokName !== elem.Name) ? " (" + optionsStrings.options.type.shadow + ")" : "")}
+                                    </Typography>
+                                    <Box />
+                                </Box>}
 
-                            {(pokName !== elem.Name) && <Shadow style={{ width: 24, height: 24 }} className={classes.shadowIcon} />}
+                            icon={
+                                <Link className={classes.iconContainer}
+                                    title={strings.dexentr + pokName} to={(navigator.userAgent === "ReactSnap") ? "/" : `/pokedex/id/${encodeURIComponent(pokName)}`}>
 
-                            <Iconer folderName="/pokemons/" fileName={`${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`}
-                                size={64} />
+                                    {(pokName !== elem.Name) && <Shadow style={{ width: 24, height: 24 }} className={classes.shadowIcon} />}
 
-                        </Link>}
+                                    <Iconer folderName="/pokemons/" fileName={`${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`}
+                                        size={64} />
 
-                    body={<CardBody name={pokName} entry={elem}
-                        pokemonTable={props.pokemonTable} maxWeighted={props.children[0].AvgRateWeighted}
-                    />}
+                                </Link>}
 
-                    footer={<Collapsable
-                        pokemonTable={props.pokemonTable}
-                        moveTable={props.moveTable}
-                        ratingList={props.originalList}
+                            body={<CardBody name={pokName} entry={elem}
+                                pokemonTable={props.pokemonTable} maxWeighted={props.children[0].AvgRateWeighted}
+                            />}
 
-                        container={elem}
-                        league={props.league}
-                        combination={props.combination}
-                    />}
-                />)
+                            footer={
+                                <Collapsable
+                                    pokemonTable={props.pokemonTable}
+                                    moveTable={props.moveTable}
+                                    ratingList={props.originalList}
 
-            return result;
-        }, [])
+                                    container={elem}
+                                    league={props.league}
+                                    combination={props.combination}
+                                />}
+                        />
+                    </Grid>)
+
+                return result;
+            }, [])}
+
+        </Grid>
     )
 });
 

@@ -2,13 +2,11 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
+import DropWithArrow from "App/PvpRating/DropWithArrow/DropWithArrow";
 import RMoveRow from "App/PvpRating/RMoveRow/RMoveRow";
 import RRateRow from "App/PvpRating/RRateRow/RRateRow";
 import RowWrap from "App/PvpRating/RowWrap/RowWrap";
@@ -28,7 +26,6 @@ class Collapsable extends React.PureComponent {
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         statStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            showCollapse: false,
             aMaxStats: {},
         };
         this.onClick = this.onClick.bind(this);
@@ -37,26 +34,17 @@ class Collapsable extends React.PureComponent {
     }
 
 
-
-    onClick() {
+    onClick(show) {
         const pokName = checkShadow(this.props.container.Name, this.props.pokemonTable);
-
-        switch (!this.state.showCollapse) {
-            case true:
-                this.setState({
-                    showCollapse: true,
-                    aName: pokName,
-                    aMaxStats: calculateMaximizedStats(pokName, 40, this.props.pokemonTable)
-                    [(this.props.league === "Premier" ?
-                        "master" : this.props.league === "Premierultra" ?
-                            "ultra" : this.props.league === "Cupflying" ?
-                                "great" : this.props.league.toLowerCase())].Overall,
-                })
-                break
-            default:
-                this.setState({
-                    showCollapse: false,
-                })
+        if (show) {
+            this.setState({
+                aName: pokName,
+                aMaxStats: calculateMaximizedStats(pokName, 40, this.props.pokemonTable)
+                [(this.props.league === "Premier" ?
+                    "master" : this.props.league === "Premierultra" ?
+                        "ultra" : this.props.league === "Cupflying" ?
+                            "great" : this.props.league.toLowerCase())].Overall,
+            })
         }
     }
 
@@ -146,21 +134,8 @@ class Collapsable extends React.PureComponent {
 
     render() {
         return (
-            <Grid container justify="center" spacing={2}>
-
-                <Grid item xs={12}>
-                    <Grid container justify="flex-end">
-                        <IconButton onClick={this.onClick} style={{ outline: "none", width: '28px', height: '28px' }}>
-                            {this.state.showCollapse ?
-                                <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
-                                :
-                                <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />}
-                        </IconButton>
-                    </Grid>
-                </Grid>
-
-
-                <Collapse in={this.state.showCollapse} unmountOnExit>
+            <DropWithArrow container justify="center" onClick={this.onClick} iconBox={{ mr: 1 }}>
+                <Box px={2} pb={2}>
                     <Grid container justify="center" spacing={2}>
                         <RowWrap xs={12} sm={6} title={strings.rating.bestMatchups}>
                             <Grid container justify="center" spacing={1}>
@@ -196,8 +171,8 @@ class Collapsable extends React.PureComponent {
                             />
                         </Grid>
                     </Grid>
-                </Collapse>
-            </Grid>
+                </Box>
+            </DropWithArrow>
 
         )
     }

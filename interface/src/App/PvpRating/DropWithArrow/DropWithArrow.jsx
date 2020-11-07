@@ -9,7 +9,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Grid from '@material-ui/core/Grid';
 
 const DropWithArrow = React.memo(function (props) {
-    const { title, children, iconBox, ...other } = props
+    const { title, children, iconBox, onClick } = props
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -18,7 +18,8 @@ const DropWithArrow = React.memo(function (props) {
             <Grid item container xs={12} alignItems="center">
                 <Grid item xs>{title}</Grid>
                 <Box {...iconBox}>
-                    <IconButton onClick={() => setOpen(!open)} style={{ outline: "none", width: '28px', height: '28px' }}>
+                    <IconButton onClick={() => { if (onClick) onClick(!open); setOpen(!open) }}
+                        style={{ outline: "none", width: '28px', height: '28px' }}>
                         {open ?
                             <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
                             :
