@@ -6,16 +6,17 @@ import { connect } from "react-redux"
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
 import RatingPages from "./RatingPages/RatingPages"
 import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-import SelectGroup from "../PvP/components/SelectGroup/SelectGroup"
+import WithIcon from "App/Components/WithIcon/WithIcon"
 import RatingDescr from "./RatingDescr/RatingDescr"
 import DropWithArrow from "./DropWithArrow/DropWithArrow"
-import Input from "../PvP/components/Input/Input"
+import Input from "App/Components/Input/Input"
 
 import { capitalizeFirst } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
@@ -49,23 +50,6 @@ class PvpRating extends React.Component {
             loading: false,
             isNextPage: false,
             searchState: false,
-
-            leagueList: [
-                <option value="Great" key="Great">{optionStrings.options.league.great}</option>,
-                <option value="Ultra" key="Ultra">{optionStrings.options.league.ultra}</option>,
-                <option value="Master" key="Master">{optionStrings.options.league.master}</option>,
-                <option value="Premierultra" key="Premierultra">{optionStrings.options.league.premierUltra}</option>,
-                <option value="Cupflying" key="Cupflying">{"Flying Cup"}</option>,
-                <option value="Premier" key="Premier">{optionStrings.options.league.premier}</option>,
-            ],
-            combinationList: [
-                <option value="overall" key="overall">{strings.overall}</option>,
-                <option value="00" key="00">{strings.rating.sheilds + " 0 x 0"}</option>,
-                <option value="11" key="11">{strings.rating.sheilds + " 1 x 1"}</option>,
-                <option value="22" key="22">{strings.rating.sheilds + " 2 x 2"}</option>,
-                <option value="01" key="01">{strings.rating.sheilds + " 0 x 1"}</option>,
-                <option value="12" key="12">{strings.rating.sheilds + " 1 x 2"}</option>,
-            ],
         };
         this.updateState = this.updateState.bind(this);
         this.onLoadMore = this.onLoadMore.bind(this);
@@ -159,16 +143,9 @@ class PvpRating extends React.Component {
     }
 
     onChangeInput(event) {
-        if (!event.target.value) {
-            this.setState({
-                name: "",
-                searchState: false,
-            });
-            return
-        }
         this.setState({
-            name: event.target.value,
-            searchState: true,
+            name: !event.target.value ? "" : event.target.value,
+            searchState: !event.target.value ? false : true,
         });
     }
 
@@ -248,38 +225,34 @@ class PvpRating extends React.Component {
                             <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
                                 <Grid container justify="center" spacing={2}>
                                     <Grid item xs={12} sm={6}>
-                                        <SelectGroup
-                                            class="input-group input-group-sm p-0 m-0"
-                                            name="league"
-                                            value={this.state.league}
-                                            onChange={this.onChange}
-                                            options={this.state.leagueList}
-                                            label={strings.league}
-                                            for=""
-                                        />
+                                        <Input select label={strings.league} name="league"
+                                            value={this.state.league} onChange={this.onChange}>
+
+                                            <MenuItem value="Great" >{optionStrings.options.league.great}</MenuItem>
+                                            <MenuItem value="Ultra" >{optionStrings.options.league.ultra}</MenuItem>
+                                            <MenuItem value="Master">{optionStrings.options.league.master}</MenuItem>
+                                            <MenuItem value="Premierultra" >{optionStrings.options.league.premierUltra}</MenuItem>
+                                            <MenuItem value="Cupflying" >{"Flying Cup"}</MenuItem>
+                                            <MenuItem value="Premier" >{optionStrings.options.league.premier}</MenuItem>
+
+                                        </Input>
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <SelectGroup
-                                            class="input-group input-group-sm "
-                                            name="combination"
-                                            value={this.state.combination}
-                                            onChange={this.onChange}
-                                            options={this.state.combinationList}
-                                            label={strings.rating.ratingType}
+                                        <WithIcon tip={<>{strings.rating.firstsent}<br />{strings.rating.secondsent}<br />{strings.rating.thirdsent}</>}>
 
-                                            place={"bottom"}
-                                            for={"rating"}
-                                            tip={<>
-                                                {strings.rating.firstsent}
-                                                <br />
-                                                <br />
-                                                {strings.rating.secondsent}
-                                                <br />
-                                                <br />
-                                                {strings.rating.thirdsent}
-                                            </>}
-                                            tipClass="infoTip"
-                                        />
+                                            <Input select label={strings.rating.ratingType} name="combination"
+                                                value={this.state.combination} onChange={this.onChange}>
+
+                                                <MenuItem value="overall" >{strings.overall}</MenuItem>
+                                                <MenuItem value="00" >{strings.rating.sheilds + " 0 x 0"}</MenuItem>
+                                                <MenuItem value="11" >{strings.rating.sheilds + " 1 x 1"}</MenuItem>
+                                                <MenuItem value="22" >{strings.rating.sheilds + " 2 x 2"}</MenuItem>
+                                                <MenuItem value="01" >{strings.rating.sheilds + " 0 x 1"}</MenuItem>
+                                                <MenuItem value="12" >{strings.rating.sheilds + " 1 x 2"}</MenuItem>
+
+                                            </Input>
+
+                                        </WithIcon>
                                     </Grid>
                                 </Grid>
                             </GreyPaper>
@@ -312,9 +285,8 @@ class PvpRating extends React.Component {
                                         <Grid item xs={12}>
                                             <Input
                                                 value={this.state.name}
-                                                class="pvp-rating--border form-control"
                                                 onChange={this.onChangeInput}
-                                                place={strings.searchplaceholder}
+                                                label={strings.searchplaceholder}
                                             />
                                         </ Grid>
 
