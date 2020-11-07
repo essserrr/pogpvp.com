@@ -87,15 +87,6 @@ export const locale = {
             matrix: "Pokemon GO matrix PvP simulator. Pokemon GO PvP battle between two or more mons. Pokemon GO PvP party advisor",
         },
 
-        effStats: {
-            atk: "Atk",
-            atkTip: "Effective Atk",
-            def: "Def",
-            defTip: "Effective Def",
-            sta: "Sta",
-            staTip: "Effective Sta",
-        },
-
         maximizer: {
             levelTitle: "Max level:",
             overall: "Overall",
@@ -108,11 +99,6 @@ export const locale = {
             energyTip: "Energy",
             energy: "En",
         },
-
-        stats: {
-            lvl: "Lvl",
-        },
-
 
         tips: {
             impExp: "Enter or copy your Pokemon",
@@ -314,15 +300,6 @@ export const locale = {
             matrix: "Симулятор группового PvP в Pokemon GO. Симулятор боев между двумя и более покемонами в Pokemon GO",
         },
 
-        effStats: {
-            atk: "Атк",
-            atkTip: "Эффективная Атк",
-            def: "Защ",
-            defTip: "Эффективная Защ",
-            sta: "Здр",
-            staTip: "Эффективное Здр",
-        },
-
         maximizer: {
             levelTitle: "Макс. ур.:",
             overall: "Общий",
@@ -336,9 +313,6 @@ export const locale = {
             hpTip: "Макс",
             energyTip: "Энергия",
             energy: "Эн",
-        },
-        stats: {
-            lvl: "Ур",
         },
 
         tips: {
