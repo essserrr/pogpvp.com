@@ -1,6 +1,8 @@
-import React from "react"
-import InfiniteScroll from 'react-infinite-scroll-component'
+import React from "react";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
 
 class LazyTable extends React.PureComponent {
     constructor(props) {
@@ -8,31 +10,31 @@ class LazyTable extends React.PureComponent {
 
         this.state = {
             page: 1,
-            infiniteList: props.list.slice(0, props.elementsOnPage > props.list.length ? props.list.length : props.elementsOnPage),
-            isNext: props.elementsOnPage > props.list.length ? false : true
+            infiniteList: props.children.slice(0, props.elementsOnPage > props.children.length ? props.children.length : props.elementsOnPage),
+            isNext: props.elementsOnPage > props.children.length ? false : true
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.list === prevProps.list && this.props.activeFilter === prevProps.activeFilter) {
+        if (this.props.children === prevProps.children && this.props.activeFilter === prevProps.activeFilter) {
             return
         }
 
         this.setState({
-            infiniteList: this.props.list.slice(0, this.props.elementsOnPage > this.props.list.length ? this.props.list.length : this.props.elementsOnPage),
+            infiniteList: this.props.children.slice(0, this.props.elementsOnPage > this.props.children.length ? this.props.children.length : this.props.elementsOnPage),
             page: 1,
-            isNext: this.props.elementsOnPage > this.props.list.length ? false : true
+            isNext: this.props.elementsOnPage > this.props.children.length ? false : true
         })
     }
 
 
     fetchMoreData = () => {
-        let page = (this.state.page + 1) * this.props.elementsOnPage > this.props.list.length ? this.state.page : (this.state.page + 1)
-        let upperBound = (this.state.page + 1) * this.props.elementsOnPage > this.props.list.length ? this.props.list.length : (this.state.page + 1) * this.props.elementsOnPage
-        let isNext = (this.state.page + 1) * this.props.elementsOnPage > this.props.list.length ? false : true
+        let page = (this.state.page + 1) * this.props.elementsOnPage > this.props.children.length ? this.state.page : (this.state.page + 1)
+        let upperBound = (this.state.page + 1) * this.props.elementsOnPage > this.props.children.length ? this.props.children.length : (this.state.page + 1) * this.props.elementsOnPage
+        let isNext = (this.state.page + 1) * this.props.elementsOnPage > this.props.children.length ? false : true
 
         this.setState({
-            infiniteList: this.state.infiniteList.concat(this.props.list.slice(this.state.page * this.props.elementsOnPage, upperBound)),
+            infiniteList: this.state.infiniteList.concat(this.props.children.slice(this.state.page * this.props.elementsOnPage, upperBound)),
             page: page,
             isNext: isNext
         })
@@ -48,12 +50,12 @@ class LazyTable extends React.PureComponent {
                 hasMore={this.state.isNext}
                 scrollThreshold={0.75}
             >
-                <table className="table mb-0 table-sm text-center">
+                <Table>
                     {this.props.thead}
-                    <tbody>
+                    <TableBody>
                         {this.state.infiniteList}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             </InfiniteScroll>
         );
     }

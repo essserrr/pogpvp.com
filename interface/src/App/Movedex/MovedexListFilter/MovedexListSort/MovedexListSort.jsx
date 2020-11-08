@@ -38,7 +38,7 @@ const MovedexListSort = React.memo(function MovedexListSort(props) {
 
 
     return (
-        <MovedexListRender onClick={onClick} sort={sort}>
+        <MovedexListRender onClick={onClick} sort={sort} {...other}>
             {sort.type === "number" ? sortNumber() : sortString()}
         </MovedexListRender>
     )
