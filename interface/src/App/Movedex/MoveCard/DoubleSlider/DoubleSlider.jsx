@@ -1,27 +1,54 @@
 import React from "react"
-import Button from "./Button/Button"
+import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
-import "./DoubleSlider.scss"
+import SliderBlock from "App/Components/SliderBlock/SliderBlock";
+import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
-const DoubleSlider = React.memo(function (props) {
+const useStyles = makeStyles((theme) => ({
+    buttonSpacing: {
+        paddingLeft: "5px",
+        paddingRight: "5px",
+
+        "@media (max-width: 768px)": {
+            paddingLeft: "2px",
+            paddingRight: "2px",
+        },
+        "@media (max-width: 576px)": {
+            paddingLeft: "1px",
+            paddingRight: "1px",
+        },
+    },
+}));
+
+const DoubleSlider = React.memo(function DoubleSlider(props) {
+    const classes = useStyles();
+    const { active1, active2, title1, title2, attr1, attr2, onClick } = props;
+
     return (
-        <div className={"doubleslider-group row m-0 my-2 text-center justify-content-center"} >
-            <Button
-                attr={props.attr1}
-                title={props.title1}
-                class={props.active1 ?
-                    "doubleslider-group__button active col py-1" : "doubleslider-group__button col py-1"}
-                onClick={props.onClick}
-            />
-            <Button
-                attr={props.attr2}
-                title={props.title2}
-                class={props.active2 ?
-                    "doubleslider-group__button active col py-1" : "doubleslider-group__button col py-1"}
-                onClick={props.onClick}
-            />
-        </div>
+        <SliderBlock>
+            <SliderButton className={classes.buttonSpacing} attr={attr1} toggled={active1} onClick={onClick}>
+                {title1}
+            </SliderButton>
+
+            <SliderButton className={classes.buttonSpacing} attr={attr2} toggled={active2} onClick={onClick}>
+                {title2}
+            </SliderButton>
+        </SliderBlock>
     )
 });
 
 export default DoubleSlider;
+
+DoubleSlider.propTypes = {
+    active1: PropTypes.bool,
+    active2: PropTypes.bool,
+
+    title1: PropTypes.string,
+    title2: PropTypes.string,
+
+    attr1: PropTypes.string,
+    attr2: PropTypes.string,
+
+    onClick: PropTypes.func,
+};

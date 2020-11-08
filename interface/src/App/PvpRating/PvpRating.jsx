@@ -19,16 +19,13 @@ import RatingDescr from "./RatingDescr/RatingDescr";
 import DropWithArrow from "./DropWithArrow/DropWithArrow";
 import Input from "App/Components/Input/Input";
 
-import { capitalizeFirst } from "js/indexFunctions"
-import { getCookie } from "js/getCookie"
+import { capitalizeFirst } from "js/indexFunctions";
+import { getCookie } from "js/getCookie";
 import { locale } from "locale/Rating/Rating";
 import { options } from "locale/Components/Options/locale";
 
-import "./PvpRating.scss"
-
 let strings = new LocalizedStrings(locale)
 let optionStrings = new LocalizedStrings(options)
-
 
 
 class PvpRating extends React.Component {

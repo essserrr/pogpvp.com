@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { lighten, makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     sliderButton: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
         "&[toggled=true]": {
             color: theme.palette.primary.contrastText,
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: lighten(theme.palette.primary.main, 0.3),
             outline: "none",
         },
 
