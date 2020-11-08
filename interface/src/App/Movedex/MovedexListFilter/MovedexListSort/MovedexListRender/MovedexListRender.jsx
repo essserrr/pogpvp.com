@@ -9,7 +9,7 @@ class MovedexListSort extends React.Component {
     render() {
         return (
             <LazyTable
-                list={this.props.list.map(value => <MoveRow key={value[0]} value={value[1]} />)}
+                list={this.props.children.map(value => <MoveRow key={value[0]} value={value[1]} />)}
                 thead={<>
                     <TableThead
                         active={this.props.sort}

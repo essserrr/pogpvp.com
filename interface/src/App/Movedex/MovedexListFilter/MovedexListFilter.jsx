@@ -40,6 +40,8 @@ const MovedexListFilter = React.memo(function MovedexListFilter(props) {
 export default MovedexListFilter;
 
 MovedexListFilter.propTypes = {
+    children: PropTypes.object,
+
     name: PropTypes.string,
     filter: PropTypes.object,
     sort: PropTypes.object,
