@@ -1,24 +1,23 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "../SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
-import MovedexListFilter from "./MovedexListFilter/MovedexListFilter"
-import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
-import MoveDescr from "./MoveDescr/MoveDescr"
-import DoubleSlider from "./MoveCard/DoubleSlider/DoubleSlider"
-import TypeRow from "./TypeRow/TypeRow"
-import Input from "../PvP/components/Input/Input"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import Input from "App/Components/Input/Input";
+import MovedexListFilter from "./MovedexListFilter/MovedexListFilter";
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow";
+import MoveDescr from "./MoveDescr/MoveDescr";
+import DoubleSlider from "./MoveCard/DoubleSlider/DoubleSlider";
+import TypeRow from "./TypeRow/TypeRow";
 
-import { dexLocale } from "../../locale/dexLocale"
-import { getCookie } from "../../js/getCookie"
-
-import "./Movedex.scss"
+import { dexLocale } from "locale/Movedex/Movedex";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -93,78 +92,107 @@ class Movedex extends React.Component {
         });
     }
 
-    onSortColumn(event) {
-        let fieldName = event.currentTarget.getAttribute("name")
-        let fieldType = event.currentTarget.getAttribute("coltype")
+    onSortColumn(event, attributes) {
+        const { coltype, name } = attributes
 
         this.setState({
             active: {
-                field: fieldName,
-                type: fieldType,
-                order: fieldName === this.state.active.field ? !this.state.active.order : true,
+                field: name,
+                type: coltype,
+                order: name === this.state.active.field ? !this.state.active.order : true,
             },
         });
     }
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/movedex"
                     header={strings.helm.mdtitle}
                     descr={strings.helm.mddescr}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="movedex__descr col-12 col-md-10 col-lg-8 p-1 p-sm-2 mb-3">
+                <Grid item xs={12} md={10} lg={8} container justify="center" spacing={2} >
+
+
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
                             <DropWithArrow title={strings.tip.title}>
                                 <MoveDescr />
                             </DropWithArrow>
-                        </div>
-                    </div>
-                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="movedex__module col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+                        </GreyPaper>
+                    </Grid>
 
-                            {this.state.loading &&
-                                <Grid item xs={12}>
-                                    <LinearProgress color="secondary" />
-                                </ Grid>}
 
-                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
-                            {this.state.showResult &&
-                                <>
-                                    <Input
-                                        onChange={this.onNameChange}
-                                        place={strings.moveplace}
-                                        value={this.state.name}
-                                    />
-                                    <DoubleSlider
-                                        onClick={this.onFilter}
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding>
+                            <Grid container justify="center" spacing={2}>
 
-                                        attr1="showCharge"
-                                        title1={strings.chm}
-                                        active1={this.state.filter.showCharge}
+                                {this.state.loading &&
+                                    <Grid item xs={12}>
+                                        <LinearProgress color="secondary" />
+                                    </ Grid>}
 
-                                        attr2="showQuick"
-                                        title2={strings.qm}
-                                        active2={this.state.filter.showQuick}
-                                    />
-                                    <TypeRow
-                                        filter={this.state.filter}
-                                        onFilter={this.onFilter}
-                                    />
-                                    <MovedexListFilter
-                                        name={this.state.name}
-                                        list={this.props.bases.moveBase}
-                                        filter={this.state.filter}
-                                        sort={this.state.active}
-                                        onClick={this.onSortColumn}
-                                    />
-                                </>}
-                        </div>
-                    </div>
-                </div >
-            </>
+                                {this.state.isError &&
+                                    <Grid item xs={12}>
+                                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                    </ Grid>}
+
+
+
+
+                                {this.state.showResult &&
+                                    <>
+                                        <Grid item xs={12}>
+                                            <Input
+                                                onChange={this.onNameChange}
+                                                label={strings.moveplace}
+                                                value={this.state.name}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <DoubleSlider
+                                                onClick={this.onFilter}
+
+                                                attr1="showCharge"
+                                                title1={strings.chm}
+                                                active1={this.state.filter.showCharge}
+
+                                                attr2="showQuick"
+                                                title2={strings.qm}
+                                                active2={this.state.filter.showQuick}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <TypeRow
+                                                filter={this.state.filter}
+                                                onFilter={this.onFilter}
+                                            />
+                                        </Grid>
+
+                                        <Grid item xs={12}>
+                                            <MovedexListFilter
+                                                name={this.state.name}
+                                                filter={this.state.filter}
+                                                sort={this.state.active}
+                                                onClick={this.onSortColumn}
+                                            >
+                                                {this.props.bases.moveBase}
+                                            </MovedexListFilter>
+                                        </Grid>
+
+                                    </>}
+
+                            </Grid>
+                        </GreyPaper>
+                    </Grid>
+
+
+
+                </Grid>
+            </Grid>
         );
     }
 }

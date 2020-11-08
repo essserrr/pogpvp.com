@@ -11,8 +11,6 @@ export const dexLocale = {
         pokplace: "Search pokemon name",
 
         helm: {
-            mdtitle: "Movedex | PogPvP.com",
-            mddescr: "List of all currently available moves in Pokemon GO. Pokemon GO moves by type. Pokemon go best moves",
             pdtitle: "Pokedex | PogPvP.com",
             pddescr: "List of all currently available pokemon in Pokemon Go. Pokemon GO all generations pokemon. Pokemon GO PvP pokemon stats. Pokemon GO PvE stats. Pokemon GO pokemon movesets.",
         },
@@ -94,8 +92,6 @@ export const dexLocale = {
         pokplace: "Поиск по имени покемона",
 
         helm: {
-            mdtitle: "Мувдекс | PogPvP.com",
-            mddescr: "Список всех допустных в Pokemon Go умений. Умения по типу в Pokemon Go. Лушчие умения в Pokemon Go",
             pdtitle: "Покедекс | PogPvP.com",
             pddescr: "Список всех допустных в Pokemon Go покемонов. PvP параметры в Pokemon Go. PvE параметры в Pokemon Go. Мувсеты всех покеомонов в Pokemon Go",
         },

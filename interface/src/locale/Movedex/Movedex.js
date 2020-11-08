@@ -12,6 +12,11 @@ export const dexLocale = {
         ch: "% chance to affect",
         by: " by ",
 
+        helm: {
+            mdtitle: "Movedex | PogPvP.com",
+            mddescr: "List of all currently available moves in Pokemon GO. Pokemon GO moves by type. Pokemon go best moves",
+        },
+
 
         mt: {
             n: "Name",
@@ -41,6 +46,10 @@ export const dexLocale = {
         ch: "% шанс изменить",
         by: " на ",
 
+        helm: {
+            mdtitle: "Мувдекс | PogPvP.com",
+            mddescr: "Список всех допустных в Pokemon Go умений. Умения по типу в Pokemon Go. Лушчие умения в Pokemon Go",
+        },
 
         mt: {
             n: "Имя",
