@@ -1,5 +1,7 @@
 export const dexLocale = {
     en: {
+        moveplace: "Search move name",
+
         chm: "Charge move",
         qm: "Quick move",
 
@@ -48,6 +50,8 @@ export const dexLocale = {
     },
 
     ru: {
+        moveplace: "Поиск по названию умения",
+
         chm: "Заряжаемые умения",
         qm: "Быстрые умения",
 

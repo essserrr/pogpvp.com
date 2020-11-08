@@ -7,7 +7,6 @@ export const dexLocale = {
         defFull: "Defence",
         staFull: "Stamina",
 
-        moveplace: "Search move name",
         pokplace: "Search pokemon name",
 
         helm: {
@@ -77,7 +76,6 @@ export const dexLocale = {
         defFull: "Защита",
         staFull: "Здоровье",
 
-        moveplace: "Поиск по названию умения",
         pokplace: "Поиск по имени покемона",
 
         helm: {

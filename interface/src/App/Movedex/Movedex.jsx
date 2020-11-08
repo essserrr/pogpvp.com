@@ -157,11 +157,11 @@ class Movedex extends React.Component {
 
                                                 attr1="showCharge"
                                                 title1={strings.chm}
-                                                active1={this.state.filter.showCharge}
+                                                active1={Boolean(this.state.filter.showCharge)}
 
                                                 attr2="showQuick"
                                                 title2={strings.qm}
-                                                active2={this.state.filter.showQuick}
+                                                active2={Boolean(this.state.filter.showQuick)}
                                             />
                                         </Grid>
 

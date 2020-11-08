@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Tooltip from '@material-ui/core/Tooltip';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 import TheadCell from "App/ShinyRates/ShinyTable/ShinyTableThead/TheadCell/TheadCell";
 
@@ -49,43 +52,57 @@ const TableThead = React.memo(function TableThead(props) {
                 <TheadCell className={`${classes.td} ${classes.borderLeft}`} width="5%" coltype="number" name="Damage" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Damage"} order={order}
                 >
-                    {strings.mt.rd}
+                    <Tooltip placement="top" arrow title={<Typography>{strings.tip.rd}</Typography>}>
+                        <Box>{strings.mt.rd}</Box>
+                    </Tooltip>
                 </TheadCell>
 
                 <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="Energy" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Energy"} order={order}
                 >
-                    {strings.mt.re}
+                    <Tooltip placement="top" arrow title={<Typography>{strings.tip.re}</Typography>}>
+                        <Box>{strings.mt.re}</Box>
+                    </Tooltip>
                 </TheadCell>
 
                 <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="Cooldown" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Cooldown"} order={order}
                 >
-                    {strings.mt.cd}
+                    <Tooltip placement="top" arrow title={<Typography>{strings.tip.cd}</Typography>}>
+                        <Box>{strings.mt.cd}</Box>
+                    </Tooltip>
                 </TheadCell>
 
                 <TheadCell className={`${classes.td} ${classes.borderLeft}`} width="5%" coltype="number" name="PvpDamage" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "PvpDamage"} order={order}
                 >
-                    {strings.mt.pd}
+                    <Tooltip placement="top" arrow title={<Typography>{strings.tip.pd}</Typography>}>
+                        <Box>{strings.mt.pd}</Box>
+                    </Tooltip>
                 </TheadCell>
 
                 <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="PvpEnergy" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "PvpEnergy"} order={order}
                 >
-                    {strings.mt.pe}
+                    <Tooltip placement="top" arrow title={<Typography>{strings.tip.pe}</Typography>}>
+                        <Box>{strings.mt.pe}</Box>
+                    </Tooltip>
                 </TheadCell>
 
                 <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="PvpDurationSeconds" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "PvpDurationSeconds"} order={order}
                 >
-                    {strings.mt.dr}
+                    <Tooltip placement="top" arrow title={<Typography>{strings.tip.dr}</Typography>}>
+                        <Box>{strings.mt.dr}</Box>
+                    </Tooltip>
                 </TheadCell>
 
                 <TheadCell className={`${classes.td}`} width="50%" coltype="string" name="Subject" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Subject"} order={order}
                 >
-                    {strings.mt.ef}
+                    <Tooltip placement="top" arrow title={<Typography>{strings.tip.ef}</Typography>}>
+                        <Box>{strings.mt.ef}</Box>
+                    </Tooltip>
                 </TheadCell>
             </TableRow>
         </TableHead>
