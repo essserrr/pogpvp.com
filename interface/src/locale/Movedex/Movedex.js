@@ -1,5 +1,8 @@
 export const dexLocale = {
     en: {
+        chm: "Charge move",
+        qm: "Quick move",
+
         Atk: "Atk",
         Def: "Def",
         Sta: "Sta",
@@ -18,6 +21,17 @@ export const dexLocale = {
         },
 
 
+        tip: {
+            title: "Legend",
+            rd: "Raid damage",
+            pd: "PvP damage",
+            re: "Raid energy",
+            pe: "PvP energy",
+            cd: "Raid cooldown (seconds)",
+            dr: "PvP duration (rounds)",
+            ef: "PvP effect",
+        },
+
         mt: {
             n: "Name",
             tp: "Type",
@@ -34,6 +48,9 @@ export const dexLocale = {
     },
 
     ru: {
+        chm: "Заряжаемые умения",
+        qm: "Быстрые умения",
+
         Atk: "Атк",
         Def: "Защ",
         Sta: "Здр",
@@ -49,6 +66,17 @@ export const dexLocale = {
         helm: {
             mdtitle: "Мувдекс | PogPvP.com",
             mddescr: "Список всех допустных в Pokemon Go умений. Умения по типу в Pokemon Go. Лушчие умения в Pokemon Go",
+        },
+
+        tip: {
+            title: "Условные обозначения",
+            rd: "Урон в рейдах",
+            pd: "Урон в PvP",
+            re: "Энергия в рейдах",
+            pe: "Энергия в PvP",
+            cd: "Перезарядка в рейдах (секунд)",
+            dr: "Длительность в PvP (раундов)",
+            ef: "Доп. эффект в PvP",
         },
 
         mt: {

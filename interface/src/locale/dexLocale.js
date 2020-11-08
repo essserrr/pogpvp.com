@@ -19,17 +19,6 @@ export const dexLocale = {
         dexentr: "View dex for ",
         loading: "Loading...",
 
-        tip: {
-            title: "Legend",
-            rd: "Raid damage",
-            pd: "PvP damage",
-            re: "Raid energy",
-            pe: "PvP energy",
-            cd: "Raid cooldown (seconds)",
-            dr: "PvP duration (rounds)",
-            ef: "PvP effect",
-        },
-
         movecard: {
             pve: "PvE move info",
             dwstart: "Damage window starts (seconds)",
@@ -100,16 +89,6 @@ export const dexLocale = {
         dexentr: "Открыть декс для ",
         loading: "Загрузка...",
 
-        tip: {
-            title: "Условные обозначения",
-            rd: "Урон в рейдах",
-            pd: "Урон в PvP",
-            re: "Энергия в рейдах",
-            pe: "Энергия в PvP",
-            cd: "Перезарядка в рейдах (секунд)",
-            dr: "Длительность в PvP (раундов)",
-            ef: "Доп. эффект в PvP",
-        },
 
         movecard: {
             pve: "Параметры умения в PvE",
