@@ -8,7 +8,7 @@ const TheadCell = React.memo(function TheadCell(props) {
     const { isSelected, order, coltype, name, children, onClick, ...other } = props;
 
     return (
-        <TableCell
+        <TableCell component="th"
             sortDirection={isSelected ? (order ? 'desc' : 'asc') : 'asc'}
             onClick={(event, ...other) => onClick(event, { coltype: coltype, name: name }, ...other)}
             {...other}

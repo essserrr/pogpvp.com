@@ -27,20 +27,6 @@ export const dexLocale = {
         dexentr: "View dex for ",
         loading: "Loading...",
 
-        mt: {
-            n: "Name",
-            tp: "Type",
-            rd: "RD",
-            pd: "PD",
-            re: "RE",
-            pe: "PE",
-            cd: "CD",
-            dr: "DR",
-            ef: "EF",
-
-            gen: "Gen.",
-        },
-
         tip: {
             title: "Legend",
             rd: "Raid damage",
@@ -129,19 +115,6 @@ export const dexLocale = {
         mdsdescr: " описание в Pokemon Go",
         dexentr: "Открыть декс для ",
         loading: "Загрузка...",
-
-        mt: {
-            n: "Имя",
-            tp: "Тип",
-            rd: "РУ",
-            pd: "ПУ",
-            re: "РЭ",
-            pe: "ПЭ",
-            cd: "ПР",
-            dr: "ДЛ",
-            ef: "ЭФ",
-            gen: "Покол.",
-        },
 
         tip: {
             title: "Условные обозначения",
