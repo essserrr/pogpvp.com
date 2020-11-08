@@ -1,34 +1,31 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "../SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import PokemonIconer from "../PvP/components/PokemonIconer/PokemonIconer"
-import SearchableSelect from "../PvP/components/SearchableSelect/SearchableSelect"
-import Stats from "../PvP/components/Stats/Stats"
-import EvoList from "./EvoList/EvoList"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import SearchableSelect from "App/Components/SearchableSelect/SearchableSelect";
+import Stats from "App/PvP/components/Stats/Stats";
+import EvoList from "./EvoList/EvoList";
 
 
-import { locale } from "../../locale/locale"
-import { checkLvl, checkIV, } from "../../js/indexFunctions"
-import { getCookie } from "../../js/getCookie"
+import { locale } from "locale/Evolve/Evolve";
+import { checkLvl, checkIV, } from "js/indexFunctions";
+import { getCookie } from "js/getCookie";
 
-import "./Evolve.scss"
-
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(locale);
 
 class Evolve extends React.Component {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            name: strings.title.evolveTool,
+            name: "",
             Lvl: "",
             Atk: "",
             Def: "",
@@ -78,20 +75,16 @@ class Evolve extends React.Component {
             if (value.Evolutions && value.Evolutions.length > 0) {
                 list.push({
                     value: key,
-                    label: <div style={{ textAlign: "left" }}>
-                        <PokemonIconer
-                            src={value.Number + (value.Forme !== "" ? "-" + value.Forme : "")}
-                            class={"icon24 mr-1"} />{key}
-                    </div>,
+                    title: key,
                 });
             }
         }
         return list
     }
 
-    onNameChange(event) {
+    onNameChange(eventItem) {
         this.setState({
-            name: event.value,
+            name: eventItem.value,
         });
     }
 
@@ -107,14 +100,12 @@ class Evolve extends React.Component {
         });
     }
 
-    onChange(event, name) {
+    onChange(event, attrivutes, eventItem) {
+        console.log(event, attrivutes, eventItem)
         //check if it's name change
-        if (event.target === undefined) {
-            switch (name.name[1]) {
-                default:
-                    this.onNameChange(event)
-                    return
-            }
+        if (!!eventItem) {
+            this.onNameChange(eventItem)
+            return
         }
         //check if it's an iv change
         if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
@@ -130,33 +121,36 @@ class Evolve extends React.Component {
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/evolution"
                     header={strings.pageheaders.evolution}
                     descr={strings.pagedescriptions.evolution}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-2 pb-2">
-                        <div className="evolve col-sm-12 col-md-10 col-lg-6 mx-0 py-4">
+
+                <Grid item xs={12} md={10} lg={6}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" spacing={2}>
 
                             {this.state.loading &&
                                 <Grid item xs={12}>
                                     <LinearProgress color="secondary" />
                                 </ Grid>}
 
-                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </Grid>}
+
+
                             {this.state.showResult &&
-                                <div className="row justify-content-between p-0 m-0">
-                                    <div className="col-12 px-2">
-                                        <SearchableSelect
-                                            onChange={this.onChange}
-                                            list={this.state.pokCanEvolve}
-                                            value={this.state.name}
-                                        />
-                                    </div>
-                                    <div className="col-12 col-md-12 px-2 mt-2">
-                                        <ReactTooltip effect="solid" />
+                                <>
+                                    <Grid item xs={12}>
+                                        <SearchableSelect label={strings.title.evolveTool} onChange={this.onChange} value={this.state.name} disableClearable>
+                                            {this.state.pokCanEvolve}
+                                        </SearchableSelect>
+                                    </Grid>
+                                    <Grid item xs={12}>
                                         <Stats
                                             Lvl={this.state.Lvl}
                                             Atk={this.state.Atk}
@@ -165,19 +159,20 @@ class Evolve extends React.Component {
                                             attr={this.props.attr}
                                             onChange={this.onChange}
                                         />
-                                    </div>
-                                    {this.props.bases.pokemonBase[this.state.name] && <div className="col-12 px-2 mt-2 ">
-                                        <EvoList
-                                            state={this.state}
-                                            pokemonTable={this.props.bases.pokemonBase}
-                                        />
-                                    </div>}
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div >
-            </>
+                                    </Grid>
+                                    {this.props.bases.pokemonBase[this.state.name] &&
+                                        <Grid item xs={12}>
+                                            <EvoList
+                                                stats={{ name: this.state.name, Lvl: this.state.Lvl, Atk: this.state.Atk, Def: this.state.Def, Sta: this.state.Sta, }}
+                                                pokemonTable={this.props.bases.pokemonBase}
+                                            />
+                                        </Grid>}
+                                </>}
+
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }

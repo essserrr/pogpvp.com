@@ -29,8 +29,8 @@ const SearchableSelect = React.memo(function SearchableSelect(props) {
             name={name}
 
             options={props.children}
-            getOptionLabel={(option) => typeof option === 'string' ? option : option.title}
-            getOptionSelected={(option, value) => (typeof option === 'string' ? option : option.title) === (typeof value === 'string' ? value : value.title)}
+            getOptionLabel={(option) => typeof option === 'string' ? option : option.value}
+            getOptionSelected={(option, value) => (typeof option === 'string' ? option : option.value) === (typeof value === 'string' ? value : value.value)}
             onChange={(event, ...otherOptions) => onChange(event, { type: type, name: name, category: category, attr: attr, }, ...otherOptions)}
             renderInput={(params) => <TextField {...params} label={label} helperText={selectedText} error={!!errorText} />}
 
