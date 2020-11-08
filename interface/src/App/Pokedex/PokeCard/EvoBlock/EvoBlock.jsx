@@ -3,7 +3,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 
 import EvoCard from "./EvoCard"
-import Tier from "../../../Evolve/EvoList/Tier/Tier"
+import Tier from "../../../Evolve/EvoList/EvoTiers/Tier/Tier"
 import { getCookie } from "../../../../js/getCookie"
 import { dexLocale } from "../../../../locale/dexLocale"
 import { ReactComponent as Candy } from "../../../../icons/candy.svg"

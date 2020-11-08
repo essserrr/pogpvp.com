@@ -8,8 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Iconer from "App/Components/Iconer/Iconer";
 
-import { getCookie } from "js/getCookie"
-import { locale } from "locale/locale"
+import { getCookie } from "js/getCookie";
+import { locale } from "locale/Rating/Rating";
 
 const useStyles = makeStyles((theme) => ({
     secondIcon: {

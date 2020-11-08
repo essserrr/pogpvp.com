@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CardBody = React.memo(function CardBody(props) {
     const classes = useStyles();
-    const { name, forRaids } = props;
+    const { name, forRaids, forEvo, stats } = props;
 
     const pokemon = props.pokTable[name]
     return (
@@ -41,13 +41,17 @@ const CardBody = React.memo(function CardBody(props) {
                         fileName={String(pokemon.Type[1])}
                     />}
             </Grid>
-            <Grid item xs={12}>
+            {!forEvo && <Grid item xs={12}>
                 {"CP: "}
-                <CP name={props.name} Lvl={forRaids ? 20 : 15} Atk={10} Def={10} Sta={10} pokemonTable={props.pokTable} />
+                <CP name={name} Lvl={forRaids ? 20 : 15} Atk={10} Def={10} Sta={10} pokemonTable={props.pokTable} />
                 {"-"}
-                <CP name={props.name} Lvl={forRaids ? 20 : 15} Atk={15} Def={15} Sta={15} pokemonTable={props.pokTable} />
-            </Grid>
+                <CP name={name} Lvl={forRaids ? 20 : 15} Atk={15} Def={15} Sta={15} pokemonTable={props.pokTable} />
+            </Grid>}
 
+            {forEvo && <Grid item xs={12}>
+                {"CP: "}
+                <CP name={name} Lvl={stats.Lvl} Atk={stats.Atk} Def={stats.Def} Sta={stats.Sta} pokemonTable={props.pokTable} />
+            </Grid>}
 
             {forRaids && <Grid item xs={12}>
                 {(pokemon.Type[0] !== undefined) &&
@@ -63,9 +67,9 @@ const CardBody = React.memo(function CardBody(props) {
                         size={18}
                     />}
                 {": "}
-                <CP name={props.name} Lvl={25} Atk={10} Def={10} Sta={10} pokemonTable={props.pokTable} />
+                <CP name={name} Lvl={25} Atk={10} Def={10} Sta={10} pokemonTable={props.pokTable} />
                 {"-"}
-                <CP name={props.name} Lvl={25} Atk={15} Def={15} Sta={15} pokemonTable={props.pokTable} />
+                <CP name={name} Lvl={25} Atk={15} Def={15} Sta={15} pokemonTable={props.pokTable} />
             </Grid>}
 
         </Grid>
@@ -76,6 +80,10 @@ export default CardBody;
 
 CardBody.propTypes = {
     forRaids: PropTypes.bool,
+    forEvo: PropTypes.bool,
+
+    stats: PropTypes.object,
+
     name: PropTypes.string.isRequired,
     pokTable: PropTypes.object.isRequired,
 };
