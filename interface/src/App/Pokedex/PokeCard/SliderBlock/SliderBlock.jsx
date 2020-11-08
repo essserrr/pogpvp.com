@@ -1,7 +1,9 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import Button from "../../../Movedex/MoveCard/DoubleSlider/Button/Button"
+import SliderBlock from "App/Components/SliderBlock/SliderBlock";
+import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
+
 import { getCookie } from "../../../../js/getCookie"
 import { dexLocale } from "../../../../locale/dexLocale"
 
@@ -9,46 +11,33 @@ import "./SliderBlock.scss"
 
 let strings = new LocalizedStrings(dexLocale)
 
-const SliderBlock = React.memo(function (props) {
+const SliderButtons = React.memo(function SliderButtons(props) {
+
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className={"pokcardslider-group row m-0 my-2 text-center justify-content-center"} >
-            <Button
-                attr="moves"
-                title={strings.movelist}
-                class={props.active.moves ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                disabled={props.moveDis}
-                onClick={props.onClick}
-            />
-            <Button
-                attr="evo"
-                title={strings.evochart}
-                class={props.active.evo ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                disabled={props.evoDis}
-                onClick={props.onClick}
-            />
-            <Button
-                attr={"eff"}
-                title={strings.vunlist}
-                class={props.active.eff ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                onClick={props.onClick}
-            />
-            <Button
-                attr={"cp"}
-                title={"CP"}
-                class={props.active.cp ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                onClick={props.onClick}
-            />
-            <Button
-                attr={"other"}
-                title={strings.otherinf}
-                class={props.active.other ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                disabled={props.othDis}
-                onClick={props.onClick}
-            />
-        </div>
+        <SliderBlock>
+            <SliderButton className={"pokcardslider-group__button"} attr="moves" toggled={!!props.active.moves} onClick={props.onClick} disabled={props.moveDis}>
+                {strings.movelist}
+            </SliderButton>
+
+            <SliderButton className={"pokcardslider-group__button"} attr="evo" toggled={!!props.active.evo} onClick={props.onClick} disabled={props.evoDis}>
+                {strings.evochart}
+            </SliderButton>
+
+            <SliderButton className={"pokcardslider-group__button"} attr="eff" toggled={!!props.active.eff} onClick={props.onClick}>
+                {strings.vunlist}
+            </SliderButton>
+
+            <SliderButton className={"pokcardslider-group__button"} attr="cp" toggled={!!props.active.cp} onClick={props.onClick}>
+                {"CP"}
+            </SliderButton>
+
+            <SliderButton className={"pokcardslider-group__button"} attr="other" toggled={!!props.active.other} onClick={props.onClick} disabled={props.othDis}>
+                {strings.otherinf}
+            </SliderButton>
+        </SliderBlock>
     )
 
 });
 
-export default SliderBlock;
+export default SliderButtons;

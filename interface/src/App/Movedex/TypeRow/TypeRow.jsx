@@ -9,21 +9,17 @@ import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
 const useStyles = makeStyles((theme) => ({
     buttonSpacing: {
-        paddingLeft: "5px",
-        paddingRight: "5px",
-
+        padding: "5px",
         "@media (max-width: 768px)": {
-            paddingLeft: "2px",
-            paddingRight: "2px",
+            padding: "2px",
         },
         "@media (max-width: 576px)": {
-            paddingLeft: "1px",
-            paddingRight: "1px",
+            padding: "1px",
         },
     },
 }));
 
-const TypeRow = React.memo(function (props) {
+const TypeRow = React.memo(function TypeRow(props) {
     const { filter, onFilter } = props;
     const classes = useStyles();
 
