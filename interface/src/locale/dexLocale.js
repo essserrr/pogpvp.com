@@ -7,12 +7,6 @@ export const dexLocale = {
         defFull: "Defence",
         staFull: "Stamina",
 
-        Opponent: "opponent",
-        Self: "self",
-        of: " of ",
-        ch: "% chance to affect",
-        by: " by ",
-
         moveplace: "Search move name",
         pokplace: "Search pokemon name",
 
@@ -95,12 +89,6 @@ export const dexLocale = {
         atkFull: "Атака",
         defFull: "Защита",
         staFull: "Здоровье",
-
-        Opponent: "противника",
-        Self: "себя",
-        of: " у ",
-        ch: "% шанс изменить",
-        by: " на ",
 
         moveplace: "Поиск по названию умения",
         pokplace: "Поиск по имени покемона",

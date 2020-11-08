@@ -6,6 +6,7 @@ const theme = createMuiTheme({
             primary: "#1a1a1a",
             link: "#0039e6",
         },
+
         background: {
             main: "#eff0f1",
         },
@@ -88,6 +89,10 @@ const theme = createMuiTheme({
         news: {
             border: "#acacac",
         },
+
+        tableCell: {
+            main: "rgba(0, 0, 0, 0.12)",
+        }
     },
     overrides: {
         MuiTableCell: {

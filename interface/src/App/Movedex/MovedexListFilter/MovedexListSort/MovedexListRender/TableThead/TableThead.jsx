@@ -2,6 +2,7 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
+import { makeStyles } from '@material-ui/core/styles';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
@@ -12,8 +13,15 @@ import { dexLocale } from "locale/Movedex/Movedex";
 
 let strings = new LocalizedStrings(dexLocale);
 
+const useStyles = makeStyles((theme) => ({
+    borderLeft: {
+        borderLeft: `1px solid ${theme.palette.tableCell.main}`,
+    }
+}));
+
 const TableThead = React.memo(function TableThead(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
 
     const order = Boolean(props.active.order);
     return (
@@ -31,7 +39,7 @@ const TableThead = React.memo(function TableThead(props) {
                     {strings.mt.tp}
                 </TheadCell>
 
-                <TheadCell coltype="number" name="Damage" scope="col" align='center' onClick={props.onClick}
+                <TheadCell className={classes.borderLeft} coltype="number" name="Damage" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Damage"} order={order}
                 >
                     {strings.mt.rd}
@@ -49,7 +57,7 @@ const TableThead = React.memo(function TableThead(props) {
                     {strings.mt.cd}
                 </TheadCell>
 
-                <TheadCell coltype="number" name="PvpDamage" scope="col" align='center' onClick={props.onClick}
+                <TheadCell className={classes.borderLeft} coltype="number" name="PvpDamage" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "PvpDamage"} order={order}
                 >
                     {strings.mt.pd}
@@ -67,7 +75,7 @@ const TableThead = React.memo(function TableThead(props) {
                     {strings.mt.dr}
                 </TheadCell>
 
-                <TheadCell coltype="string" name="Subject" scope="col" align='left' onClick={props.onClick}
+                <TheadCell coltype="string" name="Subject" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Subject"} order={order}
                 >
                     {strings.mt.ef}
