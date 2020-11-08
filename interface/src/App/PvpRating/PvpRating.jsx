@@ -7,19 +7,20 @@ import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import RatingPages from "./RatingPages/RatingPages"
-import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-import WithIcon from "App/Components/WithIcon/WithIcon"
-import RatingDescr from "./RatingDescr/RatingDescr"
-import DropWithArrow from "./DropWithArrow/DropWithArrow"
-import Input from "App/Components/Input/Input"
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import RatingPages from "./RatingPages/RatingPages";
+import Button from "App/Components/Button/Button";
+import WithIcon from "App/Components/WithIcon/WithIcon";
+import RatingDescr from "./RatingDescr/RatingDescr";
+import DropWithArrow from "./DropWithArrow/DropWithArrow";
+import Input from "App/Components/Input/Input";
 
-import { capitalizeFirst } from "../../js/indexFunctions"
-import { getCookie } from "../../js/getCookie"
+import { capitalizeFirst } from "js/indexFunctions"
+import { getCookie } from "js/getCookie"
 import { locale } from "locale/Rating/Rating";
 import { options } from "locale/Components/Options/locale";
 
@@ -218,110 +219,102 @@ class PvpRating extends React.Component {
                     header={strings.pageheaders.pvprating}
                     descr={strings.pagedescriptions.pvprating}
                 />
-                <Grid item xs={12} sm={10} md={8} lg={6}>
-                    <Grid container justify="center" spacing={2} >
+                <Grid item xs={12} sm={10} md={8} lg={6} container justify="center" spacing={2} >
 
-                        <Grid item xs={12}>
-                            <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
-                                <Grid container justify="center" spacing={2}>
-                                    <Grid item xs={12} sm={6}>
-                                        <Input select label={strings.league} name="league"
-                                            value={this.state.league} onChange={this.onChange}>
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+                            <Grid container justify="center" spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <Input select label={strings.league} name="league"
+                                        value={this.state.league} onChange={this.onChange}>
 
-                                            <MenuItem value="Great" >{optionStrings.options.league.great}</MenuItem>
-                                            <MenuItem value="Ultra" >{optionStrings.options.league.ultra}</MenuItem>
-                                            <MenuItem value="Master">{optionStrings.options.league.master}</MenuItem>
-                                            <MenuItem value="Premierultra" >{optionStrings.options.league.premierUltra}</MenuItem>
-                                            <MenuItem value="Cupflying" >{"Flying Cup"}</MenuItem>
-                                            <MenuItem value="Premier" >{optionStrings.options.league.premier}</MenuItem>
+                                        <MenuItem value="Great" >{optionStrings.options.league.great}</MenuItem>
+                                        <MenuItem value="Ultra" >{optionStrings.options.league.ultra}</MenuItem>
+                                        <MenuItem value="Master">{optionStrings.options.league.master}</MenuItem>
+                                        <MenuItem value="Premierultra" >{optionStrings.options.league.premierUltra}</MenuItem>
+                                        <MenuItem value="Cupflying" >{"Flying Cup"}</MenuItem>
+                                        <MenuItem value="Premier" >{optionStrings.options.league.premier}</MenuItem>
+
+                                    </Input>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <WithIcon tip={<>{strings.rating.firstsent}<br />{strings.rating.secondsent}<br />{strings.rating.thirdsent}</>}>
+
+                                        <Input select label={strings.rating.ratingType} name="combination"
+                                            value={this.state.combination} onChange={this.onChange}>
+
+                                            <MenuItem value="overall" >{strings.overall}</MenuItem>
+                                            <MenuItem value="00" >{strings.rating.sheilds + " 0 x 0"}</MenuItem>
+                                            <MenuItem value="11" >{strings.rating.sheilds + " 1 x 1"}</MenuItem>
+                                            <MenuItem value="22" >{strings.rating.sheilds + " 2 x 2"}</MenuItem>
+                                            <MenuItem value="01" >{strings.rating.sheilds + " 0 x 1"}</MenuItem>
+                                            <MenuItem value="12" >{strings.rating.sheilds + " 1 x 2"}</MenuItem>
 
                                         </Input>
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <WithIcon tip={<>{strings.rating.firstsent}<br />{strings.rating.secondsent}<br />{strings.rating.thirdsent}</>}>
 
-                                            <Input select label={strings.rating.ratingType} name="combination"
-                                                value={this.state.combination} onChange={this.onChange}>
-
-                                                <MenuItem value="overall" >{strings.overall}</MenuItem>
-                                                <MenuItem value="00" >{strings.rating.sheilds + " 0 x 0"}</MenuItem>
-                                                <MenuItem value="11" >{strings.rating.sheilds + " 1 x 1"}</MenuItem>
-                                                <MenuItem value="22" >{strings.rating.sheilds + " 2 x 2"}</MenuItem>
-                                                <MenuItem value="01" >{strings.rating.sheilds + " 0 x 1"}</MenuItem>
-                                                <MenuItem value="12" >{strings.rating.sheilds + " 1 x 2"}</MenuItem>
-
-                                            </Input>
-
-                                        </WithIcon>
-                                    </Grid>
+                                    </WithIcon>
                                 </Grid>
-                            </GreyPaper>
-                        </Grid>
+                            </Grid>
+                        </GreyPaper>
+                    </Grid>
 
-                        <Grid item xs={12}>
-                            <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
-                                <DropWithArrow title={strings.aboutrate}>
-                                    <RatingDescr />
-                                </DropWithArrow>
-                            </GreyPaper>
-                        </Grid>
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
+                            <DropWithArrow title={strings.aboutrate}>
+                                <RatingDescr />
+                            </DropWithArrow>
+                        </GreyPaper>
+                    </Grid>
 
 
-                        <Grid item xs={12}>
-                            <GreyPaper elevation={4} enablePadding>
-                                <Grid container justify="center" spacing={2}>
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding>
+                            <Grid container justify="center" spacing={2}>
 
-                                    {this.state.loading &&
-                                        <Grid item xs={12}>
-                                            <LinearProgress color="secondary" />
-                                        </ Grid>}
+                                {this.state.loading &&
+                                    <Grid item xs={12}>
+                                        <LinearProgress color="secondary" />
+                                    </ Grid>}
 
-                                    {this.state.isError &&
-                                        <Grid item xs={12}>
-                                            <Alert variant="filled" severity="error">{this.state.error}</Alert >
-                                        </ Grid>}
+                                {this.state.isError &&
+                                    <Grid item xs={12}>
+                                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                    </ Grid>}
 
-                                    {this.state.showResult && <>
-                                        <Grid item xs={12}>
-                                            <Input
-                                                value={this.state.name}
-                                                onChange={this.onChangeInput}
-                                                label={strings.searchplaceholder}
-                                            />
-                                        </ Grid>
+                                {this.state.showResult && <>
+                                    <Grid item xs={12}>
+                                        <Input
+                                            value={this.state.name}
+                                            onChange={this.onChangeInput}
+                                            label={strings.searchplaceholder}
+                                        />
+                                    </ Grid>
 
-                                        <Grid item xs={12}>
-                                            <RatingPages
-                                                name={this.state.name}
-                                                n={this.state.n}
-                                                league={this.state.league}
-                                                combination={this.state.combination}
-                                                pokemonTable={this.props.bases.pokemonBase}
-                                                moveTable={this.props.bases.moveBase}
-                                                searchState={this.state.searchState}
-                                                originalList={this.state.ratingList}
-                                            >
-                                                {this.state.ratingList}
-                                            </RatingPages>
-                                        </ Grid>
-                                    </>}
-
-                                    {(this.state.isNextPage && !this.state.searchState) && <Grid item container xs={12} justify="center">
-
-                                        <SubmitButton
-                                            action="Load more"
-                                            onSubmit={this.onLoadMore}
-                                            class="submit-button--lg btn btn-primary btn-sm"
+                                    <Grid item xs={12}>
+                                        <RatingPages
+                                            name={this.state.name}
+                                            n={this.state.n}
+                                            league={this.state.league}
+                                            combination={this.state.combination}
+                                            pokemonTable={this.props.bases.pokemonBase}
+                                            moveTable={this.props.bases.moveBase}
+                                            searchState={this.state.searchState}
+                                            originalList={this.state.ratingList}
                                         >
-                                            {strings.loadmore}
-                                        </SubmitButton>
+                                            {this.state.ratingList}
+                                        </RatingPages>
+                                    </ Grid>
+                                </>}
+
+                                {(this.state.isNextPage && !this.state.searchState) &&
+                                    <Grid item container xs={12} justify="center">
+                                        <Button title={strings.loadmore} endIcon={<GetAppIcon />} onClick={this.onLoadMore} />
                                     </Grid>}
 
-                                </Grid>
-                            </GreyPaper>
-                        </Grid>
-
+                            </Grid>
+                        </GreyPaper>
                     </Grid>
+
                 </Grid>
             </Grid>
         );
