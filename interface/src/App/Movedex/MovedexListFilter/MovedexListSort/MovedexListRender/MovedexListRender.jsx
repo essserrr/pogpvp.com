@@ -1,22 +1,27 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import LazyTable from "../../../../Pokedex/PokedexListFilter/PokedexListSort/PokedexListRender/LazyTable/LazyTable"
-import MoveRow from "./MoveRow/MoveRow"
-import TableThead from "./TableThead/TableThead"
+import LazyTable from "App/Pokedex/PokedexListFilter/PokedexListSort/PokedexListRender/LazyTable/LazyTable";
+import MoveRow from "./MoveRow/MoveRow";
+import TableThead from "./TableThead/TableThead";
 
+const MovedexListRender = function MovedexListRender(props) {
+    return (
+        <LazyTable
+            thead={<TableThead active={props.sort} onClick={props.onClick} />}
+            activeFilter={props.sort}
+            elementsOnPage={40}
+        >
+            {props.children.map(value => <MoveRow key={value[0]} value={value[1]} />)}
+        </LazyTable>
+    )
+};
 
-class MovedexListSort extends React.Component {
-    render() {
-        return (
-            <LazyTable
-                thead={<TableThead active={this.props.sort} onClick={this.props.onClick} />}
-                activeFilter={this.props.sort}
-                elementsOnPage={40}
-            >
-                {this.props.children.map(value => <MoveRow key={value[0]} value={value[1]} />)}
-            </LazyTable>
-        );
-    }
-}
+export default MovedexListRender;
 
-export default MovedexListSort
+MovedexListRender.propTypes = {
+    children: PropTypes.array,
+
+    sort: PropTypes.object,
+    onClick: PropTypes.func,
+};
