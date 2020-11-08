@@ -2,6 +2,9 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 import Tier from "./Tier/Tier";
 
 import { locale } from "locale/Evolve/Evolve";
@@ -15,14 +18,19 @@ const EvoTiers = React.memo(function EvoTiers(props) {
 
 
     return (
-        children.map((elem, i) => {
-            switch (i) {
-                case 0:
-                    return <Tier key={i + "sep"} list={elem} />
-                default:
-                    return <Tier key={i + "sep"} class="evo-list__separator my-2" title={strings.tips.evolveTool} list={elem} />
-            }
-        })
+        <Grid container justify="center" spacing={2}>
+            {children.map((elem, i) =>
+                <Grid item xs={12}>
+                    {i === 0 ?
+                        <Tier disableFont key={i + "sep"}>{elem}</Tier>
+                        :
+                        <Tier disableFont key={i + "sep"} title={<Typography align="center" variant="body1">{strings.tips.evolveTool}</Typography>}>
+                            {elem}
+                        </Tier>
+                    }
+                </Grid>
+            )}
+        </Grid>
     )
 });
 
