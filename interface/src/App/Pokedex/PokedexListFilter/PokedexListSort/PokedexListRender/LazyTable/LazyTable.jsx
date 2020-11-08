@@ -50,7 +50,7 @@ class LazyTable extends React.PureComponent {
                 hasMore={this.state.isNext}
                 scrollThreshold={0.75}
             >
-                <Table>
+                <Table style={{ tableLayout: 'auto' }}>
                     {this.props.thead}
                     <TableBody>
                         {this.state.infiniteList}

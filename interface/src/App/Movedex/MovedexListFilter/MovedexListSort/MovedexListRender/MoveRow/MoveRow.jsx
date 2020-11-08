@@ -14,13 +14,6 @@ import { dexLocale } from "locale/Movedex/Movedex";
 let strings = new LocalizedStrings(dexLocale);
 
 const useStyles = makeStyles((theme) => ({
-    link: {
-        fontSize: "1.1em",
-        color: theme.palette.text.link,
-        "&:hover": {
-            textDecoration: "underline",
-        },
-    },
     tr: {
         position: "relative",
         "-webkit-transition": 'all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)',
@@ -49,9 +42,19 @@ const useStyles = makeStyles((theme) => ({
             display: "block",
         }
     },
+    td: {
+        padding: `${theme.spacing(1)}px`,
+    },
     borderLeft: {
         borderLeft: `1px solid ${theme.palette.tableCell.main}`,
-    }
+    },
+    link: {
+        fontSize: "1.1em",
+        color: theme.palette.text.link,
+        "&:hover": {
+            textDecoration: "underline",
+        },
+    },
 }));
 
 const MoveRow = React.memo(function MoveRow(props) {
@@ -75,24 +78,24 @@ const MoveRow = React.memo(function MoveRow(props) {
 
     return (
         <TableRow className={classes.tr}>
-            <TableCell component="th" scope="row" align='left'>
+            <TableCell className={classes.td} width="5%" component="th" scope="row" align='left'>
                 <Link className={classes.link} title={title} to={to}>
                     {props.value.Title}
                 </Link>
             </TableCell>
 
-            <TableCell align='center'>
+            <TableCell className={classes.td} width="5%" align='center'>
                 <Iconer size={18} folderName="/type/" fileName={String(props.value.MoveType)} />
             </TableCell>
 
-            <TableCell className={classes.borderLeft} align='center'>{props.value.Damage}</TableCell>
-            <TableCell align='center'>{props.value.Energy}</TableCell>
-            <TableCell align='center'>{props.value.Cooldown / 1000}</TableCell>
+            <TableCell className={`${classes.td} ${classes.borderLeft}`} width="5%" align='center'>{props.value.Damage}</TableCell>
+            <TableCell className={classes.td} width="5%" align='center'>{props.value.Energy}</TableCell>
+            <TableCell className={classes.td} width="5%" align='center'>{props.value.Cooldown / 1000}</TableCell>
 
-            <TableCell className={classes.borderLeft} align='center'>{props.value.PvpDamage}</TableCell>
-            <TableCell align='center'>{props.value.PvpEnergy}</TableCell>
-            <TableCell align='center'>{props.value.PvpDurationSeconds / 0.5}</TableCell>
-            <TableCell align='center'>{effect}</TableCell>
+            <TableCell className={`${classes.td} ${classes.borderLeft}`} width="5%" align='center'>{props.value.PvpDamage}</TableCell>
+            <TableCell className={classes.td} width="5%" align='center'>{props.value.PvpEnergy}</TableCell>
+            <TableCell className={classes.td} width="5%" align='center'>{props.value.PvpDurationSeconds / 0.5}</TableCell>
+            <TableCell className={classes.td} width="60%" align='center'>{effect}</TableCell>
         </TableRow>
     )
 
