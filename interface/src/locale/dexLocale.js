@@ -18,19 +18,6 @@ export const dexLocale = {
         dexentr: "View dex for ",
         loading: "Loading...",
 
-        movecard: {
-            pve: "PvE move info",
-            dwstart: "Damage window starts (seconds)",
-            dwdur: "Dodge window (seconds)",
-            dps: "Damage per second",
-            eps: "Energy per second",
-            dpe: "Damage per energy",
-            dpsdpe: "DPS*DPE",
-
-            dpt: "Damage per turn",
-            ept: "Energy per turn",
-        },
-
         pokerr: "Pokemon not found",
         moveerr: "Move not found",
 
@@ -87,19 +74,6 @@ export const dexLocale = {
         dexentr: "Открыть декс для ",
         loading: "Загрузка...",
 
-
-        movecard: {
-            pve: "Параметры умения в PvE",
-            dwstart: "Окно урона (секунд)",
-            dwdur: "Окно уклонения (секунд)",
-            eps: "Энергия в секунду",
-            dps: "Урон в секунду",
-            dpe: "Урона на энергию",
-            dpsdpe: "УВС*УНЭ",
-
-            dpt: "Урон за ход",
-            ept: "Энергия за ход",
-        },
 
         pokerr: "Покемон не найден",
         moveerr: "Умение не найдено",

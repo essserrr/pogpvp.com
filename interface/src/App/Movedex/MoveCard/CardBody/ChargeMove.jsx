@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 
 import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
+import { dexLocale } from "../../../../locale/Movedex/Movecard"
 import CommonPve from "./CommonPve"
 import CommonPvp from "./CommonPvp"
 import MovedexChargeEnergy from "./MovedexChargeEnergy/MovedexChargeEnergy"
