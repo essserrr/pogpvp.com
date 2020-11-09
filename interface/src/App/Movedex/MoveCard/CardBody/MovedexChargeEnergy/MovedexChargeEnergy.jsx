@@ -1,28 +1,53 @@
 import React from "react";
-import ReactTooltip from "react-tooltip"
+import PropTypes from 'prop-types';
 
-import "./MovedexChargeEnergy.scss"
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = props => makeStyles(theme => {
+    return ({
+        energyColor: {
+            color: theme.palette.types[`type${props.type}`].text,
+            backgroundColor: theme.palette.types[`type${props.type}`].background,
+        },
+        energyContainer: {
+            width: "100px",
+        },
+        energyElement: {
+            height: "10px",
+            borderRadius: "2px",
+        },
+        marginLeft: {
+            marginLeft: "4px",
+        },
+    })
+});
 
 const MovedexChargeEnergy = React.memo(function (props) {
+    const { Energy, MoveType } = props.move;
+    const classes = useStyles({ type: MoveType })();
+
     return (
-        <div className="row m-0 justify-content-center">
-            <div data-tip data-for={props.move.Title + "En"}
-                style={{ width: "100px" }}
-                className="d-flex justify-content-between">
-                <div className={"movedex-chargeen__cell col m-0 type-color" + props.move.MoveType} />
-                {Math.abs(props.move.Energy) < 100 && <div className={"movedex-chargeen__cell col ml-1 type-color" + props.move.MoveType} />}
-                {Math.abs(props.move.Energy) < 50 && <div className={"movedex-chargeen__cell col ml-1 type-color" + props.move.MoveType} />}
-            </div>
-            <ReactTooltip
-                className={"infoTip"}
-                id={props.move.Title + "En"} effect="solid"
-                place={"top"}
-                multiline={false}>
-                {props.move.Energy}
-            </ReactTooltip>
-        </div>
+        <Tooltip placement="top" arrow title={<Typography>{Energy}</Typography>}>
+
+            <Grid className={classes.energyContainer} container justify="space-between" wrap="nowrap">
+                <Grid className={`${classes.energyElement} ${classes.energyColor}`} item xs />
+                {Math.abs(Energy) < 100 &&
+                    <Grid className={`${classes.energyElement} ${classes.energyColor} ${classes.marginLeft}`} item xs />}
+                {Math.abs(Energy) < 50 &&
+                    <Grid className={`${classes.energyElement} ${classes.energyColor} ${classes.marginLeft}`} item xs />}
+
+            </Grid>
+
+        </Tooltip>
     )
 
 });
 
 export default MovedexChargeEnergy;
+
+MovedexChargeEnergy.propTypes = {
+    move: PropTypes.object.isRequired,
+};
