@@ -1,8 +1,8 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/Movedex/Movecard"
+import { getCookie } from "js/getCookie"
+import { dexLocale } from "locale/Movedex/Movecard"
 
 
 let strings = new LocalizedStrings(dexLocale);

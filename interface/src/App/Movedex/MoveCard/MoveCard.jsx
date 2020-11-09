@@ -10,9 +10,9 @@ import Grid from '@material-ui/core/Grid';
 
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
+
+import CardBody from './CardBody/CardBody';
 import MoveCardTitle from "./MoveCardTitle/MoveCardTitle"
-import ChargeMove from "./CardBody/ChargeMove"
-import QuickMove from "./CardBody/QuickMove"
 import EffTable from "../../Pokedex/PokeCard/EffBlock/EffTable"
 import UsesList from "./UsesList/UsesList"
 import { dexLocale } from "../../../locale/dexLocale"
@@ -105,10 +105,9 @@ class MoveCard extends React.Component {
                             {this.state.showResult && this.state.move &&
                                 <>
                                     <MoveCardTitle move={this.state.move} />
+
                                     <div className="row m-0 p-0">
-                                        {this.state.move.MoveCategory === "Charge Move" ?
-                                            <ChargeMove move={this.state.move} /> :
-                                            <QuickMove move={this.state.move} />}
+                                        <CardBody move={this.state.move} />
                                     </div>
 
                                     <DoubleSlider
