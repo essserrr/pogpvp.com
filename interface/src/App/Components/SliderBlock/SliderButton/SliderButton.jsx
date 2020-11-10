@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
     sliderButton: {
@@ -14,26 +14,77 @@ const useStyles = makeStyles((theme) => ({
 
         backgroundColor: "transparent",
 
+
+        borderColor: theme.palette.primary.main,
+        borderWidth: "2px 0px 2px 0px",
+        borderStyle: "solid",
+
         color: theme.palette.text.main,
         fontWeight: 400,
-
 
         "-webkit-transition": "all 0.4s linear",
         transition: "all 0.4s linear",
 
         "&[toggled=true]": {
-            color: theme.palette.primary.contrastText,
-            backgroundColor: lighten(theme.palette.primary.main, 0.3),
+            borderColor: theme.palette.secondary.main,
             outline: "none",
+
+            "&::after": {
+                zIndex: 2,
+                borderColor: theme.palette.secondary.main,
+            },
+
+            "&::before": {
+                zIndex: 2,
+                borderColor: theme.palette.secondary.main,
+            },
         },
 
         "&:focus": {
             outline: "none",
         },
+
+
+        "&::after": {
+            content: '""',
+            display: "block",
+            position: "absolute",
+
+            height: "calc(100% + 4px)",
+
+            top: -2,
+            right: -1,
+
+            borderRight: `2px solid ${theme.palette.primary.main}`,
+
+            "-webkit-transition": "all 0.4s linear",
+            transition: "all 0.4s linear",
+        },
+
+        "&::before": {
+            content: '""',
+            display: "block",
+            position: "absolute",
+
+            height: "calc(100% + 4px)",
+
+            top: -2,
+            left: -1,
+
+            borderLeft: `2px solid ${theme.palette.primary.main}`,
+
+            "-webkit-transition": "all 0.4s linear",
+            transition: "all 0.4s linear",
+        },
     },
+
+
     buttonSpacing: {
         paddingLeft: "5px",
         paddingRight: "5px",
+
+        paddingTop: "4px",
+        paddingBottom: "4px",
 
         "@media (max-width: 768px)": {
             paddingLeft: "2px",
