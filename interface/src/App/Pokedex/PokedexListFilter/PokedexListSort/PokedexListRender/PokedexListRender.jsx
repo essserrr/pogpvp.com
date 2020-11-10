@@ -1,26 +1,32 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import LazyTable from "./LazyTable/LazyTable"
-import PokeRow from "./PokeRow/PokeRow"
-import TableThead from "./TableThead/TableThead"
+import LazyTable from "./LazyTable/LazyTable";
+import PokeRow from "./PokeRow/PokeRow";
+import TableThead from "./TableThead/TableThead";
 
-import { calculateCP } from "../../../../../js/indexFunctions"
+import { calculateCP } from "js/indexFunctions";
 
-class PokedexListRender extends React.Component {
-    render() {
-        return (
-            <LazyTable
-                thead={<TableThead active={this.props.sort} onClick={this.props.onClick} />}
-                activeFilter={this.props.sort}
-                elementsOnPage={40}
-            >
-                {this.props.list.map((value) => {
-                    value[1].CP = calculateCP(value[1].Title, 40, 15, 15, 15, this.props.pokTable)
-                    return <PokeRow key={value[0]} value={value[1]} />
-                })}
-            </LazyTable>
-        );
-    }
-}
+const PokedexListRender = function PokedexListRender(props) {
+    return (
+        <LazyTable
+            thead={<TableThead active={props.sort} onClick={props.onClick} />}
+            activeFilter={props.sort}
+            elementsOnPage={40}
+        >
+            {props.children.map((value) => {
+                value[1].CP = calculateCP(value[1].Title, 40, 15, 15, 15, props.pokTable)
+                return <PokeRow key={value[0]} value={value[1]} />
+            })}
+        </LazyTable>
+    )
+};
 
-export default PokedexListRender
+export default PokedexListRender;
+
+PokedexListRender.propTypes = {
+    children: PropTypes.array,
+    pokTable: PropTypes.object,
+    sort: PropTypes.object,
+    onClick: PropTypes.func,
+};
