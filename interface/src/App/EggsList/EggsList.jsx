@@ -8,10 +8,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import Switch from "App/Components/Switch/Switch";
 import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
 import RenderEggList from "./RenderEggList/RenderEggList";
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock";
-import SingleSliderButton from "./SingleSliderButton/SingleSliderButton";
 
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Eggs/Eggs";
@@ -71,8 +71,9 @@ class EggsList extends React.Component {
         }
     }
 
-    onChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onChange(event, attributes) {
+        const attr = attributes ? attributes.attr : event.target.getAttribute("attr");
+
         this.setState({
             filter: {
                 ...this.state.filter,
@@ -124,14 +125,15 @@ class EggsList extends React.Component {
 
                                     <Grid item xs={12}>
                                         <Grid container justify="center">
-                                            <Grid item xs={12} sm={6}>
-                                                <SingleSliderButton
-                                                    attr="showReg"
-                                                    title={strings.tierlist.regionals}
-                                                    isActive={this.state.filter.showReg}
-                                                    onClick={this.onChange}
-                                                />
-                                            </Grid>
+
+                                            <Switch
+                                                checked={this.state.filter.showReg}
+                                                onChange={this.onChange}
+                                                attr="showReg"
+                                                color="primary"
+                                                label={strings.tierlist.regionals}
+                                            />
+
                                         </Grid>
                                     </Grid>
                                 </>}

@@ -7,7 +7,7 @@ import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
 import Breakpoints from "./Breakpoints/Breakpoints"
 import PveWillow from "./PveWillow/PveWillow"
 import PveResListFilter from "./PveResListFilter/PveResListFilter"
-import SingleSliderButton from "../../../EggsList/SingleSliderButton/SingleSliderButton"
+import Switch from "App/Components/Switch/Switch";
 import PlayerResProcessor from "./PlayerResProcessor/PlayerResProcessor"
 import PveResTitle from "./PveResTitle/PveResTitle"
 
@@ -82,12 +82,11 @@ class PveResult extends React.PureComponent {
         })
     }
 
-    onFilter(event) {
-        let attr = event.target.getAttribute("attr")
+    onFilter(event, attributes) {
         this.setState({
             filter: {
                 ...this.state.filter,
-                [attr]: !this.state.filter[attr],
+                [attributes.attr]: !this.state.filter[attributes.attr],
             },
         })
     }
@@ -149,11 +148,13 @@ class PveResult extends React.PureComponent {
                     </div>}
                     {!this.props.customResult &&
                         <div className={"col-12 col-sm-6 p-0 mb-3 text-center justify-content-center"} >
-                            <SingleSliderButton
+
+                            <Switch
+                                checked={Boolean(this.state.filter.unique)}
+                                onChange={this.onFilter}
                                 attr="unique"
-                                title={pvestrings.unique}
-                                isActive={this.state.filter.unique}
-                                onClick={this.onFilter}
+                                color="primary"
+                                label={pvestrings.unique}
                             />
                         </div>}
                     {this.props.needsAvg &&
