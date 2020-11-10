@@ -4,6 +4,9 @@ export const dexLocale = {
         Def: "Def",
         Sta: "Sta",
 
+        chm: "Charge move",
+        qm: "Quick move",
+
         dexentr: "View dex for",
 
         Opponent: "opponent",
@@ -41,6 +44,9 @@ export const dexLocale = {
         Atk: "Атк",
         Def: "Защ",
         Sta: "Здр",
+
+        chm: "Заряжаемое умение",
+        qm: "Быстрое умение",
 
         dexentr: "Открыть декс для",
 

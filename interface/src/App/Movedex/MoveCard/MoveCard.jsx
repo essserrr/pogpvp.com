@@ -8,13 +8,13 @@ import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
 
 import CardBody from './CardBody/CardBody';
-import MoveCardTitle from "./MoveCardTitle/MoveCardTitle"
-import EffTable from "../../Pokedex/PokeCard/EffBlock/EffTable"
-import UsesList from "./UsesList/UsesList"
+import MoveCardTitle from "./MoveCardTitle/MoveCardTitle";
+import SliderBody from "./SliderBody/SliderBody";
 import { dexLocale } from "../../../locale/dexLocale"
 import { getCookie } from "../../../js/getCookie"
 import DoubleSlider from "./DoubleSlider/DoubleSlider"
@@ -86,14 +86,16 @@ class MoveCard extends React.Component {
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     header={this.props.match.params.id + strings.mdsdescr + " | PogPvP.com"}
                     descr={this.props.match.params.id + strings.mdsdescr}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="movecard col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+
+                <Grid item xs={12} md={10} lg={8}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" spacing={2}>
+
 
                             {this.state.loading &&
                                 <Grid item xs={12}>
@@ -101,45 +103,38 @@ class MoveCard extends React.Component {
                                 </ Grid>}
 
                             {this.state.isError &&
-                                <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </Grid>}
+
+
                             {this.state.showResult && this.state.move &&
                                 <>
-                                    <MoveCardTitle move={this.state.move} />
+                                    <Grid item xs={12}>
+                                        <MoveCardTitle move={this.state.move} />
+                                    </Grid>
 
-                                    <div className="row m-0 p-0">
+                                    <Grid item xs={12}>
                                         <CardBody move={this.state.move} />
-                                    </div>
+                                    </Grid>
 
-                                    <DoubleSlider
-                                        onClick={this.onClick}
-
-                                        attr1="eff"
-                                        title1={strings.vunlist}
-                                        active1={this.state.active.eff}
-
-                                        attr2="use"
-                                        title2={strings.used}
-                                        active2={this.state.active.use}
-                                    />
-                                    <UnmountClosed isOpened={this.state.active.eff}>
-                                        <div className={"row m-0"}>
-                                            <EffTable
-                                                type={[this.state.move.MoveType]}
-                                                reverse={true}
-                                            />
-                                        </div>
-                                    </UnmountClosed>
-                                    <UnmountClosed isOpened={this.state.active.use}>
-                                        <UsesList
-                                            move={this.state.move}
-                                            pokTable={this.props.bases.pokemonBase}
+                                    <Grid item xs={12}>
+                                        <DoubleSlider
+                                            onClick={this.onClick}
+                                            attr1="eff" title1={strings.vunlist} active1={Boolean(this.state.active.eff)}
+                                            attr2="use" title2={strings.used} active2={Boolean(this.state.active.use)}
                                         />
-                                    </UnmountClosed>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <SliderBody move={this.state.move} active={this.state.active} pokemonBase={this.props.bases.pokemonBase} />
+                                    </Grid>
                                 </>}
-                        </div>
-                    </div>
-                </div >
-            </>
+
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }
