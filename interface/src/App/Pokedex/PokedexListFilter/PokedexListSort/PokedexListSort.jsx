@@ -7,11 +7,11 @@ class PokedexListSort extends React.Component {
     sortNumber() {
         switch (this.props.sort.order) {
             case true:
-                return this.props.list.sort((a, b) => {
+                return this.props.children.sort((a, b) => {
                     return b[1][this.props.sort.field] - a[1][this.props.sort.field]
                 })
             default:
-                return this.props.list.sort((a, b) => {
+                return this.props.children.sort((a, b) => {
                     return a[1][this.props.sort.field] - b[1][this.props.sort.field]
                 })
         }
@@ -20,13 +20,13 @@ class PokedexListSort extends React.Component {
     sortString() {
         switch (this.props.sort.order) {
             case true:
-                return this.props.list.sort((a, b) => {
+                return this.props.children.sort((a, b) => {
                     if (a[1][this.props.sort.field] > b[1][this.props.sort.field]) { return -1; }
                     if (b[1][this.props.sort.field] > a[1][this.props.sort.field]) { return 1; }
                     return 0;
                 })
             default:
-                return this.props.list.sort((a, b) => {
+                return this.props.children.sort((a, b) => {
                     if (a[1][this.props.sort.field] < b[1][this.props.sort.field]) { return -1; }
                     if (b[1][this.props.sort.field] < a[1][this.props.sort.field]) { return 1; }
                     return 0;
@@ -38,7 +38,7 @@ class PokedexListSort extends React.Component {
     sortTypeArr() {
         switch (this.props.sort.order) {
             case true:
-                return this.props.list.sort((a, b) => {
+                return this.props.children.sort((a, b) => {
                     if (b[1][this.props.sort.field][0] === a[1][this.props.sort.field][0]) {
                         if (b[1][this.props.sort.field].length > 1 && a[1][this.props.sort.field].length > 1) { return b[1][this.props.sort.field][1] - a[1][this.props.sort.field][1]; }
                         if (b[1][this.props.sort.field].length > 1) { return 1 }
@@ -47,7 +47,7 @@ class PokedexListSort extends React.Component {
                     return b[1][this.props.sort.field][0] - a[1][this.props.sort.field][0];
                 })
             default:
-                return this.props.list.sort((a, b) => {
+                return this.props.children.sort((a, b) => {
                     if (b[1][this.props.sort.field][0] === a[1][this.props.sort.field][0]) {
                         if (b[1][this.props.sort.field].length > 1 && a[1][this.props.sort.field].length > 1) { return a[1][this.props.sort.field][1] - b[1][this.props.sort.field][1]; }
                         if (a[1][this.props.sort.field].length > 1) { return 1 }

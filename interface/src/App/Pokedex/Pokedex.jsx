@@ -141,14 +141,9 @@ class Pokedex extends React.Component {
                                             <LinearProgress color="secondary" />
                                         </ Grid>}
 
-                                    <PokedexListFilter
-                                        name={this.state.name}
-                                        list={this.props.bases.pokemonBase}
-                                        pokTable={this.props.bases.pokemonBase}
-                                        filter={this.state.filter}
-                                        sort={this.state.active}
-                                        onClick={this.onSortColumn}
-                                    />
+                                    <PokedexListFilter name={this.state.name} filter={this.state.filter} sort={this.state.active} onClick={this.onSortColumn}>
+                                        {this.props.bases.pokemonBase}
+                                    </PokedexListFilter>
                                 </>}
                         </div>
                     </div>

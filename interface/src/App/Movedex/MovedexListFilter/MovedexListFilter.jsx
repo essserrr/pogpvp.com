@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MovedexListSort from "./MovedexListSort/MovedexListSort";
 
 const MovedexListFilter = React.memo(function MovedexListFilter(props) {
-    const { name, filter, ...other } = props
+    const { name, filter, children, ...other } = props
 
     const applyNameFilter = (currName) => {
         return currName.toLowerCase().indexOf(name.toLowerCase()) > -1
@@ -30,7 +30,7 @@ const MovedexListFilter = React.memo(function MovedexListFilter(props) {
 
     return (
         <MovedexListSort {...other} >
-            {Object.entries(props.children).filter(element => {
+            {Object.entries(children).filter(element => {
                 return applyNameFilter(element[0]) && applyColFilter(element[1], filter)
             })}
         </MovedexListSort>
