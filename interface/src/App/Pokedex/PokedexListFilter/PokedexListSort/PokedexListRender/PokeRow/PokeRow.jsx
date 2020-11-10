@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const PokeRow = React.memo(function (props) {
+const PokeRow = React.memo(function PokeRow(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const classes = useStyles();
     const animation = useAnimation();
