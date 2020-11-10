@@ -89,14 +89,14 @@ class Pokedex extends React.Component {
         })
     }
 
-    onSortColumn(event) {
-        let fieldName = event.currentTarget.getAttribute("name")
-        let fieldType = event.currentTarget.getAttribute("coltype")
+    onSortColumn(event, attributes) {
+        const { coltype, name } = attributes;
+
         this.setState({
             active: {
-                field: fieldName,
-                type: fieldType,
-                order: fieldName === this.state.active.field ? !this.state.active.order : true,
+                field: name,
+                type: coltype,
+                order: name === this.state.active.field ? !this.state.active.order : true,
             },
         });
     }

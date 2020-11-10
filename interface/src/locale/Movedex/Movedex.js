@@ -44,8 +44,6 @@ export const dexLocale = {
             cd: "CD",
             dr: "DR",
             ef: "EF",
-
-            gen: "Gen.",
         },
     },
 
@@ -93,7 +91,6 @@ export const dexLocale = {
             cd: "ПР",
             dr: "ДЛ",
             ef: "ЭФ",
-            gen: "Покол.",
         },
     }
 }
