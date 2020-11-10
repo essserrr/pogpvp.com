@@ -8,9 +8,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import useAnimation from "css/hoverAnimation";
-import Iconer from "App/Components/Iconer/Iconer"
-import { getCookie } from "js/getCookie"
-import { dexLocale } from "locale/dexLocale"
+import Iconer from "App/Components/Iconer/Iconer";
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Pokedex/Pokedex"
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -43,7 +43,7 @@ const PokeRow = React.memo(function (props) {
 
                 <Iconer fileName={fileName} folderName="/pokemons/" size={36} />
 
-                <Link title={strings.dexentr + props.value.Title} className={classes.link} to={to}>
+                <Link title={`${strings.dexentr} ${props.value.Title}`} className={`${classes.link} ${classes.marginLeft}`} to={to}>
                     {props.value.Title}
                 </Link>
 
@@ -52,7 +52,7 @@ const PokeRow = React.memo(function (props) {
             <TableCell align="center">
                 <Iconer size={18} folderName="/type/" fileName={String(props.value.Type[0])} />
                 {props.value.Type.length > 1 &&
-                    <Iconer size={18} folderName="/type/" fileName={String(props.value.Type[1])} />}
+                    <Iconer className={classes.marginLeft} size={18} folderName="/type/" fileName={String(props.value.Type[1])} />}
             </TableCell>
 
             <TableCell align="center">{props.value.Generation}</TableCell>
@@ -66,3 +66,7 @@ const PokeRow = React.memo(function (props) {
 });
 
 export default PokeRow;
+
+PokeRow.propTypes = {
+    value: PropTypes.object.isRequired,
+};

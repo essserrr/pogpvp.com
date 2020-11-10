@@ -1,5 +1,7 @@
 export const dexLocale = {
     en: {
+        dexentr: "View dex for ",
+
         Atk: "Atk",
         Def: "Def",
         Sta: "Sta",
@@ -12,6 +14,8 @@ export const dexLocale = {
     },
 
     ru: {
+        dexentr: "Открыть декс для ",
+
         Atk: "Атк",
         Def: "Защ",
         Sta: "Здр",

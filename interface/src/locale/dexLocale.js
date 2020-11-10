@@ -22,7 +22,6 @@ export const dexLocale = {
 
         chm: "Charge move",
         qm: "Quick move",
-        used: "Pokemon with this move",
 
         dless: "Deal less damage to ",
         dmore: "Deal more damage to ",
