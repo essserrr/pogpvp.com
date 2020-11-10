@@ -7,12 +7,9 @@ export const dexLocale = {
         defFull: "Defence",
         staFull: "Stamina",
 
-        pokplace: "Search pokemon name",
 
-        helm: {
-            pdtitle: "Pokedex | PogPvP.com",
-            pddescr: "List of all currently available pokemon in Pokemon Go. Pokemon GO all generations pokemon. Pokemon GO PvP pokemon stats. Pokemon GO PvE stats. Pokemon GO pokemon movesets.",
-        },
+
+
 
         mdsdescr: " description in Pokemon Go",
         dexentr: "View dex for ",
@@ -60,12 +57,9 @@ export const dexLocale = {
         defFull: "Защита",
         staFull: "Здоровье",
 
-        pokplace: "Поиск по имени покемона",
 
-        helm: {
-            pdtitle: "Покедекс | PogPvP.com",
-            pddescr: "Список всех допустных в Pokemon Go покемонов. PvP параметры в Pokemon Go. PvE параметры в Pokemon Go. Мувсеты всех покеомонов в Pokemon Go",
-        },
+
+
 
         mdsdescr: " описание в Pokemon Go",
         dexentr: "Открыть декс для ",

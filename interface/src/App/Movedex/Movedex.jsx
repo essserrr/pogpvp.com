@@ -138,9 +138,6 @@ class Movedex extends React.Component {
                                         <Alert variant="filled" severity="error">{this.state.error}</Alert >
                                     </ Grid>}
 
-
-
-
                                 {this.state.showResult &&
                                     <>
                                         <Grid item xs={12}>
