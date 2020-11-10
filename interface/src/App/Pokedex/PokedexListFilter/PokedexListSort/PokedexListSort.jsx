@@ -1,77 +1,82 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PokedexListRender from "./PokedexListRender/PokedexListRender"
+import PokedexListRender from "./PokedexListRender/PokedexListRender";
 
-class PokedexListSort extends React.Component {
+const PokedexListSort = React.memo(function PokedexListSort(props) {
+    const { sort, children, ...other } = props
 
-    sortNumber() {
-        switch (this.props.sort.order) {
+    const sortNumber = () => {
+        switch (sort.order) {
             case true:
-                return this.props.children.sort((a, b) => {
-                    return b[1][this.props.sort.field] - a[1][this.props.sort.field]
+                return props.children.sort((a, b) => {
+                    return b[1][sort.field] - a[1][sort.field]
                 })
             default:
-                return this.props.children.sort((a, b) => {
-                    return a[1][this.props.sort.field] - b[1][this.props.sort.field]
+                return props.children.sort((a, b) => {
+                    return a[1][sort.field] - b[1][sort.field]
                 })
         }
     }
 
-    sortString() {
-        switch (this.props.sort.order) {
+    const sortString = () => {
+        switch (sort.order) {
             case true:
-                return this.props.children.sort((a, b) => {
-                    if (a[1][this.props.sort.field] > b[1][this.props.sort.field]) { return -1; }
-                    if (b[1][this.props.sort.field] > a[1][this.props.sort.field]) { return 1; }
+                return props.children.sort((a, b) => {
+                    if (a[1][sort.field] > b[1][sort.field]) { return -1; }
+                    if (b[1][sort.field] > a[1][sort.field]) { return 1; }
                     return 0;
                 })
             default:
-                return this.props.children.sort((a, b) => {
-                    if (a[1][this.props.sort.field] < b[1][this.props.sort.field]) { return -1; }
-                    if (b[1][this.props.sort.field] < a[1][this.props.sort.field]) { return 1; }
+                return props.children.sort((a, b) => {
+                    if (a[1][sort.field] < b[1][sort.field]) { return -1; }
+                    if (b[1][sort.field] < a[1][sort.field]) { return 1; }
                     return 0;
                 })
         }
     }
 
 
-    sortTypeArr() {
-        switch (this.props.sort.order) {
+    const sortTypeArr = () => {
+        switch (sort.order) {
             case true:
-                return this.props.children.sort((a, b) => {
-                    if (b[1][this.props.sort.field][0] === a[1][this.props.sort.field][0]) {
-                        if (b[1][this.props.sort.field].length > 1 && a[1][this.props.sort.field].length > 1) { return b[1][this.props.sort.field][1] - a[1][this.props.sort.field][1]; }
-                        if (b[1][this.props.sort.field].length > 1) { return 1 }
+                return props.children.sort((a, b) => {
+                    if (b[1][sort.field][0] === a[1][sort.field][0]) {
+                        if (b[1][sort.field].length > 1 && a[1][sort.field].length > 1) { return b[1][sort.field][1] - a[1][sort.field][1]; }
+                        if (b[1][sort.field].length > 1) { return 1 }
                         return -1
                     }
-                    return b[1][this.props.sort.field][0] - a[1][this.props.sort.field][0];
+                    return b[1][sort.field][0] - a[1][sort.field][0];
                 })
             default:
-                return this.props.children.sort((a, b) => {
-                    if (b[1][this.props.sort.field][0] === a[1][this.props.sort.field][0]) {
-                        if (b[1][this.props.sort.field].length > 1 && a[1][this.props.sort.field].length > 1) { return a[1][this.props.sort.field][1] - b[1][this.props.sort.field][1]; }
-                        if (a[1][this.props.sort.field].length > 1) { return 1 }
+                return props.children.sort((a, b) => {
+                    if (b[1][sort.field][0] === a[1][sort.field][0]) {
+                        if (b[1][sort.field].length > 1 && a[1][sort.field].length > 1) { return a[1][sort.field][1] - b[1][sort.field][1]; }
+                        if (a[1][sort.field].length > 1) { return 1 }
                         return -1
                     }
-                    return a[1][this.props.sort.field][0] - b[1][this.props.sort.field][0];
+                    return a[1][sort.field][0] - b[1][sort.field][0];
                 })
         }
 
     }
 
 
-    render() {
-        return (
-            <PokedexListRender
-                onClick={this.props.onClick}
-                sort={this.props.sort}
+    return (
+        <PokedexListRender sort={sort} {...other}>
+            {sort.type === "number" ? sortNumber() :
+                (sort.type === "array" ? sortTypeArr() : sortString())}
+        </PokedexListRender>
+    )
+});
 
-                list={this.props.sort.type === "number" ? this.sortNumber() :
-                    (this.props.sort.type === "array" ? this.sortTypeArr() : this.sortString())}
-                pokTable={this.props.pokTable}
-            />
-        );
-    }
-}
 
-export default PokedexListSort
+export default PokedexListSort;
+
+PokedexListSort.propTypes = {
+    pokTable: PropTypes.object,
+    children: PropTypes.array,
+
+    sort: PropTypes.object,
+    onClick: PropTypes.func,
+};

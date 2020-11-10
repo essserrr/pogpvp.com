@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 import MovedexListRender from "./MovedexListRender/MovedexListRender";
 
 const MovedexListSort = React.memo(function MovedexListSort(props) {
-    const { sort, onClick, ...other } = props
+    const { sort, children, ...other } = props
 
     const sortNumber = () => {
         switch (sort.order) {
             case true:
-                return props.children.sort((a, b) => {
+                return children.sort((a, b) => {
                     return b[1][sort.field] - a[1][sort.field]
                 })
             default:
-                return props.children.sort((a, b) => {
+                return children.sort((a, b) => {
                     return a[1][sort.field] - b[1][sort.field]
                 })
         }
@@ -22,13 +22,13 @@ const MovedexListSort = React.memo(function MovedexListSort(props) {
     const sortString = () => {
         switch (sort.order) {
             case true:
-                return props.children.sort((a, b) => {
+                return children.sort((a, b) => {
                     if (a[1][sort.field] > b[1][sort.field]) { return -1; }
                     if (b[1][sort.field] > a[1][sort.field]) { return 1; }
                     return 0;
                 })
             default:
-                return props.children.sort((a, b) => {
+                return children.sort((a, b) => {
                     if (a[1][sort.field] < b[1][sort.field]) { return -1; }
                     if (b[1][sort.field] < a[1][sort.field]) { return 1; }
                     return 0;
@@ -38,7 +38,7 @@ const MovedexListSort = React.memo(function MovedexListSort(props) {
 
 
     return (
-        <MovedexListRender onClick={onClick} sort={sort} {...other}>
+        <MovedexListRender sort={sort} {...other}>
             {sort.type === "number" ? sortNumber() : sortString()}
         </MovedexListRender>
     )
