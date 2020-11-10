@@ -7,6 +7,8 @@ import { connect } from "react-redux"
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
+
+
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
 import MainBlock from "./MainBlock/MainBlock"
@@ -199,14 +201,21 @@ class PokeCard extends React.Component {
                                             encodeURIComponent(this.state.scrollList[this.state.position + 1][0]) : null}
                                     />}
 
-                                <MainBlock
-                                    pokMisc={this.state.pokMisc}
-                                    value={this.state.pok}
-                                    moveTable={this.props.bases.moveBase}
-                                    pokTable={this.props.bases.pokemonBase}
-                                />
+                                <Grid item xs={12}>
+                                    <MainBlock pokMisc={this.state.pokMisc} value={this.state.pok}
+                                        moveTable={this.props.bases.moveBase} pokTable={this.props.bases.pokemonBase} />
+                                </Grid>
+
+
+
                                 {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
-                                    <DescrBlock value={this.state.pokMisc.Description} />}
+                                    <Grid item xs={12}>
+                                        <DescrBlock>
+                                            {this.state.pokMisc.Description}
+                                        </DescrBlock>
+                                    </Grid>}
+
+
                                 <RedirectBlock
                                     value={this.state.pok}
                                     moveTable={this.props.bases.moveBase}
