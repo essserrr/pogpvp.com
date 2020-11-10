@@ -42,6 +42,16 @@ const useStyles = makeStyles((theme) => ({
     cardText: {
         fontSize: "1.1em",
         fontWeight: "400",
+    },
+    downSMTextAlign: {
+        [theme.breakpoints.down('sm')]: {
+            textAlign: "center",
+        },
+    },
+    downSMJustify: {
+        [theme.breakpoints.down('sm')]: {
+            justifyContent: "center",
+        },
     }
 }));
 
@@ -69,7 +79,7 @@ const MainBlock = React.memo(function MainBlock(props) {
                     <Grid container>
                         <Typography className={classes.cardTitle}>{title}</Typography>
                     </Grid>}
-                <Grid container alignItems="center">
+                <Grid className={classes.downSMTextAlign} container alignItems="center">
 
                     <Grid item xs container spacing={1}>
 
@@ -80,7 +90,7 @@ const MainBlock = React.memo(function MainBlock(props) {
                                 </Box>
                             </Grid>}
 
-                        <Grid className={classes.cardText} item xs={12} container alignItems="center">
+                        <Grid className={`${classes.downSMJustify} ${classes.cardText}`} item xs={12} container alignItems="center">
                             <Box component="span" className={classes.cardText}>{`${strings.mt.tp}:`}</Box>
 
                             <Box component="span" ml={2}>
