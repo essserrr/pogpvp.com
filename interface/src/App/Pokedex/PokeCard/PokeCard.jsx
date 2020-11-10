@@ -39,7 +39,7 @@ class PokeCard extends React.Component {
             error: "",
             loading: false,
 
-            active: {},
+            active: { eff: true },
         };
         this.onClick = this.onClick.bind(this)
     }
@@ -155,11 +155,10 @@ class PokeCard extends React.Component {
         })
     }
 
-    onClick(event) {
-        let attr = event.target.getAttribute("attr")
+    onClick(event, attributes) {
         this.setState({
             active: {
-                [attr]: !this.state.active[attr],
+                [attributes.attr]: !this.state.active[attributes.attr],
             },
         })
     }
@@ -182,7 +181,10 @@ class PokeCard extends React.Component {
                                     <LinearProgress color="secondary" />
                                 </ Grid>}
 
-                            {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </ Grid>}
 
 
                             {this.state.showResult && this.state.pok &&
@@ -228,15 +230,22 @@ class PokeCard extends React.Component {
                                         <RedirectBlock value={this.state.pok} moveTable={this.props.bases.moveBase} pokTable={this.props.bases.pokemonBase} />
                                     </ Grid>
 
-                                    <SliderBlock
-                                        onClick={this.onClick}
-                                        active={this.state.active}
-                                        moveDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
-                                        evoDis={!(this.state.pokMisc && this.state.pokMisc.Family)}
-                                        othDis={!(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
-                                            (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                            this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))}
-                                    />
+                                    <Grid item xs={12}>
+                                        <SliderBlock
+                                            onClick={this.onClick}
+                                            active={[this.state.active.moves, this.state.active.evo, this.state.active.eff, this.state.active.cp, this.state.active.other,]}
+                                            attrs={["moves", "evo", "eff", "cp", "other"]}
+                                            disabled={[
+                                                !(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0),
+                                                !(this.state.pokMisc && this.state.pokMisc.Family),
+                                                false,
+                                                false,
+                                                !(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
+                                                    (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                                    this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))
+                                            ]}
+                                        />
+                                    </Grid>
 
                                     {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
                                         <UnmountClosed isOpened={this.state.active.moves}>

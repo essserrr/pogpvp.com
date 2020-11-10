@@ -20,10 +20,7 @@ export const dexLocale = {
         dmore: "Deal more damage to ",
 
         generation: "Generation",
-        movelist: "Moves",
-        evochart: "Evolution",
         cpcalc: "CP calculator",
-        otherinf: "Other",
 
         dabbr: "D",
         cdabbr: "CD",
@@ -62,17 +59,14 @@ export const dexLocale = {
 
         chm: "Заряжаемые умения",
         qm: "Быстрые умения",
-        vunlist: "Эффективность",
+
 
 
         dless: "Наносит меньше урона ",
         dmore: "Наносит больше урона ",
 
         generation: "Поколение",
-        movelist: "Умения",
-        evochart: "Эволюции",
         cpcalc: "Калькулятор CP",
-        otherinf: "Другое",
 
         dabbr: "У",
         cdabbr: "ПР",
