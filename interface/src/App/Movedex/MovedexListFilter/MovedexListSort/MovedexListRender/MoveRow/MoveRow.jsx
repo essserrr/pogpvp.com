@@ -1,7 +1,7 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
 import { Link } from "react-router-dom";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
@@ -104,5 +104,5 @@ const MoveRow = React.memo(function MoveRow(props) {
 export default MoveRow;
 
 MoveRow.propTypes = {
-    value: propTypes.object.isRequired,
+    value: PropTypes.object.isRequired,
 };

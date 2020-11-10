@@ -1,16 +1,17 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 
-import TableWithTitle from "./TableWithTitle/TableWithTitle"
+import TableWithTitle from "./TableWithTitle/TableWithTitle";
 import CommonPve from "./CommonPve/CommonPve";
 import CommonPvp from "./CommonPvp/CommonPvp";
 import ChargeMovePve from "./ChargeMove/ChargeMovePve";
 import ChargeMovePvp from "./ChargeMove/ChargeMovePvp";
 import QuickMovePve from "./QuickMove/QuickMovePve";
 import QuickMovePvp from "./QuickMove/QuickMovePvp";
-import MovedexChargeEnergy from "./MovedexChargeEnergy/MovedexChargeEnergy"
+import MovedexChargeEnergy from "./MovedexChargeEnergy/MovedexChargeEnergy";
 
 import { getCookie } from "js/getCookie";
 import { dexLocale } from "locale/Movedex/Movecard";
@@ -19,7 +20,7 @@ let strings = new LocalizedStrings(dexLocale);
 
 const CardBody = React.memo(function CardBody(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    const { MoveCategory } = props
+    const { MoveCategory } = props.move;
 
     return (
         <Grid container justify="center" spacing={1}>
@@ -56,3 +57,7 @@ const CardBody = React.memo(function CardBody(props) {
 });
 
 export default CardBody;
+
+CardBody.propTypes = {
+    move: PropTypes.object.isRequired,
+};

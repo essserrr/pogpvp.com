@@ -1,21 +1,30 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import { getCookie } from "js/getCookie"
-import { dexLocale } from "locale/Movedex/Movecard"
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
-let strings = new LocalizedStrings(dexLocale)
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Movedex/Movecard";
 
-const QuickMove = React.memo(function (props) {
+let strings = new LocalizedStrings(dexLocale);
+
+const QuickMovePve = React.memo(function QuickMovePve(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <tr>
-            <th className="align-middle  m-0 p-0 py-1" scope="row" >{strings.movecard.eps}</th>
-            <td className="align-middle  m-0 p-0 py-1" >{
-                (Math.abs(props.move.Energy) / (props.move.Cooldown / 1000)).toFixed(2)}</td>
-        </tr>
+        <TableRow>
+            <TableCell component="th" scope="row" >{strings.movecard.eps}</TableCell>
+            <TableCell align="center">
+                {(Math.abs(props.move.Energy) / (props.move.Cooldown / 1000)).toFixed(2)}
+            </TableCell>
+        </TableRow>
     )
 
 });
 
-export default QuickMove;
+export default QuickMovePve;
+
+QuickMovePve.propTypes = {
+    move: PropTypes.object.isRequired,
+};

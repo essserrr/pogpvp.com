@@ -1,9 +1,12 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import { getCookie } from "js/getCookie"
-import { dexLocale } from "locale/Movedex/Movecard"
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Movedex/Movecard";
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -21,15 +24,18 @@ const Effect = React.memo(function (props) {
         effect += strings.by + props.move.StageDelta
         effect += strings.of + strings[props.move.Subject]
     }
+
     return (
-        <>
-            <tr>
-                <th className="align-middle m-0 p-0 py-1" scope="row" >{strings.tip.ef}</th>
-                <td className="align-middle m-0 p-0 py-1" >{effect}</td>
-            </tr>
-        </>
+        <TableRow>
+            <TableCell component="th" scope="row" >{strings.tip.ef}</TableCell>
+            <TableCell align="center">{effect}</TableCell>
+        </TableRow>
     )
 
 });
 
 export default Effect;
+
+Effect.propTypes = {
+    move: PropTypes.object.isRequired,
+};

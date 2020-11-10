@@ -25,7 +25,7 @@ const useStyles = props => makeStyles(theme => {
     })
 });
 
-const MovedexChargeEnergy = React.memo(function (props) {
+const MovedexChargeEnergy = React.memo(function MovedexChargeEnergy(props) {
     const { Energy, MoveType } = props.move;
     const classes = useStyles({ type: MoveType })();
 
