@@ -29,13 +29,9 @@ class CustomRaidSettings extends React.PureComponent {
                     <DoubleSlider
                         onClick={this.props.onChange}
 
-                        attr1="userCollection"
-                        title1={pveStrings.selfFromColl}
-                        active1={this.props.value.FindInCollection}
-
-                        attr2="userGroups"
-                        title2={pveStrings.selfFromGtoup}
-                        active2={!this.props.value.FindInCollection}
+                        attrs={["userCollection", "userGroups"]}
+                        titles={[pveStrings.selfFromColl, pveStrings.selfFromGtoup]}
+                        active={[Boolean(this.props.value.FindInCollection), !this.props.value.FindInCollection]}
                     />
                 </div>
 

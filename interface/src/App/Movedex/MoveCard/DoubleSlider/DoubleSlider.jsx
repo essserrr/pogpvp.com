@@ -1,36 +1,57 @@
 import React from "react"
 import PropTypes from 'prop-types';
 
-import SliderBlock from "App/Components/SliderBlock/SliderBlock";
-import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
+import { makeStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+
+const useStyles = makeStyles((theme) => ({
+    tabs: {
+        display: "flex",
+        flexWrap: "wrap",
+    },
+    tab: {
+        flexBasis: "0",
+        flexGrow: "1",
+        maxWidth: "100%",
+
+        position: "relative",
+        lineHeight: "inherit",
+
+        backgroundColor: "transparent",
+
+        color: theme.palette.text.main,
+        fontWeight: 400,
+
+        "&:focus": {
+            outline: "none",
+        },
+    }
+}));
 
 const DoubleSlider = React.memo(function DoubleSlider(props) {
-    const { active1, active2, title1, title2, attr1, attr2, onClick } = props;
+    const { attrs, titles, active, onClick } = props;
+    const classes = useStyles();
+
+    const activeTab = active.indexOf(true);
 
     return (
-        <SliderBlock>
-            <SliderButton attr={attr1} toggled={active1} onClick={onClick}>
-                {title1}
-            </SliderButton>
+        <Tabs className={classes.tabs}
+            value={activeTab === -1 ? false : activeTab}
+            onChange={(event, value) => { onClick(event, { attr: attrs[value] }) }}
+        >
+            <Tab className={classes.tab} label={titles[0]} id={0} aria-controls="0" />
 
-            <SliderButton attr={attr2} toggled={active2} onClick={onClick}>
-                {title2}
-            </SliderButton>
-        </SliderBlock>
+            <Tab className={classes.tab} label={titles[1]} id={1} aria-controls="1" />
+        </Tabs>
     )
 });
 
 export default DoubleSlider;
 
 DoubleSlider.propTypes = {
-    active1: PropTypes.bool,
-    active2: PropTypes.bool,
-
-    title1: PropTypes.string,
-    title2: PropTypes.string,
-
-    attr1: PropTypes.string,
-    attr2: PropTypes.string,
-
+    active: PropTypes.arrayOf(PropTypes.bool),
+    titles: PropTypes.arrayOf(PropTypes.string),
+    attrs: PropTypes.arrayOf(PropTypes.string),
     onClick: PropTypes.func,
 };

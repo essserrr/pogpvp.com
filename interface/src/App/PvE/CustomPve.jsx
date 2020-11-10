@@ -131,7 +131,7 @@ class CustomPve extends React.PureComponent {
         });
     }
 
-    onChange(event, name) {
+    onChange(event, attributes, name) {
         //check if it`s a name change
         if (event.target === undefined) {
             switch (name.name[1]) {
@@ -153,6 +153,8 @@ class CustomPve extends React.PureComponent {
         let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
         let targetName = event.target.getAttribute ? event.target.getAttribute("name") : event.target.name
 
+        const attr = attributes.attr
+
         if (event.target.value === "Select...") {
             this.setState({
                 [role]: {
@@ -164,8 +166,8 @@ class CustomPve extends React.PureComponent {
             return
         }
         //check if it is mode change
-        if (role === "userCollection" || role === "userGroups") {
-            this.onChangeMode(role)
+        if (attr === "userCollection" || attr === "userGroups") {
+            this.onChangeMode(attr)
             return
         }
         //if it's an type change

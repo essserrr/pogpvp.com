@@ -13,7 +13,7 @@ import MovedexListFilter from "./MovedexListFilter/MovedexListFilter";
 import { getMoveBase } from "AppStore/Actions/getMoveBase";
 import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow";
 import MoveDescr from "./MoveDescr/MoveDescr";
-import DoubleSlider from "./MoveCard/DoubleSlider/DoubleSlider";
+import SliderBlock from "./SliderBlock/SliderBlock";
 import TypeRow from "./TypeRow/TypeRow";
 
 import { dexLocale } from "locale/Movedex/Movedex";
@@ -149,7 +149,7 @@ class Movedex extends React.Component {
                                         </Grid>
 
                                         <Grid item xs={12}>
-                                            <DoubleSlider
+                                            <SliderBlock
                                                 onClick={this.onFilter}
 
                                                 attr1="showCharge"

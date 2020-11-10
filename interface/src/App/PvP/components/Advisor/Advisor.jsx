@@ -62,10 +62,9 @@ class Advisor extends React.PureComponent {
     }
 
 
-    onSortChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onSortChange(event, attributes) {
         this.setState({
-            sortParam: attr,
+            sortParam: attributes.attr,
         })
     }
 
@@ -84,14 +83,9 @@ class Advisor extends React.PureComponent {
                 <div className="col-12 p-0 pb-2">
                     <DoubleSlider
                         onClick={this.onSortChange}
-
-                        attr1="zeros"
-                        title1={strings.buttons.byzeros}
-                        active1={this.state.sortParam === "zeros"}
-
-                        attr2="rating"
-                        title2={strings.buttons.byrating}
-                        active2={this.state.sortParam === "rating"}
+                        attrs={["zeros", "rating"]}
+                        titles={[strings.buttons.byzeros, strings.buttons.byrating]}
+                        active={[this.state.sortParam === "zeros", this.state.sortParam === "rating"]}
                     />
                 </div>
                 <div className="col-12 p-0 ">

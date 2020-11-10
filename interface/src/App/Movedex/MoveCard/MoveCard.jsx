@@ -30,7 +30,7 @@ class MoveCard extends React.Component {
             error: "",
             loading: false,
 
-            active: {},
+            active: { eff: true, },
         };
         this.onClick = this.onClick.bind(this)
     }
@@ -72,11 +72,10 @@ class MoveCard extends React.Component {
         }
     }
 
-    onClick(event) {
-        let attr = event.target.getAttribute("attr")
+    onClick(event, attributes) {
         this.setState({
             active: {
-                [attr]: !this.state.active[attr],
+                [attributes.attr]: !this.state.active[attributes.attr],
             },
         })
     }
@@ -118,8 +117,9 @@ class MoveCard extends React.Component {
                                     <Grid item xs={12}>
                                         <DoubleSlider
                                             onClick={this.onClick}
-                                            attr1="eff" title1={strings.vunlist} active1={Boolean(this.state.active.eff)}
-                                            attr2="use" title2={strings.used} active2={Boolean(this.state.active.use)}
+                                            attrs={["eff", "use"]}
+                                            titles={[strings.vunlist, strings.used]}
+                                            active={[Boolean(this.state.active.eff), Boolean(this.state.active.use)]}
                                         />
                                     </Grid>
 

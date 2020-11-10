@@ -142,14 +142,9 @@ class PveResult extends React.PureComponent {
                     {!this.props.customResult && <div className="col-12 mb-1 px-3">
                         <DoubleSlider
                             onClick={this.onSortChange}
-
-                            attr1="damage"
-                            title1={pvestrings.sortd}
-                            active1={this.state.param === "damage"}
-
-                            attr2="dps"
-                            title2={pvestrings.sortdps}
-                            active2={this.state.param === "dps"}
+                            attrs={["damage", "dps"]}
+                            titles={[pvestrings.sortd, pvestrings.sortdps]}
+                            active={[this.state.param === "damage", this.state.param === "dps"]}
                         />
                     </div>}
                     {!this.props.customResult &&
