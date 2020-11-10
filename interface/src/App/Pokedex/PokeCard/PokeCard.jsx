@@ -165,6 +165,8 @@ class PokeCard extends React.Component {
     }
 
     render() {
+        const { scrollList, position } = this.state;
+
         return (
             <>
                 <SiteHelm
@@ -181,111 +183,118 @@ class PokeCard extends React.Component {
                                 </ Grid>}
 
                             {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
-                            {this.state.showResult && this.state.pok && <>
-                                {this.state.scrollList && !(this.state.position === undefined) &&
-                                    <NavigationBlock
-                                        prevTitle={this.state.scrollList[this.state.position - 1] ?
-                                            <>{strings.dexentr}<br />
-                                                {"#" + this.state.scrollList[this.state.position - 1][1].Number + " " +
-                                                    this.state.scrollList[this.state.position - 1][0]}</> : null}
-                                        nextTitle={this.state.scrollList[this.state.position + 1] ?
-                                            <>{strings.dexentr}<br />
-                                                {"#" + this.state.scrollList[this.state.position + 1][1].Number + " " +
-                                                    this.state.scrollList[this.state.position + 1][0]}</> : null}
-
-                                        prev={this.state.scrollList[this.state.position - 1] ?
-                                            "/pokedex/id/" +
-                                            encodeURIComponent(this.state.scrollList[this.state.position - 1][0]) : null}
-                                        next={this.state.scrollList[this.state.position + 1] ?
-                                            "/pokedex/id/" +
-                                            encodeURIComponent(this.state.scrollList[this.state.position + 1][0]) : null}
-                                    />}
-
-                                <Grid item xs={12}>
-                                    <MainBlock pokMisc={this.state.pokMisc} value={this.state.pok}
-                                        moveTable={this.props.bases.moveBase} pokTable={this.props.bases.pokemonBase} />
-                                </Grid>
 
 
+                            {this.state.showResult && this.state.pok &&
+                                <>
+                                    {scrollList && position !== undefined &&
+                                        <Grid item xs={12}>
+                                            <NavigationBlock
+                                                prevTitle={
+                                                    scrollList[position - 1] ?
+                                                        <>
+                                                            {strings.dexentr}<br />
+                                                            {`#${scrollList[position - 1][1].Number} ${scrollList[position - 1][0]}`}
+                                                        </> : null}
 
-                                {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
+                                                nextTitle={
+                                                    scrollList[position + 1] ?
+                                                        <>
+                                                            {strings.dexentr}<br />
+                                                            {`#${scrollList[position + 1][1].Number} ${scrollList[position + 1][0]}`}
+                                                        </> : null}
+
+                                                prev={scrollList[position - 1] ?
+                                                    "/pokedex/id/" + encodeURIComponent(scrollList[position - 1][0]) : null}
+
+                                                next={scrollList[position + 1] ?
+                                                    "/pokedex/id/" + encodeURIComponent(scrollList[position + 1][0]) : null}
+                                            />
+                                        </Grid>}
+
                                     <Grid item xs={12}>
-                                        <DescrBlock>
-                                            {this.state.pokMisc.Description}
-                                        </DescrBlock>
-                                    </Grid>}
+                                        <MainBlock pokMisc={this.state.pokMisc} value={this.state.pok}
+                                            moveTable={this.props.bases.moveBase} pokTable={this.props.bases.pokemonBase} />
+                                    </Grid>
+
+                                    {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
+                                        <Grid item xs={12}>
+                                            <DescrBlock>
+                                                {this.state.pokMisc.Description}
+                                            </DescrBlock>
+                                        </Grid>}
 
 
-                                <RedirectBlock
-                                    value={this.state.pok}
-                                    moveTable={this.props.bases.moveBase}
-                                    pokTable={this.props.bases.pokemonBase}
-                                />
-                                <SliderBlock
-                                    onClick={this.onClick}
-                                    active={this.state.active}
-                                    moveDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
-                                    evoDis={!(this.state.pokMisc && this.state.pokMisc.Family)}
-                                    othDis={!(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
-                                        (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                        this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))}
-                                />
+                                    <RedirectBlock
+                                        value={this.state.pok}
+                                        moveTable={this.props.bases.moveBase}
+                                        pokTable={this.props.bases.pokemonBase}
+                                    />
+                                    <SliderBlock
+                                        onClick={this.onClick}
+                                        active={this.state.active}
+                                        moveDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
+                                        evoDis={!(this.state.pokMisc && this.state.pokMisc.Family)}
+                                        othDis={!(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
+                                            (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                            this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))}
+                                    />
 
-                                {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
-                                    <UnmountClosed isOpened={this.state.active.moves}>
+                                    {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
+                                        <UnmountClosed isOpened={this.state.active.moves}>
+                                            <div className={"row m-0"}>
+                                                {this.state.pok.QuickMoves.length > 0 &&
+                                                    <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
+                                                        moveTable={this.props.bases.moveBase} title={strings.qm} pok={this.state.pok} />}
+                                                {this.state.pok.ChargeMoves.length > 0 &&
+                                                    <MoveCol value={this.state.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
+                                                        moveTable={this.props.bases.moveBase} title={strings.chm} pok={this.state.pok} />}
+                                            </div>
+                                        </UnmountClosed>}
+
+                                    {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
+                                        <UnmountClosed isOpened={this.state.active.evo}>
+                                            <div className={"row m-0"}>
+                                                <EvoBlock
+                                                    miscTable={this.state.miscTable.Misc}
+                                                    pokTable={this.props.bases.pokemonBase}
+
+                                                    value={this.state.miscTable.Families[this.state.pokMisc.Family]}
+                                                    familyName={this.state.pokMisc.Family}
+                                                />
+                                            </div>
+                                        </UnmountClosed>}
+
+                                    <UnmountClosed isOpened={this.state.active.eff}>
                                         <div className={"row m-0"}>
-                                            {this.state.pok.QuickMoves.length > 0 &&
-                                                <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
-                                                    moveTable={this.props.bases.moveBase} title={strings.qm} pok={this.state.pok} />}
-                                            {this.state.pok.ChargeMoves.length > 0 &&
-                                                <MoveCol value={this.state.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
-                                                    moveTable={this.props.bases.moveBase} title={strings.chm} pok={this.state.pok} />}
+                                            <EffTable
+                                                type={this.state.pok.Type}
+                                                reverse={this.props.reverse}
+                                            />
                                         </div>
-                                    </UnmountClosed>}
+                                    </UnmountClosed>
 
-                                {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
-                                    <UnmountClosed isOpened={this.state.active.evo}>
-                                        <div className={"row m-0"}>
-                                            <EvoBlock
-                                                miscTable={this.state.miscTable.Misc}
+                                    <UnmountClosed isOpened={this.state.active.cp}>
+                                        <div className={"pokedex-card--font row m-0 "}>
+                                            <div className="col-12 p-0 text-center">{strings.entparams}</div>
+                                            <CpBlock
+                                                pok={this.state.pok}
+                                                locale={strings.cpcalc}
                                                 pokTable={this.props.bases.pokemonBase}
-
-                                                value={this.state.miscTable.Families[this.state.pokMisc.Family]}
-                                                familyName={this.state.pokMisc.Family}
                                             />
                                         </div>
-                                    </UnmountClosed>}
+                                    </UnmountClosed>
 
-                                <UnmountClosed isOpened={this.state.active.eff}>
-                                    <div className={"row m-0"}>
-                                        <EffTable
-                                            type={this.state.pok.Type}
-                                            reverse={this.props.reverse}
-                                        />
-                                    </div>
-                                </UnmountClosed>
-
-                                <UnmountClosed isOpened={this.state.active.cp}>
-                                    <div className={"pokedex-card--font row m-0 "}>
-                                        <div className="col-12 p-0 text-center">{strings.entparams}</div>
-                                        <CpBlock
-                                            pok={this.state.pok}
-                                            locale={strings.cpcalc}
-                                            pokTable={this.props.bases.pokemonBase}
-                                        />
-                                    </div>
-                                </UnmountClosed>
-
-                                {this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                    this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)) &&
-                                    <UnmountClosed isOpened={this.state.active.other}>
-                                        <div className={"row m-0"}>
-                                            <OtherTable
-                                                value={this.state.pokMisc}
-                                            />
-                                        </div>
-                                    </UnmountClosed>}
-                            </>}
+                                    {this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                        this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)) &&
+                                        <UnmountClosed isOpened={this.state.active.other}>
+                                            <div className={"row m-0"}>
+                                                <OtherTable
+                                                    value={this.state.pokMisc}
+                                                />
+                                            </div>
+                                        </UnmountClosed>}
+                                </>}
                         </div>
                     </div>
                 </div >

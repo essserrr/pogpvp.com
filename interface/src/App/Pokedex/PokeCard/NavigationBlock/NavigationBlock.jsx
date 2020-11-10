@@ -16,6 +16,7 @@ const NavigationBlock = React.memo(function (props) {
         return "flex-end"
     }
 
+    console.log(props)
     return (
         <Grid container justify={buttonsConfig()}>
             {props.prev &&
@@ -43,6 +44,12 @@ NavigationBlock.propTypes = {
     prev: PropTypes.string,
     next: PropTypes.string,
 
-    prevTitle: PropTypes.string,
-    nextTitle: PropTypes.string,
-};
+    prevTitle: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+    nextTitle: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+}
