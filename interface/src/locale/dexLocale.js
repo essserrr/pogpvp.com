@@ -3,10 +3,6 @@ export const dexLocale = {
         Atk: "Atk",
         Def: "Def",
         Sta: "Sta",
-        atkFull: "Attack",
-        defFull: "Defence",
-        staFull: "Stamina",
-
 
 
 
@@ -53,9 +49,6 @@ export const dexLocale = {
         Atk: "Атк",
         Def: "Защ",
         Sta: "Здр",
-        atkFull: "Атака",
-        defFull: "Защита",
-        staFull: "Здоровье",
 
 
 

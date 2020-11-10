@@ -9,7 +9,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import IconBlock from "./IconBlock/IconBlock"
+import MainBlock from "./MainBlock/MainBlock"
 import MoveCol from "./MoveBlock/MoveCol"
 import EffTable from "./EffBlock/EffTable"
 import CpBlock from "./CpBlock/CpBlock"
@@ -28,8 +28,8 @@ import "./PokeCard.scss"
 let strings = new LocalizedStrings(dexLocale);
 
 class PokeCard extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,
@@ -199,7 +199,7 @@ class PokeCard extends React.Component {
                                             encodeURIComponent(this.state.scrollList[this.state.position + 1][0]) : null}
                                     />}
 
-                                <IconBlock
+                                <MainBlock
                                     pokMisc={this.state.pokMisc}
                                     value={this.state.pok}
                                     moveTable={this.props.bases.moveBase}
