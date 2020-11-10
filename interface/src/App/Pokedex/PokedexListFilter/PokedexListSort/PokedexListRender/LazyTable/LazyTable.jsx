@@ -1,5 +1,6 @@
 import React from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import PropTypes from 'prop-types';
 
 import { withStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
@@ -8,7 +9,7 @@ import TableBody from '@material-ui/core/TableBody';
 const styles = theme => ({
     table: {
         "& td": {
-            padding: `${theme.spacing(1)}px`,
+            padding: `${theme.spacing(0.5)}px`,
         },
         "& th": {
             padding: `${theme.spacing(1)}px`,
@@ -80,3 +81,10 @@ class LazyTable extends React.PureComponent {
 }
 
 export default withStyles(styles, { withTheme: true })(LazyTable);
+
+LazyTable.propTypes = {
+    thead: PropTypes.node,
+    activeFilter: PropTypes.object,
+    elementsOnPage: PropTypes.number,
+    children: PropTypes.arrayOf(PropTypes.node),
+};
