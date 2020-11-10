@@ -30,7 +30,20 @@ const useStyles = makeStyles((theme) => ({
         "&:focus": {
             outline: "none",
         },
-    }
+    },
+    buttonSpacing: {
+        paddingLeft: "5px",
+        paddingRight: "5px",
+
+        "@media (max-width: 768px)": {
+            paddingLeft: "2px",
+            paddingRight: "2px",
+        },
+        "@media (max-width: 576px)": {
+            paddingLeft: "1px",
+            paddingRight: "1px",
+        },
+    },
 }));
 
 const SliderButton = React.memo(function SliderButton(props) {
@@ -39,7 +52,7 @@ const SliderButton = React.memo(function SliderButton(props) {
 
     return (
         <button
-            className={`${classes.sliderButton} ${className ? className : ""}`}
+            className={`${classes.sliderButton} ${classes.buttonSpacing} ${className ? className : ""}`}
             attr={attr}
             toggled={String(toggled)}
             onClick={onClick}

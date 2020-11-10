@@ -1,42 +1,42 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
 import SliderBlock from "App/Components/SliderBlock/SliderBlock";
 import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
-import "./GenRow.scss"
-
-const GenRow = React.memo(function (props) {
+const GenRow = React.memo(function GenRow(props) {
+    const { filter, onFilter } = props;
 
     return (
         <SliderBlock>
-            <SliderButton className={"genslider-group__button"} attr="gen1" toggled={!!props.filter.gen1} onClick={props.onFilter}>
+            <SliderButton attr="gen1" toggled={!!filter.gen1} onClick={onFilter}>
                 {"# " + 1}
             </SliderButton>
-            <SliderButton className={"genslider-group__button"} attr="gen2" toggled={!!props.filter.gen2} onClick={props.onFilter}>
+            <SliderButton attr="gen2" toggled={!!filter.gen2} onClick={onFilter}>
                 {"# " + 2}
             </SliderButton>
 
-            <SliderButton className={"genslider-group__button"} attr="gen3" toggled={!!props.filter.gen3} onClick={props.onFilter}>
+            <SliderButton attr="gen3" toggled={!!filter.gen3} onClick={onFilter}>
                 {"# " + 3}
             </SliderButton>
 
-            <SliderButton className={"genslider-group__button"} attr="gen4" toggled={!!props.filter.gen4} onClick={props.onFilter}>
+            <SliderButton attr="gen4" toggled={!!filter.gen4} onClick={onFilter}>
                 {"# " + 4}
             </SliderButton>
 
-            <SliderButton className={"genslider-group__button"} attr="gen5" toggled={!!props.filter.gen5} onClick={props.onFilter}>
+            <SliderButton attr="gen5" toggled={!!filter.gen5} onClick={onFilter}>
                 {"# " + 5}
             </SliderButton>
 
-            <SliderButton className={"genslider-group__button"} attr="gen6" toggled={!!props.filter.gen6} onClick={props.onFilter}>
+            <SliderButton attr="gen6" toggled={!!filter.gen6} onClick={onFilter}>
                 {"# " + 6}
             </SliderButton>
 
-            <SliderButton className={"genslider-group__button"} attr="gen7" toggled={!!props.filter.gen7} onClick={props.onFilter}>
+            <SliderButton attr="gen7" toggled={!!filter.gen7} onClick={onFilter}>
                 {"# " + 7}
             </SliderButton>
 
-            <SliderButton className={"genslider-group__button"} attr="gen8" toggled={!!props.filter.gen8} onClick={props.onFilter}>
+            <SliderButton attr="gen8" toggled={!!filter.gen8} onClick={onFilter}>
                 {"# " + 8}
             </SliderButton>
         </SliderBlock>
@@ -45,3 +45,8 @@ const GenRow = React.memo(function (props) {
 });
 
 export default GenRow;
+
+GenRow.propTypes = {
+    filter: PropTypes.object.isRequired,
+    onFilter: PropTypes.func.isRequired,
+};
