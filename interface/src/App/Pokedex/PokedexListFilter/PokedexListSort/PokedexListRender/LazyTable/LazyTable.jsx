@@ -1,8 +1,24 @@
 import React from "react";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
+import { withStyles } from "@material-ui/core/styles";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+
+const styles = theme => ({
+    table: {
+        "& td": {
+            padding: `${theme.spacing(1)}px`,
+        },
+        "& th": {
+            padding: `${theme.spacing(1)}px`,
+            "& .MuiTableSortLabel-icon": {
+                marginLeft: 0,
+                marginRight: 0,
+            }
+        },
+    },
+});
 
 class LazyTable extends React.PureComponent {
     constructor(props) {
@@ -42,6 +58,8 @@ class LazyTable extends React.PureComponent {
 
 
     render() {
+        const { classes } = this.props;
+
         return (
             <InfiniteScroll
                 style={{ overflow: "visible" }}
@@ -50,7 +68,7 @@ class LazyTable extends React.PureComponent {
                 hasMore={this.state.isNext}
                 scrollThreshold={0.75}
             >
-                <Table style={{ tableLayout: 'auto' }}>
+                <Table className={classes.table}>
                     {this.props.thead}
                     <TableBody>
                         {this.state.infiniteList}
@@ -61,4 +79,4 @@ class LazyTable extends React.PureComponent {
     }
 }
 
-export default LazyTable
+export default withStyles(styles, { withTheme: true })(LazyTable);

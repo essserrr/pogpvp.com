@@ -20,13 +20,6 @@ const useStyles = makeStyles((theme) => ({
     borderLeft: {
         borderLeft: `1px solid ${theme.palette.tableCell.main}`,
     },
-    td: {
-        padding: `${theme.spacing(1)}px`,
-        "& .MuiTableSortLabel-icon": {
-            marginLeft: 0,
-            marginRight: 0,
-        }
-    },
 }));
 
 const TableThead = React.memo(function TableThead(props) {
@@ -37,19 +30,19 @@ const TableThead = React.memo(function TableThead(props) {
     return (
         <TableHead>
             <TableRow>
-                <TheadCell className={`${classes.td}`} width="5%" coltype="string" name="Title" scope="col" align='left' onClick={props.onClick}
+                <TheadCell width="5%" coltype="string" name="Title" scope="col" align='left' onClick={props.onClick}
                     isSelected={props.active.field === "Title"} order={order}
                 >
                     {strings.mt.n}
                 </TheadCell>
 
-                <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="MoveType" scope="col" align='center' onClick={props.onClick}
+                <TheadCell width="5%" coltype="number" name="MoveType" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "MoveType"} order={order}
                 >
                     {strings.mt.tp}
                 </TheadCell>
 
-                <TheadCell className={`${classes.td} ${classes.borderLeft}`} width="5%" coltype="number" name="Damage" scope="col" align='center' onClick={props.onClick}
+                <TheadCell className={classes.borderLeft} width="5%" coltype="number" name="Damage" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Damage"} order={order}
                 >
                     <Tooltip placement="top" arrow title={<Typography>{strings.tip.rd}</Typography>}>
@@ -57,7 +50,7 @@ const TableThead = React.memo(function TableThead(props) {
                     </Tooltip>
                 </TheadCell>
 
-                <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="Energy" scope="col" align='center' onClick={props.onClick}
+                <TheadCell width="5%" coltype="number" name="Energy" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Energy"} order={order}
                 >
                     <Tooltip placement="top" arrow title={<Typography>{strings.tip.re}</Typography>}>
@@ -65,7 +58,7 @@ const TableThead = React.memo(function TableThead(props) {
                     </Tooltip>
                 </TheadCell>
 
-                <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="Cooldown" scope="col" align='center' onClick={props.onClick}
+                <TheadCell width="5%" coltype="number" name="Cooldown" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Cooldown"} order={order}
                 >
                     <Tooltip placement="top" arrow title={<Typography>{strings.tip.cd}</Typography>}>
@@ -73,7 +66,7 @@ const TableThead = React.memo(function TableThead(props) {
                     </Tooltip>
                 </TheadCell>
 
-                <TheadCell className={`${classes.td} ${classes.borderLeft}`} width="5%" coltype="number" name="PvpDamage" scope="col" align='center' onClick={props.onClick}
+                <TheadCell className={classes.borderLeft} width="5%" coltype="number" name="PvpDamage" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "PvpDamage"} order={order}
                 >
                     <Tooltip placement="top" arrow title={<Typography>{strings.tip.pd}</Typography>}>
@@ -81,7 +74,7 @@ const TableThead = React.memo(function TableThead(props) {
                     </Tooltip>
                 </TheadCell>
 
-                <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="PvpEnergy" scope="col" align='center' onClick={props.onClick}
+                <TheadCell width="5%" coltype="number" name="PvpEnergy" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "PvpEnergy"} order={order}
                 >
                     <Tooltip placement="top" arrow title={<Typography>{strings.tip.pe}</Typography>}>
@@ -89,7 +82,7 @@ const TableThead = React.memo(function TableThead(props) {
                     </Tooltip>
                 </TheadCell>
 
-                <TheadCell className={`${classes.td}`} width="5%" coltype="number" name="PvpDurationSeconds" scope="col" align='center' onClick={props.onClick}
+                <TheadCell width="5%" coltype="number" name="PvpDurationSeconds" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "PvpDurationSeconds"} order={order}
                 >
                     <Tooltip placement="top" arrow title={<Typography>{strings.tip.dr}</Typography>}>
@@ -97,7 +90,7 @@ const TableThead = React.memo(function TableThead(props) {
                     </Tooltip>
                 </TheadCell>
 
-                <TheadCell className={`${classes.td}`} width="50%" coltype="string" name="Subject" scope="col" align='center' onClick={props.onClick}
+                <TheadCell width="50%" coltype="string" name="Subject" scope="col" align='center' onClick={props.onClick}
                     isSelected={props.active.field === "Subject"} order={order}
                 >
                     <Tooltip placement="top" arrow title={<Typography>{strings.tip.ef}</Typography>}>
