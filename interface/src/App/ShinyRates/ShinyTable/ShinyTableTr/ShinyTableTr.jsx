@@ -8,6 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import Iconer from "App/Components/Iconer/Iconer";
+import useAnimation from "css/hoverAnimation";
 
 import { locale } from "locale/ShinyRates/ShinyRates";
 import { getCookie } from "js/getCookie";
@@ -23,39 +24,12 @@ const useStyles = makeStyles((theme) => ({
             textDecoration: "underline",
         },
     },
-    tr: {
-        position: "relative",
-        "-webkit-transition": 'all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)',
-        transition: "all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)",
-        "&::after": {
-            content: '""',
-            borderRadius: "5px",
-            position: "absolute",
-            zIndex: -1,
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            boxShadow: "0 5px 15px rgba(0, 0, 0, 0.3)",
-            opacity: 0,
-            "-webkit-transition": 'all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)',
-            transition: "all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)",
-        },
-
-        "&:hover": {
-            transform: "scale(1.02, 1.02)",
-            "-webkit-transform": "scale(1.02, 1.02)",
-        },
-        "&:hover::after": {
-            opacity: 1,
-            display: "block",
-        }
-    },
 }));
 
 const ShinyTableTr = React.memo(function ShinyTableTr(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
     const classes = useStyles();
+    const animation = useAnimation();
     const pokemon = props.pokTable[props.pok.Name];
 
     function processRate(chance) {
@@ -91,7 +65,7 @@ const ShinyTableTr = React.memo(function ShinyTableTr(props) {
     }
 
     return (
-        <TableRow className={classes.tr}>
+        <TableRow className={animation.animation}>
             <TableCell component="th" scope="row" align="left">
                 <Iconer
                     fileName={pokemon.Number + (pokemon.Forme !== "" ? "-" + pokemon.Forme : "")}
