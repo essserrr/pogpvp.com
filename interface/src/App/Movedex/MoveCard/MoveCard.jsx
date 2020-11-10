@@ -1,31 +1,28 @@
-import React from "react"
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "../../SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
 
 import CardBody from './CardBody/CardBody';
 import MoveCardTitle from "./MoveCardTitle/MoveCardTitle";
 import SliderBody from "./SliderBody/SliderBody";
-import { dexLocale } from "../../../locale/dexLocale"
-import { getCookie } from "../../../js/getCookie"
-import DoubleSlider from "./DoubleSlider/DoubleSlider"
-
-import "./MoveCard.scss"
+import { dexLocale } from "locale/Movedex/Movecard";
+import { getCookie } from "js/getCookie";
+import DoubleSlider from "./DoubleSlider/DoubleSlider";
 
 let strings = new LocalizedStrings(dexLocale);
 
 class MoveCard extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,

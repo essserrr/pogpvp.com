@@ -19,11 +19,9 @@ export const dexLocale = {
         loading: "Loading...",
 
         pokerr: "Pokemon not found",
-        moveerr: "Move not found",
 
         chm: "Charge move",
         qm: "Quick move",
-        vunlist: "Effectiveness",
         used: "Pokemon with this move",
 
         dless: "Deal less damage to ",
@@ -76,12 +74,11 @@ export const dexLocale = {
 
 
         pokerr: "Покемон не найден",
-        moveerr: "Умение не найдено",
 
         chm: "Заряжаемые умения",
         qm: "Быстрые умения",
         vunlist: "Эффективность",
-        used: "Покемоны с этим умением",
+
 
         dless: "Наносит меньше урона ",
         dmore: "Наносит больше урона ",

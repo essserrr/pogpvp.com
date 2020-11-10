@@ -1,5 +1,11 @@
 export const dexLocale = {
     en: {
+        vunlist: "Effectiveness",
+        used: "Pokemon with this move",
+        mdsdescr: " description in Pokemon Go",
+
+        moveerr: "Move not found",
+
         Atk: "Atk",
         Def: "Def",
         Sta: "Sta",
@@ -41,6 +47,12 @@ export const dexLocale = {
     },
 
     ru: {
+        vunlist: "Эффективность",
+        used: "Покемоны с этим умением",
+        mdsdescr: " описание в Pokemon Go",
+
+        moveerr: "Умение не найдено",
+
         Atk: "Атк",
         Def: "Защ",
         Sta: "Здр",
