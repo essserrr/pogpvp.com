@@ -1,5 +1,8 @@
 export const dexLocale = {
     en: {
+        pvpwith: "Use pokemon in PvP",
+        pvewith: "Battle vs pokemon in raid",
+
         generation: "Generation",
 
         mt: {
@@ -10,7 +13,11 @@ export const dexLocale = {
     },
 
     ru: {
+        pvpwith: "Использовать покемона в PvP",
+        pvewith: "Рейд против этого покемона",
+
         generation: "Поколение",
+
         mt: {
 
             n: "Имя",

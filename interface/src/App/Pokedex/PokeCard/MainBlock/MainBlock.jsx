@@ -93,12 +93,12 @@ const MainBlock = React.memo(function MainBlock(props) {
                         <Grid className={`${classes.downSMJustify} ${classes.cardText}`} item xs={12} container alignItems="center">
                             <Box component="span" className={classes.cardText}>{`${strings.mt.tp}:`}</Box>
 
-                            <Box component="span" ml={2}>
+                            <Box component="span" ml={1}>
                                 <Iconer size={24} folderName="/type/" fileName={String(props.value.Type[0])} />
                             </Box>
 
                             {props.value.Type.length > 1 &&
-                                <Box component="span" ml={2}>
+                                <Box component="span" ml={1}>
                                     <Iconer size={24} folderName="/type/" fileName={String(props.value.Type[1])}
                                     />
                                 </Box>}

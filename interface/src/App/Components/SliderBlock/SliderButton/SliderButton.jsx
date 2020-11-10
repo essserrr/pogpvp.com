@@ -19,11 +19,18 @@ const useStyles = makeStyles((theme) => ({
         borderWidth: "2px 0px 2px 0px",
         borderStyle: "solid",
 
-        color: theme.palette.text.main,
+        color: theme.palette.text.primary,
         fontWeight: 400,
 
         "-webkit-transition": "all 0.4s linear",
         transition: "all 0.4s linear",
+
+        "& a": {
+            color: theme.palette.text.primary,
+            "&:hover": {
+                color: theme.palette.text.primary,
+            },
+        },
 
         "&[toggled=true]": {
             borderColor: theme.palette.secondary.main,
@@ -77,8 +84,6 @@ const useStyles = makeStyles((theme) => ({
             transition: "all 0.4s linear",
         },
     },
-
-
     buttonSpacing: {
         paddingLeft: "5px",
         paddingRight: "5px",
@@ -95,15 +100,20 @@ const useStyles = makeStyles((theme) => ({
             paddingRight: "1px",
         },
     },
+    hoverable: {
+        "&:hover": {
+            backgroundColor: lighten(theme.palette.primary.main, 0.3),
+        },
+    }
 }));
 
 const SliderButton = React.memo(function SliderButton(props) {
     const classes = useStyles();
-    const { className, attr, onClick, children, toggled, ...other } = props;
+    const { className, attr, onClick, children, toggled, hoverable, ...other } = props;
 
     return (
         <button
-            className={`${classes.sliderButton} ${classes.buttonSpacing} ${className ? className : ""}`}
+            className={`${classes.sliderButton} ${classes.buttonSpacing} ${hoverable ? classes.hoverable : ""} ${className ? className : ""}`}
             attr={attr}
             toggled={String(toggled)}
             onClick={onClick}
@@ -120,6 +130,7 @@ SliderButton.propTypes = {
     className: PropTypes.string,
     attr: PropTypes.string,
     toggled: PropTypes.bool.isRequired,
+    hoverable: PropTypes.bool,
 
     onClick: PropTypes.func,
     children: PropTypes.oneOfType([

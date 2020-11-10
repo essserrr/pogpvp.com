@@ -41,8 +41,7 @@ export const dexLocale = {
             sec: "Second charge cost",
         },
 
-        pvpwith: "Use pokemon in PvP",
-        pvewith: "Battle vs pokemon in raid",
+
     },
 
     ru: {
@@ -91,7 +90,6 @@ export const dexLocale = {
             sec: "Стоимость второго чарджа",
         },
 
-        pvpwith: "Использовать покемона в PvP",
-        pvewith: "Рейд против этого покемона",
+
     }
 }

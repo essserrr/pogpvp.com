@@ -224,12 +224,10 @@ class PokeCard extends React.Component {
                                             </DescrBlock>
                                         </Grid>}
 
+                                    <Grid item xs={12}>
+                                        <RedirectBlock value={this.state.pok} moveTable={this.props.bases.moveBase} pokTable={this.props.bases.pokemonBase} />
+                                    </ Grid>
 
-                                    <RedirectBlock
-                                        value={this.state.pok}
-                                        moveTable={this.props.bases.moveBase}
-                                        pokTable={this.props.bases.pokemonBase}
-                                    />
                                     <SliderBlock
                                         onClick={this.onClick}
                                         active={this.state.active}

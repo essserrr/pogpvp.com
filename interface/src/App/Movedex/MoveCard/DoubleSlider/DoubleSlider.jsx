@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
         backgroundColor: "transparent",
 
-        color: theme.palette.text.main,
+        color: theme.palette.text.primary,
         fontWeight: 400,
 
         "&:focus": {
