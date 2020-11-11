@@ -59,7 +59,7 @@ BossPanel.propTypes = {
         PropTypes.string,
         PropTypes.node,
     ]),
-    attr: PropTypes.node,
+    attr: PropTypes.string,
 
     pokemonTable: PropTypes.object.isRequired,
     moveTable: PropTypes.object.isRequired,

@@ -22,7 +22,7 @@ PokemonPanel.propTypes = {
         PropTypes.node,
     ]),
     canBeShadow: PropTypes.bool,
-    attr: PropTypes.node,
+    attr: PropTypes.string,
 
     pokemonTable: PropTypes.object.isRequired,
     moveTable: PropTypes.object.isRequired,

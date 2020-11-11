@@ -24,48 +24,21 @@ export const pveLocale = {
         bosshp: "Boss HP:",
 
         tier: "\xa0\xa0Raid tier\xa0\xa0",
-        aggreasive: "\xa0\xa0\xa0\xa0Mode\xa0\xa0\xa0\xa0\xa0",
-        playernumb: "\xa0\xa0\xa0Players\xa0\xa0\xa0",
-        partysize: "\xa0Pokemon\xa0",
-        weather: "\xa0\xa0Weather\xa0\xa0",
         dodge: "\xa0\xa0\xa0\xa0Dodge\xa0\xa0\xa0",
-        friend: "Friendship",
 
 
         tierlist: "Tier",
         mega: "Mega Raids",
-        sizetip: "Number of groups of pokemon",
 
-        playernumbTip: "Expected number of players. The more players, the faster a boss accumulates energy, the stronger and more often he hits.",
 
         player: "Player",
-        party: "group",
         parties: "groups",
         none: "None",
-
-        weatherList: {
-            0: "Extreme",
-            1: "Sunny",
-            2: "Rainy",
-            3: "Partly cloudy",
-            4: "Cloudy",
-            5: "Windy",
-            6: "Snowy",
-            7: "Foggy",
-        },
 
         dodgeList: "No dodge",
         dodgetip: "Dodge chance shows the amount of cases in which pokemon will successfully dodge a boss next charge attack.",
 
 
-        friendList: {
-            no: "No bonus",
-            good: "Good",
-            great: "Great",
-            ultra: "Ultra",
-            best: "Best",
-            ev: " (Friendship event)"
-        },
 
         customsort: {
             dmg: "Find counters by damage dealt",
@@ -123,47 +96,21 @@ export const pveLocale = {
         bosshp: "HP босса:",
 
         tier: "\xa0\xa0\xa0\xa0Уровень\xa0\xa0\xa0\xa0",
-        aggreasive: "\xa0\xa0\xa0\xa0\xa0Режим\xa0\xa0\xa0\xa0\xa0\xa0",
-        playernumb: "\xa0\xa0\xa0\xa0Игроки\xa0\xa0\xa0",
-        partysize: "Покемоны",
         dodge: "Уклонения",
-        weather: "\xa0\xa0\xa0\xa0Погода\xa0\xa0\xa0",
-        friend: "\xa0\xa0\xa0Дружба\xa0\xa0\xa0",
 
         tierlist: "Уровень",
         mega: "Мега рейды",
-        sizetip: "Число групп покемонов",
 
-        playernumbTip: "Ожидаемое число игрков в рейде. Чем более игроков, тем быстрее босс накапливает энергию, тем сильнее и чаще он бьет.",
 
         player: "Игрок",
-        party: "группа",
         parties: "группы",
         none: "Нет",
-
-        weatherList: {
-            0: "Экстремальная",
-            1: "Солнечная",
-            2: "Дождливая",
-            3: "Перемнно-облачная",
-            4: "Облачная",
-            5: "Ветреная",
-            6: "Снежная",
-            7: "Туманная",
-        },
 
 
         dodgeList: "Без уклонений",
         dodgetip: "Шанс на уклонение показывает количество случаев, в которых покемон успешно увернется от заражаемой атаки босса.",
 
-        friendList: {
-            no: "Без бонуса",
-            good: "Гуд",
-            great: "Грейт",
-            ultra: "Ультра",
-            best: "Бест",
-            ev: " (Ивент на дружбу)"
-        },
+
 
         customsort: {
             dmg: "Подобрать группу по нанесенному урону",
