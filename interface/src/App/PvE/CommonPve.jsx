@@ -5,8 +5,9 @@ import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import SimulatorPanel from "./Components/SimulatorPanel"
-import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
+import Button from "App/Components/Button/Button"
 import PveResult from "./Components/PveResult/PveResult"
 
 import { MovePoolBuilder } from "js/movePoolBuilder"
@@ -271,9 +272,10 @@ class CommonPve extends React.PureComponent {
 
     render() {
         return (
-            < >
-                <div className="row justify-content-center m-0 mb-4"  >
-                    <div className="commonpve__settings-panel col-12 col-md-10 col-lg-6 py-1 py-sm-2 px-0 px-sm-1" >
+            <Grid container justify="center" spacing={3}>
+
+                <Grid item xs={12}>
+                    <GreyPaper elevation={4} enablePadding>
                         <SimulatorPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -286,25 +288,30 @@ class CommonPve extends React.PureComponent {
                             onChange={this.onChange}
                             onClick={this.onClick}
                         />
+                    </GreyPaper>
+                </Grid>
 
-                    </div>
-                    {this.state.isError &&
-                        <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
-                            <Alert variant="filled" severity="error">{this.state.error}</Alert ></div>}
-                    <div className="col-12 d-flex justify-content-center p-0 my-1" >
-                        <SubmitButton action="Calculate" onSubmit={this.submitForm} class="btn btn-primary"
-                        >
-                            {strings.buttons.calculate}
-                        </SubmitButton>
-                    </div>
+                <Grid item xs={12} container justify="center">
+                    <Button
+                        onClick={this.submitForm}
+                        title={strings.buttons.calculate}
+                        endIcon={<i class="fa fa-calculator" aria-hidden="true"></i>}
+                    />
+                </Grid>
 
-                    {this.state.loading &&
-                        <Grid item xs={12}>
-                            <LinearProgress color="secondary" />
-                        </ Grid>}
+                {this.state.isError &&
+                    <Grid item xs={12}>
+                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                    </Grid>}
 
-                    {this.state.showResult && this.state.result && this.state.result.length > 0 &&
-                        <div className="commonpve__results-panel col-12 col-md-10 col-lg-6 justify-content-center p-0" >
+                {this.state.loading &&
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
+
+                {this.state.showResult && this.state.result && this.state.result.length > 0 &&
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding>
                             <PveResult
                                 date={this.state.date}
                                 result={this.state.result}
@@ -318,10 +325,9 @@ class CommonPve extends React.PureComponent {
                                 chargeMoveList={this.props.parentState.chargeMoveList}
                                 quickMoveList={this.props.parentState.quickMoveList}
                             />
-                        </div>}
-                </div>
-            </ >
-
+                        </GreyPaper>
+                    </Grid>}
+            </Grid>
         );
     }
 }

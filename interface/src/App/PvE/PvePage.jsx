@@ -225,7 +225,7 @@ class PvePage extends React.Component {
                     header={strings.pageheaders.common}
                     descr={strings.pagedescriptions.common}
                 />
-                <Grid item xs={12} sm={10} md={8} lg={6} container justify="center" spacing={2} >
+                <Grid item xs={12} md={10} lg={6} container justify="center" spacing={3} >
 
                     {this.state.loading &&
                         <Grid item xs={12}>
