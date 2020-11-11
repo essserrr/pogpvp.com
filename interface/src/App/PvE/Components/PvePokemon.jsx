@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+
 
 import Stats from "App/PvP/components/Stats/Stats";
 import MagicBox from "App/PvP/components/MagicBox/MagicBox";
 import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes";
+import Switch from 'App/Components/Switch/Switch';
 
 import ChargeMoveTip from "App/PvE/Components/Tips/ChargeMoveTip";
 import QuickMoveTip from "App/PvE/Components/Tips/QuickMoveTip";
@@ -228,16 +228,12 @@ const PvePokemon = React.memo(function PvePokemon(props) {
 
             {props.canBeShadow && props.attr === "attackerObj" &&
                 <Grid item xs={6}>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={props.settingsValue.SupportSlotEnabled !== "false"}
-                                onChange={props.onChange}
-                                attr={"pveObj"}
-                                name={"SupportSlotEnabled"}
-                                color="primary"
-                            />
-                        }
+                    <Switch
+                        checked={props.settingsValue.SupportSlotEnabled !== "false"}
+                        onChange={props.onChange}
+                        attr={"pveObj"}
+                        name={"SupportSlotEnabled"}
+                        color="primary"
                         label={labelStrings.supen}
                     />
                 </Grid>}
