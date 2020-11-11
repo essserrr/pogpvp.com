@@ -26,10 +26,10 @@ const SliderBody = React.memo(function SliderBody(props) {
                 <Collapse in={expanded[0]} unmountOnExit>
                     <Grid container>
                         {props.pok.QuickMoves.length > 0 &&
-                            <MoveCol value={props.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
+                            <MoveCol value={props.pok.QuickMoves}
                                 moveTable={props.moveBase} title={strings.qm} pok={props.pok} />}
                         {props.pok.ChargeMoves.length > 0 &&
-                            <MoveCol value={props.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
+                            <MoveCol value={props.pok.ChargeMoves}
                                 moveTable={props.moveBase} title={strings.chm} pok={props.pok} />}
                     </Grid>
                 </Collapse>}
@@ -50,31 +50,22 @@ const SliderBody = React.memo(function SliderBody(props) {
             {show[2] &&
                 <Collapse in={expanded[2]} unmountOnExit>
                     <Grid container>
-                        <EffTable
-                            type={props.pok.Type}
-                            reverse={props.reverse}
-                        />
+                        <EffTable type={props.pok.Type} reverse={false} />
                     </Grid>
                 </Collapse>}
 
             {show[3] &&
                 <Collapse in={expanded[3]} unmountOnExit>
                     <Grid container>
-                        <div className="col-12 p-0 text-center">{strings.entparams}</div>
-                        <CpBlock
-                            pok={props.pok}
-                            locale={strings.cpcalc}
-                            pokTable={props.pokemonBase}
-                        />
+                        <Grid item xs={12}>{strings.entparams}</Grid>
+                        <CpBlock pok={props.pok} locale={strings.cpcalc} pokTable={props.pokemonBase} />
                     </Grid>
                 </Collapse>}
 
             {show[4] &&
                 <Collapse in={expanded[4]} unmountOnExit>
                     <Grid container>
-                        <OtherTable
-                            value={props.pokMisc}
-                        />
+                        <OtherTable value={props.pokMisc} />
                     </Grid>
                 </Collapse>}
         </>
