@@ -24,8 +24,12 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
         justifyContent: "center",
     },
-    fitHeight: {
+    iconContainer: {
         height: "fit-content",
+        marginRight: `${theme.spacing(3)}px`,
+        [theme.breakpoints.down('xs')]: {
+            marginRight: 0,
+        },
     },
 
     icon: {
@@ -44,12 +48,12 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: "400",
     },
     downSMTextAlign: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             textAlign: "center",
         },
     },
     downSMJustify: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             justifyContent: "center",
         },
     }
@@ -70,7 +74,7 @@ const MainBlock = React.memo(function MainBlock(props) {
                     <Typography className={classes.cardTitle}>{title}</Typography>
                 </Grid>}
 
-            <Grid className={`${classes.dFlex} ${classes.fitHeight}`} item xs={12} sm="auto">
+            <Grid className={`${classes.dFlex} ${classes.iconContainer}`} item xs={12} sm="auto">
                 <Iconer className={classes.icon} fileName={fileName} folderName={"/art/"} />
             </Grid>
 

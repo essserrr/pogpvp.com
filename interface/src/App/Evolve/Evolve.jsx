@@ -101,7 +101,6 @@ class Evolve extends React.Component {
     }
 
     onChange(event, attrivutes, eventItem) {
-        console.log(event, attrivutes, eventItem)
         //check if it's name change
         if (!!eventItem) {
             this.onNameChange(eventItem)

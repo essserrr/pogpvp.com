@@ -106,7 +106,6 @@ class ChangePassword extends React.PureComponent {
 
 
     onSubmit = () => {
-        console.log(this.validate())
         if (!this.validate()) {
             return
         }

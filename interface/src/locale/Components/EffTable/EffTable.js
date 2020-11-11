@@ -1,7 +1,7 @@
 export const dexLocale = {
     en: {
-        generation: "Generation",
-        cpcalc: "CP calculator",
+        dless: "Deals less to ",
+        dmore: "Deals more to ",
 
         resist: "Resistant to ",
         weak: "Weak to ",

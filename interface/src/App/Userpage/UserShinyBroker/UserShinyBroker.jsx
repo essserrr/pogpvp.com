@@ -215,7 +215,6 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     onPokemonDelete(attributes) {
-        console.log(attributes)
         let updatedObj = { ...this.state[attributes.attr] }
         delete updatedObj[attributes.index]
 

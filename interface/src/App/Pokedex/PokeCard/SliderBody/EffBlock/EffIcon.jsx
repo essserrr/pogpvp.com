@@ -12,7 +12,7 @@ const EffIcon = React.memo(function EffIcon(props) {
     return (
         <Box component="span" ml={1}>
             <Tooltip placement="top" arrow title={<Typography>{`${typeDecoder[props.i]} ${props.eff}`}</Typography>}>
-                <Iconer folderName="/type/" fileName={props.i} size={36} />
+                <Iconer folderName="/type/" fileName={String(props.i)} size={36} />
             </Tooltip>
         </Box>
     )
@@ -21,6 +21,6 @@ const EffIcon = React.memo(function EffIcon(props) {
 export default EffIcon;
 
 EffIcon.propTypes = {
-    eff: PropTypes.number,
+    eff: PropTypes.string,
     i: PropTypes.number,
 };

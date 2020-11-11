@@ -16,7 +16,6 @@ const NavigationBlock = React.memo(function (props) {
         return "flex-end"
     }
 
-    console.log(props)
     return (
         <Grid container justify={buttonsConfig()}>
             {props.prev &&

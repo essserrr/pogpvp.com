@@ -38,7 +38,6 @@ class PokemonBox extends React.PureComponent {
     }
 
     onChange(event, attributes) {
-        console.log(event.target.name, event.target.value, attributes.attr)
         this.setState({
             [attributes.attr]: {
                 ...this.state[attributes.attr],

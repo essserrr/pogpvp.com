@@ -1,27 +1,24 @@
-import React from "react"
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
-
-import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import SliderBody from "./SliderBody/SliderBody";
-import MainBlock from "./MainBlock/MainBlock"
-import DescrBlock from "./DescrBlock/DescrBlock"
-import NavigationBlock from "./NavigationBlock/NavigationBlock"
-import SliderBlock from "./SliderBlock/SliderBlock"
-import RedirectBlock from "./RedirectBlock/RedirectBlock"
+import MainBlock from "./MainBlock/MainBlock";
+import DescrBlock from "./DescrBlock/DescrBlock";
+import NavigationBlock from "./NavigationBlock/NavigationBlock";
+import SliderBlock from "./SliderBlock/SliderBlock";
+import RedirectBlock from "./RedirectBlock/RedirectBlock";
 
-import { dexLocale } from "../../../locale/dexLocale"
-import { getCookie } from "../../../js/getCookie"
-
-import "./PokeCard.scss"
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { dexLocale } from "locale/Pokedex/Pokecard";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(dexLocale);
 
@@ -163,14 +160,15 @@ class PokeCard extends React.Component {
         const { scrollList, position } = this.state;
 
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     header={decodeURIComponent(this.props.match.params.id) + strings.mdsdescr + " | PogPvP.com"}
                     descr={decodeURIComponent(this.props.match.params.id) + strings.mdsdescr}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="pokedex-card mx-3 mb-2 col-12 col-md-10 col-lg-8 p-2 p-md-4">
+
+                <Grid item xs={12} md={10} lg={7}>
+                    <GreyPaper elevation={4} enablePadding style={{ backgroundColor: "white", }}>
+                        <Grid container justify="center" spacing={2}>
 
                             {this.state.loading &&
                                 <Grid item xs={12}>
@@ -242,6 +240,7 @@ class PokeCard extends React.Component {
                                             ]}
                                         />
                                     </Grid>
+
                                     <Grid item xs={12}>
                                         <SliderBody
                                             pok={this.state.pok}
@@ -262,15 +261,12 @@ class PokeCard extends React.Component {
                                             expanded={[this.state.active.moves, this.state.active.evo, this.state.active.eff, this.state.active.cp, this.state.active.other]}
                                         />
 
-
-
-
                                     </Grid>
                                 </>}
-                        </div>
-                    </div>
-                </div >
-            </>
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }

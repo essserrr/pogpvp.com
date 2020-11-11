@@ -25,7 +25,6 @@ class LoginForm extends React.PureComponent {
     }
 
     onLoadRecaptcha() {
-        console.log(this.pogCaptcha)
         if (this.pogCaptcha) {
             this.pogCaptcha.reset();
         }

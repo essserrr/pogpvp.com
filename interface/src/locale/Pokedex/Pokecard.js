@@ -1,5 +1,8 @@
 export const dexLocale = {
     en: {
+        mdsdescr: " description in Pokemon Go",
+        pokerr: "Pokemon not found",
+
         chm: "Charge moves",
         qm: "Quick moves",
 
@@ -37,6 +40,9 @@ export const dexLocale = {
     },
 
     ru: {
+        mdsdescr: " описание в Pokemon Go",
+        pokerr: "Покемон не найден",
+
         chm: "Заряжаемые умения",
         qm: "Быстрые умения",
 
