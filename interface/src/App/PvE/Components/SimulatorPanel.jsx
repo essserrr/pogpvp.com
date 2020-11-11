@@ -1,6 +1,9 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { UnmountClosed } from "react-collapse";
+
+import Grid from '@material-ui/core/Grid';
+import Collapse from '@material-ui/core/Collapse';
 
 import CustomRaidSettings from "./CustomRaidSettings/CustomRaidSettings"
 import PokemonPanel from "./Panels/PokemonPanel/PokemonPanel"
@@ -23,8 +26,8 @@ class SimulatorPanel extends React.PureComponent {
 
     render() {
         return (
-            <div className={"row justify-content-between m-0"}>
-                <div className="col-12 px-1 text-center ">
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
                     <BossPanel
                         title={pveStrings.boss}
                         attr="bossObj"
@@ -42,53 +45,54 @@ class SimulatorPanel extends React.PureComponent {
                         onClick={this.props.onClick}
 
                     />
-                </div>
+                </Grid>
 
-                {!this.props.forCustomPve && <div className="col-12 px-1">
-                    <PokemonPanel
-                        title={pveStrings.attacker}
-                        attr="attackerObj"
-                        canBeShadow={true}
-
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        pokList={this.props.pokList}
-                        chargeMoveList={this.props.chargeMoveList}
-                        quickMoveList={this.props.quickMoveList}
-
-                        value={this.props.value.attackerObj}
-                        settingsValue={this.props.value.pveObj}
-
-                        onChange={this.props.onChange}
-                        onClick={this.props.onClick}
-                    />
-                </div>}
-
-                {!this.props.forCustomPve && <UnmountClosed isOpened={this.props.value.pveObj.SupportSlotEnabled !== "false"}>
-                    <div className="col-12 px-1 text-center ">
+                {!this.props.forCustomPve &&
+                    <Grid item xs={12}>
                         <PokemonPanel
-                            title={pveStrings.sup}
-                            attr="supportPokemon"
-                            canBeShadow={false}
+                            title={pveStrings.attacker}
+                            attr="attackerObj"
+                            canBeShadow={true}
 
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.moveTable}
-                            pokList={this.props.boostersList}
+                            pokList={this.props.pokList}
                             chargeMoveList={this.props.chargeMoveList}
                             quickMoveList={this.props.quickMoveList}
 
-                            value={this.props.value.supportPokemon}
+                            value={this.props.value.attackerObj}
+                            settingsValue={this.props.value.pveObj}
 
                             onChange={this.props.onChange}
-
                             onClick={this.props.onClick}
                         />
-                    </div>
-                </UnmountClosed>}
+                    </Grid>}
 
+                {!this.props.forCustomPve &&
+                    <Grid item xs={12}>
+                        <Collapse in={this.props.value.pveObj.SupportSlotEnabled !== "false"} unmountOnExit>
+                            <PokemonPanel
+                                title={pveStrings.sup}
+                                attr="supportPokemon"
+                                canBeShadow={false}
+
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.moveTable}
+                                pokList={this.props.boostersList}
+                                chargeMoveList={this.props.chargeMoveList}
+                                quickMoveList={this.props.quickMoveList}
+
+                                value={this.props.value.supportPokemon}
+
+                                onChange={this.props.onChange}
+
+                                onClick={this.props.onClick}
+                            />
+                        </Collapse>
+                    </Grid>}
 
                 {this.props.forCustomPve &&
-                    <div className="col-12 text-center px-1 mb-3">
+                    <Grid item xs={12}>
                         <CustomRaidSettings
                             title={pveStrings.attacker}
                             attr="userSettings"
@@ -99,22 +103,20 @@ class SimulatorPanel extends React.PureComponent {
 
                             onChange={this.props.onChange}
                         />
-                    </div>}
+                    </Grid>}
 
-                <div className="col-12 text-center px-1">
-                    <div className="row m-0">
-                        <PveSettingsPanel
-                            forCustomPve={this.props.forCustomPve}
-                            findInCollection={this.props.value.userSettings && this.props.value.userSettings.FindInCollection}
-                            title={pveStrings.raid}
-                            attr={"pveObj"}
-                            value={this.props.value.pveObj}
-                            onChange={this.props.onChange}
-                        />
-                    </div>
-                </div>
+                <Grid item xs={12}>
+                    <PveSettingsPanel
+                        forCustomPve={this.props.forCustomPve}
+                        findInCollection={this.props.value.userSettings && this.props.value.userSettings.FindInCollection}
+                        title={pveStrings.raid}
+                        attr={"pveObj"}
+                        value={this.props.value.pveObj}
+                        onChange={this.props.onChange}
+                    />
+                </Grid>
 
-            </div>
+            </Grid>
         )
     }
 
