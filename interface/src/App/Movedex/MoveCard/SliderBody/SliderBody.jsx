@@ -18,7 +18,9 @@ const SliderBody = React.memo(function SliderBody(props) {
             </Collapse>
 
             <Collapse in={props.active.use}>
-                <UsesList move={props.move} pokTable={props.pokemonBase} />
+                <Grid container>
+                    <UsesList move={props.move} pokTable={props.pokemonBase} />
+                </Grid>
             </Collapse>
         </>
     )

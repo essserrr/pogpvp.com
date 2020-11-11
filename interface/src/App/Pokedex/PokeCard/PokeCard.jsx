@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 
 import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
 import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
+import SliderBody from "./SliderBody/SliderBody";
 import MainBlock from "./MainBlock/MainBlock"
 import MoveCol from "./MoveBlock/MoveCol"
 import EffTable from "./EffBlock/EffTable"
@@ -246,61 +247,30 @@ class PokeCard extends React.Component {
                                             ]}
                                         />
                                     </Grid>
+                                    <Grid item xs={12}>
+                                        <SliderBody
+                                            pok={this.state.pok}
+                                            moveBase={this.props.bases.moveBase}
+                                            miscTable={this.state.miscTable}
+                                            pokemonBase={this.props.bases.pokemonBase}
+                                            pokMisc={this.state.pokMisc}
 
-                                    {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
-                                        <UnmountClosed isOpened={this.state.active.moves}>
-                                            <div className={"row m-0"}>
-                                                {this.state.pok.QuickMoves.length > 0 &&
-                                                    <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
-                                                        moveTable={this.props.bases.moveBase} title={strings.qm} pok={this.state.pok} />}
-                                                {this.state.pok.ChargeMoves.length > 0 &&
-                                                    <MoveCol value={this.state.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
-                                                        moveTable={this.props.bases.moveBase} title={strings.chm} pok={this.state.pok} />}
-                                            </div>
-                                        </UnmountClosed>}
+                                            show={[
+                                                this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0,
+                                                this.state.pokMisc && this.state.pokMisc.Family !== "",
+                                                true,
+                                                true,
+                                                this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                                    this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)),
+                                            ]}
 
-                                    {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
-                                        <UnmountClosed isOpened={this.state.active.evo}>
-                                            <div className={"row m-0"}>
-                                                <EvoBlock
-                                                    miscTable={this.state.miscTable.Misc}
-                                                    pokTable={this.props.bases.pokemonBase}
+                                            expanded={[this.state.active.moves, this.state.active.evo, this.state.active.eff, this.state.active.cp, this.state.active.other]}
+                                        />
 
-                                                    value={this.state.miscTable.Families[this.state.pokMisc.Family]}
-                                                    familyName={this.state.pokMisc.Family}
-                                                />
-                                            </div>
-                                        </UnmountClosed>}
 
-                                    <UnmountClosed isOpened={this.state.active.eff}>
-                                        <div className={"row m-0"}>
-                                            <EffTable
-                                                type={this.state.pok.Type}
-                                                reverse={this.props.reverse}
-                                            />
-                                        </div>
-                                    </UnmountClosed>
 
-                                    <UnmountClosed isOpened={this.state.active.cp}>
-                                        <div className={"pokedex-card--font row m-0 "}>
-                                            <div className="col-12 p-0 text-center">{strings.entparams}</div>
-                                            <CpBlock
-                                                pok={this.state.pok}
-                                                locale={strings.cpcalc}
-                                                pokTable={this.props.bases.pokemonBase}
-                                            />
-                                        </div>
-                                    </UnmountClosed>
 
-                                    {this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                        this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)) &&
-                                        <UnmountClosed isOpened={this.state.active.other}>
-                                            <div className={"row m-0"}>
-                                                <OtherTable
-                                                    value={this.state.pokMisc}
-                                                />
-                                            </div>
-                                        </UnmountClosed>}
+                                    </Grid>
                                 </>}
                         </div>
                     </div>
