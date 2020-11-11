@@ -25,7 +25,7 @@ export const pveLocale = {
         playernumb: "Players",
         playernumbTip: "Expected number of players. The more players, the faster a boss accumulates energy, the stronger and more often he hits.",
 
-        partysize: "\xa0Pokemon\xa0",
+        partysize: "Pokemon",
         sizetip: "Number of groups of pokemon",
         party: "group",
 
@@ -33,6 +33,8 @@ export const pveLocale = {
         dodgeList: "Без уклонений",
         dodgetip: "Шанс на уклонение показывает количество случаев, в которых покемон успешно увернется от заражаемой атаки босса.",
 
+        selfFromColl: "Find best group for you",
+        selfFromGtoup: "Use your group list",
     },
 
 
@@ -67,9 +69,11 @@ export const pveLocale = {
         sizetip: "Число групп покемонов",
         party: "группа",
 
-        dodge: "\xa0\xa0\xa0\xa0Dodge\xa0\xa0\xa0",
+        dodge: "Dodge",
         dodgeList: "No dodge",
         dodgetip: "Dodge chance shows the amount of cases in which pokemon will successfully dodge a boss next charge attack.",
 
+        selfFromColl: "Подобрать вам группу",
+        selfFromGtoup: "Использовать ваши группы"
     }
 }

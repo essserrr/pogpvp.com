@@ -24,7 +24,6 @@ export const pveLocale = {
         bosshp: "Boss HP:",
 
         tier: "\xa0\xa0Raid tier\xa0\xa0",
-        dodge: "\xa0\xa0\xa0\xa0Dodge\xa0\xa0\xa0",
 
 
         tierlist: "Tier",
@@ -35,8 +34,6 @@ export const pveLocale = {
         parties: "groups",
         none: "None",
 
-        dodgeList: "No dodge",
-        dodgetip: "Dodge chance shows the amount of cases in which pokemon will successfully dodge a boss next charge attack.",
 
 
 
@@ -67,8 +64,7 @@ export const pveLocale = {
         sortdps: "Sort by DPS",
         unique: "Show the best results",
 
-        selfFromColl: "Find best group for you",
-        selfFromGtoup: "Use your group list",
+
     },
 
     ru: {
@@ -96,7 +92,6 @@ export const pveLocale = {
         bosshp: "HP босса:",
 
         tier: "\xa0\xa0\xa0\xa0Уровень\xa0\xa0\xa0\xa0",
-        dodge: "Уклонения",
 
         tierlist: "Уровень",
         mega: "Мега рейды",
@@ -107,8 +102,6 @@ export const pveLocale = {
         none: "Нет",
 
 
-        dodgeList: "Без уклонений",
-        dodgetip: "Шанс на уклонение показывает количество случаев, в которых покемон успешно увернется от заражаемой атаки босса.",
 
 
 
@@ -139,7 +132,6 @@ export const pveLocale = {
         sortdps: "Сортировать по DPS",
         unique: "Показать только лучшие результаты",
 
-        selfFromColl: "Подобрать вам группу",
-        selfFromGtoup: "Использовать ваши группы"
+
     }
 }

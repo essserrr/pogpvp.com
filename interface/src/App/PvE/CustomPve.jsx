@@ -317,7 +317,7 @@ class CustomPve extends React.PureComponent {
         return (
             < >
                 {!!getCookie("sid") && <div className="row justify-content-center m-0 mb-4"  >
-                    <div className="custompve__settings-panel col-12 col-md-10 col-lg-6 py-1 py-sm-2 px-0 px-sm-1" >
+                    <div className="custompve__settings-panel col-12 py-sm-2 px-0 px-sm-1" >
                         <SimulatorPanel
                             forCustomPve={true}
 

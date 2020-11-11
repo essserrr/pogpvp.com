@@ -1,6 +1,5 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
-import { UnmountClosed } from "react-collapse";
 
 import Grid from '@material-ui/core/Grid';
 import Collapse from '@material-ui/core/Collapse';
