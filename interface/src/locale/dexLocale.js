@@ -8,7 +8,6 @@ export const dexLocale = {
 
 
         mdsdescr: " description in Pokemon Go",
-        dexentr: "View dex for ",
         loading: "Loading...",
 
         pokerr: "Pokemon not found",
@@ -26,10 +25,8 @@ export const dexLocale = {
         cdabbr: "CD",
         s: "s",
 
-        stage: "Stage",
         resist: "Resistant to ",
         weak: "Weak to ",
-        entparams: "Enter paremeters to calculate CP",
 
 
 
@@ -46,7 +43,6 @@ export const dexLocale = {
 
 
         mdsdescr: " описание в Pokemon Go",
-        dexentr: "Открыть декс для ",
         loading: "Загрузка...",
 
 
@@ -67,10 +63,8 @@ export const dexLocale = {
         cdabbr: "ПР",
         s: "с",
 
-        stage: "Стадия",
         resist: "Сопротивления ",
         weak: "Слабости ",
-        entparams: "Введите парметры, что бы посчитать CP",
 
 
 
