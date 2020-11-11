@@ -60,7 +60,6 @@ class SimulatorPanel extends React.PureComponent {
                         settingsValue={this.props.value.pveObj}
 
                         onChange={this.props.onChange}
-
                         onClick={this.props.onClick}
                     />
                 </div>}
