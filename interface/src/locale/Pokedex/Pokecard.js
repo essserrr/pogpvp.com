@@ -1,5 +1,8 @@
 export const dexLocale = {
     en: {
+        entparams: "Enter paremeters to calculate CP",
+
+
         pvpwith: "Use pokemon in PvP",
         pvewith: "Battle vs pokemon in raid",
 
@@ -25,6 +28,9 @@ export const dexLocale = {
     },
 
     ru: {
+        entparams: "Введите парметры, что бы посчитать CP",
+
+
         pvpwith: "Использовать покемона в PvP",
         pvewith: "Рейд против этого покемона",
 

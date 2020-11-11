@@ -57,8 +57,7 @@ const SliderBody = React.memo(function SliderBody(props) {
             {show[3] &&
                 <Collapse in={expanded[3]} unmountOnExit>
                     <Grid container>
-                        <Grid item xs={12}>{strings.entparams}</Grid>
-                        <CpBlock pok={props.pok} locale={strings.cpcalc} pokTable={props.pokemonBase} />
+                        <CpBlock pok={props.pok} pokTable={props.pokemonBase} />
                     </Grid>
                 </Collapse>}
 

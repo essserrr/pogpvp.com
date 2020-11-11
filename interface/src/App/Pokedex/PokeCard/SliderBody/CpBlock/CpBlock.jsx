@@ -1,6 +1,8 @@
-import React from "react"
-import { calculateEffStat, checkLvl, checkIV, } from "js/indexFunctions"
-import CpCalc from "./CpCalc"
+import React from "react";
+import PropTypes from 'prop-types';
+
+import CpCalc from "./CpCalc";
+import { calculateEffStat, checkLvl, checkIV, } from "js/indexFunctions";
 
 class CpBlock extends React.PureComponent {
     constructor(props) {
@@ -26,13 +28,13 @@ class CpBlock extends React.PureComponent {
     }
 
 
-    onIvChange(event) {
-        let role = event.target.getAttribute("attr")
+    onIvChange(event, attributes) {
+        const { attr } = attributes;
 
-        let eff = calculateEffStat(this.props.pok.Title, this.state[role].Lvl, event.target.value, this.state[role][event.target.name + "Stage"], this.props.pokTable, event.target.name, this.state[role].IsShadow)
+        let eff = calculateEffStat(this.props.pok.Title, this.state[attr].Lvl, event.target.value, this.state[attr][event.target.name + "Stage"], this.props.pokTable, event.target.name, this.state[attr].IsShadow)
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: checkIV(event.target.value) + "",
                 ["eff" + event.target.name]: eff
             },
@@ -40,29 +42,29 @@ class CpBlock extends React.PureComponent {
     }
 
 
-    onLevelChange(event) {
-        let role = event.target.getAttribute("attr")
+    onLevelChange(event, attributes) {
+        const { attr } = attributes;
 
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: checkLvl(event.target.value) + "",
-                effAtk: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Atk, this.state[role].AtkStage, this.props.pokTable, "Atk", this.state[role].IsShadow),
-                effDef: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Def, this.state[role].DefStage, this.props.pokTable, "Def", this.state[role].IsShadow),
-                effSta: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Sta, 0, this.props.pokTable, "Sta"),
+                effAtk: calculateEffStat(this.state[attr].name, event.target.value, this.state[attr].Atk, this.state[attr].AtkStage, this.props.pokTable, "Atk", this.state[attr].IsShadow),
+                effDef: calculateEffStat(this.state[attr].name, event.target.value, this.state[attr].Def, this.state[attr].DefStage, this.props.pokTable, "Def", this.state[attr].IsShadow),
+                effSta: calculateEffStat(this.state[attr].name, event.target.value, this.state[attr].Sta, 0, this.props.pokTable, "Sta"),
             },
         });
     }
 
-    onChange(event) {
+    onChange(event, attributes) {
         //check if it's an iv change
         if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event)
+            this.onIvChange(event, attributes)
             return
         }
         //check if it's an level change
         if (event.target.name === "Lvl") {
-            this.onLevelChange(event)
+            this.onLevelChange(event, attributes)
             return
         }
     }
@@ -72,7 +74,7 @@ class CpBlock extends React.PureComponent {
         return (
             <CpCalc
                 value={this.state.pokemon}
-                pok={this.props.pok}
+                name={this.props.pok.Title}
                 attr="pokemon"
                 pokTable={this.props.pokTable}
                 onChange={this.onChange}
@@ -82,3 +84,8 @@ class CpBlock extends React.PureComponent {
 }
 
 export default CpBlock;
+
+CpBlock.propTypes = {
+    pok: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
+};
