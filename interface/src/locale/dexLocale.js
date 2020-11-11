@@ -12,8 +12,6 @@ export const dexLocale = {
 
         pokerr: "Pokemon not found",
 
-        chm: "Charge move",
-        qm: "Quick move",
 
         dless: "Deal less damage to ",
         dmore: "Deal more damage to ",
@@ -21,9 +19,7 @@ export const dexLocale = {
         generation: "Generation",
         cpcalc: "CP calculator",
 
-        dabbr: "D",
-        cdabbr: "CD",
-        s: "s",
+
 
         resist: "Resistant to ",
         weak: "Weak to ",
@@ -48,10 +44,6 @@ export const dexLocale = {
 
         pokerr: "Покемон не найден",
 
-        chm: "Заряжаемые умения",
-        qm: "Быстрые умения",
-
-
 
         dless: "Наносит меньше урона ",
         dmore: "Наносит больше урона ",
@@ -59,9 +51,7 @@ export const dexLocale = {
         generation: "Поколение",
         cpcalc: "Калькулятор CP",
 
-        dabbr: "У",
-        cdabbr: "ПР",
-        s: "с",
+
 
         resist: "Сопротивления ",
         weak: "Слабости ",

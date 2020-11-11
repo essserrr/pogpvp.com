@@ -1,43 +1,105 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-import ChargeEnergy from "./PokedexChargeEnergy/PokedexChargeEnergy"
-import { typeDecoder } from "js/indexFunctions"
-import { getCookie } from "js/getCookie"
-import { dexLocale } from "locale/dexLocale"
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
-import "./Move.scss"
+import ChargeEnergy from "./PokedexChargeEnergy/PokedexChargeEnergy";
+import { typeDecoder } from "js/indexFunctions";
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Pokedex/Pokecard";
 
-let strings = new LocalizedStrings(dexLocale)
+let strings = new LocalizedStrings(dexLocale);
 
-const Move = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+const useStyles = props => makeStyles(theme => {
+    return ({
+        mainText: {
+            fontSize: "1.1em",
+            fontWeight: 400,
+        },
+        auxText: {
+            fontSize: "0.85em",
+            fontWeight: 500,
+        },
+        dpsBlock: {
+            padding: `${theme.spacing(0.75)}px`,
+            marginRight: `${theme.spacing(0.5)}px`,
 
-    let mColor = "type-color" + props.value.MoveType + " text"
-    let isElite = props.pok.EliteMoves[props.value.Title] === 1 || props.value.Title === "Return"
+            borderRadius: "3px 0px 0px 3px",
+
+            textAlign: "center",
+
+            "&:hover": {
+                color: theme.palette.text.primary,
+            }
+        },
+        mainBlock: {
+            padding: `${theme.spacing(0.5)}px ${theme.spacing(1.25)}px ${theme.spacing(0.5)}px ${theme.spacing(1.25)}px`,
+            borderRadius: "0px 3px 3px 0px",
+
+            "&:hover": {
+                color: theme.palette.text.primary,
+            }
+        },
+        moveColor: {
+            color: theme.palette.types[`type${props.type}`].text,
+            backgroundColor: theme.palette.types[`type${props.type}`].background,
+        },
+
+        flexCol: {
+            flex: "0 0 100%",
+            maxWidth: "100%",
+            display: "flex",
+        },
+
+    })
+});
+
+const Move = React.memo(function Move(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const { MoveType, Title, Cooldown, Damage, MoveCategory, Energy } = props.value;
+    const classes = useStyles({ type: MoveType })();;
+
+    let isElite = props.pok.EliteMoves[Title] === 1 || Title === "Return";
+    const title = `${strings.dexentr} ${Title}`;
+    const to = (navigator.userAgent === "ReactSnap") ? "/" : "/movedex/id/" + encodeURIComponent(Title)
+
     return (
-        <Link className={"col-12 d-flex p-0 my-2"}
-            title={strings.dexentr + props.value.Title}
-            to={(navigator.userAgent === "ReactSnap") ? "/" : "/movedex/id/" + encodeURIComponent(props.value.Title)}>
-            <div className={"move__dps-block col-3 col-md-2 text-center p-1 mr-1 " + mColor}>
+
+        <Link className={classes.flexCol} title={title} to={to}>
+
+            <Grid item xs={3} md={2} className={`${classes.mainText} ${classes.dpsBlock} ${classes.moveColor}`}>
                 DPS<br />
-                {(props.value.Damage / (props.value.Cooldown / 1000)).toFixed(1)}
-            </div>
-            <div className={"move__main-block col-9 col-md-10 py-1 px-2 " + mColor}>
-                <div className={"move__title col-12 p-0"}>
-                    {props.value.Title}{isElite ? "*" : ""}
-                </div>
-                <div className="move__stats col-12 p-0">
-                    {typeDecoder[props.value.MoveType]}{"/"}
-                    {strings.dabbr}:{props.value.Damage}{"/"}
-                    {strings.cdabbr}:{props.value.Cooldown / 1000}{strings.s}
-                    {props.value.MoveCategory === "Fast Move" ? "/EPS:" + (props.value.Energy / (props.value.Cooldown / 1000)).toFixed(1) : ""}
-                </div>
-                {props.value.MoveCategory === "Charge Move" && <ChargeEnergy move={props.value} />}
-            </div>
+                {(Damage / (Cooldown / 1000)).toFixed(1)}
+            </Grid>
+
+            <Grid item xs={9} md={10} className={`${classes.mainBlock} ${classes.moveColor}`}>
+
+                <Grid item xs={12} className={`${classes.mainText}`}>
+                    {`${Title}${isElite ? "*" : ""}`}
+                </Grid>
+
+                <Grid item xs={12} className={classes.auxText}>
+                    {typeDecoder[MoveType]}{"/"}
+                    {strings.dabbr}:{Damage}{"/"}
+                    {strings.cdabbr}:{Cooldown / 1000}{strings.s}
+                    {MoveCategory === "Fast Move" ? "/EPS:" + (Energy / (Cooldown / 1000)).toFixed(1) : ""}
+                </Grid>
+
+                {MoveCategory === "Charge Move" && <ChargeEnergy move={props.value} />}
+
+            </Grid>
+
         </Link>
+
     )
 });
 
 export default Move;
+
+Move.propTypes = {
+    value: PropTypes.object,
+    pok: PropTypes.object,
+};

@@ -1,22 +1,32 @@
-import React from "react"
-import Move from "./Move"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./MoveCol.scss"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-const MoveCol = React.memo(function (props) {
+import Move from "./Move";
+
+const MoveCol = React.memo(function MoveCol(props) {
     return (
-        <div className={"col-12 col-sm-6 " + props.class}>
-            <div className="move-col--text col-12 p-0">
-                {props.title}
-            </div>
-            {props.value.map((elem) => <Move
-                key={elem}
-                value={props.moveTable[elem]}
-                pok={props.pok}
-            />)}
-        </div>
+        <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <Typography variant="h6">
+                    {props.title}
+                </Typography>
+            </Grid>
+            {props.value.map((elem) =>
+                <Grid item xs={12} key={elem}>
+                    <Move value={props.moveTable[elem]} pok={props.pok} />
+                </Grid>)}
+        </Grid>
     )
-
 });
 
 export default MoveCol;
+
+MoveCol.propTypes = {
+    value: PropTypes.array,
+    moveTable: PropTypes.object,
+    title: PropTypes.string,
+    pok: PropTypes.object,
+};

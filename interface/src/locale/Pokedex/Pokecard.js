@@ -1,5 +1,12 @@
 export const dexLocale = {
     en: {
+        chm: "Charge moves",
+        qm: "Quick moves",
+
+        dabbr: "D",
+        cdabbr: "CD",
+        s: "s",
+
         stage: "Stage",
 
         entparams: "Enter paremeters to calculate CP",
@@ -30,6 +37,13 @@ export const dexLocale = {
     },
 
     ru: {
+        chm: "Заряжаемые умения",
+        qm: "Быстрые умения",
+
+        dabbr: "У",
+        cdabbr: "ПР",
+        s: "с",
+
         stage: "Стадия",
 
         entparams: "Введите парметры, что бы посчитать CP",

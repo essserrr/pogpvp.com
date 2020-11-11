@@ -24,13 +24,15 @@ const SliderBody = React.memo(function SliderBody(props) {
         <>
             {show[0] &&
                 <Collapse in={expanded[0]} unmountOnExit>
-                    <Grid container>
+                    <Grid container spacing={2}>
                         {props.pok.QuickMoves.length > 0 &&
-                            <MoveCol value={props.pok.QuickMoves}
-                                moveTable={props.moveBase} title={strings.qm} pok={props.pok} />}
+                            <Grid item xs={12} sm={6}>
+                                <MoveCol title={strings.qm} value={props.pok.QuickMoves} moveTable={props.moveBase} pok={props.pok} />
+                            </Grid>}
                         {props.pok.ChargeMoves.length > 0 &&
-                            <MoveCol value={props.pok.ChargeMoves}
-                                moveTable={props.moveBase} title={strings.chm} pok={props.pok} />}
+                            <Grid item xs={12} sm={6}>
+                                <MoveCol title={strings.chm} value={props.pok.ChargeMoves} moveTable={props.moveBase} pok={props.pok} />
+                            </Grid>}
                     </Grid>
                 </Collapse>}
 
