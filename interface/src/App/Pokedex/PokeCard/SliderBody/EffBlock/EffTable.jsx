@@ -1,5 +1,5 @@
 import React from "react"
-import { effectivenessData } from "../../../../js/indexFunctions"
+import { effectivenessData } from "js/indexFunctions"
 import LocalizedStrings from "react-localization"
 
 import Typography from '@material-ui/core/Typography';
@@ -8,8 +8,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
+import { getCookie } from "js/getCookie"
+import { dexLocale } from "locale/dexLocale"
 import EffIcon from "./EffIcon"
 
 import "./EffTable.scss"

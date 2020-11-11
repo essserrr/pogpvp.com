@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Collapse from '@material-ui/core/Collapse';
 
 import UsesList from "../UsesList/UsesList";
-import EffTable from "App/Pokedex/PokeCard/EffBlock/EffTable";
+import EffTable from "App/Pokedex/PokeCard/SliderBody/EffBlock/EffTable";
 
 const SliderBody = React.memo(function SliderBody(props) {
 

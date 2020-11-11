@@ -1,5 +1,5 @@
 import React from "react"
-import { calculateEffStat, checkLvl, checkIV, } from "../../../../js/indexFunctions"
+import { calculateEffStat, checkLvl, checkIV, } from "js/indexFunctions"
 import CpCalc from "./CpCalc"
 
 class CpBlock extends React.PureComponent {

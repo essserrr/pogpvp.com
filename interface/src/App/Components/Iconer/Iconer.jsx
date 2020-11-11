@@ -19,6 +19,7 @@ const Iconer = React.memo(function Iconer(props) {
                 i++
                 break
             case "/art/":
+                console.log(fileName)
                 if (i === 0) {
                     let withoutForme = fileName.split("-")
                     event.target.src = "/images" + folderName + withoutForme[0] + ".jpg"

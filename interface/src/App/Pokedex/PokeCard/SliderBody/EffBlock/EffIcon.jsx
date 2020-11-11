@@ -1,8 +1,8 @@
 import React from "react"
 import ReactTooltip from "react-tooltip"
 
-import { typeDecoder } from "../../../../js/indexFunctions"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
+import { typeDecoder } from "js/indexFunctions"
+import PokemonIconer from "App/PvP/components/PokemonIconer/PokemonIconer"
 
 
 const EffIcon = React.memo(function (props) {

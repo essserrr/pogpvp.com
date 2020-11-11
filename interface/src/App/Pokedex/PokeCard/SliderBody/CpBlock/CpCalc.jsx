@@ -1,7 +1,7 @@
 import React from "react"
 
 import CP from "App/Components/CpAndTypes/CP"
-import Stats from "../../../PvP/components/Stats/Stats"
+import Stats from "App/PvP/components/Stats/Stats"
 
 import "./CpCalc.scss"
 

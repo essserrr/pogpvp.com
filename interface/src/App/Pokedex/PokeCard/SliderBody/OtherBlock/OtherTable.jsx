@@ -1,10 +1,10 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import { ReactComponent as Dust } from "../../../../icons/stardust.svg"
-import { ReactComponent as Candy } from "../../../../icons/candy.svg"
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
+import { ReactComponent as Dust } from "icons/stardust.svg"
+import { ReactComponent as Candy } from "icons/candy.svg"
+import { getCookie } from "js/getCookie"
+import { dexLocale } from "locale/dexLocale"
 import { regionLocale } from "locale/Eggs/regionLocale";
 
 import "./OtherTable.scss"

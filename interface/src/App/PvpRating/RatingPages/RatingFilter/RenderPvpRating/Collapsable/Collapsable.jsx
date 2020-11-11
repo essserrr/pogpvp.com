@@ -10,7 +10,7 @@ import DropWithArrow from "App/PvpRating/DropWithArrow/DropWithArrow";
 import RMoveRow from "App/PvpRating/RMoveRow/RMoveRow";
 import RRateRow from "App/PvpRating/RRateRow/RRateRow";
 import RowWrap from "App/PvpRating/RowWrap/RowWrap";
-import EffTable from "App/Pokedex/PokeCard/EffBlock/EffTable";
+import EffTable from "App/Pokedex/PokeCard/SliderBody/EffBlock/EffTable";
 
 import { checkShadow, encodeQueryData, calculateMaximizedStats } from "js/indexFunctions";
 import { getCookie } from "js/getCookie";
