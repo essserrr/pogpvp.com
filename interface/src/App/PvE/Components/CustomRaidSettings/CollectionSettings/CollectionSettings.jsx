@@ -1,61 +1,62 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import SelectGroup from "../../../../PvP/components/SelectGroup/SelectGroup"
-import Checkbox from "../../../../RaidsList/Checkbox/Checkbox"
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
 
-import { pveLocale } from "../../../../../locale/pveLocale"
-import { getCookie } from "../../../../../js/getCookie"
+import Input from "App/Components/Input/Input";
+import Switch from 'App/Components/Switch/Switch';
+
+import { pveLocale } from "locale/Pve/Settings/Settings";
+import { labels } from "locale/Pve/PokemonLabels";
+import { getCookie } from "js/getCookie"
 
 let strings = new LocalizedStrings(pveLocale);
+let labelsStrings = new LocalizedStrings(labels);
 
-class CollectionSettings extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.pveres = React.createRef();
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const CollectionSettings = React.memo(function CollectionSettings(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    labelsStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={6}>
+                <Input
+                    select
+                    name="SortByDamage"
+                    value={props.value}
+                    attr={props.attr}
+                    label={strings.aggreasive}
+                    onChange={props.onChange}
+                >
+                    <MenuItem value="true">{strings.customsort.dmg}</MenuItem>
+                    <MenuItem value="false">{strings.customsort.dps}</MenuItem>
+                </Input>
+            </Grid>
 
-
-    render() {
-        return (
-            <div className="row mx-0 py-1 align-itmes-center justify-conten-center">
-                <div className="col-6 px-0 pr-1 ">
-                    <SelectGroup
-                        class="input-group input-group-sm"
-
-                        name="SortByDamage"
-                        value={this.props.value}
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={<>
-                            <option value="true" key="0">{strings.customsort.dmg}</option>
-                            <option value="false" key="1">{strings.customsort.dps}</option>
-                        </>}
-
-                        labelWidth="89px"
-                        label={strings.aggreasive}
-
-                        for={""}
-                    />
-                </div>
-                <Checkbox
-                    class={"col-6 form-check form-check-inline m-0 p-0 pl-1"}
-                    checked={this.props.settingsValue.SupportSlotEnabled !== "false" ? "checked" : false}
+            <Grid item xs={6}>
+                <Switch
+                    checked={props.settingsValue.SupportSlotEnabled !== "false" ? "checked" : false}
+                    onChange={props.onChange}
                     attr={"pveObj"}
                     name={"SupportSlotEnabled"}
-                    label={
-                        <div className=" text-center">
-                            {strings.supen}
-                        </div>
-                    }
-                    onChange={this.props.onChange}
+                    color="primary"
+                    label={labelsStrings.supen}
                 />
-            </div>
-        )
-    }
+            </Grid>
+        </Grid>
+    )
+});
 
-}
+
+export default CollectionSettings;
+
+CollectionSettings.propTypes = {
+    onChange: PropTypes.func,
+
+    attr: PropTypes.string,
+    settingsValue: PropTypes.object,
 
 
-export default CollectionSettings
+    value: PropTypes.string.isRequired,
+};

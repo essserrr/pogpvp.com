@@ -37,10 +37,7 @@ export const pveLocale = {
 
 
 
-        customsort: {
-            dmg: "Find counters by damage dealt",
-            dps: "Find counters by DPS",
-        },
+
 
         hprem: "Boss remaining HP: ",
         pres: "Recalculate with high precision",
@@ -105,10 +102,7 @@ export const pveLocale = {
 
 
 
-        customsort: {
-            dmg: "Подобрать группу по нанесенному урону",
-            dps: "Подобрать группу по DPS",
-        },
+
 
         hprem: "Осталось HP у босса: ",
         pres: "Пересчитать с высокой точностью",

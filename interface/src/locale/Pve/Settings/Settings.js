@@ -35,6 +35,13 @@ export const pveLocale = {
 
         selfFromColl: "Find best group for you",
         selfFromGtoup: "Use your group list",
+
+        aggreasive: "Mode",
+        customsort: {
+            dmg: "Find counters by damage dealt",
+            dps: "Find counters by DPS",
+        },
+
     },
 
 
@@ -74,6 +81,12 @@ export const pveLocale = {
         dodgetip: "Dodge chance shows the amount of cases in which pokemon will successfully dodge a boss next charge attack.",
 
         selfFromColl: "Подобрать вам группу",
-        selfFromGtoup: "Использовать ваши группы"
+        selfFromGtoup: "Использовать ваши группы",
+
+        aggreasive: "Режим",
+        customsort: {
+            dmg: "Подобрать группу по нанесенному урону",
+            dps: "Подобрать группу по DPS",
+        },
     }
 }
