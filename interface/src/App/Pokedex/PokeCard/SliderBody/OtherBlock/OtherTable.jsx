@@ -1,13 +1,39 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import { ReactComponent as Dust } from "icons/stardust.svg"
-import { ReactComponent as Candy } from "icons/candy.svg"
-import { getCookie } from "js/getCookie"
-import { dexLocale } from "locale/dexLocale"
+import Box from '@material-ui/core/Box';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import { makeStyles } from '@material-ui/core/styles';
+
+import { ReactComponent as Dust } from "icons/stardust.svg";
+import { ReactComponent as Candy } from "icons/candy.svg";
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Pokedex/Pokecard";
 import { regionLocale } from "locale/Eggs/regionLocale";
 
-import "./OtherTable.scss"
+const useStyles = makeStyles((theme) => ({
+    table: {
+        "& td": {
+            padding: `${theme.spacing(1)}px ${theme.spacing(0.5)}px ${theme.spacing(1)}px ${theme.spacing(0.5)}px`,
+        },
+        "& th": {
+            padding: `${theme.spacing(1)}px ${theme.spacing(0.5)}px ${theme.spacing(1)}px ${theme.spacing(0.5)}px`,
+            "& .MuiTableSortLabel-icon": {
+                marginLeft: 0,
+                marginRight: 0,
+            }
+        },
+    },
+    icon: {
+        width: "18px",
+        height: "18px",
+        marginRight: `${theme.spacing(0.5)}px`,
+    },
+}));
 
 let strings = new LocalizedStrings(dexLocale)
 let regions = new LocalizedStrings(regionLocale)
@@ -15,47 +41,62 @@ let regions = new LocalizedStrings(regionLocale)
 const OtherTable = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     regions.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
+
     return (
-        <table className={"other-table  table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
-            <tbody>
-                {props.value.SecCharge && (props.value.SecCharge.Candy !== 0) && <tr>
-                    <th className="align-middle m-0 p-0 py-1" scope="row" >
-                        {strings.infot.sec}
-                    </th>
-                    <td className="align-middle m-0 p-0 py-1" >
-                        <Candy className="icon18 mr-1" /><span className="align-middle">{props.value.SecCharge.Candy}</span>{" + "}
-                        <Dust className="icon18" /><span className="align-middle">{props.value.SecCharge.Dust}</span>
-                    </td>
-                </tr>}
-                {props.value.Purification && (props.value.Purification.Candy !== 0) && <tr>
-                    <th className="align-middle m-0 p-0 py-1" scope="row" >
-                        {strings.infot.pur}
-                    </th>
-                    <td className="align-middle m-0 p-0 py-1" >
-                        <Candy className="icon18 mr-1" /><span className="align-middle">{props.value.Purification.Candy}</span>{" + "}
-                        <Dust className="icon18 mr-1" /><span className="align-middle">{props.value.Purification.Dust}</span>
-                    </td>
-                </tr>}
-                {(props.value.Buddy !== 0) && <tr>
-                    <th className="align-middle m-0 p-0 py-1" scope="row" >
-                        {strings.infot.bud}
-                    </th>
-                    <td className="align-middle m-0 p-0 py-1" >
-                        {props.value.Buddy}
-                    </td>
-                </tr>}
-                {props.value.Region !== 0 && <tr>
-                    <th className="align-middle m-0 p-0 py-1" scope="row" >
-                        {strings.infot.reg}
-                    </th>
-                    <td className="align-middle m-0 p-0 py-1" >
-                        {regions[props.value.Region]}
-                    </td>
-                </tr>}
-            </tbody>
-        </table>
+        <Table>
+            <TableBody className={classes.table}>
+
+                {props.value.SecCharge && (props.value.SecCharge.Candy !== 0) &&
+                    <TableRow>
+                        <TableCell component="th" align="center" scope="row" >
+                            {strings.infot.sec}
+                        </TableCell>
+                        <TableCell align="center">
+                            <Candy className={classes.icon} /><Box component="span">{props.value.SecCharge.Candy}</Box>{" + "}
+                            <Dust className={classes.icon} /><Box component="span">{props.value.SecCharge.Dust}</Box>
+                        </TableCell>
+                    </TableRow>}
+
+                {props.value.Purification && (props.value.Purification.Candy !== 0) &&
+                    <TableRow>
+                        <TableCell component="th" align="center" scope="row" >
+                            {strings.infot.pur}
+                        </TableCell>
+                        <TableCell align="center">
+                            <Candy className={classes.icon} /><Box component="span">{props.value.Purification.Candy}</Box>{" + "}
+                            <Dust className={classes.icon} /><Box component="span">{props.value.Purification.Dust}</Box>
+                        </TableCell>
+                    </TableRow>}
+
+                {(props.value.Buddy !== 0) &&
+                    <TableRow>
+                        <TableCell component="th" align="center" scope="row" >
+                            {strings.infot.bud}
+                        </TableCell>
+                        <TableCell align="center">
+                            {props.value.Buddy}
+                        </TableCell>
+                    </TableRow>}
+
+                {props.value.Region !== 0 &&
+                    <TableRow>
+                        <TableCell component="th" align="center" scope="row" >
+                            {strings.infot.reg}
+                        </TableCell>
+                        <TableCell align="center">
+                            {regions[props.value.Region]}
+                        </TableCell>
+                    </TableRow>}
+
+            </TableBody>
+        </Table>
 
     )
 });
 
 export default OtherTable;
+
+OtherTable.propTypes = {
+    value: PropTypes.object.isRequired,
+};

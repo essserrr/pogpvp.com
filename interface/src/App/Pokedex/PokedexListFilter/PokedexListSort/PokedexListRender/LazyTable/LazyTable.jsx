@@ -9,10 +9,10 @@ import TableBody from '@material-ui/core/TableBody';
 const styles = theme => ({
     table: {
         "& td": {
-            padding: `${theme.spacing(0.5)}px`,
+            padding: `${theme.spacing(1)}px ${theme.spacing(0.5)}px ${theme.spacing(1)}px ${theme.spacing(0.5)}px`,
         },
         "& th": {
-            padding: `${theme.spacing(1)}px`,
+            padding: `${theme.spacing(1)}px ${theme.spacing(0.5)}px ${theme.spacing(1)}px ${theme.spacing(0.5)}px`,
             "& .MuiTableSortLabel-icon": {
                 marginLeft: 0,
                 marginRight: 0,

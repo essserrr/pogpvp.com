@@ -31,12 +31,7 @@ export const dexLocale = {
         weak: "Weak to ",
         entparams: "Enter paremeters to calculate CP",
 
-        infot: {
-            bud: "Buddy distance (km)",
-            pur: "Purification cost",
-            reg: "Region",
-            sec: "Second charge cost",
-        },
+
 
 
     },
@@ -77,12 +72,7 @@ export const dexLocale = {
         weak: "Слабости ",
         entparams: "Введите парметры, что бы посчитать CP",
 
-        infot: {
-            bud: "Расстояние бадди (км)",
-            pur: "Стоимость очищения",
-            reg: "Регион",
-            sec: "Стоимость второго чарджа",
-        },
+
 
 
     }

@@ -15,6 +15,13 @@ export const dexLocale = {
             tp: "Type",
             gen: "Gen.",
         },
+
+        infot: {
+            bud: "Buddy distance (km)",
+            pur: "Purification cost",
+            reg: "Region",
+            sec: "Second charge cost",
+        },
     },
 
     ru: {
@@ -33,6 +40,13 @@ export const dexLocale = {
             n: "Имя",
             tp: "Тип",
             gen: "Покол.",
+        },
+
+        infot: {
+            bud: "Расстояние бадди (км)",
+            pur: "Стоимость очищения",
+            reg: "Регион",
+            sec: "Стоимость второго чарджа",
         },
     }
 }

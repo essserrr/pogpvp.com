@@ -8,8 +8,8 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-
 import { makeStyles } from '@material-ui/core/styles';
+
 import { getCookie } from "js/getCookie";
 import { dexLocale } from "locale/Components/EffTable/EffTable";
 import EffIcon from "./EffIcon";
