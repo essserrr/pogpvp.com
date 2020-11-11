@@ -450,9 +450,9 @@ export function getUserPok() {
 }
 
 
-export function boss(locale) {
+export function boss() {
     return {
-        Name: locale, QuickMove: "", ChargeMove: "",
+        Name: "", QuickMove: "", ChargeMove: "",
         Tier: "4", quickMovePool: "", chargeMovePool: "",
     }
 }

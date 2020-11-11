@@ -12,8 +12,8 @@ const Switch = React.memo(function Switch(props) {
             control={
                 <MaterialSwitch
                     checked={checked}
-                    attr={`${attr}Custom`}
-                    name={"SupportSlotEnabled"}
+                    attr={attr}
+                    name={name}
                     color={color ? color : "primary"}
 
                     onChange={(event, ...otherOptions) => onChange(event, { type: type, name: name, category: category, attr: attr, }, ...otherOptions)}

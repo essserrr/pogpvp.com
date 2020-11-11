@@ -49,7 +49,6 @@ const ShBrokerSelectPanel = React.memo(function ShBrokerSelectPanel(props) {
                         checked={Boolean(props.checked)}
                         onChange={props.onCheckboxChange}
                         attr={`${props.attr}Custom`}
-                        name={"SupportSlotEnabled"}
                         color="primary"
                         label={strings.shbroker.int.choose}
                     />

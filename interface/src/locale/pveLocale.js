@@ -36,12 +36,6 @@ export const pveLocale = {
         mega: "Mega Raids",
         sizetip: "Number of groups of pokemon",
 
-        aggrList: {
-            norm: "Normal",
-            aggr: "Aggresive",
-        },
-        aggresivetip: "In the aggresive mode boss deals more damage on average. This mode represents the worst case scenario for raiding.",
-
         playernumbTip: "Expected number of players. The more players, the faster a boss accumulates energy, the stronger and more often he hits.",
 
         player: "Player",
@@ -139,14 +133,6 @@ export const pveLocale = {
         tierlist: "Уровень",
         mega: "Мега рейды",
         sizetip: "Число групп покемонов",
-
-        aggrList: {
-            norm: "Обычный",
-            aggr: "Агрессивный",
-        },
-        aggresivetip: "В агрессивном режиме босс в среднем наносит больше урона. Этот режим предсталяет собой худший вараинт развития событий для рейда.",
-
-
 
         playernumbTip: "Ожидаемое число игрков в рейде. Чем более игроков, тем быстрее босс накапливает энергию, тем сильнее и чаще он бьет.",
 

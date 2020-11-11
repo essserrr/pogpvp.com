@@ -259,16 +259,19 @@ class CustomPokemon extends React.PureComponent {
             });
             return
         }
+
         //check if it's an iv change
         if (name === "Sta" || name === "Def" || name === "Atk") {
             this.onIvChange(event, attr)
             return
         }
+
         //check if it's an level change
         if (name === "Lvl") {
             this.onLevelChange(event, attr)
             return
         }
+
         if (name === "ChargeMove" || name === "ChargeMove2") {
             this.onChargeChange(event, attr)
             return

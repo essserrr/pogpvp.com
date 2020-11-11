@@ -12,21 +12,25 @@ import PveResult from "./Components/PveResult/PveResult"
 
 import { MovePoolBuilder } from "js/movePoolBuilder"
 import { pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV } from "../../js/indexFunctions.js"
+
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
+import { options } from "locale/Components/Options/locale";
 
 import "./CommonPve.scss"
 
-let strings = new LocalizedStrings(locale)
-
+let strings = new LocalizedStrings(locale);
+let optionStrings = new LocalizedStrings(options);
 
 class CommonPve extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
         this.state = {
             attackerObj: (props.parentState.attackerObj) ? props.parentState.attackerObj : pveattacker(),
-            bossObj: (props.parentState.bossObj) ? props.parentState.bossObj : boss(strings.tips.nameSearch),
+            bossObj: (props.parentState.bossObj) ? props.parentState.bossObj : boss(),
             pveObj: (props.parentState.pveObj) ? props.parentState.pveObj : pveobj(),
             supportPokemon: (props.parentState.supportPokemon) ? props.parentState.supportPokemon : pveattacker(),
 
@@ -42,7 +46,7 @@ class CommonPve extends React.PureComponent {
 
             snapshot: {
                 attackerObj: props.parentState.attackerObj ? { ...props.parentState.attackerObj } : pveattacker(),
-                bossObj: props.parentState.bossObj ? { ...props.parentState.bossObj } : boss(strings.tips.nameSearch),
+                bossObj: props.parentState.bossObj ? { ...props.parentState.bossObj } : boss(),
                 pveObj: props.parentState.pveObj ? { ...props.parentState.pveObj } : pveobj(),
                 supportPokemon: (props.parentState.supportPokemon) ? props.parentState.supportPokemon : pveattacker(),
             }
@@ -58,7 +62,7 @@ class CommonPve extends React.PureComponent {
         }
         this.setState({
             attackerObj: (this.props.parentState.attackerObj) ? this.props.parentState.attackerObj : pveattacker(),
-            bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : boss(strings.tips.nameSearch),
+            bossObj: (this.props.parentState.bossObj) ? this.props.parentState.bossObj : pveobj(),
             pveObj: (this.props.parentState.pveObj) ? this.props.parentState.pveObj : pveobj(),
             supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
 
@@ -74,7 +78,7 @@ class CommonPve extends React.PureComponent {
 
             snapshot: {
                 attackerObj: this.props.parentState.attackerObj ? { ...this.props.parentState.attackerObj } : pveattacker(),
-                bossObj: this.props.parentState.bossObj ? { ...this.props.parentState.bossObj } : boss(strings.tips.nameSearch),
+                bossObj: this.props.parentState.bossObj ? { ...this.props.parentState.bossObj } : pveobj(),
                 pveObj: this.props.parentState.pveObj ? { ...this.props.parentState.pveObj } : pveobj(),
                 supportPokemon: (this.props.parentState.supportPokemon) ? this.props.parentState.supportPokemon : pveattacker(),
             }
@@ -82,15 +86,15 @@ class CommonPve extends React.PureComponent {
         return
     }
 
-    onNameChange(event, name) {
+    onNameChange(value, name) {
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect, name === "bossObj")
+        moves.createMovePool(value, this.props.pokemonTable, optionStrings.options.moveSelect, name === "bossObj")
         //set state
         this.setState({
             [name]: {
                 ...this.state[name],
-                Name: event.value,
+                Name: value,
                 quickMovePool: moves.quickMovePool,
                 chargeMovePool: moves.chargeMovePool,
                 QuickMove: "",
@@ -100,110 +104,115 @@ class CommonPve extends React.PureComponent {
     }
 
 
-    onIvChange(event, role) {
+    onIvChange(event, attr) {
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: checkIV(event.target.value) + "",
+            [attr]: {
+                ...this.state[attr],
+                [event.target.name]: String(checkIV(event.target.value)),
             },
         });
     }
 
-    onLevelChange(event, role) {
+    onLevelChange(event, attr) {
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: checkLvl(event.target.value) + "",
+            [attr]: {
+                ...this.state[attr],
+                [event.target.name]: String(checkLvl(event.target.value)),
             },
         });
     }
 
-    onTypeChange(event, role) {
+    onTypeChange(event, attr) {
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: event.target.value,
             },
         });
     }
 
-
-    onMoveAdd(value, attr, category) {
-        const pool = category.includes("Charge") ? "chargeMovePool" : "quickMovePool"
+    onMoveAdd(value, attr, name) {
+        const pool = name.includes("Charge") ? "chargeMovePool" : "quickMovePool";
         let newMovePool = [...this.state[attr][pool]]
         newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+
         this.setState({
             [attr]: {
                 ...this.state[attr],
                 showMenu: false,
                 isSelected: undefined,
                 [pool]: newMovePool,
-                [category]: value,
+                [name]: value,
             },
         });
     }
 
-    onChange(event, name) {
+    onChange(event, atrributes, eventItem, ...other) {
+        const attr = atrributes.attr;
+        const name = atrributes.name;
+        console.log(event.target, atrributes, eventItem, ...other)
         //check if it`s a name change
-        if (event.target === undefined) {
-            switch (name.name[1]) {
-                case "QuickMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
-                case "ChargeMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+        if (eventItem && eventItem.value !== undefined) {
+            switch (name) {
+                case "Name":
+                    this.onNameChange(eventItem.value, attr)
                     return
                 default:
-                    this.onNameChange(event, name.name[0])
+                    this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
-        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
-        //check if it's an iv change
-        if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (event.target.name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
+
         if (event.target.value === "Select...") {
             this.setState({
-                [role]: {
-                    ...this.state[role],
+                [attr]: {
+                    ...this.state[attr],
                     showMenu: true,
-                    isSelected: event.target.name,
+                    isSelected: name,
                 },
             });
             return
         }
+
+        //check if it's an iv change
+        if (name === "Sta" || name === "Def" || name === "Atk") {
+            this.onIvChange(event, attr)
+            return
+        }
+
+        //check if it's an level change
+        if (name === "Lvl") {
+            this.onLevelChange(event, attr)
+            return
+        }
+
         //if it's an type change
-        if (event.target.name === "IsShadow") {
-            this.onTypeChange(event, role)
+        if (name === "IsShadow") {
+            this.onTypeChange(event, attr)
             return
         }
-        if (event.target.name === "SupportSlotEnabled") {
-            this.onSupportEnable(event, role)
+
+        if (name === "SupportSlotEnabled") {
+            this.onSupportEnable(event, attr)
             return
         }
+
         //otherwise follow general pattern
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: event.target.value
             },
         });
     }
 
-    onSupportEnable(event, role) {
+    onSupportEnable(event, attr) {
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: this.state[role][event.target.name] === "false" ? "true" : "false",
+            [attr]: {
+                ...this.state[attr],
+                [event.target.name]: this.state[attr][event.target.name] === "false" ? "true" : "false",
             },
-            supportPokemon: this.state[role][event.target.name] ? pveattacker() : this.state.supportPokemon,
+            supportPokemon: this.state[attr][event.target.name] ? pveattacker() : this.state.supportPokemon,
         })
     }
 
@@ -255,15 +264,11 @@ class CommonPve extends React.PureComponent {
         }
     }
 
-    onClick(event) {
-        let role = event.target.getAttribute("attr")
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-
+    onClick(event, attributes) {
+        const attr = attributes.attr
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 showMenu: false,
                 isSelected: undefined,
             }
@@ -295,7 +300,7 @@ class CommonPve extends React.PureComponent {
                     <Button
                         onClick={this.submitForm}
                         title={strings.buttons.calculate}
-                        endIcon={<i class="fa fa-calculator" aria-hidden="true"></i>}
+                        endIcon={<i className="fa fa-calculator" aria-hidden="true"></i>}
                     />
                 </Grid>
 

@@ -1,72 +1,75 @@
-import React from "react"
-import SelectGroup from "../../../../PvP/components/SelectGroup/SelectGroup"
+import React from "react";
+import PropTypes from 'prop-types';
+import LocalizedStrings from "react-localization";
+
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import Input from "App/Components/Input/Input";
+import WithIcon from "App/Components/WithIcon/WithIcon";
+import PanelWithTitle from "../PanelWithTitle";
 import PvePokemon from "../../PvePokemon"
 
-import LocalizedStrings from "react-localization"
-import { locale } from "../../../../../locale/locale"
-import { pveLocale } from "../../../../../locale/pveLocale"
-import { getCookie } from "../../../../../js/getCookie"
+import { pveLocale } from "locale/Pve/IsAgressive/IsAgressive";
+import { getCookie } from "js/getCookie";
 
-let strings = new LocalizedStrings(locale);
 let pveStrings = new LocalizedStrings(pveLocale)
 
-class BossPanel extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const BossPanel = React.memo(function BossPanel(props) {
+    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
 
-    render() {
-        return (
-            <div className="row mx-0 justify-content-center">
-                <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>
-                <div className="col-12 px-0">
+    const { title, value, onChange, settingsValue, ...other } = props
+
+    console.log(settingsValue.IsAggresive)
+    return (
+        <PanelWithTitle title={title}>
+            <Grid container justify="center" spacing={2}>
+                <Grid item xs={12}>
                     <PvePokemon
-                        attr={this.props.attr}
-
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        pokList={this.props.pokList}
-                        chargeMoveList={this.props.chargeMoveList}
-                        quickMoveList={this.props.quickMoveList}
-
-                        value={this.props.value}
-                        onChange={this.props.onChange}
-                        onClick={this.props.onClick}
+                        value={value}
+                        onChange={onChange}
+                        {...other}
                     />
-                </div>
+                </Grid>
+                <Grid item xs={6}>
+                    <WithIcon tip={pveStrings.aggresivetip}>
+                        <Input
+                            select
+                            name="IsAggresive"
+                            value={settingsValue.IsAggresive}
+                            attr="pveObj"
+                            label={pveStrings.aggreasive}
+                            onChange={onChange}
+                        >
+                            <MenuItem alignItems="flex-start" value="false">{pveStrings.aggrList.norm}</MenuItem>
+                            <MenuItem value="true">{pveStrings.aggrList.aggr}</MenuItem>
+                        </Input>
+                    </WithIcon>
+                </Grid>
+            </Grid>
+        </PanelWithTitle>
+    )
+});
 
-                <div className="col-6 px-0  my-1">
-                    <SelectGroup
-                        class="input-group input-group-sm"
 
-                        name="IsAggresive"
-                        value={this.props.settingsValue.IsAggresive}
-                        attr="pveObj"
-                        onChange={this.props.onChange}
-                        options={
-                            <>
-                                <option value="false" key="Normal">{pveStrings.aggrList.norm}</option>
-                                <option value="true" key="Aggresive">{pveStrings.aggrList.aggr}</option>
-                            </>
-                        }
+export default BossPanel;
 
-                        labelWidth="88px"
-                        label={pveStrings.aggreasive}
+BossPanel.propTypes = {
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+    attr: PropTypes.node,
 
+    pokemonTable: PropTypes.object.isRequired,
+    moveTable: PropTypes.object.isRequired,
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
 
-                        place={"top"}
-                        for={"bossIsAggresive"}
+    value: PropTypes.object.isRequired,
+    settingsValue: PropTypes.object.isRequired,
 
-                        tip={pveStrings.aggresivetip}
-                        tipClass="infoTip"
-                    />
-                </div>
-            </div>
-        )
-    }
-
-}
-
-export default BossPanel
+    onChange: PropTypes.func,
+    onClick: PropTypes.func,
+};
