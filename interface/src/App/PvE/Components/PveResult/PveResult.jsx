@@ -199,11 +199,11 @@ class PveResult extends React.PureComponent {
                         filter={this.state.filter}
                         sort={this.state.param}
 
-                        list={this.props.result}
-                        raplace={this.raplace}
                         showBreakpoints={this.showBreakpoints}
                         loadMore={this.loadMore}
-                    />
+                    >
+                        {this.props.result}
+                    </PveResListFilter>
                 </Grid>
 
             </Grid>
