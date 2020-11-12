@@ -1,6 +1,8 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
+import Grid from '@material-ui/core/Grid';
+
 import URL from "../../../PvP/components/URL/URL"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
@@ -109,22 +111,27 @@ class PveResult extends React.PureComponent {
 
     render() {
         return (
-            <>
-                {(this.state.showBreakpoints) && <MagicBox
-                    onClick={this.onClick}
-                    attr={"breakpoints"}
-                    element={<Breakpoints
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        snapshot={this.state.breakpObj}
+            <Grid container justify="center" spacing={2}>
+                {(this.state.showBreakpoints) &&
+                    <MagicBox
+                        onClick={this.onClick}
+                        attr={"breakpoints"}
+                        element={<Breakpoints
+                            pokemonTable={this.props.pokemonTable}
+                            moveTable={this.props.moveTable}
+                            snapshot={this.state.breakpObj}
+                        />}
                     />}
-                />}
-                <div className="pveresult row m-0 justify-content-center p-2" tabIndex="0" ref={this.pveres}>
+
+                <Grid item xs={12} ref={this.pveres}>
                     <PveWillow
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}
                     />
-                    {this.props.url && <div className="col-12 mb-2" >
+                </Grid>
+
+                {this.props.url &&
+                    <Grid item xs={12}>
                         <URL
                             label={strings.title.url}
                             for="pvpURLLabel"
@@ -137,73 +144,80 @@ class PveResult extends React.PureComponent {
                             message={strings.tips.url.message}
                             value={this.props.url}
                         />
-                    </div>}
-                    {!this.props.customResult && <div className="col-12 mb-1 px-3">
+                    </Grid>}
+
+                {!this.props.customResult &&
+                    <Grid item xs={12}>
                         <DoubleSlider
                             onClick={this.onSortChange}
                             attrs={["damage", "dps"]}
                             titles={[pvestrings.sortd, pvestrings.sortdps]}
                             active={[this.state.param === "damage", this.state.param === "dps"]}
                         />
-                    </div>}
-                    {!this.props.customResult &&
-                        <div className={"col-12 col-sm-6 p-0 mb-3 text-center justify-content-center"} >
+                    </Grid>}
 
-                            <Switch
-                                checked={Boolean(this.state.filter.unique)}
-                                onChange={this.onFilter}
-                                attr="unique"
-                                color="primary"
-                                label={pvestrings.unique}
-                            />
-                        </div>}
-                    {this.props.needsAvg &&
-                        <>
-                            <div className={"col-12 px-0 mt-2"}>
-                                <PveResTitle>
-                                    {`${pvestrings.resType.player}:`}
-                                </PveResTitle>
-                            </div>
-                            <div className={"col-12 px-0"}>
-                                <PlayerResProcessor
-                                    value={this.props.result}
-
-                                    snapshot={this.props.snapshot}
-                                    tables={this.props.tables}
-
-                                    pokemonTable={this.props.pokemonTable}
-                                    moveTable={this.props.moveTable}
-                                />
-                            </div>
-                            <div className={"col-12 px-0 mt-2"}>
-                                <PveResTitle>
-                                    {`${pvestrings.resType.individ}:`}
-                                </PveResTitle>
-                            </div>
-                        </>}
-                    <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
-                        <PveResListFilter
-                            needsAvg={this.props.needsAvg}
-                            n={this.state.n}
-                            customResult={this.props.customResult}
-
-                            snapshot={this.props.snapshot}
-                            tables={this.props.tables}
-
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.moveTable}
-
-                            filter={this.state.filter}
-                            sort={this.state.param}
-
-                            list={this.props.result}
-                            raplace={this.raplace}
-                            showBreakpoints={this.showBreakpoints}
-                            loadMore={this.loadMore}
+                {!this.props.customResult &&
+                    <Grid item xs={12} container justify="center">
+                        <Switch
+                            checked={Boolean(this.state.filter.unique)}
+                            onChange={this.onFilter}
+                            attr="unique"
+                            color="primary"
+                            label={pvestrings.unique}
                         />
-                    </div>
-                </div>
-            </>
+                    </Grid>}
+
+
+                {this.props.needsAvg &&
+                    <>
+                        <Grid item xs={12}>
+                            <PveResTitle>
+                                {`${pvestrings.resType.player}:`}
+                            </PveResTitle>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <PlayerResProcessor
+                                value={this.props.result}
+
+                                snapshot={this.props.snapshot}
+                                tables={this.props.tables}
+
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.moveTable}
+                            />
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <PveResTitle>
+                                {`${pvestrings.resType.individ}:`}
+                            </PveResTitle>
+                        </Grid>
+                    </>}
+
+                <Grid item xs={12}>
+                    <PveResListFilter
+                        needsAvg={this.props.needsAvg}
+                        n={this.state.n}
+                        customResult={this.props.customResult}
+
+                        snapshot={this.props.snapshot}
+                        tables={this.props.tables}
+
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
+
+                        filter={this.state.filter}
+                        sort={this.state.param}
+
+                        list={this.props.result}
+                        raplace={this.raplace}
+                        showBreakpoints={this.showBreakpoints}
+                        loadMore={this.loadMore}
+                    />
+                </Grid>
+
+            </Grid>
         )
     }
 
