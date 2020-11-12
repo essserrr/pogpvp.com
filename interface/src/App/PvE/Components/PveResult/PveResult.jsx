@@ -3,7 +3,7 @@ import LocalizedStrings from "react-localization"
 
 import Grid from '@material-ui/core/Grid';
 
-import URL from "../../../PvP/components/URL/URL"
+import URI from "App/PvP/components/URI/URI"
 import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
 import Breakpoints from "./Breakpoints/Breakpoints"
@@ -123,7 +123,7 @@ class PveResult extends React.PureComponent {
                         />}
                     />}
 
-                <Grid item xs={12} ref={this.pveres}>
+                <Grid item xs={12}>
                     <PveWillow
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}
@@ -132,22 +132,11 @@ class PveResult extends React.PureComponent {
 
                 {this.props.url &&
                     <Grid item xs={12}>
-                        <URL
-                            label={strings.title.url}
-                            for="pvpURLLabel"
-                            tip={<>
-                                {strings.tips.url.first}
-                                < br />
-                                {strings.tips.url.second}
-                            </>}
-                            place="top"
-                            message={strings.tips.url.message}
-                            value={this.props.url}
-                        />
+                        <URI value={this.props.url} />
                     </Grid>}
 
                 {!this.props.customResult &&
-                    <Grid item xs={12}>
+                    <Grid item xs={12} ref={this.pveres} tabIndex="0">
                         <DoubleSlider
                             onClick={this.onSortChange}
                             attrs={["damage", "dps"]}

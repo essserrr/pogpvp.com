@@ -54,14 +54,16 @@ const PveWillow = React.memo(function PveWillow(props) {
 
     return (
         <Grid container justify="center" alignItems="center">
-            <Typography variant="body2">
 
-                <Box position="relative">
 
-                    <Iconer fileName="willow3" folderName="/" />
+            <Box position="relative">
 
-                    <Paper className={classes.bubble} elevation={4}>
-                        <Box px={1} py={1}>
+                <Iconer fileName="willow3" folderName="/" />
+
+                <Paper className={classes.bubble} elevation={4}>
+                    <Box px={1} py={1}>
+                        <Typography variant="body2">
+
 
                             {`${pvestrings.willow1} `}<b>{props.snapshot.bossObj.Name}</b>{". "}
 
@@ -89,12 +91,12 @@ const PveWillow = React.memo(function PveWillow(props) {
                                 <CP name={props.snapshot.bossObj.Name} Lvl={boosted ? 25 : 20} Atk={15} Def={15} Sta={15} pokemonTable={props.pokemonTable} />
                             </b>{"."}
 
-                        </Box>
-                    </Paper>
+                        </Typography>
+                    </Box>
+                </Paper>
 
-                </Box>
+            </Box>
 
-            </Typography>
         </Grid>
     )
 });

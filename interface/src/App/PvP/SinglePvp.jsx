@@ -10,7 +10,7 @@ import Result from "./components/Result";
 import SubmitButton from "./components/SubmitButton/SubmitButton"
 import PvpReconstruction from "./components/PvpReconstruction/PvpReconstruction"
 import Indicators from "./components/Indicators/Indicators"
-import URL from "./components/URL/URL"
+import URI from "./components/URI/URI"
 import MagicBox from "./components/MagicBox/MagicBox"
 import Constructor from "./components/Constructor/Constructor"
 
@@ -697,18 +697,7 @@ class SinglePvp extends React.PureComponent {
                                         </div>
                                         {this.state.url && this.state.showResult &&
                                             <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >
-                                                <URL
-                                                    label={strings.title.url}
-                                                    for="pvpURLLabel"
-                                                    tip={<>
-                                                        {strings.tips.url.first}
-                                                        < br />
-                                                        {strings.tips.url.second}
-                                                    </>}
-                                                    place="top"
-                                                    message={strings.tips.url.message}
-                                                    value={this.state.url}
-                                                />
+                                                <URI value={this.state.url} />
                                             </div>}
                                     </div>
                                 </div>}
