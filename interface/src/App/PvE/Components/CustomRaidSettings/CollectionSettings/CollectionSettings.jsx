@@ -8,11 +8,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Input from "App/Components/Input/Input";
 import Switch from 'App/Components/Switch/Switch';
 
-import { pveLocale } from "locale/Pve/Settings/Settings";
+import { settings } from "locale/Pve/Settings/Settings";
 import { labels } from "locale/Pve/PokemonLabels";
 import { getCookie } from "js/getCookie"
 
-let strings = new LocalizedStrings(pveLocale);
+let strings = new LocalizedStrings(settings);
 let labelsStrings = new LocalizedStrings(labels);
 
 const CollectionSettings = React.memo(function CollectionSettings(props) {

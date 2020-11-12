@@ -1,4 +1,4 @@
-export const pveLocale = {
+export const settings = {
     en: {
         weather: "Погода",
         weatherList: {

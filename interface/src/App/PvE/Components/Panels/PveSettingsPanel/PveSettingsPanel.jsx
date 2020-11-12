@@ -9,10 +9,10 @@ import Input from "App/Components/Input/Input";
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import PanelWithTitle from "../PanelWithTitle";
 
-import { pveLocale } from "locale/Pve/Settings/Settings";
+import { settings } from "locale/Pve/Settings/Settings";
 import { getCookie } from "js/getCookie";
 
-let pveStrings = new LocalizedStrings(pveLocale)
+let pveStrings = new LocalizedStrings(settings)
 
 const PveSettingsPanel = React.memo(function PveSettingsPanel(props) {
     pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")

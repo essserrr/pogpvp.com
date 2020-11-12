@@ -10,11 +10,11 @@ import GroupsSettings from "./GroupsSettings/GroupsSettings";
 import CollectionSettings from "./CollectionSettings/CollectionSettings";
 import DoubleSlider from "App/Movedex/MoveCard/DoubleSlider/DoubleSlider";
 
-import { pveLocale } from "locale/Pve/Settings/Settings";
+import { settings } from "locale/Pve/Settings/Settings";
 import { getCookie } from "js/getCookie";
 
 
-let pveStrings = new LocalizedStrings(pveLocale);
+let pveStrings = new LocalizedStrings(settings);
 
 const CustomRaidSettings = React.memo(function CustomRaidSettings(props) {
     pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
