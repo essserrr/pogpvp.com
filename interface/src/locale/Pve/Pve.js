@@ -1,5 +1,7 @@
 export const locale = {
     en: {
+        s: "s",
+
         sup: "Pokemon-supporter",
         boss: "Boss (required)",
         attacker: "Your team",
@@ -29,6 +31,8 @@ export const locale = {
 
 
     ru: {
+        s: "с",
+
         sup: "Покемон поддержки",
         boss: "Босс (обязательно)",
         attacker: "Ваша команда",
