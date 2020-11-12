@@ -140,7 +140,7 @@ class PvePage extends React.Component {
                         showResult: false,
                         loading: false,
 
-                        moveTable: (!!this.props.bases.moveBase) ? mergedMovebase : [],
+                        moveTable: !!this.props.bases.moveBase ? mergedMovebase : [],
                         pokList: pokList,
                         chargeMoveList: movebaseSeparated.chargeMoveList,
                         quickMoveList: movebaseSeparated.quickMoveList,

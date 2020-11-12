@@ -33,7 +33,6 @@ const PvePokemon = React.memo(function PvePokemon(props) {
     optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     tipStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-
     return (
         <Grid container justify="center" alignItems="center" spacing={2}>
             <MagicBox
