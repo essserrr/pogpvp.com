@@ -1,22 +1,34 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import { getCookie } from "../../../../../../../../../js/getCookie"
-import { pveLocale } from "../../../../../../../../../locale/pveLocale"
+import Typography from '@material-ui/core/Typography';
 
-import "./HpRemaining.scss"
+import { getCookie } from "js/getCookie";
+import { remain } from "locale/Components/HPRemaining/HPRemaining";
 
-let pveStrings = new LocalizedStrings(pveLocale)
+let pveStrings = new LocalizedStrings(remain);
 
-const HpRemaining = React.memo(function (props) {
+const HpRemaining = React.memo(function HpRemaining(props) {
     pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className="hp-remaining col-12 px-0 ">
+        <Typography varinat="body2">
+
             {`${pveStrings.hprem}${props.avg}`}
+
             {(props.max !== undefined && props.min !== undefined) && ` (${props.max}-${props.min})`}
-            {props.nbOfWins > 0 && <span className="hp-remaining__win ml-1">{` ${pveStrings.winrate} ${props.nbOfWins}%`}</span>}
-        </div>
+
+            {props.nbOfWins > 0 && <b>{` ${pveStrings.winrate} ${props.nbOfWins}%`}</b>}
+
+        </Typography>
     )
 });
 
 export default HpRemaining;
+
+HpRemaining.propTypes = {
+    avg: PropTypes.number,
+    max: PropTypes.number,
+    min: PropTypes.number,
+    nbOfWins: PropTypes.string,
+};

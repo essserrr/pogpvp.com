@@ -15,7 +15,6 @@ export const pveLocale = {
         supen: "Enable pokemon-supporter",
         sup: "Pokemon-supporter",
 
-        winrate: "Wintrate",
         s: "s",
         boss: "Boss (required)",
         attacker: "Your team",
@@ -39,7 +38,6 @@ export const pveLocale = {
 
 
 
-        hprem: "Boss remaining HP: ",
         pres: "Recalculate with high precision",
         break: "Calculate breakpoints",
         atkiv: "\xa0\xa0Attack IV\xa0",
@@ -71,7 +69,6 @@ export const pveLocale = {
         supen: "Включить покемона поддержки",
         sup: "Покемон поддержки",
 
-        winrate: "Шанс победить",
         s: "с",
         boss: "Босс (обязательно)",
         attacker: "Ваша команда",
@@ -95,7 +92,6 @@ export const pveLocale = {
 
 
 
-        hprem: "Осталось HP у босса: ",
         pres: "Пересчитать с высокой точностью",
         break: "Посчитать брейкпоинты",
         atkiv: "\xa0\xa0\xa0IV Атака\xa0\xa0",

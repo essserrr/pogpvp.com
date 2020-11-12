@@ -50,7 +50,7 @@ const HpBar = React.memo(function HpBar(props) {
 export default HpBar;
 
 HpBar.propTypes = {
-    up: PropTypes.number,
-    low: PropTypes.number,
-    avg: PropTypes.number,
+    up: PropTypes.string,
+    low: PropTypes.string,
+    avg: PropTypes.string,
 };
