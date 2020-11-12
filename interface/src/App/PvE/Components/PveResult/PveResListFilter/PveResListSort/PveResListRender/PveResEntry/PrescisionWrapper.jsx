@@ -1,6 +1,7 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PveResEntry from "./PveResEntry"
+import PveResEntry from "./PveResEntry";
 
 class PrescisionWrapper extends React.PureComponent {
     constructor(props) {
@@ -37,8 +38,6 @@ class PrescisionWrapper extends React.PureComponent {
                 pokemonTable={this.props.pokemonTable}
                 moveTable={this.props.moveTable}
                 pokList={this.props.pokList}
-                chargeMoveList={this.props.chargeMoveList}
-                quickMoveList={this.props.quickMoveList}
 
                 showBreakpoints={this.props.showBreakpoints}
 
@@ -50,4 +49,18 @@ class PrescisionWrapper extends React.PureComponent {
 
 export default PrescisionWrapper;
 
+
+PrescisionWrapper.propTypes = {
+    i: PropTypes.number,
+    pokemonRes: PropTypes.object,
+    customResult: PropTypes.bool,
+
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    showBreakpoints: PropTypes.func,
+};
 
