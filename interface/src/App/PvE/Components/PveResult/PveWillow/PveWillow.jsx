@@ -6,7 +6,8 @@ import WeatherBoosted from "./WeatherBoosted"
 
 
 import { tierHP } from "js/bases/tierHP";
-import { weather, calculateCP } from "../../../../../js/indexFunctions"
+import { weather } from "js/bases/weather";
+import { calculateCP } from "../../../../../js/indexFunctions"
 
 import { pveLocale } from "../../../../../locale/pveLocale"
 import { settings } from "locale/Pve/Settings/Settings"

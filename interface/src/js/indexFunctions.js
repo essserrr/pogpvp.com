@@ -1,6 +1,6 @@
 import { levelData } from "js/bases/levelData";
 import { tierHP } from "js/bases/tierHP";
-
+import { weather } from "js/bases/weather";
 
 export const capitalizeFirst = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|-|["'([{])+\S/g, match => match.toUpperCase());
@@ -1122,42 +1122,6 @@ export var tierMult = [
     0.79,
     0.79,
 ]
-
-export var weather = {
-    0: {},
-    1: {
-        10: 1.2,
-        9: 1.2,
-        6: 1.2,
-    },
-    2: {
-        0: 1.2,
-        3: 1.2,
-        17: 1.2,
-    },
-    3: {
-        15: 1.2,
-        12: 1.2,
-    },
-    4: {
-        13: 1.2,
-        4: 1.2,
-        5: 1.2,
-    },
-    5: {
-        14: 1.2,
-        7: 1.2,
-        2: 1.2,
-    },
-    6: {
-        16: 1.2,
-        11: 1.2,
-    },
-    7: {
-        8: 1.2,
-        1: 1.2,
-    },
-}
 
 var friendship = [
     1.0,
