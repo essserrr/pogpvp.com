@@ -19,6 +19,10 @@ export const locale = {
         title: {
             about: "О симуляторе",
         },
+
+        buttons: {
+            loadmore: "Load more",
+        },
     },
 
 
@@ -43,6 +47,10 @@ export const locale = {
 
         title: {
             about: "About simulator",
+        },
+
+        buttons: {
+            loadmore: "Загрузить еще",
         },
     }
 }

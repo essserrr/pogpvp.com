@@ -1,59 +1,63 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import SubmitButton from "../../../../../../PvP/components/SubmitButton/SubmitButton"
-import PrescisionWrapper from "./PveResEntry/PrescisionWrapper"
+import Grid from '@material-ui/core/Grid';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
-import { locale } from "../../../../../../../locale/locale"
-import { getCookie } from "../../../../../../../js/getCookie"
+import Button from "App/Components/Button/Button";
+import PrescisionWrapper from "./PveResEntry/PrescisionWrapper";
+
+import { locale } from "locale/Pve/Pve";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale);
 
-class PveResListRender extends React.Component {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const PveResListRender = React.memo(function PveResListRender(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const { children, n, loadMore, ...other } = props;
 
+    const upperBound = children.length >= n * 25 ? n * 25 : children.length;
+    const isNextPage = children.length > upperBound;
 
-    render() {
-        const upperBound = this.props.children.length >= this.props.n * 25 ? this.props.n * 25 : this.props.children.length
-        const isNextPage = this.props.children.length > upperBound
-        return (
-            <>
-                {this.props.children.slice(0, upperBound).map((elem, i) =>
-                    <PrescisionWrapper
-                        key={i}
-                        customResult={this.props.customResult}
+    return (
+        <Grid container spacing={2}>
 
-                        i={i}
-                        pokemonRes={elem}
-                        snapshot={this.props.snapshot}
-                        tables={this.props.tables}
-
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        pokList={this.props.pokList}
-                        chargeMoveList={this.props.chargeMoveList}
-                        quickMoveList={this.props.quickMoveList}
-
-                        showBreakpoints={this.props.showBreakpoints}
-                    />
+            <Grid item xs={12} container spacing={1}>
+                {children.slice(0, upperBound).map((elem, i) =>
+                    <Grid item xs={12} key={i}>
+                        <PrescisionWrapper i={i} pokemonRes={elem} {...other} />
+                    </Grid>
                 )}
+            </Grid>
 
-                {isNextPage &&
-                    <div className="row mx-0 justify-content-center mt-3">
-                        <SubmitButton
-                            action="Load more"
-                            onSubmit={this.props.loadMore}
-                            class="submit-button--lg btn btn-primary btn-sm"
-                        >
-                            {strings.buttons.loadmore}
-                        </SubmitButton>
-                    </div>}
-            </>
-        );
-    }
-}
+            {isNextPage &&
+                <Grid item xs={12} container justify="center">
+                    <Button
+                        title={strings.buttons.loadmore}
+                        onClick={loadMore}
+                        endIcon={<GetAppIcon />}
+                    />
+                </Grid>}
+        </Grid>
+    )
+});
 
-export default PveResListRender
+
+export default PveResListRender;
+
+PveResListRender.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.object),
+
+    n: PropTypes.number,
+    customResult: PropTypes.bool,
+
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    showBreakpoints: PropTypes.func,
+    loadMore: PropTypes.func,
+};
