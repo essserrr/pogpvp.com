@@ -1,5 +1,10 @@
 export const locale = {
     en: {
+        sup: "Pokemon-supporter",
+        boss: "Boss (required)",
+        attacker: "Your team",
+        raid: "Raid settings",
+
         pageheaders: {
             single: "Single PvP  |  PogPvP.com",
             common: "Raid simulator  |  PogPvP.com",
@@ -20,6 +25,11 @@ export const locale = {
 
 
     ru: {
+        sup: "Покемон поддержки",
+        boss: "Босс (обязательно)",
+        attacker: "Ваша команда",
+        raid: "Настройки рейда",
+
         pageheaders: {
             single: "Одиночное PvP  |  PogPvP.com",
             common: "Симулятор рейдов  |  PogPvP.com",
