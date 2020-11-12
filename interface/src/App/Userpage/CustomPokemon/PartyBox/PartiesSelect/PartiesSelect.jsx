@@ -5,7 +5,7 @@ import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 const PartiesSelect = React.memo(function PokemonSelect(props) {
     const { children, label, name, onChange, maxSize, activePartyName, ...other } = props;
 
-    const list = Object.keys(children).map((value) => ({ value1: value, title: value }));
+    const list = Object.keys(children).map((value) => ({ value: value, title: value }));
     const fullLabel = `${label} (${list.length}/${maxSize})`;
 
     return (

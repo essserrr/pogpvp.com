@@ -95,8 +95,8 @@ class PartyBox extends React.PureComponent {
 
     onPartySelect(event, attributes, selectOption) {
         this.setState({
-            activePartyName: selectOption.value1,
-            activeParty: this.props.userParties[selectOption.value1],
+            activePartyName: selectOption.value,
+            activeParty: this.props.userParties[selectOption.value],
         })
 
     }

@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 import { CountryRegionData } from "../crlist";
 
-const cuntriesList = CountryRegionData.map((value) => ({ value: value[0], title: value[0], }));
+const countriesList = CountryRegionData.map((value) => ({ value: value[0], title: value[0], }));
 
 const Country = React.memo(function Country(props) {
 
     return (
         <SearchableSelect
             disableClearable
-            label={props.label}
+            label={props.defaultOption}
 
             value={props.value}
             onChange={props.onChange}
             errorText={props.notOk}
         >
-            {[{ value: "", title: props.defaultOption, }, ...cuntriesList]}
+            {countriesList}
         </SearchableSelect>
     )
 });
