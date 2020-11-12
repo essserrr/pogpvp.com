@@ -33,6 +33,8 @@ const PveResListFilter = React.memo(function PveResListFilter(props) {
 export default PveResListFilter;
 
 PveResListFilter.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.object),
+
     needsAvg: PropTypes.bool,
     n: PropTypes.number,
     customResult: PropTypes.bool,

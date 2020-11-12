@@ -17,11 +17,11 @@ class PveResListRender extends React.Component {
 
 
     render() {
-        const upperBound = this.props.list.length >= this.props.n * 25 ? this.props.n * 25 : this.props.list.length
-        const isNextPage = this.props.list.length > upperBound
+        const upperBound = this.props.children.length >= this.props.n * 25 ? this.props.n * 25 : this.props.children.length
+        const isNextPage = this.props.children.length > upperBound
         return (
             <>
-                {this.props.list.slice(0, upperBound).map((elem, i) =>
+                {this.props.children.slice(0, upperBound).map((elem, i) =>
                     <PrescisionWrapper
                         key={i}
                         customResult={this.props.customResult}

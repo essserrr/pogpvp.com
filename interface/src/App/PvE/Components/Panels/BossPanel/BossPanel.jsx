@@ -20,7 +20,6 @@ const BossPanel = React.memo(function BossPanel(props) {
 
     const { title, value, onChange, settingsValue, ...other } = props
 
-    console.log(settingsValue.IsAggresive)
     return (
         <PanelWithTitle title={title}>
             <Grid container justify="center" spacing={2}>

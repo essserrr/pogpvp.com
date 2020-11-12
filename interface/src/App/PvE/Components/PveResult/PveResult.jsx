@@ -77,10 +77,9 @@ class PveResult extends React.PureComponent {
         })
     }
 
-    onSortChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onSortChange(event, attributes) {
         this.setState({
-            param: attr,
+            param: attributes.attr,
         })
     }
 

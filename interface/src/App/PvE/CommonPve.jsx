@@ -150,7 +150,6 @@ class CommonPve extends React.PureComponent {
     onChange(event, atrributes, eventItem, ...other) {
         const attr = atrributes.attr;
         const name = atrributes.name;
-        console.log(event.target, atrributes, eventItem, ...other)
         //check if it`s a name change
         if (eventItem && eventItem.value !== undefined) {
             switch (name) {
