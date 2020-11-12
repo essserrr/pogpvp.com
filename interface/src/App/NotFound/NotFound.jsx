@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from "@material-ui/core/styles";
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import SiteHelm from "App/SiteHelm/SiteHelm";
@@ -12,11 +14,28 @@ import NotFoundIcon from "./NotFoundIcon/NotFoundIcon";
 import { locale } from "locale/NotFound/NotFound";
 import { getCookie } from "js/getCookie";
 
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(locale);
+
+const styles = theme => ({
+    link: {
+        textDecoration: "none",
+        color: theme.palette.text.primary,
+        "&:hover": {
+            color: theme.palette.text.link,
+            textDecoration: "underline",
+            cursor: "pointer",
+        },
+    },
+
+    icon: {
+        width: "300px !important",
+        height: "271px !important",
+    },
+});
 
 class NotFound extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.notFound = React.createRef();
 
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -38,6 +57,8 @@ class NotFound extends React.Component {
 
 
     render() {
+        const { classes } = this.props;
+
         return (
             <Grid container justify="center">
                 <SiteHelm
@@ -48,29 +69,31 @@ class NotFound extends React.Component {
 
                 <Grid item xs={12} md={7} lg={5}>
                     <GreyPaper elevation={4} enablePadding>
-                        <Grid container justify="center" alignItems="center">
+                        <Grid container justify="center" alignItems="center" spacing={2}>
 
                             <Grid item xs={12} ref={this.notFound}>
                                 <NotFoundIcon />
                             </Grid>
 
                             <Grid item xs={12}>
-                                <Typography variant="h6" align="center">
+                                <Typography variant="h5" align="center">
                                     {strings.notfound}
                                 </Typography>
                             </Grid>
 
                             <Grid item xs={12} ref={this.notFound}>
-                                <Grid container justify="center">
 
-                                    <Typography variant="h6" align="center">
-                                        <Link title={strings.buttons.home} to={"/"} style={{ display: "flex", alignItems: "center" }}>
+                                <Link title={strings.buttons.home} to={"/"} className={classes.link}>
+                                    <Typography variant="h6">
+
+                                        <Box display="flex" alignItems="center" justifyContent="center">
                                             <DoubleArrowIcon style={{ transform: "rotate(180deg)" }} />
                                             {strings.return}
-                                        </Link>
-                                    </Typography>
+                                        </Box>
 
-                                </Grid>
+                                    </Typography>
+                                </Link>
+
                             </Grid>
 
                         </Grid>
@@ -81,5 +104,4 @@ class NotFound extends React.Component {
     }
 }
 
-export default NotFound;
-
+export default withStyles(styles, { withTheme: true })(NotFound);
