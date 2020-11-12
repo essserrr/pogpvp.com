@@ -9,9 +9,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
 import { getCookie } from "js/getCookie";
-import { locale } from "locale/Navbar/Navbar";
+import { navlocale } from "locale/Navbar/Navbar";
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(navlocale);
 
 const styles = theme => ({
     input: {

@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Drawer from '@material-ui/core/Drawer';
 
-import { locale } from "locale/Navbar/Navbar";
+import { navlocale } from "locale/Navbar/Navbar";
 import { getCookie } from "js/getCookie";
 import { ReactComponent as Logo } from "icons/logo.svg";
 
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(navlocale)
 
 const NavbarPanel = React.memo(function NavbarPanel(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")

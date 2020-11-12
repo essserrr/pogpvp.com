@@ -1,4 +1,4 @@
-export const locale = {
+export const navlocale = {
     en: {
         search: "Search...",
         home: "Main page",

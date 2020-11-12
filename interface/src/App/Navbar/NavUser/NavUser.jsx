@@ -13,7 +13,7 @@ import { refresh } from "AppStore/Actions/refresh";
 import { setSession } from "AppStore/Actions/actions";
 import { getCookie } from "js/getCookie";
 import LoginReg from "./LoginReg/LoginReg";
-import { locale } from "locale/Navbar/Navbar";
+import { navlocale } from "locale/Navbar/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     dropdown: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(navlocale);
 
 const User = React.memo(function User(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")

@@ -8,9 +8,9 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { getCookie } from "js/getCookie";
-import { locale } from "locale/Navbar/Navbar";
+import { navlocale } from "locale/Navbar/Navbar";
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(navlocale);
 
 const useStyles = makeStyles((theme) => ({
     iconStyle: {

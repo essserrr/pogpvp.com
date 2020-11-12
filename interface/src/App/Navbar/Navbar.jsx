@@ -12,7 +12,7 @@ import DropdownMenu from "App/Navbar/DropdownMenu/DropdownMenu";
 import NavUser from "./NavUser/NavUser";
 import Search from "./Search/Search";
 
-import { locale } from "locale/Navbar/Navbar";
+import { navlocale } from "locale/Navbar/Navbar";
 import { getCookie } from "js/getCookie";
 
 import { ReactComponent as En } from "icons/us.svg";
@@ -23,7 +23,7 @@ import { ReactComponent as Redgym } from "icons/redgym.svg";
 import { ReactComponent as Dex } from "icons/dex.svg";
 import { ReactComponent as Patreon } from "icons/patreon.svg";
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(navlocale);
 
 
 class Navbar extends React.PureComponent {

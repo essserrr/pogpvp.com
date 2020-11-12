@@ -14,15 +14,18 @@ import { MovePoolBuilder } from "js/movePoolBuilder"
 import { pveattacker, boss, pveobj, pveUserSettings, pveCutomParty } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
+import { navlocale } from "locale/Navbar/Navbar";
 
 import "./CustomPve.scss"
 
+let navStrings = new LocalizedStrings(navlocale)
 let strings = new LocalizedStrings(locale)
 
 class CustomPve extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        navStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             userSettings: pveUserSettings(),
             bossObj: boss(strings.tips.nameSearch),
@@ -378,7 +381,7 @@ class CustomPve extends React.PureComponent {
                     <OopsError
                         description={strings.oopsReg}
                         link={"/registration"}
-                        linkTitle={strings.navbar.sup}
+                        linkTitle={navStrings.navbar.sup}
                     />}
             </ >
 
