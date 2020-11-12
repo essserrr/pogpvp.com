@@ -29,9 +29,9 @@ export const pveLocale = {
         sizetip: "Number of groups of pokemon",
         party: "group",
 
-        dodge: "Уклонения",
-        dodgeList: "Без уклонений",
-        dodgetip: "Шанс на уклонение показывает количество случаев, в которых покемон успешно увернется от заражаемой атаки босса.",
+        dodge: "Dodge",
+        dodgeList: "No dodge",
+        dodgetip: "Dodge chance shows the amount of cases in which pokemon will successfully dodge a boss next charge attack.",
 
         selfFromColl: "Find best group for you",
         selfFromGtoup: "Use your group list",
@@ -76,9 +76,9 @@ export const pveLocale = {
         sizetip: "Число групп покемонов",
         party: "группа",
 
-        dodge: "Dodge",
-        dodgeList: "No dodge",
-        dodgetip: "Dodge chance shows the amount of cases in which pokemon will successfully dodge a boss next charge attack.",
+        dodge: "Уклонения",
+        dodgeList: "Без уклонений",
+        dodgetip: "Шанс на уклонение показывает количество случаев, в которых покемон успешно увернется от заражаемой атаки босса.",
 
         selfFromColl: "Подобрать вам группу",
         selfFromGtoup: "Использовать ваши группы",
