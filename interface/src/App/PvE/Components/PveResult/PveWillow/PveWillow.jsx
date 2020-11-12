@@ -4,19 +4,24 @@ import LocalizedStrings from "react-localization"
 import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
 import WeatherBoosted from "./WeatherBoosted"
 
-import { pveLocale } from "../../../../../locale/pveLocale"
+
 import { tierHP } from "js/bases/tierHP";
 import { weather, calculateCP } from "../../../../../js/indexFunctions"
+
+import { pveLocale } from "../../../../../locale/pveLocale"
+import { settings } from "locale/Pve/Settings/Settings"
 import { getCookie } from "../../../../../js/getCookie"
 
 import "./PveWillow.scss"
 
-let pvestrings = new LocalizedStrings(pveLocale)
+let pvestrings = new LocalizedStrings(pveLocale);
+let settingStrings = new LocalizedStrings(settings);
 
 class PveWillow extends React.PureComponent {
     constructor(props) {
         super(props);
         pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        settingStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
         this.state = {
             n: 1,
@@ -46,7 +51,7 @@ class PveWillow extends React.PureComponent {
                     {". " + pvestrings.willow2}<span className="font-weight-bold">{tierHP[this.props.snapshot.bossObj.Tier]}</span>
                     {pvestrings.willow3}<span className="font-weight-bold">{(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180) + pvestrings.s}</span>
                     {". " + pvestrings.willow4}<span className="font-weight-bold">
-                        {pvestrings.weatherList[this.props.snapshot.pveObj.Weather]}
+                        {settingStrings.weatherList[this.props.snapshot.pveObj.Weather]}
                         {(this.props.snapshot.pveObj.Weather > 0) && <PokemonIconer
                             folder="/weather/"
                             src={this.props.snapshot.pveObj.Weather}

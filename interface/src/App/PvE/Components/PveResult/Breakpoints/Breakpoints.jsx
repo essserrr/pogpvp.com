@@ -13,11 +13,11 @@ import { tierMult, calculateDamage, returnEffAtk, getPveMultiplier } from "../..
 import { getCookie } from "../../../../../js/getCookie"
 import { ReactComponent as Dust } from "../../../../../icons/stardust.svg"
 import { ReactComponent as Candy } from "../../../../../icons/candy.svg"
-import { pveLocale } from "../../../../../locale/pveLocale"
+import { settings } from "../../../../../locale/Pve/Settings/Settings"
 
 import "./Breakpoints.scss"
 
-let pveStrings = new LocalizedStrings(pveLocale);
+let pveStrings = new LocalizedStrings(settings);
 
 class Breakpoints extends React.PureComponent {
     constructor(props) {

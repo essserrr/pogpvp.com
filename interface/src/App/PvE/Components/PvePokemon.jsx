@@ -122,8 +122,8 @@ const PvePokemon = React.memo(function PvePokemon(props) {
                                 >
                                     <MenuItem value="0">{`${optionStrings.tierlist} 1`}</MenuItem>
                                     <MenuItem value="2">{`${optionStrings.tierlist} 3`}</MenuItem>
-                                    <MenuItem value="4">{`${optionStrings.tierlist} 5`}</MenuItem>
                                     <MenuItem value="4">{optionStrings.mega}</MenuItem>
+                                    <MenuItem value="4">{`${optionStrings.tierlist} 5`}</MenuItem>
                                     <MenuItem value="5">{`${optionStrings.tierlist} 5.5`}</MenuItem>
                                 </Input>
                             </WithIcon>
