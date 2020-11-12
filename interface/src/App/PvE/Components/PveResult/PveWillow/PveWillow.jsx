@@ -1,93 +1,108 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import PokemonIconer from "../../../../PvP/components/PokemonIconer/PokemonIconer"
-import WeatherBoosted from "./WeatherBoosted"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
 
+import Iconer from "App/Components/Iconer/Iconer";
+import WeatherBoosted from "./WeatherBoosted";
+import CP from "App/Components/CpAndTypes/CP";
 
 import { tierHP } from "js/bases/tierHP";
 import { weather } from "js/bases/weather";
-import { calculateCP } from "../../../../../js/indexFunctions"
 
-import { pveLocale } from "../../../../../locale/pveLocale"
-import { settings } from "locale/Pve/Settings/Settings"
-import { getCookie } from "../../../../../js/getCookie"
+import { willow } from "locale/Pve/Willow/Willow";
+import { settings } from "locale/Pve/Settings/Settings";
+import { getCookie } from "js/getCookie";
 
-import "./PveWillow.scss"
+const useStyles = makeStyles((theme) => ({
+    bubble: {
+        position: "absolute",
+        bottom: "25px",
 
-let pvestrings = new LocalizedStrings(pveLocale);
+        maxWidth: "650px",
+
+        textAlign: "justify",
+    },
+}));
+
+let pvestrings = new LocalizedStrings(willow);
 let settingStrings = new LocalizedStrings(settings);
 
-class PveWillow extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        settingStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+const PveWillow = React.memo(function PveWillow(props) {
+    pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    settingStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
 
-        this.state = {
-            n: 1,
-            breakpoints: false,
-        };
+    const isBoosted = () => {
+        const bossType = props.pokemonTable[props.snapshot.bossObj.Name].Type;
+        const currWeather = props.snapshot.pveObj.Weather;
+        let isBoosted = false;
+
+        bossType.forEach((type) => {
+            if (weather[currWeather][type]) { isBoosted = true }
+        })
+
+        return isBoosted
     }
+    const boosted = isBoosted();
 
-    isBoosted() {
-        for (let i = 0; i < this.props.pokemonTable[this.props.snapshot.bossObj.Name].Type.length; i++) {
-            if (weather[this.props.snapshot.pveObj.Weather][this.props.pokemonTable[this.props.snapshot.bossObj.Name].Type[i]]) {
-                return true
-            }
-        }
-        return false
-    }
 
-    render() {
-        let boost = this.isBoosted()
-        return (
-            <div className="col-12 d-flex justify-content-center m-0 p-0">
-                <PokemonIconer
-                    src="willow3"
-                    folder="/"
-                    class={"p-2"} />
-                <div className="pvewillow__bubble-text px-2 py-1">
-                    {pvestrings.willow1}<span className="font-weight-bold">{this.props.snapshot.bossObj.Name}</span>
-                    {". " + pvestrings.willow2}<span className="font-weight-bold">{tierHP[this.props.snapshot.bossObj.Tier]}</span>
-                    {pvestrings.willow3}<span className="font-weight-bold">{(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180) + pvestrings.s}</span>
-                    {". " + pvestrings.willow4}<span className="font-weight-bold">
-                        {settingStrings.weatherList[this.props.snapshot.pveObj.Weather]}
-                        {(this.props.snapshot.pveObj.Weather > 0) && <PokemonIconer
-                            folder="/weather/"
-                            src={this.props.snapshot.pveObj.Weather}
-                            class={"pvewillow__icon"} />}
-                    </span>
-                    {(this.props.snapshot.pveObj.Weather > 0) && <>.{pvestrings.willow6}: </>}
-                    {(this.props.snapshot.pveObj.Weather > 0) && <span className="font-weight-bold">
-                        <WeatherBoosted
-                            weather={this.props.snapshot.pveObj.Weather} />
-                    </span>}
-                    {". " + pvestrings.willow5}<span className="font-weight-bold">{boost ? pvestrings.boosted : pvestrings.normal}</span>
-                    <span className="font-weight-bold">
-                        {calculateCP(
-                            this.props.snapshot.bossObj.Name,
-                            boost ? 25 : 20,
-                            10,
-                            10,
-                            10,
-                            this.props.pokemonTable
-                        ) + "-" +
-                            calculateCP(
-                                this.props.snapshot.bossObj.Name,
-                                boost ? 25 : 20,
-                                15,
-                                15,
-                                15,
-                                this.props.pokemonTable
-                            )}
-                    </span>{"."}
-                </div>
-            </div>
-        )
-    }
+    return (
+        <Grid container justify="center" alignItems="center">
+            <Typography variant="body2">
 
-}
+                <Box position="relative">
+
+                    <Iconer fileName="willow3" folderName="/" />
+
+                    <Paper className={classes.bubble} elevation={4}>
+                        <Box px={1} py={1}>
+
+                            {`${pvestrings.willow1} `}<b>{props.snapshot.bossObj.Name}</b>{". "}
+
+                            {`${pvestrings.willow2}: `}<b>{tierHP[props.snapshot.bossObj.Tier]}</b>{", "}
+
+                            {`${pvestrings.willow3}: `}<b>{`${props.snapshot.bossObj.Tier > 3 ? 300 : 180}${pvestrings.s}`}</b>{". "}
+
+                            {`${pvestrings.willow4}: `}
+                            <b>
+                                {`${settingStrings.weatherList[props.snapshot.pveObj.Weather]} `}
+                                {(props.snapshot.pveObj.Weather > 0) &&
+                                    <Iconer folderName="/weather/" fileName={props.snapshot.pveObj.Weather} size={18} />}
+                            </b>
+
+                            {props.snapshot.pveObj.Weather > 0 ?
+                                `. ${pvestrings.willow6}:` : null}
+
+                            {props.snapshot.pveObj.Weather > 0 && <WeatherBoosted weather={props.snapshot.pveObj.Weather} />}
+
+                            {`. ${pvestrings.willow5}: `}<b>{boosted ? `${pvestrings.boosted} ` : `${pvestrings.normal} `}</b>
+
+                            <b>
+                                <CP name={props.snapshot.bossObj.Name} Lvl={boosted ? 25 : 20} Atk={10} Def={10} Sta={10} pokemonTable={props.pokemonTable} />
+                                {" - "}
+                                <CP name={props.snapshot.bossObj.Name} Lvl={boosted ? 25 : 20} Atk={15} Def={15} Sta={15} pokemonTable={props.pokemonTable} />
+                            </b>{"."}
+
+                        </Box>
+                    </Paper>
+
+                </Box>
+
+            </Typography>
+        </Grid>
+    )
+});
 
 
 export default PveWillow;
+
+PveWillow.propTypes = {
+    pokemonTable: PropTypes.object,
+    snapshot: PropTypes.object,
+};

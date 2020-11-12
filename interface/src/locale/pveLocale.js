@@ -48,15 +48,6 @@ export const pveLocale = {
         damage: "Damage",
         poklvl: "Pokemon level",
 
-        willow1: "Hey Trainer, here are your results against ",
-        willow2: "Boss HP: ",
-        willow3: ", raid duration: ",
-        willow4: "Weather is ",
-        willow6: "Boosted",
-        willow5: "Boss catch CP is ",
-        boosted: "boosted ",
-        normal: "normal ",
-
         sortd: "Sort by damage",
         sortdps: "Sort by DPS",
         unique: "Show the best results",
@@ -112,15 +103,6 @@ export const pveLocale = {
         lvl: "Уровень",
         damage: "Урон",
         poklvl: "Уровень покемона",
-
-        willow1: "Эй, тренер, вот твои результаты против ",
-        willow2: " HP босса: ",
-        willow3: ", продолжительность рейда: ",
-        willow4: " Погода ",
-        willow5: " CP босса при ловле ",
-        willow6: " Имеют буст",
-        boosted: "с бустом: ",
-        normal: "обычное: ",
 
         sortd: "Сортировать по урону",
         sortdps: "Сортировать по DPS",
