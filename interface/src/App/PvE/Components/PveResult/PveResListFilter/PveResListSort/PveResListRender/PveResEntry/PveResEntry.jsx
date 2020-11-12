@@ -282,8 +282,8 @@ class PveResEntry extends React.PureComponent {
 
                         onClick={this.onClick}
                         showCollapse={this.state.showCollapse}
-
                     />
+
                     <div className={"col-12 p-0 " + (this.state.showCollapse ? "pve-resentry__card-separator" : "")}>
                         <UnmountClosed isOpened={this.state.showCollapse}>
                             <PveResultCollapseList
