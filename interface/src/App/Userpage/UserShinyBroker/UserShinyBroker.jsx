@@ -344,7 +344,7 @@ class UserShinyBroker extends React.PureComponent {
 
     render() {
         return (
-            <Grid container justify="center" spacing={2}>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/shinybroker"
                     header={strings.pageheaders.usrbroker}
