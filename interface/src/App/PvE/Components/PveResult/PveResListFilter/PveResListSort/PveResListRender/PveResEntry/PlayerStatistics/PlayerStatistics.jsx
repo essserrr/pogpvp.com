@@ -6,10 +6,10 @@ import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-import HpBar from "../PhBar/HpBar"
-import HpRemaining from "../HpRemaining/HpRemaining"
-import FightStats from "../FightStats/FightStats"
-import PlayersImpact from "../PlayersImpact/PlayersImpact"
+import HpBar from "../HpBar/HpBar";
+import HpRemaining from "../HpRemaining/HpRemaining";
+import FightStats from "../FightStats/FightStats";
+import PlayersImpact from "../PlayersImpact/PlayersImpact";
 
 const PlayerStatistics = React.memo(function PlayerStatistics(props) {
     return (
