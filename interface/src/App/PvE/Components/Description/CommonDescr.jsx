@@ -1,147 +1,93 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
+import React from "react";
 
-import LocalizedStrings from "react-localization"
-import { commonRaidTips } from "../../../../locale/commonRaidTips"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 
-import { getCookie } from "../../../../js/getCookie"
+import LocalizedStrings from "react-localization";
+import { commonRaidTips } from "locale/Pve/Tips/commonRaidTips";
 
-let tips = new LocalizedStrings(commonRaidTips)
+import { getCookie } from "js/getCookie";
 
-const CommonDescr = React.memo(function (props) {
+let tips = new LocalizedStrings(commonRaidTips);
+
+const CommonDescr = React.memo(function CommonDescr(props) {
     tips.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <>
-            <p className="col-12 m-0 px-1 pb-2" >
-                {tips.par1}
-            </p>
-            <h5 className="col-12 font-weight-bold p-0 mb-1 text-center">
-                {tips.legend}
-            </h5>
-            <div className="col-12 d-flex justify-content-center p-0 py-1">
-                <i data-tip data-for={"damage"} className="fas fa-crosshairs mr-3 fa-2x"></i>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={"damage"} effect="solid"
-                    place={"top"}
-                    multiline={true} >
-                    {tips.damage}
-                </ReactTooltip>
-                <i data-tip data-for={"players"} className="fas fa-users mr-3 fa-2x"></i>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={"players"} effect="solid"
-                    place={"top"}
-                    multiline={true} >
-                    {tips.pl}
-                </ReactTooltip>
-                <i data-tip data-for={"dps"} className="fab fa-cloudscale mr-3 fa-2x"></i>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={"dps"} effect="solid"
-                    place={"top"}
-                    multiline={true} >
-                    {"DPS"}
-                </ReactTooltip>
-                <i data-tip data-for={"fainted"} className="fas fa-skull-crossbones mr-3 fa-2x"></i>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={"fainted"} effect="solid"
-                    place={"top"}
-                    multiline={true} >
-                    {tips.fainted}
-                </ReactTooltip>
-                <i data-tip data-for={"time"} className="far fa-clock mr-3 fa-2x"></i>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={"time"} effect="solid"
-                    place={"top"}
-                    multiline={true} >
-                    {tips.time}
-                </ReactTooltip>
-                <i data-tip data-for={"ttw"} className="far fa-hourglass fa-2x"></i>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={"ttw"} effect="solid"
-                    place={"top"}
-                    multiline={true} >
-                    {tips.ttw}
-                </ReactTooltip>
-            </div>
+        <Grid container justify="center">
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1 text-center">
-                {tips.indat}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.indatp1}
-            </p>
-            <p className="col-12 m-0 px-1" >
-                {tips.indatp2}
-            </p>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.indatp3}
-            </p>
+            <Typography variant="body2" gutterBottom>{tips.par1}</Typography>
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
-                {tips.plnumb}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.plnumbp1}
-            </p>
+            <Typography variant="h6" align="center" gutterBottom>{tips.legend}</Typography>
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
-                {tips.dodge}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.dodgep1}
-            </p>
+            <Grid item xs={12} container justify="center">
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
-                {tips.agr}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.agrp1}
-            </p>
+                <Tooltip arrow placement="top" title={<Typography>{tips.damage}</Typography>}>
+                    <i className="fas fa-crosshairs mr-3 fa-2x"></i>
+                </Tooltip>
+
+                <Tooltip arrow placement="top" title={<Typography>{tips.pl}</Typography>}>
+                    <i className="fas fa-users mr-3 fa-2x"></i>
+                </Tooltip>
+
+                <Tooltip arrow placement="top" title={<Typography>{"DPS"}</Typography>}>
+                    <i className="fab fa-cloudscale mr-3 fa-2x"></i>
+                </Tooltip>
+
+                <Tooltip arrow placement="top" title={<Typography>{tips.fainted}</Typography>}>
+                    <i className="fas fa-skull-crossbones mr-3 fa-2x"></i>
+                </Tooltip>
+
+                <Tooltip arrow placement="top" title={<Typography>{tips.time}</Typography>}>
+                    <i className="far fa-clock mr-3 fa-2x"></i>
+                </Tooltip>
+
+                <Tooltip arrow placement="top" title={<Typography>{tips.ttw}</Typography>}>
+                    <i className="far fa-hourglass fa-2x"></i>
+                </Tooltip>
+            </Grid>
+
+            <Typography variant="h6" align="center" gutterBottom>{tips.indat}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.indatp1}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.indatp2}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.indatp3}</Typography>
 
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
-                {tips.solv}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.solvp1}
-            </p>
-            <p className="col-12 p-0 m-0 px-1" >
-                {tips.solvp2}
-            </p>
-            <ul className="col-12 p-0 m-0 px-3 px-sm-5 py-1">
-                <li>
-                    {tips.solvli1}
-                </li>
-                <li>
-                    {tips.solvli2}
-                </li>
-                <li>
-                    {tips.solvli3}
-                </li>
-                <li>
-                    {tips.solvli4}
-                </li>
-            </ul>
+            <Typography variant="h6" align="center" gutterBottom>{tips.plnumb}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.plnumbp1}</Typography>
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
-                {tips.break}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.breakp1}
-            </p>
+            <Typography variant="h6" align="center" gutterBottom>{tips.dodge}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.dodgep1}</Typography>
 
-            <h5 className="col-12 font-weight-bold m-0 px-1 py-1  text-center">
-                {tips.feat}
-            </h5>
-            <p className="col-12 m-0 px-1 py-1" >
-                {tips.featp1}
-            </p>
-        </>
+            <Typography variant="h6" align="center" gutterBottom>{tips.agr}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.agrp1}</Typography>
+
+            <Typography variant="h6" align="center" gutterBottom>{tips.solv}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.solvp1}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.solvp2}</Typography>
+            <Typography variant="body2" gutterBottom>
+                <ul>
+                    <li>
+                        {tips.solvli1}
+                    </li>
+                    <li>
+                        {tips.solvli2}
+                    </li>
+                    <li>
+                        {tips.solvli3}
+                    </li>
+                    <li>
+                        {tips.solvli4}
+                    </li>
+                </ul>
+            </Typography>
+
+            <Typography variant="h6" align="center" gutterBottom>{tips.break}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.breakp1}</Typography>
+
+            <Typography variant="h6" align="center" gutterBottom>{tips.feat}</Typography>
+            <Typography variant="body2" gutterBottom>{tips.featp1}</Typography>
+        </Grid>
     )
 });
 
