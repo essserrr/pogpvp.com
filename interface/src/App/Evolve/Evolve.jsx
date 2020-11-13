@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
 import SearchableSelect from "App/Components/SearchableSelect/SearchableSelect";
-import Stats from "App/PvP/components/Stats/Stats";
+import Stats from "App/Components/Stats/Stats";
 import EvoList from "./EvoList/EvoList";
 
 

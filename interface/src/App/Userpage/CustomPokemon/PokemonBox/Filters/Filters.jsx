@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import Input from "App/Components/Input/Input";
-import Stats from "App/PvP/components/Stats/Stats";
+import Stats from "App/Components/Stats/Stats";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";

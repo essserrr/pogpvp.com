@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import Stats from "App/PvP/components/Stats/Stats";
+import Stats from "App/Components/Stats/Stats";
 import MagicBox from "App/PvP/components/MagicBox/MagicBox";
 import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes";
 import Switch from 'App/Components/Switch/Switch';

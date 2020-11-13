@@ -1,5 +1,6 @@
 import React from "react"
-import Stats from "./Stats/Stats"
+
+import Stats from "App/Components/Stats/Stats";
 import SearchableSelect from "./SearchableSelect/SearchableSelect"
 import SelectGroup from "./SelectGroup/SelectGroup"
 import Stages from "./Stages/Stages"

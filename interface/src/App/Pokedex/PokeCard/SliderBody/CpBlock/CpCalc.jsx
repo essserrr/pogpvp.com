@@ -6,8 +6,8 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
-import CP from "App/Components/CpAndTypes/CP"
-import Stats from "App/PvP/components/Stats/Stats"
+import CP from "App/Components/CpAndTypes/CP";
+import Stats from "App/Components/Stats/Stats";
 
 import { getCookie } from "js/getCookie";
 import { dexLocale } from "locale/Pokedex/Pokecard";
