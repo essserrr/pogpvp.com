@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import LocalizedStrings from "react-localization";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -100,6 +100,6 @@ const NavbarPanel = React.memo(function NavbarPanel(props) {
 export default NavbarPanel;
 
 NavbarPanel.propTypes = {
-    leftPanel: propTypes.arrayOf(propTypes.node).isRequired,
-    rightPanel: propTypes.arrayOf(propTypes.node).isRequired,
+    leftPanel: PropTypes.arrayOf(PropTypes.node).isRequired,
+    rightPanel: PropTypes.arrayOf(PropTypes.node).isRequired,
 };

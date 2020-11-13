@@ -1,6 +1,6 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -56,6 +56,6 @@ const ShinyTableThead = React.memo(function ShinyTableThead(props) {
 export default ShinyTableThead;
 
 ShinyTableThead.propTypes = {
-    onClick: propTypes.func.isRequired,
-    active: propTypes.object.isRequired,
+    onClick: PropTypes.func.isRequired,
+    active: PropTypes.object.isRequired,
 };

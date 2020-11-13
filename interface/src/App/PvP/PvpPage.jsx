@@ -51,8 +51,8 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
 
 
 class PvpPage extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             error: "",
@@ -111,8 +111,6 @@ class PvpPage extends React.Component {
             this.props.match.params.simtype,
         )
     }
-
-
 
     async updateState(league, pok1, pok2, simtype) {
         this.setState({
@@ -207,8 +205,6 @@ class PvpPage extends React.Component {
             })
         }
     }
-
-
 
     onChange(event) {
         this.setState({

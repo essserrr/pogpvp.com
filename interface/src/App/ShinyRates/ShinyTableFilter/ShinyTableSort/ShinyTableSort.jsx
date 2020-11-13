@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import ShinyTable from "../../ShinyTable/ShinyTable";
 
@@ -45,11 +45,11 @@ const ShinyTableSort = React.memo(function ShinyTableSort(props) {
 export default ShinyTableSort;
 
 ShinyTableSort.propTypes = {
-    filter: propTypes.object.isRequired,
-    pokTable: propTypes.object.isRequired,
+    filter: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
 
-    onClick: propTypes.func,
+    onClick: PropTypes.func,
 
-    children: propTypes.arrayOf(propTypes.array),
+    children: PropTypes.arrayOf(PropTypes.array),
 };
 

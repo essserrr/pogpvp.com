@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { withStyles } from "@material-ui/core/styles";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -37,8 +37,8 @@ class MenuItemLink extends React.PureComponent {
 export default withStyles(styles, { withTheme: true })(MenuItemLink);
 
 MenuItemLink.propTypes = {
-    children: propTypes.oneOfType([
-        propTypes.arrayOf(propTypes.node),
-        propTypes.node
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node
     ]).isRequired,
 };

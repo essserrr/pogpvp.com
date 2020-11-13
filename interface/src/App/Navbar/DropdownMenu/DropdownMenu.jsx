@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -65,11 +65,11 @@ const DropdownMenu = React.memo(function DropdownMenu(props) {
 export default DropdownMenu;
 
 DropdownMenu.propTypes = {
-    label: propTypes.oneOfType([
-        propTypes.string,
-        propTypes.node,
+    label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
     ]),
-    icon: propTypes.node,
+    icon: PropTypes.node,
 
-    children: propTypes.arrayOf(propTypes.node).isRequired,
+    children: PropTypes.arrayOf(PropTypes.node).isRequired,
 };

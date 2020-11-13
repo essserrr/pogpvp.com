@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
 import Grid from '@material-ui/core/Grid';
@@ -30,5 +30,5 @@ const NewsList = React.memo(function NewsList(props) {
 export default NewsList;
 
 NewsList.propTypes = {
-    children: propTypes.array,
+    children: PropTypes.array,
 };

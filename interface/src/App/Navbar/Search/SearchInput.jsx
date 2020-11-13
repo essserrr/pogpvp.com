@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Autosuggest from "react-autosuggest";
 import LocalizedStrings from "react-localization";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { fade, withStyles } from "@material-ui/core/styles";
 import Tooltip from '@material-ui/core/Tooltip';
@@ -175,5 +175,5 @@ class SearchInput extends React.PureComponent {
 export default withStyles(styles, { withTheme: true })(SearchInput);
 
 SearchInput.propTypes = {
-    children: propTypes.array.isRequired,
+    children: PropTypes.array.isRequired,
 };

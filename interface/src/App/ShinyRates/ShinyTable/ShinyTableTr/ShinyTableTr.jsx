@@ -1,7 +1,7 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
 import { Link } from "react-router-dom";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
@@ -90,6 +90,6 @@ const ShinyTableTr = React.memo(function ShinyTableTr(props) {
 export default ShinyTableTr;
 
 ShinyTableTr.propTypes = {
-    pok: propTypes.object.isRequired,
-    pokTable: propTypes.object.isRequired,
+    pok: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
 };

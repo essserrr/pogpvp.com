@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -43,7 +43,7 @@ const News = React.memo(function News(props) {
 export default News;
 
 News.propTypes = {
-    title: propTypes.string,
-    date: propTypes.string,
-    description: propTypes.string,
+    title: PropTypes.string,
+    date: PropTypes.string,
+    description: PropTypes.string,
 };

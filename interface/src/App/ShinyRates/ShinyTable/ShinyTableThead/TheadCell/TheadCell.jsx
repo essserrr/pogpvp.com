@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
@@ -23,16 +23,16 @@ const TheadCell = React.memo(function TheadCell(props) {
 export default TheadCell;
 
 TheadCell.propTypes = {
-    onClick: propTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
 
-    isSelected: propTypes.bool.isRequired,
-    order: propTypes.bool.isRequired,
+    isSelected: PropTypes.bool.isRequired,
+    order: PropTypes.bool.isRequired,
 
-    coltype: propTypes.string,
-    name: propTypes.string,
+    coltype: PropTypes.string,
+    name: PropTypes.string,
 
-    children: propTypes.oneOfType([
-        propTypes.node,
-        propTypes.string,
+    children: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.string,
     ]).isRequired,
 };

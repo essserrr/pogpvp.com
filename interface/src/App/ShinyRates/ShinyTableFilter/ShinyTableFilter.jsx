@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import ShinyTableSort from "./ShinyTableSort/ShinyTableSort";
 
@@ -20,12 +20,12 @@ const ShinyTableFilter = React.memo(function ShinyTableFilter(props) {
 export default ShinyTableFilter;
 
 ShinyTableFilter.propTypes = {
-    filter: propTypes.object.isRequired,
-    pokTable: propTypes.object.isRequired,
+    filter: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
 
-    onClick: propTypes.func,
+    onClick: PropTypes.func,
 
-    children: propTypes.object,
+    children: PropTypes.object,
 };
 
 

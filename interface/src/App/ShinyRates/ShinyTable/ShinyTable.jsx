@@ -1,5 +1,5 @@
 import React from "react";
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -29,10 +29,10 @@ const ShinyTable = React.memo(function ShinyTable(props) {
 export default ShinyTable;
 
 ShinyTable.propTypes = {
-    active: propTypes.object.isRequired,
-    pokTable: propTypes.object.isRequired,
+    active: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
 
-    onClick: propTypes.func,
+    onClick: PropTypes.func,
 
-    children: propTypes.arrayOf(propTypes.array),
+    children: PropTypes.arrayOf(PropTypes.array),
 };
