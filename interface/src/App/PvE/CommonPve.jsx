@@ -1,23 +1,22 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import SimulatorPanel from "./Components/SimulatorPanel"
-import Button from "App/Components/Button/Button"
-import PveResult from "./Components/PveResult/PveResult"
+import SimulatorPanel from "./Components/SimulatorPanel";
+import Button from "App/Components/Button/Button";
+import PveResult from "./Components/PveResult/PveResult";
 
 import { MovePoolBuilder } from "js/movePoolBuilder"
-import { pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV } from "../../js/indexFunctions.js"
+import { pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV } from "js/indexFunctions.js";
 
-import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import { getCookie } from "js/getCookie";
+import { locale } from "locale/Pve/Pve";
 import { options } from "locale/Components/Options/locale";
-
-import "./CommonPve.scss"
 
 let strings = new LocalizedStrings(locale);
 let optionStrings = new LocalizedStrings(options);
@@ -337,3 +336,10 @@ class CommonPve extends React.PureComponent {
 }
 
 export default CommonPve;
+
+CommonPve.propTypes = {
+    pokemonTable: PropTypes.object,
+
+    changeUrl: PropTypes.func,
+    parentState: PropTypes.object,
+};

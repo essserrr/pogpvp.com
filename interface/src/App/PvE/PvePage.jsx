@@ -225,12 +225,21 @@ class PvePage extends React.Component {
                     header={strings.pageheaders.common}
                     descr={strings.pagedescriptions.common}
                 />
-                <Grid item xs={12} md={10} lg={6} container justify="center" spacing={3} >
+                <Grid item sm={10} md={8} lg={6} container justify="center" spacing={3} >
 
                     {this.state.loading &&
                         <Grid item xs={12}>
                             <LinearProgress color="secondary" />
                         </ Grid>}
+
+                    {((this.props.match.params.type === "custom" && !!getCookie("sid")) || this.props.match.params.type === "common") &&
+                        <Grid item xs={12}>
+                            <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
+                                <DropWithArrow title={strings.title.about}>
+                                    <CommonDescr />
+                                </DropWithArrow>
+                            </GreyPaper>
+                        </Grid>}
 
                     {this.state.isLoaded &&
                         <Grid item xs={12}>
@@ -250,16 +259,6 @@ class PvePage extends React.Component {
                                     parentState={this.state}
                                     userParties={this.props.customParties}
                                 />}
-                        </Grid>}
-
-
-                    {((this.props.match.params.type === "custom" && !!getCookie("sid")) || this.props.match.params.type === "common") &&
-                        <Grid item xs={12}>
-                            <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
-                                <DropWithArrow title={strings.title.about}>
-                                    <CommonDescr />
-                                </DropWithArrow>
-                            </GreyPaper>
                         </Grid>}
                 </Grid>
             </Grid>

@@ -23,6 +23,7 @@ export const locale = {
         },
 
         buttons: {
+            calculate: "Calculate",
             loadmore: "Load more",
         },
     },
@@ -55,6 +56,7 @@ export const locale = {
 
         buttons: {
             loadmore: "Загрузить еще",
+            calculate: "Посчитать",
         },
     }
 }
