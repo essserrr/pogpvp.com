@@ -1,25 +1,35 @@
-import React from "react"
-import WeatherMoves from "../../WeatherMoves/WeatherMoves"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./CollapseCard.scss"
+import Grid from '@material-ui/core/Grid';
 
-const CollapseCard = React.memo(function (props) {
+import GreyPaper from "App/Components/GreyPaper/GreyPaper";
+import WeatherMoves from "../../WeatherMoves/WeatherMoves";
+
+const CollapseCard = React.memo(function CollapseCard(props) {
     return (
-        <div className="coll-card col-12 m-0 p-0 p-2 my-1">
-            <div className="col-12 d-flex align-items-center m-0 p-0">
-                <WeatherMoves
-                    pokQick={props.pokQick}
-                    pokCh={props.pokCh}
-                    weather={props.weather}
-                />
-            </div>
-            <div className="col-12 m-0 p-0 mt-2">
-                {props.children}
-            </div>
-        </div>
+        <GreyPaper enablePadding paddingMult={0.5} elevation={4}>
+            <Grid container spacing={1}>
+                <Grid item xs={12} container alignItems="center">
+                    <WeatherMoves
+                        pokQick={props.pokQick}
+                        pokCh={props.pokCh}
+                        weather={props.weather}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    {props.children}
+                </Grid>
+            </Grid>
+        </GreyPaper>
     )
 });
 
-
-
 export default CollapseCard;
+
+CollapseCard.propTypes = {
+    bounds: PropTypes.object,
+    remain: PropTypes.object,
+    stats: PropTypes.object,
+    disableCollapse: PropTypes.bool,
+};
