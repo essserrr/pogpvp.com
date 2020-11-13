@@ -7,7 +7,7 @@ import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 
 import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
-import SubmitButton from "../SubmitButton/SubmitButton"
+import Button from "App/Components/Button/Button";
 
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
@@ -342,13 +342,13 @@ class Constructor extends React.PureComponent {
                         label={strings.constructor.trigger}
                     />
                 </div>
-                <SubmitButton
-                    class="submit-button--lg btn btn-primary"
-                    action="Let's Battle"
-                    onSubmit={this.onSubmit}
-                >
-                    {strings.constructor.submit}
-                </SubmitButton>
+
+
+                <Button
+                    title={strings.constructor.submit}
+                    onClick={this.onSubmit}
+                />
+
             </div>
         )
     }

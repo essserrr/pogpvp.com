@@ -6,11 +6,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
+import Button from "App/Components/Button/Button";
 
 import Pokemon from "./Pokemon"
 import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
 import MagicBox from "./MagicBox/MagicBox"
-import SubmitButton from "./SubmitButton/SubmitButton"
 
 import ImportExport from "./ImportExport/ImportExport"
 import Stages from "./Stages/Stages"
@@ -409,14 +409,13 @@ class MatrixPanel extends React.PureComponent {
                                 category={this.state.pokemon.isSelected}
                                 onClick={this.onClick}
                             />
-                            <SubmitButton
-                                class="submit-button btn btn-primary btn-sm p-0 m-0  mx-1"
+
+                            <Button
                                 attr={this.props.attr}
-                                action={"Add pokemon"}
-                                onSubmit={this.onPokemonSubmit}
-                            >
-                                {strings.buttons.addpokemon}
-                            </SubmitButton>
+                                title={strings.buttons.addpokemon}
+                                onClick={this.onPokemonSubmit}
+                            />
+
                         </div>
                     }
                 />}
@@ -467,18 +466,12 @@ class MatrixPanel extends React.PureComponent {
                     onPokemonDelete={this.props.onPokemonDelete}
                 />
 
-                <SubmitButton
-                    class="submit-button btn btn-primary btn-sm mt-0  mx-0"
+                <Button
                     attr={this.props.attr}
-                    action="Add pokemon"
                     stat={"showPokSelect"}
-                    onSubmit={this.props.onChange}
-                >
-                    {strings.buttons.addpokemon}
-                </SubmitButton>
-
-
-
+                    title={strings.buttons.addpokemon}
+                    onClick={this.props.onChange}
+                />
 
 
 
@@ -493,36 +486,32 @@ class MatrixPanel extends React.PureComponent {
 
                 <div className="row justify-content-around m-0 pt-3" >
 
-                    <SubmitButton
-                        class="submit-button--sm btn btn-primary btn-sm mx-0"
+                    <Button
                         attr={this.props.attr}
                         stat={"showSavePanel"}
-                        action="Save"
-                        onSubmit={this.props.onChange}
-                    >
-                        {strings.buttons.save}
-                    </SubmitButton>
+                        title={strings.buttons.save}
+                        onClick={this.props.onChange}
+                    />
 
-
-                    <SubmitButton
-                        class="submit-button--sm btn btn-primary btn-sm mx-0"
+                    <Button
                         attr={this.props.attr}
-                        action={"Delete"}
-                        onSubmit={this.props.onChange}
-                    >
-                        {strings.buttons.delete}
-                    </SubmitButton>
+                        stat={"Delete"}
+                        title={strings.buttons.delete}
+                        onClick={this.props.onChange}
+                    />
+
+
                 </div>
                 <div className="row justify-content-center m-0 pt-2" >
-                    <SubmitButton
-                        class="submit-button--lg btn btn-primary btn-sm mx-0"
+
+                    <Button
                         attr={this.props.attr}
                         stat="showImportExportPanel"
                         action={"Import/Export"}
-                        onSubmit={this.props.onChange}
-                    >
-                        {strings.buttons.impExp}
-                    </SubmitButton>
+                        title={strings.buttons.impExp}
+                        onClick={this.props.onChange}
+                    />
+
                 </div>
                 <div className="matrix-panel--bolder">
                     {strings.tips.matrixPanel}
@@ -588,14 +577,11 @@ class MatrixPanel extends React.PureComponent {
                 </div>}
                 {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
 
-                    <SubmitButton
-                        class="submit-button btn btn-primary btn-sm mx-0 pl-1 col-8"
+                    <Button
                         action="Advisor"
-                        disabled={this.props.advDisabled}
-                        onSubmit={this.props.onAdvisorSubmit}
-                    >
-                        {strings.advisor.adv}
-                    </SubmitButton>
+                        title={strings.advisor.adv}
+                        onClick={this.props.onAdvisorSubmit}
+                    />
 
                     <ReactTooltip
                         className={"infoTip"}

@@ -2,7 +2,7 @@ import React from "react";
 
 import Alert from '@material-ui/lab/Alert';
 
-import SubmitButton from "../SubmitButton/SubmitButton"
+import Button from "App/Components/Button/Button";
 import Input from "App/Components/Input/Input";
 import ReactTooltip from "react-tooltip"
 
@@ -61,13 +61,14 @@ class InputAndSubmit extends React.PureComponent {
                         value={this.state.value}
                         onChange={this.onChange}
                     />
-                    <SubmitButton
+
+
+                    <Button
+                        title={this.props.label}
+                        onClick={this.onSubmit}
                         attr={this.props.attr}
-                        onSubmit={this.onSubmit}
-                        class="submit-button btn btn-primary btn-sm p-0 m-0"
-                    >
-                        {this.props.label}
-                    </SubmitButton>
+                    />
+
                 </div>
             </>
         )

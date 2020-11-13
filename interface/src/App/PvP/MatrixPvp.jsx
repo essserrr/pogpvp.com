@@ -6,11 +6,11 @@ import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
+import Button from "App/Components/Button/Button";
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
 import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
 import { addParty } from "../../AppStore/Actions/actions"
 import { deleteParty } from "../../AppStore/Actions/actions"
-import SubmitButton from "./components/SubmitButton/SubmitButton"
 import MatrixPanel from "./components/MatrixPanel"
 
 
@@ -713,13 +713,11 @@ class MatrixPvp extends React.PureComponent {
 
                             <div className="align-self-end order-1 order-lg-3 col px-0">
                                 <div className="order-2 order-lg-3 d-flex justify-content-center mx-0 px-0 col-12  mt-2 mt-lg-0" >
-                                    <SubmitButton
-                                        action="Let's Battle"
-                                        onSubmit={this.submitForm}
-                                        class="btn btn-primary"
-                                    >
-                                        {strings.buttons.letsbattle}
-                                    </SubmitButton>
+                                    <Button
+                                        title={strings.buttons.letsbattle}
+                                        onClick={this.submitForm}
+                                    />
+
                                 </div>
                             </div>
                         </div>

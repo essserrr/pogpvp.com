@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 
 import Pokemon from "./components/Pokemon";
 import Result from "./components/Result";
-import SubmitButton from "./components/SubmitButton/SubmitButton"
+import Button from "App/Components/Button/Button";
 import PvpReconstruction from "./components/PvpReconstruction/PvpReconstruction"
 import Indicators from "./components/Indicators/Indicators"
 import URI from "./components/URI/URI"
@@ -728,13 +728,11 @@ class SinglePvp extends React.PureComponent {
                                             />}
                                     </div>
                                     <div className="align-self-center">
-                                        <SubmitButton
-                                            action="Let's Battle"
-                                            onSubmit={this.submitForm}
-                                            class="btn btn-primary"
-                                        >
-                                            {strings.buttons.letsbattle}
-                                        </SubmitButton>
+
+                                        <Button
+                                            title={strings.buttons.letsbattle}
+                                            onClick={this.submitForm}
+                                        />
                                     </div >
                                     <div>
                                         {(this.state.defender.name && this.props.pokemonTable[this.state.defender.name]) &&

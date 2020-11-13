@@ -1,7 +1,8 @@
 import React from "react";
 import Pokemon from "./Pokemon";
 import MagicBox from "./MagicBox/MagicBox"
-import SubmitButton from "./SubmitButton/SubmitButton"
+import Button from "App/Components/Button/Button";
+
 
 import { MovePoolBuilder } from "js/movePoolBuilder"
 import {
@@ -403,14 +404,14 @@ class RedactPokemon extends React.PureComponent {
                             category={this.state.pokemon.isSelected}
                             onClick={this.onClick}
                         />
-                        <SubmitButton
-                            class="submit-button btn btn-primary btn-sm p-0 m-0  mx-1"
+
+
+                        <Button
                             attr={this.props.redact.attr}
-                            action={"Add pokemon"}
-                            onSubmit={this.onPokemonSubmit}
-                        >
-                            {strings.buttons.submitchange}
-                        </SubmitButton>
+                            title={strings.buttons.submitchange}
+                            onClick={this.onPokemonSubmit}
+                        />
+
                     </div>
                 }
             />

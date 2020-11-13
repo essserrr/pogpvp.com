@@ -1,10 +1,10 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
+import Button from "App/Components/Button/Button";
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
 import Iconer from "App/Components/Iconer/Iconer";
 import AdvisorPages from "./AdvisorPages/AdvisorPages"
-import SubmitButton from "../SubmitButton/SubmitButton"
 
 import { locale } from "../../../../locale/locale"
 import { getCookie } from "../../../../js/getCookie"
@@ -104,13 +104,12 @@ class Advisor extends React.PureComponent {
                 </div>
                 {this.state.isNextPage &&
                     <div className="row justify-content-center m-0 mt-3">
-                        <SubmitButton
-                            action="Load more"
-                            onSubmit={this.loadMore}
-                            class="submit-button--lg btn btn-primary btn-sm"
-                        >
-                            {strings.buttons.loadmore}
-                        </SubmitButton>
+
+                        <Button
+                            title={strings.buttons.loadmore}
+                            onClick={this.loadMore}
+                        />
+
                     </div>}
             </div>
         );
