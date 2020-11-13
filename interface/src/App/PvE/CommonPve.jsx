@@ -336,6 +336,4 @@ class CommonPve extends React.PureComponent {
     }
 }
 
-
-
-export default CommonPve
+export default CommonPve;

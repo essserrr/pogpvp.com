@@ -63,10 +63,24 @@ BreakpointsList.propTypes = {
     boss: PropTypes.object,
 
     IsShadow: PropTypes.bool,
-    Lvl: PropTypes.number,
-
-    effDef: PropTypes.number,
-    Atk: PropTypes.number,
-    friend: PropTypes.string,
-    weather: PropTypes.string,
+    Lvl: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]),
+    effDef: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]),
+    Atk: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]),
+    friend: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]),
+    weather: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]),
 };

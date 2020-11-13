@@ -181,7 +181,7 @@ class PveResEntry extends React.PureComponent {
 
     defineBreakpoints(pokemon) {
 
-        let numberInArr = this.props.customResult ? pokemon.index : 0
+        const numberInArr = this.props.customResult ? pokemon.index : this.props.pokemonRes.Party.length - 1;
 
         let snap = { ...this.props.snapshot }
 
