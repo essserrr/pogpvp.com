@@ -1,61 +1,76 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PlateGroup from "./PlateGroup/PlateGroup"
+import Grid from '@material-ui/core/Grid';
 
-class CustomPveNamePlate extends React.PureComponent {
+import PlateGroup from "./PlateGroup/PlateGroup";
 
-    render() {
-        return (
-            <div className="col-12 px-0">
-                <div className="row mx-0 justify-content-around my-2">
+const CustomPveNamePlate = React.memo(function CustomPveNamePlate(props) {
 
-                    {this.props.pokemonRes.Party.length > 0 &&
-                        <PlateGroup
-                            attr={this.props.attr}
-                            i={this.props.i}
-                            subGroup={0}
+    return (
+        <Grid container spacing={1}>
 
-                            moveTable={this.props.moveTable}
-                            pokemonTable={this.props.pokemonTable}
+            {props.pokemonRes.Party.length > 0 &&
+                <Grid item xs={12}>
+                    <PlateGroup
+                        attr={props.attr}
+                        i={props.i}
+                        subGroup={0}
 
-                            party={this.props.pokemonRes.Party.slice(0, this.props.pokemonRes.Party.length > 6 ? 6 : this.props.pokemonRes.Party.length)}
+                        moveTable={props.moveTable}
+                        pokemonTable={props.pokemonTable}
 
-                            defineBreakpoints={this.props.defineBreakpoints}
-                        />}
+                        party={props.pokemonRes.Party.slice(0, props.pokemonRes.Party.length > 6 ? 6 : props.pokemonRes.Party.length)}
 
-                    {this.props.pokemonRes.Party.length > 6 &&
-                        <PlateGroup
-                            attr={this.props.attr}
-                            i={this.props.i}
-                            subGroup={1}
+                        defineBreakpoints={props.defineBreakpoints}
+                    />
+                </Grid>}
 
-                            moveTable={this.props.moveTable}
-                            pokemonTable={this.props.pokemonTable}
+            {props.pokemonRes.Party.length > 6 &&
+                <Grid item xs={12}>
+                    <PlateGroup
+                        attr={props.attr}
+                        i={props.i}
+                        subGroup={1}
 
-                            party={this.props.pokemonRes.Party.slice(6, this.props.pokemonRes.Party.length > 12 ? 12 : this.props.pokemonRes.Party.length)}
+                        moveTable={props.moveTable}
+                        pokemonTable={props.pokemonTable}
 
-                            defineBreakpoints={this.props.defineBreakpoints}
-                        />}
+                        party={props.pokemonRes.Party.slice(6, props.pokemonRes.Party.length > 12 ? 12 : props.pokemonRes.Party.length)}
 
-                    {this.props.pokemonRes.Party.length > 12 &&
-                        <PlateGroup
-                            attr={this.props.attr}
-                            i={this.props.i}
-                            subGroup={2}
+                        defineBreakpoints={props.defineBreakpoints}
+                    />
+                </Grid>}
 
-                            moveTable={this.props.moveTable}
-                            pokemonTable={this.props.pokemonTable}
+            {props.pokemonRes.Party.length > 12 &&
+                <Grid item xs={12}>
+                    <PlateGroup
+                        attr={props.attr}
+                        i={props.i}
+                        subGroup={2}
 
-                            party={this.props.pokemonRes.Party.slice(12, this.props.pokemonRes.Party.length)}
+                        moveTable={props.moveTable}
+                        pokemonTable={props.pokemonTable}
 
-                            defineBreakpoints={this.props.defineBreakpoints}
-                        />}
-                </div>
-            </div>
-        );
-    }
-};
+                        party={props.pokemonRes.Party.slice(12, props.pokemonRes.Party.length)}
+
+                        defineBreakpoints={props.defineBreakpoints}
+                    />
+                </Grid>}
+
+        </Grid>
+    )
+});
 
 export default CustomPveNamePlate;
 
 
+CustomPveNamePlate.propTypes = {
+    i: PropTypes.number,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+    pokemonRes: PropTypes.object,
+
+    defineBreakpoints: PropTypes.func,
+};

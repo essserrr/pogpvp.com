@@ -126,7 +126,7 @@ class PveResult extends React.PureComponent {
                     </Grid>}
 
                 {!this.props.customResult &&
-                    <Grid item xs={12} ref={this.pveres} tabIndex="0">
+                    <Grid item xs={12}>
                         <DoubleSlider
                             onClick={this.onSortChange}
                             attrs={["damage", "dps"]}
@@ -146,6 +146,7 @@ class PveResult extends React.PureComponent {
                         />
                     </Grid>}
 
+                <div aria-label="focus div" ref={this.pveres} tabIndex="0"></div>
 
                 {this.props.needsAvg &&
                     <>

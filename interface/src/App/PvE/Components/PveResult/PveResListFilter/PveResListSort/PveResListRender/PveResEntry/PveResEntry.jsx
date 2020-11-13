@@ -327,7 +327,7 @@ export default withStyles(styles, { withTheme: true })(PveResEntry);
 
 PveResEntry.propTypes = {
     i: PropTypes.number,
-    customResult: PropTypes.object,
+    customResult: PropTypes.bool,
 
     snapshot: PropTypes.object,
     tables: PropTypes.object,

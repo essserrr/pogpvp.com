@@ -63,7 +63,7 @@ PveResultCollapseList.propTypes = {
 
     loading: PropTypes.bool,
 
-    customResult: PropTypes.object,
+    customResult: PropTypes.bool,
 
     rerunWithPrecision: PropTypes.func,
     defineBreakpoints: PropTypes.func,

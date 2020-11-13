@@ -52,7 +52,6 @@ const BreakpointsList = React.memo(function BreakpointsList(props) {
 
         </Grid>
     )
-
 });
 
 export default BreakpointsList;
