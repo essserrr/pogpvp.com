@@ -3,7 +3,9 @@ import LocalizedStrings from "react-localization";
 
 import Alert from '@material-ui/lab/Alert';
 
-import SelectGroup from "../SelectGroup/SelectGroup"
+import WithIcon from "App/Components/WithIcon/WithIcon";
+import Input from "App/Components/Input/Input";
+
 import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
 import SubmitButton from "../SubmitButton/SubmitButton"
 
@@ -274,19 +276,15 @@ class Constructor extends React.PureComponent {
                 </div>
 
                 <div className="col-12 p-0">
-                    <SelectGroup
-                        name="Action"
-                        value={this.state.Attacker.Action}
-                        attr={"Attacker"}
-                        onChange={this.onChange}
-                        options={this.state.Attacker.actionList}
-                        label={strings.constructor.attacker}
+                    <WithIcon tip={this.props.Attacker.name}>
+                        <Input select name="Action" value={this.state.Attacker.Action}
+                            attr={"Attacker"} label={strings.constructor.attacker} onChange={this.onChange}>
 
-                        place={"top"}
-                        for={"Attacker"}
-                        tip={this.props.Attacker.name}
-                        tipClass="infoTip"
-                    />
+                            {this.state.Attacker.actionList}
+
+                        </Input>
+                    </WithIcon>
+
                 </div>
                 <div className="constructor--text col-12 d-flex p-0 my-1">
                     <Checkbox
@@ -311,19 +309,17 @@ class Constructor extends React.PureComponent {
                     />
                 </div>
                 <div className="col-12 p-0">
-                    <SelectGroup
-                        name="Action"
-                        value={this.state.Defender.Action}
-                        attr={"Defender"}
-                        onChange={this.onChange}
-                        options={this.state.Defender.actionList}
-                        label={strings.constructor.defender}
 
-                        place={"top"}
-                        for={"Defender"}
-                        tip={this.props.Defender.name}
-                        tipClass="infoTip"
-                    />
+
+                    <WithIcon tip={this.props.Defender.name}>
+                        <Input select name="Action" value={this.state.Defender.Action}
+                            attr={"Defender"} label={strings.constructor.defender} onChange={this.onChange}>
+
+                            {this.state.Defender.actionList}
+
+                        </Input>
+                    </WithIcon>
+
                 </div>
                 <div className="constructor--text col-12 d-flex p-0 my-1 mb-3">
                     <Checkbox

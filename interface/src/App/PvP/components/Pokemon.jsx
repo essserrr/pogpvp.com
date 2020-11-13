@@ -1,8 +1,12 @@
 import React from "react"
 
+import MenuItem from '@material-ui/core/MenuItem';
+
+import WithIcon from "App/Components/WithIcon/WithIcon";
+import Input from "App/Components/Input/Input";
+
 import Stats from "App/Components/Stats/Stats";
 import SearchableSelect from "./SearchableSelect/SearchableSelect"
-import SelectGroup from "./SelectGroup/SelectGroup"
 import Stages from "./Stages/Stages"
 import InitialStats from "./InitialStats/InitialStats"
 import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
@@ -28,32 +32,6 @@ class Pokemon extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
         optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
-        this.state = {
-            shieldsList: [
-                <option value="0" key="0">0</option>,
-                <option value="1" key="1">1</option>,
-                <option value="2" key="2">2</option>
-            ],
-            stagesList: [
-                <option value="4" key="4">4</option>,
-                <option value="3" key="3">3</option>,
-                <option value="2" key="2">2</option>,
-                <option value="1" key="1">1</option>,
-                <option value="0" key="0">0</option>,
-                <option value="-1" key="-1">-1</option>,
-                <option value="-2" key="-2">-2</option>,
-                <option value="-3" key="-3">-3</option>,
-                <option value="-4" key="-4">-4</option>,
-            ],
-            stratigiesList: [
-                <option value="true" key="Greedy">{optionStrings.options.strategy.greedy}</option>,
-                <option value="false" key="Shieldsaving">{optionStrings.options.strategy.shieldSaving}</option>,
-            ],
-            typeList: [
-                <option value="false" key="Normal">{optionStrings.options.type.normal}</option>,
-                <option value="true" key="Shadow">{optionStrings.options.type.shadow}</option>,
-            ],
-        };
     }
 
     render() {
@@ -148,63 +126,41 @@ class Pokemon extends React.PureComponent {
                             Def={this.props.value.DefStage}
                             attr={this.props.attr}
                             onChange={this.props.onChange}
-                            options={this.state.stagesList}
 
                             labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
                             label={strings.title.initialStages}
                             for=""
                         />
 
-                        <SelectGroup
-                            name="Shields"
-                            value={this.props.value.Shields}
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
-                            options={this.state.shieldsList}
 
-                            labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
-                            label={strings.title.shields}
-                            for=""
-                        />
-
-                        <SelectGroup
-                            name="IsGreedy"
-                            value={this.props.value.IsGreedy}
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
-                            options={this.state.stratigiesList}
-
-                            labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
-                            label={strings.title.strategy}
-
-                            place={this.props.attr === "attacker" ? "right" : (this.props.attr === "defender" ? "left" : "top")}
-                            for={((this.props.attr === "attacker") ? "strategyA" : "strategyD")}
-                            tip={<>
-                                {strings.tips.strategy.greedy}
-                                <br />
-                                <br />
-                                {strings.tips.strategy.shieldSaving}
-                            </>}
-                            tipClass="infoTip"
-                        />
-
-                        <SelectGroup
-                            name="IsShadow"
-                            value={this.props.value.IsShadow}
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
-                            options={this.state.typeList}
-
-                            labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
-                            label={strings.title.type}
+                        <Input select name="Shields" value={this.props.value.Shields}
+                            attr={this.props.attr} label={strings.title.shields} onChange={this.props.onChange}>
+                            <MenuItem value="0">0</MenuItem>
+                            <MenuItem value="1">1</MenuItem>
+                            <MenuItem value="2">2</MenuItem>
+                        </Input>
 
 
-                            place={"top"}
-                            for={"shadow" + this.props.attr}
+                        <WithIcon tip={<>{strings.tips.strategy.greedy}<br /><br />{strings.tips.strategy.shieldSaving}</>}>
+                            <Input select name="IsGreedy" value={this.props.value.IsGreedy}
+                                attr={this.props.attr} label={strings.title.strategy} onChange={this.props.onChange}>
 
-                            tip={strings.tips.shadow}
-                            tipClass="infoTip"
-                        />
+                                <MenuItem value="true">{strings.options.strategy.greedy}</MenuItem>
+                                <MenuItem value="false">{strings.options.strategy.shieldSaving}</MenuItem>
+
+                            </Input>
+                        </WithIcon>
+
+                        <WithIcon tip={strings.tips.shadow}>
+                            <Input select name="IsShadow" value={this.props.value.IsShadow}
+                                attr={this.props.attr} label={strings.title.type} onChange={this.props.onChange}>
+
+                                <MenuItem value="false">{optionStrings.options.type.normal}</MenuItem>
+                                <MenuItem value="true">{optionStrings.options.type.shadow}</MenuItem>
+
+                            </Input>
+                        </WithIcon>
+
 
                         <MoveSelect
                             value={this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined && this.props.value.QuickMove}

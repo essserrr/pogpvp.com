@@ -1,6 +1,9 @@
 import React from "react";
-import LabelPrepend from "../SelectGroup/LabelPrepend"
-import SingleSelect from "../SelectGroup/SingleSelect"
+
+import MenuItem from '@material-ui/core/MenuItem';
+
+import WithIcon from "App/Components/WithIcon/WithIcon";
+import Input from "App/Components/Input/Input";
 
 import LocalizedStrings from "react-localization";
 import { locale } from "../../../../locale/locale"
@@ -12,32 +15,37 @@ strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
 const Stages = React.memo(function (props) {
     return (
-        <div className="input-group input-group-sm mt-2">
-            <LabelPrepend
-                labelWidth={props.labelWidth}
-                label={props.label}
 
-                tipClass="infoTip"
-                for={props.attr + "stagestip"}
-                place={"top"}
-                tip={strings.tips.stages}
-            />
-            <SingleSelect
-                name="AtkStage"
-                attr={props.attr}
-                value={props.Atk}
+        <WithIcon tip={strings.tips.stages}>
+            <Input select name="AtkStage" value={props.Atk}
+                attr={props.attr} label={props.label} onChange={props.onChange}>
 
-                onChange={props.onChange}
-                options={props.options}
-            />
-            <SingleSelect
-                name="DefStage"
-                attr={props.attr}
-                value={props.Def}
-                onChange={props.onChange}
-                options={props.options}
-            />
-        </div>
+                <MenuItem value="4">4</MenuItem>
+                <MenuItem value="3">3</MenuItem>
+                <MenuItem value="2">2</MenuItem>
+                <MenuItem value="1">1</MenuItem>
+                <MenuItem value="0">0</MenuItem>
+                <MenuItem value="-1">-1</MenuItem>
+                <MenuItem value="-2">-2</MenuItem>
+                <MenuItem value="-3">-3</MenuItem>
+                <MenuItem value="-4">-4</MenuItem>
+
+            </Input>
+            <Input select name="DefStage" value={props.Def}
+                attr={props.attr} label={props.label} onChange={props.onChange}>
+
+                <MenuItem value="4">4</MenuItem>
+                <MenuItem value="3">3</MenuItem>
+                <MenuItem value="2">2</MenuItem>
+                <MenuItem value="1">1</MenuItem>
+                <MenuItem value="0">0</MenuItem>
+                <MenuItem value="-1">-1</MenuItem>
+                <MenuItem value="-2">-2</MenuItem>
+                <MenuItem value="-3">-3</MenuItem>
+                <MenuItem value="-4">-4</MenuItem>
+
+            </Input>
+        </WithIcon>
     )
 });
 

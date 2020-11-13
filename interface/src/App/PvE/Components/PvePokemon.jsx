@@ -193,8 +193,8 @@ const PvePokemon = React.memo(function PvePokemon(props) {
                             label={labelStrings.type}
                             onChange={props.onChange}
                         >
-                            <MenuItem value="false" attr={props.attr}>{optionStrings.type.normal}</MenuItem>
-                            <MenuItem value="true" attr={props.attr}>{optionStrings.type.shadow}</MenuItem>
+                            <MenuItem value="false">{optionStrings.type.normal}</MenuItem>
+                            <MenuItem value="true">{optionStrings.type.shadow}</MenuItem>
                         </Input>
                     </WithIcon>
                 </Grid>}
