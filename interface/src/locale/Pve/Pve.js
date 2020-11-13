@@ -18,14 +18,13 @@ export const locale = {
         raid: "Raid settings",
 
         pageheaders: {
-            single: "Single PvP  |  PogPvP.com",
             common: "Raid simulator  |  PogPvP.com",
-            matrix: "Matrix PvP  |  PogPvP.com",
-            evolution: "Evolution calc  |  PogPvP.com",
+            custom: "Custom raid simulator  |  PogPvP.com",
         },
 
         pagedescriptions: {
             common: "Pokemon GO raid simulator. Find the best counters to the current raid bosses in Pokemon GO",
+            custom: "Pokemon GO raid simulator. Find the best counters to the current raid bosses in Pokemon GO",
         },
 
         title: {
@@ -60,14 +59,13 @@ export const locale = {
         raid: "Настройки рейда",
 
         pageheaders: {
-            single: "Одиночное PvP  |  PogPvP.com",
             common: "Симулятор рейдов  |  PogPvP.com",
-            matrix: "Групповое PvP  |  PogPvP.com",
-            evolution: "Калькулятор эволюций  |  PogPvP.com",
+            custom: "Пользовательский симулятор рейдов  |  PogPvP.com",
         },
 
         pagedescriptions: {
             common: "Симулятор рейдов в Pokemon GO. Найди лучшего покемона против любого босса в Pokemon GO",
+            custom: "Симулятор рейдов в Pokemon GO. Найди лучшего покемона против любого босса в Pokemon GO",
         },
 
         title: {

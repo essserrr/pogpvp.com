@@ -218,13 +218,16 @@ class PvePage extends React.Component {
     }
 
     render() {
+        const isCommon = this.props.match.params.type === "common";
+        const isCustom = this.props.match.params.type === "custom";
         return (
             <Grid container justify="center">
                 <SiteHelm
-                    url="https://pogpvp.com/pve/common"
-                    header={strings.pageheaders.common}
-                    descr={strings.pagedescriptions.common}
+                    url={isCommon ? "https://pogpvp.com/pve/common" : "https://pogpvp.com/pve/custom"}
+                    header={isCommon ? strings.pageheaders.common : strings.pageheaders.custom}
+                    descr={isCommon ? strings.pagedescriptions.common : strings.pagedescriptions.custom}
                 />
+
                 <Grid item xs={12} sm={9} md={7} lg={6} container justify="center" spacing={3} >
 
                     {this.state.loading &&
@@ -232,7 +235,7 @@ class PvePage extends React.Component {
                             <LinearProgress color="secondary" />
                         </ Grid>}
 
-                    {((this.props.match.params.type === "custom" && !!getCookie("sid")) || this.props.match.params.type === "common") &&
+                    {((isCustom && !!getCookie("sid")) || isCommon) &&
                         <Grid item xs={12}>
                             <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
                                 <DropWithArrow title={strings.title.about}>
@@ -243,7 +246,7 @@ class PvePage extends React.Component {
 
                     {this.state.isLoaded &&
                         <Grid item xs={12}>
-                            {this.props.match.params.type === "common" &&
+                            {isCommon &&
                                 <CommonPve
                                     pokemonTable={this.props.bases.pokemonBase}
 
@@ -251,7 +254,7 @@ class PvePage extends React.Component {
                                     parentState={this.state}
                                 />}
 
-                            {this.props.match.params.type === "custom" &&
+                            {isCustom &&
                                 <CustomPve
                                     pokemonTable={this.props.bases.pokemonBase}
 
