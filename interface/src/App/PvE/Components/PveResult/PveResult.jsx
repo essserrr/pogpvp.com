@@ -31,14 +31,13 @@ class PveResult extends React.PureComponent {
         pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             n: 0,
-            breakpoints: false,
+            showBreakpoints: false,
+            breakpObj: {},
 
             param: "damage",
             filter: {}
         };
 
-
-        this.onClick = this.onClick.bind(this);
         this.showBreakpoints = this.showBreakpoints.bind(this);
         this.onSortChange = this.onSortChange.bind(this);
         this.onFilter = this.onFilter.bind(this);
@@ -99,28 +98,20 @@ class PveResult extends React.PureComponent {
         })
     }
 
-    onClick(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
+    onClose = () => {
         this.setState({
             showBreakpoints: false,
-        });
+        })
     }
 
     render() {
+
         return (
             <Grid container justify="center" spacing={2}>
-                {(this.state.showBreakpoints) &&
-                    <MagicBox
-                        onClick={this.onClick}
-                        attr={"breakpoints"}
-                        element={<Breakpoints
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.moveTable}
-                            snapshot={this.state.breakpObj}
-                        />}
-                    />}
+
+                <MagicBox open={this.state.showBreakpoints} onClick={this.onClose} attr={"breakpoints"}>
+                    <Breakpoints pokemonTable={this.props.pokemonTable} moveTable={this.props.moveTable} snapshot={this.state.breakpObj} />
+                </MagicBox>
 
                 <Grid item xs={12}>
                     <PveWillow
