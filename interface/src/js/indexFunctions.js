@@ -465,7 +465,7 @@ export function pveobj() {
 }
 
 export function pveUserSettings() {
-    return { FindInCollection: true, SortByDamage: "true", UserPlayers: [[pveCutomParty(), pveCutomParty(), pveCutomParty()],], }
+    return { FindInCollection: false, SortByDamage: "true", UserPlayers: [[pveCutomParty(), pveCutomParty(), pveCutomParty()],], }
 }
 
 export function pveCutomParty() {

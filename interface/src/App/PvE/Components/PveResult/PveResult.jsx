@@ -203,5 +203,4 @@ class PveResult extends React.PureComponent {
 
 }
 
-
 export default PveResult;
