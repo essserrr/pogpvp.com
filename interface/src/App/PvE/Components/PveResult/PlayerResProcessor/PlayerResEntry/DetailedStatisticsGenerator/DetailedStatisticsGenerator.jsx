@@ -21,7 +21,7 @@ const DetailedStatisticsGenerator = React.memo(function DetailedStatisticsGenera
 export default DetailedStatisticsGenerator;
 
 DetailedStatisticsGenerator.propTypes = {
-    value: PropTypes.array,
+    value: PropTypes.object,
 
     tables: PropTypes.object,
     moveTable: PropTypes.object,
