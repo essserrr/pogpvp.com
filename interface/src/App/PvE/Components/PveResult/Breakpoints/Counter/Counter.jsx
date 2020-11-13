@@ -1,21 +1,56 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./Counter.scss"
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-const Counter = React.memo(function (props) {
+const useStyles = makeStyles((theme) => ({
+    boosted: {
+        color: "rgb(211, 165, 14)",
+    },
+    marginLeft: {
+        marginLeft: `${theme.spacing(0.5)}px`
+    }
+}));
+
+const Counter = React.memo(function Counter(props) {
+    const classes = useStyles();
+    const difference = props.value - props.base;
+    const valIsColored = props.colorForvalue && props.value > 0;
 
     return (
-        <>
-            {props.name}: <span className={"font-weight-bold " + (props.colorForvalue && props.value > 0 ? "counter--isboosted" : "")}>
-                {props.value}</span>
+        <Grid container alignItems="center">
 
-            {((props.value - props.base) > 0) &&
-                <span className="font-weight-bold counter--isboosted">
-                    {"(+" + (props.toFixed ? (props.value - props.base).toFixed(props.decimal) : props.value - props.base) + ")"}
-                </span>}
-        </>
+            {props.name}{":"}
+
+            <b className={`${classes.marginLeft} ${valIsColored ? classes.boosted : ""}`}>
+                {props.value}
+            </b>
+
+            {difference > 0 &&
+                <b className={`${classes.marginLeft} ${classes.boosted}`}>
+                    {" (+" + (props.toFixed ? difference.toFixed(props.decimal) : difference) + ")"}
+                </b>}
+        </Grid>
     )
 
 });
 
 export default Counter;
+
+Counter.propTypes = {
+    toFixed: PropTypes.bool,
+    decimal: PropTypes.number,
+    value: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
+
+    base: PropTypes.number,
+
+    name: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.string,
+    ]),
+    colorForvalue: PropTypes.bool,
+};

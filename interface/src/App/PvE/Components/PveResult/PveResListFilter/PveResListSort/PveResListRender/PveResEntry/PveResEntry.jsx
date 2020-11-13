@@ -336,7 +336,7 @@ PveResEntry.propTypes = {
     moveTable: PropTypes.object,
     pokList: PropTypes.arrayOf(PropTypes.object),
 
-    showBreakpoints: PropTypes.bool,
+    showBreakpoints: PropTypes.func,
 
     pokemonRes: PropTypes.object,
     replace: PropTypes.func,
