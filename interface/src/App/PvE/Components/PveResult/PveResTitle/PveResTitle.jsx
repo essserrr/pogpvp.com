@@ -1,17 +1,24 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./PveResTitle.scss"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-const PveResTitle = React.memo(function (props) {
+const PveResTitle = React.memo(function PveResTitle(props) {
     return (
-        <div className="row mx-0">
-            <div className="pveres-title col-12 px-0">
+        <Grid container>
+            <Typography variant="h6" align="center">
                 {props.children}
-            </div>
-        </div>
+            </Typography>
+        </Grid>
     )
 });
 
-
-
 export default PveResTitle;
+
+PveResTitle.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+};
