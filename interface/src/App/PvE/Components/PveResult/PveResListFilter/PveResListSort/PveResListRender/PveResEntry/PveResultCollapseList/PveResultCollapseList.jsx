@@ -65,7 +65,7 @@ PveResultCollapseList.propTypes = {
 
     customResult: PropTypes.object,
 
-    rerunWithPrecision: PropTypes.objefuncct,
+    rerunWithPrecision: PropTypes.func,
     defineBreakpoints: PropTypes.func,
 
     children: PropTypes.oneOfType([
