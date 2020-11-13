@@ -1,34 +1,45 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import WeatherMoves from "../WeatherMoves/WeatherMoves"
-import { calculateCP, calculateEffStat } from "../../../../../../../../../js/indexFunctions"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
-import "./NameAndMoves.scss"
+import WeatherMoves from "../WeatherMoves/WeatherMoves";
+import { calculateCP, calculateEffStat } from "js/indexFunctions";
 
-class NameAndMoves extends React.PureComponent {
-    render() {
-
-        return (<>
-            <div className="col-12 d-flex p-0 align-items-center">
-                <div className="name-and-move__title mr-1">
-                    {this.props.formattedName.Name}
-                </div>
+const NameAndMoves = React.memo(function NameAndMoves(props) {
+    return (
+        <Grid container>
+            <Grid item xs={12} container alignItems="center">
+                <Box fontWeight="bold" px={0.5}>
+                    {props.formattedName.Name}
+                </Box>
                 <WeatherMoves
-                    pokQick={this.props.quick}
-                    pokCh={this.props.charge}
-                    weather={this.props.snapshot.pveObj.Weather}
+                    pokQick={props.quick}
+                    pokCh={props.charge}
+                    weather={props.snapshot.pveObj.Weather}
                 />
-            </div>
-            <div className="name-and-move--text col-12 p-0">
-                {"CP "} {calculateCP(this.props.name, this.props.snapshot[this.props.attr].Lvl, this.props.snapshot[this.props.attr].Atk, this.props.snapshot[this.props.attr].Def, this.props.snapshot[this.props.attr].Sta, this.props.pokemonTable)}
-                {" / HP "} {calculateEffStat(this.props.name, this.props.snapshot[this.props.attr].Lvl, this.props.snapshot[this.props.attr].Sta, 0, this.props.pokemonTable, "Sta", false)}
-                {this.props.formattedName.Additional && (" / " + this.props.formattedName.Additional)}
-            </div>
-        </>
-        )
-    }
-};
+            </Grid>
+            <Grid item xs={12}>
+                {"CP "}
+                {calculateCP(props.name, props.snapshot[props.attr].Lvl, props.snapshot[props.attr].Atk, props.snapshot[props.attr].Def, props.snapshot[props.attr].Sta, props.pokemonTable)}
+                {" / HP "}
+                {calculateEffStat(props.name, props.snapshot[props.attr].Lvl, props.snapshot[props.attr].Sta, 0, props.pokemonTable, "Sta", false)}
+                {props.formattedName.Additional && (" / " + props.formattedName.Additional)}
+            </Grid>
+        </Grid>
+    )
+});
 
 export default NameAndMoves;
 
+NameAndMoves.propTypes = {
+    formattedName: PropTypes.object,
+    quick: PropTypes.object,
+    charge: PropTypes.object,
+    snapshot: PropTypes.object,
 
+    attr: PropTypes.string,
+    name: PropTypes.string,
+    pokemonTable: PropTypes.object,
+};
