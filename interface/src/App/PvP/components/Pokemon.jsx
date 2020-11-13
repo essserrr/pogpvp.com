@@ -6,7 +6,7 @@ import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 
 import Stats from "App/Components/Stats/Stats";
-import SearchableSelect from "./SearchableSelect/SearchableSelect"
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 import Stages from "./Stages/Stages"
 import InitialStats from "./InitialStats/InitialStats"
 import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
@@ -41,12 +41,16 @@ class Pokemon extends React.PureComponent {
                     title={strings.title.selectMove}
                     onClick={this.props.onClick}
                     attr={this.props.attr}
-                    element={<SearchableSelect
-                        list={this.props.moveList}
-                        attr={this.props.attr}
-                        category={this.props.category}
-                        onChange={this.props.onChange}
-                    />}
+                    element={
+                        <SearchableSelect
+                            disableClearable
+                            label={"fullLabel"}
+                            name={this.props.category}
+                            attr={this.props.attr}
+                            onChange={this.props.onChange}
+                        >
+                            {this.props.moveList}
+                        </SearchableSelect>}
                 />}
 
                 {this.props.userPokemon && this.props.userPokemon.length > 0 &&
@@ -65,13 +69,14 @@ class Pokemon extends React.PureComponent {
 
                 {this.props.pokList &&
                     <SearchableSelect
+                        disableClearable
                         label={strings.allPok}
-
                         value={this.props.value.name}
-                        list={this.props.pokList}
                         attr={this.props.attr}
                         onChange={this.props.onChange}
-                    />}
+                    >
+                        {this.props.pokList}
+                    </SearchableSelect>}
 
                 {(this.props.pokemonTable[this.props.value.name] && this.props.value.name) &&
                     <>
