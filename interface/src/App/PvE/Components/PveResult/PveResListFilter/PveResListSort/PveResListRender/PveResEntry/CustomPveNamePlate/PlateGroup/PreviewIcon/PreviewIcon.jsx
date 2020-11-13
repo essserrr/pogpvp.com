@@ -6,9 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import Iconer from "App/Components/Iconer/Iconer";
-import { ReactComponent as Shadow } from "icons/shadow.svg"
+import { ReactComponent as Shadow } from "icons/shadow.svg";
 
-const PreviewIcon = React.memo(function (props) {
+const PreviewIcon = React.memo(function PreviewIcon(props) {
     const pokemon = props.pokemonTable[props.Name];
     const fileName = `${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`
 
@@ -25,7 +25,7 @@ const PreviewIcon = React.memo(function (props) {
             </Box>
         </Tooltip>
     )
-})
+});
 
 export default PreviewIcon;
 

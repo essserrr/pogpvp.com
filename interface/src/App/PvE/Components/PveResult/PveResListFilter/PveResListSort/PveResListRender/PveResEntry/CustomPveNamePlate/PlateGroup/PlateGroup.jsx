@@ -1,67 +1,71 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import UserPokCard from "../../../../../../../../../Userpage/CustomPokemon/PokemonBox/UserPokemonList/UserPokCard/UserPokCard"
-import DropWithArrow from "../../../../../../../../../PvpRating//DropWithArrow/DropWithArrow"
-import PreviewIcon from "./PreviewIcon/PreviewIcon"
+import Grid from '@material-ui/core/Grid';
 
-import { pveLocale } from "../../../../../../../../../../locale/pveLocale"
-import { getCookie } from "../../../../../../../../../../js/getCookie"
+import UserPokCard from "App/Userpage/CustomPokemon/PokemonBox/UserPokemonList/UserPokCard/UserPokCard";
+import DropWithArrow from "App/PvpRating//DropWithArrow/DropWithArrow";
+import PreviewIcon from "./PreviewIcon/PreviewIcon";
 
-let strings = new LocalizedStrings(pveLocale)
+import { pveLocale } from "locale/Pve/CustomPve/CustomPve";
+import { getCookie } from "js/getCookie";
 
-class PlateGroup extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+let strings = new LocalizedStrings(pveLocale);
 
+const PlateGroup = React.memo(function PlateGroup(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-    render() {
-        return (
-            <div className="col-12 px-0 my-1">
-                <DropWithArrow
-                    title={
-                        <div className="row mx-0 align-items-center">
-                            <div style={{ textTransform: "capitalize" }} className="col-auto px-0 mr-2">{`${strings.party} ${this.props.subGroup + 1}`}</div>
-                            {this.props.party.map((value, index) =>
-                                <PreviewIcon
-                                    key={index + "prevIcon"} index={index + "prevIcon"} attr={this.props.attr}
-                                    Name={value.Name} IsShadow={value.IsShadow}
-                                    pokemonTable={this.props.pokemonTable}
-                                />
-                            )}
-                        </div>}>
+    return (
+        <Grid container>
+            <DropWithArrow
+                title={
+                    <div className="row mx-0 align-items-center">
+                        <div style={{ textTransform: "capitalize" }} className="col-auto px-0 mr-2">{`${strings.party} ${props.subGroup + 1}`}</div>
 
-                    {this.props.party.map((value, index) =>
+                        {props.party.map((value, index) =>
+                            <PreviewIcon key={index + "prevIcon"} Name={value.Name} IsShadow={value.IsShadow} pokemonTable={props.pokemonTable} />
+                        )}
+                    </div>}>
+                <Grid container justify="space-around">
+
+                    {props.party.map((value, index) =>
                         <UserPokCard
                             key={index}
-                            index={(this.props.subGroup * 6) + index}
+                            index={(props.subGroup * 6) + index}
                             style={{ minWidth: "178px" }}
 
-                            attr={this.props.attr}
-                            i={this.props.i}
+                            attr={props.attr}
+                            i={props.i}
 
-                            moveTable={this.props.moveTable}
-                            pokemonTable={this.props.pokemonTable}
+                            moveTable={props.moveTable}
+                            pokemonTable={props.pokemonTable}
 
                             forCustomPve={true}
 
                             Name={value.Name} QuickMove={value.Quick} ChargeMove={value.Charge} ChargeMove2={value.Charge2}
                             Lvl={value.Lvl} Atk={value.Atk} Def={value.Def} Sta={value.Sta} IsShadow={value.IsShadow}
 
-                            onPokemonEdit={this.props.defineBreakpoints}
+                            onPokemonEdit={props.defineBreakpoints}
                         />)}
 
-                </DropWithArrow>
-
-
-
-            </div >
-        );
-    }
-};
+                </Grid>
+            </DropWithArrow>
+        </Grid>
+    )
+});
 
 export default PlateGroup;
 
+PreviewIcon.propTypes = {
+    attr: PropTypes.string,
+    i: PropTypes.number,
+    subGroup: PropTypes.number,
 
+    moveTable: PropTypes.object,
+    pokemonTable: PropTypes.object,
+
+    party: PropTypes.arrayOf(PropTypes.object),
+
+    defineBreakpoints: PropTypes.func,
+};

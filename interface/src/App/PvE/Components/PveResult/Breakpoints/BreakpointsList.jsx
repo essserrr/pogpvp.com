@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { breakoints } from "locale/Pve/Breakpoints/Breakpoints";
 import { calculateDamage, returnEffAtk, getPveMultiplier } from "js/indexFunctions";
-import { getCookie } from "../../../../../js/getCookie"
+import { getCookie } from "js/getCookie";
 
 let pvestrings = new LocalizedStrings(breakoints);
 
