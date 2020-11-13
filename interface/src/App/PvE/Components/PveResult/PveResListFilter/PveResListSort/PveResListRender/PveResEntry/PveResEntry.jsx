@@ -1,20 +1,30 @@
-import React from "react"
-import { UnmountClosed } from "react-collapse"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate"
-import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate"
-import CollapseCardWrapper from "./CollapseCardWrapper/CollapseCardWrapper"
-import PveResultCollapseList from "./PveResultCollapseList/PveResultCollapseList"
-import PveResultFullStatistics from "./PlayerStatistics/PlayerStatistics"
+import Grid from '@material-ui/core/Grid';
+import Collapse from '@material-ui/core/Collapse';
+import { withStyles } from "@material-ui/core/styles";
 
-import { encodePveAttacker, encodePveBoss, encodePveObj } from "../../../../../../../../js/indexFunctions"
+import GreyPaper from "App/Components/GreyPaper/GreyPaper";
+import CustomPveNamePlate from "./CustomPveNamePlate/CustomPveNamePlate";
+import CommonPveNamePlate from "./CommonPveNamePlate/CommonPveNamePlate";
+import CollapseCardWrapper from "./CollapseCardWrapper/CollapseCardWrapper";
+import PveResultCollapseList from "./PveResultCollapseList/PveResultCollapseList";
+import PveResultFullStatistics from "./PlayerStatistics/PlayerStatistics";
 
-import "./PveResEntry.scss"
+import { encodePveAttacker, encodePveBoss, encodePveObj } from "js/indexFunctions";
+
+const styles = theme => ({
+    separator: {
+        borderTop: "1px solid rgba(0, 0, 0, 0.295)",
+        paddingTop: `${theme.spacing(1)}px`,
+        marginTop: `${theme.spacing(1)}px`,
+    },
+});
 
 class PveResEntry extends React.PureComponent {
-    constructor(props) {
-        super(props);
-
+    constructor() {
+        super();
         this.state = {
             showCollapse: false,
             colElement: null,
@@ -189,14 +199,9 @@ class PveResEntry extends React.PureComponent {
 
     generateCards() {
         return this.props.pokemonRes.Result.map((stats, i) =>
-            <CollapseCardWrapper
-                key={i}
-                stats={stats}
-                moveTable={this.props.moveTable}
-                snapshot={this.props.snapshot}
-                tables={this.props.tables}
-            />
-        );
+            <Grid item xs={12} key={i}>
+                <CollapseCardWrapper stats={stats} moveTable={this.props.moveTable} snapshot={this.props.snapshot} tables={this.props.tables} />
+            </Grid>);
     }
 
     processStats(avgStats) {
@@ -231,83 +236,108 @@ class PveResEntry extends React.PureComponent {
     }
 
     render() {
+        const { classes } = this.props;
         const avgStats = this.collect()
         const partyLen = this.props.pokemonRes.Party.length
+        const key = this.props.pokemonRes.Party[partyLen - 1].Name + this.props.pokemonRes.Party[partyLen - 1].Quick + this.props.pokemonRes.Party[partyLen - 1].Charge
+
         return (
-            <div className={"pve-resentry__card row m-0 py-1 my-1 px-2 justify-content-between"}
-                key={this.props.pokemonRes.Party[partyLen - 1].Name + this.props.pokemonRes.Party[partyLen - 1].Quick + this.props.pokemonRes.Party[partyLen - 1].Charge}>
+            <GreyPaper elevation={4} enablePadding paddingMult={0.5} key={key} style={{ backgroundColor: "white" }}>
+                <Grid container>
 
-                {!this.props.customResult &&
-                    <CommonPveNamePlate
-                        snapshot={this.props.snapshot}
-                        i={this.props.i}
+                    {!this.props.customResult &&
+                        <Grid item xs={12}>
+                            <CommonPveNamePlate
+                                snapshot={this.props.snapshot}
+                                i={this.props.i}
 
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        pokemonRes={this.props.pokemonRes}
-                    />}
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.moveTable}
+                                pokemonRes={this.props.pokemonRes}
+                            />
+                        </Grid>}
 
-                {this.props.customResult &&
-                    <CustomPveNamePlate
-                        i={this.props.i}
+                    {this.props.customResult &&
+                        <Grid item xs={12}>
+                            <CustomPveNamePlate
+                                i={this.props.i}
 
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        pokemonRes={this.props.pokemonRes}
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.moveTable}
+                                pokemonRes={this.props.pokemonRes}
 
-                        defineBreakpoints={this.defineBreakpoints}
-                    />}
+                                defineBreakpoints={this.defineBreakpoints}
+                            />
+                        </Grid>}
 
-                <div className="col-12 p-0">
-                    <PveResultFullStatistics
-                        bounds={{
-                            up: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMin)) /
-                                (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
-                            low: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMax)) /
-                                (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
-                            avg: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DAvg)) /
-                                (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
+                    <Grid item xs={12}>
+                        <PveResultFullStatistics
+                            bounds={{
+                                up: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMin)) /
+                                    (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
+                                low: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMax)) /
+                                    (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
+                                avg: ((this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DAvg)) /
+                                    (this.props.tables.hp[this.props.snapshot.bossObj.Tier]) * 100).toFixed(1),
 
-                        }}
+                            }}
 
-                        remain={{
-                            avg: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DAvg),
-                            max: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMax),
-                            min: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMin),
-                            nbOfWins: avgStats.NOfWins,
-                        }}
+                            remain={{
+                                avg: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DAvg),
+                                max: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMax),
+                                min: this.props.tables.hp[this.props.snapshot.bossObj.Tier] - this.cropDamage(avgStats.DMin),
+                                nbOfWins: avgStats.NOfWins,
+                            }}
 
 
-                        stats={this.processStats(avgStats)}
+                            stats={this.processStats(avgStats)}
 
-                        onClick={this.onClick}
-                        showCollapse={this.state.showCollapse}
-                    />
-                </div>
+                            onClick={this.onClick}
+                            showCollapse={this.state.showCollapse}
+                        />
+                    </Grid>
 
-                <div className={"col-12 p-0 " + (this.state.showCollapse ? "pve-resentry__card-separator" : "")}>
-                    <UnmountClosed isOpened={this.state.showCollapse}>
-                        <PveResultCollapseList
-                            isError={this.state.isError}
-                            error={this.state.error}
+                    <Grid item xs={12} className={this.state.showCollapse ? classes.separator : ""}>
+                        <Collapse in={this.state.showCollapse} unmountOnExit>
+                            <PveResultCollapseList
+                                isError={this.state.isError}
+                                error={this.state.error}
 
-                            loading={this.state.loading}
+                                loading={this.state.loading}
 
-                            customResult={this.props.customResult}
+                                customResult={this.props.customResult}
 
-                            rerunWithPrecision={this.rerunWithPrecision}
-                            defineBreakpoints={this.defineBreakpoints}
-                        >
-                            {this.state.colElement}
-                        </PveResultCollapseList>
-                    </UnmountClosed>
-                </div>
+                                rerunWithPrecision={this.rerunWithPrecision}
+                                defineBreakpoints={this.defineBreakpoints}
+                            >
+                                <Grid container spacing={1}>
+                                    {this.state.colElement}
+                                </Grid>
+                            </PveResultCollapseList>
+                        </Collapse>
+                    </Grid>
 
-            </div>
+                </Grid>
+            </GreyPaper>
         );
     }
 };
 
-export default PveResEntry;
+export default withStyles(styles, { withTheme: true })(PveResEntry);
 
+PveResEntry.propTypes = {
+    i: PropTypes.number,
+    customResult: PropTypes.object,
 
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+    pokList: PropTypes.arrayOf(PropTypes.object),
+
+    showBreakpoints: PropTypes.bool,
+
+    pokemonRes: PropTypes.object,
+    replace: PropTypes.func,
+};

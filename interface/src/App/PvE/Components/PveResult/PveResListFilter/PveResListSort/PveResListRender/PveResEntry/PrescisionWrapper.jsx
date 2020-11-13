@@ -42,7 +42,8 @@ class PrescisionWrapper extends React.PureComponent {
                 showBreakpoints={this.props.showBreakpoints}
 
                 pokemonRes={this.state.pokemonRes}
-                replace={this.replace} />
+                replace={this.replace}
+            />
         );
     }
 };
