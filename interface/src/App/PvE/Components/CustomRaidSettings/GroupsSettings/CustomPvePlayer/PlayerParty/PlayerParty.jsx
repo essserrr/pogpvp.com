@@ -26,9 +26,9 @@ const PlayerParty = React.memo(function PlayerParty(props) {
                 <SearchableSelect
                     label={strings.selectGroup}
 
-                    category="partySelect"
+                    name="partySelect"
                     attr={String(props.playerNumber)}
-                    name={String(props.partyNumber)}
+                    category={String(props.partyNumber)}
 
                     disableClearable
                     value={props.value}

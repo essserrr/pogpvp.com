@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 
 import PlayerParty from "./PlayerParty/PlayerParty";
 import CloseButton from "App/Components/CloseButton/CloseButton";
@@ -14,22 +13,15 @@ import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(pveLocale);
 
-const useStyles = makeStyles((theme) => ({
-    title: {
-        borderBottom: `1px solid ${theme.palette.text.primary}`,
-    },
-}));
-
 const CustomPvePlayer = React.memo(function CustomPvePlayer(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    const classes = useStyles();
 
     const list = [{ value: "", title: strings.none }, ...Object.keys(props.userParties).map((value) => ({ value: value, title: value }))];
 
     return (
         <Grid container justify="center" alignItems="center" spacing={1}>
 
-            <Grid item xs={12} container justify="space-between" className={classes.title}>
+            <Grid item xs={12} container justify="space-between" alignItems="center">
                 <Typography variant="h6">
                     {`${strings.player} ${props.playerNumber + 1}`}
                 </Typography>

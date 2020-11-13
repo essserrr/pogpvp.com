@@ -5,8 +5,6 @@ export const locale = {
 
         dexentr: "View dex for",
 
-        oopsReg: "Oops... To use this function you need to sign up first",
-
         advisor: {
             adv: "Advisor",
             willow: "Hey Trainer, how about trying out these Pokémon?",
@@ -161,8 +159,6 @@ export const locale = {
         allPok: "Все покемоны",
 
         dexentr: "Открыть декс для",
-
-        oopsReg: "Ой... Что бы воспользоваться этой функцией, вы должны сначала зарегистрироваться",
 
         advisor: {
             adv: "Советчик",

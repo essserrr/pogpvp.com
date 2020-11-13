@@ -1,5 +1,7 @@
 export const locale = {
     en: {
+        oopsReg: "Oops... To use this function you need to sign up first",
+
         s: "s",
 
         sup: "Pokemon-supporter",
@@ -19,7 +21,7 @@ export const locale = {
         },
 
         title: {
-            about: "О симуляторе",
+            about: "About simulator",
         },
 
         buttons: {
@@ -32,6 +34,8 @@ export const locale = {
 
 
     ru: {
+        oopsReg: "Ой... Что бы воспользоваться этой функцией, вы должны сначала зарегистрироваться",
+
         s: "с",
 
         sup: "Покемон поддержки",
@@ -51,7 +55,7 @@ export const locale = {
         },
 
         title: {
-            about: "About simulator",
+            about: "О симуляторе",
         },
 
         buttons: {

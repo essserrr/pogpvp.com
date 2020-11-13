@@ -11,7 +11,7 @@ import SimulatorPanel from "./Components/SimulatorPanel";
 import Button from "App/Components/Button/Button";
 import PveResult from "./Components/PveResult/PveResult";
 
-import { MovePoolBuilder } from "js/movePoolBuilder"
+import { MovePoolBuilder } from "js/movePoolBuilder";
 import { pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV } from "js/indexFunctions.js";
 
 import { getCookie } from "js/getCookie";
@@ -263,10 +263,9 @@ class CommonPve extends React.PureComponent {
     }
 
     onClick(event, attributes) {
-        const attr = attributes.attr
         this.setState({
-            [attr]: {
-                ...this.state[attr],
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
                 showMenu: false,
                 isSelected: undefined,
             }
