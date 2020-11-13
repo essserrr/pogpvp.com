@@ -1,14 +1,22 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
+import { makeStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import MaterialSwitch from '@material-ui/core/Switch';
 
+const useStyles = makeStyles((theme) => ({
+    formControl: {
+        margin: 0,
+    },
+}));
+
 const Switch = React.memo(function Switch(props) {
     const { checked, onChange, color, label, type, category, name, attr, ...other } = props;
+    const classes = useStyles();
 
     return (
-        <FormControlLabel
+        <FormControlLabel className={classes.formControl}
             control={
                 <MaterialSwitch
                     checked={checked}

@@ -19,36 +19,7 @@ export const locale = {
             tip: "Adviser shows a list of the most balanced parties that can be composed from the Pokemon of the left column. The option is active after calculating a matrix battle (when the number of pokemon in the left column is from 3 to 15). !!!The key settings change hides adviser.",
 
         },
-        title: {
-            selectMove: "Select a move:",
-            initialStats: "HP, Energy",
-            initialStages: "Atk, Def",
-            shields: "Shields",
-            strategy: "Strategy",
-            quickMove: "Quick",
-            chargeMove: "Charge",
-            type: "Type",
-            savedparties: "Parties",
 
-            league: "League",
-            counter: "Pokemons",
-            savegroupplaceholder: "Party name",
-            evolveTool: "Select pokemon you want to evolve",
-            pvpoke: "Pvpoke-like rules",
-            about: "About simulator",
-        },
-
-        pageheaders: {
-            single: "Single PvP  |  PogPvP.com",
-            common: "Raid simulator  |  PogPvP.com",
-            matrix: "Matrix PvP  |  PogPvP.com",
-            evolution: "Evolution calc  |  PogPvP.com",
-        },
-
-        pagedescriptions: {
-            single: "Pokemon GO single PvP simulator. Pokemon GO PvP battle between two mons",
-            matrix: "Pokemon GO matrix PvP simulator. Pokemon GO PvP battle between two or more mons. Pokemon GO PvP party advisor",
-        },
 
         maximizer: {
             levelTitle: "Max level:",
@@ -63,28 +34,7 @@ export const locale = {
             energy: "En",
         },
 
-        tips: {
-            impExp: "Enter or copy your Pokemon",
-            strategy: {
-                greedy: "When greedy mode is on, pokemon uses shields whenever it results in higher battle rating",
-                shieldSaving: "When shieldsaving mode is on, pokemon prioritizes shields number over battle rating if it doesn't lead him to guaranteed victory",
-            },
-            nameSearch: "Search name",
 
-            savegroup: "Enter a party name (1-15 charaters)",
-            matrixPanel: "Default settings",
-            loading: "Loading...",
-            evolveTool: "Next evolution",
-            shadow: "Shadow pokemons have \n x1.2 Atk and x0.881 Def",
-            constructor: "Allows to chage actions in the timeline",
-            pvpoke: "Enables Pvpoke-like PvP rules; after enabling strategies don't affect PvP results",
-            triple: "Overall rating",
-            tripletip: "Calculates PvP between every single pokemon of the right column and every single  pokemon of the left column. Calculation is performed with following shield combinations: 0x0, 1x1, 2x2. After that estimates overall rating of every fight.\n When the option is active, changing the number of shields does not affect the result.",
-            stages: "Attack and defence stages to start PvP with",
-            saved: "List of all saved parties",
-            quick: "Quick move",
-            charge: "Charge move",
-        },
         move: {
             damage: "Damage: ",
             energy: "Energy cost: ",
@@ -173,37 +123,7 @@ export const locale = {
             strong: "Сильны против:",
             tip: "При нажатии показывает список наиболее сбалансированных групп, которые можно собрать из покемонов левого столбца. Опция активна после вычисления групповой битвы (когда число покемонов в левой колонке составляет от 3 до 15). !!!Изменение ключевых настроек вновь скрывает советчик.",
         },
-        title: {
-            selectMove: "Выберите умение:",
-            initialStats: "HP, Энерг.",
-            initialStages: "Атк, защ",
-            shields: "Щиты",
-            strategy: "Стратегия    ",
-            quickMove: "Быстрое",
-            chargeMove: "Заряжаемое",
-            type: "Тип",
-            savedparties: "Группы",
 
-
-            league: "Лига",
-            counter: "Покемонов",
-            savegroupplaceholder: "Введите имя группы",
-            evolveTool: "Выберите покемона для эволюции",
-            pvpoke: "Правила Pvpoke",
-            about: "О симуляторе",
-        },
-
-        pageheaders: {
-            single: "Одиночное PvP  |  PogPvP.com",
-            common: "Симулятор рейдов  |  PogPvP.com",
-            matrix: "Групповое PvP  |  PogPvP.com",
-            evolution: "Калькулятор эволюций  |  PogPvP.com",
-        },
-
-        pagedescriptions: {
-            single: "Симулятор одиночного PvP в Pokemon GO. Симулятор боев между двумя покемонами в Pokemon GO",
-            matrix: "Симулятор группового PvP в Pokemon GO. Симулятор боев между двумя и более покемонами в Pokemon GO",
-        },
 
         maximizer: {
             levelTitle: "Макс. ур.:",
@@ -220,28 +140,7 @@ export const locale = {
             energy: "Эн",
         },
 
-        tips: {
-            impExp: "Введите или скопируйте ваших покемонов",
-            strategy: {
-                greedy: "Когда жадный режим включен, покемон использует щиты каждый раз, когда это приводит к более высокому итоговому рейтингу",
-                shieldSaving: "Когда включен режим сохранения щитов, покемон будет использовать щит только тогда, когда это приводит его к гарантированной победе",
-            },
-            nameSearch: "Поиск по имени",
 
-            stages: "Стадии атаки и защиты, с которыми начнется PvP",
-            savegroup: "Введите имя группы (1-15 символов)",
-            matrixPanel: "Настройки по умолчанию",
-            loading: "Загрузка...",
-            evolveTool: "Следующая эволюция",
-            shadow: "У теневых покемонов \n x1.2 Атк и x0.881 Защ",
-            constructor: "Позволяет менять дейсвия на графике",
-            pvpoke: "Включает правила PvP подобные Pvpoke. Когда режим активен, стратегии перестают работать",
-            triple: "Общий рейтинг",
-            tripletip: "Проводит PvP между каждым покемоном левого столбца и каждым покемоном правого столбца. Расчет проводится для 3 комбинаций щитов: 0х0, 1х1, 2х2, после чего определяется общий рейтинг.\n Когда опция активна, изменение количества щитов в опцих не влияет на результат.",
-            saved: "Список всех сохраненных групп",
-            quick: "Быстрое умение",
-            charge: "Заряжаемое умение",
-        },
         move: {
             damage: "Урон: ",
             energy: "Энергия: ",

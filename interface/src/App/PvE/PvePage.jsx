@@ -230,11 +230,6 @@ class PvePage extends React.Component {
 
                 <Grid item xs={12} sm={9} md={7} lg={6} container justify="center" spacing={3} >
 
-                    {this.state.loading &&
-                        <Grid item xs={12}>
-                            <LinearProgress color="secondary" />
-                        </ Grid>}
-
                     {((isCustom && !!getCookie("sid")) || isCommon) &&
                         <Grid item xs={12}>
                             <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
@@ -243,6 +238,11 @@ class PvePage extends React.Component {
                                 </DropWithArrow>
                             </GreyPaper>
                         </Grid>}
+
+                    {this.state.loading &&
+                        <Grid item xs={12}>
+                            <LinearProgress color="secondary" />
+                        </ Grid>}
 
                     {this.state.isLoaded &&
                         <Grid item xs={12}>

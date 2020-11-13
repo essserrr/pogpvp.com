@@ -31,8 +31,8 @@ class SinglePvp extends React.PureComponent {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            attacker: (props.parentState.attacker) ? props.parentState.attacker : pokemon(strings.tips.nameSearch),
-            defender: (props.parentState.defender) ? props.parentState.defender : pokemon(strings.tips.nameSearch),
+            attacker: (props.parentState.attacker) ? props.parentState.attacker : pokemon(),
+            defender: (props.parentState.defender) ? props.parentState.defender : pokemon(),
             result: (props.parentState.pvpResult) ? props.parentState.pvpResult : [],
             url: (props.parentState.url) ? props.parentState.url : "",
 
@@ -61,8 +61,8 @@ class SinglePvp extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (this.props.parentState.pvpResult !== prevProps.parentState.pvpResult) {
             this.setState({
-                attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(strings.tips.nameSearch),
-                defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(strings.tips.nameSearch),
+                attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(),
+                defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(),
                 result: (this.props.parentState.pvpResult) ? this.props.parentState.pvpResult : [],
                 url: (this.props.parentState.url) ? this.props.parentState.url : "",
 
