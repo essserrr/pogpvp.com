@@ -1,46 +1,75 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import Alert from '@material-ui/lab/Alert';
+import Grid from '@material-ui/core/Grid';
+import ReplayIcon from '@material-ui/icons/Replay';
 
-import SubmitButton from "../../../../../../../../PvP/components/SubmitButton/SubmitButton"
-import { pveLocale } from "../../../../../../../../../locale/pveLocale"
+import Button from "App/Components/Button/Button";
 
-let pveStrings = new LocalizedStrings(pveLocale)
+import { collList } from "locale/Pve/PveResCollapseList/PveResCollapseList";
+import { getCookie } from "js/getCookie";
 
-class PveResultCollapseList extends React.PureComponent {
-    render() {
-        return (
+let pveStrings = new LocalizedStrings(collList);
 
-            <div className="row m-0  mt-1">
+const PveResultCollapseList = React.memo(function PveResultCollapseList(props) {
+    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-                {this.props.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
-                    <Alert variant="filled" severity="error">{this.props.error}</Alert></div>}
+    return (
 
-                {!this.props.needsAverage && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
-                    <SubmitButton
-                        action="Precision"
-                        onSubmit={this.props.rerunWithPrecision}
-                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                    >
-                        {this.props.loading ? pveStrings.pres : pveStrings.pres}
-                    </SubmitButton>
-                </div>}
-                {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
-                    <SubmitButton
-                        action="Breakpoints"
-                        onSubmit={this.props.defineBreakpoints}
-                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                    >
-                        {pveStrings.break}
-                    </SubmitButton>
-                </div>}
-                {this.props.children}
-            </div>
-        );
-    }
-};
+        <Grid container spacing={2}>
+
+            {props.isError &&
+                <Grid container justify="center" item xs={12}>
+                    <Alert variant="filled" severity="error">{props.error}</Alert>
+                </Grid>}
+
+            {!props.needsAverage &&
+                <Grid container justify="center" item xs={12}>
+                    <Button
+                        loading={props.loading}
+                        title={pveStrings.pres}
+                        onClick={props.rerunWithPrecision}
+                        endIcon={<ReplayIcon />}
+                    />
+                </Grid>}
+
+            {!props.customResult &&
+                <Grid container justify="center" item xs={12}>
+                    <Button
+                        title={pveStrings.break}
+                        onClick={props.defineBreakpoints}
+                    />
+                </Grid>}
+
+            <Grid item xs={12}>
+                {props.children}
+            </Grid>
+
+        </Grid>
+    )
+});
+
 
 export default PveResultCollapseList;
 
+PveResultCollapseList.propTypes = {
+    isError: PropTypes.bool,
+    error: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.string,
+    ]),
 
+    loading: PropTypes.bool,
+
+    customResult: PropTypes.object,
+
+    rerunWithPrecision: PropTypes.objefuncct,
+    defineBreakpoints: PropTypes.func,
+
+    children: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.arrayOf(PropTypes.node),
+    ]),
+};

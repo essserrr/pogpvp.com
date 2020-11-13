@@ -28,12 +28,6 @@ export const pveLocale = {
         none: "None",
 
 
-
-
-
-
-        pres: "Recalculate with high precision",
-        break: "Calculate breakpoints",
         atkiv: "\xa0\xa0Attack IV\xa0",
         qbreak: "Breakpoints of ",
         lvl: "Level",
@@ -76,12 +70,6 @@ export const pveLocale = {
 
 
 
-
-
-
-
-        pres: "Пересчитать с высокой точностью",
-        break: "Посчитать брейкпоинты",
         atkiv: "\xa0\xa0\xa0IV Атака\xa0\xa0",
         qbreak: "Брейкпоинты ",
         lvl: "Уровень",

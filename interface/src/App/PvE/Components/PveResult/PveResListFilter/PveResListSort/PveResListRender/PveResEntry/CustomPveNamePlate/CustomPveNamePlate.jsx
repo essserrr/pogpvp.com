@@ -8,6 +8,7 @@ class CustomPveNamePlate extends React.PureComponent {
         return (
             <div className="col-12 px-0">
                 <div className="row mx-0 justify-content-around my-2">
+
                     {this.props.pokemonRes.Party.length > 0 &&
                         <PlateGroup
                             attr={this.props.attr}
@@ -21,30 +22,34 @@ class CustomPveNamePlate extends React.PureComponent {
 
                             defineBreakpoints={this.props.defineBreakpoints}
                         />}
-                    {this.props.pokemonRes.Party.length > 6 && <PlateGroup
-                        attr={this.props.attr}
-                        i={this.props.i}
-                        subGroup={1}
 
-                        moveTable={this.props.moveTable}
-                        pokemonTable={this.props.pokemonTable}
+                    {this.props.pokemonRes.Party.length > 6 &&
+                        <PlateGroup
+                            attr={this.props.attr}
+                            i={this.props.i}
+                            subGroup={1}
 
-                        party={this.props.pokemonRes.Party.slice(6, this.props.pokemonRes.Party.length > 12 ? 12 : this.props.pokemonRes.Party.length)}
+                            moveTable={this.props.moveTable}
+                            pokemonTable={this.props.pokemonTable}
 
-                        defineBreakpoints={this.props.defineBreakpoints}
-                    />}
-                    {this.props.pokemonRes.Party.length > 12 && <PlateGroup
-                        attr={this.props.attr}
-                        i={this.props.i}
-                        subGroup={2}
+                            party={this.props.pokemonRes.Party.slice(6, this.props.pokemonRes.Party.length > 12 ? 12 : this.props.pokemonRes.Party.length)}
 
-                        moveTable={this.props.moveTable}
-                        pokemonTable={this.props.pokemonTable}
+                            defineBreakpoints={this.props.defineBreakpoints}
+                        />}
 
-                        party={this.props.pokemonRes.Party.slice(12, this.props.pokemonRes.Party.length)}
+                    {this.props.pokemonRes.Party.length > 12 &&
+                        <PlateGroup
+                            attr={this.props.attr}
+                            i={this.props.i}
+                            subGroup={2}
 
-                        defineBreakpoints={this.props.defineBreakpoints}
-                    />}
+                            moveTable={this.props.moveTable}
+                            pokemonTable={this.props.pokemonTable}
+
+                            party={this.props.pokemonRes.Party.slice(12, this.props.pokemonRes.Party.length)}
+
+                            defineBreakpoints={this.props.defineBreakpoints}
+                        />}
                 </div>
             </div>
         );
