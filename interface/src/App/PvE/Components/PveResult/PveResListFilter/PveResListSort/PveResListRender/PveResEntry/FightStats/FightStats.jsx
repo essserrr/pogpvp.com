@@ -85,7 +85,10 @@ FightStats.propTypes = {
     plMin: PropTypes.number,
     plMax: PropTypes.number,
 
-    ttwAvg: PropTypes.number,
+    ttwAvg: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
 
     FMin: PropTypes.number,
     FMax: PropTypes.number,

@@ -27,7 +27,10 @@ const HpRemaining = React.memo(function HpRemaining(props) {
 export default HpRemaining;
 
 HpRemaining.propTypes = {
-    avg: PropTypes.number,
+    avg: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string,
+    ]),
     max: PropTypes.number,
     min: PropTypes.number,
     nbOfWins: PropTypes.string,
