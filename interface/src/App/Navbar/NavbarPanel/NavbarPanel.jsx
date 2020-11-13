@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     drawer: {
         padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(2)}px ${theme.spacing(2)}px`,
     },
+    menu: {
+        justifyContent: "flex-start",
+    },
 }));
 
 let strings = new LocalizedStrings(navlocale)
@@ -81,13 +84,15 @@ const NavbarPanel = React.memo(function NavbarPanel(props) {
 
                 </Toolbar>
             </AppBar>
-            {props.leftPanel && <Drawer open={state} onClose={toggleDrawer(false)} classes={{ paper: classes.drawer }}>
-                {props.leftPanel.map((value, key) =>
-                    React.cloneElement(value, {
-                        closeDrawer: toggleDrawer(false),
-                    })
-                )}
-            </Drawer>}
+            {props.leftPanel &&
+                <Drawer open={state} onClose={toggleDrawer(false)} classes={{ paper: classes.drawer }}>
+                    {props.leftPanel.map((value, key) =>
+                        React.cloneElement(value, {
+                            closeDrawer: toggleDrawer(false),
+                            className: classes.menu,
+                        })
+                    )}
+                </Drawer>}
         </>
     )
 });
