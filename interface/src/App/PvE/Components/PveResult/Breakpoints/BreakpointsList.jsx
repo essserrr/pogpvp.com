@@ -1,43 +1,72 @@
-import React from "react"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import LocalizedStrings from "react-localization"
-import { pveLocale } from "../../../../../locale/pveLocale"
-import { calculateDamage, returnEffAtk, getPveMultiplier } from "../../../../../js/indexFunctions"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+import { breakoints } from "locale/Pve/Breakpoints/Breakpoints";
+import { calculateDamage, returnEffAtk, getPveMultiplier } from "js/indexFunctions";
 import { getCookie } from "../../../../../js/getCookie"
 
-import "./BreakpointsList.scss"
+let pvestrings = new LocalizedStrings(breakoints);
 
-let pvestrings = new LocalizedStrings(pveLocale)
+const useStyles = makeStyles((theme) => ({
+    borderTop: {
+        borderTop: "1px solid rgba(0, 0, 0, 0.295)",
+    },
+}));
 
-const BreakpointsList = React.memo(function (props) {
-    pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+const BreakpointsList = React.memo(function BreakpointsList(props) {
+    pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const classes = useStyles();
 
-    let multiplier = getPveMultiplier(props.attacker.Type, props.boss.Type, props.move.MoveType, props.weather, props.friend)
-    let baseDamage = calculateDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, props.Lvl, props.IsShadow), props.effDef, multiplier)
-    let arr = []
+    const multiplier = getPveMultiplier(props.attacker.Type, props.boss.Type, props.move.MoveType, props.weather, props.friend);
+    let baseDamage = calculateDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, props.Lvl, props.IsShadow), props.effDef, multiplier);
+    let arr = [];
 
     for (let i = Number(props.Lvl); i <= 45; i += 0.5) {
         let damage = calculateDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, i, props.IsShadow), props.effDef, multiplier)
         if (damage > baseDamage) {
             baseDamage = damage
             arr.push(
-                <div className="col-12 text-center p-0" key={i + "" + damage}>
-                    {pvestrings.lvl}: <span className="font-weight-bold">{Number(i).toFixed(1)}</span> {pvestrings.damage}: <span className="font-weight-bold">{damage}</span>
-                </div>
+                <Grid item xs={12} key={`${i}-${damage}`}>
+                    <Typography align="center">
+                        {`${pvestrings.lvl}: `}<b>{Number(i).toFixed(1)}</b>{`, ${pvestrings.damage}: `}<b>{damage}</b>
+                    </Typography>
+                </Grid>
             )
         }
     }
 
     return (
-        arr.length > 0 && <>
-            <div className={"breakpoints-list col-12 p-0 text-center mt-1 pt-1"} >
-                {pvestrings.qbreak} <span className="font-weight-bold">{props.move.Title}</span>
-            </div>
+        arr.length > 0 &&
+        <Grid container spacing={1}>
+            <Grid item xs={12} className={classes.borderTop} >
+                <Typography align="center">
+                    {pvestrings.qbreak} <b>{props.move.Title}</b>
+                </Typography>
+            </Grid>
             {arr}
 
-        </>
+        </Grid>
     )
 
 });
 
 export default BreakpointsList;
+
+BreakpointsList.propTypes = {
+    move: PropTypes.object,
+    attacker: PropTypes.object,
+    boss: PropTypes.object,
+
+    IsShadow: PropTypes.bool,
+    Lvl: PropTypes.number,
+
+    effDef: PropTypes.number,
+    Atk: PropTypes.number,
+    friend: PropTypes.string,
+    weather: PropTypes.string,
+};
