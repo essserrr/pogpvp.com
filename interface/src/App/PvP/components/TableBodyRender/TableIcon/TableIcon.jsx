@@ -3,7 +3,7 @@ import ReactTooltip from "react-tooltip"
 import LocalizedStrings from "react-localization"
 
 import { ReactComponent as Shadow } from "../../../../../icons/shadow.svg"
-import PokemonIconer from "../../PokemonIconer/PokemonIconer"
+import Iconer from "App/Components/Iconer/Iconer";
 
 import { getCookie } from "../../../../../js/getCookie"
 import { locale } from "../../../../../locale/locale"
@@ -15,16 +15,14 @@ let strings = new LocalizedStrings(locale)
 const TableIcon = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
+    const fileName = props.pokemonTable[props.pok.name].Number + (props.pokemonTable[props.pok.name].Forme !== "" ? "-" + props.pokemonTable[props.pok.name].Forme : "")
     return (
         <div className="row m-0 justify-content-center ">
             <div className="table-icon__container" >
                 {String(props.pok.IsShadow) === "true" && <Shadow className="table-icon__shadow" />}
-                <PokemonIconer
-                    src={props.pokemonTable[props.pok.name].Number +
-                        (props.pokemonTable[props.pok.name].Forme !== "" ? "-" + props.pokemonTable[props.pok.name].Forme : "")}
-                    class={"table-icon__pok"}
-                    for={props.pok.name + props.j + props.letter}
-                />
+
+                <Iconer folderName="/pokemons/" fileName={fileName} size={36} for={props.pok.name + props.j + props.letter} />
+
                 <ReactTooltip
                     className={"infoTip"}
                     id={props.pok.name + props.j + props.letter} effect="solid"

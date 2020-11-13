@@ -1,7 +1,7 @@
 import React from "react"
 import { UnmountClosed } from "react-collapse"
 
-import PokemonIconer from "../../../../../PokemonIconer/PokemonIconer"
+import Iconer from "App/Components/Iconer/Iconer";
 import AdvisorPanelBody from "./AdvisorPanelBody/AdvisorPanelBody"
 
 import { ReactComponent as Shadow } from "../../../../../../../../icons/shadow.svg"
@@ -30,6 +30,10 @@ class AdvisorPanel extends React.PureComponent {
     }
 
     render() {
+        const fileNameFirst = this.props.pokemonTable[this.props.first.name].Number + (this.props.pokemonTable[this.props.first.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.first.name].Forme : "");
+        const fileNameSecond = this.props.pokemonTable[this.props.second.name].Number + (this.props.pokemonTable[this.props.second.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.second.name].Forme : "");
+        const fileNameThird = this.props.pokemonTable[this.props.third.name].Number + (this.props.pokemonTable[this.props.third.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.third.name].Forme : "");
+
         return (
             <div className={"advisor-panel__card row m-0 py-1 justify-content-between"}>
                 <div className={"col d-flex p-0"}>
@@ -39,9 +43,8 @@ class AdvisorPanel extends React.PureComponent {
                     <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
                         <div className="advisor-panel--relative col-auto px-0">
                             {String(this.props.first.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
-                            <PokemonIconer
-                                src={this.props.pokemonTable[this.props.first.name].Number + (this.props.pokemonTable[this.props.first.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.first.name].Forme : "")}
-                                class={"advisor-panel__icon"} />
+
+                            <Iconer folderName="/pokemons/" src={fileNameFirst} size={48} />
 
                         </div>
                         <div className="advisor-panel__body--text col-auto px-0">
@@ -53,9 +56,9 @@ class AdvisorPanel extends React.PureComponent {
                     <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
                         <div className="advisor-panel--relative col-auto px-0">
                             {String(this.props.second.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
-                            <PokemonIconer
-                                src={this.props.pokemonTable[this.props.second.name].Number + (this.props.pokemonTable[this.props.second.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.second.name].Forme : "")}
-                                class={"advisor-panel__icon"} />
+
+                            <Iconer folderName="/pokemons/" src={fileNameSecond} size={48} />
+
                         </div>
                         <div className="advisor-panel__body--text col-auto px-0">
                             {getAbbriviation(this.props.second.QuickMove, this.props.second.ChargeMove1, this.props.second.ChargeMove2,
@@ -66,9 +69,9 @@ class AdvisorPanel extends React.PureComponent {
                     <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
                         <div className="advisor-panel--relative col-auto px-0">
                             {String(this.props.third.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
-                            <PokemonIconer
-                                src={this.props.pokemonTable[this.props.third.name].Number + (this.props.pokemonTable[this.props.third.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.third.name].Forme : "")}
-                                class={"advisor-panel__icon"} />
+
+                            <Iconer folderName="/pokemons/" src={fileNameThird} size={48} />
+
                         </div>
                         <div className="advisor-panel__body--text col-auto px-0">
                             {getAbbriviation(this.props.third.QuickMove, this.props.third.ChargeMove1, this.props.third.ChargeMove2,

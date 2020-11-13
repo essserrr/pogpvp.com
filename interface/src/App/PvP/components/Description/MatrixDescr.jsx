@@ -1,7 +1,7 @@
 import React from "react"
 import ReactTooltip from "react-tooltip"
 
-import PokemonIconer from "../PokemonIconer/PokemonIconer"
+import Iconer from "App/Components/Iconer/Iconer";
 import { ReactComponent as Shadow } from "../../../../icons/shadow.svg"
 
 import LocalizedStrings from "react-localization"
@@ -175,9 +175,8 @@ const MatrixDescr = React.memo(function (props) {
                         {tips.cardTip.n}
                     </ReactTooltip>
                     <div data-tip data-for={"iconpok1"}>
-                        <PokemonIconer
-                            src={"644"}
-                            class={"icon48 ml-1 ml-sm-3  mr-2"} />
+                        <Iconer folderName="/pokemons/" fileName={"644"} size={48} class={"ml-1 ml-sm-3  mr-2"} />
+
                         <ReactTooltip
                             className={"infoTip"}
                             id={"iconpok1"} effect="solid"
@@ -189,9 +188,9 @@ const MatrixDescr = React.memo(function (props) {
 
                     <div data-tip data-for={"iconpok2"} className="matrix-descr--container">
                         {<Shadow className="matrix-descr--shadow" />}
-                        <PokemonIconer
-                            src={"493-3"}
-                            class={"icon48 ml-1 ml-sm-3  mr-2"} />
+
+                        <Iconer folderName="/pokemons/" fileName={"493-3"} size={48} class={"ml-1 ml-sm-3  mr-2"} />
+
                         <ReactTooltip
                             className={"infoTip"}
                             id={"iconpok2"} effect="solid"
@@ -202,9 +201,9 @@ const MatrixDescr = React.memo(function (props) {
                     </div>
 
                     <div data-tip data-for={"iconpok3"}>
-                        <PokemonIconer
-                            src={"132"}
-                            class={"icon48 ml-1 ml-sm-3 mr-2"} />
+
+                        <Iconer folderName="/pokemons/" fileName={"132"} size={48} class={"ml-1 ml-sm-3  mr-2"} />
+
                         <ReactTooltip
                             className={"infoTip"}
                             id={"iconpok3"} effect="solid"

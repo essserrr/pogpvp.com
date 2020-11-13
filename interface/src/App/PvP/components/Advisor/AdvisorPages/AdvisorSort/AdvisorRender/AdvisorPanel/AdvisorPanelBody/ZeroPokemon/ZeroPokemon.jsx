@@ -1,7 +1,7 @@
 import React from "react"
 import ReactTooltip from "react-tooltip"
 
-import PokemonIconer from "../../../../../../../PokemonIconer/PokemonIconer"
+import Iconer from "App/Components/Iconer/Iconer";
 import { ReactComponent as Shadow } from "../../../../../../../../../../icons/shadow.svg"
 
 import "./ZeroPokemon.scss"
@@ -12,11 +12,9 @@ class ZeroPokemon extends React.PureComponent {
         return (
             <div className="zero-pok__container">
                 {this.props.shadow && <Shadow className="zero-pok__shadow" />}
-                <PokemonIconer
-                    src={this.props.src}
-                    class={"zero-pok__pok mr-2"}
-                    for={this.props.for}
-                />
+
+                <Iconer folderName="/pokemons/" fileName={this.props.src} className={"mr-2"} size={48} />
+
                 <ReactTooltip
                     className={"infoTip"}
                     id={this.props.for} effect="solid"

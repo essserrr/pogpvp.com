@@ -1,7 +1,7 @@
 import React from "react"
 
 import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry"
-import PokemonIconer from "../PokemonIconer/PokemonIconer"
+import Iconer from "App/Components/Iconer/Iconer";
 
 import "./MatrixPokemonList.scss"
 
@@ -13,6 +13,7 @@ class MatrixPokemonList extends React.PureComponent {
 
     createListToDisplay() {
         return this.props.list.map((elem, i) => {
+            const fileName = this.props.pokemonTable[elem.name].Number + (this.props.pokemonTable[elem.name].Forme !== "" ? "-" + this.props.pokemonTable[elem.name].Forme : "")
             return <MatrixListEntry
                 attr={this.props.attr}
                 key={i}
@@ -21,12 +22,10 @@ class MatrixPokemonList extends React.PureComponent {
                 onPokemonDelete={this.props.onPokemonDelete}
                 onClick={this.props.onPokRedact}
 
-                thead={<><PokemonIconer
-                    src={this.props.pokemonTable[elem.name].Number +
-                        (this.props.pokemonTable[elem.name].Forme !== "" ? "-" + this.props.pokemonTable[elem.name].Forme : "")}
-                    class={"matr-pok-list__icon mr-1"}
-                    for={""}
-                />{elem.name}</>}
+                thead={<>
+                    <Iconer folderName="/pokemons/" fileName={fileName} size={24} className={"mr-1"} />
+                    {elem.name}
+                </>}
                 body={
                     elem.QuickMove + this.addStar(elem.name, elem.QuickMove) +
                     (elem.ChargeMove1 ? " + " + elem.ChargeMove1 + this.addStar(elem.name, elem.ChargeMove1) : "") +

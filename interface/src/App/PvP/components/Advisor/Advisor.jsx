@@ -2,7 +2,7 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
-import PokemonIconer from "../PokemonIconer/PokemonIconer"
+import Iconer from "App/Components/Iconer/Iconer";
 import AdvisorPages from "./AdvisorPages/AdvisorPages"
 import SubmitButton from "../SubmitButton/SubmitButton"
 
@@ -72,10 +72,9 @@ class Advisor extends React.PureComponent {
         return (
             <div className="advisor px-2 py-2 col-12 ">
                 <div tabIndex="0" ref={this.advisor} className="col-12 d-flex justify-content-center p-0">
-                    <PokemonIconer
-                        src="willow3"
-                        folder="/"
-                        class={"p-2"} />
+
+                    <Iconer fileName="willow3" folderName="/" />
+
                     <div className="advisor__willow--bubble-text px-2 py-1">
                         {strings.advisor.willow}
                     </div>
