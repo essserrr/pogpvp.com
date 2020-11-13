@@ -15,15 +15,18 @@ import MoveSelect from "App/Components/MoveSelect/MoveSelect";
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../locale/locale"
 import { getCookie } from "../../../js/getCookie"
+import { options } from "locale/Components/Options/locale";
 
 import "./Pokemon.scss"
 
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(locale);
+let optionStrings = new LocalizedStrings(options);
 
 class Pokemon extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
         this.state = {
             shieldsList: [
                 <option value="0" key="0">0</option>,
@@ -42,12 +45,12 @@ class Pokemon extends React.PureComponent {
                 <option value="-4" key="-4">-4</option>,
             ],
             stratigiesList: [
-                <option value="true" key="Greedy">{strings.options.strategy.greedy}</option>,
-                <option value="false" key="Shieldsaving">{strings.options.strategy.shieldSaving}</option>,
+                <option value="true" key="Greedy">{optionStrings.options.strategy.greedy}</option>,
+                <option value="false" key="Shieldsaving">{optionStrings.options.strategy.shieldSaving}</option>,
             ],
             typeList: [
-                <option value="false" key="Normal">{strings.options.type.normal}</option>,
-                <option value="true" key="Shadow">{strings.options.type.shadow}</option>,
+                <option value="false" key="Normal">{optionStrings.options.type.normal}</option>,
+                <option value="true" key="Shadow">{optionStrings.options.type.shadow}</option>,
             ],
         };
     }

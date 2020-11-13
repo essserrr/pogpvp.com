@@ -27,17 +27,19 @@ import { returnPokList } from "js/returnPokList";
 import { extractPokemon, extractData, calculateMaximizedStats, calculateEffStat } from "../../js/indexFunctions"
 import { getCookie } from "../../js/getCookie"
 import { locale } from "../../locale/locale"
+import { options } from "locale/Components/Options/locale";
 
 import "./PvpPage.scss"
 
 let strings = new LocalizedStrings(locale);
+let optionStrings = new LocalizedStrings(options);
 
 function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.HP = hisResult.HP
     pok.Energy = hisResult.EnergyRemained
 
     let moves = new MovePoolBuilder();
-    moves.createMovePool(pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
+    moves.createMovePool(pok.name, pokemonTable, optionStrings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
     pok.quickMovePool = moves.quickMovePool
     pok.chargeMovePool = moves.chargeMovePool
 
@@ -53,7 +55,8 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
 class PvpPage extends React.Component {
     constructor() {
         super();
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
         this.state = {
             error: "",
             showResult: false,
@@ -68,9 +71,9 @@ class PvpPage extends React.Component {
 
             isLoaded: false,
             leaguesList: [
-                <option value="great" key="great">{strings.options.league.great}</option>,
-                <option value="ultra" key="ultra">{strings.options.league.ultra}</option>,
-                <option value="master" key="master">{strings.options.league.master}</option>,
+                <option value="great" key="great">{optionStrings.options.league.great}</option>,
+                <option value="ultra" key="ultra">{optionStrings.options.league.ultra}</option>,
+                <option value="master" key="master">{optionStrings.options.league.master}</option>,
             ],
             loading: false,
         };
