@@ -3,7 +3,7 @@ import React from "react";
 import Alert from '@material-ui/lab/Alert';
 
 import SubmitButton from "../SubmitButton/SubmitButton"
-import Input from "../Input/Input"
+import Input from "App/Components/Input/Input";
 import ReactTooltip from "react-tooltip"
 
 class InputAndSubmit extends React.PureComponent {
@@ -57,14 +57,11 @@ class InputAndSubmit extends React.PureComponent {
                 <div className="row justify-content-center px-2">
                     <Input
                         name="partyName"
-                        class="col-11 mb-2"
-                        place={this.props.placeholder}
-                        for={"partyNameInput" + this.props.attr}
+                        label={this.props.placeholder}
                         value={this.state.value}
                         onChange={this.onChange}
                     />
                     <SubmitButton
-                        action={this.props.action}
                         attr={this.props.attr}
                         onSubmit={this.onSubmit}
                         class="submit-button btn btn-primary btn-sm p-0 m-0"
