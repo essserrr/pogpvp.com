@@ -368,7 +368,6 @@ class CustomPve extends React.PureComponent {
                                         result={this.state.result}
                                         snapshot={this.state.snapshot}
                                         tables={this.props.parentState.tables}
-                                        url={this.state.url}
 
                                         pokemonTable={this.props.pokemonTable}
                                         moveTable={this.props.parentState.moveTable}

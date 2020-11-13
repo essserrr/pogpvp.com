@@ -2,10 +2,7 @@ export const pveLocale = {
     en: {
 
 
-        resType: {
-            player: "Player group results",
-            individ: "Individual player results",
-        },
+
 
         supen: "Enable pokemon-supporter",
         sup: "Pokemon-supporter",
@@ -44,10 +41,7 @@ export const pveLocale = {
     ru: {
 
 
-        resType: {
-            player: "Результаты группы игроков",
-            individ: "Результаты отдельных игроков",
-        },
+
 
         supen: "Включить покемона поддержки",
         sup: "Покемон поддержки",

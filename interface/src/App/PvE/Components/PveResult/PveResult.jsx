@@ -1,33 +1,29 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 
-import URI from "App/PvP/components/URI/URI"
-import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
-import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
-import Breakpoints from "./Breakpoints/Breakpoints"
-import PveWillow from "./PveWillow/PveWillow"
-import PveResListFilter from "./PveResListFilter/PveResListFilter"
+import URI from "App/PvP/components/URI/URI";
+import MagicBox from "App/PvP/components/MagicBox/MagicBox";
+import DoubleSlider from "App/Movedex/MoveCard/DoubleSlider/DoubleSlider";
+import Breakpoints from "./Breakpoints/Breakpoints";
+import PveWillow from "./PveWillow/PveWillow";
+import PveResListFilter from "./PveResListFilter/PveResListFilter";
 import Switch from "App/Components/Switch/Switch";
-import PlayerResProcessor from "./PlayerResProcessor/PlayerResProcessor"
-import PveResTitle from "./PveResTitle/PveResTitle"
+import PlayerResProcessor from "./PlayerResProcessor/PlayerResProcessor";
+import PveResTitle from "./PveResTitle/PveResTitle";
 
-import { locale } from "../../../../locale/locale"
-import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie } from "../../../../js/getCookie"
+import { locale } from "locale/Pve/Pve";
+import { getCookie } from "js/getCookie";
 
-import "./PveResult.scss"
-
-let strings = new LocalizedStrings(locale)
-let pvestrings = new LocalizedStrings(pveLocale)
+let pvestrings = new LocalizedStrings(locale);
 
 class PveResult extends React.PureComponent {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.pveres = React.createRef();
 
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             n: 0,
@@ -204,3 +200,22 @@ class PveResult extends React.PureComponent {
 }
 
 export default PveResult;
+
+PveResult.propTypes = {
+    customResult: PropTypes.bool,
+    needsAvg: PropTypes.bool,
+
+    date: PropTypes.number,
+    result: PropTypes.arrayOf(PropTypes.object),
+
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    boostersList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
+};

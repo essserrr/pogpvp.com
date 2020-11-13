@@ -1,5 +1,13 @@
 export const locale = {
     en: {
+        sortd: "Sort by damage",
+        sortdps: "Sort by DPS",
+        unique: "Show the best results",
+        resType: {
+            player: "Player group results",
+            individ: "Individual player results",
+        },
+
         oopsReg: "Oops... To use this function you need to sign up first",
 
         s: "s",
@@ -34,6 +42,14 @@ export const locale = {
 
 
     ru: {
+        sortd: "Сортировать по урону",
+        sortdps: "Сортировать по DPS",
+        unique: "Показать только лучшие результаты",
+        resType: {
+            player: "Результаты группы игроков",
+            individ: "Результаты отдельных игроков",
+        },
+
         oopsReg: "Ой... Что бы воспользоваться этой функцией, вы должны сначала зарегистрироваться",
 
         s: "с",
