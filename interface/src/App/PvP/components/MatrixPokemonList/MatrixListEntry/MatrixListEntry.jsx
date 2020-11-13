@@ -1,5 +1,5 @@
 import React from "react"
-import CloseButton from "../../MagicBox/CloseButton"
+import CloseButton from "App/Components/CloseButton/CloseButton"
 
 import "./MatrixListEntry.scss"
 
