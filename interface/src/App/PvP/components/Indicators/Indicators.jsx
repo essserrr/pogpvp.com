@@ -7,13 +7,17 @@ import { getCookie } from "../../../../js/getCookie"
 
 import LocalizedStrings from "react-localization"
 import { locale } from "../../../../locale/locale"
+import { moveTips } from "locale/Pvp/MoveTips/MoveTips";
 
 import "./Indicators.scss"
 
 let strings = new LocalizedStrings(locale)
+let moveStrings = new LocalizedStrings(moveTips);
 
 const Indicators = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    moveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+
     if (props.chargeMove1) {
         var damage1 = calculateDamage(props.chargeMove1.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))
     }
@@ -38,8 +42,8 @@ const Indicators = React.memo(function (props) {
                     moveType={props.chargeMove1.MoveType}
                     for={"ChM1En" + props.attr}
                     tip={<>
-                        {strings.move.damage + damage1}<br />
-                        {strings.move.energy + (-props.chargeMove1.PvpEnergy)}<br />
+                        {moveStrings.move.damage + damage1}<br />
+                        {moveStrings.move.energy + (-props.chargeMove1.PvpEnergy)}<br />
                         {"DPE: " + (damage1 / (-props.chargeMove1.PvpEnergy)).toFixed(2)}
                     </>
                     }
@@ -58,8 +62,8 @@ const Indicators = React.memo(function (props) {
                     moveType={props.chargeMove2.MoveType}
                     for={"ChM2En" + props.attr}
                     tip={<>
-                        {strings.move.damage + damage2}<br />
-                        {strings.move.energy + (-props.chargeMove2.PvpEnergy)}<br />
+                        {moveStrings.move.damage + damage2}<br />
+                        {moveStrings.move.energy + (-props.chargeMove2.PvpEnergy)}<br />
                         {"DPE: " + (damage2 / (-props.chargeMove2.PvpEnergy)).toFixed(2)}
                     </>
                     }

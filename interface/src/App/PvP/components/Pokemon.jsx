@@ -14,17 +14,18 @@ import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes"
 import EffectiveStats from "./EffectiveStats/EffectiveStats"
 import MagicBox from "./MagicBox/MagicBox"
 import PokemonSelect from "../../Userpage/CustomPokemon/PartyBox/PokemonSelect/PokemonSelect"
+import MoveTip from "./MoveTip/MoveTip";
 
 import MoveSelect from "App/Components/MoveSelect/MoveSelect";
 
 import LocalizedStrings from "react-localization"
-import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/getCookie"
+import { pvp } from "locale/Pvp/Pvp";
+import { getCookie } from "js/getCookie";
 import { options } from "locale/Components/Options/locale";
 
 import "./Pokemon.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(pvp);
 let optionStrings = new LocalizedStrings(options);
 
 class Pokemon extends React.PureComponent {
@@ -71,8 +72,11 @@ class Pokemon extends React.PureComponent {
                     <SearchableSelect
                         disableClearable
                         label={strings.allPok}
+
                         value={this.props.value.name}
                         attr={this.props.attr}
+                        name="Name"
+
                         onChange={this.props.onChange}
                     >
                         {this.props.pokList}
@@ -121,7 +125,6 @@ class Pokemon extends React.PureComponent {
                             attr={this.props.attr}
                             onChange={this.props.onChange}
 
-                            labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
                             label={strings.title.initialStats}
                             for=""
                         />
@@ -132,7 +135,6 @@ class Pokemon extends React.PureComponent {
                             attr={this.props.attr}
                             onChange={this.props.onChange}
 
-                            labelWidth={strings.stats.lvl === "Ур" ? "100px" : "84px"}
                             label={strings.title.initialStages}
                             for=""
                         />
@@ -150,8 +152,8 @@ class Pokemon extends React.PureComponent {
                             <Input select name="IsGreedy" value={this.props.value.IsGreedy}
                                 attr={this.props.attr} label={strings.title.strategy} onChange={this.props.onChange}>
 
-                                <MenuItem value="true">{strings.options.strategy.greedy}</MenuItem>
-                                <MenuItem value="false">{strings.options.strategy.shieldSaving}</MenuItem>
+                                <MenuItem value="true">{optionStrings.options.strategy.greedy}</MenuItem>
+                                <MenuItem value="false">{optionStrings.options.strategy.shieldSaving}</MenuItem>
 
                             </Input>
                         </WithIcon>
@@ -178,17 +180,7 @@ class Pokemon extends React.PureComponent {
 
                             label={strings.title.quickMove}
 
-                            tip={<>{strings.tips.quick}<br />
-                                {this.props.value.QuickMove && <>
-                                    {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].PvpDamage)}<br />
-                                    {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].PvpEnergy)}
-                                    {(this.props.moveTable[this.props.value.QuickMove].Probability !== 0) && (<>
-                                        <br />{strings.move.probability + this.props.moveTable[this.props.value.QuickMove].Probability}
-                                        <br />{strings.move.target + this.props.moveTable[this.props.value.QuickMove].Subject}
-                                        <br />{strings.move.stat + this.props.moveTable[this.props.value.QuickMove].Stat}
-                                        <br />{strings.move.stage + this.props.moveTable[this.props.value.QuickMove].StageDelta}
-                                    </>)}
-                                </>}</>}
+                            tip={<MoveTip moveName={this.props.value.QuickMove} moveTable={this.props.moveTable} />}
                         >
                             {this.props.value.quickMovePool}
                         </MoveSelect>
@@ -213,19 +205,7 @@ class Pokemon extends React.PureComponent {
 
                             label={strings.title.chargeMove}
 
-                            tip={<>{strings.tips.charge}<br />
-                                {(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select...") &&
-                                    this.props.moveTable[this.props.value.ChargeMove1] !== undefined &&
-                                    <>
-                                        {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove1].PvpDamage)}<br />
-                                        {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove1].PvpEnergy)}
-                                        {(this.props.moveTable[this.props.value.ChargeMove1].Probability !== 0) && (<>
-                                            <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove1].Probability}
-                                            <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove1].Subject}
-                                            <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove1].Stat}
-                                            <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove1].StageDelta}
-                                        </>)}
-                                    </>}</>}
+                            tip={<MoveTip moveName={this.props.value.ChargeMove1} moveTable={this.props.moveTable} />}
                         >
                             {this.props.value.chargeMovePool}
                         </MoveSelect>
@@ -249,20 +229,7 @@ class Pokemon extends React.PureComponent {
 
                             label={strings.title.chargeMove}
 
-                            tip={
-                                <>{strings.tips.charge}<br />
-                                    {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") &&
-                                        this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
-                                        <>
-                                            {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].PvpDamage)}<br />
-                                            {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].PvpEnergy)}
-                                            {(this.props.moveTable[this.props.value.ChargeMove2].Probability !== 0) && (<>
-                                                <br />{strings.move.probability + this.props.moveTable[this.props.value.ChargeMove2].Probability}
-                                                <br />{strings.move.target + this.props.moveTable[this.props.value.ChargeMove2].Subject}
-                                                <br />{strings.move.stat + this.props.moveTable[this.props.value.ChargeMove2].Stat}
-                                                <br />{strings.move.stage + this.props.moveTable[this.props.value.ChargeMove2].StageDelta}
-                                            </>)}
-                                        </>}</>}
+                            tip={<MoveTip moveName={this.props.value.ChargeMove2} moveTable={this.props.moveTable} />}
                         >
                             {this.props.value.chargeMovePool}
                         </MoveSelect>
