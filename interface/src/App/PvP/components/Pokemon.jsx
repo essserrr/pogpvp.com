@@ -1,6 +1,7 @@
 import React from "react"
 
 import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
 
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
@@ -36,8 +37,9 @@ class Pokemon extends React.PureComponent {
     }
 
     render() {
+
         return (
-            <div className={`pokemon ${this.props.className ? this.props.className : ""}`}>
+            <Grid container className={`pokemon ${this.props.className ? this.props.className : ""}`}>
 
                 <MagicBox open={Boolean(this.props.showMenu)} onClick={this.props.onClick} attr={this.props.attr}>
                     <SearchableSelect disableClearable label={"fullLabel"} name={this.props.category}
@@ -47,186 +49,164 @@ class Pokemon extends React.PureComponent {
                 </MagicBox>
 
                 {this.props.userPokemon && this.props.userPokemon.length > 0 &&
-                    <div className="col-12 px-0 mt-1 mb-2">
-                        <PokemonSelect
-                            label={strings.userPok}
-                            attr={this.props.attr}
-                            name="userPokemon"
-
-                            pokemonTable={this.props.pokemonTable}
-                            onChange={this.props.onChange}
-                        >
+                    <Grid item xs={12}>
+                        <PokemonSelect label={strings.userPok} pokemonTable={this.props.pokemonTable}
+                            attr={this.props.attr} name="userPokemon" onChange={this.props.onChange}>
                             {this.props.userPokemon}
                         </PokemonSelect>
-                    </div>}
+                    </Grid>}
 
                 {this.props.pokList &&
-                    <SearchableSelect
-                        disableClearable
-                        label={strings.allPok}
-
-                        value={this.props.value.name}
-                        attr={this.props.attr}
-                        name="Name"
-
-                        onChange={this.props.onChange}
-                    >
-                        {this.props.pokList}
-                    </SearchableSelect>}
+                    <Grid item xs={12}>
+                        <SearchableSelect disableClearable label={strings.allPok}
+                            value={this.props.value.name} attr={this.props.attr} name="Name" onChange={this.props.onChange}>
+                            {this.props.pokList}
+                        </SearchableSelect>
+                    </Grid>}
 
                 {(this.props.pokemonTable[this.props.value.name] && this.props.value.name) &&
                     <>
-                        <CpAndTyping
-                            Lvl={this.props.value.Lvl}
-                            Atk={this.props.value.Atk}
-                            Def={this.props.value.Def}
-                            Sta={this.props.value.Sta}
+                        <Grid item xs={12}>
+                            <CpAndTyping
+                                Lvl={this.props.value.Lvl}
+                                Atk={this.props.value.Atk}
+                                Def={this.props.value.Def}
+                                Sta={this.props.value.Sta}
 
-                            isShadow={this.props.value.IsShadow === "true"}
+                                isShadow={this.props.value.IsShadow === "true"}
 
-                            pokemonTable={this.props.pokemonTable}
-                            name={this.props.value.name}
-                        />
+                                pokemonTable={this.props.pokemonTable}
+                                name={this.props.value.name}
+                            />
+                        </Grid>
 
-                        <EffectiveStats
-                            effAtk={this.props.value.effAtk}
-                            effDef={this.props.value.effDef}
-                            effSta={this.props.value.effSta}
-                            AtkStage={this.props.value.AtkStage}
-                            DefStage={this.props.value.DefStage}
-                            attr={this.props.attr}
-                        />
+                        <Grid item xs={12}>
+                            <EffectiveStats
+                                effAtk={this.props.value.effAtk}
+                                effDef={this.props.value.effDef}
+                                effSta={this.props.value.effSta}
+                                AtkStage={Number(this.props.value.AtkStage)}
+                                DefStage={Number(this.props.value.DefStage)}
+                                attr={this.props.attr}
+                            />
+                        </Grid>
 
-                        <Stats
-                            Lvl={String(this.props.value.Lvl)}
-                            Atk={String(this.props.value.Atk)}
-                            Def={String(this.props.value.Def)}
-                            Sta={String(this.props.value.Sta)}
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
-                        />
-                        <MaximizerNoSubmit
-                            attr={this.props.attr}
-                            action={"defaultStatMaximizer"}
-                            value={this.props.value.maximizer}
-                            onChange={this.props.onChange}
-                        />
-                        <InitialStats
-                            InitialHP={this.props.value.InitialHP}
-                            InitialEnergy={this.props.value.InitialEnergy}
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
+                        <Grid item xs={12}>
+                            <Stats
+                                Lvl={String(this.props.value.Lvl)}
+                                Atk={String(this.props.value.Atk)}
+                                Def={String(this.props.value.Def)}
+                                Sta={String(this.props.value.Sta)}
+                                attr={this.props.attr}
+                                onChange={this.props.onChange}
+                            />
+                        </Grid>
 
-                            label={strings.title.initialStats}
-                            for=""
-                        />
+                        <Grid item xs={12}>
+                            <MaximizerNoSubmit
+                                attr={this.props.attr}
+                                category={"defaultStatMaximizer"}
+                                value={this.props.value.maximizer}
+                                onChange={this.props.onChange}
+                            />
+                        </Grid>
 
-                        <Stages
-                            Atk={this.props.value.AtkStage}
-                            Def={this.props.value.DefStage}
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
+                        <Grid item xs={12}>
+                            <InitialStats
+                                InitialHP={this.props.value.InitialHP}
+                                InitialEnergy={this.props.value.InitialEnergy}
+                                attr={this.props.attr}
+                                onChange={this.props.onChange}
 
-                            label={strings.title.initialStages}
-                            for=""
-                        />
+                                label={strings.title.initialStats}
+                            />
+                        </Grid>
 
+                        <Grid item xs={12}>
+                            <Stages
+                                Atk={Number(this.props.value.AtkStage)}
+                                Def={Number(this.props.value.DefStage)}
+                                attr={this.props.attr}
+                                onChange={this.props.onChange}
+                            />
+                        </Grid>
 
-                        <Input select name="Shields" value={this.props.value.Shields}
-                            attr={this.props.attr} label={strings.title.shields} onChange={this.props.onChange}>
-                            <MenuItem value="0">0</MenuItem>
-                            <MenuItem value="1">1</MenuItem>
-                            <MenuItem value="2">2</MenuItem>
-                        </Input>
-
-
-                        <WithIcon tip={<>{strings.tips.strategy.greedy}<br /><br />{strings.tips.strategy.shieldSaving}</>}>
-                            <Input select name="IsGreedy" value={this.props.value.IsGreedy}
-                                attr={this.props.attr} label={strings.title.strategy} onChange={this.props.onChange}>
-
-                                <MenuItem value="true">{optionStrings.options.strategy.greedy}</MenuItem>
-                                <MenuItem value="false">{optionStrings.options.strategy.shieldSaving}</MenuItem>
-
+                        <Grid item xs={12}>
+                            <Input select name="Shields" value={this.props.value.Shields}
+                                attr={this.props.attr} label={strings.title.shields} onChange={this.props.onChange}>
+                                <MenuItem value="0">0</MenuItem>
+                                <MenuItem value="1">1</MenuItem>
+                                <MenuItem value="2">2</MenuItem>
                             </Input>
-                        </WithIcon>
+                        </Grid>
 
-                        <WithIcon tip={strings.tips.shadow}>
-                            <Input select name="IsShadow" value={this.props.value.IsShadow}
-                                attr={this.props.attr} label={strings.title.type} onChange={this.props.onChange}>
+                        <Grid item xs={12}>
+                            <WithIcon tip={<>{strings.tips.strategy.greedy}<br /><br />{strings.tips.strategy.shieldSaving}</>}>
+                                <Input select name="IsGreedy" value={this.props.value.IsGreedy}
+                                    attr={this.props.attr} label={strings.title.strategy} onChange={this.props.onChange}>
+                                    <MenuItem value="true">{optionStrings.options.strategy.greedy}</MenuItem>
+                                    <MenuItem value="false">{optionStrings.options.strategy.shieldSaving}</MenuItem>
+                                </Input>
+                            </WithIcon>
+                        </Grid>
 
-                                <MenuItem value="false">{optionStrings.options.type.normal}</MenuItem>
-                                <MenuItem value="true">{optionStrings.options.type.shadow}</MenuItem>
+                        <Grid item xs={12}>
+                            <WithIcon tip={strings.tips.shadow}>
+                                <Input select name="IsShadow" value={this.props.value.IsShadow}
+                                    attr={this.props.attr} label={strings.title.type} onChange={this.props.onChange}>
+                                    <MenuItem value="false">{optionStrings.options.type.normal}</MenuItem>
+                                    <MenuItem value="true">{optionStrings.options.type.shadow}</MenuItem>
+                                </Input>
+                            </WithIcon>
+                        </Grid>
 
-                            </Input>
-                        </WithIcon>
+                        <Grid item xs={12}>
+                            <MoveSelect name="QuickMove" attr={this.props.attr} onChange={this.props.onChange}
+                                value={this.props.value.QuickMove &&
+                                    this.props.moveTable[this.props.value.QuickMove] !== undefined && this.props.value.QuickMove}
+                                moveType={this.props.moveTable[this.props.value.QuickMove] !== undefined ?
+                                    this.props.moveTable[this.props.value.QuickMove].MoveType : ""}
 
+                                label={strings.title.quickMove}
+                                tip={<MoveTip moveName={this.props.value.QuickMove} moveTable={this.props.moveTable} />}
+                            >
+                                {this.props.value.quickMovePool}
+                            </MoveSelect>
+                        </Grid>
 
-                        <MoveSelect
-                            value={this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined && this.props.value.QuickMove}
-                            moveType={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
-                                this.props.moveTable[this.props.value.QuickMove].MoveType : ""}
+                        <Grid item xs={12}>
+                            <MoveSelect
+                                value={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select..." &&
+                                    this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ? this.props.value.ChargeMove1 : ""}
+                                moveType={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
+                                    this.props.moveTable[this.props.value.ChargeMove1].MoveType : ""}
 
-                            name="QuickMove"
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
+                                name="ChargeMove1" attr={this.props.attr} onChange={this.props.onChange}
 
-                            label={strings.title.quickMove}
+                                label={strings.title.chargeMove}
+                                tip={<MoveTip moveName={this.props.value.ChargeMove1} moveTable={this.props.moveTable} />}
+                            >
+                                {this.props.value.chargeMovePool}
+                            </MoveSelect>
+                        </Grid>
 
-                            tip={<MoveTip moveName={this.props.value.QuickMove} moveTable={this.props.moveTable} />}
-                        >
-                            {this.props.value.quickMovePool}
-                        </MoveSelect>
+                        <Grid item xs={12}>
+                            <MoveSelect
+                                value={(this.props.value.ChargeMove2 && this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
+                                    this.props.value.ChargeMove2 !== "Select...") ? this.props.value.ChargeMove2 : ""}
+                                moveType={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
+                                    this.props.moveTable[this.props.value.ChargeMove2].MoveType : ""}
 
+                                name="ChargeMove2" attr={this.props.attr} onChange={this.props.onChange}
 
-
-
-
-
-
-
-
-                        <MoveSelect
-                            value={(this.props.value.ChargeMove1 && this.props.value.ChargeMove1 !== "Select..." &&
-                                this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ? this.props.value.ChargeMove1 : ""}
-                            moveType={(this.props.moveTable[this.props.value.ChargeMove1] !== undefined) ?
-                                this.props.moveTable[this.props.value.ChargeMove1].MoveType : ""}
-
-                            name="ChargeMove1"
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
-
-                            label={strings.title.chargeMove}
-
-                            tip={<MoveTip moveName={this.props.value.ChargeMove1} moveTable={this.props.moveTable} />}
-                        >
-                            {this.props.value.chargeMovePool}
-                        </MoveSelect>
-
-
-
-
-
-
-
-                        <MoveSelect
-                            value={(this.props.value.ChargeMove2 && this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
-                                this.props.value.ChargeMove2 !== "Select...") ?
-                                this.props.value.ChargeMove2 : ""}
-                            moveType={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
-                                this.props.moveTable[this.props.value.ChargeMove2].MoveType : ""}
-
-                            name="ChargeMove2"
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
-
-                            label={strings.title.chargeMove}
-
-                            tip={<MoveTip moveName={this.props.value.ChargeMove2} moveTable={this.props.moveTable} />}
-                        >
-                            {this.props.value.chargeMovePool}
-                        </MoveSelect>
+                                label={strings.title.chargeMove}
+                                tip={<MoveTip moveName={this.props.value.ChargeMove2} moveTable={this.props.moveTable} />}
+                            >
+                                {this.props.value.chargeMovePool}
+                            </MoveSelect>
+                        </Grid>
                     </>}
-            </div>
+            </Grid>
         )
     }
 
