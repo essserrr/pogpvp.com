@@ -218,10 +218,12 @@ class SinglePvp extends React.PureComponent {
     }
 
     onUserPokemonSelect(index, role) {
-        let selectedPok = this.props.userPokemon[index]
+        const selectedPok = this.props.userPokemon[index]
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, optionStrings.options.moveSelect)
+        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, optionStrings.options.moveSelect, false,
+            [selectedPok.QuickMove], [selectedPok.ChargeMove, selectedPok.ChargeMove2]);
+
         //set state
         this.setState({
             [role]: {
@@ -258,72 +260,68 @@ class SinglePvp extends React.PureComponent {
         const name = atrributes.name;
 
         console.log(event.target, atrributes, eventItem, ...other)
-        if (eventItem && eventItem.value !== undefined) {
+        if (eventItem && (eventItem.value !== undefined || eventItem.index !== undefined)) {
             switch (name) {
                 case "Name":
                     this.onNameChange(eventItem.value, attr)
                     return
-                /*case "partySelect":
-                    this.onPartySelect(eventItem.value, atrributes.category, attr)
-                    return*/
+                case "userPokemon":
+                    this.onUserPokemonSelect(eventItem.index, attr)
+                    return
                 default:
                     this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
 
-        if (name.category === "userPokemon") {
-            this.onUserPokemonSelect(name.index, name.attr)
-            return
-        }
 
-
-        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
-        let action = event.target.getAttribute ? event.target.getAttribute("action") : name.props.action
+        let action = event.target.getAttribute ? event.target.getAttribute("action") : name.action
         //check if it's an initial stat change
         if (action === "defaultStatMaximizer") {
-            this.statMaximizer(event, role)
+            this.statMaximizer(event, attr)
             return
         }
-        if (event.target.name === "InitialHP" || event.target.name === "InitialEnergy") {
-            this.onInitialStatsChange(event, role)
-            return
-        }
-        //check if it's an iv change
-        if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (event.target.name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
-        //if it's an stage change
-        if (event.target.name === "AtkStage" || event.target.name === "DefStage") {
-            this.onStageChange(event, role)
-            return
-        }
+
         if (event.target.value === "Select...") {
             this.setState({
-                [role]: {
-                    ...this.state[role],
+                [attr]: {
+                    ...this.state[attr],
                     showMenu: true,
-                    isSelected: event.target.name,
+                    isSelected: name,
                 },
             });
             return
         }
-        //if it's an type change
-        if (event.target.name === "IsShadow") {
-            this.onTypeChange(event, role)
+
+        if (name === "InitialHP" || name === "InitialEnergy") {
+            this.onInitialStatsChange(event, attr)
             return
         }
-        //otherwise follow general pattern
+
+        if (name === "Sta" || name === "Def" || name === "Atk") {
+            this.onIvChange(event, attr)
+            return
+        }
+
+        if (name === "Lvl") {
+            this.onLevelChange(event, attr)
+            return
+        }
+
+        if (name === "AtkStage" || name === "DefStage") {
+            this.onStageChange(event, attr)
+            return
+        }
+
+        if (name === "IsShadow") {
+            this.onTypeChange(event, attr)
+            return
+        }
+
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: event.target.value
+            [attr]: {
+                ...this.state[attr],
+                [name]: event.target.value
             },
             stateModified: true,
         });
@@ -600,11 +598,8 @@ class SinglePvp extends React.PureComponent {
         }
     }
 
-    onClick(event) {
-        let role = event.target.getAttribute("attr")
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
+    onClick(event, attributes) {
+        const role = attributes.attr;
 
         if (role === "constructor") {
             this.setState({
@@ -617,7 +612,6 @@ class SinglePvp extends React.PureComponent {
             });
             return
         }
-
 
         this.setState({
             [role]: {
@@ -632,10 +626,9 @@ class SinglePvp extends React.PureComponent {
     render() {
         return (
             < >
-                {(this.state.constructor.showMenu) && <MagicBox
-                    onClick={this.onClick}
-                    attr={"constructor"}
-                    element={<Constructor
+
+                <MagicBox open={Boolean(this.state.constructor.showMenu)} onClick={this.onClick} attr={"constructor"}>
+                    <Constructor
                         log={this.state.result.Log}
                         round={this.state.constructor.isSelected}
 
@@ -648,8 +641,9 @@ class SinglePvp extends React.PureComponent {
 
                         lastChangesAt={this.state.lastChangesAt}
                         stateModified={this.state.stateModified}
-                    />}
-                />}
+                    />
+                </MagicBox>
+
 
                 <div className="row justify-content-between mb-4"  >
                     <div className="singlepvp__panel order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >

@@ -11,7 +11,6 @@ const MoveTip = React.memo(function MoveTip(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
     const { moveName, moveTable } = props;
     const move = moveTable[moveName];
-
     return (
         <>
             {move.Category === "Charge Move" ? strings.charge : strings.quick}<br />
@@ -19,9 +18,9 @@ const MoveTip = React.memo(function MoveTip(props) {
             {(moveName && moveName !== "Select...") && move !== undefined &&
                 <>
                     {`${strings.move.damage}: ${move.PvpDamage}`}<br />
-                    {`${strings.move.energy}: ${-move.PvpEnergy}`}<br />
+                    {`${strings.move.energy}: ${move.PvpEnergy}`}<br />
 
-                    {move.Category !== "Charge Move" &&
+                    {move.MoveCategory !== "Charge Move" &&
                         <>{`${strings.move.duration}: ${move.PvpDuration}`}<br /></>}
 
                     {(move.Probability !== 0) &&

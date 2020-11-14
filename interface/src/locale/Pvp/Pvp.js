@@ -1,6 +1,6 @@
 export const pvp = {
     en: {
-        userPok: "User pokemon",
+        userPok: "Your pokemon",
         allPok: "All pokemon",
 
         dexentr: "View dex for",
@@ -74,7 +74,7 @@ export const pvp = {
 
 
     ru: {
-        userPok: "Покемоны пользователя",
+        userPok: "Ваши покемоны",
         allPok: "Все покемоны",
 
         dexentr: "Открыть декс для",
