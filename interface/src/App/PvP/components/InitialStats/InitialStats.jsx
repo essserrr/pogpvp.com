@@ -1,51 +1,60 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
-import ReactTooltip from "react-tooltip"
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 
 import LocalizedStrings from "react-localization";
-import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/getCookie"
+import { instats } from "locale/Pvp/InitialStats/InitialStats";
+import { getCookie } from "js/getCookie";
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(instats);
 
-const InitialStats = React.memo(function (props) {
+const InitialStats = React.memo(function InitialStats(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <WithIcon tip={strings.initialStats.tip}>
+        <WithIcon tip={strings.tip}>
+            <Grid container alignItems="center" wrap="nowrap">
 
-            <div className="input-group input-group-sm mt-2">
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={props.attr + "InitialHP"} effect="solid">
-                    {"HP: 0-" + strings.initialStats.hpTip + " HP"}
-                </ReactTooltip>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={props.attr + "InitialEnergy"} effect="solid">
-                    {strings.initialStats.energyTip + ": 0-100"}
-                </ReactTooltip>
-                <Input
-                    label={props.label + "HP"}
-                    name="InitialHP"
-                    attr={props.attr}
-                    value={props.InitialHP}
-                    onChange={props.onChange}
-                />
+                <Tooltip arrow placement="top" title={<Typography>{`${strings.initialHp} HP: 0 - ${strings.hpTip} HP`}</Typography>}>
+                    <Grid item xs>
+                        <Input
+                            label={"HP"}
+                            name="InitialHP"
+                            attr={props.attr}
+                            value={props.InitialHP}
+                            onChange={props.onChange}
+                        />
+                    </Grid>
+                </Tooltip>
 
-                <Input
-                    label={props.label + strings.initialStats.energy}
-                    name="InitialEnergy"
-                    attr={props.attr}
-                    value={props.InitialEnergy}
-                    onChange={props.onChange}
-                />
-            </div>
+                <Tooltip arrow placement="top" title={<Typography>{`${strings.initialEn} ${strings.energyTip}: 0 - 100`}</Typography>}>
+                    <Grid item xs>
+                        <Input
+                            label={strings.energy}
+                            name="InitialEnergy"
+                            attr={props.attr}
+                            value={props.InitialEnergy}
+                            onChange={props.onChange}
+                        />
+                    </Grid>
+                </Tooltip>
+
+            </Grid>
         </WithIcon>
     )
 
 });
 
 export default InitialStats;
+
+InitialStats.propTypes = {
+    Atk: PropTypes.number,
+    Def: PropTypes.number,
+    attr: PropTypes.string,
+    onChange: PropTypes.func,
+};

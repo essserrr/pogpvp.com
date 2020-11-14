@@ -17,13 +17,6 @@ export const locale = {
 
         },
 
-        initialStats: {
-            tip: "Initial HP and energy for selected pokemon; if HP equals zero, PvP starts from full HP",
-            hpTip: "Max",
-            energyTip: "Energy",
-            energy: "En",
-        },
-
 
         resultTable: {
             rate: "Battle Rating",
@@ -69,15 +62,6 @@ export const locale = {
             strong: "Сильны против:",
             tip: "При нажатии показывает список наиболее сбалансированных групп, которые можно собрать из покемонов левого столбца. Опция активна после вычисления групповой битвы (когда число покемонов в левой колонке составляет от 3 до 15). !!!Изменение ключевых настроек вновь скрывает советчик.",
         },
-
-
-        initialStats: {
-            tip: "Начальные HP и энергия для выбранного покемона; Если HP равняется 0, то PvP начнется с полным запасом HP",
-            hpTip: "Макс",
-            energyTip: "Энергия",
-            energy: "Эн",
-        },
-
 
 
 

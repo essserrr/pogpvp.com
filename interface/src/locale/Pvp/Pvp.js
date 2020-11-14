@@ -17,7 +17,6 @@ export const pvp = {
 
         title: {
             selectMove: "Select a move:",
-            initialStats: "HP, Energy",
             initialStages: "Atk, Def",
             shields: "Shields",
             strategy: "Strategy",
@@ -91,7 +90,6 @@ export const pvp = {
 
         title: {
             selectMove: "Выберите умение:",
-            initialStats: "HP, Энерг.",
             initialStages: "Атк, защ",
             shields: "Щиты",
             strategy: "Стратегия    ",
