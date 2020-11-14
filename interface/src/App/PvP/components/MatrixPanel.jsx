@@ -386,69 +386,59 @@ class MatrixPanel extends React.PureComponent {
     render() {
         return (
             <div className="matrix-panel m-2">
-                {(this.props.value.showPokSelect) && <MagicBox
-                    onClick={this.props.onClick}
-                    attr={this.props.attr}
-                    element={
-                        <div className="row justify-content-center">
-                            <Pokemon
-                                className="large m-1 mb-3 col-12"
 
-                                pokemonTable={this.props.pokemonTable}
-                                moveTable={this.props.moveTable}
-                                value={this.state.pokemon}
-                                attr="pokemon"
-                                onChange={this.onChange}
-                                pokList={this.props.pokList}
-                                userPokemon={this.props.userPokemon}
+                <MagicBox open={Boolean(this.props.value.showPokSelect)} onClick={this.props.onClick} attr={this.props.attr}>
+                    <div className="row justify-content-center">
+                        <Pokemon
+                            className="large m-1 mb-3 col-12"
 
-                                showMenu={this.state.pokemon.showMenu}
+                            pokemonTable={this.props.pokemonTable}
+                            moveTable={this.props.moveTable}
+                            value={this.state.pokemon}
+                            attr="pokemon"
+                            onChange={this.onChange}
+                            pokList={this.props.pokList}
+                            userPokemon={this.props.userPokemon}
 
-                                moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ?
-                                    this.props.chargeMoveList : this.props.quickMoveList}
-                                category={this.state.pokemon.isSelected}
-                                onClick={this.onClick}
-                            />
+                            showMenu={this.state.pokemon.showMenu}
 
-                            <Button
-                                attr={this.props.attr}
-                                title={strings.buttons.addpokemon}
-                                onClick={this.onPokemonSubmit}
-                            />
-
-                        </div>
-                    }
-                />}
-
-                {this.props.value.showSavePanel && <MagicBox
-                    onClick={this.props.onClick}
-                    attr={this.props.attr}
-                    element={
-                        <InputAndSubmit
-                            action="Save party"
-                            tip={strings.tips.savegroup}
-                            errortext={strings.errors.savegroup}
-                            placeholder={strings.title.savegroupplaceholder}
-                            label={strings.buttons.savegroup}
-                            attr={this.props.attr}
-                            onChange={this.props.onPartySave}
+                            moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ?
+                                this.props.chargeMoveList : this.props.quickMoveList}
+                            category={this.state.pokemon.isSelected}
+                            onClick={this.onClick}
                         />
-                    }
-                />}
 
-                {this.props.value.showImportExportPanel && <MagicBox
-                    onClick={this.props.onClick}
-                    attr={this.props.attr}
-                    element={
-                        <ImportExport
-                            type="matrix"
-                            initialValue={this.props.value.listForBattle}
-                            action="Import/Export"
+                        <Button
                             attr={this.props.attr}
-                            onChange={this.props.onImport}
+                            title={strings.buttons.addpokemon}
+                            onClick={this.onPokemonSubmit}
                         />
-                    }
-                />}
+
+                    </div>
+                </MagicBox>
+
+                <MagicBox open={Boolean(this.props.value.showSavePanel)} onClick={this.props.onClick} attr={this.props.attr}>
+                    <InputAndSubmit
+                        action="Save party"
+                        tip={strings.tips.savegroup}
+                        errortext={strings.errors.savegroup}
+                        placeholder={strings.title.savegroupplaceholder}
+                        label={strings.buttons.savegroup}
+                        attr={this.props.attr}
+                        onChange={this.props.onPartySave}
+                    />
+                </MagicBox>
+
+
+                <MagicBox open={Boolean(this.props.value.showImportExportPanel)} onClick={this.props.onClick} attr={this.props.attr}>
+                    <ImportExport
+                        type="matrix"
+                        initialValue={this.props.value.listForBattle}
+                        action="Import/Export"
+                        attr={this.props.attr}
+                        onChange={this.props.onImport}
+                    />
+                </MagicBox>
 
                 <Counter
                     class="matrix-panel--bolder"

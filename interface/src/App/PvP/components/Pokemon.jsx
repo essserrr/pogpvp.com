@@ -38,28 +38,20 @@ class Pokemon extends React.PureComponent {
     render() {
         return (
             <div className={`pokemon ${this.props.className ? this.props.className : ""}`}>
-                {(this.props.showMenu) && <MagicBox
-                    title={strings.title.selectMove}
-                    onClick={this.props.onClick}
-                    attr={this.props.attr}
-                    element={
-                        <SearchableSelect
-                            disableClearable
-                            label={"fullLabel"}
-                            name={this.props.category}
-                            attr={this.props.attr}
-                            onChange={this.props.onChange}
-                        >
-                            {this.props.moveList}
-                        </SearchableSelect>}
-                />}
+
+                <MagicBox open={Boolean(this.props.showMenu)} onClick={this.props.onClick} attr={this.props.attr}>
+                    <SearchableSelect disableClearable label={"fullLabel"} name={this.props.category}
+                        attr={this.props.attr} onChange={this.props.onChange}>
+                        {this.props.moveList}
+                    </SearchableSelect>
+                </MagicBox>
 
                 {this.props.userPokemon && this.props.userPokemon.length > 0 &&
                     <div className="col-12 px-0 mt-1 mb-2">
                         <PokemonSelect
                             label={strings.userPok}
                             attr={this.props.attr}
-                            category="userPokemon"
+                            name="userPokemon"
 
                             pokemonTable={this.props.pokemonTable}
                             onChange={this.props.onChange}
@@ -106,10 +98,10 @@ class Pokemon extends React.PureComponent {
                         />
 
                         <Stats
-                            Lvl={this.props.value.Lvl}
-                            Atk={this.props.value.Atk}
-                            Def={this.props.value.Def}
-                            Sta={this.props.value.Sta}
+                            Lvl={String(this.props.value.Lvl)}
+                            Atk={String(this.props.value.Atk)}
+                            Def={String(this.props.value.Def)}
+                            Sta={String(this.props.value.Sta)}
                             attr={this.props.attr}
                             onChange={this.props.onChange}
                         />

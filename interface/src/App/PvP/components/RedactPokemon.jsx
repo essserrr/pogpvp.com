@@ -382,39 +382,35 @@ class RedactPokemon extends React.PureComponent {
 
     render() {
         return (
-            <MagicBox
-                onClick={this.props.onClick}
-                attr={this.props.redact.attr}
-                element={
-                    <div className="row justify-content-center">
-                        <Pokemon
-                            className="large m-1 mb-3 col-12"
+            <MagicBox open={true} onClick={this.props.onClick} attr={this.props.redact.attr}>
+                <div className="row justify-content-center">
+                    <Pokemon
+                        className="large m-1 mb-3 col-12"
 
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.moveTable}
-                            value={this.state.pokemon}
-                            attr="pokemon"
-                            onChange={this.onChange}
-                            pokList={this.props.pokList}
-                            userPokemon={this.props.userPokemon}
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
+                        value={this.state.pokemon}
+                        attr="pokemon"
+                        onChange={this.onChange}
+                        pokList={this.props.pokList}
+                        userPokemon={this.props.userPokemon}
 
-                            showMenu={this.state.pokemon.showMenu}
+                        showMenu={this.state.pokemon.showMenu}
 
-                            moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ? this.props.chargeMoveList : this.props.quickMoveList}
-                            category={this.state.pokemon.isSelected}
-                            onClick={this.onClick}
-                        />
+                        moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ? this.props.chargeMoveList : this.props.quickMoveList}
+                        category={this.state.pokemon.isSelected}
+                        onClick={this.onClick}
+                    />
 
 
-                        <Button
-                            attr={this.props.redact.attr}
-                            title={strings.buttons.submitchange}
-                            onClick={this.onPokemonSubmit}
-                        />
+                    <Button
+                        attr={this.props.redact.attr}
+                        title={strings.buttons.submitchange}
+                        onClick={this.onPokemonSubmit}
+                    />
 
-                    </div>
-                }
-            />
+                </div>
+            </MagicBox>
         )
     }
 

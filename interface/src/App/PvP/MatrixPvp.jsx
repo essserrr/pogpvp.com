@@ -623,24 +623,26 @@ class MatrixPvp extends React.PureComponent {
         return (
             < >
                 <div className="row justify-content-between mb-4"  >
-                    {this.state.redact.showMenu && <RedactPokemon
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.parentState.moveTable}
-                        userPokemon={this.props.userPokemon}
+                    {this.state.redact.showMenu &&
+                        <RedactPokemon
+                            pokemonTable={this.props.pokemonTable}
+                            moveTable={this.props.parentState.moveTable}
+                            userPokemon={this.props.userPokemon}
 
-                        pokList={this.props.parentState.pokList}
-                        quickMoveList={this.props.parentState.quickMoveList}
-                        chargeMoveList={this.props.parentState.chargeMoveList}
+                            pokList={this.props.parentState.pokList}
+                            quickMoveList={this.props.parentState.quickMoveList}
+                            chargeMoveList={this.props.parentState.chargeMoveList}
 
-                        league={this.props.parentState.league}
+                            league={this.props.parentState.league}
 
-                        value={this.state[this.state.redact.attr]}
+                            value={this.state[this.state.redact.attr]}
 
-                        redact={this.state.redact}
+                            redact={this.state.redact}
 
-                        onClick={this.onPokRedactOff}
-                        onPokemonAdd={this.onRedactSubmit}
-                    />}
+                            onClick={this.onPokRedactOff}
+                            onPokemonAdd={this.onRedactSubmit}
+                        />}
+
                     <div className="matrixpvp__results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
