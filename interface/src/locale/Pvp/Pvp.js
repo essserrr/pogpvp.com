@@ -17,7 +17,6 @@ export const pvp = {
 
         title: {
             selectMove: "Select a move:",
-            initialStages: "Atk, Def",
             shields: "Shields",
             strategy: "Strategy",
             quickMove: "Quick",
@@ -48,7 +47,6 @@ export const pvp = {
             pvpoke: "Enables Pvpoke-like PvP rules; after enabling strategies don't affect PvP results",
             triple: "Overall rating",
             tripletip: "Calculates PvP between every single pokemon of the right column and every single  pokemon of the left column. Calculation is performed with following shield combinations: 0x0, 1x1, 2x2. After that estimates overall rating of every fight.\n When the option is active, changing the number of shields does not affect the result.",
-            stages: "Attack and defence stages to start PvP with",
             saved: "List of all saved parties",
         },
 
@@ -90,7 +88,6 @@ export const pvp = {
 
         title: {
             selectMove: "Выберите умение:",
-            initialStages: "Атк, защ",
             shields: "Щиты",
             strategy: "Стратегия    ",
             quickMove: "Быстрое",
@@ -115,7 +112,6 @@ export const pvp = {
             },
             nameSearch: "Поиск по имени",
 
-            stages: "Стадии атаки и защиты, с которыми начнется PvP",
             savegroup: "Введите имя группы (1-15 символов)",
             matrixPanel: "Настройки по умолчанию",
             loading: "Загрузка...",

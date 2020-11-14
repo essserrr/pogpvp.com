@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
+import LocalizedStrings from "react-localization";
 
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -8,7 +9,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 
-import LocalizedStrings from "react-localization";
 import { instats } from "locale/Pvp/InitialStats/InitialStats";
 import { getCookie } from "js/getCookie";
 

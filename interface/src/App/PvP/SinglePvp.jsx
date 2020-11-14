@@ -648,7 +648,6 @@ class SinglePvp extends React.PureComponent {
                 <div className="row justify-content-between mb-4"  >
                     <div className="singlepvp__panel order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
                         <Pokemon
-                            className="m-2"
                             value={this.state.attacker}
                             attr="attacker"
 
@@ -752,7 +751,6 @@ class SinglePvp extends React.PureComponent {
                     </div>
                     <div className="singlepvp__panel order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
                         <Pokemon
-                            className="m-2"
                             value={this.state.defender}
                             attr="defender"
 
