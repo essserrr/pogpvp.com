@@ -6,10 +6,10 @@ import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 
 import LocalizedStrings from "react-localization";
-import { locale } from "../../../../locale/locale"
+import { pvp } from "../../../../locale/Pvp/Pvp"
 import { getCookie } from "../../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(pvp);
 strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
 
