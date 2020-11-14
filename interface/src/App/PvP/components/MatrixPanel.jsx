@@ -508,7 +508,7 @@ class MatrixPanel extends React.PureComponent {
                 </div>
                 <MaximizerNoSubmit
                     attr={this.props.attr}
-                    action={"defaultStatMaximizer"}
+                    category={"defaultStatMaximizer"}
                     value={this.props.value.maximizer}
                     onChange={this.props.onChange}
                 />

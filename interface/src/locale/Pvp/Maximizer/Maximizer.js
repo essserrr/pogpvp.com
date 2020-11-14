@@ -1,10 +1,13 @@
 export const maximizer = {
     en: {
+        iv: "IV value",
+        lvl: "Lvl",
+
         def: "Def",
         atk: "Atk",
 
         maximizer: {
-            levelTitle: "Max level:",
+            levelTitle: "Max level",
             overall: "Overall",
             maximize: "Maximize",
             default: "Default",
@@ -12,14 +15,17 @@ export const maximizer = {
     },
 
     ru: {
+        iv: "Значение IV",
+        lvl: "Ур",
+
         def: "Защ",
         atk: "Атк",
 
         maximizer: {
-            levelTitle: "Макс. ур.:",
+            levelTitle: "Макс. уровень",
             overall: "Общий",
-            maximize: "Максимум",
-            default: "Обычный",
+            maximize: "Макс.",
+            default: "Обычное",
         },
     }
 }

@@ -166,7 +166,7 @@ class SinglePvp extends React.PureComponent {
         this.setState({
             [role]: {
                 ...this.state[role],
-                [event.target.name]: checkLvl(event.target.value) + "",
+                [event.target.name]: String(checkLvl(event.target.value)),
                 effAtk: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Atk, this.state[role].AtkStage, this.props.pokemonTable, "Atk", this.state[role].IsShadow),
                 effDef: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Def, this.state[role].DefStage, this.props.pokemonTable, "Def", this.state[role].IsShadow),
                 effSta: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Sta, 0, this.props.pokemonTable, "Sta"),
@@ -258,8 +258,8 @@ class SinglePvp extends React.PureComponent {
     onChange(event, atrributes, eventItem, ...other) {
         const attr = atrributes.attr;
         const name = atrributes.name;
+        const category = atrributes.category;
 
-        console.log(event.target, atrributes, eventItem, ...other)
         if (eventItem && (eventItem.value !== undefined || eventItem.index !== undefined)) {
             switch (name) {
                 case "Name":
@@ -274,10 +274,7 @@ class SinglePvp extends React.PureComponent {
             }
         }
 
-
-        let action = event.target.getAttribute ? event.target.getAttribute("action") : name.action
-        //check if it's an initial stat change
-        if (action === "defaultStatMaximizer") {
+        if (category === "defaultStatMaximizer") {
             this.statMaximizer(event, attr)
             return
         }
@@ -330,7 +327,7 @@ class SinglePvp extends React.PureComponent {
     statMaximizer(event, role) {
         let max = {
             ...this.state[role].maximizer,
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.name === "level" ? checkLvl(event.target.value) : event.target.value,
         }
 
         const ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.pokemonTable);
