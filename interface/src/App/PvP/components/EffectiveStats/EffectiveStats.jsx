@@ -1,47 +1,38 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import LocalizedStrings from "react-localization"
-import { stats } from "../../../../locale/Components/Stats/locale"
-import { getCookie } from "../../../../js/getCookie"
+import Grid from '@material-ui/core/Grid';
 
-import "./EffectiveStats.scss"
+import Stat from "./Stat/Stat";
+import { stats } from "locale/Components/Stats/locale"
+import { getCookie } from "js/getCookie"
 
-let strings = new LocalizedStrings(stats)
+let strings = new LocalizedStrings(stats);
 
 const EffectiveStats = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
     return (
-        < div className="row justify-content-between m-0 mt-2" style={{ fontSize: "92%" }}>
-            <ReactTooltip
-                id={props.attr + "effatk"} effect="solid">
-                {strings.atkTip}
-            </ReactTooltip>
-            <ReactTooltip
-                id={props.attr + "effdef"} effect="solid">
-                {strings.defTip}
-            </ReactTooltip>
-            <ReactTooltip
-                id={props.attr + "effsta"} effect="solid">
-                {strings.staTip}
-            </ReactTooltip>
-            <div
-                data-tip data-for={props.attr + "effatk"}
-                className={"fBolder eff-stage" + (Number(props.AtkStage) + 4)}>
-                {strings.atk} {props.effAtk}
-            </div>
-            <div
-                data-tip data-for={props.attr + "effdef"}
-                className={"fBolder eff-stage" + (Number(props.DefStage) + 4)}>
-                {strings.def} {props.effDef}
-            </div>
-            <div
-                data-tip data-for={props.attr + "effsta"}
-                className="fBolder">
-                {strings.sta} {props.effSta}
-            </div>
-        </div >
+        <Grid container justify="space-between" alignItems="center" wrap="nowrap">
+
+            <Stat tip={strings.atkTip} title={strings.atk} stage={props.AtkStage} children>{props.effAtk}</Stat>
+
+            <Stat tip={strings.defTip} title={strings.def} stage={props.DefStage} children>{props.effDef}</Stat>
+
+            <Stat tip={strings.staTip} title={strings.sta} stage={0} children>{props.effSta}</Stat>
+
+        </Grid>
     )
 });
 
 export default EffectiveStats;
+
+EffectiveStats.propTypes = {
+    effAtk: PropTypes.number,
+    effDef: PropTypes.number,
+    effSta: PropTypes.number,
+    AtkStage: PropTypes.number,
+    DefStage: PropTypes.number,
+    attr: PropTypes.string,
+};

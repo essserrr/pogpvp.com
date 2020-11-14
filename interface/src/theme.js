@@ -86,6 +86,24 @@ const theme = createMuiTheme({
             },
         },
 
+        stages: {
+            stageN34: {
+                text: "red",
+            },
+            stageN12: {
+                text: "rgb(255, 115, 0)",
+            },
+            stage0: {
+                text: "#1a1a1a",
+            },
+            stageP12: {
+                text: "rgb(108, 167, 0)",
+            },
+            stageP34: {
+                text: "green",
+            },
+        },
+
         news: {
             border: "#acacac",
         },

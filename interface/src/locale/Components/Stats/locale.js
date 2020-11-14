@@ -1,11 +1,11 @@
 export const stats = {
     en: {
         atk: "Atk",
-        atkTip: "Effective Atk",
+        atkTip: "Effective attack",
         def: "Def",
-        defTip: "Effective Def",
+        defTip: "Effective defence",
         sta: "Sta",
-        staTip: "Effective Sta",
+        staTip: "Effective stamina",
 
         lvl: "Lvl",
     },
@@ -15,11 +15,11 @@ export const stats = {
 
     ru: {
         atk: "Атк",
-        atkTip: "Эффективная Атк",
+        atkTip: "Эффективная атака",
         def: "Защ",
-        defTip: "Эффективная Защ",
+        defTip: "Эффективная защита",
         sta: "Здр",
-        staTip: "Эффективное Здр",
+        staTip: "Эффективное здоровье",
 
         lvl: "Ур",
     }
