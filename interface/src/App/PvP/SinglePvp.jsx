@@ -20,16 +20,19 @@ import {
     processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
 } from "../../js/indexFunctions.js"
 import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import { pvp } from "locale/Pvp/Pvp";
+import { options } from "locale/Components/Options/locale";
 
 import "./SinglePvp.scss"
 
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(pvp);
+let optionStrings = new LocalizedStrings(options);
 
 class SinglePvp extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             attacker: (props.parentState.attacker) ? props.parentState.attacker : pokemon(),
             defender: (props.parentState.defender) ? props.parentState.defender : pokemon(),
@@ -94,45 +97,38 @@ class SinglePvp extends React.PureComponent {
         }
     }
 
-    onNameChange(event, name) {
+    onNameChange(value, name) {
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
+        moves.createMovePool(value, this.props.pokemonTable, optionStrings.options.moveSelect)
 
 
-        let quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
-        let charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
+        const quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, value, this.props.pokemonTable)
+        const charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, value, this.props.pokemonTable)
         //create default iv set
-        let ivSet = calculateMaximizedStats(event.value, 40.0, this.props.pokemonTable)
-        let whatToMaximize = (this.state[name].maximizer.action === "Default") ? "Default" : this.state[name].maximizer.stat
+        const ivSet = calculateMaximizedStats(value, 40.0, this.props.pokemonTable);
+        const whatToMaximize = this.state[name].maximizer.action === "Default" ? "Default" : this.state[name].maximizer.stat;
+        const selectedSet = ivSet[this.props.parentState.league][whatToMaximize];
 
         //set state
         this.setState({
             [name]: {
                 ...this.state[name],
-                name: event.value,
-                quickMovePool: moves.quickMovePool,
-                chargeMovePool: moves.chargeMovePool,
-                QuickMove: quick,
-                ChargeMove1: charge.primaryName,
-                ChargeMove2: charge.secodaryName,
-                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
+                name: value,
 
-                effAtk: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                    this.state[name].AtkStage, this.props.pokemonTable,
+                quickMovePool: moves.quickMovePool, chargeMovePool: moves.chargeMovePool,
+
+                QuickMove: quick, ChargeMove1: charge.primaryName, ChargeMove2: charge.secodaryName,
+
+                Lvl: selectedSet.Level, Atk: selectedSet.Atk, Def: selectedSet.Def, Sta: selectedSet.Sta,
+
+                effAtk: calculateEffStat(value, selectedSet.Level, selectedSet.Atk, this.state[name].AtkStage, this.props.pokemonTable,
                     "Atk", this.state[name].IsShadow),
 
-                effDef: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Def,
-                    this.state[name].DefStage, this.props.pokemonTable,
+                effDef: calculateEffStat(value, selectedSet.Level, selectedSet.Def, this.state[name].DefStage, this.props.pokemonTable,
                     "Def", this.state[name].IsShadow),
 
-                effSta: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
+                effSta: calculateEffStat(value, selectedSet.Level, selectedSet.Sta, 0, this.props.pokemonTable, "Sta"),
 
                 HP: undefined,
                 Energy: undefined,
@@ -225,7 +221,7 @@ class SinglePvp extends React.PureComponent {
         let selectedPok = this.props.userPokemon[index]
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, optionStrings.options.moveSelect)
         //set state
         this.setState({
             [role]: {
@@ -257,24 +253,25 @@ class SinglePvp extends React.PureComponent {
         });
     }
 
-    onChange(event, name) {
-        //check if it`s a name change
-        if (event.target === undefined) {
-            switch (name.name[1]) {
-                case "QuickMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+    onChange(event, atrributes, eventItem, ...other) {
+        const attr = atrributes.attr;
+        const name = atrributes.name;
+
+        console.log(event.target, atrributes, eventItem, ...other)
+        if (eventItem && eventItem.value !== undefined) {
+            switch (name) {
+                case "Name":
+                    this.onNameChange(eventItem.value, attr)
                     return
-                case "ChargeMove1":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
-                case "ChargeMove2":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
+                /*case "partySelect":
+                    this.onPartySelect(eventItem.value, atrributes.category, attr)
+                    return*/
                 default:
-                    this.onNameChange(event, name.name[0])
+                    this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
+
         if (name.category === "userPokemon") {
             this.onUserPokemonSelect(name.index, name.attr)
             return
@@ -338,30 +335,24 @@ class SinglePvp extends React.PureComponent {
             [event.target.name]: event.target.value,
         }
 
-        let ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.pokemonTable)
-        let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
+        const ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.pokemonTable);
+        const whatToMaximize = max.action === "Default" ? "Default" : max.stat;
+        const selectedSet = ivSet[this.props.parentState.league][whatToMaximize];
 
         this.setState({
             [role]: {
                 ...this.state[role],
                 HP: undefined, Energy: undefined,
 
-                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
+                Lvl: selectedSet.Level, Atk: selectedSet.Atk, Def: selectedSet.Def, Sta: selectedSet.Sta,
 
-                effAtk: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Atk, this.state[role].AtkStage,
+                effAtk: calculateEffStat(this.state[role].name, selectedSet.Level, selectedSet.Atk, this.state[role].AtkStage,
                     this.props.pokemonTable, "Atk", this.state[role].IsShadow),
 
-                effDef: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Def, this.state[role].DefStage,
+                effDef: calculateEffStat(this.state[role].name, selectedSet.Level, selectedSet.Def, this.state[role].DefStage,
                     this.props.pokemonTable, "Def", this.state[role].IsShadow),
 
-                effSta: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Sta, 0,
-                    this.props.pokemonTable, "Sta"),
+                effSta: calculateEffStat(this.state[role].name, selectedSet.Level, selectedSet.Sta, 0, this.props.pokemonTable, "Sta"),
 
                 maximizer: max,
             },
