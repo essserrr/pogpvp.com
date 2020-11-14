@@ -1,5 +1,10 @@
 export const pvp = {
     en: {
+        userPok: "User pokemon",
+        allPok: "All pokemon",
+
+        dexentr: "View dex for",
+
         pageheaders: {
             single: "Single PvP  |  PogPvP.com",
             matrix: "Matrix PvP  |  PogPvP.com",
@@ -40,21 +45,40 @@ export const pvp = {
             savegroup: "Enter a party name (1-15 charaters)",
             matrixPanel: "Default settings",
             loading: "Loading...",
-            evolveTool: "Next evolution",
             shadow: "Shadow pokemons have \n x1.2 Atk and x0.881 Def",
-            constructor: "Allows to chage actions in the timeline",
             pvpoke: "Enables Pvpoke-like PvP rules; after enabling strategies don't affect PvP results",
             triple: "Overall rating",
             tripletip: "Calculates PvP between every single pokemon of the right column and every single  pokemon of the left column. Calculation is performed with following shield combinations: 0x0, 1x1, 2x2. After that estimates overall rating of every fight.\n When the option is active, changing the number of shields does not affect the result.",
             stages: "Attack and defence stages to start PvP with",
             saved: "List of all saved parties",
-            quick: "Quick move",
-            charge: "Charge move",
+        },
+
+        buttons: {
+            byrating: "Sort by rating",
+            byzeros: "Sort by bad matchups",
+
+            copy: "Copy",
+
+            impExp: "Import/Export",
+
+            calculate: "Calculate",
+            letsbattle: "Let's Battle",
+            addpokemon: "Add pokemon",
+            save: "Save",
+            delete: "Delete",
+            savegroup: "Save party",
+            loadmore: "Load more",
+            submitchange: "Submit changes",
         },
     },
 
 
     ru: {
+        userPok: "Покемоны пользователя",
+        allPok: "Все покемоны",
+
+        dexentr: "Открыть декс для",
+
         pageheaders: {
             single: "Одиночное PvP  |  PogPvP.com",
             matrix: "Групповое PvP  |  PogPvP.com",
@@ -97,15 +121,28 @@ export const pvp = {
             savegroup: "Введите имя группы (1-15 символов)",
             matrixPanel: "Настройки по умолчанию",
             loading: "Загрузка...",
-            evolveTool: "Следующая эволюция",
             shadow: "У теневых покемонов \n x1.2 Атк и x0.881 Защ",
-            constructor: "Позволяет менять дейсвия на графике",
             pvpoke: "Включает правила PvP подобные Pvpoke. Когда режим активен, стратегии перестают работать",
             triple: "Общий рейтинг",
             tripletip: "Проводит PvP между каждым покемоном левого столбца и каждым покемоном правого столбца. Расчет проводится для 3 комбинаций щитов: 0х0, 1х1, 2х2, после чего определяется общий рейтинг.\n Когда опция активна, изменение количества щитов в опцих не влияет на результат.",
             saved: "Список всех сохраненных групп",
-            quick: "Быстрое умение",
-            charge: "Заряжаемое умение",
+        },
+
+        buttons: {
+            byrating: "Сортировать по рейтингу",
+            byzeros: "Сортировать по уязвимостям",
+            copy: "Скопировать",
+
+            impExp: "Импорт/Экспорт",
+
+            calculate: "Посчитать",
+            letsbattle: "В бой!",
+            addpokemon: "Добавить покемона",
+            save: "Сохранить",
+            delete: "Удалить",
+            savegroup: "Сохранить группу",
+            loadmore: "Загрузить еще",
+            submitchange: "Подвердить изменения",
         },
     }
 }

@@ -2,12 +2,12 @@ import React, { PureComponent } from "react"
 import SingleRadio from "./SingleRadio"
 
 import LocalizedStrings from "react-localization"
-import { locale } from "../../../../locale/locale"
+import { maximizer } from "locale/Pvp/Maximizer/Maximizer"
 import { getCookie } from "../../../../js/getCookie"
 
 import "./MaximizerNoSubmit.scss"
 
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(maximizer)
 
 class MaximizerNoSubmit extends PureComponent {
     render() {
@@ -28,7 +28,7 @@ class MaximizerNoSubmit extends PureComponent {
                         <SingleRadio
                             name="stat"
                             value="Atk"
-                            label={strings.effStats.atk}
+                            label={strings.atk}
                             action={this.props.action}
                             checked={this.props.value.stat === "Atk"}
                             onChange={this.props.onChange}
@@ -37,7 +37,7 @@ class MaximizerNoSubmit extends PureComponent {
                         <SingleRadio
                             name="stat"
                             value="Def"
-                            label={strings.effStats.def}
+                            label={strings.def}
                             action={this.props.action}
                             checked={this.props.value.stat === "Def"}
                             onChange={this.props.onChange}

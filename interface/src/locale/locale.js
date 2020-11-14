@@ -1,9 +1,6 @@
 export const locale = {
     en: {
-        userPok: "User pokemon",
-        allPok: "All pokemon",
 
-        dexentr: "View dex for",
 
         advisor: {
             adv: "Advisor",
@@ -20,13 +17,6 @@ export const locale = {
 
         },
 
-
-        maximizer: {
-            levelTitle: "Max level:",
-            overall: "Overall",
-            maximize: "Maximize",
-            default: "Default",
-        },
         initialStats: {
             tip: "Initial HP and energy for selected pokemon; if HP equals zero, PvP starts from full HP",
             hpTip: "Max",
@@ -34,33 +24,6 @@ export const locale = {
             energy: "En",
         },
 
-
-        move: {
-            damage: "Damage: ",
-            energy: "Energy cost: ",
-            probability: "Probability: ",
-            target: "Target: ",
-            stat: "Stat: ",
-            stage: "Stage: ",
-        },
-
-        buttons: {
-            byrating: "Sort by rating",
-            byzeros: "Sort by bad matchups",
-
-            copy: "Copy",
-
-            impExp: "Import/Export",
-
-            calculate: "Calculate",
-            letsbattle: "Let's Battle",
-            addpokemon: "Add pokemon",
-            save: "Save",
-            delete: "Delete",
-            savegroup: "Save party",
-            loadmore: "Load more",
-            submitchange: "Submit changes",
-        },
 
         resultTable: {
             rate: "Battle Rating",
@@ -80,20 +43,6 @@ export const locale = {
             self: "Target: self",
             opponent: "Target: opponent",
             shield: "Shield",
-            contructor: "Constructor mode",
-        },
-
-        constructor: {
-            useshield: "Use shield",
-            trigger: "Trigger effect",
-            attacker: "Attacker",
-            defender: "Defender",
-            newaction: "New action on turn ",
-            default: "Default",
-            alertchanges1st: "Your previous changes (turn ",
-            alertchanges2nd: ") will be lost",
-            alertmodified: "You have changed a Pokemon settings, constructor results can be unexpected. We suggest you to calculate new PvP and then enter constructor mode",
-            submit: "Submit changes",
         },
 
         errors: {
@@ -105,10 +54,7 @@ export const locale = {
 
 
     ru: {
-        userPok: "Покемоны пользователя",
-        allPok: "Все покемоны",
 
-        dexentr: "Открыть декс для",
 
         advisor: {
             adv: "Советчик",
@@ -125,14 +71,6 @@ export const locale = {
         },
 
 
-        maximizer: {
-            levelTitle: "Макс. ур.:",
-            overall: "Общий",
-            maximize: "Максимум",
-            default: "Обычный",
-
-        },
-
         initialStats: {
             tip: "Начальные HP и энергия для выбранного покемона; Если HP равняется 0, то PvP начнется с полным запасом HP",
             hpTip: "Макс",
@@ -141,30 +79,8 @@ export const locale = {
         },
 
 
-        move: {
-            damage: "Урон: ",
-            energy: "Энергия: ",
-            probability: "Шанс: ",
-            target: "Цель: ",
-            stat: "Параметр: ",
-            stage: "Модификатор: ",
-        },
-        buttons: {
-            byrating: "Сортировать по рейтингу",
-            byzeros: "Сортировать по уязвимостям",
-            copy: "Скопировать",
 
-            impExp: "Импорт/Экспорт",
 
-            calculate: "Посчитать",
-            letsbattle: "В бой!",
-            addpokemon: "Добавить покемона",
-            save: "Сохранить",
-            delete: "Удалить",
-            savegroup: "Сохранить группу",
-            loadmore: "Загрузить еще",
-            submitchange: "Подвердить изменения",
-        },
 
         resultTable: {
             rate: "Боевой рейтинг",
@@ -184,20 +100,6 @@ export const locale = {
             self: "Цель: на себя",
             opponent: "Цель: противник",
             shield: "Щит",
-            contructor: "Режим конструктора",
-        },
-
-        constructor: {
-            useshield: "Использовать щит",
-            trigger: "Эффект сработает",
-            attacker: "Атакующий",
-            defender: "Защищающийся",
-            newaction: "Новое действие на ходу ",
-            default: "По умолчанию",
-            alertchanges1st: "Ваши изменения (ход ",
-            alertchanges2nd: ") будут потеряны",
-            alertmodified: "Вы изменили настройки одного из покемонов, результаты коструктура могут быть непредвиденными. Мы советуем Вам посчитать новое PvP и после войти в режим коснтруктора",
-            submit: "Подтвердить изменения",
         },
 
         errors: {
