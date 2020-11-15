@@ -2,6 +2,7 @@ import React from "react";
 import LocalizedStrings from "react-localization";
 
 import Alert from '@material-ui/lab/Alert';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
@@ -9,15 +10,15 @@ import Input from "App/Components/Input/Input";
 import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
 import Button from "App/Components/Button/Button";
 
-import { locale } from "../../../../locale/locale"
+import { constr } from "locale/Pvp/Constructor/Constructor";
 import { getCookie } from "../../../../js/getCookie"
 
-let strings = new LocalizedStrings(locale);
+let constrStrings = new LocalizedStrings(constr);
 
 class Constructor extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        constrStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             Attacker: {
                 Action: "Default",
@@ -62,7 +63,7 @@ class Constructor extends React.PureComponent {
         }
         if ((this.props.moveTable[chargeName].PvpEnergy + pokEnergy) >= 0) {
             array.push(
-                <option value={chargeName} key={chargeName + role + index}>{chargeName}</option>
+                <MenuItem value={chargeName} key={chargeName + role + index}>{chargeName}</MenuItem>
             )
             return true
         }
@@ -70,13 +71,13 @@ class Constructor extends React.PureComponent {
     }
 
     createList(role) {
-        let list = [<option value="Default" key={"default" + role}>{strings.constructor.default}</option>,]
+        let list = [<MenuItem value="Default" key={"default" + role}>{constrStrings.constructor.default}</MenuItem>,]
         let containCharge = false
         switch (this.props.log[this.props.round][role].ActionCode === 1 || this.props.log[this.props.round][role].ActionCode === 11 ||
         this.props.log[this.props.round][role].ActionCode === 0) {
             case true:
                 list.push(
-                    <option value={this.props[role].QuickMove} key={this.props[role].QuickMove + role}>{this.props[role].QuickMove}</option>
+                    <MenuItem value={this.props[role].QuickMove} key={this.props[role].QuickMove + role}>{this.props[role].QuickMove}</MenuItem>
                 )
                 containCharge += this.appendCharge(this.props[role].ChargeMove1, this.props.log[this.props.round - 1][role].Energy,
                     list, role, 1)
@@ -88,17 +89,19 @@ class Constructor extends React.PureComponent {
         return { list: list, containCharge: containCharge, }
     }
 
-    onChange(event) {
-        let role = event.target.getAttribute("attr")
-        let value = event.target.value
-        if (event.target.name === "IsShield" || event.target.name === "IsTriggered") {
-            value = !this.state[role][event.target.name]
-        }
-        if (event.target.name === "Action" && value !== "Default" && this.props.moveTable[value].Probability === 1) {
+    onChange(event, attributes) {
+        const name = attributes.name;
+
+        const isBoolean = name === "IsShield" || name === "IsTriggered";
+
+        const role = attributes.attr;
+        const value = isBoolean ? !this.state[role][name] : event.target.value;
+
+        if (name === "Action" && value !== "Default" && this.props.moveTable[value].Probability === 1) {
             this.setState({
                 [role]: {
                     ...this.state[role],
-                    [event.target.name]: value,
+                    [name]: value,
                     IsTriggered: true,
                 }
             })
@@ -109,7 +112,7 @@ class Constructor extends React.PureComponent {
         this.setState({
             [role]: {
                 ...this.state[role],
-                [event.target.name]: value,
+                [name]: value,
             }
         })
     }
@@ -263,29 +266,36 @@ class Constructor extends React.PureComponent {
     }
 
     render() {
+        console.log(this.state.Attacker.Action)
         return (
             <div className="row justify-content-center m-0 my-1">
-                {(this.props.lastChangesAt > this.props.round) && <div className="col-12 p-0">
-                    <Alert variant="filled" severity="error">{strings.constructor.alertchanges1st + this.props.lastChangesAt + strings.constructor.alertchanges2nd}</Alert >
-                </div>}
-                {this.props.stateModified && <div className="col-12 p-0 my-1">
-                    <Alert variant="filled" severity="error">{strings.constructor.alertmodified}</Alert >
-                </div>}
+
+                {(this.props.lastChangesAt > this.props.round) &&
+                    <div className="col-12 p-0">
+                        <Alert variant="filled" severity="error">{constrStrings.constructor.alertchanges1st + this.props.lastChangesAt + constrStrings.constructor.alertchanges2nd}</Alert >
+                    </div>}
+
+                {this.props.stateModified &&
+                    <div className="col-12 p-0 my-1">
+                        <Alert variant="filled" severity="error">{constrStrings.constructor.alertmodified}</Alert >
+                    </div>}
+
                 <div className="constructor__title col-12 p-0">
-                    {strings.constructor.newaction + this.props.round + ":"}
+                    {constrStrings.constructor.newaction + this.props.round + ":"}
                 </div>
 
-                <div className="col-12 p-0">
-                    <WithIcon tip={this.props.Attacker.name}>
-                        <Input select name="Action" value={this.state.Attacker.Action}
-                            attr={"Attacker"} label={strings.constructor.attacker} onChange={this.onChange}>
+                {this.state.Attacker.actionList.length > 0 &&
+                    <div className="col-12 p-0">
+                        <WithIcon tip={this.props.Attacker.name}>
+                            <Input select name="Action" value={String(this.state.Attacker.Action)}
+                                attr={"Attacker"} label={constrStrings.constructor.attacker} onChange={this.onChange}>
 
-                            {this.state.Attacker.actionList}
+                                {this.state.Attacker.actionList}
 
-                        </Input>
-                    </WithIcon>
+                            </Input>
+                        </WithIcon>
+                    </div>}
 
-                </div>
                 <div className="constructor--text col-12 d-flex p-0 my-1">
                     <Checkbox
                         onChange={this.onChange}
@@ -293,7 +303,7 @@ class Constructor extends React.PureComponent {
                         checked={(this.state.Attacker.IsShield) ? "checked" : false}
                         name={"IsShield"}
                         attr={"Attacker"}
-                        label={strings.constructor.useshield}
+                        label={constrStrings.constructor.useshield}
                         isDisabled={(this.props.agregatedParams.Attacker.Shields === 0) || !this.state.Defender.containCharge}
 
                     />
@@ -305,20 +315,20 @@ class Constructor extends React.PureComponent {
                         checked={this.state.Attacker.IsTriggered ? "checked" : false}
                         name={"IsTriggered"}
                         attr={"Attacker"}
-                        label={strings.constructor.trigger}
+                        label={constrStrings.constructor.trigger}
                     />
                 </div>
                 <div className="col-12 p-0">
 
+                    {this.state.Defender.actionList.length > 0 &&
+                        <WithIcon tip={this.props.Defender.name}>
+                            <Input select name="Action" value={String(this.state.Defender.Action)}
+                                attr={"Defender"} label={constrStrings.constructor.defender} onChange={this.onChange}>
 
-                    <WithIcon tip={this.props.Defender.name}>
-                        <Input select name="Action" value={this.state.Defender.Action}
-                            attr={"Defender"} label={strings.constructor.defender} onChange={this.onChange}>
+                                {this.state.Defender.actionList}
 
-                            {this.state.Defender.actionList}
-
-                        </Input>
-                    </WithIcon>
+                            </Input>
+                        </WithIcon>}
 
                 </div>
                 <div className="constructor--text col-12 d-flex p-0 my-1 mb-3">
@@ -328,7 +338,7 @@ class Constructor extends React.PureComponent {
                         checked={(this.state.Defender.IsShield) ? "checked" : false}
                         name={"IsShield"}
                         attr={"Defender"}
-                        label={strings.constructor.useshield}
+                        label={constrStrings.constructor.useshield}
                         isDisabled={(this.props.agregatedParams.Defender.Shields === 0) || !this.state.Attacker.containCharge}
                     />
                     <Checkbox
@@ -339,13 +349,13 @@ class Constructor extends React.PureComponent {
                         name={"IsTriggered"}
                         attr={"Defender"}
 
-                        label={strings.constructor.trigger}
+                        label={constrStrings.constructor.trigger}
                     />
                 </div>
 
 
                 <Button
-                    title={strings.constructor.submit}
+                    title={constrStrings.constructor.submit}
                     onClick={this.onSubmit}
                 />
 

@@ -14,7 +14,7 @@ import Constructor from "./components/Constructor/Constructor";
 import { MovePoolBuilder } from "js/movePoolBuilder";
 import {
     calculateEffStat, pokemon, encodeQueryData, calculateMaximizedStats, processHP,
-    processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
+    processInitialStats, checkLvl, checkIV, selectCharge, selectQuick
 } from "js/indexFunctions.js"
 import { getCookie } from "js/getCookie";
 import { pvp } from "locale/Pvp/Pvp";
@@ -420,20 +420,9 @@ class SinglePvp extends React.PureComponent {
     }
 
     onMouseEnter(event) {
-        let id = event.target.id
-        let extractedNumber
-        let round
-        switch (true) {
-            case Boolean(id):
-                extractedNumber = getRoundFromString(event.target.id.slice(0, 4))
-                if (extractedNumber === "") {
-                    return
-                }
-                round = this.state.result.Log[extractedNumber - 1]
-                break
-            default:
-                return
-        }
+        const id = event.currentTarget.id
+        const extractedNumber = parseInt(id.slice(0, 4), 10);
+        const round = this.state.result.Log[extractedNumber - 1]
 
         this.setState({
             attacker: {
@@ -450,18 +439,8 @@ class SinglePvp extends React.PureComponent {
     }
 
     constructorOn(event) {
-        let id = event.target.id
-        let extractedNumber
-        switch (true) {
-            case Boolean(id):
-                extractedNumber = getRoundFromString(id.slice(0, 4))
-                if (extractedNumber === "") {
-                    return
-                }
-                break
-            default:
-                return
-        }
+        const id = event.currentTarget.id
+        const extractedNumber = parseInt(id.slice(0, 4), 10);
         //if it is the last round, return
         if (this.state.result.Log[extractedNumber + 1] === undefined) {
             return
@@ -597,7 +576,7 @@ class SinglePvp extends React.PureComponent {
 
     onClick(event, attributes) {
         const role = attributes.attr;
-
+        console.log(event, attributes)
         if (role === "constructor") {
             this.setState({
                 [role]: {

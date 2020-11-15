@@ -103,9 +103,9 @@ const Event = function Event(props) {
     const classes = useStyles({ moveType, eventType, glow })();
 
     return (
-        <td onMouseEnter={onMouseEnter} id={id} className={classes.root} >
+        <td onMouseEnter={onMouseEnter} onClick={onclick} id={id} className={classes.root} >
             <Tooltip arrow placement="top" title={<Typography>{props.tip}</Typography>}>
-                <div onClick={onclick} className={classes.cell} id={id} >
+                <div className={classes.cell} >
                     {children}
                 </div>
             </Tooltip>

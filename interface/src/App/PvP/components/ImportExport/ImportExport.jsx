@@ -16,13 +16,10 @@ import Button from "App/Components/Button/Button";
 import ImportTips from "./ImportTips/ImportTips";
 import FileImport from "./FileImport/FileImport"
 
-import { locale } from "../../../../locale/locale"
 import { impExp } from "locale/ImportExport/ImportExport";
 import { getCookie } from "js/getCookie"
 
-let strings = new LocalizedStrings(locale)
 let impExpStrings = new LocalizedStrings(impExp)
-
 
 const styles = theme => ({
     container: {
@@ -51,9 +48,7 @@ class ImportExport extends React.PureComponent {
     constructor(props) {
         super(props);
         this.textArea = React.createRef();
-
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        impExpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        impExpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
         this.state = {
             value: this.formatActiveList(props.initialValue),
 

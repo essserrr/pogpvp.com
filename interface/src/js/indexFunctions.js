@@ -272,14 +272,6 @@ export function processInitialStats(stat) {
     return String(stat)
 }
 
-export function getRoundFromString(string) {
-    let extractedNumber = parseInt(string, 10)
-    if (extractedNumber) {
-        return extractedNumber
-    }
-    return ""
-}
-
 export function calculateMultiplier(aTypes, dTypes, mType) {
     if (!aTypes || !dTypes) {
         return 0
