@@ -1,31 +1,44 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
+import React from "react";
+import PropTypes from 'prop-types';
 
-const Event = React.memo(function (props) {
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+    cell: {
+        verticalAlign: "middle",
+        textAlign: "center",
+    },
+}));
+
+
+const Event = function Event(props) {
+    const classes = useStyles();
+
     return (
-        <td
-            onMouseEnter={props.onMouseEnter}
-            id={props.for}
-            style={{
-                verticalAlign: "middle",
-                textAlign: "center"
-            }}
-        >
-            <div
-                onClick={props.onclick}
-                className={props.className}
-                style={props.style}
-                data-tip data-for={props.for}
-            >{props.value}</div>
-            {(props.for !== "") && <ReactTooltip
-                className="infoTip"
-                id={props.for} effect="solid"
-                place={props.place}
-                multiline={true}>
-                {props.tip}
-            </ReactTooltip>}
+        <td onMouseEnter={props.onMouseEnter} id={props.for} className={classes.cell}>
+            <Tooltip arrow placement="top" title={<Typography>{props.tip}</Typography>}>
+                <div onClick={props.onclick} className={props.className} id={props.for} >
+                    {props.children}
+                </div>
+            </Tooltip>
         </td>
     )
-});
+};
 
 export default Event;
+
+Event.propTypes = {
+    onMouseEnter: PropTypes.func,
+    onclick: PropTypes.func,
+
+    children: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.string,
+    ]),
+
+    className: PropTypes.string,
+    tip: PropTypes.node,
+    for: PropTypes.string,
+};

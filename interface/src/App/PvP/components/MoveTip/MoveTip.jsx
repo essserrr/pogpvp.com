@@ -13,7 +13,7 @@ const MoveTip = React.memo(function MoveTip(props) {
     const move = moveTable[moveName];
     return (
         <>
-            {move.Category === "Charge Move" ? strings.charge : strings.quick}<br />
+            {move.MoveCategory === "Charge Move" ? strings.charge : strings.quick}<br />
 
             {(moveName && moveName !== "Select...") && move !== undefined &&
                 <>
