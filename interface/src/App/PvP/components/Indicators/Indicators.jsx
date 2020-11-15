@@ -1,4 +1,10 @@
-import React from "react"
+import React from "react";
+
+import Grid from '@material-ui/core/Grid';
+
+
+
+
 import HPIndicator from "./HPIndicator/HPIndicator"
 import EnergyIndicator from "./EnergyIndicator/EnergyIndicator"
 import EnergyNumber from "./EnergyNumber/EnergyNumber"
@@ -20,30 +26,30 @@ const Indicators = React.memo(function (props) {
 
     return (
         <div className="indicators p-2">
+            <Grid container alignItems="center" justify={"space-around"} spacing={1}>
 
-            <HPIndicator value={props.HP} maxValue={props.effSta} />
+                <Grid item xs={12}>
+                    <HPIndicator value={props.HP} maxValue={props.effSta} />
+                </Grid>
 
-            <div className="d-flex justify-content-around mt-2">
-                {props.chargeMove1 &&
-                    <EnergyIndicator value={props.energy} maxValue={-props.chargeMove1.PvpEnergy} move={props.chargeMove1}
-                        damage={calculateDamage(props.chargeMove1.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))} />}
+                <Grid item xs="auto">
+                    {props.chargeMove1 &&
+                        <EnergyIndicator value={props.energy} maxValue={-props.chargeMove1.PvpEnergy} move={props.chargeMove1}
+                            damage={calculateDamage(props.chargeMove1.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))} />}
+                </Grid>
+                <Grid item xs="auto">
+                    <EnergyNumber value={props.energy} />
+                </Grid>
 
-                <EnergyNumber
-                    for={"energy" + props.attr}
-                    value={props.energy}
-                    label={"strings.initialStats.energyTip"}
-                />
+                <Grid item xs="auto">
+                    {props.chargeMove2 &&
+                        <EnergyIndicator value={props.energy} maxValue={-props.chargeMove2.PvpEnergy} move={props.chargeMove2}
+                            damage={calculateDamage(props.chargeMove2.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))} />}
+                </Grid>
 
-                {(props.chargeMove2) &&
-                    <EnergyIndicator value={props.energy} maxValue={-props.chargeMove2.PvpEnergy} move={props.chargeMove2}
-                        damage={calculateDamage(props.chargeMove2.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))} />}
-
-            </div>
+            </Grid>
         </div>
-
-
     )
-
 });
 
 export default Indicators;
