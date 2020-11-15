@@ -1,32 +1,33 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import Alert from '@material-ui/lab/Alert';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import { withStyles } from "@material-ui/core/styles";
 
+import MiddlePanel from "./components/MiddlePanel/MiddlePanel";
 import Pokemon from "./components/Pokemon";
-import Result from "./components/Result";
-import Button from "App/Components/Button/Button";
-import PvpReconstruction from "./components/PvpReconstruction/PvpReconstruction"
-import Indicators from "./components/Indicators/Indicators"
-import URI from "./components/URI/URI"
-import MagicBox from "./components/MagicBox/MagicBox"
-import Constructor from "./components/Constructor/Constructor"
+import MagicBox from "./components/MagicBox/MagicBox";
+import Constructor from "./components/Constructor/Constructor";
 
-import { MovePoolBuilder } from "js/movePoolBuilder"
+import { MovePoolBuilder } from "js/movePoolBuilder";
 import {
     calculateEffStat, pokemon, encodeQueryData, calculateMaximizedStats, processHP,
     processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
-} from "../../js/indexFunctions.js"
-import { getCookie } from "../../js/getCookie"
+} from "js/indexFunctions.js"
+import { getCookie } from "js/getCookie";
 import { pvp } from "locale/Pvp/Pvp";
 import { options } from "locale/Components/Options/locale";
 
-import "./SinglePvp.scss"
-
 let strings = new LocalizedStrings(pvp);
 let optionStrings = new LocalizedStrings(options);
+
+const styles = theme => ({
+    pokemon: {
+        maxWidth: "208px",
+    },
+});
 
 class SinglePvp extends React.PureComponent {
     constructor(props) {
@@ -621,8 +622,10 @@ class SinglePvp extends React.PureComponent {
 
 
     render() {
+        const { classes } = this.props;
+
         return (
-            < >
+            <Grid container justify="space-between" spacing={1}>
 
                 <MagicBox open={Boolean(this.state.constructor.showMenu)} onClick={this.onClick} attr={"constructor"}>
                     <Constructor
@@ -641,9 +644,8 @@ class SinglePvp extends React.PureComponent {
                     />
                 </MagicBox>
 
-
-                <div className="row justify-content-between mb-4"  >
-                    <div className="singlepvp__panel order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
+                <Box clone order={{ xs: 1 }}>
+                    <Grid item xs="auto" className={classes.pokemon}>
                         <Pokemon
                             value={this.state.attacker}
                             attr="attacker"
@@ -661,92 +663,35 @@ class SinglePvp extends React.PureComponent {
                             statMaximizer={this.statMaximizer}
                             onClick={this.onClick}
                         />
-                    </div>
+                    </Grid>
+                </Box>
 
+                <Box clone order={{ xs: 3, md: 2 }}>
+                    <Grid item xs={12} md>
+                        <MiddlePanel
+                            attacker={this.state.attacker}
+                            defender={this.state.defender}
+                            result={this.state.result}
 
+                            moveTable={this.props.parentState.moveTable}
+                            pokemonTable={this.props.pokemonTable}
 
-                    <div className="singlepvp__overflow order-3 order-lg-2 col-12 col-lg mt-0 mt-lg-2 px-0" >
-                        <div className="row mx-2 h-100"  >
-                            {(this.state.showResult || this.state.isError) &&
-                                <div className="singlepvp__panel align-self-start col-12 order-3 order-lg-1 col-12 mt-3 mt-lg-0 p-2 ">
-                                    <div className="row justify-content-center mx-0"  >
-                                        <div className="order-2 order-lg-1 col-12 ">
-                                            {this.state.showResult &&
-                                                <Result value={this.state.result} isSingle={true} />}
-                                            {this.state.isError &&
-                                                <Alert variant="filled" severity="error">{this.state.error}</Alert >}
-                                        </div>
-                                        {this.state.url && this.state.showResult &&
-                                            <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >
-                                                <URI value={this.state.url} />
-                                            </div>}
-                                    </div>
-                                </div>}
+                            url={this.state.url}
+                            error={this.state.error}
 
-                            {this.state.loading &&
-                                <Grid item xs={12}>
-                                    <LinearProgress color="secondary" />
-                                </ Grid>}
+                            loading={this.state.loading}
+                            isError={this.state.isError}
+                            showResult={this.state.showResult}
 
-                            <div className="align-self-end order-1 order-lg-3 col px-0">
-                                <div className="order-1 order-lg-3 d-flex justify-content-between mx-0 px-0 col-12  mt-2 mt-lg-0" >
-                                    <div>
-                                        {(this.state.attacker.name && this.props.pokemonTable[this.state.attacker.name]) &&
-                                            <Indicators
-                                                effSta={this.state.attacker.effSta}
-                                                HP={this.state.attacker.HP}
+                            constructorOn={this.constructorOn}
+                            onMouseEnter={this.onMouseEnter}
+                            submitForm={this.submitForm}
+                        />
+                    </Grid>
+                </Box>
 
-                                                energy={this.state.attacker.Energy}
-                                                chargeMove1={this.props.parentState.moveTable[this.state.attacker.ChargeMove1]}
-                                                chargeMove2={this.props.parentState.moveTable[this.state.attacker.ChargeMove2]}
-                                                attr="Attacker"
-
-                                                attackerTypes={this.props.pokemonTable[this.state.attacker.name].Type}
-                                                defenderTypes={(this.props.pokemonTable[this.state.defender.name]) ?
-                                                    this.props.pokemonTable[this.state.defender.name].Type : ""}
-                                                aAttack={this.state.attacker.effAtk}
-                                                dDefence={this.state.defender.effDef}
-                                            />}
-                                    </div>
-                                    <div className="align-self-center">
-
-                                        <Button
-                                            title={strings.buttons.letsbattle}
-                                            onClick={this.submitForm}
-                                        />
-                                    </div >
-                                    <div>
-                                        {(this.state.defender.name && this.props.pokemonTable[this.state.defender.name]) &&
-                                            <Indicators
-                                                effSta={this.state.defender.effSta}
-                                                HP={this.state.defender.HP}
-
-                                                energy={this.state.defender.Energy}
-                                                chargeMove1={this.props.parentState.moveTable[this.state.defender.ChargeMove1]}
-                                                chargeMove2={this.props.parentState.moveTable[this.state.defender.ChargeMove2]}
-                                                attr="Defender"
-
-                                                attackerTypes={this.props.pokemonTable[this.state.defender.name].Type}
-                                                defenderTypes={(this.props.pokemonTable[this.state.attacker.name]) ?
-                                                    this.props.pokemonTable[this.state.attacker.name].Type : ""}
-                                                aAttack={this.state.defender.effAtk}
-                                                dDefence={this.state.attacker.effDef}
-                                            />}
-                                    </div>
-                                </div>
-
-                                {this.state.showResult &&
-                                    <div className="order-2 order-lg-4 col-12 px-0  mt-1" >
-                                        <PvpReconstruction
-                                            onMouseEnter={this.onMouseEnter}
-                                            constructorOn={this.constructorOn}
-                                            value={this.state.result}
-                                            moveTable={this.props.parentState.moveTable} />
-                                    </div>}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="singlepvp__panel order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
+                <Box clone order={{ xs: 2, md: 3 }}>
+                    <Grid item xs="auto" className={classes.pokemon}>
                         <Pokemon
                             value={this.state.defender}
                             attr="defender"
@@ -764,15 +709,21 @@ class SinglePvp extends React.PureComponent {
                             onChange={this.onChange}
                             onClick={this.onClick}
                         />
-                    </div>
-                </div>
+                    </Grid>
+                </Box>
 
-            </ >
+            </Grid>
 
         );
     }
 }
 
+export default withStyles(styles, { withTheme: true })(SinglePvp);
 
+SinglePvp.propTypes = {
+    userPokemon: PropTypes.arrayOf(PropTypes.object),
+    pokemonTable: PropTypes.object,
 
-export default SinglePvp
+    parentState: PropTypes.object,
+    changeUrl: PropTypes.func,
+};
