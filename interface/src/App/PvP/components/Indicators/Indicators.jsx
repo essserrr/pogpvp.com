@@ -18,7 +18,7 @@ import { moveTips } from "locale/Pvp/MoveTips/MoveTips";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: "170px !important",
+        maxWidth: "174px !important",
     },
 }));
 

@@ -20,7 +20,7 @@ const useStyles = props => makeStyles(theme => {
     })
 });
 
-const ColoredMove = React.memo(function (props) {
+const ColoredMove = React.memo(function ColoredMove(props) {
     const { children, className, weather, type, ...other } = props;
     const { moveColor, moveContainer } = useStyles({ type: type })();
 

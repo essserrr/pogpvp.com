@@ -11,6 +11,12 @@ const theme = createMuiTheme({
             main: "#eff0f1",
         },
 
+        glow: {
+            attack: "drop-shadow(0px 0px 4px rgba(255, 0, 0, 0.753))",
+            defence: "drop-shadow(0px 0px 4px rgba(24, 39, 248, 0.753))",
+            attackdefence: "drop-shadow(0px 0px 4px rgb(255, 166, 0))",
+        },
+
         types: {
             type0: {
                 text: "black",

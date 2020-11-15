@@ -26,6 +26,7 @@ let optionStrings = new LocalizedStrings(options);
 const styles = theme => ({
     pokemon: {
         maxWidth: "208px",
+        minWidth: "208px",
     },
     middleRow: {
         maxWidth: "calc(100% - 416px) !important",
@@ -419,18 +420,10 @@ class SinglePvp extends React.PureComponent {
     }
 
     onMouseEnter(event) {
-        let dataFor = event.target.getAttribute("data-for")
         let id = event.target.id
         let extractedNumber
         let round
         switch (true) {
-            case Boolean(dataFor):
-                extractedNumber = getRoundFromString(dataFor.slice(0, 4))
-                if (extractedNumber === "") {
-                    return
-                }
-                round = this.state.result.Log[extractedNumber - 1]
-                break
             case Boolean(id):
                 extractedNumber = getRoundFromString(event.target.id.slice(0, 4))
                 if (extractedNumber === "") {
@@ -457,11 +450,11 @@ class SinglePvp extends React.PureComponent {
     }
 
     constructorOn(event) {
-        let dataFor = event.currentTarget.getAttribute("data-for")
+        let id = event.target.id
         let extractedNumber
         switch (true) {
-            case Boolean(dataFor):
-                extractedNumber = getRoundFromString(dataFor.slice(0, 4))
+            case Boolean(id):
+                extractedNumber = getRoundFromString(id.slice(0, 4))
                 if (extractedNumber === "") {
                     return
                 }
