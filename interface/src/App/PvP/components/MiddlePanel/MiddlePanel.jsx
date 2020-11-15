@@ -52,7 +52,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                 </Box>}
 
             <Box clone order={{ xs: 1, md: 2 }} alignSelf="flex-end">
-                <Grid item xs={12} container alignItems="center" spacing={1}>
+                <Grid item xs={12} container alignItems="center">
 
                     <Grid item xs={12} container alignItems="center" wrap="nowrap">
 

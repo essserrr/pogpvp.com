@@ -26,12 +26,9 @@ const Indicators = React.memo(function (props) {
     }
     return (
         <div className="indicators p-2">
-            <HPIndicator
-                what="HP"
-                value={props.HP}
-                effSta={props.effSta}
 
-            />
+            <HPIndicator value={props.HP} maxValue={props.effSta} />
+
             <div className="d-flex justify-content-around mt-2">
                 {(props.chargeMove1) && <EnergyIndicator
                     what="Energy"
@@ -51,7 +48,7 @@ const Indicators = React.memo(function (props) {
                 <EnergyNumber
                     for={"energy" + props.attr}
                     value={props.energy}
-                    label={strings.initialStats.energyTip}
+                    label={"strings.initialStats.energyTip"}
                 />
                 {(props.chargeMove2) && <EnergyIndicator
                     what="Energy"
