@@ -10,7 +10,7 @@ import Stats from "App/Components/Stats/Stats";
 import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 import Stages from "./Stages/Stages"
 import InitialStats from "./InitialStats/InitialStats"
-import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
+import Maximizer from "./Maximizer/Maximizer"
 import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes"
 import EffectiveStats from "./EffectiveStats/EffectiveStats"
 import MagicBox from "./MagicBox/MagicBox"
@@ -39,7 +39,7 @@ class Pokemon extends React.PureComponent {
     render() {
 
         return (
-            <Grid container className={`pokemon ${this.props.className ? this.props.className : ""}`}>
+            <Grid container className={`pokemon ${this.props.className ? this.props.className : ""}`} spacing={1}>
 
                 <MagicBox open={Boolean(this.props.showMenu)} onClick={this.props.onClick} attr={this.props.attr}>
                     <SearchableSelect disableClearable label={"fullLabel"} name={this.props.category}
@@ -103,7 +103,7 @@ class Pokemon extends React.PureComponent {
                         </Grid>
 
                         <Grid item xs={12}>
-                            <MaximizerNoSubmit
+                            <Maximizer
                                 attr={this.props.attr}
                                 category={"defaultStatMaximizer"}
                                 value={this.props.value.maximizer}

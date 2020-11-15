@@ -9,7 +9,7 @@ import Input from "App/Components/Input/Input";
 import Button from "App/Components/Button/Button";
 
 import Pokemon from "./Pokemon"
-import MaximizerNoSubmit from "./MaximizerRadio/MaximizerNoSubmit"
+import Maximizer from "./Maximizer/Maximizer"
 import MagicBox from "./MagicBox/MagicBox"
 
 import ImportExport from "./ImportExport/ImportExport"
@@ -506,7 +506,7 @@ class MatrixPanel extends React.PureComponent {
                 <div className="matrix-panel--bolder">
                     {strings.tips.matrixPanel}
                 </div>
-                <MaximizerNoSubmit
+                <Maximizer
                     attr={this.props.attr}
                     category={"defaultStatMaximizer"}
                     value={this.props.value.maximizer}

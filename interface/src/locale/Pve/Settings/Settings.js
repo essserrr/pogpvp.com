@@ -1,6 +1,6 @@
 export const settings = {
     en: {
-        weather: "Погода",
+        weather: "Weather",
         weatherList: {
             0: "Extreme",
             1: "Sunny",
@@ -47,7 +47,7 @@ export const settings = {
 
 
     ru: {
-        weather: "Weather",
+        weather: "Погода",
         weatherList: {
             0: "Экстремальная",
             1: "Солнечная",
