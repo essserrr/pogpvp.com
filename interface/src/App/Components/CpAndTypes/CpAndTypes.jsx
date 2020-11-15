@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CpAndTyping = React.memo(function CpAndTyping(props) {
-    const { Lvl, Atk, Def, Sta, pokemonTable, name, tier, isBoss, isShadow, ...other } = props;
+    const { Lvl, Atk, Def, Sta, pokemonTable, name, tier, isBoss, isShadow, hideCp, ...other } = props;
     const classes = useStyles();
 
     const pokemon = pokemonTable[name];
@@ -36,20 +36,21 @@ const CpAndTyping = React.memo(function CpAndTyping(props) {
                 />
                 {isShadow && <Shadow className={classes.shadowIcon} />}
             </Box>
-            <Box mr={1}>
-                {"CP: "}
-                <CP
-                    name={name}
-                    tier={tier}
-                    isBoss={isBoss}
+            {!hideCp &&
+                <Box mr={1}>
+                    {"CP: "}
+                    <CP
+                        name={name}
+                        tier={tier}
+                        isBoss={isBoss}
 
-                    Lvl={Lvl}
-                    Atk={Atk}
-                    Def={Def}
-                    Sta={Sta}
-                    pokemonTable={pokemonTable}
-                />
-            </Box>
+                        Lvl={Lvl}
+                        Atk={Atk}
+                        Def={Def}
+                        Sta={Sta}
+                        pokemonTable={pokemonTable}
+                    />
+                </Box>}
             {(pokemon.Type[0] !== undefined) &&
                 <Box>
                     <Iconer
@@ -99,7 +100,7 @@ CpAndTyping.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-
+    hideCp: PropTypes.bool,
     isBoss: PropTypes.bool,
     isShadow: PropTypes.bool,
 };

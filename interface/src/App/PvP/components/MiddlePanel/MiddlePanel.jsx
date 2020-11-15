@@ -59,18 +59,15 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                         {props.attacker.name && props.pokemonTable[props.attacker.name] &&
                             <Grid item xs="auto">
                                 <Indicators
-                                    effSta={props.attacker.effSta}
-                                    HP={props.attacker.HP}
+                                    value={props.attacker}
+                                    pokemonTable={props.pokemonTable}
+                                    attr="Attacker"
 
-                                    energy={props.attacker.Energy}
                                     chargeMove1={props.moveTable[props.attacker.ChargeMove1]}
                                     chargeMove2={props.moveTable[props.attacker.ChargeMove2]}
-                                    attr="Attacker"
 
                                     attackerTypes={props.pokemonTable[props.attacker.name].Type}
                                     defenderTypes={props.pokemonTable[props.defender.name] ? props.pokemonTable[props.defender.name].Type : ""}
-                                    aAttack={props.attacker.effAtk}
-                                    dDefence={props.defender.effDef}
                                 />
                             </Grid>}
 
@@ -84,18 +81,15 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                         {props.defender.name && props.pokemonTable[props.defender.name] &&
                             <Grid item xs="auto">
                                 <Indicators
-                                    effSta={props.defender.effSta}
-                                    HP={props.defender.HP}
+                                    value={props.defender}
+                                    pokemonTable={props.pokemonTable}
+                                    attr="Defender"
 
-                                    energy={props.defender.Energy}
                                     chargeMove1={props.moveTable[props.defender.ChargeMove1]}
                                     chargeMove2={props.moveTable[props.defender.ChargeMove2]}
-                                    attr="Defender"
 
                                     attackerTypes={props.pokemonTable[props.defender.name].Type}
                                     defenderTypes={(props.pokemonTable[props.attacker.name]) ? props.pokemonTable[props.attacker.name].Type : ""}
-                                    aAttack={props.defender.effAtk}
-                                    dDefence={props.attacker.effDef}
                                 />
                             </Grid>}
 

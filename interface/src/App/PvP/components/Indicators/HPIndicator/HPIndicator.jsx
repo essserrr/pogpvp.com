@@ -6,7 +6,7 @@ import { makeStyles, lighten } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
     indicator: {
         position: "relative",
-        width: "150px",
+        width: "100%",
         height: "25px",
         backgroundColor: lighten("#808080", 0.75),
         border: "solid black",
