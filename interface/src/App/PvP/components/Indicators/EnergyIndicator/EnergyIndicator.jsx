@@ -1,46 +1,114 @@
-import React from "react"
-import { calculateEffStat } from "../../../../../js/indexFunctions"
-import ReactTooltip from "react-tooltip"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import "./EnergyIndicator.scss"
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
 
-const EnergyIndicator = React.memo(function (props) {
-    let maxValue
-    let defaultValue
+import { getCookie } from "js/getCookie";
+import { moveTips } from "locale/Pvp/MoveTips/MoveTips";
 
-    switch (props.maxValue === undefined) {
-        case true:
-            maxValue = calculateEffStat(props.name, props.lvl, props.sta, "0", props.table, "Sta")
-            defaultValue = maxValue
-            break
-        default:
-            maxValue = props.maxValue
-            defaultValue = props.defaultValue
-    }
-    let value = (props.value !== undefined && props.value !== "") ? (props.value <= maxValue ? props.value : maxValue) : defaultValue;
+const useStyles = props => makeStyles(theme => {
+    return ({
+        indicator: {
+            position: "relative",
+            width: "34px",
+            height: "34px",
+            backgroundColor: "rgba(6, 20, 54, 0.301)",
+
+            zIndex: "2",
+
+            overflow: "hidden",
+
+            border: "1.5px solid black",
+            borderRadius: "50%",
+
+            fontSize: "0.78rem",
+            color: "white",
+            fontWeight: "bold",
+
+            "-webkit-transition": "all 0.4s linear",
+            transition: "all 0.4s linear",
+
+            boxShadow: props.fullyCharged ?
+                `0px 0px 0 ${theme.palette.types[`type${props.type}`].background},
+            0px 0px 4px ${theme.palette.types[`type${props.type}`].background},
+            0px 0px 8px ${theme.palette.types[`type${props.type}`].background},
+            0px 0px 16px ${theme.palette.types[`type${props.type}`].background}`
+                : "none",
+        },
+
+        indicatorBar: {
+            position: "absolute",
+            width: "100%",
+            "-webkit-transition": "all 0.4s linear",
+            transition: "all 0.4s linear",
+
+            zIndex: 1,
+
+            marginTop: "100%",
+            transform: "rotatex(180deg)",
+            transformOrigin: "top",
+
+            backgroundColor: `${theme.palette.types[`type${props.type}`].background}`
+        },
+
+        indicatorText: {
+            top: "50%",
+            transform: "translateY(-50%)",
+            position: "absolute",
+            zIndex: "10",
+            width: "100%",
+            textAlign: "center",
+            userSelect: "none",
+
+            color: `${theme.palette.types[`type${props.type}`].text}`,
+        },
+    })
+});
+
+let moveStrings = new LocalizedStrings(moveTips);
+
+const EnergyIndicator = React.memo(function EnergyIndicator(props) {
+    moveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+
+    const { damage, maxValue, move } = props;
+    const defaultValue = 0;
+    const value = typeof props.value === "number" ? (props.value <= maxValue ? props.value : maxValue) : defaultValue;
+
+    const fullyCharged = value >= maxValue;
+
+    const classes = useStyles({ fullyCharged, type: move.MoveType })();
+
     return (
-        <>
-            <ReactTooltip
-                className="infoTip"
-                id={props.for}
-                effect="solid"
-                place="top"
-                multiline={true}
-            >
-                {props.tip}
-            </ReactTooltip>
-            <div
-                data-tip data-for={props.for}
-                className={(value < maxValue) ? "energy-indicator" : "energy-indicator glow" + props.moveType}
-            >
-                <div className={"energy-indicator__text T" + props.moveType} >
-                    {props.moveName}
-                </div>
-                <div className={"energy-indicator__bar type-color" + props.moveType} style={{ height: ((value / maxValue * 100)) + "%" }}></div>
+        <Tooltip arrow placement="top" title={
+            <Typography>
+                {`${moveStrings.move.damage}: ${damage}`}<br />
+                {`${moveStrings.move.energy}: ${-move.PvpEnergy}`}<br />
+                {`DPE: ${(damage / -move.PvpEnergy).toFixed(2)}`}
+            </Typography>}>
 
-            </div>
-        </>
+            <Box className={classes.indicator}>
+
+                <Box className={classes.indicatorText}>
+                    {move.Title.replace(/[a-z -]/g, "")}
+                </Box>
+
+                <Box className={classes.indicatorBar} style={{ height: `${value / maxValue * 100}%` }}>
+
+                </Box>
+            </Box>
+        </Tooltip>
     )
 });
 
 export default EnergyIndicator;
+
+EnergyIndicator.propTypes = {
+    value: PropTypes.number,
+    maxValue: PropTypes.number,
+    move: PropTypes.object,
+    damage: PropTypes.number,
+};

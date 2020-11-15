@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const HPIndicator = React.memo(function (props) {
+const HPIndicator = React.memo(function HPIndicator(props) {
     const classes = useStyles();
     const { maxValue } = props;
     const value = typeof props.value === "number" ? (props.value <= maxValue ? props.value : maxValue) : maxValue;
