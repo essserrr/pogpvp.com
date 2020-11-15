@@ -30,7 +30,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                     <Grid item xs={12}>
                         <GreyPaper elevation={4} enablePadding paddingMult={1}>
 
-                            <Grid container justify="center">
+                            <Grid container justify="center" spacing={2}>
 
                                 <Box clone order={{ xs: 2, md: 1 }}>
                                     <Grid item xs={12}>

@@ -17,6 +17,29 @@ const theme = createMuiTheme({
             attackdefence: "drop-shadow(0px 0px 4px rgb(255, 166, 0))",
         },
 
+        rating: {
+            rate0: {
+                background: "rgb(181, 182, 182)",
+                text: "rgba(24, 23, 23, 1)",
+            },
+            rate3: {
+                background: "rgb(139, 219, 195)",
+                text: "rgba(24, 23, 23, 1)",
+            },
+            rate4: {
+                background: "rgb(68, 202, 157)",
+                text: "rgba(24, 23, 23, 1)",
+            },
+            rate1: {
+                background: "rgb(230, 141, 82)",
+                text: "rgba(24, 23, 23, 1)",
+            },
+            rate2: {
+                background: "rgb(224, 86, 32)",
+                text: "rgba(24, 23, 23, 1)",
+            }
+        },
+
         types: {
             type0: {
                 text: "black",
