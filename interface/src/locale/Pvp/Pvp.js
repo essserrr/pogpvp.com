@@ -16,7 +16,7 @@ export const pvp = {
         },
 
         title: {
-            selectMove: "Select a move:",
+            selectMove: "Select a move",
             shields: "Shields",
             strategy: "Strategy",
             quickMove: "Quick",
@@ -27,7 +27,6 @@ export const pvp = {
             league: "League",
             counter: "Pokemons",
             savegroupplaceholder: "Party name",
-            evolveTool: "Select pokemon you want to evolve",
             pvpoke: "Pvpoke-like rules",
             about: "About simulator",
         },
@@ -87,7 +86,7 @@ export const pvp = {
         },
 
         title: {
-            selectMove: "Выберите умение:",
+            selectMove: "Выберите умение",
             shields: "Щиты",
             strategy: "Стратегия    ",
             quickMove: "Быстрое",
@@ -99,7 +98,6 @@ export const pvp = {
             league: "Лига",
             counter: "Покемонов",
             savegroupplaceholder: "Введите имя группы",
-            evolveTool: "Выберите покемона для эволюции",
             pvpoke: "Правила Pvpoke",
             about: "О симуляторе",
         },

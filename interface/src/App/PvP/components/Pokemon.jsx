@@ -36,7 +36,7 @@ const Pokemon = React.memo(function Pokemon(props) {
             <Grid container spacing={1}>
 
                 <MagicBox open={Boolean(props.showMenu)} onClick={props.onClick} attr={props.attr}>
-                    <SearchableSelect disableClearable label={"fullLabel"} name={props.category}
+                    <SearchableSelect disableClearable label={strings.title.selectMove} name={props.category}
                         attr={props.attr} onChange={props.onChange}>
                         {props.moveList}
                     </SearchableSelect>

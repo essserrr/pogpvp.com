@@ -684,24 +684,21 @@ class MatrixPvp extends React.PureComponent {
                                     <div className="row justify-content-center mx-0"  >
                                         <div className="matrixpvp__overflow-cont order-2 p-0 mx-2 order-lg-1 col-12 ">
                                             {this.state.showResult && this.state.pvpData && this.state.snapshot &&
-                                                <Result
-                                                    class="matrixpvp__fixed-thead"
-                                                    table={
-                                                        <TableBodyRender
-                                                            pvpData={this.state.pvpData}
-                                                            pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
+                                                <Result class="matrixpvp__fixed-thead">
+                                                    <TableBodyRender
+                                                        pvpData={this.state.pvpData}
+                                                        pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                                                            isTriple={this.state.snapshot.triple}
-                                                            league={this.state.snapshot.league}
+                                                        isTriple={this.state.snapshot.triple}
+                                                        league={this.state.snapshot.league}
 
-                                                            pokemonTable={this.props.pokemonTable}
-                                                            moveTable={this.props.parentState.moveTable}
+                                                        pokemonTable={this.props.pokemonTable}
+                                                        moveTable={this.props.parentState.moveTable}
 
-                                                            leftPanel={this.state.snapshot.leftPanel}
-                                                            rightPanel={this.state.snapshot.rightPanel}
-                                                        />
-                                                    }
-                                                />}
+                                                        leftPanel={this.state.snapshot.leftPanel}
+                                                        rightPanel={this.state.snapshot.rightPanel}
+                                                    />
+                                                </Result>}
                                             {this.state.isError &&
                                                 <Alert variant="filled" severity="error">{this.state.error}</Alert >}
                                         </div>

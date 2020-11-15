@@ -195,17 +195,16 @@ class AdvisorPanelBody extends React.PureComponent {
                 </div>
                 {strings.advisor.all}
                 <div className="advpanel-body__overflow-contx p-0 m-0">
-                    <Result
-                        class="advpanel-body--fixed-thead"
-                        table={<TableBody
+                    <Result class="advpanel-body--fixed-thead">
+                        <TableBody
                             value={[
                                 this.props.rawResult[0],
                                 this.props.rawResult[this.props.list[this.props.i].first + 1],
                                 this.props.rawResult[this.props.list[this.props.i].second + 1],
                                 this.props.rawResult[this.props.list[this.props.i].third + 1],
                             ]}
-                        />}
-                    />
+                        />
+                    </Result>
                 </div>
                 {strings.advisor.def}
                 <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
@@ -215,9 +214,8 @@ class AdvisorPanelBody extends React.PureComponent {
                     {strings.advisor.weak}  {vun[2].length > 0 ? vun[2] : strings.options.moveSelect.none}
                 </div>
                 <div className="advpanel-body__overflow-contx p-0 m-0">
-                    <Result
-                        class="advpanel-body--fixed-thead"
-                        table={<TableBody
+                    <Result class="advpanel-body--fixed-thead">
+                        <TableBody
                             value={[
                                 <TypingThead key="poktyping" />,
                                 <SinglePokLine
@@ -248,8 +246,8 @@ class AdvisorPanelBody extends React.PureComponent {
                                     vun={vun[0]}
                                 />
                             ]}
-                        />}
-                    />
+                        />
+                    </Result>
                 </div>
                 {strings.advisor.off}
                 <div className="col-12 text-left  p-0 mt-1 mb-2">
@@ -259,12 +257,11 @@ class AdvisorPanelBody extends React.PureComponent {
                     {strings.advisor.strong} {off[1].length > 0 ? off[1] : strings.options.moveSelect.none}
                 </div>
                 <div className="advpanel-body__overflow-contxy p-0 m-0">
-                    <Result
-                        class="advpanel-body--fixed-thead"
-                        table={<TableBody
+                    <Result class="advpanel-body--fixed-thead">
+                        <TableBody
                             value={this.makeMoveTypingList()}
-                        />}
-                    />
+                        />
+                    </Result>
                 </div>
             </div>
 

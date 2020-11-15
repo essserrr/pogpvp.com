@@ -34,7 +34,9 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
 
                                 <Box clone order={{ xs: 2, md: 1 }}>
                                     <Grid item xs={12}>
-                                        <Result value={props.result} isSingle={true} />
+                                        <Result isSingle={true}>
+                                            {props.result}
+                                        </Result>
                                     </Grid>
                                 </Box>
 
@@ -51,7 +53,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                     </Grid>
                 </Box>}
 
-            <Box clone order={{ xs: 1, md: 2 }} alignSelf="flex-end">
+            < Box clone order={{ xs: 1, md: 2 }} alignSelf="flex-end" >
                 <Grid item xs={12} container alignItems="center">
 
                     <Grid item xs={12} container alignItems="center" wrap="nowrap">
@@ -122,7 +124,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                             </Grid>
                         </Box>}
                 </Grid>
-            </Box>
+            </Box >
         </Grid >
     )
 });

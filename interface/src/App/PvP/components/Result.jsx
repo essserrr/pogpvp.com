@@ -1,12 +1,14 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import SinglePvpResults from "./SinglePvpResults/SinglePvpResults"
-import TableWrapper from "./TableBodyRender/TableWrapper/TableWrapper"
+import Box from '@material-ui/core/Box';
+
+import SinglePvpResults from "./SinglePvpResults/SinglePvpResults";
+import TableWrapper from "./TableBodyRender/TableWrapper/TableWrapper";
 
 class Result extends React.PureComponent {
-
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.matrixres = React.createRef();
         this.focusDiv = this.focusDiv.bind(this);
     }
@@ -24,20 +26,25 @@ class Result extends React.PureComponent {
 
     render() {
         return (
-            <div tabIndex="0" ref={this.matrixres}>
+            <Box tabIndex="0" ref={this.matrixres}>
                 {this.props.isSingle ?
-                    <SinglePvpResults
-                        value={this.props.value}
-                        class={this.props.class}
-                    /> :
-
-                    <TableWrapper
-                        table={this.props.table}
-                        class={this.props.class}
-                    />}
-            </div>
+                    <SinglePvpResults value={this.props.children} />
+                    :
+                    <TableWrapper>
+                        {this.props.children}
+                    </TableWrapper>}
+            </Box>
         );
     }
 };
 
 export default Result;
+
+Result.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.arrayOf(PropTypes.node),
+        PropTypes.node,
+    ]),
+    isSingle: PropTypes.bool,
+};
