@@ -27,6 +27,12 @@ const styles = theme => ({
     pokemon: {
         maxWidth: "208px",
     },
+    middleRow: {
+        maxWidth: "calc(100% - 416px) !important",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "100% !important",
+        }
+    },
 });
 
 class SinglePvp extends React.PureComponent {
@@ -666,7 +672,7 @@ class SinglePvp extends React.PureComponent {
                     </Grid>
                 </Box>
 
-                <Box clone order={{ xs: 3, md: 2 }}>
+                <Box className={classes.middleRow} clone order={{ xs: 3, md: 2 }}>
                     <Grid item xs={12} md>
                         <MiddlePanel
                             attacker={this.state.attacker}

@@ -28,7 +28,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
             {props.showResult &&
                 <Box clone order={{ xs: 2, md: 1 }} alignSelf="flex-start">
                     <Grid item xs={12}>
-                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={1}>
 
                             <Grid container justify="center">
 
@@ -96,25 +96,31 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                     </Grid>
 
                     {props.isError &&
-                        <Grid item xs={12}>
-                            <Alert variant="filled" severity="error">{props.error}</Alert >
-                        </Grid>}
+                        <Box clone mt={1}>
+                            <Grid item xs={12}>
+                                <Alert variant="filled" severity="error">{props.error}</Alert >
+                            </Grid>
+                        </Box>}
 
                     {props.loading &&
-                        <Grid item xs={12}>
+                        <Box clone mt={1}>
                             <Grid item xs={12}>
-                                <LinearProgress color="secondary" />
-                            </ Grid>
-                        </Grid>}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>
+                            </Grid>
+                        </Box>}
 
                     {props.showResult &&
-                        <Grid item xs={12} container alignItems="center" wrap="nowrap">
-                            <PvpReconstruction
-                                onMouseEnter={props.onMouseEnter}
-                                constructorOn={props.constructorOn}
-                                value={props.result}
-                                moveTable={props.moveTable} />
-                        </Grid>}
+                        <Box clone mt={1}>
+                            <Grid item xs={12} container alignItems="center" wrap="nowrap">
+                                <PvpReconstruction
+                                    onMouseEnter={props.onMouseEnter}
+                                    constructorOn={props.constructorOn}
+                                    value={props.result}
+                                    moveTable={props.moveTable} />
+                            </Grid>
+                        </Box>}
                 </Grid>
             </Box>
         </Grid >

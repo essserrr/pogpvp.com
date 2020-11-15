@@ -6,12 +6,12 @@ import Event from "./Event/Event"
 import { ReactComponent as Shield } from "../../../../../icons/shield.svg"
 import { ReactComponent as Sword } from "../../../../../icons/sword.svg"
 import { ReactComponent as DSword } from "../../../../../icons/dsword.svg"
-import { locale } from "../../../../../locale/locale"
+import { reconstr } from "../../../../../locale/Pvp/Reconstruction/Reconstruction"
 import { getCookie } from "../../../../../js/getCookie"
 
 import "./TimelineGenerator.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(reconstr);
 
 
 class TimelineGenerator extends PureComponent {
@@ -226,9 +226,7 @@ class TimelineGenerator extends PureComponent {
 
     render() {
         return (
-            <>
-                {this.returnReconstruction()}
-            </>
+            this.returnReconstruction()
         );
     }
 }

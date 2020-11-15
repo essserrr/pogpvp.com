@@ -25,19 +25,6 @@ export const locale = {
             energyRes: "Energy gained / Energy used",
         },
 
-        reconstruction: {
-            turn: "Turn: ",
-            faint: "Faint",
-            damage: "Damage: ",
-            energy: "Energy: ",
-            idle: "Idle",
-            aStage: "Atk stage: ",
-            dStage: "Def stage: ",
-            self: "Target: self",
-            opponent: "Target: opponent",
-            shield: "Shield",
-        },
-
         errors: {
             savegroup: "Empty field",
         },
@@ -71,19 +58,6 @@ export const locale = {
             hpRes: "Общее HP / HP осталось",
             damageRes: "Урона получено / Урона блокировано",
             energyRes: "Энергии получено / Энергии использовано",
-        },
-
-        reconstruction: {
-            turn: "Ход: ",
-            faint: "Поражение",
-            damage: "Урон: ",
-            energy: "Энергия: ",
-            idle: "Ожидание",
-            aStage: "Атк модификатор: ",
-            dStage: "Деф модификатор: ",
-            self: "Цель: на себя",
-            opponent: "Цель: противник",
-            shield: "Щит",
         },
 
         errors: {

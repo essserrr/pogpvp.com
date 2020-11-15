@@ -1,8 +1,5 @@
 export const constr = {
     en: {
-        contructor: "Constructor mode",
-        constructorTip: "Allows to chage actions in the timeline",
-
         constructor: {
             useshield: "Use shield",
             trigger: "Trigger effect",
@@ -19,9 +16,6 @@ export const constr = {
 
 
     ru: {
-        contructor: "Режим конструктора",
-        constructorTip: "Позволяет менять дейсвия на графике",
-
         constructor: {
             useshield: "Использовать щит",
             trigger: "Эффект сработает",
