@@ -606,20 +606,21 @@ class SinglePvp extends React.PureComponent {
             <Grid container justify="space-between" spacing={1}>
 
                 <MagicBox open={Boolean(this.state.constructor.showMenu)} onClick={this.onClick} attr={"constructor"}>
-                    <Constructor
-                        log={this.state.result.Log}
-                        round={this.state.constructor.isSelected}
+                    {this.state.constructor.showMenu &&
+                        <Constructor
+                            log={this.state.result.Log}
+                            round={this.state.constructor.isSelected}
 
-                        Attacker={this.state.attacker}
-                        Defender={this.state.defender}
-                        moveTable={this.props.parentState.moveTable}
-                        agregatedParams={this.state.constructor.agregatedParams}
+                            Attacker={this.state.attacker}
+                            Defender={this.state.defender}
+                            moveTable={this.props.parentState.moveTable}
+                            agregatedParams={this.state.constructor.agregatedParams}
 
-                        submitConstructor={this.submitConstructor}
+                            submitConstructor={this.submitConstructor}
 
-                        lastChangesAt={this.state.lastChangesAt}
-                        stateModified={this.state.stateModified}
-                    />
+                            lastChangesAt={this.state.lastChangesAt}
+                            stateModified={this.state.stateModified}
+                        />}
                 </MagicBox>
 
                 <Box clone order={{ xs: 1 }}>

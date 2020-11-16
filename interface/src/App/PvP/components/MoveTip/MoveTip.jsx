@@ -11,7 +11,9 @@ const MoveTip = React.memo(function MoveTip(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
     const { moveName, moveTable } = props;
     const move = moveTable[moveName];
+
     return (
+        move &&
         <>
             {move.MoveCategory === "Charge Move" ? strings.charge : strings.quick}<br />
 

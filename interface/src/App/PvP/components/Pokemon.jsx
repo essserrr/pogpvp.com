@@ -218,7 +218,7 @@ Pokemon.propTypes = {
     userPokemon: PropTypes.arrayOf(PropTypes.object),
 
     showMenu: PropTypes.bool,
-    category: PropTypes.bool,
+    category: PropTypes.string,
 
     onChange: PropTypes.func,
     statMaximizer: PropTypes.func,

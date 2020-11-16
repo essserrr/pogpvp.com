@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
-import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +23,6 @@ const RowWrap = React.memo(function RowWrap(props) {
                 <Grid container item xs={12} justify={!disableIcon ? "space-between" : "center"} alignItems="center" className={classes.title}>
                     {title}{!disableIcon && <i className="fas fa-trophy"></i>}
                 </Grid>
-                <Divider />
                 <Grid item xs={12}>
                     {children}
                 </Grid>
