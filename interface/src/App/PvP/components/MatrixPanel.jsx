@@ -8,6 +8,7 @@ import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 import Button from "App/Components/Button/Button";
 
+import Switch from "App/Components/Switch/Switch";
 import Pokemon from "./Pokemon"
 import Maximizer from "./Maximizer/Maximizer"
 import MagicBox from "./MagicBox/MagicBox"
@@ -17,7 +18,6 @@ import Stages from "./Stages/Stages"
 import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
 import SaveMenu from "./SaveMenu/SaveMenu";
 import Counter from "./Counter/Counter"
-import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
 import { MovePoolBuilder } from "js/movePoolBuilder"
 import {
@@ -441,13 +441,13 @@ class MatrixPanel extends React.PureComponent {
 
                 <MatrixPokemonList
                     attr={this.props.attr}
-
-                    list={this.props.value.listForBattle}
                     pokemonTable={this.props.pokemonTable}
 
                     onPokRedact={this.props.onPokRedact}
                     onPokemonDelete={this.props.onPokemonDelete}
-                />
+                >
+                    {this.props.value.listForBattle}
+                </MatrixPokemonList>
 
                 <Button title={strings.buttons.addpokemon}
                     onClick={
@@ -489,12 +489,14 @@ class MatrixPanel extends React.PureComponent {
                 <div className="matrix-panel--bolder">
                     {strings.tips.matrixPanel}
                 </div>
+
                 <Maximizer
                     attr={this.props.attr}
                     category={"defaultStatMaximizer"}
                     value={this.props.value.maximizer}
                     onChange={this.props.onChange}
                 />
+
                 <Stages
                     Atk={this.props.value.AtkStage}
                     Def={this.props.value.DefStage}
@@ -524,28 +526,27 @@ class MatrixPanel extends React.PureComponent {
                     </Input>
                 </WithIcon>
 
-                {this.props.enableCheckbox && <div className="row m-0 mb-1 pt-1"><Checkbox
-                    class={"form-check form-check-inline m-0 ml-1 mt-2"}
-                    checked={this.props.triple ? "checked" : false}
-                    name={"triple"}
-                    label={
-                        <div className="text-center">
-                            {strings.tips.triple}
-                        </div>
-                    }
-                    onChange={this.props.onChange}
-                />
-                    <ReactTooltip
-                        className={"infoTip"}
-                        id={"triple"} effect="solid"
-                        place={"top"}
-                        multiline={true}
-                    >
-                        {strings.tips.tripletip}
-                    </ReactTooltip>
-                    <i data-tip data-for={"triple"} className="align-self-center fas fa-info-circle fa-lg ml-auto mt-2">
-                    </i>
-                </div>}
+                {this.props.enableCheckbox &&
+                    <div className="row m-0 mb-1 pt-1">
+                        <Switch
+                            checked={Boolean(this.props.triple)}
+                            onChange={this.props.onChange}
+                            name={"triple"}
+                            color="primary"
+                            label={strings.tips.triple}
+                        />
+
+                        <ReactTooltip
+                            className={"infoTip"}
+                            id={"triple"} effect="solid"
+                            place={"top"}
+                            multiline={true}
+                        >
+                            {strings.tips.tripletip}
+                        </ReactTooltip>
+                        <i data-tip data-for={"triple"} className="align-self-center fas fa-info-circle fa-lg ml-auto mt-2">
+                        </i>
+                    </div>}
                 {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
 
                     <Button

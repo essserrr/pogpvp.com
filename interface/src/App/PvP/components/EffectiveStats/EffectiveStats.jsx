@@ -10,7 +10,7 @@ import { getCookie } from "js/getCookie"
 
 let strings = new LocalizedStrings(stats);
 
-const EffectiveStats = React.memo(function (props) {
+const EffectiveStats = React.memo(function EffectiveStats(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (

@@ -361,8 +361,9 @@ class MatrixPvp extends React.PureComponent {
         console.log(event.target, attributes, eventItem, ...other)
         const role = attributes.attr;
         const name = attributes.name;
+        const category = attributes.category;
 
-        if (name === "defaultStatMaximizer") {
+        if (category === "defaultStatMaximizer") {
             this.statMaximizer(event, role)
             return
         }
@@ -382,12 +383,12 @@ class MatrixPvp extends React.PureComponent {
             return
         }
 
-        if (event.target.name === "triple") {
-            this.setState({ triple: !this.state.triple });
+        if (name === "triple") {
+            this.setState({ triple: eventItem });
             return
         }
 
-        let newBattleList = this.state[role].listForBattle.map(pok => Object.assign({}, pok, { [event.target.name]: event.target.value }));
+        let newBattleList = this.state[role].listForBattle.map(pok => ({ ...pok, [event.target.name]: event.target.value }));
 
         this.setState({
             [role]: {
@@ -423,8 +424,6 @@ class MatrixPvp extends React.PureComponent {
                 listForBattle: newListForBattle,
             }
         });
-
-
     }
 
 
