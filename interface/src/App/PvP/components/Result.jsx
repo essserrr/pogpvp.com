@@ -14,10 +14,14 @@ class Result extends React.PureComponent {
     }
 
     componentDidMount() {
-        this.focusDiv();
+        if (this.props.enableFocus) {
+            this.focusDiv();
+        }
     };
     componentDidUpdate() {
-        this.focusDiv();
+        if (this.props.enableFocus) {
+            this.focusDiv();
+        }
     };
 
     focusDiv() {
@@ -47,4 +51,5 @@ Result.propTypes = {
         PropTypes.node,
     ]),
     isSingle: PropTypes.bool,
+    enableFocus: PropTypes.bool,
 };
