@@ -16,7 +16,7 @@ const useStyles = props => makeStyles(theme => {
             position: "relative",
             width: "34px",
             height: "34px",
-            backgroundColor: "rgba(6, 20, 54, 0.301)",
+            backgroundColor: "rgba(6, 20, 54, 0.18)",
 
             zIndex: "2",
 
