@@ -12,9 +12,9 @@ import {
 import { getCookie } from "../../../js/getCookie"
 
 import LocalizedStrings from "react-localization";
-import { locale } from "../../../locale/locale"
+import { pvp } from "../../../locale/Pvp/Pvp"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(pvp);
 
 
 class RedactPokemon extends React.PureComponent {

@@ -13,7 +13,6 @@ import EnergyNumber from "./EnergyNumber/EnergyNumber"
 import { calculateDamage, calculateMultiplier } from "js/indexFunctions"
 import { getCookie } from "js/getCookie"
 
-import { locale } from "locale/locale"
 import { moveTips } from "locale/Pvp/MoveTips/MoveTips";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,11 +21,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let strings = new LocalizedStrings(locale)
 let moveStrings = new LocalizedStrings(moveTips);
 
 const Indicators = React.memo(function Indicators(props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
     moveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
 
     const classes = useStyles();

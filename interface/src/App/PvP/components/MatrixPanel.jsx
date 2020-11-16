@@ -25,20 +25,25 @@ import {
     pokemon, selectCharge, selectQuick
 } from "../../../js/indexFunctions.js"
 import { getCookie } from "../../../js/getCookie"
-import { locale } from "../../../locale/locale"
+import { pvp } from "locale/Pvp/Pvp"
+import { options } from "locale/Components/Options/locale"
+import { advisor } from "locale/Pvp/Advisor/Advisor"
 
 import "./MatrixPanel.scss"
 
-let strings = new LocalizedStrings(locale)
-
+let strings = new LocalizedStrings(pvp);
+let optionStrings = new LocalizedStrings(options);
+let advisorStrings = new LocalizedStrings(advisor);
 
 class MatrixPanel extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        advisorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             pokemon: {
-                ...pokemon(strings.tips.nameSearch),
+                ...pokemon(),
                 Shields: props.value.Shields,
                 IsGreedy: props.value.IsGreedy,
                 AtkStage: props.value.AtkStage,
@@ -102,7 +107,7 @@ class MatrixPanel extends React.PureComponent {
     onNameChange(event, name) {
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
+        moves.createMovePool(event.value, this.props.pokemonTable, optionStrings.options.moveSelect)
         let quick = selectQuick(moves.quickMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         let charge = selectCharge(moves.chargeMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         //create default iv set
@@ -227,7 +232,7 @@ class MatrixPanel extends React.PureComponent {
 
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, optionStrings.options.moveSelect)
         //set state
         this.setState({
             [role]: {
@@ -372,10 +377,6 @@ class MatrixPanel extends React.PureComponent {
     }
 
     onPokemonSubmit(event) {
-        event.preventDefault();
-        if (this.state.pokemon.name === strings.tips.nameSearch) {
-            return
-        }
         this.props.onPokemonAdd({
             pokemon: this.state.pokemon,
             attr: event.target.getAttribute("attr"),
@@ -419,7 +420,6 @@ class MatrixPanel extends React.PureComponent {
 
                 <MagicBox open={Boolean(this.props.value.showSavePanel)} onClick={this.props.onClick} attr={this.props.attr}>
                     <InputAndSubmit
-                        action="Save party"
                         tip={strings.tips.savegroup}
                         errortext={strings.errors.savegroup}
                         placeholder={strings.title.savegroupplaceholder}
@@ -431,13 +431,13 @@ class MatrixPanel extends React.PureComponent {
 
 
                 <MagicBox open={Boolean(this.props.value.showImportExportPanel)} onClick={this.props.onClick} attr={this.props.attr}>
-                    <ImportExport
-                        type="matrix"
-                        initialValue={this.props.value.listForBattle}
-                        action="Import/Export"
-                        attr={this.props.attr}
-                        onChange={this.props.onImport}
-                    />
+                    {this.props.value.showImportExportPanel &&
+                        <ImportExport
+                            type="matrix"
+                            initialValue={this.props.value.listForBattle}
+                            attr={this.props.attr}
+                            onChange={this.props.onImport}
+                        />}
                 </MagicBox>
 
                 <Counter
@@ -497,7 +497,6 @@ class MatrixPanel extends React.PureComponent {
                     <Button
                         attr={this.props.attr}
                         stat="showImportExportPanel"
-                        action={"Import/Export"}
                         title={strings.buttons.impExp}
                         onClick={this.props.onChange}
                     />
@@ -517,8 +516,6 @@ class MatrixPanel extends React.PureComponent {
                     Def={this.props.value.DefStage}
                     attr={this.props.attr}
                     onChange={this.props.onChange}
-
-                    labelWidth={strings.stats.lvl === "Ур" ? "100px" : "86px"}
                     label={strings.title.initialStages}
                     for=""
                 />
@@ -537,8 +534,8 @@ class MatrixPanel extends React.PureComponent {
                     <Input select name="IsGreedy" value={this.props.value.IsGreedy}
                         attr={this.props.attr} label={strings.title.strategy} onChange={this.props.onChange}>
 
-                        <MenuItem value="true">{strings.options.strategy.greedy}</MenuItem>
-                        <MenuItem value="false">{strings.options.strategy.shieldSaving}</MenuItem>
+                        <MenuItem value="true">{optionStrings.options.strategy.greedy}</MenuItem>
+                        <MenuItem value="false">{optionStrings.options.strategy.shieldSaving}</MenuItem>
 
                     </Input>
                 </WithIcon>
@@ -568,8 +565,7 @@ class MatrixPanel extends React.PureComponent {
                 {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
 
                     <Button
-                        action="Advisor"
-                        title={strings.advisor.adv}
+                        title={advisorStrings.advisor.adv}
                         onClick={this.props.onAdvisorSubmit}
                     />
 
@@ -579,7 +575,7 @@ class MatrixPanel extends React.PureComponent {
                         place={"top"}
                         multiline={true}
                     >
-                        {strings.advisor.tip}
+                        {advisorStrings.advisor.tip}
                     </ReactTooltip>
                     <i data-tip data-for={"advisor"} className="align-self-center fas fa-info-circle fa-lg ml-auto">
                     </i>

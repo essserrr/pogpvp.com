@@ -5,6 +5,7 @@ import { connect } from "react-redux"
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import Button from "App/Components/Button/Button";
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
@@ -12,25 +13,30 @@ import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
 import { addParty } from "../../AppStore/Actions/actions"
 import { deleteParty } from "../../AppStore/Actions/actions"
 import MatrixPanel from "./components/MatrixPanel"
-
-
-import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
-import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "../../js/indexFunctions.js"
-import { getCookie } from "../../js/getCookie"
-import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
 import Result from "./components/Result"
 import RedactPokemon from "./components/RedactPokemon"
 
+import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
+import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "../../js/indexFunctions.js"
+
+import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
+
+
+import { getCookie } from "../../js/getCookie"
+import { pvp } from "../../locale/Pvp/Pvp"
+import { options } from "../../locale/Components/Options/locale"
+
 import "./MatrixPvp.scss"
 
-import { locale } from "../../locale/locale"
 
-let strings = new LocalizedStrings(locale)
+let optionStrings = new LocalizedStrings(options)
+let strings = new LocalizedStrings(pvp)
 
 class MatrixPvp extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             leftPanel: {
                 Shields: 0,
@@ -144,14 +150,14 @@ class MatrixPvp extends React.PureComponent {
 
     readParties() {
         let partiesList = [
-            <option value="" key="">{""}</option>,
-            <option value="Preset1" key="Preset1">{strings.options.matrixpreset.great}</option>,
-            <option value="Preset2" key="Preset2">{strings.options.matrixpreset.ultra}</option>,
-            <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
-            <option value="Preset4" key="Preset4">{strings.options.matrixpreset.great + strings.options.matrixpreset.pr}</option>,
-            <option value="Preset5" key="Preset5">{strings.options.matrixpreset.ultra + strings.options.matrixpreset.pr}</option>,
-            <option value="Preset6" key="Preset6">{strings.options.matrixpreset.master + strings.options.matrixpreset.pr}</option>,
-            ...Object.keys(this.props.parties.parties).map((key) => <option value={key} key={key}>{key}</option>)
+            <MenuItem value="" key="">{optionStrings.options.moveSelect.none}</MenuItem>,
+            <MenuItem value="Preset1" key="Preset1">{optionStrings.options.matrixpreset.great}</MenuItem>,
+            <MenuItem value="Preset2" key="Preset2">{optionStrings.options.matrixpreset.ultra}</MenuItem>,
+            <MenuItem value="Preset3" key="Preset3">{optionStrings.options.matrixpreset.master}</MenuItem>,
+            <MenuItem value="Preset4" key="Preset4">{optionStrings.options.matrixpreset.great + optionStrings.options.matrixpreset.pr}</MenuItem>,
+            <MenuItem value="Preset5" key="Preset5">{optionStrings.options.matrixpreset.ultra + optionStrings.options.matrixpreset.pr}</MenuItem>,
+            <MenuItem value="Preset6" key="Preset6">{optionStrings.options.matrixpreset.master + optionStrings.options.matrixpreset.pr}</MenuItem>,
+            ...Object.keys(this.props.parties.parties).map((key) => <MenuItem value={key} key={key}>{key}</MenuItem>)
         ]
         return partiesList
     }
@@ -528,7 +534,7 @@ class MatrixPvp extends React.PureComponent {
     onPartySave(event) {
         if (!this.props.parties.parties[event.value]) {
             var newList = [...this.state.savedParties]
-            newList.push(<option value={event.value} key={event.value}>{event.value}</option>)
+            newList.push(<MenuItem value={event.value} key={event.value}>{event.value}</MenuItem>)
             this.setState({
                 savedParties: newList,
                 [event.attr]: {

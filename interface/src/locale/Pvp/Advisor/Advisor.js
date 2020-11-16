@@ -1,4 +1,4 @@
-export const locale = {
+export const advisor = {
     en: {
         advisor: {
             adv: "Advisor",
@@ -11,21 +11,14 @@ export const locale = {
             off: "Offensive typing",
             notcov: "Not covered:",
             strong: "Strong against:",
-            tip: "Adviser shows a list of the most balanced parties that can be composed from the Pokemon of the left column. The option is active after calculating a matrix battle (when the number of pokemon in the left column is from 3 to 15). !!!The key settings change hides adviser.",
+            tip: "Advisor shows a list of the most balanced parties that can be composed from the Pokemon of the left column. The option is active after calculating a matrix battle (when the number of pokemon in the left column is from 3 to 15). !!!The key settings change hides adviser.",
 
         },
 
-        errors: {
-            savegroup: "Empty field",
-        },
+
     },
 
-
-
-
     ru: {
-
-
         advisor: {
             adv: "Советчик",
             willow: "Эй, Тренер, как на счет того, что бы попробовать этих покемонов?",
@@ -39,8 +32,6 @@ export const locale = {
             strong: "Сильны против:",
             tip: "При нажатии показывает список наиболее сбалансированных групп, которые можно собрать из покемонов левого столбца. Опция активна после вычисления групповой битвы (когда число покемонов в левой колонке составляет от 3 до 15). !!!Изменение ключевых настроек вновь скрывает советчик.",
         },
-        errors: {
-            savegroup: "Нет имени",
-        },
+
     }
 }

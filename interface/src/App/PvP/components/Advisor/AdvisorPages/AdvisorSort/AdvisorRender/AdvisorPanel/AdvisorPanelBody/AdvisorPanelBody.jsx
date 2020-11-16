@@ -9,13 +9,13 @@ import SingleMoveLine from "./SingleMoveLine/SingleMoveLine"
 import SinglePokLine from "./SinglePokLine/SinglePokLine"
 import ZeroPokemon from "./ZeroPokemon/ZeroPokemon"
 
-import { locale } from "locale/locale"
+import { pvp } from "locale/Pvp/Pvp"
 import { effectivenessData } from "js/indexFunctions"
 import { getCookie } from "js/getCookie"
 
 import "./AdvisorPanelBody.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(pvp);
 
 class AdvisorPanelBody extends React.PureComponent {
     constructor(props) {

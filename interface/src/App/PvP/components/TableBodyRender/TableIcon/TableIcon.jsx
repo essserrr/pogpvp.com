@@ -6,11 +6,11 @@ import { ReactComponent as Shadow } from "../../../../../icons/shadow.svg"
 import Iconer from "App/Components/Iconer/Iconer";
 
 import { getCookie } from "../../../../../js/getCookie"
-import { locale } from "../../../../../locale/locale"
+import { pvp } from "../../../../../locale/Pvp/Pvp"
 
 import "./TableIcon.scss"
 
-let strings = new LocalizedStrings(locale)
+let strings = new LocalizedStrings(pvp)
 
 const TableIcon = React.memo(function (props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")

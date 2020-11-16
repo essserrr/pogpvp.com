@@ -6,12 +6,12 @@ import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
 import Iconer from "App/Components/Iconer/Iconer";
 import AdvisorPages from "./AdvisorPages/AdvisorPages"
 
-import { locale } from "../../../../locale/locale"
+import { pvp } from "../../../../locale/Pvp/Pvp"
 import { getCookie } from "../../../../js/getCookie"
 
 import "./Advisor.scss"
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(pvp);
 
 class Advisor extends React.PureComponent {
     constructor(props) {

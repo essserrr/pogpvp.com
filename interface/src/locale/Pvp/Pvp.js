@@ -66,6 +66,10 @@ export const pvp = {
             loadmore: "Load more",
             submitchange: "Submit changes",
         },
+
+        errors: {
+            savegroup: "Empty field",
+        },
     },
 
 
@@ -135,6 +139,10 @@ export const pvp = {
             savegroup: "Сохранить группу",
             loadmore: "Загрузить еще",
             submitchange: "Подвердить изменения",
+        },
+
+        errors: {
+            savegroup: "Нет имени",
         },
     }
 }
