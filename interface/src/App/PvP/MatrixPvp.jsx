@@ -359,27 +359,25 @@ class MatrixPvp extends React.PureComponent {
 
     onChange(event, attributes, eventItem, ...other) {
         console.log(event.target, attributes, eventItem, ...other)
-        const role = attributes.attr;
-        const name = attributes.name;
-        const category = attributes.category;
+        const { attr, name, category } = attributes
 
         if (category === "defaultStatMaximizer") {
-            this.statMaximizer(event, role)
+            this.statMaximizer(event, attr)
             return
         }
 
         if (name === "showPokSelect" || name === "showSavePanel" || name === "showImportExportPanel") {
-            this.onPopup(name, role)
+            this.onPopup(name, attr)
             return
         }
 
         if (name === "Delete") {
-            this.onPartyDelete(role)
+            this.onPartyDelete(attr)
             return
         }
 
         if (name === "selectedParty") {
-            this.onPartySelect(event, role)
+            this.onPartySelect(event, attr)
             return
         }
 
@@ -388,11 +386,11 @@ class MatrixPvp extends React.PureComponent {
             return
         }
 
-        let newBattleList = this.state[role].listForBattle.map(pok => ({ ...pok, [event.target.name]: event.target.value }));
+        let newBattleList = this.state[attr].listForBattle.map(pok => ({ ...pok, [event.target.name]: event.target.value }));
 
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: event.target.value,
                 listForBattle: newBattleList,
             },
@@ -412,21 +410,17 @@ class MatrixPvp extends React.PureComponent {
         });
     }
 
-    onPokemonDelete(event) {
-        let role = event.target.getAttribute("attr")
-        let index = event.target.getAttribute("index")
-
-        let newListForBattle = [...this.state[role].listForBattle.slice(0, index), ...this.state[role].listForBattle.slice(index + 1)]
+    onPokemonDelete(event, attributes) {
+        const { name, attr } = attributes;
+        const newListForBattle = [...this.state[attr].listForBattle.slice(0, name), ...this.state[attr].listForBattle.slice(name + 1)];
 
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 listForBattle: newListForBattle,
             }
         });
     }
-
-
 
     submitForm = async event => {
         event.preventDefault();
@@ -558,20 +552,16 @@ class MatrixPvp extends React.PureComponent {
         this.props.addParty({ [event.value]: this.state[event.attr].listForBattle })
     }
 
-    onPokRedact(event) {
-        if (event.target.getAttribute("name") === "closeButton") {
-            return
-        }
-        let attr = event.currentTarget.getAttribute("attr")
-        let index = event.currentTarget.getAttribute("index")
+    onPokRedact(event, attributes) {
+        const { name, attr } = attributes;
 
         this.setState({
             redact: {
                 ...this.state.redact,
                 showMenu: true,
                 attr: attr,
-                number: Number(index),
-                pokemon: this.state[attr].listForBattle[index],
+                number: Number(name),
+                pokemon: this.state[attr].listForBattle[name],
             }
         })
 

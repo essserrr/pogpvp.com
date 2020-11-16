@@ -442,6 +442,7 @@ class MatrixPanel extends React.PureComponent {
                 <MatrixPokemonList
                     attr={this.props.attr}
                     pokemonTable={this.props.pokemonTable}
+                    moveTable={this.props.moveTable}
 
                     onPokRedact={this.props.onPokRedact}
                     onPokemonDelete={this.props.onPokemonDelete}

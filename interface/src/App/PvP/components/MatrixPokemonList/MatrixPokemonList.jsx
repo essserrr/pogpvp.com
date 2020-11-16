@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 
+import ColoredMove from "App/Components/ColoredMove/ColoredMove"
+
 import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry"
 import Iconer from "App/Components/Iconer/Iconer";
 
@@ -26,32 +28,40 @@ const MatrixPokemonList = React.memo(function MatrixPokemonList(props) {
 
     return (
         <Box clone p={0.5}>
-            <Grid container justify="center" className={classes.pokList}>
+            <Grid container justify="center" className={classes.pokList} spacing={1}>
                 {props.children.map((elem, i) => {
                     const fileName = props.pokemonTable[elem.name].Number + (props.pokemonTable[elem.name].Forme !== "" ? "-" + props.pokemonTable[elem.name].Forme : "")
                     return (
-                        <MatrixListEntry
-                            attr={props.attr}
-                            key={i}
-                            index={i}
+                        <Grid item xs={12} key={i}>
+                            <MatrixListEntry
+                                attr={props.attr}
+                                index={i}
 
-                            onPokemonDelete={props.onPokemonDelete}
-                            onClick={props.onPokRedact}
+                                onPokemonDelete={props.onPokemonDelete}
+                                onClick={props.onPokRedact}
 
-                            thead={
-                                <>
-                                    <Iconer folderName="/pokemons/" fileName={fileName} size={24} />
-                                    {elem.name}
-                                </>}
-                            body={
-                                <>
-                                    {elem.QuickMove + addStar(elem.name, elem.QuickMove)}<br />
-                                    {(elem.ChargeMove1 ? elem.ChargeMove1 + addStar(elem.name, elem.ChargeMove1) : "") +
-                                        (elem.ChargeMove2 ? " / " + elem.ChargeMove2 + addStar(elem.name, elem.ChargeMove2) : "")}
-                                </>
+                                icon={<Iconer folderName="/pokemons/" fileName={fileName} size={24} />}
+                                name={elem.name}
 
-                            }
-                        />
+                                body={
+                                    <>
+                                        <ColoredMove type={props.moveTable[elem.QuickMove].MoveType}>
+                                            {elem.QuickMove + addStar(elem.name, elem.QuickMove)}
+                                        </ColoredMove>
+
+                                        {elem.ChargeMove1 &&
+                                            <ColoredMove type={props.moveTable[elem.ChargeMove1].MoveType}>
+                                                {elem.ChargeMove1 + addStar(elem.name, elem.ChargeMove1)}
+                                            </ColoredMove>}
+
+                                        {elem.ChargeMove2 &&
+                                            <ColoredMove type={props.moveTable[elem.ChargeMove2].MoveType}>
+                                                {elem.ChargeMove2 + addStar(elem.name, elem.ChargeMove2)}
+                                            </ColoredMove>}
+                                    </>
+                                }
+                            />
+                        </Grid>
                     )
                 })}
             </Grid>
@@ -64,6 +74,7 @@ export default MatrixPokemonList;
 MatrixPokemonList.propTypes = {
     attr: PropTypes.string,
     pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
 
     onPokRedact: PropTypes.func,
     onPokemonDelete: PropTypes.func,

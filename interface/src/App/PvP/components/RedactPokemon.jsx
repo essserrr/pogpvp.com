@@ -10,20 +10,22 @@ import {
     calculateEffStat, selectCharge, selectQuick
 } from "../../../js/indexFunctions.js"
 import { getCookie } from "../../../js/getCookie"
+import { options } from "locale/Components/Options/locale"
 
 import LocalizedStrings from "react-localization";
 import { pvp } from "../../../locale/Pvp/Pvp"
 
 let strings = new LocalizedStrings(pvp);
-
+let optionStrings = new LocalizedStrings(options)
 
 class RedactPokemon extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(props.redact.pokemon.name, props.pokemonTable, strings.options.moveSelect, false,
+        moves.createMovePool(props.redact.pokemon.name, props.pokemonTable, optionStrings.options.moveSelect, false,
             [props.redact.pokemon.QuickMove], [props.redact.pokemon.ChargeMove1, props.redact.pokemon.ChargeMove2])
         //create default iv set
         let ivSet = calculateMaximizedStats(props.redact.pokemon.name, props.value.maximizer.level, props.pokemonTable)
@@ -47,8 +49,8 @@ class RedactPokemon extends React.PureComponent {
                 <option value="-4" key="-4">-4</option>,
             ],
             stratigiesList: [
-                <option value="true" key="Greedy">{strings.options.strategy.greedy}</option>,
-                <option value="false" key="Shieldsaving">{strings.options.strategy.shieldSaving}</option>,
+                <option value="true" key="Greedy">{optionStrings.options.strategy.greedy}</option>,
+                <option value="false" key="Shieldsaving">{optionStrings.options.strategy.shieldSaving}</option>,
             ],
             strategyTip: [
                 <>
@@ -101,7 +103,7 @@ class RedactPokemon extends React.PureComponent {
     onNameChange(event, name) {
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
+        moves.createMovePool(event.value, this.props.pokemonTable, optionStrings.options.moveSelect)
         let quick = selectQuick(moves.quickMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         let charge = selectCharge(moves.chargeMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
         //create default iv set
@@ -228,7 +230,7 @@ class RedactPokemon extends React.PureComponent {
 
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, optionStrings.options.moveSelect)
         //set state
         this.setState({
             [role]: {
