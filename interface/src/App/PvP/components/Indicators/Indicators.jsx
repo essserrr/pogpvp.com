@@ -30,7 +30,7 @@ const Indicators = React.memo(function Indicators(props) {
     moveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
 
     const classes = useStyles();
-
+    console.log(props.value)
     return (
         <GreyPaper className={classes.root} elevation={4} enablePadding paddingMult={0.25}>
             <Grid container alignItems="center" justify={"space-around"} spacing={1}>
@@ -45,16 +45,16 @@ const Indicators = React.memo(function Indicators(props) {
 
                 <Grid item xs="auto">
                     {props.chargeMove1 &&
-                        <EnergyIndicator value={props.value.energy} maxValue={-props.chargeMove1.PvpEnergy} move={props.chargeMove1}
+                        <EnergyIndicator value={props.value.Energy} maxValue={-props.chargeMove1.PvpEnergy} move={props.chargeMove1}
                             damage={calculateDamage(props.chargeMove1.PvpDamage, props.value.effAtk, props.value.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))} />}
                 </Grid>
                 <Grid item xs="auto">
-                    <EnergyNumber value={props.value.energy} />
+                    <EnergyNumber value={props.value.Energy} />
                 </Grid>
 
                 <Grid item xs="auto">
                     {props.chargeMove2 &&
-                        <EnergyIndicator value={props.value.energy} maxValue={-props.chargeMove2.PvpEnergy} move={props.chargeMove2}
+                        <EnergyIndicator value={props.value.Energy} maxValue={-props.chargeMove2.PvpEnergy} move={props.chargeMove2}
                             damage={calculateDamage(props.chargeMove2.PvpDamage, props.aAttack, props.value.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))} />}
                 </Grid>
 
