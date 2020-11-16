@@ -26,7 +26,6 @@ export const pvp = {
 
             league: "League",
             counter: "Pokemons",
-            savegroupplaceholder: "Party name",
             pvpoke: "Pvpoke-like rules",
             about: "About simulator",
         },
@@ -39,7 +38,6 @@ export const pvp = {
             },
             nameSearch: "Search name",
 
-            savegroup: "Enter a party name (1-15 charaters)",
             matrixPanel: "Default settings",
             loading: "Loading...",
             shadow: "Shadow pokemons have \n x1.2 Atk and x0.881 Def",
@@ -65,10 +63,6 @@ export const pvp = {
             savegroup: "Save party",
             loadmore: "Load more",
             submitchange: "Submit changes",
-        },
-
-        errors: {
-            savegroup: "Empty field",
         },
     },
 
@@ -101,7 +95,6 @@ export const pvp = {
 
             league: "Лига",
             counter: "Покемонов",
-            savegroupplaceholder: "Введите имя группы",
             pvpoke: "Правила Pvpoke",
             about: "О симуляторе",
         },
@@ -114,7 +107,6 @@ export const pvp = {
             },
             nameSearch: "Поиск по имени",
 
-            savegroup: "Введите имя группы (1-15 символов)",
             matrixPanel: "Настройки по умолчанию",
             loading: "Загрузка...",
             shadow: "У теневых покемонов \n x1.2 Атк и x0.881 Защ",
@@ -139,10 +131,6 @@ export const pvp = {
             savegroup: "Сохранить группу",
             loadmore: "Загрузить еще",
             submitchange: "Подвердить изменения",
-        },
-
-        errors: {
-            savegroup: "Нет имени",
         },
     }
 }

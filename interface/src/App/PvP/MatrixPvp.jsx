@@ -115,28 +115,31 @@ class MatrixPvp extends React.PureComponent {
     }
 
     statMaximizer(event, role) {
-        let max = {
+        const max = {
             ...this.state[role].maximizer,
             [event.target.name]: event.target.value,
         }
 
         let newBattleList = this.state[role].listForBattle.map((pok) => {
-            let ivSet = calculateMaximizedStats(pok.name,
+            const ivSet = calculateMaximizedStats(
+                pok.name,
                 max.level,
                 this.props.pokemonTable,
                 {
-                    great: this.props.parentState.league === "great" ? true : false,
-                    ultra: this.props.parentState.league === "ultra" ? true : false,
-                    master: this.props.parentState.league === "master" ? true : false
-                })
-            let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
+                    great: this.props.parentState.league === "great",
+                    ultra: this.props.parentState.league === "ultra",
+                    master: this.props.parentState.league === "master",
+                });
+            const whatToMaximize = max.action === "Default" ? "Default" : max.stat;
+            const selectedSet = ivSet[this.props.parentState.league][whatToMaximize];
 
-            return Object.assign({}, pok, {
-                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
-            })
+            return {
+                ...pok,
+                Lvl: selectedSet.Level,
+                Atk: selectedSet.Atk,
+                Def: selectedSet.Def,
+                Sta: selectedSet.Sta,
+            }
         });
 
         this.setState({
@@ -162,23 +165,18 @@ class MatrixPvp extends React.PureComponent {
         return partiesList
     }
 
-    onPopup(event, role) {
-        event.preventDefault();
-        let stat = event.target.getAttribute("stat")
-
+    onPopup(name, role) {
         this.setState({
             [role]: {
                 ...this.state[role],
-                [stat]: true,
+                [name]: true,
             }
         });
     }
 
-    onPartyDelete(event, role) {
+    onPartyDelete(role) {
         let key = this.state[role].selectedParty
-        if (key === "") {
-            return
-        }
+        if (key === "") { return }
         //delete entry
         this.props.deleteParty(key)
         //make new parties list
@@ -359,26 +357,31 @@ class MatrixPvp extends React.PureComponent {
     }
 
 
-    onChange(event) {
-        //otherwise follow general pattern
-        let action = event.target.getAttribute("action")
-        let role = event.target.getAttribute("attr")
-        if (action === "defaultStatMaximizer") {
+    onChange(event, attributes, eventItem, ...other) {
+        console.log(event.target, attributes, eventItem, ...other)
+        const role = attributes.attr;
+        const name = attributes.name;
+
+        if (name === "defaultStatMaximizer") {
             this.statMaximizer(event, role)
             return
         }
-        if (action === "Add pokemon" || action === "Save" || action === "Import/Export") {
-            this.onPopup(event, role)
+
+        if (name === "showPokSelect" || name === "showSavePanel" || name === "showImportExportPanel") {
+            this.onPopup(name, role)
             return
         }
-        if (action === "Delete") {
-            this.onPartyDelete(event, role)
+
+        if (name === "Delete") {
+            this.onPartyDelete(role)
             return
         }
-        if (event.target.name === "selectedParty") {
+
+        if (name === "selectedParty") {
             this.onPartySelect(event, role)
             return
         }
+
         if (event.target.name === "triple") {
             this.setState({ triple: !this.state.triple });
             return
@@ -396,11 +399,8 @@ class MatrixPvp extends React.PureComponent {
         });
     }
 
-    onClick(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-        let role = event.target.getAttribute("attr")
+    onClick(event, attributes) {
+        let role = attributes.attr
         this.setState({
             [role]: {
                 ...this.state[role],

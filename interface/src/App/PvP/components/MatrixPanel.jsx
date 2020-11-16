@@ -15,7 +15,7 @@ import MagicBox from "./MagicBox/MagicBox"
 import ImportExport from "./ImportExport/ImportExport"
 import Stages from "./Stages/Stages"
 import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
-import InputAndSubmit from "./InputAndSubmit/InputAndSubmit"
+import SaveMenu from "./SaveMenu/SaveMenu";
 import Counter from "./Counter/Counter"
 import Checkbox from "../../RaidsList/Checkbox/Checkbox"
 
@@ -419,14 +419,7 @@ class MatrixPanel extends React.PureComponent {
                 </MagicBox>
 
                 <MagicBox open={Boolean(this.props.value.showSavePanel)} onClick={this.props.onClick} attr={this.props.attr}>
-                    <InputAndSubmit
-                        tip={strings.tips.savegroup}
-                        errortext={strings.errors.savegroup}
-                        placeholder={strings.title.savegroupplaceholder}
-                        label={strings.buttons.savegroup}
-                        attr={this.props.attr}
-                        onChange={this.props.onPartySave}
-                    />
+                    <SaveMenu attr={this.props.attr} onChange={this.props.onPartySave} />
                 </MagicBox>
 
 
@@ -456,11 +449,9 @@ class MatrixPanel extends React.PureComponent {
                     onPokemonDelete={this.props.onPokemonDelete}
                 />
 
-                <Button
-                    attr={this.props.attr}
-                    stat={"showPokSelect"}
-                    title={strings.buttons.addpokemon}
-                    onClick={this.props.onChange}
+                <Button title={strings.buttons.addpokemon}
+                    onClick={
+                        (event, ...other) => this.props.onChange(event, { name: "showPokSelect", attr: this.props.attr }, ...other)}
                 />
 
 
@@ -475,33 +466,26 @@ class MatrixPanel extends React.PureComponent {
 
 
                 <div className="row justify-content-around m-0 pt-3" >
-
-                    <Button
-                        attr={this.props.attr}
-                        stat={"showSavePanel"}
-                        title={strings.buttons.save}
-                        onClick={this.props.onChange}
+                    <Button title={strings.buttons.save}
+                        onClick={
+                            (event, ...other) => this.props.onChange(event, { name: "showSavePanel", attr: this.props.attr }, ...other)}
                     />
 
-                    <Button
-                        attr={this.props.attr}
-                        stat={"Delete"}
-                        title={strings.buttons.delete}
-                        onClick={this.props.onChange}
+                    <Button title={strings.buttons.delete}
+                        onClick={
+                            (event, ...other) => this.props.onChange(event, { name: "Delete", attr: this.props.attr }, ...other)}
                     />
-
-
                 </div>
+
+
                 <div className="row justify-content-center m-0 pt-2" >
-
-                    <Button
-                        attr={this.props.attr}
-                        stat="showImportExportPanel"
-                        title={strings.buttons.impExp}
-                        onClick={this.props.onChange}
+                    <Button title={strings.buttons.impExp}
+                        onClick={
+                            (event, ...other) => this.props.onChange(event, { name: "showImportExportPanel", attr: this.props.attr }, ...other)}
                     />
-
                 </div>
+
+
                 <div className="matrix-panel--bolder">
                     {strings.tips.matrixPanel}
                 </div>
