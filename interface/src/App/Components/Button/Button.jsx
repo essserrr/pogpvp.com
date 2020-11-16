@@ -24,6 +24,9 @@ Button.propTypes = {
     endIcon: PropTypes.node,
     loading: PropTypes.bool,
 
-    title: PropTypes.string,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
     onClick: PropTypes.func,
 };

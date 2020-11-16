@@ -479,9 +479,9 @@ export function extractPokemon(array) {
         HP: undefined, Energy: undefined,
     }
 }
-export function pokemon(locale) {
+export function pokemon() {
     return {
-        name: locale, Lvl: "", Atk: "", Def: "", Sta: "", Shields: "0",
+        name: "", Lvl: "", Atk: "", Def: "", Sta: "", Shields: "0",
         AtkStage: "0", DefStage: "0", InitialHP: "0", InitialEnergy: "0", IsGreedy: "true", IsShadow: "false",
         QuickMove: "", ChargeMove1: "", ChargeMove2: "",
         quickMovePool: "", chargeMovePool: "",

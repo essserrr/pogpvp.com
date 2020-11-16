@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { withStyles } from "@material-ui/core/styles";
 
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import MiddlePanel from "./components/MiddlePanel/MiddlePanel";
 import Pokemon from "./components/Pokemon";
 import MagicBox from "./components/MagicBox/MagicBox";
@@ -625,23 +626,27 @@ class SinglePvp extends React.PureComponent {
 
                 <Box clone order={{ xs: 1 }}>
                     <Grid item xs="auto" className={classes.pokemon}>
-                        <Pokemon
-                            value={this.state.attacker}
-                            attr="attacker"
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
 
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.parentState.moveTable}
-                            moveList={(this.state.attacker.isSelected && this.state.attacker.isSelected.includes("Charge")) ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
-                            pokList={this.props.parentState.pokList}
-                            userPokemon={this.props.userPokemon}
+                            <Pokemon
+                                value={this.state.attacker}
+                                attr="attacker"
 
-                            showMenu={this.state.attacker.showMenu}
-                            category={this.state.attacker.isSelected}
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.parentState.moveTable}
+                                moveList={(this.state.attacker.isSelected && this.state.attacker.isSelected.includes("Charge")) ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
+                                pokList={this.props.parentState.pokList}
+                                userPokemon={this.props.userPokemon}
 
-                            onChange={this.onChange}
-                            statMaximizer={this.statMaximizer}
-                            onClick={this.onClick}
-                        />
+                                showMenu={this.state.attacker.showMenu}
+                                category={this.state.attacker.isSelected}
+
+                                onChange={this.onChange}
+                                statMaximizer={this.statMaximizer}
+                                onClick={this.onClick}
+                            />
+
+                        </GreyPaper>
                     </Grid>
                 </Box>
 
@@ -671,23 +676,27 @@ class SinglePvp extends React.PureComponent {
 
                 <Box clone order={{ xs: 2, md: 3 }}>
                     <Grid item xs="auto" className={classes.pokemon}>
-                        <Pokemon
-                            value={this.state.defender}
-                            attr="defender"
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
 
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.parentState.moveTable}
-                            moveList={this.state.defender.isSelected && this.state.defender.isSelected.includes("Charge") ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
-                            pokList={this.props.parentState.pokList}
-                            userPokemon={this.props.userPokemon}
+                            <Pokemon
+                                value={this.state.defender}
+                                attr="defender"
 
-                            showMenu={this.state.defender.showMenu}
-                            category={this.state.defender.isSelected}
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.parentState.moveTable}
+                                moveList={this.state.defender.isSelected && this.state.defender.isSelected.includes("Charge") ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
+                                pokList={this.props.parentState.pokList}
+                                userPokemon={this.props.userPokemon}
 
-                            statMaximizer={this.statMaximizer}
-                            onChange={this.onChange}
-                            onClick={this.onClick}
-                        />
+                                showMenu={this.state.defender.showMenu}
+                                category={this.state.defender.isSelected}
+
+                                statMaximizer={this.statMaximizer}
+                                onChange={this.onChange}
+                                onClick={this.onClick}
+                            />
+
+                        </GreyPaper>
                     </Grid>
                 </Box>
 

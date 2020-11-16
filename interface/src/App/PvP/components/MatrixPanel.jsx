@@ -1,35 +1,39 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import AddIcon from '@material-ui/icons/Add';
+import SaveIcon from '@material-ui/icons/Save';
+import DeleteIcon from '@material-ui/icons/Delete';
 
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 import Button from "App/Components/Button/Button";
 
 import Switch from "App/Components/Switch/Switch";
-import Pokemon from "./Pokemon"
-import Maximizer from "./Maximizer/Maximizer"
-import MagicBox from "./MagicBox/MagicBox"
+import Pokemon from "./Pokemon";
+import Maximizer from "./Maximizer/Maximizer";
+import MagicBox from "./MagicBox/MagicBox";
 
-import ImportExport from "./ImportExport/ImportExport"
-import Stages from "./Stages/Stages"
-import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList"
+import ImportExport from "./ImportExport/ImportExport";
+import Stages from "./Stages/Stages";
+import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList";
 import SaveMenu from "./SaveMenu/SaveMenu";
-import Counter from "./Counter/Counter"
 
-import { MovePoolBuilder } from "js/movePoolBuilder"
+import { MovePoolBuilder } from "js/movePoolBuilder";
 import {
-    calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat,
-    pokemon, selectCharge, selectQuick
-} from "../../../js/indexFunctions.js"
-import { getCookie } from "../../../js/getCookie"
-import { pvp } from "locale/Pvp/Pvp"
-import { options } from "locale/Components/Options/locale"
-import { advisor } from "locale/Pvp/Advisor/Advisor"
-
-import "./MatrixPanel.scss"
+    calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat, pokemon, selectCharge, selectQuick
+} from "js/indexFunctions.js";
+import { getCookie } from "js/getCookie";
+import { pvp } from "locale/Pvp/Pvp";
+import { options } from "locale/Components/Options/locale";
+import { advisor } from "locale/Pvp/Advisor/Advisor";
 
 let strings = new LocalizedStrings(pvp);
 let optionStrings = new LocalizedStrings(options);
@@ -89,14 +93,10 @@ class MatrixPanel extends React.PureComponent {
     }
 
 
-    onClick(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-        let role = event.target.getAttribute("attr")
+    onClick(event, attributes) {
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
                 showMenu: false,
                 isSelected: undefined,
 
@@ -104,40 +104,38 @@ class MatrixPanel extends React.PureComponent {
         });
     }
 
-    onNameChange(event, name) {
+    onNameChange(value, name) {
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(event.value, this.props.pokemonTable, optionStrings.options.moveSelect)
-        let quick = selectQuick(moves.quickMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
-        let charge = selectCharge(moves.chargeMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
+        moves.createMovePool(value, this.props.pokemonTable, optionStrings.options.moveSelect)
+
+        const quick = selectQuick(moves.quickMovePool, this.props.moveTable, value, this.props.pokemonTable)
+        const charge = selectCharge(moves.chargeMovePool, this.props.moveTable, value, this.props.pokemonTable)
+
         //create default iv set
-        let ivSet = calculateMaximizedStats(event.value, this.state.pokemon.maximizer.level, this.props.pokemonTable)
-        let whatToMaximize = (this.state.pokemon.maximizer.action === "Default") ? "Default" : this.state.pokemon.maximizer.stat
+        const ivSet = calculateMaximizedStats(value, this.state.pokemon.maximizer.level, this.props.pokemonTable);
+        const whatToMaximize = (this.state.pokemon.maximizer.action === "Default") ? "Default" : this.state.pokemon.maximizer.stat;
+        const selectedSet = ivSet[this.props.league][whatToMaximize];
+
         //set state
         this.setState({
             [name]: {
                 ...this.state[name],
-                name: event.value,
-                quickMovePool: moves.quickMovePool,
-                chargeMovePool: moves.chargeMovePool,
-                QuickMove: quick,
-                ChargeMove1: charge.primaryName,
-                ChargeMove2: charge.secodaryName,
-                Lvl: ivSet[this.props.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.league][whatToMaximize].Sta,
+                name: value,
 
-                effAtk: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Atk, this.state[name].AtkStage, this.props.pokemonTable,
+                quickMovePool: moves.quickMovePool, chargeMovePool: moves.chargeMovePool,
+
+                QuickMove: quick, ChargeMove1: charge.primaryName, ChargeMove2: charge.secodaryName,
+
+                Lvl: selectedSet.Level, Atk: selectedSet.Atk, Def: selectedSet.Def, Sta: selectedSet.Sta,
+
+                effAtk: calculateEffStat(value, selectedSet.Level, selectedSet.Atk, this.state[name].AtkStage, this.props.pokemonTable,
                     "Atk", this.state[name].IsShadow),
 
-                effDef: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Def, this.state[name].DefStage, this.props.pokemonTable,
+                effDef: calculateEffStat(value, selectedSet.Level, selectedSet.Def, this.state[name].DefStage, this.props.pokemonTable,
                     "Def", this.state[name].IsShadow),
 
-                effSta: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
+                effSta: calculateEffStat(value, selectedSet.Level, selectedSet.Sta, 0, this.props.pokemonTable, "Sta"),
 
                 HP: undefined,
                 Energy: undefined,
@@ -228,7 +226,7 @@ class MatrixPanel extends React.PureComponent {
     }
 
     onUserPokemonSelect(index, role) {
-        let selectedPok = this.props.userPokemon[index]
+        const selectedPok = this.props.userPokemon[index]
 
         //get movepool
         let moves = new MovePoolBuilder();
@@ -264,80 +262,73 @@ class MatrixPanel extends React.PureComponent {
         });
     }
 
-    onChange(event, name) {
-        //check if it`s a name change
-        if (event.target === undefined) {
-            switch (name.name[1]) {
-                case "QuickMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+    onChange(event, atrributes, eventItem, ...other) {
+        const attr = atrributes.attr;
+        const name = atrributes.name;
+        const category = atrributes.category;
+
+        if (eventItem && (eventItem.value !== undefined || eventItem.index !== undefined)) {
+            switch (name) {
+                case "Name":
+                    this.onNameChange(eventItem.value, attr)
                     return
-                case "ChargeMove1":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
-                case "ChargeMove2":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+                case "userPokemon":
+                    this.onUserPokemonSelect(eventItem.index, attr)
                     return
                 default:
-                    this.onNameChange(event, name.name[0])
+                    this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
 
-        if (name.category === "userPokemon") {
-            this.onUserPokemonSelect(name.index, name.attr)
+        if (category === "defaultStatMaximizer") {
+            this.statMaximizer(event, attr)
             return
         }
-        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
-        let action = event.target.getAttribute ? event.target.getAttribute("action") : name.props.action
-        //check if it's an initial stat change
-        if (action === "defaultStatMaximizer") {
-            this.statMaximizer(event, role)
-            return
-        }
-        if (event.target.name === "InitialHP" || event.target.name === "InitialEnergy") {
-            this.onInitialStatsChange(event, role)
-            return
-        }
-        //check if it's an iv change
-        if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (event.target.name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
-        //if it's an stage change
-        if (event.target.name === "AtkStage" || event.target.name === "DefStage") {
-            this.onStageChange(event, role)
-            return
-        }
+
         if (event.target.value === "Select...") {
             this.setState({
-                [role]: {
-                    ...this.state[role],
+                [attr]: {
+                    ...this.state[attr],
                     showMenu: true,
-                    isSelected: event.target.name,
-                }
+                    isSelected: name,
+                },
             });
             return
         }
-        //if it's an type change
-        if (event.target.name === "IsShadow") {
-            this.onTypeChange(event, role)
+
+        if (name === "InitialHP" || name === "InitialEnergy") {
+            this.onInitialStatsChange(event, attr)
             return
         }
-        //otherwise follow general pattern
+
+        if (name === "Sta" || name === "Def" || name === "Atk") {
+            this.onIvChange(event, attr)
+            return
+        }
+
+        if (name === "Lvl") {
+            this.onLevelChange(event, attr)
+            return
+        }
+
+        if (name === "AtkStage" || name === "DefStage") {
+            this.onStageChange(event, attr)
+            return
+        }
+
+        if (name === "IsShadow") {
+            this.onTypeChange(event, attr)
+            return
+        }
+
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: event.target.value
-            }
+            [attr]: {
+                ...this.state[attr],
+                [name]: event.target.value
+            },
         });
     }
-
-
 
     statMaximizer(event, role) {
         let max = {
@@ -379,198 +370,216 @@ class MatrixPanel extends React.PureComponent {
     onPokemonSubmit(event) {
         this.props.onPokemonAdd({
             pokemon: this.state.pokemon,
-            attr: event.target.getAttribute("attr"),
+            attr: this.props.attr,
             event: event,
         })
     }
 
     render() {
         return (
-            <div className="matrix-panel m-2">
+            <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+                <Grid container justify="center" spacing={1}>
 
-                <MagicBox open={Boolean(this.props.value.showPokSelect)} onClick={this.props.onClick} attr={this.props.attr}>
-                    <div className="row justify-content-center">
-                        <Pokemon
-                            className="large m-1 mb-3 col-12"
+                    <MagicBox open={Boolean(this.props.value.showPokSelect)} onClick={this.props.onClick} attr={this.props.attr}>
+                        <Grid container spacing={2} justify="center">
 
+                            <Grid item xs={12}>
+                                <Pokemon
+                                    pokemonTable={this.props.pokemonTable}
+                                    moveTable={this.props.moveTable}
+                                    value={this.state.pokemon}
+                                    attr="pokemon"
+                                    onChange={this.onChange}
+                                    pokList={this.props.pokList}
+                                    userPokemon={this.props.userPokemon}
+
+                                    showMenu={this.state.pokemon.showMenu}
+
+                                    moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ?
+                                        this.props.chargeMoveList : this.props.quickMoveList}
+                                    category={this.state.pokemon.isSelected}
+                                    onClick={this.onClick}
+                                />
+                            </Grid>
+
+                            <Grid item xs="auto">
+                                <Button title={strings.buttons.addpokemon} onClick={this.onPokemonSubmit} />
+                            </Grid>
+
+                        </Grid>
+                    </MagicBox>
+
+                    <MagicBox open={Boolean(this.props.value.showSavePanel)} onClick={this.props.onClick} attr={this.props.attr}>
+                        <SaveMenu attr={this.props.attr} onChange={this.props.onPartySave} />
+                    </MagicBox>
+
+                    <MagicBox open={Boolean(this.props.value.showImportExportPanel)} onClick={this.props.onClick} attr={this.props.attr}>
+                        {this.props.value.showImportExportPanel &&
+                            <ImportExport
+                                type="matrix"
+                                initialValue={this.props.value.listForBattle}
+                                attr={this.props.attr}
+                                onChange={this.props.onImport}
+                            />}
+                    </MagicBox>
+
+                    <Grid item xs={12}>
+                        <Typography variant="h6">
+                            {`${this.props.value.listForBattle.length}/50 ${strings.title.counter}`}
+                        </Typography>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <MatrixPokemonList
+                            attr={this.props.attr}
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.moveTable}
-                            value={this.state.pokemon}
-                            attr="pokemon"
-                            onChange={this.onChange}
-                            pokList={this.props.pokList}
-                            userPokemon={this.props.userPokemon}
 
-                            showMenu={this.state.pokemon.showMenu}
-
-                            moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ?
-                                this.props.chargeMoveList : this.props.quickMoveList}
-                            category={this.state.pokemon.isSelected}
-                            onClick={this.onClick}
-                        />
-
-                        <Button
-                            attr={this.props.attr}
-                            title={strings.buttons.addpokemon}
-                            onClick={this.onPokemonSubmit}
-                        />
-
-                    </div>
-                </MagicBox>
-
-                <MagicBox open={Boolean(this.props.value.showSavePanel)} onClick={this.props.onClick} attr={this.props.attr}>
-                    <SaveMenu attr={this.props.attr} onChange={this.props.onPartySave} />
-                </MagicBox>
-
-
-                <MagicBox open={Boolean(this.props.value.showImportExportPanel)} onClick={this.props.onClick} attr={this.props.attr}>
-                    {this.props.value.showImportExportPanel &&
-                        <ImportExport
-                            type="matrix"
-                            initialValue={this.props.value.listForBattle}
-                            attr={this.props.attr}
-                            onChange={this.props.onImport}
-                        />}
-                </MagicBox>
-
-                <Counter
-                    class="matrix-panel--bolder"
-                    value={this.props.value.listForBattle.length}
-                    suffix={" / 50 " + strings.title.counter}
-                />
-
-                <MatrixPokemonList
-                    attr={this.props.attr}
-                    pokemonTable={this.props.pokemonTable}
-                    moveTable={this.props.moveTable}
-
-                    onPokRedact={this.props.onPokRedact}
-                    onPokemonDelete={this.props.onPokemonDelete}
-                >
-                    {this.props.value.listForBattle}
-                </MatrixPokemonList>
-
-                <Button title={strings.buttons.addpokemon}
-                    onClick={
-                        (event, ...other) => this.props.onChange(event, { name: "showPokSelect", attr: this.props.attr }, ...other)}
-                />
-
-
-
-                <WithIcon tip={strings.tips.saved}>
-                    <Input select name="selectedParty" value={this.props.value.selectedParty}
-                        attr={this.props.attr} label={strings.title.savedparties} onChange={this.props.onChange}>
-                        {this.props.savedParties}
-                    </Input>
-                </WithIcon>
-
-
-
-                <div className="row justify-content-around m-0 pt-3" >
-                    <Button title={strings.buttons.save}
-                        onClick={
-                            (event, ...other) => this.props.onChange(event, { name: "showSavePanel", attr: this.props.attr }, ...other)}
-                    />
-
-                    <Button title={strings.buttons.delete}
-                        onClick={
-                            (event, ...other) => this.props.onChange(event, { name: "Delete", attr: this.props.attr }, ...other)}
-                    />
-                </div>
-
-
-                <div className="row justify-content-center m-0 pt-2" >
-                    <Button title={strings.buttons.impExp}
-                        onClick={
-                            (event, ...other) => this.props.onChange(event, { name: "showImportExportPanel", attr: this.props.attr }, ...other)}
-                    />
-                </div>
-
-
-                <div className="matrix-panel--bolder">
-                    {strings.tips.matrixPanel}
-                </div>
-
-                <Maximizer
-                    attr={this.props.attr}
-                    category={"defaultStatMaximizer"}
-                    value={this.props.value.maximizer}
-                    onChange={this.props.onChange}
-                />
-
-                <Stages
-                    Atk={this.props.value.AtkStage}
-                    Def={this.props.value.DefStage}
-                    attr={this.props.attr}
-                    onChange={this.props.onChange}
-                    label={strings.title.initialStages}
-                    for=""
-                />
-
-
-                <Input select name="Shields" value={this.props.value.Shields}
-                    attr={this.props.attr} label={strings.title.shields} onChange={this.props.onChange}>
-                    <MenuItem value="0">0</MenuItem>
-                    <MenuItem value="1">1</MenuItem>
-                    <MenuItem value="2">2</MenuItem>
-                </Input>
-
-
-
-                <WithIcon tip={<>{strings.tips.strategy.greedy}<br /><br />{strings.tips.strategy.shieldSaving}</>}>
-                    <Input select name="IsGreedy" value={this.props.value.IsGreedy}
-                        attr={this.props.attr} label={strings.title.strategy} onChange={this.props.onChange}>
-
-                        <MenuItem value="true">{optionStrings.options.strategy.greedy}</MenuItem>
-                        <MenuItem value="false">{optionStrings.options.strategy.shieldSaving}</MenuItem>
-
-                    </Input>
-                </WithIcon>
-
-                {this.props.enableCheckbox &&
-                    <div className="row m-0 mb-1 pt-1">
-                        <Switch
-                            checked={Boolean(this.props.triple)}
-                            onChange={this.props.onChange}
-                            name={"triple"}
-                            color="primary"
-                            label={strings.tips.triple}
-                        />
-
-                        <ReactTooltip
-                            className={"infoTip"}
-                            id={"triple"} effect="solid"
-                            place={"top"}
-                            multiline={true}
+                            onPokRedact={this.props.onPokRedact}
+                            onPokemonDelete={this.props.onPokemonDelete}
                         >
-                            {strings.tips.tripletip}
-                        </ReactTooltip>
-                        <i data-tip data-for={"triple"} className="align-self-center fas fa-info-circle fa-lg ml-auto mt-2">
-                        </i>
-                    </div>}
-                {this.props.enableCheckbox && <div className="row m-0 p-0 mb-1 pt-1 justify-content-between">
+                            {this.props.value.listForBattle}
+                        </MatrixPokemonList>
+                    </Grid>
 
-                    <Button
-                        title={advisorStrings.advisor.adv}
-                        onClick={this.props.onAdvisorSubmit}
-                    />
+                    <Grid item xs="auto">
+                        <Button title={strings.buttons.addpokemon} endIcon={<AddIcon />}
+                            onClick={
+                                (event, ...other) => this.props.onChange(event, { name: "showPokSelect", attr: this.props.attr }, ...other)}
+                        />
+                    </Grid>
 
-                    <ReactTooltip
-                        className={"infoTip"}
-                        id={"advisor"} effect="solid"
-                        place={"top"}
-                        multiline={true}
-                    >
-                        {advisorStrings.advisor.tip}
-                    </ReactTooltip>
-                    <i data-tip data-for={"advisor"} className="align-self-center fas fa-info-circle fa-lg ml-auto">
-                    </i>
-                </div>}
+                    <Grid item xs={12}>
+                        <WithIcon tip={strings.tips.saved}>
+                            <Input select name="selectedParty" value={this.props.value.selectedParty}
+                                attr={this.props.attr} label={strings.title.savedparties} onChange={this.props.onChange}>
+                                {this.props.savedParties}
+                            </Input>
+                        </WithIcon>
+                    </Grid>
 
-            </div >
+                    <Grid item xs={12} container justify="space-around" wrap="nowrap">
+                        <Button title={<SaveIcon />}
+                            onClick={
+                                (event, ...other) => this.props.onChange(event, { name: "showSavePanel", attr: this.props.attr }, ...other)}
+                        />
+
+                        <Button title={<DeleteIcon />}
+                            onClick={
+                                (event, ...other) => this.props.onChange(event, { name: "Delete", attr: this.props.attr }, ...other)}
+                        />
+                    </Grid>
+
+                    <Grid item xs="auto">
+                        <Button title={strings.buttons.impExp}
+                            onClick={
+                                (event, ...other) => this.props.onChange(event, { name: "showImportExportPanel", attr: this.props.attr }, ...other)}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Maximizer
+                            attr={this.props.attr}
+                            category={"defaultStatMaximizer"}
+                            value={this.props.value.maximizer}
+                            onChange={this.props.onChange}
+                        />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Stages
+                            Atk={this.props.value.AtkStage}
+                            Def={this.props.value.DefStage}
+                            attr={this.props.attr}
+                            onChange={this.props.onChange}
+                            label={strings.title.initialStages}
+                            for=""
+                        />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Input select name="Shields" value={this.props.value.Shields}
+                            attr={this.props.attr} label={strings.title.shields} onChange={this.props.onChange}>
+                            <MenuItem value="0">0</MenuItem>
+                            <MenuItem value="1">1</MenuItem>
+                            <MenuItem value="2">2</MenuItem>
+                        </Input>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <WithIcon tip={<>{strings.tips.strategy.greedy}<br /><br />{strings.tips.strategy.shieldSaving}</>}>
+                            <Input select name="IsGreedy" value={this.props.value.IsGreedy}
+                                attr={this.props.attr} label={strings.title.strategy} onChange={this.props.onChange}>
+
+                                <MenuItem value="true">{optionStrings.options.strategy.greedy}</MenuItem>
+                                <MenuItem value="false">{optionStrings.options.strategy.shieldSaving}</MenuItem>
+
+                            </Input>
+                        </WithIcon>
+                    </Grid>
+
+                    {this.props.enableCheckbox &&
+                        <Grid item xs={12} container justify="space-between" alignItems="center" wrap="nowrap">
+                            <Switch
+                                checked={Boolean(this.props.triple)}
+                                onChange={this.props.onChange}
+                                name={"triple"}
+                                color="primary"
+                                label={strings.tips.triple}
+                            />
+
+                            <Tooltip arrow placement="top" title={<Typography>{strings.tips.tripletip}</Typography>}>
+                                <HelpOutlineIcon />
+                            </Tooltip>
+                        </Grid>}
+
+                    {this.props.enableCheckbox &&
+                        <Grid item xs={12} container justify="space-between" alignItems="center" wrap="nowrap">
+                            <Button
+                                title={advisorStrings.advisor.adv}
+                                onClick={this.props.onAdvisorSubmit}
+                                disabled={this.props.advDisabled}
+                            />
+                            <Tooltip arrow placement="top" title={<Typography>{advisorStrings.advisor.tip}</Typography>}>
+                                <HelpOutlineIcon />
+                            </Tooltip>
+                        </Grid>}
+
+                </Grid>
+            </GreyPaper>
         )
     }
 
 }
 
-export default MatrixPanel
+export default MatrixPanel;
+
+MatrixPanel.propTypes = {
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+    userPokemon: PropTypes.arrayOf(PropTypes.object),
+
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    savedParties: PropTypes.arrayOf(PropTypes.object),
+
+    league: PropTypes.string,
+
+    enableCheckbox: PropTypes.bool,
+    triple: PropTypes.bool,
+    advDisabled: PropTypes.bool,
+    onAdvisorSubmit: PropTypes.func,
+
+    value: PropTypes.object,
+
+    attr: PropTypes.string,
+    onChange: PropTypes.func,
+    onClick: PropTypes.func,
+    onPokemonAdd: PropTypes.func,
+    onPokRedact: PropTypes.func,
+    onPokemonDelete: PropTypes.func,
+
+    onPartySave: PropTypes.func,
+    onImport: PropTypes.func,
+};

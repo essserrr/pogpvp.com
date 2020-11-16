@@ -57,7 +57,7 @@ export const pvp = {
 
             calculate: "Calculate",
             letsbattle: "Let's Battle",
-            addpokemon: "Add pokemon",
+            addpokemon: "Add",
             save: "Save",
             delete: "Delete",
             savegroup: "Save party",
@@ -125,7 +125,7 @@ export const pvp = {
 
             calculate: "Посчитать",
             letsbattle: "В бой!",
-            addpokemon: "Добавить покемона",
+            addpokemon: "Добавить",
             save: "Сохранить",
             delete: "Удалить",
             savegroup: "Сохранить группу",

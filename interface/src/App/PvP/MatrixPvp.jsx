@@ -6,7 +6,10 @@ import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
+import Box from '@material-ui/core/Box';
+import { withStyles } from "@material-ui/core/styles";
 
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Button from "App/Components/Button/Button";
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
 import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
@@ -26,7 +29,24 @@ import { getCookie } from "../../js/getCookie"
 import { pvp } from "../../locale/Pvp/Pvp"
 import { options } from "../../locale/Components/Options/locale"
 
-import "./MatrixPvp.scss"
+const styles = theme => ({
+    matrixPanel: {
+        maxWidth: "208px",
+        minWidth: "208px",
+    },
+    middleRow: {
+        maxWidth: "calc(100% - 416px) !important",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "100% !important",
+        }
+    },
+    overflowCont: {
+        overflowX: "auto",
+        overflowY: "auto",
+        width: "100%",
+        maxHeight: "483px",
+    }
+});
 
 
 let optionStrings = new LocalizedStrings(options)
@@ -358,7 +378,6 @@ class MatrixPvp extends React.PureComponent {
 
 
     onChange(event, attributes, eventItem, ...other) {
-        console.log(event.target, attributes, eventItem, ...other)
         const { attr, name, category } = attributes
 
         if (category === "defaultStatMaximizer") {
@@ -399,10 +418,9 @@ class MatrixPvp extends React.PureComponent {
     }
 
     onClick(event, attributes) {
-        let role = attributes.attr
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
                 showPokSelect: false,
                 showSavePanel: false,
                 showImportExportPanel: false,
@@ -568,10 +586,6 @@ class MatrixPvp extends React.PureComponent {
     }
 
     onPokRedactOff(event) {
-        const name = event.target.name ? event.target.name : event.target.getAttribute("name")
-        if (!(event.target === event.currentTarget) && name !== "closeButton") {
-            return
-        }
         this.setState({
             redact: {
                 showMenu: false,
@@ -613,32 +627,34 @@ class MatrixPvp extends React.PureComponent {
         })
     }
 
-
     render() {
+        const { classes } = this.props;
+
         return (
-            < >
-                <div className="row justify-content-between mb-4"  >
-                    {this.state.redact.showMenu &&
-                        <RedactPokemon
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.parentState.moveTable}
-                            userPokemon={this.props.userPokemon}
+            <Grid container justify="space-between" spacing={1}>
 
-                            pokList={this.props.parentState.pokList}
-                            quickMoveList={this.props.parentState.quickMoveList}
-                            chargeMoveList={this.props.parentState.chargeMoveList}
+                {this.state.redact.showMenu &&
+                    <RedactPokemon
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.parentState.moveTable}
+                        userPokemon={this.props.userPokemon}
 
-                            league={this.props.parentState.league}
+                        pokList={this.props.parentState.pokList}
+                        quickMoveList={this.props.parentState.quickMoveList}
+                        chargeMoveList={this.props.parentState.chargeMoveList}
 
-                            value={this.state[this.state.redact.attr]}
+                        league={this.props.parentState.league}
 
-                            redact={this.state.redact}
+                        value={this.state[this.state.redact.attr]}
 
-                            onClick={this.onPokRedactOff}
-                            onPokemonAdd={this.onRedactSubmit}
-                        />}
+                        redact={this.state.redact}
 
-                    <div className="matrixpvp__results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
+                        onClick={this.onPokRedactOff}
+                        onPokemonAdd={this.onRedactSubmit}
+                    />}
+
+                <Box clone order={{ xs: 1 }}>
+                    <Grid item xs="auto" className={classes.matrixPanel}>
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -668,18 +684,21 @@ class MatrixPvp extends React.PureComponent {
                             onPartySave={this.onPartySave}
                             onImport={this.onImport}
                         />
-                    </div>
+                    </Grid>
+                </Box>
 
 
 
-                    <div className="matrixpvp--overflow order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
-                        <div className="row mx-1 h-100"  >
-                            {(this.state.showResult || this.state.isError) &&
-                                <div className="matrixpvp__results align-self-start order-3 order-lg-1 col-12 mt-3 mt-lg-0 p-2 ">
-                                    <div className="row justify-content-center mx-0"  >
-                                        <div className="matrixpvp__overflow-cont order-2 p-0 mx-2 order-lg-1 col-12 ">
-                                            {this.state.showResult && this.state.pvpData && this.state.snapshot &&
-                                                <Result class="matrixpvp__fixed-thead">
+                <Box className={classes.middleRow} clone order={{ xs: 3, md: 2 }}>
+                    <Grid item xs={12} md>
+                        <Grid container spacing={1} style={{ height: "100%" }} alignItems="flex-end">
+
+                            {this.state.showResult && this.state.pvpData && this.state.snapshot &&
+                                <Box clone order={{ xs: 2, md: 1 }} alignSelf="flex-start">
+                                    <Grid item xs={12}>
+                                        <GreyPaper elevation={4} enablePadding paddingMult={1}>
+                                            <Grid item xs={12} className={classes.overflowCont}>
+                                                <Result>
                                                     <TableBodyRender
                                                         pvpData={this.state.pvpData}
                                                         pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
@@ -693,30 +712,49 @@ class MatrixPvp extends React.PureComponent {
                                                         leftPanel={this.state.snapshot.leftPanel}
                                                         rightPanel={this.state.snapshot.rightPanel}
                                                     />
-                                                </Result>}
-                                            {this.state.isError &&
-                                                <Alert variant="filled" severity="error">{this.state.error}</Alert >}
-                                        </div>
-                                    </div>
-                                </div>}
+                                                </Result>
+                                            </Grid>
+                                        </GreyPaper>
+                                    </Grid>
+                                </Box>}
 
-                            {this.state.loading &&
-                                <Grid item xs={12}>
-                                    <LinearProgress color="secondary" />
-                                </ Grid>}
+                            < Box clone order={{ xs: 1, md: 2 }} alignSelf="flex-end" >
+                                <Grid item xs={12} container alignItems="center">
 
-                            <div className="align-self-end order-1 order-lg-3 col px-0">
-                                <div className="order-2 order-lg-3 d-flex justify-content-center mx-0 px-0 col-12  mt-2 mt-lg-0" >
-                                    <Button
-                                        title={strings.buttons.letsbattle}
-                                        onClick={this.submitForm}
-                                    />
+                                    <Grid item xs={12} container alignItems="center" wrap="nowrap">
+                                        <Grid item xs container justify="center">
+                                            <Button
+                                                title={strings.buttons.letsbattle}
+                                                onClick={this.submitForm}
+                                            />
+                                        </Grid>
+                                    </Grid>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="matrixpvp__results order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
+                                    {this.state.isError &&
+                                        <Box clone mt={1}>
+                                            <Grid item xs={12}>
+                                                <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                            </Grid>
+                                        </Box>}
+
+                                    {this.state.loading &&
+                                        <Box clone mt={1}>
+                                            <Grid item xs={12}>
+                                                <Grid item xs={12}>
+                                                    <LinearProgress color="secondary" />
+                                                </ Grid>
+                                            </Grid>
+                                        </Box>}
+
+                                </Grid>
+                            </Box >
+
+                        </Grid >
+                    </Grid>
+                </Box>
+
+                <Box clone order={{ xs: 2, md: 3 }}>
+                    <Grid item xs="auto" className={classes.matrixPanel}>
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -740,29 +778,29 @@ class MatrixPvp extends React.PureComponent {
                             onPartySave={this.onPartySave}
                             onImport={this.onImport}
                         />
-                    </div>
+                    </Grid>
+                </Box>
 
-                    {!this.state.advDisabled && this.state.snapshot && this.state.showAdvisor &&
-                        <div className="order-6 col-12 p-1 pt-3" >
-                            <div className="row mx-1 justify-content-center"  >
-                                <AdvisorCombinator
-                                    pvpData={this.state.pvpData}
-                                    pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
+                {!this.state.advDisabled && this.state.snapshot && this.state.showAdvisor &&
+                    <Box clone order={{ xs: 6 }}>
+                        <Grid item xs={12}>
+                            <AdvisorCombinator
+                                pvpData={this.state.pvpData}
+                                pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                                    isTriple={this.state.snapshot.triple}
+                                isTriple={this.state.snapshot.triple}
 
-                                    league={this.state.snapshot.league}
+                                league={this.state.snapshot.league}
 
-                                    pokemonTable={this.props.pokemonTable}
-                                    moveTable={this.props.parentState.moveTable}
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.parentState.moveTable}
 
-                                    leftPanel={this.state.snapshot.leftPanel}
-                                    rightPanel={this.state.snapshot.rightPanel}
-                                />
-                            </div>
-                        </div>}
-                </div>
-            </ >
+                                leftPanel={this.state.snapshot.leftPanel}
+                                rightPanel={this.state.snapshot.rightPanel}
+                            />
+                        </Grid>
+                    </Box>}
+            </Grid>
         );
     }
 }
@@ -775,13 +813,13 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(
-    state => ({
-        parties: state.parties,
-    }), mapDispatchToProps
-)(MatrixPvp)
-
-
+export default withStyles(styles, { withTheme: true })(
+    connect(
+        state => ({
+            parties: state.parties,
+        }), mapDispatchToProps
+    )(MatrixPvp)
+);
 
 
 
