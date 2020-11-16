@@ -22,7 +22,7 @@ const WithIcon = React.memo(function WithIcon(props) {
     const classes = useStyles();
 
     return (
-        <Grid container alignItems="center" justify="center">
+        <Grid container alignItems="center" justify="center" wrap="nowrap">
             <Grid item xs={"auto"} className={classes.iconMargin}>
                 <Tooltip placement="top" arrow
                     title={<Typography color="inherit">{!!props.tip ? props.tip : ""}</Typography>}>
