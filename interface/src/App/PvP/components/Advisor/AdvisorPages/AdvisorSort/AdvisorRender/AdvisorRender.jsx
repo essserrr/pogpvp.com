@@ -1,30 +1,45 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import AdvisorPanel from "./AdvisorPanel/AdvisorPanel"
+import Grid from '@material-ui/core/Grid';
 
-class AdvisorRender extends React.PureComponent {
-    render() {
-        return (
-            this.props.list.map((elem, i) =>
-                <div key={i} className={"col-12 p-0 m-0 mb-1"} rate={elem.rate} zeros={elem.zeros.length}>
+import AdvisorPanel from "./AdvisorPanel/AdvisorPanel";
+
+const AdvisorRender = React.memo(function AdvisorRender(props) {
+    return (
+        <Grid container justify="center" spacing={1}>
+            {props.children.map((elem, i) =>
+                <Grid key={i} item xs={12}>
                     <AdvisorPanel
-                        first={this.props.leftPanel.listForBattle[elem.first]}
-                        second={this.props.leftPanel.listForBattle[elem.second]}
-                        third={this.props.leftPanel.listForBattle[elem.third]}
+                        first={props.leftPanel.listForBattle[elem.first]}
+                        second={props.leftPanel.listForBattle[elem.second]}
+                        third={props.leftPanel.listForBattle[elem.third]}
                         i={i}
 
-                        list={this.props.list}
-                        rawResult={this.props.rawResult}
+                        list={props.children}
+                        rawResult={props.rawResult}
 
-                        leftPanel={this.props.leftPanel}
-                        rightPanel={this.props.rightPanel}
-                        moveTable={this.props.moveTable}
-                        pokemonTable={this.props.pokemonTable}
+                        leftPanel={props.leftPanel}
+                        rightPanel={props.rightPanel}
+                        moveTable={props.moveTable}
+                        pokemonTable={props.pokemonTable}
                     />
-                </div>
-            )
-        );
-    }
-};
+                </Grid>
+            )}
+        </Grid>
+    )
+});
 
 export default AdvisorRender;
+
+AdvisorRender.propTypes = {
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+
+    moveTable: PropTypes.object,
+    pokemonTable: PropTypes.object,
+
+    rawResult: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node)),
+
+    children: PropTypes.arrayOf(PropTypes.object),
+};

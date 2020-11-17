@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import AdvisorSort from "./AdvisorSort/AdvisorSort";
 
-const AdvisorPages = function AdvisorPages(props) {
+const AdvisorPages = React.memo(function AdvisorPages(props) {
     const upperBound = props.children.length >= props.n * 50 ? props.n * 50 : props.children.length;
     return (
         <AdvisorSort
@@ -14,10 +14,11 @@ const AdvisorPages = function AdvisorPages(props) {
 
             rawResult={props.rawResult}
             filter={props.filter}
-            list={props.children.slice(0, upperBound)}
-        />
+        >
+            {props.children.slice(0, upperBound)}
+        </AdvisorSort>
     )
-};
+});
 
 export default AdvisorPages;
 

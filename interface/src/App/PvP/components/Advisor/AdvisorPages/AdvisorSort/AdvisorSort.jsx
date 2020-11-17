@@ -1,37 +1,51 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import AdvisorRender from "./AdvisorRender/AdvisorRender"
+import AdvisorRender from "./AdvisorRender/AdvisorRender";
 
-class AdvisorSort extends React.PureComponent {
+const AdvisorSort = React.memo(function AdvisorSort(props) {
 
-    sortList() {
-        switch (this.props.filter) {
+    const sortList = () => {
+        switch (props.filter) {
             case "rating":
-                return this.props.list.sort((a, b) => {
+                return props.children.sort((a, b) => {
                     if (a.rate === b.rate) { return a.zeros.length - b.zeros.length }
                     return b.rate - a.rate
                 });
             default:
-                return this.props.list.sort((a, b) => {
+                return props.children.sort((a, b) => {
                     if (a.zeros.length === b.zeros.length) { return b.rate - a.rate }
                     return a.zeros.length - b.zeros.length
                 });
         }
     }
 
-    render() {
-        return (
-            <AdvisorRender
-                leftPanel={this.props.leftPanel}
-                rightPanel={this.props.rightPanel}
-                moveTable={this.props.moveTable}
-                pokemonTable={this.props.pokemonTable}
+    return (
+        <AdvisorRender
+            leftPanel={props.leftPanel}
+            rightPanel={props.rightPanel}
+            moveTable={props.moveTable}
+            pokemonTable={props.pokemonTable}
 
-                rawResult={this.props.rawResult}
-                list={this.sortList()}
-            />
-        );
-    }
-};
+            rawResult={props.rawResult}
+        >
+            {sortList()}
+        </AdvisorRender>
+    )
+});
 
 export default AdvisorSort;
+
+
+AdvisorSort.propTypes = {
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+
+    moveTable: PropTypes.object,
+    pokemonTable: PropTypes.object,
+
+    rawResult: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node)),
+    filter: PropTypes.string,
+
+    children: PropTypes.arrayOf(PropTypes.object),
+};
