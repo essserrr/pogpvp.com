@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 import LogForm from "./LogForm/LogForm";
 
 import { setSession } from "AppStore/Actions/actions";

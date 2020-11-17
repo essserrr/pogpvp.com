@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import RegForm from "./RegForm/RegForm";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 
 import { setSession } from "AppStore/Actions/actions";
 import { getCookie } from "js/getCookie";

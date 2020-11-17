@@ -20,7 +20,7 @@ import MatrixPanel from "./components/MatrixPanel";
 import Result from "./components/Result";
 import EditPokemon from "./components/EditPokemon";
 
-import { translareMove, translateName } from "../Userpage/CustomPokemon/translator";
+import { translareMove, translateName } from "App/Userpage/CustomPokemon/translator";
 import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "js/indexFunctions";
 
 import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets";

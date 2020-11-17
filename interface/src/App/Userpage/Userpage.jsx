@@ -8,9 +8,9 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 
-import GreyPaper from '../Components/GreyPaper/GreyPaper';
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import UserPageTabs from "./UserPageTabs/UserPageTabs";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 
 import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/UserPage";

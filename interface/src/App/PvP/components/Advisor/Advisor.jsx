@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Button from "App/Components/Button/Button";
-import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider";
+import DoubleSlider from "App/Movedex/MoveCard/DoubleSlider/DoubleSlider";
 import PvpWillow from "./PvpWillow/PvpWillow";
 import AdvisorPages from "./AdvisorPages/AdvisorPages";
 

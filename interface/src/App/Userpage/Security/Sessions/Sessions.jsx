@@ -1,5 +1,4 @@
 import React from "react";
-import { getCookie } from "../../../../js/getCookie";
 import { connect } from 'react-redux';
 import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
@@ -12,6 +11,7 @@ import { ReactComponent as LogoutIcon } from "icons/logout.svg";
 import Button from "App/Components/Button/Button";
 import SessionsTable from "App/Userpage/Security/Sessions/SessionsTable/SessionsTable";
 
+import { getCookie } from "js/getCookie";
 import { userLocale } from "locale/UserPage/Security/Security";
 import { refresh } from "AppStore/Actions/refresh";
 import { setSession } from "AppStore/Actions/actions";

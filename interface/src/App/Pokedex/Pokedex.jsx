@@ -1,5 +1,5 @@
 import React from "react";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 import LocalizedStrings from "react-localization";
 import { connect } from "react-redux";
 
@@ -12,7 +12,7 @@ import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Input from "App/Components/Input/Input";
 import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
 import PokedexListFilter from "./PokedexListFilter/PokedexListFilter";
-import TypeRow from "../Movedex/TypeRow/TypeRow";
+import TypeRow from "App/Movedex/TypeRow/TypeRow";
 import GenRow from "./GenRow/GenRow";
 
 import { dexLocale } from "locale/Pokedex/Pokedex";

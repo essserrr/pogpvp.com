@@ -1,5 +1,5 @@
 import React from "react";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 import LocalizedStrings from "react-localization";
 import { connect } from "react-redux";
 
@@ -11,7 +11,7 @@ import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Input from "App/Components/Input/Input";
 import MovedexListFilter from "./MovedexListFilter/MovedexListFilter";
 import { getMoveBase } from "AppStore/Actions/getMoveBase";
-import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow";
+import DropWithArrow from "App/PvpRating/DropWithArrow/DropWithArrow";
 import MoveDescr from "./MoveDescr/MoveDescr";
 import SliderBlock from "./SliderBlock/SliderBlock";
 import TypeRow from "./TypeRow/TypeRow";

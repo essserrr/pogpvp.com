@@ -1,5 +1,5 @@
 import React from "react";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 import LocalizedStrings from "react-localization";
 import { connect } from "react-redux";
 
@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import CustomPve from "./CustomPve";
 import CommonPve from "./CommonPve";
-import DropWithArrow from "../PvpRating//DropWithArrow/DropWithArrow";
+import DropWithArrow from "App/PvpRating//DropWithArrow/DropWithArrow";
 import CommonDescr from "./Components/Description/CommonDescr";
 
 import { getCustomPokemon } from "AppStore/Actions/getCustomPokemon";

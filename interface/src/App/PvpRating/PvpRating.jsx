@@ -1,5 +1,5 @@
 import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
+import SiteHelm from "App/SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 

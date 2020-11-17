@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import ShinyTable from "../../ShinyTable/ShinyTable";
+import ShinyTable from "App/ShinyRates/ShinyTable/ShinyTable";
 
 const ShinyTableSort = React.memo(function ShinyTableSort(props) {
 

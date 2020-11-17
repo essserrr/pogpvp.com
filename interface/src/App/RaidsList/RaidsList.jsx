@@ -1,5 +1,5 @@
 import React from "react";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 import LocalizedStrings from "react-localization";
 import { connect } from "react-redux";
 
@@ -8,7 +8,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
 import RenderRaidList from "./RenderRaidList/RenderRaidList";
 import ButtonsBlock from "./ButtonsBlock/ButtonsBlock";
 

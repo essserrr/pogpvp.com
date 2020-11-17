@@ -1,5 +1,5 @@
 import React from "react";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 import LocalizedStrings from "react-localization";
 import { connect } from "react-redux";
 
@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 
 import UpperPanel from "./components/UpperPanel/UpperPanel";
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import DropWithArrow from "../PvpRating//DropWithArrow/DropWithArrow";
+import DropWithArrow from "App/PvpRating//DropWithArrow/DropWithArrow";
 
 import { getCustomPokemon } from "AppStore/Actions/getCustomPokemon";
 import { getMoveBase } from "AppStore/Actions/getMoveBase";

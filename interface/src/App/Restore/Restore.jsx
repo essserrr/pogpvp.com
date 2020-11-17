@@ -10,7 +10,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import RestorePassForm from "./RestorePassForm/RestorePassForm";
-import SiteHelm from "../SiteHelm/SiteHelm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 
 import { setSession } from "AppStore/Actions/actions";
 import { getCookie } from "js/getCookie";

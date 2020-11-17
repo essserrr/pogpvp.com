@@ -6,8 +6,8 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import { getCookie } from "../js/getCookie";
+import PrivateRoute from "PrivateRoute/PrivateRoute";
+import { getCookie } from "js/getCookie";
 
 const PvpRouter = lazy(() => import("./PvP/PvpRouter.jsx"))
 const PveRouter = lazy(() => import("./PvE/PveRouter.jsx"))

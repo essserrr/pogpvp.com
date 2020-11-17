@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { getCookie } from "../js/getCookie"
-import { refresh } from '../AppStore/Actions/refresh'
-import { endLoading, startLoading } from '../AppStore/Actions/actions'
-import AppGrid from "./AppGrid.jsx"
+import { getCookie } from "js/getCookie";
+import { refresh } from 'AppStore/Actions/refresh';
+import { endLoading, startLoading } from 'AppStore/Actions/actions';
+import AppGrid from "./AppGrid";
 
 class App extends Component {
     componentDidMount = () => {

@@ -1,5 +1,5 @@
 
-import { getCookie } from "../../js/getCookie"
+import { getCookie } from "js/getCookie"
 
 export const getCustomPokemon = () => {
     return (dispatch, getState) => {
