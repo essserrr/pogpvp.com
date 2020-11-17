@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { ReactComponent as Shadow } from "icons/shadow.svg";
 import CloseButton from "App/Components/CloseButton/CloseButton";
 import GreyPaper from "App/Components/GreyPaper/GreyPaper";
 
@@ -20,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
             marginTop: `${theme.spacing(0.5)}px`
         }
     },
+    shadow: {
+        width: 12,
+        height: 12,
+        position: "absolute",
+        top: -3,
+        right: -3,
+    }
 }));
 
 const MatrixListEntry = React.memo(function MatrixListEntry(props) {
@@ -32,7 +40,10 @@ const MatrixListEntry = React.memo(function MatrixListEntry(props) {
 
                 <Grid item xs={12} container wrap="nowrap" alignItems="center" justify="space-between">
 
-                    {props.icon}
+                    <Box position="relative">
+                        {props.icon}
+                        {props.isShadow && <Shadow className={classes.shadow} />}
+                    </Box>
 
                     <Box clone pl={0.5}>
                         <Grid item xs className={classes.pokemonName}>
@@ -63,6 +74,7 @@ export default MatrixListEntry;
 MatrixListEntry.propTypes = {
     attr: PropTypes.string,
     index: PropTypes.number,
+    isShadow: PropTypes.bool,
 
     onPokemonDelete: PropTypes.func,
     onClick: PropTypes.func,

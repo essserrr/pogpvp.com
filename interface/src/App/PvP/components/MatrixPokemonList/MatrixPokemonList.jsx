@@ -9,6 +9,7 @@ import ColoredMove from "App/Components/ColoredMove/ColoredMove"
 
 import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry"
 import Iconer from "App/Components/Iconer/Iconer";
+import { addStar } from "js/addStar";
 
 const useStyles = makeStyles((theme) => ({
     pokList: {
@@ -22,14 +23,11 @@ const useStyles = makeStyles((theme) => ({
 const MatrixPokemonList = React.memo(function MatrixPokemonList(props) {
     const classes = useStyles();
 
-    const addStar = (pokName, moveName) => {
-        return (props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
-    }
-
     return (
         <Box clone p={0.5}>
             <Grid container justify="center" className={classes.pokList} spacing={1}>
                 {props.children.map((elem, i) => {
+                    console.log(elem)
                     const fileName = props.pokemonTable[elem.name].Number + (props.pokemonTable[elem.name].Forme !== "" ? "-" + props.pokemonTable[elem.name].Forme : "")
                     return (
                         <Grid item xs={12} key={i}>
@@ -41,22 +39,23 @@ const MatrixPokemonList = React.memo(function MatrixPokemonList(props) {
                                 onClick={props.onPokRedact}
 
                                 icon={<Iconer folderName="/pokemons/" fileName={fileName} size={24} />}
+                                isShadow={elem.IsShadow === "true"}
                                 name={elem.name}
 
                                 body={
                                     <>
                                         <ColoredMove type={props.moveTable[elem.QuickMove].MoveType}>
-                                            {elem.QuickMove + addStar(elem.name, elem.QuickMove)}
+                                            {elem.QuickMove + addStar(elem.name, elem.QuickMove, props.pokemonTable)}
                                         </ColoredMove>
 
                                         {elem.ChargeMove1 &&
                                             <ColoredMove type={props.moveTable[elem.ChargeMove1].MoveType}>
-                                                {elem.ChargeMove1 + addStar(elem.name, elem.ChargeMove1)}
+                                                {elem.ChargeMove1 + addStar(elem.name, elem.ChargeMove1, props.pokemonTable)}
                                             </ColoredMove>}
 
                                         {elem.ChargeMove2 &&
                                             <ColoredMove type={props.moveTable[elem.ChargeMove2].MoveType}>
-                                                {elem.ChargeMove2 + addStar(elem.name, elem.ChargeMove2)}
+                                                {elem.ChargeMove2 + addStar(elem.name, elem.ChargeMove2, props.pokemonTable)}
                                             </ColoredMove>}
                                     </>
                                 }
