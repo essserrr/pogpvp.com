@@ -48,7 +48,7 @@ class AdvisorPanel extends React.PureComponent {
         const { classes } = this.props;
 
         return (
-            <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+            <GreyPaper elevation={4} enablePadding paddingMult={0.5} style={{ backgroundColor: "white" }}>
                 <Grid container justify="space-between" alignItems="center" spacing={2}>
 
                     <Box clone textAlign="center" mr={3}>
