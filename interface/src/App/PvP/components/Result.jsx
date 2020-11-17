@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 
 import SinglePvpResults from "./SinglePvpResults/SinglePvpResults";
-import TableWrapper from "./TableBodyRender/TableWrapper/TableWrapper";
 
 class Result extends React.PureComponent {
     constructor() {
@@ -34,9 +33,7 @@ class Result extends React.PureComponent {
                 {this.props.isSingle ?
                     <SinglePvpResults value={this.props.children} />
                     :
-                    <TableWrapper>
-                        {this.props.children}
-                    </TableWrapper>}
+                    this.props.children}
             </Box>
         );
     }

@@ -114,7 +114,7 @@ export default TableBodyRender;
 MatrixTable.propTypes = {
     pvpData: PropTypes.arrayOf(PropTypes.object),
     pvpoke: PropTypes.bool,
-
+    isAdvisor: PropTypes.bool,
     isTriple: PropTypes.bool,
     league: PropTypes.string,
 
