@@ -31,7 +31,7 @@ const useStyles = props => makeStyles(theme => {
     })
 });
 
-const TableIcon = React.memo(function TableIcon(props) {
+const TableIcon = function TableIcon(props) {
     const classes = useStyles({ value: returnRateStyle(props.rate)[1] })();
 
     return (
@@ -42,7 +42,7 @@ const TableIcon = React.memo(function TableIcon(props) {
             </Link>
         </TableCell>
     )
-});
+};
 
 
 export default TableIcon;
