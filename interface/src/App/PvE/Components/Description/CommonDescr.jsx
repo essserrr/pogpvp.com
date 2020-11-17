@@ -3,6 +3,7 @@ import React from "react";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
+import Box from '@material-ui/core/Box';
 
 import LocalizedStrings from "react-localization";
 import { commonRaidTips } from "locale/Pve/Tips/commonRaidTips";
@@ -23,27 +24,39 @@ const CommonDescr = React.memo(function CommonDescr(props) {
             <Grid item xs={12} container justify="center">
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.damage}</Typography>}>
-                    <i className="fas fa-crosshairs mr-3 fa-2x"></i>
+                    <Box mx={1}>
+                        <i className="fas fa-crosshairs fa-2x"></i>
+                    </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.pl}</Typography>}>
-                    <i className="fas fa-users mr-3 fa-2x"></i>
+                    <Box mx={1}>
+                        <i className="fas fa-users fa-2x"></i>
+                    </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{"DPS"}</Typography>}>
-                    <i className="fab fa-cloudscale mr-3 fa-2x"></i>
+                    <Box mx={1}>
+                        <i className="fab fa-cloudscale fa-2x"></i>
+                    </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.fainted}</Typography>}>
-                    <i className="fas fa-skull-crossbones mr-3 fa-2x"></i>
+                    <Box mx={1}>
+                        <i className="fas fa-skull-crossbones fa-2x"></i>
+                    </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.time}</Typography>}>
-                    <i className="far fa-clock mr-3 fa-2x"></i>
+                    <Box mx={1}>
+                        <i className="far fa-clock fa-2x"></i>
+                    </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.ttw}</Typography>}>
-                    <i className="far fa-hourglass fa-2x"></i>
+                    <Box mx={1}>
+                        <i className="far fa-hourglass fa-2x"></i>
+                    </Box>
                 </Tooltip>
             </Grid>
 
