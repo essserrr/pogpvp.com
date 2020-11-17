@@ -20,13 +20,15 @@ const PlateGroup = React.memo(function PlateGroup(props) {
         <Grid container>
             <DropWithArrow
                 title={
-                    <div className="row mx-0 align-items-center">
-                        <div style={{ textTransform: "capitalize" }} className="col-auto px-0 mr-2">{`${strings.party} ${props.subGroup + 1}`}</div>
+                    <Grid container alignItems="center">
+                        <Grid item xs={"auto"} style={{ textTransform: "capitalize" }}>
+                            {`${strings.party} ${props.subGroup + 1}`}
+                        </Grid>
 
                         {props.party.map((value, index) =>
                             <PreviewIcon key={index + "prevIcon"} Name={value.Name} IsShadow={value.IsShadow} pokemonTable={props.pokemonTable} />
                         )}
-                    </div>}>
+                    </Grid>}>
                 <Grid container justify="space-around">
 
                     {props.party.map((value, index) =>
