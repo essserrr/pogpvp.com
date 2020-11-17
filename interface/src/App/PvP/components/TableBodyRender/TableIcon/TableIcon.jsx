@@ -67,7 +67,6 @@ export default TableIcon;
 
 TableIcon.propTypes = {
     pok: PropTypes.object,
-    i: PropTypes.number,
     pokemonTable: PropTypes.object,
     moveTable: PropTypes.object,
 };

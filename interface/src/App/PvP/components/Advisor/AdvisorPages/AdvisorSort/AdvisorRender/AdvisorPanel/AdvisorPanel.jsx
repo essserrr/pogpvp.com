@@ -1,14 +1,28 @@
-import React from "react"
-import { UnmountClosed } from "react-collapse"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import Iconer from "App/Components/Iconer/Iconer";
-import AdvisorPanelBody from "./AdvisorPanelBody/AdvisorPanelBody"
+import Grid from '@material-ui/core/Grid';
+import Collapse from '@material-ui/core/Collapse';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import { withStyles } from "@material-ui/core/styles";
 
-import { ReactComponent as Shadow } from "../../../../../../../../icons/shadow.svg"
-import { getAbbriviation } from "./getMovesAbbriviation"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import TableIcon from "App/PvP/components/TableBodyRender/TableIcon/TableIcon";
+import AdvisorPanelBody from "./AdvisorPanelBody/AdvisorPanelBody";
 
-import "./AdvisorPanel.scss"
-
+const styles = theme => ({
+    border: {
+        borderTop: "1px solid rgba(0, 0, 0, 0.295)",
+    },
+    disableSpacing: {
+        padding: "0px !important",
+        margin: "0px !important",
+    }
+});
 
 class AdvisorPanel extends React.PureComponent {
     constructor(props) {
@@ -30,78 +44,92 @@ class AdvisorPanel extends React.PureComponent {
     }
 
     render() {
-        const fileNameFirst = this.props.pokemonTable[this.props.first.name].Number + (this.props.pokemonTable[this.props.first.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.first.name].Forme : "");
-        const fileNameSecond = this.props.pokemonTable[this.props.second.name].Number + (this.props.pokemonTable[this.props.second.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.second.name].Forme : "");
-        const fileNameThird = this.props.pokemonTable[this.props.third.name].Number + (this.props.pokemonTable[this.props.third.name].Forme !== "" ? "-" + this.props.pokemonTable[this.props.third.name].Forme : "");
+        const listEntry = this.props.list[this.props.i];
+        const { classes } = this.props;
 
         return (
-            <div className={"advisor-panel__card row m-0 py-1 justify-content-between"}>
-                <div className={"col d-flex p-0"}>
+            <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+                <Grid container justify="space-between" alignItems="center" spacing={2}>
 
-                    <span className="mx-2 align-self-center ">{"#" + (this.props.i + 1)}</span>
+                    <Box clone textAlign="center" mr={3}>
+                        <Grid item xs container justify="space-between" alignItems="center" wrap="nowrap" spacing={2}>
 
-                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
-                        <div className="advisor-panel--relative col-auto px-0">
-                            {String(this.props.first.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
+                            <Grid item xs="auto">
+                                <Box clone fontWeight="bold">
+                                    <Typography variant="body2">
+                                        {`#${this.props.i + 1}`}
+                                    </Typography>
+                                </Box>
+                            </Grid>
 
-                            <Iconer folderName="/pokemons/" src={fileNameFirst} size={48} />
+                            <Grid item xs="auto">
+                                <TableIcon pok={this.props.first}
+                                    pokemonTable={this.props.pokemonTable} moveTable={this.props.moveTable} />
+                            </Grid>
 
-                        </div>
-                        <div className="advisor-panel__body--text col-auto px-0">
-                            {getAbbriviation(this.props.first.QuickMove, this.props.first.ChargeMove1, this.props.first.ChargeMove2,
-                                this.props.first.name, this.props.pokemonTable)}
-                        </div>
-                    </div>
+                            <Grid item xs="auto">
+                                <TableIcon pok={this.props.second}
+                                    pokemonTable={this.props.pokemonTable} moveTable={this.props.moveTable} />
+                            </Grid>
 
-                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
-                        <div className="advisor-panel--relative col-auto px-0">
-                            {String(this.props.second.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
+                            <Grid item xs="auto">
+                                <TableIcon pok={this.props.third}
+                                    pokemonTable={this.props.pokemonTable} moveTable={this.props.moveTable} />
+                            </Grid>
 
-                            <Iconer folderName="/pokemons/" src={fileNameSecond} size={48} />
+                        </Grid>
+                    </Box>
 
-                        </div>
-                        <div className="advisor-panel__body--text col-auto px-0">
-                            {getAbbriviation(this.props.second.QuickMove, this.props.second.ChargeMove1, this.props.second.ChargeMove2,
-                                this.props.second.name, this.props.pokemonTable)}
-                        </div>
-                    </div>
+                    <Grid item xs="auto">
+                        <Box clone textAlign="center" mr={0.5}>
+                            <i className="fas fa-skull-crossbones"></i>
+                        </Box>
+                        {listEntry.zeros.length}
+                    </Grid>
 
-                    <div className="advisor-panel__body--minwidth col-auto px-0 mx-0 mx-md-2 text-center">
-                        <div className="advisor-panel--relative col-auto px-0">
-                            {String(this.props.third.IsShadow) === "true" && <Shadow className="advisor-panel__shadow-icon" />}
+                    <Grid item xs="auto">
+                        <Box clone textAlign="center" mr={0.5}>
+                            <i className="fas fa-trophy"></i>
+                        </Box>
+                        {(listEntry.rate / 3).toFixed(1)}
+                    </Grid>
 
-                            <Iconer folderName="/pokemons/" src={fileNameThird} size={48} />
+                    <Grid item xs="auto">
+                        <IconButton onClick={this.onClick} style={{ outline: "none", width: '28px', height: '28px' }}>
+                            {this.state.showCollapse ?
+                                <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
+                                :
+                                <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />}
+                        </IconButton>
+                    </Grid>
 
-                        </div>
-                        <div className="advisor-panel__body--text col-auto px-0">
-                            {getAbbriviation(this.props.third.QuickMove, this.props.third.ChargeMove1, this.props.third.ChargeMove2,
-                                this.props.third.name, this.props.pokemonTable)}
-                        </div>
-                    </div>
+                    <Grid item xs={12} className={this.state.showCollapse ? classes.border : classes.disableSpacing}>
+                        <Collapse in={this.state.showCollapse} unmountOnExit>
+                            {this.state.colElement}
+                        </Collapse>
+                    </Grid>
 
-                </div>
-
-                <div className="col-auto mx-auto align-self-center ">
-                    <i className="fas fa-skull-crossbones mr-1"></i>
-                    {this.props.list[this.props.i].zeros.length}
-                </div>
-                <div className="col-auto mx-auto align-self-center ">
-                    <i className="fas fa-trophy mr-1"></i>
-                    {(this.props.list[this.props.i].rate / 3).toFixed(1)}
-                </div>
-
-                <i onClick={this.onClick}
-                    className={"clickable align-self-center mr-3 " +
-                        (this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg")}></i>
-                <div className={`col-12 p-0 ${this.state.showCollapse ? "advisor-panel--border-top" : ""}`}>
-                    <UnmountClosed isOpened={this.state.showCollapse}>
-                        {this.state.colElement}
-                    </UnmountClosed>
-                </div>
-            </div>
+                </Grid>
+            </GreyPaper>
 
         );
     }
 };
 
-export default AdvisorPanel;
+export default withStyles(styles, { withTheme: true })(AdvisorPanel);
+
+AdvisorPanel.propTypes = {
+    first: PropTypes.object,
+    second: PropTypes.object,
+    third: PropTypes.object,
+    i: PropTypes.number,
+
+    list: PropTypes.arrayOf(PropTypes.object),
+    rawResult: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node)),
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+};

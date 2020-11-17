@@ -10,6 +10,8 @@ import SinglePokLine from "./SinglePokLine/SinglePokLine"
 import ZeroPokemon from "./ZeroPokemon/ZeroPokemon"
 
 import { pvp } from "locale/Pvp/Pvp"
+import { advisor } from "locale/Pvp/Advisor/Advisor"
+import { options } from "locale/Components/Options/locale"
 import { effectivenessData } from "js/indexFunctions"
 import { getCookie } from "js/getCookie"
 import { addStar } from "js/addStar"
@@ -17,11 +19,15 @@ import { addStar } from "js/addStar"
 import "./AdvisorPanelBody.scss"
 
 let strings = new LocalizedStrings(pvp);
+let advisorStrings = new LocalizedStrings(advisor);
+let optionStrings = new LocalizedStrings(options);
 
 class AdvisorPanelBody extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        advisorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     }
 
     calculateVunerabilities() {
@@ -138,12 +144,12 @@ class AdvisorPanelBody extends React.PureComponent {
                 key={pok.name + i + "zero"}
                 name={pok.name}
                 for={pok.name + i + "zero"}
-                shadow={pok.IsShadow === "true" ? strings.options.type.shadow : ""}
+                shadow={pok.IsShadow === "true" ? optionStrings.options.type.shadow : ""}
                 src={this.props.pokemonTable[pok.name].Number + (this.props.pokemonTable[pok.name].Forme !== "" ?
                     "-" + this.props.pokemonTable[pok.name].Forme : "")}
             />
         })
-        return zerosList.length > 0 ? zerosList : strings.options.moveSelect.none
+        return zerosList.length > 0 ? zerosList : optionStrings.options.moveSelect.none
     }
 
     makeMoveTypingList() {
@@ -185,11 +191,11 @@ class AdvisorPanelBody extends React.PureComponent {
         let off = this.calculateOffensiveStats()
         return (
             <div className="advpanel-body col-12 px-2 text-center" key={"coll" + this.props.i}>
-                {strings.advisor.bad}
+                {advisorStrings.advisor.bad}
                 <div className="row mx-1 mt-1 justify-content-center">
                     {this.makeZerosList()}
                 </div>
-                {strings.advisor.all}
+                {advisorStrings.advisor.all}
                 <div className="advpanel-body__overflow-contx p-0 m-0">
                     <Result class="advpanel-body--fixed-thead">
                         <TableBody
@@ -202,12 +208,12 @@ class AdvisorPanelBody extends React.PureComponent {
                         />
                     </Result>
                 </div>
-                {strings.advisor.def}
+                {advisorStrings.advisor.def}
                 <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
-                    {strings.advisor.res}{vun[1].length > 0 ? vun[1] : strings.options.moveSelect.none}
+                    {advisorStrings.advisor.res}{vun[1].length > 0 ? vun[1] : optionStrings.options.moveSelect.none}
                 </div>
                 <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
-                    {strings.advisor.weak}  {vun[2].length > 0 ? vun[2] : strings.options.moveSelect.none}
+                    {advisorStrings.advisor.weak}  {vun[2].length > 0 ? vun[2] : optionStrings.options.moveSelect.none}
                 </div>
                 <div className="advpanel-body__overflow-contx p-0 m-0">
                     <Result class="advpanel-body--fixed-thead">
@@ -219,7 +225,7 @@ class AdvisorPanelBody extends React.PureComponent {
                                     i={0}
                                     pok={this.props.first}
                                     pokemonTable={this.props.pokemonTable}
-                                    locale={strings.options.type.shadow}
+                                    locale={optionStrings.options.type.shadow}
                                     vun={vun[0]}
                                 />,
                                 <SinglePokLine
@@ -227,7 +233,7 @@ class AdvisorPanelBody extends React.PureComponent {
                                     i={1}
                                     pok={this.props.second}
                                     pokemonTable={this.props.pokemonTable}
-                                    locale={strings.options.type.shadow}
+                                    locale={optionStrings.options.type.shadow}
                                     vun={vun[0]}
                                 />,
                                 <SinglePokLine
@@ -235,19 +241,19 @@ class AdvisorPanelBody extends React.PureComponent {
                                     i={2}
                                     pok={this.props.third}
                                     pokemonTable={this.props.pokemonTable}
-                                    locale={strings.options.type.shadow}
+                                    locale={optionStrings.options.type.shadow}
                                     vun={vun[0]}
                                 />
                             ]}
                         />
                     </Result>
                 </div>
-                {strings.advisor.off}
+                {advisorStrings.advisor.off}
                 <div className="col-12 text-left  p-0 mt-1 mb-2">
-                    {strings.advisor.notcov} {off[0].length > 0 ? off[0] : strings.options.moveSelect.none}
+                    {advisorStrings.advisor.notcov} {off[0].length > 0 ? off[0] : optionStrings.options.moveSelect.none}
                 </div>
                 <div className="col-12 text-left  p-0 mt-1 mb-2">
-                    {strings.advisor.strong} {off[1].length > 0 ? off[1] : strings.options.moveSelect.none}
+                    {advisorStrings.advisor.strong} {off[1].length > 0 ? off[1] : optionStrings.options.moveSelect.none}
                 </div>
                 <div className="advpanel-body__overflow-contxy p-0 m-0">
                     <Result class="advpanel-body--fixed-thead">
