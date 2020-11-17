@@ -1,13 +1,15 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
 
-import Result from "../../../../../../Result"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+
+import MatrixTable from "App/PvP/components/TableBodyRender/MatrixTable/MatrixTable";
 import Iconer from "App/Components/Iconer/Iconer"
-import TableBody from "./TableBody/TableBody"
 import TypingThead from "./TypingThead/TypingThead"
 import SingleMoveLine from "./SingleMoveLine/SingleMoveLine"
 import SinglePokLine from "./SinglePokLine/SinglePokLine"
-import ZeroPokemon from "./ZeroPokemon/ZeroPokemon"
+import ZeroList from "./ZeroList/ZeroList"
 
 import { pvp } from "locale/Pvp/Pvp"
 import { advisor } from "locale/Pvp/Advisor/Advisor"
@@ -49,7 +51,7 @@ class AdvisorPanelBody extends React.PureComponent {
                         className={"icon24 m-1"}
                         size={24}
                         folderName="/type/"
-                        fileName={i}
+                        fileName={String(i)}
                     />)
                     break
                 case multipl > 1:
@@ -58,7 +60,7 @@ class AdvisorPanelBody extends React.PureComponent {
                         className={"icon24 m-1"}
                         size={24}
                         folderName="/type/"
-                        fileName={i}
+                        fileName={String(i)}
                     />)
                     break
                 default:
@@ -136,22 +138,6 @@ class AdvisorPanelBody extends React.PureComponent {
         }
     }
 
-    makeZerosList() {
-        //bad matchups
-        let zerosList = this.props.list[this.props.i].zeros.map((elem, i) => {
-            let pok = this.props.rightPanel.listForBattle[elem]
-            return <ZeroPokemon
-                key={pok.name + i + "zero"}
-                name={pok.name}
-                for={pok.name + i + "zero"}
-                shadow={pok.IsShadow === "true" ? optionStrings.options.type.shadow : ""}
-                src={this.props.pokemonTable[pok.name].Number + (this.props.pokemonTable[pok.name].Forme !== "" ?
-                    "-" + this.props.pokemonTable[pok.name].Forme : "")}
-            />
-        })
-        return zerosList.length > 0 ? zerosList : optionStrings.options.moveSelect.none
-    }
-
     makeMoveTypingList() {
         let arr = [
             <TypingThead key="movetyping" />,
@@ -191,23 +177,29 @@ class AdvisorPanelBody extends React.PureComponent {
         let off = this.calculateOffensiveStats()
         return (
             <div className="advpanel-body col-12 px-2 text-center" key={"coll" + this.props.i}>
-                {advisorStrings.advisor.bad}
-                <div className="row mx-1 mt-1 justify-content-center">
-                    {this.makeZerosList()}
-                </div>
+
+                <Grid item xs={12}>
+                    <ZeroList pokemonTable={this.props.pokemonTable} moveTable={this.props.moveTable}
+                        rightPanel={this.props.rightPanel}>
+                        {this.props.list[this.props.i].zeros}
+                    </ZeroList>
+                </Grid>
+
+
                 {advisorStrings.advisor.all}
-                <div className="advpanel-body__overflow-contx p-0 m-0">
-                    <Result class="advpanel-body--fixed-thead">
-                        <TableBody
-                            value={[
+                <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
+                    <Grid item xs={12}>
+                        <MatrixTable variant="secondary">
+                            {[
                                 this.props.rawResult[0],
                                 this.props.rawResult[this.props.list[this.props.i].first + 1],
                                 this.props.rawResult[this.props.list[this.props.i].second + 1],
                                 this.props.rawResult[this.props.list[this.props.i].third + 1],
                             ]}
-                        />
-                    </Result>
-                </div>
+                        </MatrixTable>
+                    </Grid>
+                </Box>
+
                 {advisorStrings.advisor.def}
                 <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
                     {advisorStrings.advisor.res}{vun[1].length > 0 ? vun[1] : optionStrings.options.moveSelect.none}
@@ -215,39 +207,31 @@ class AdvisorPanelBody extends React.PureComponent {
                 <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
                     {advisorStrings.advisor.weak}  {vun[2].length > 0 ? vun[2] : optionStrings.options.moveSelect.none}
                 </div>
-                <div className="advpanel-body__overflow-contx p-0 m-0">
-                    <Result class="advpanel-body--fixed-thead">
-                        <TableBody
-                            value={[
+
+
+                <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
+                    <Grid item xs={12}>
+                        <MatrixTable variant="secondary">
+                            {[
                                 <TypingThead key="poktyping" />,
-                                <SinglePokLine
-                                    key="typesof1"
-                                    i={0}
-                                    pok={this.props.first}
-                                    pokemonTable={this.props.pokemonTable}
-                                    locale={optionStrings.options.type.shadow}
+                                <SinglePokLine key="typesof1" i={0}
+                                    pok={this.props.first} pokemonTable={this.props.pokemonTable}
                                     vun={vun[0]}
                                 />,
-                                <SinglePokLine
-                                    key="typesof2"
-                                    i={1}
-                                    pok={this.props.second}
-                                    pokemonTable={this.props.pokemonTable}
-                                    locale={optionStrings.options.type.shadow}
+                                <SinglePokLine key="typesof2" i={1}
+                                    pok={this.props.second} pokemonTable={this.props.pokemonTable}
                                     vun={vun[0]}
                                 />,
-                                <SinglePokLine
-                                    key="typesof3"
-                                    i={2}
-                                    pok={this.props.third}
-                                    pokemonTable={this.props.pokemonTable}
-                                    locale={optionStrings.options.type.shadow}
+                                <SinglePokLine key="typesof3" i={2}
+                                    pok={this.props.third} pokemonTable={this.props.pokemonTable}
                                     vun={vun[0]}
                                 />
                             ]}
-                        />
-                    </Result>
-                </div>
+                        </MatrixTable>
+                    </Grid>
+                </Box>
+
+
                 {advisorStrings.advisor.off}
                 <div className="col-12 text-left  p-0 mt-1 mb-2">
                     {advisorStrings.advisor.notcov} {off[0].length > 0 ? off[0] : optionStrings.options.moveSelect.none}
@@ -255,13 +239,15 @@ class AdvisorPanelBody extends React.PureComponent {
                 <div className="col-12 text-left  p-0 mt-1 mb-2">
                     {advisorStrings.advisor.strong} {off[1].length > 0 ? off[1] : optionStrings.options.moveSelect.none}
                 </div>
-                <div className="advpanel-body__overflow-contxy p-0 m-0">
-                    <Result class="advpanel-body--fixed-thead">
-                        <TableBody
-                            value={this.makeMoveTypingList()}
-                        />
-                    </Result>
-                </div>
+
+
+                <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
+                    <Grid item xs={12}>
+                        <MatrixTable variant="secondary">
+                            {this.makeMoveTypingList()}
+                        </MatrixTable>
+                    </Grid>
+                </Box>
             </div>
 
         );

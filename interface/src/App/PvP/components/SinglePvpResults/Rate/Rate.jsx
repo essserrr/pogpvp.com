@@ -29,7 +29,15 @@ const useStyles = props => makeStyles(theme => {
 
 const Rate = React.memo(function Rate(props) {
     const classes = useStyles(
-        { value: props.forMult ? returnVunStyle(props.value) : returnRateStyle(props.value)[1] }
+        {
+            value: props.forMult ?
+                returnVunStyle(props.reverse ?
+                    props.value === "1.000" ? props.value : (1 / props.value).toFixed(3)
+                    :
+                    props.value)
+                :
+                returnRateStyle(props.value)[1]
+        }
     )();
 
     return (
@@ -46,6 +54,10 @@ export default Rate;
 
 Rate.propTypes = {
     children: PropTypes.node,
-    value: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.string
+    ]).isRequired,
     forMult: PropTypes.bool,
+    reverse: PropTypes.bool,
 };

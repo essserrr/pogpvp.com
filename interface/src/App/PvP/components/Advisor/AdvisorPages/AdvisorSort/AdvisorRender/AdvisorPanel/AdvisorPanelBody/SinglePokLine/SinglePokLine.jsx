@@ -31,5 +31,5 @@ SinglePokLine.propTypes = {
     i: PropTypes.number,
     pok: PropTypes.object,
     pokemonTable: PropTypes.object,
-    vun: PropTypes.object,
+    vun: PropTypes.array,
 };
