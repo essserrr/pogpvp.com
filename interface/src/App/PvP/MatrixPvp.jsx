@@ -1,6 +1,7 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 import Alert from '@material-ui/lab/Alert';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -11,23 +12,23 @@ import { withStyles } from "@material-ui/core/styles";
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Button from "App/Components/Button/Button";
-import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
-import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
-import { addParty } from "../../AppStore/Actions/actions"
-import { deleteParty } from "../../AppStore/Actions/actions"
-import MatrixPanel from "./components/MatrixPanel"
-import Result from "./components/Result"
-import EditPokemon from "./components/EditPokemon"
+import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator";
+import TableBodyRender from "./components/TableBodyRender/TableBodyRender";
+import { addParty } from "AppStore/Actions/actions";
+import { deleteParty } from "AppStore/Actions/actions";
+import MatrixPanel from "./components/MatrixPanel";
+import Result from "./components/Result";
+import EditPokemon from "./components/EditPokemon";
 
-import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
-import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "../../js/indexFunctions.js"
+import { translareMove, translateName } from "../Userpage/CustomPokemon/translator";
+import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "js/indexFunctions";
 
-import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
+import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets";
 
 
-import { getCookie } from "../../js/getCookie"
-import { pvp } from "../../locale/Pvp/Pvp"
-import { options } from "../../locale/Components/Options/locale"
+import { getCookie } from "js/getCookie";
+import { pvp } from "locale/Pvp/Pvp";
+import { options } from "locale/Components/Options/locale";
 
 const styles = theme => ({
     matrixPanel: {
@@ -686,8 +687,6 @@ class MatrixPvp extends React.PureComponent {
                     </Grid>
                 </Box>
 
-
-
                 <Box className={classes.middleRow} clone order={{ xs: 3, md: 2 }}>
                     <Grid item xs={12} md>
                         <Grid container spacing={1} style={{ height: "100%" }} alignItems="flex-end">
@@ -782,21 +781,23 @@ class MatrixPvp extends React.PureComponent {
 
                 {!this.state.advDisabled && this.state.snapshot && this.state.showAdvisor &&
                     <Box clone order={{ xs: 6 }}>
-                        <Grid item xs={12}>
-                            <AdvisorCombinator
-                                pvpData={this.state.pvpData}
-                                pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
+                        <Grid item xs={12} container justify="center">
+                            <Grid item xs={12} sm={9} md={7} lg={6}>
+                                <AdvisorCombinator
+                                    pvpData={this.state.pvpData}
+                                    pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                                isTriple={this.state.snapshot.triple}
+                                    isTriple={this.state.snapshot.triple}
 
-                                league={this.state.snapshot.league}
+                                    league={this.state.snapshot.league}
 
-                                pokemonTable={this.props.pokemonTable}
-                                moveTable={this.props.parentState.moveTable}
+                                    pokemonTable={this.props.pokemonTable}
+                                    moveTable={this.props.parentState.moveTable}
 
-                                leftPanel={this.state.snapshot.leftPanel}
-                                rightPanel={this.state.snapshot.rightPanel}
-                            />
+                                    leftPanel={this.state.snapshot.leftPanel}
+                                    rightPanel={this.state.snapshot.rightPanel}
+                                />
+                            </Grid>
                         </Grid>
                     </Box>}
             </Grid>
@@ -820,5 +821,10 @@ export default withStyles(styles, { withTheme: true })(
     )(MatrixPvp)
 );
 
+MatrixPvp.propTypes = {
+    userPokemon: PropTypes.arrayOf(PropTypes.object),
+    pokemonTable: PropTypes.object,
 
+    parentState: PropTypes.object,
+};
 
