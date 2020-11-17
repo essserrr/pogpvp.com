@@ -29,8 +29,6 @@ import { getCookie } from "js/getCookie";
 import { pvp } from "locale/Pvp/Pvp";
 import { options } from "locale/Components/Options/locale";
 
-import "./PvpPage.scss"
-
 let strings = new LocalizedStrings(pvp);
 let optionStrings = new LocalizedStrings(options);
 
