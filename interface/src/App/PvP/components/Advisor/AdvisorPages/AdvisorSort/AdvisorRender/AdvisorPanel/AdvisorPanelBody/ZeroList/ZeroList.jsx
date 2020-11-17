@@ -30,7 +30,7 @@ const ZeroList = React.memo(function ZeroList(props) {
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
-                <Typography align="cente" variant="h6">
+                <Typography align="center" variant="h6">
                     {advisorStrings.advisor.bad}
                 </Typography>
             </Grid>

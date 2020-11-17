@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import { returnRateStyle } from "js/indexFunctions";
+import { returnRateStyle, returnVunStyle } from "js/indexFunctions";
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 
@@ -28,13 +28,15 @@ const useStyles = props => makeStyles(theme => {
 });
 
 const Rate = React.memo(function Rate(props) {
-    const classes = useStyles({ value: returnRateStyle(props.value)[1] })();
+    const classes = useStyles(
+        { value: props.forMult ? returnVunStyle(props.value) : returnRateStyle(props.value)[1] }
+    )();
 
     return (
         <Box className={classes.rate}>
-            <Box clone mr={1}>
+            {props.children && <Box clone mr={1}>
                 {props.children}
-            </Box>
+            </Box>}
             {props.value}
         </Box>
     )
@@ -45,4 +47,5 @@ export default Rate;
 Rate.propTypes = {
     children: PropTypes.node,
     value: PropTypes.number.isRequired,
+    forMult: PropTypes.bool,
 };
