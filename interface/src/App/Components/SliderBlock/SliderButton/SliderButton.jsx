@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
         backgroundColor: "transparent",
 
+        cursor: "pointer",
 
         borderColor: lighten(theme.palette.primary.main, 0.3),
         borderWidth: "2px 0px 2px 0px",
