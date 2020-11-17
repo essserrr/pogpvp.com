@@ -697,7 +697,7 @@ class MatrixPvp extends React.PureComponent {
                                     <Grid item xs={12}>
                                         <GreyPaper elevation={4} enablePadding paddingMult={1}>
                                             <Grid item xs={12} className={classes.overflowCont}>
-                                                <Result>
+                                                <Result enableFocus>
                                                     <TableBodyRender
                                                         pvpData={this.state.pvpData}
                                                         pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
