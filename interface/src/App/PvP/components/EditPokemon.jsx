@@ -1,24 +1,25 @@
 import React from "react";
+
+import PropTypes from 'prop-types';
+import LocalizedStrings from "react-localization";
+
+import Grid from '@material-ui/core/Grid';
+import SaveIcon from '@material-ui/icons/Save';
+
 import Pokemon from "./Pokemon";
 import MagicBox from "./MagicBox/MagicBox"
 import Button from "App/Components/Button/Button";
 
-
-import { MovePoolBuilder } from "js/movePoolBuilder"
-import {
-    calculateMaximizedStats, processInitialStats, checkLvl, checkIV,
-    calculateEffStat, selectCharge, selectQuick
-} from "../../../js/indexFunctions.js"
-import { getCookie } from "../../../js/getCookie"
-import { options } from "locale/Components/Options/locale"
-
-import LocalizedStrings from "react-localization";
-import { pvp } from "../../../locale/Pvp/Pvp"
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat, selectCharge, selectQuick } from "js/indexFunctions";
+import { getCookie } from "js/getCookie";
+import { options } from "locale/Components/Options/locale";
+import { pvp } from "locale/Pvp/Pvp";
 
 let strings = new LocalizedStrings(pvp);
-let optionStrings = new LocalizedStrings(options)
+let optionStrings = new LocalizedStrings(options);
 
-class RedactPokemon extends React.PureComponent {
+class EditPokemon extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
@@ -32,34 +33,6 @@ class RedactPokemon extends React.PureComponent {
         let whatToMaximize = (props.value.maximizer.action === "Default") ? "Default" : props.value.maximizer.stat
 
         this.state = {
-            shieldsList: [
-                <option value="0" key="0">0</option>,
-                <option value="1" key="1">1</option>,
-                <option value="2" key="2">2</option>
-            ],
-            stagesList: [
-                <option value="4" key="4">4</option>,
-                <option value="3" key="3">3</option>,
-                <option value="2" key="2">2</option>,
-                <option value="1" key="1">1</option>,
-                <option value="0" key="0">0</option>,
-                <option value="-1" key="-1">-1</option>,
-                <option value="-2" key="-2">-2</option>,
-                <option value="-3" key="-3">-3</option>,
-                <option value="-4" key="-4">-4</option>,
-            ],
-            stratigiesList: [
-                <option value="true" key="Greedy">{optionStrings.options.strategy.greedy}</option>,
-                <option value="false" key="Shieldsaving">{optionStrings.options.strategy.shieldSaving}</option>,
-            ],
-            strategyTip: [
-                <>
-                    {strings.tips.strategy.greedy}
-                    <br />
-                    <br />
-                    {strings.tips.strategy.shieldSaving}
-                </>
-            ],
             pokemon: {
                 ...props.redact.pokemon,
                 quickMovePool: moves.quickMovePool,
@@ -89,55 +62,50 @@ class RedactPokemon extends React.PureComponent {
         this.onPokemonSubmit = this.onPokemonSubmit.bind(this);
     }
 
-    onClick(event) {
-        let role = event.target.getAttribute("attr")
+    onClick(event, attributes) {
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
                 showMenu: false,
                 isSelected: undefined,
             }
         });
     }
 
-    onNameChange(event, name) {
+    onNameChange(value, name) {
         //get movepool
         let moves = new MovePoolBuilder();
-        moves.createMovePool(event.value, this.props.pokemonTable, optionStrings.options.moveSelect)
-        let quick = selectQuick(moves.quickMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
-        let charge = selectCharge(moves.chargeMovePool, this.props.moveTable, event.value, this.props.pokemonTable)
+        moves.createMovePool(value, this.props.pokemonTable, optionStrings.options.moveSelect)
+        const quick = selectQuick(moves.quickMovePool, this.props.moveTable, value, this.props.pokemonTable)
+        const charge = selectCharge(moves.chargeMovePool, this.props.moveTable, value, this.props.pokemonTable)
         //create default iv set
-        let ivSet = calculateMaximizedStats(event.value, this.state.pokemon.maximizer.level, this.props.pokemonTable)
-        let whatToMaximize = (this.state.pokemon.maximizer.action === "Default") ? "Default" : this.state.pokemon.maximizer.stat
-
+        const ivSet = calculateMaximizedStats(value, this.state.pokemon.maximizer.level, this.props.pokemonTable)
+        const whatToMaximize = (this.state.pokemon.maximizer.action === "Default") ? "Default" : this.state.pokemon.maximizer.stat
+        const selectedSet = ivSet[this.props.league][whatToMaximize]
         //set state
         this.setState({
             [name]: {
                 ...this.state[name],
-                name: event.value,
-                quickMovePool: moves.quickMovePool,
-                chargeMovePool: moves.chargeMovePool,
-                QuickMove: quick,
-                ChargeMove1: charge.primaryName,
-                ChargeMove2: charge.secodaryName,
-                Lvl: ivSet[this.props.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.league][whatToMaximize].Sta,
+                name: value,
 
-                effAtk: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Atk, this.state[name].AtkStage,
+                quickMovePool: moves.quickMovePool, chargeMovePool: moves.chargeMovePool,
+
+                QuickMove: quick, ChargeMove1: charge.primaryName, ChargeMove2: charge.secodaryName,
+
+                Lvl: selectedSet.Level,
+                Atk: selectedSet.Atk,
+                Def: selectedSet.Def,
+                Sta: selectedSet.Sta,
+
+                effAtk: calculateEffStat(value, selectedSet.Level, selectedSet.Atk, this.state[name].AtkStage,
                     this.props.pokemonTable, "Atk", this.state[name].IsShadow),
 
-                effDef: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Def, this.state[name].DefStage,
+                effDef: calculateEffStat(value, selectedSet.Level, selectedSet.Def, this.state[name].DefStage,
                     this.props.pokemonTable, "Def", this.state[name].IsShadow),
 
-                effSta: calculateEffStat(event.value, ivSet[this.props.league][whatToMaximize].Level,
-                    ivSet[this.props.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
+                effSta: calculateEffStat(value, selectedSet.Level, selectedSet.Sta, 0, this.props.pokemonTable, "Sta"),
 
-                HP: undefined,
-                Energy: undefined,
+                HP: undefined, Energy: undefined,
             }
         });
     }
@@ -262,75 +230,72 @@ class RedactPokemon extends React.PureComponent {
         });
     }
 
-    onChange(event, name) {
+    onChange(event, atrributes, eventItem, ...other) {
+        const attr = atrributes.attr;
+        const name = atrributes.name;
+        const category = atrributes.category;
+
         //check if it`s a name change
-        if (event.target === undefined) {
-            switch (name.name[1]) {
-                case "QuickMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+        if (eventItem && (eventItem.value !== undefined || eventItem.index !== undefined)) {
+            switch (name) {
+                case "Name":
+                    this.onNameChange(eventItem.value, attr)
                     return
-                case "ChargeMove1":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
-                case "ChargeMove2":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+                case "userPokemon":
+                    this.onUserPokemonSelect(eventItem.index, attr)
                     return
                 default:
-                    this.onNameChange(event, name.name[0])
+                    this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
-        if (name.category === "userPokemon") {
-            this.onUserPokemonSelect(name.index, name.attr)
+
+        if (category === "defaultStatMaximizer") {
+            this.statMaximizer(event, attr)
             return
         }
-        let role = event.target.getAttribute ? event.target.getAttribute("attr") : name.props.attr
-        let action = event.target.getAttribute ? event.target.getAttribute("action") : name.props.action
-        //check if it's an initial stat change
-        if (action === "defaultStatMaximizer") {
-            this.statMaximizer(event, role)
-            return
-        }
-        if (event.target.name === "InitialHP" || event.target.name === "InitialEnergy") {
-            this.onInitialStatsChange(event, role)
-            return
-        }
-        //check if it's an iv change
-        if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (event.target.name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
-        //if it's an stage change
-        if (event.target.name === "AtkStage" || event.target.name === "DefStage") {
-            this.onStageChange(event, role)
-            return
-        }
+
         if (event.target.value === "Select...") {
             this.setState({
-                [role]: {
-                    ...this.state[role],
+                [attr]: {
+                    ...this.state[attr],
                     showMenu: true,
-                    isSelected: event.target.name,
-                }
+                    isSelected: name,
+                },
             });
             return
         }
-        //if it's an type change
-        if (event.target.name === "IsShadow") {
-            this.onTypeChange(event, role)
+
+        if (name === "InitialHP" || name === "InitialEnergy") {
+            this.onInitialStatsChange(event, attr)
             return
         }
-        //otherwise follow general pattern
+
+        if (name === "Sta" || name === "Def" || name === "Atk") {
+            this.onIvChange(event, attr)
+            return
+        }
+
+        if (name === "Lvl") {
+            this.onLevelChange(event, attr)
+            return
+        }
+
+        if (name === "AtkStage" || name === "DefStage") {
+            this.onStageChange(event, attr)
+            return
+        }
+
+        if (name === "IsShadow") {
+            this.onTypeChange(event, attr)
+            return
+        }
+
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: event.target.value
-            }
+            [attr]: {
+                ...this.state[attr],
+                [name]: event.target.value
+            },
         });
     }
 
@@ -373,10 +338,6 @@ class RedactPokemon extends React.PureComponent {
     }
 
     onPokemonSubmit(event) {
-        event.preventDefault();
-        if (this.state.pokemon.name === strings.tips.nameSearch) {
-            return
-        }
         this.props.onPokemonAdd({
             pokemon: this.state.pokemon,
         })
@@ -385,37 +346,58 @@ class RedactPokemon extends React.PureComponent {
     render() {
         return (
             <MagicBox open={true} onClick={this.props.onClick} attr={this.props.redact.attr}>
-                <div className="row justify-content-center">
-                    <Pokemon
-                        className="large m-1 mb-3 col-12"
+                <Grid container justify="center" spacing={2}>
 
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        value={this.state.pokemon}
-                        attr="pokemon"
-                        onChange={this.onChange}
-                        pokList={this.props.pokList}
-                        userPokemon={this.props.userPokemon}
+                    <Grid item xs={12}>
+                        <Pokemon
+                            pokemonTable={this.props.pokemonTable}
+                            moveTable={this.props.moveTable}
+                            value={this.state.pokemon}
+                            attr="pokemon"
+                            onChange={this.onChange}
+                            pokList={this.props.pokList}
+                            userPokemon={this.props.userPokemon}
 
-                        showMenu={this.state.pokemon.showMenu}
+                            showMenu={this.state.pokemon.showMenu}
 
-                        moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ? this.props.chargeMoveList : this.props.quickMoveList}
-                        category={this.state.pokemon.isSelected}
-                        onClick={this.onClick}
-                    />
+                            moveList={(this.state.pokemon.isSelected && this.state.pokemon.isSelected.includes("Charge")) ? this.props.chargeMoveList : this.props.quickMoveList}
+                            category={this.state.pokemon.isSelected}
+                            onClick={this.onClick}
+                        />
+                    </Grid>
 
+                    <Grid item xs="auto">
+                        <Button
+                            endIcon={<SaveIcon />}
+                            title={strings.buttons.submitchange}
+                            onClick={this.onPokemonSubmit}
+                        />
+                    </Grid>
 
-                    <Button
-                        attr={this.props.redact.attr}
-                        title={strings.buttons.submitchange}
-                        onClick={this.onPokemonSubmit}
-                    />
-
-                </div>
+                </Grid>
             </MagicBox>
         )
     }
 
 }
 
-export default RedactPokemon
+export default EditPokemon;
+
+EditPokemon.propTypes = {
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+    userPokemon: PropTypes.arrayOf(PropTypes.object),
+
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+
+    league: PropTypes.string,
+
+    value: PropTypes.object,
+
+    redact: PropTypes.object,
+
+    onClick: PropTypes.func,
+    onPokemonAdd: PropTypes.func,
+};

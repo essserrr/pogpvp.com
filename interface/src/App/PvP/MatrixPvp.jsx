@@ -17,7 +17,7 @@ import { addParty } from "../../AppStore/Actions/actions"
 import { deleteParty } from "../../AppStore/Actions/actions"
 import MatrixPanel from "./components/MatrixPanel"
 import Result from "./components/Result"
-import RedactPokemon from "./components/RedactPokemon"
+import EditPokemon from "./components/EditPokemon"
 
 import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
 import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "../../js/indexFunctions.js"
@@ -620,7 +620,6 @@ class MatrixPvp extends React.PureComponent {
 
     }
 
-
     onAdvisorSubmit() {
         this.setState({
             showAdvisor: true,
@@ -634,7 +633,7 @@ class MatrixPvp extends React.PureComponent {
             <Grid container justify="space-between" spacing={1}>
 
                 {this.state.redact.showMenu &&
-                    <RedactPokemon
+                    <EditPokemon
                         pokemonTable={this.props.pokemonTable}
                         moveTable={this.props.parentState.moveTable}
                         userPokemon={this.props.userPokemon}
