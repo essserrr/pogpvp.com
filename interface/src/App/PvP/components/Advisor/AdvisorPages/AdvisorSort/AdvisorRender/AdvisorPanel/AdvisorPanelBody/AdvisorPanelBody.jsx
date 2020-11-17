@@ -6,8 +6,8 @@ import Box from '@material-ui/core/Box';
 
 import MatrixTable from "App/PvP/components/TableBodyRender/MatrixTable/MatrixTable";
 import Iconer from "App/Components/Iconer/Iconer"
-import TypingThead from "./TypingThead/TypingThead"
-import SingleMoveLine from "./SingleMoveLine/SingleMoveLine"
+import TypingHead from "./TypingHead/TypingHead"
+import MoveTypingTable from "./MoveTypingTable/MoveTypingTable";
 import SinglePokLine from "./SinglePokLine/SinglePokLine"
 import ZeroList from "./ZeroList/ZeroList"
 
@@ -16,7 +16,7 @@ import { advisor } from "locale/Pvp/Advisor/Advisor"
 import { options } from "locale/Components/Options/locale"
 import { effectivenessData } from "js/indexFunctions"
 import { getCookie } from "js/getCookie"
-import { addStar } from "js/addStar"
+
 
 import "./AdvisorPanelBody.scss"
 
@@ -108,7 +108,7 @@ class AdvisorPanelBody extends React.PureComponent {
                         className={"icon24 m-1"}
                         size={24}
                         folderName="/type/"
-                        fileName={i}
+                        fileName={String(i)}
                     />)
                     break
                 case cumulative.toFixed(1) > 1:
@@ -117,7 +117,7 @@ class AdvisorPanelBody extends React.PureComponent {
                         className={"icon24 m-1"}
                         size={24}
                         folderName="/type/"
-                        fileName={i}
+                        fileName={String(i)}
                     />)
                     break
                 default:
@@ -138,39 +138,7 @@ class AdvisorPanelBody extends React.PureComponent {
         }
     }
 
-    makeMoveTypingList() {
-        let arr = [
-            <TypingThead key="movetyping" />,
-        ]
-        //add table lines
-        this.addMoveLine(arr, this.props.first)
-        this.addMoveLine(arr, this.props.second)
-        this.addMoveLine(arr, this.props.third)
-        return arr
-    }
 
-    addMoveLine(arr, pok) {
-        if (pok.QuickMove) {
-            this.singleMoveLine(arr, pok.QuickMove, pok)
-        }
-        if (pok.ChargeMove1) {
-            this.singleMoveLine(arr, pok.ChargeMove1, pok)
-        }
-        if (pok.ChargeMove2) {
-            this.singleMoveLine(arr, pok.ChargeMove2, pok)
-        }
-    }
-
-    singleMoveLine(arr, name, pok) {
-        arr.push([
-            <SingleMoveLine
-                key={arr.length + name}
-                MoveType={this.props.moveTable[name].MoveType}
-                line={arr.length}
-                name={name}
-                star={addStar(pok.name, name, this.props.pokemonTable)}
-            />])
-    }
 
     render() {
         let vun = this.calculateVunerabilities()
@@ -213,7 +181,7 @@ class AdvisorPanelBody extends React.PureComponent {
                     <Grid item xs={12}>
                         <MatrixTable variant="secondary">
                             {[
-                                <TypingThead key="poktyping" />,
+                                <TypingHead key="poktyping" />,
                                 <SinglePokLine key="typesof1" i={0}
                                     pok={this.props.first} pokemonTable={this.props.pokemonTable}
                                     vun={vun[0]}
@@ -243,9 +211,11 @@ class AdvisorPanelBody extends React.PureComponent {
 
                 <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
                     <Grid item xs={12}>
-                        <MatrixTable variant="secondary">
-                            {this.makeMoveTypingList()}
-                        </MatrixTable>
+                        <MoveTypingTable
+                            pokemons={[this.props.first, this.props.second, this.props.third]}
+                            moveTable={this.props.moveTable}
+                            pokemonTable={this.props.pokemonTable}
+                        />
                     </Grid>
                 </Box>
             </div>
