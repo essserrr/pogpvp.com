@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
     uShCardContainer: {
         position: "relative",
+        maxHeight: 36,
     },
 
     uShCardShiny: {

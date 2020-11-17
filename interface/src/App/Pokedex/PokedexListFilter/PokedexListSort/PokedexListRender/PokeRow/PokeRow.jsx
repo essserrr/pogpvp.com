@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import Grid from '@material-ui/core/Grid';
 
 import useAnimation from "css/hoverAnimation";
 import Iconer from "App/Components/Iconer/Iconer";
@@ -39,14 +40,14 @@ const PokeRow = React.memo(function PokeRow(props) {
         <TableRow className={animation.animation}>
             <TableCell align="center">{props.value.Number}</TableCell>
 
-            <TableCell component="th" align="left" scope="row">
+            <TableCell component="th" align="left" style={{ verticalAlign: "middle" }} scope="row">
+                <Grid container alignItems="center">
+                    <Iconer fileName={fileName} folderName="/pokemons/" size={36} />
 
-                <Iconer fileName={fileName} folderName="/pokemons/" size={36} />
-
-                <Link title={`${strings.dexentr} ${props.value.Title}`} className={`${classes.link} ${classes.marginLeft}`} to={to}>
-                    {props.value.Title}
-                </Link>
-
+                    <Link title={`${strings.dexentr} ${props.value.Title}`} className={`${classes.link} ${classes.marginLeft}`} to={to}>
+                        {props.value.Title}
+                    </Link>
+                </Grid>
             </TableCell>
 
             <TableCell align="center">
