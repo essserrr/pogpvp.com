@@ -1,15 +1,17 @@
 import React from "react"
 import LocalizedStrings from "react-localization"
+import PropTypes from 'prop-types';
 
+import Grid from '@material-ui/core/Grid';
+
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Button from "App/Components/Button/Button";
 import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
-import Iconer from "App/Components/Iconer/Iconer";
+import PvpWillow from "./PvpWillow/PvpWillow";
 import AdvisorPages from "./AdvisorPages/AdvisorPages"
 
-import { pvp } from "../../../../locale/Pvp/Pvp"
-import { getCookie } from "../../../../js/getCookie"
-
-import "./Advisor.scss"
+import { pvp } from "locale/Pvp/Pvp";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(pvp);
 
@@ -18,7 +20,7 @@ class Advisor extends React.PureComponent {
         super(props);
         this.advisor = React.createRef();
 
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
 
         this.state = {
             n: 1,
@@ -70,50 +72,58 @@ class Advisor extends React.PureComponent {
 
     render() {
         return (
-            <div className="advisor px-2 py-2 col-12 ">
-                <div tabIndex="0" ref={this.advisor} className="col-12 d-flex justify-content-center p-0">
+            <GreyPaper elevation={4} enablePadding paddingMult={0.25}>
+                <Grid container justify="center" spacing={2}>
 
-                    <Iconer fileName="willow3" folderName="/" />
+                    <Grid item xs={12} tabIndex="0" ref={this.advisor}>
+                        <PvpWillow />
+                    </Grid>
 
-                    <div className="advisor__willow--bubble-text px-2 py-1">
-                        {strings.advisor.willow}
-                    </div>
-                </div>
-                <div className="col-12 p-0 pb-2">
-                    <DoubleSlider
-                        onClick={this.onSortChange}
-                        attrs={["zeros", "rating"]}
-                        titles={[strings.buttons.byzeros, strings.buttons.byrating]}
-                        active={[this.state.sortParam === "zeros", this.state.sortParam === "rating"]}
-                    />
-                </div>
-                <div className="col-12 p-0 ">
-                    <AdvisorPages
-                        n={this.state.n}
-
-                        leftPanel={this.props.leftPanel}
-                        rightPanel={this.props.rightPanel}
-
-                        moveTable={this.props.moveTable}
-                        pokemonTable={this.props.pokemonTable}
-
-                        rawResult={this.props.rawResult}
-                        filter={this.state.sortParam}
-                        list={this.props.list}
-                    />
-                </div>
-                {this.state.isNextPage &&
-                    <div className="row justify-content-center m-0 mt-3">
-
-                        <Button
-                            title={strings.buttons.loadmore}
-                            onClick={this.loadMore}
+                    <Grid item xs={12}>
+                        <DoubleSlider
+                            onClick={this.onSortChange}
+                            attrs={["zeros", "rating"]}
+                            titles={[strings.buttons.byzeros, strings.buttons.byrating]}
+                            active={[this.state.sortParam === "zeros", this.state.sortParam === "rating"]}
                         />
+                    </Grid>
 
-                    </div>}
-            </div>
+                    <Grid item xs={12}>
+                        <AdvisorPages
+                            n={this.state.n}
+
+                            leftPanel={this.props.leftPanel}
+                            rightPanel={this.props.rightPanel}
+
+                            moveTable={this.props.moveTable}
+                            pokemonTable={this.props.pokemonTable}
+
+                            rawResult={this.props.rawResult}
+                            filter={this.state.sortParam}
+                            list={this.props.list}
+                        />
+                    </Grid>
+
+                    {this.state.isNextPage &&
+                        <Grid item xs="auto">
+                            <Button title={strings.buttons.loadmore} onClick={this.loadMore} />
+                        </Grid>}
+
+                </Grid>
+            </GreyPaper>
         );
     }
 };
 
 export default Advisor;
+
+Advisor.propTypes = {
+    list: PropTypes.arrayOf(PropTypes.object),
+    rawResult: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node)),
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+};

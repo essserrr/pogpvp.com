@@ -75,7 +75,7 @@ export default AdvisorCombinator;
 
 
 AdvisorCombinator.propTypes = {
-    pvpData: PropTypes.arrayOf(PropTypes.object),
+    pvpData: PropTypes.array,
     pvpok: PropTypes.bool,
 
     isTriple: PropTypes.bool,
