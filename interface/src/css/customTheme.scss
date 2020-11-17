@@ -1,24 +1,7 @@
-//tips styles
-$tips-padding: 0.2rem;
-$tips-font: 12pt;
-
-//global rules
 div :focus {
     outline: none;
 }
 
-.ReactCollapse--collapse {
-    transition: height 200ms;
-}
-
-.btn.btn-primary {
-    background: linear-gradient(180deg, #45a6ff 0%, #0055fb 100%), #c4c4c4 !important;
-    border-radius: 5px !important;
-    border: none !important;
-    color: #ffffff !important;
-}
-
-//body
 body {
     background: url("./background.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -27,50 +10,4 @@ body {
     background-size: cover;
     position: relative;
     margin: 0;
-}
-
-//tips style
-.infoTip {
-    max-width: 15rem !important;
-    font-size: $tips-font !important;
-    text-align: justify !important;
-    text-justify: inter-word !important;
-    color: #ffffff !important;
-    padding: $tips-padding !important;
-    font-weight: normal !important;
-}
-
-//icons sizes
-.icon16 {
-    width: 16px;
-    height: 16px;
-}
-
-.icon18 {
-    width: 18px;
-    height: 18px;
-}
-
-.icon24 {
-    width: 24px;
-    height: 24px;
-}
-
-.icon36 {
-    width: 36px;
-    height: 36px;
-}
-
-.icon48 {
-    width: 48px;
-    height: 48px;
-}
-
-// other styles
-.clickable {
-    cursor: pointer;
-}
-
-.fBolder {
-    font-weight: bolder;
 }
