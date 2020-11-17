@@ -28,15 +28,15 @@ const RMoveRow = React.memo(function RMoveRow(props) {
             <Grid item container xs>
                 {props.moveTable[props.value.Quick] &&
                     <ColoredMove m={0.25} type={props.moveTable[props.value.Quick].MoveType}>
-                        {props.value.Quick + addStar(props.value.Quick, props.pokName, props.pokemonTable)}
+                        {props.value.Quick + addStar(props.pokName, props.value.Quick, props.pokemonTable)}
                     </ColoredMove>}
                 {props.moveTable[props.value.Charge[0]] &&
                     <ColoredMove m={0.25} type={props.moveTable[props.value.Charge[0]].MoveType}>
-                        {props.value.Charge[0] + addStar(props.value.Charge[0], props.pokName, props.pokemonTable)}
+                        {props.value.Charge[0] + addStar(props.pokName, props.value.Charge[0], props.pokemonTable)}
                     </ColoredMove>}
                 {props.moveTable[props.value.Charge[1]] &&
                     <ColoredMove m={0.25} type={props.moveTable[props.value.Charge[1]].MoveType}>
-                        {props.value.Charge[1] + addStar(props.value.Charge[1], props.pokName, props.pokemonTable)}
+                        {props.value.Charge[1] + addStar(props.pokName, props.value.Charge[1], props.pokemonTable)}
                     </ColoredMove>}
             </Grid>
             <Grid item xs="auto">
