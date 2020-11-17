@@ -5,10 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 
-import ColoredMove from "App/Components/ColoredMove/ColoredMove"
-
-import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry"
+import ColoredMove from "App/Components/ColoredMove/ColoredMove";
+import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry";
 import Iconer from "App/Components/Iconer/Iconer";
+
 import { addStar } from "js/addStar";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,6 @@ const MatrixPokemonList = React.memo(function MatrixPokemonList(props) {
         <Box clone p={0.5}>
             <Grid container justify="center" className={classes.pokList} spacing={1}>
                 {props.children.map((elem, i) => {
-                    console.log(elem)
                     const fileName = props.pokemonTable[elem.name].Number + (props.pokemonTable[elem.name].Forme !== "" ? "-" + props.pokemonTable[elem.name].Forme : "")
                     return (
                         <Grid item xs={12} key={i}>
@@ -39,7 +38,7 @@ const MatrixPokemonList = React.memo(function MatrixPokemonList(props) {
                                 onClick={props.onPokRedact}
 
                                 icon={<Iconer folderName="/pokemons/" fileName={fileName} size={24} />}
-                                isShadow={elem.IsShadow === "true"}
+                                isShadow={String(elem.IsShadow) === "true"}
                                 name={elem.name}
 
                                 body={
