@@ -12,6 +12,7 @@ import ZeroPokemon from "./ZeroPokemon/ZeroPokemon"
 import { pvp } from "locale/Pvp/Pvp"
 import { effectivenessData } from "js/indexFunctions"
 import { getCookie } from "js/getCookie"
+import { addStar } from "js/addStar"
 
 import "./AdvisorPanelBody.scss"
 
@@ -21,11 +22,6 @@ class AdvisorPanelBody extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        this.addStar = this.addStar.bind(this);
-    }
-
-    addStar(pokName, moveName) {
-        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
     }
 
     calculateVunerabilities() {
@@ -180,7 +176,7 @@ class AdvisorPanelBody extends React.PureComponent {
                 MoveType={this.props.moveTable[name].MoveType}
                 line={arr.length}
                 name={name}
-                star={this.addStar(pok.name, name)}
+                star={addStar(pok.name, name, this.props.pokemonTable)}
             />])
     }
 
@@ -224,7 +220,6 @@ class AdvisorPanelBody extends React.PureComponent {
                                     pok={this.props.first}
                                     pokemonTable={this.props.pokemonTable}
                                     locale={strings.options.type.shadow}
-                                    addStar={this.addStar}
                                     vun={vun[0]}
                                 />,
                                 <SinglePokLine
@@ -233,7 +228,6 @@ class AdvisorPanelBody extends React.PureComponent {
                                     pok={this.props.second}
                                     pokemonTable={this.props.pokemonTable}
                                     locale={strings.options.type.shadow}
-                                    addStar={this.addStar}
                                     vun={vun[0]}
                                 />,
                                 <SinglePokLine
@@ -242,7 +236,6 @@ class AdvisorPanelBody extends React.PureComponent {
                                     pok={this.props.third}
                                     pokemonTable={this.props.pokemonTable}
                                     locale={strings.options.type.shadow}
-                                    addStar={this.addStar}
                                     vun={vun[0]}
                                 />
                             ]}

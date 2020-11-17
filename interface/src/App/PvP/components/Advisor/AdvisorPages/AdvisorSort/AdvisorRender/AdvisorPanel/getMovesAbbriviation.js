@@ -1,3 +1,5 @@
+import { addStar } from "js/addStar"
+
 export function getAbbriviation(quickMove, chargeMove1, chargeMove2, pokName, pokemonTable) {
 
     let abbr = quickMove.replace(/[a-z -]/g, "") + addStar(pokName, quickMove, pokemonTable) +
@@ -7,8 +9,4 @@ export function getAbbriviation(quickMove, chargeMove1, chargeMove2, pokName, po
         (chargeMove2 ? (chargeMove2.replace(/[a-z -]/g, "") + addStar(pokName, chargeMove2, pokemonTable)) : "")
 
     return abbr
-}
-
-function addStar(pokName, move, pokemonTable) {
-    return (pokemonTable[pokName].EliteMoves[move] === 1 ? "*" : "")
 }

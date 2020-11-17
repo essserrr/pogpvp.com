@@ -13,7 +13,6 @@ const SinglePokLine = React.memo(function (props) {
                     j={props.i}
                     pok={props.pok}
                     pokemonTable={props.pokemonTable}
-                    addStar={props.addStar}
                 />
             </td>
             {props.vun[props.i].map((elem, k) => {

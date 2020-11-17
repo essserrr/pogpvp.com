@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import useAnimation from "css/hoverAnimation";
 import ColoredMove from "App/Components/ColoredMove/ColoredMove";
+import { addStar } from "js/addStar";
 
 const useStyles = makeStyles((theme) => ({
     rMove: {
@@ -22,24 +23,20 @@ const RMoveRow = React.memo(function RMoveRow(props) {
     const classes = useStyles();
     const animation = useAnimation();
 
-    function addStar(moveName) {
-        return (props.pokemonTable[props.pokName].EliteMoves[moveName] === 1 ? "*" : "")
-    }
-
     return (
         <Grid container justify="space-between" alignItems="center" className={`${classes.rMove} ${animation.animation}`}>
             <Grid item container xs>
                 {props.moveTable[props.value.Quick] &&
                     <ColoredMove m={0.25} type={props.moveTable[props.value.Quick].MoveType}>
-                        {props.value.Quick + addStar(props.value.Quick)}
+                        {props.value.Quick + addStar(props.value.Quick, props.pokName, props.pokemonTable)}
                     </ColoredMove>}
                 {props.moveTable[props.value.Charge[0]] &&
                     <ColoredMove m={0.25} type={props.moveTable[props.value.Charge[0]].MoveType}>
-                        {props.value.Charge[0] + addStar(props.value.Charge[0])}
+                        {props.value.Charge[0] + addStar(props.value.Charge[0], props.pokName, props.pokemonTable)}
                     </ColoredMove>}
                 {props.moveTable[props.value.Charge[1]] &&
                     <ColoredMove m={0.25} type={props.moveTable[props.value.Charge[1]].MoveType}>
-                        {props.value.Charge[1] + addStar(props.value.Charge[1])}
+                        {props.value.Charge[1] + addStar(props.value.Charge[1], props.pokName, props.pokemonTable)}
                     </ColoredMove>}
             </Grid>
             <Grid item xs="auto">

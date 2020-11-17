@@ -34,10 +34,6 @@ class PveResEntry extends React.PureComponent {
         this.defineBreakpoints = this.defineBreakpoints.bind(this);
     }
 
-    addStar(pokName, moveName) {
-        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
-    }
-
     componentDidUpdate(prevProps) {
         if (prevProps.pokemonRes === this.props.pokemonRes) {
             return

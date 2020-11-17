@@ -53,7 +53,7 @@ class SaveMenu extends React.PureComponent {
             <Grid container justify="center" spacing={2}>
                 {this.state.isError && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
-                <Tooltip title={<Typography>{strings.tips.savegroup}</Typography>}>
+                <Tooltip arrow placement="top" title={<Typography>{strings.tips.savegroup}</Typography>}>
                     <Grid item xs={12}>
                         <Input label={strings.title.savegroupplaceholder} value={this.state.value}
                             errorText={this.state.error} onChange={this.onChange} />
