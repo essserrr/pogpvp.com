@@ -1,14 +1,14 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Button from "App/Components/Button/Button";
-import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
+import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider";
 import PvpWillow from "./PvpWillow/PvpWillow";
-import AdvisorPages from "./AdvisorPages/AdvisorPages"
+import AdvisorPages from "./AdvisorPages/AdvisorPages";
 
 import { pvp } from "locale/Pvp/Pvp";
 import { getCookie } from "js/getCookie";
@@ -72,7 +72,7 @@ class Advisor extends React.PureComponent {
 
     render() {
         return (
-            <GreyPaper elevation={4} enablePadding paddingMult={0.25}>
+            <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
                 <Grid container justify="center" spacing={2}>
 
                     <Grid item xs={12} tabIndex="0" ref={this.advisor}>
@@ -100,8 +100,9 @@ class Advisor extends React.PureComponent {
 
                             rawResult={this.props.rawResult}
                             filter={this.state.sortParam}
-                            list={this.props.list}
-                        />
+                        >
+                            {this.props.list}
+                        </AdvisorPages>
                     </Grid>
 
                     {this.state.isNextPage &&
