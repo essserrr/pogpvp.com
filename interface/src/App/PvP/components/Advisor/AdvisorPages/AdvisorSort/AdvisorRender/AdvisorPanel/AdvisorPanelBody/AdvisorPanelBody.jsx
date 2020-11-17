@@ -1,35 +1,32 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 import MatrixTable from "App/PvP/components/TableBodyRender/MatrixTable/MatrixTable";
-import Iconer from "App/Components/Iconer/Iconer"
-import TypingHead from "./TypingHead/TypingHead"
+import Iconer from "App/Components/Iconer/Iconer";
+import TypingHead from "./TypingHead/TypingHead";
 import MoveTypingTable from "./MoveTypingTable/MoveTypingTable";
-import SinglePokLine from "./SinglePokLine/SinglePokLine"
-import ZeroList from "./ZeroList/ZeroList"
+import SinglePokLine from "./SinglePokLine/SinglePokLine";
+import ZeroList from "./ZeroList/ZeroList";
+import HorizontalTypeList from "./HorizontalTypeList/HorizontalTypeList";
 
-import { pvp } from "locale/Pvp/Pvp"
-import { advisor } from "locale/Pvp/Advisor/Advisor"
-import { options } from "locale/Components/Options/locale"
-import { effectivenessData } from "js/indexFunctions"
-import { getCookie } from "js/getCookie"
+import { advisor } from "locale/Pvp/Advisor/Advisor";
+import { options } from "locale/Components/Options/locale";
+import { effectivenessData } from "js/indexFunctions";
+import { getCookie } from "js/getCookie";
 
-
-import "./AdvisorPanelBody.scss"
-
-let strings = new LocalizedStrings(pvp);
 let advisorStrings = new LocalizedStrings(advisor);
 let optionStrings = new LocalizedStrings(options);
 
 class AdvisorPanelBody extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        advisorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        advisorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
     }
 
     calculateVunerabilities() {
@@ -48,7 +45,6 @@ class AdvisorPanelBody extends React.PureComponent {
                 case multipl < 1:
                     strong.push(<Iconer
                         key={"strongDef" + i}
-                        className={"icon24 m-1"}
                         size={24}
                         folderName="/type/"
                         fileName={String(i)}
@@ -57,7 +53,6 @@ class AdvisorPanelBody extends React.PureComponent {
                 case multipl > 1:
                     weak.push(<Iconer
                         key={"weakDef" + i}
-                        className={"icon24 m-1"}
                         size={24}
                         folderName="/type/"
                         fileName={String(i)}
@@ -103,22 +98,22 @@ class AdvisorPanelBody extends React.PureComponent {
             });
             switch (true) {
                 case zeroCount / arr.length > 0.5:
-                    zeros.push(<Iconer
-                        key={"zeroOff" + i}
-                        className={"icon24 m-1"}
-                        size={24}
-                        folderName="/type/"
-                        fileName={String(i)}
-                    />)
+                    zeros.push(
+                        <Iconer
+                            key={"zeroOff" + i}
+                            size={24}
+                            folderName="/type/"
+                            fileName={String(i)}
+                        />)
                     break
                 case cumulative.toFixed(1) > 1:
-                    strong.push(<Iconer
-                        key={"strongOff" + i}
-                        className={"icon24 m-1"}
-                        size={24}
-                        folderName="/type/"
-                        fileName={String(i)}
-                    />)
+                    strong.push(
+                        <Iconer
+                            key={"strongOff" + i}
+                            size={24}
+                            folderName="/type/"
+                            fileName={String(i)}
+                        />)
                     break
                 default:
             }
@@ -144,7 +139,7 @@ class AdvisorPanelBody extends React.PureComponent {
         let vun = this.calculateVunerabilities()
         let off = this.calculateOffensiveStats()
         return (
-            <div className="advpanel-body col-12 px-2 text-center" key={"coll" + this.props.i}>
+            <Grid container spacing={2}>
 
                 <Grid item xs={12}>
                     <ZeroList pokemonTable={this.props.pokemonTable} moveTable={this.props.moveTable}
@@ -153,8 +148,12 @@ class AdvisorPanelBody extends React.PureComponent {
                     </ZeroList>
                 </Grid>
 
+                <Grid item xs={12}>
+                    <Typography align="center" variant="h6">
+                        {advisorStrings.advisor.all}
+                    </Typography>
+                </Grid>
 
-                {advisorStrings.advisor.all}
                 <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
                     <Grid item xs={12}>
                         <MatrixTable variant="secondary">
@@ -168,14 +167,15 @@ class AdvisorPanelBody extends React.PureComponent {
                     </Grid>
                 </Box>
 
-                {advisorStrings.advisor.def}
-                <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
-                    {advisorStrings.advisor.res}{vun[1].length > 0 ? vun[1] : optionStrings.options.moveSelect.none}
-                </div>
-                <div className="col-12 text-left  m-0 p-0 mt-1 mb-2">
-                    {advisorStrings.advisor.weak}  {vun[2].length > 0 ? vun[2] : optionStrings.options.moveSelect.none}
-                </div>
-
+                <Grid item xs={12}>
+                    <HorizontalTypeList
+                        title={advisorStrings.advisor.def}
+                        firstLineTitle={advisorStrings.advisor.res}
+                        secondLineTitle={advisorStrings.advisor.weak}
+                        firstLine={vun[1].length > 0 ? vun[1] : optionStrings.options.moveSelect.none}
+                        secondLine={vun[2].length > 0 ? vun[2] : optionStrings.options.moveSelect.none}
+                    />
+                </Grid>
 
                 <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
                     <Grid item xs={12}>
@@ -199,15 +199,15 @@ class AdvisorPanelBody extends React.PureComponent {
                     </Grid>
                 </Box>
 
-
-                {advisorStrings.advisor.off}
-                <div className="col-12 text-left  p-0 mt-1 mb-2">
-                    {advisorStrings.advisor.notcov} {off[0].length > 0 ? off[0] : optionStrings.options.moveSelect.none}
-                </div>
-                <div className="col-12 text-left  p-0 mt-1 mb-2">
-                    {advisorStrings.advisor.strong} {off[1].length > 0 ? off[1] : optionStrings.options.moveSelect.none}
-                </div>
-
+                <Grid item xs={12}>
+                    <HorizontalTypeList
+                        title={advisorStrings.advisor.off}
+                        firstLineTitle={advisorStrings.advisor.notcov}
+                        secondLineTitle={advisorStrings.advisor.strong}
+                        firstLine={off[0].length > 0 ? off[0] : optionStrings.options.moveSelect.none}
+                        secondLine={off[1].length > 0 ? off[1] : optionStrings.options.moveSelect.none}
+                    />
+                </Grid>
 
                 <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
                     <Grid item xs={12}>
@@ -218,10 +218,26 @@ class AdvisorPanelBody extends React.PureComponent {
                         />
                     </Grid>
                 </Box>
-            </div>
+            </Grid>
 
         );
     }
 };
 
 export default AdvisorPanelBody;
+
+AdvisorPanelBody.propTypes = {
+    first: PropTypes.object,
+    second: PropTypes.object,
+    third: PropTypes.object,
+    i: PropTypes.number,
+
+    list: PropTypes.arrayOf(PropTypes.object),
+    rawResult: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node)),
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+};
