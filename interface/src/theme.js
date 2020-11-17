@@ -9,6 +9,7 @@ const theme = createMuiTheme({
 
         background: {
             main: "#eff0f1",
+            secondary: "white",
         },
 
         glow: {

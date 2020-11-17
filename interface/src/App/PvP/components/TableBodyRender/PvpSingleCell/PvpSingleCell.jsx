@@ -25,6 +25,7 @@ const useStyles = props => makeStyles(theme => {
 
             "&:hover": {
                 userSelect: "none",
+                color: theme.palette.text.primary,
                 backgroundColor: "white !important",
             }
         }

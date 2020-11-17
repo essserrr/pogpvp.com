@@ -35,6 +35,7 @@ const useStyles = props => makeStyles(theme => {
                 backgroundColor: theme.palette.rating[`rate${props.rate00}`].background,
                 color: theme.palette.rating[`rate${props.rate00}`].text,
                 "&:hover": {
+                    color: theme.palette.text.primary,
                     backgroundColor: "white !important",
                 },
             },
@@ -44,6 +45,7 @@ const useStyles = props => makeStyles(theme => {
                 backgroundColor: theme.palette.rating[`rate${props.rate11}`].background,
                 color: theme.palette.rating[`rate${props.rate11}`].text,
                 "&:hover": {
+                    color: theme.palette.text.primary,
                     backgroundColor: "white !important",
                 },
             },
@@ -52,6 +54,7 @@ const useStyles = props => makeStyles(theme => {
                 backgroundColor: theme.palette.rating[`rate${props.rate22}`].background,
                 color: theme.palette.rating[`rate${props.rate22}`].text,
                 "&:hover": {
+                    color: theme.palette.text.primary,
                     backgroundColor: "white !important",
                 },
             },
