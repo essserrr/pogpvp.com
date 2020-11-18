@@ -15,8 +15,10 @@ import Constructor from "./components/Constructor/Constructor";
 import { MovePoolBuilder } from "js/movePoolBuilder";
 import {
     calculateEffStat, pokemon, encodeQueryData, calculateMaximizedStats, processHP,
-    processInitialStats, checkLvl, checkIV, selectCharge, selectQuick
+    processInitialStats, checkLvl, checkIV
 } from "js/indexFunctions.js"
+import { selectQuick } from "js/MoveSelector/selectQuick";
+import { selectCharge } from "js/MoveSelector/selectCharge";
 import { getCookie } from "js/getCookie";
 import { pvp } from "locale/Pvp/Pvp";
 import { options } from "locale/Components/Options/locale";

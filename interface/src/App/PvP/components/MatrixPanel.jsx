@@ -28,9 +28,9 @@ import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList";
 import SaveMenu from "./SaveMenu/SaveMenu";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import {
-    calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat, pokemon, selectCharge, selectQuick
-} from "js/indexFunctions.js";
+import { calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat, pokemon, } from "js/indexFunctions.js";
+import { selectQuick } from "js/MoveSelector/selectQuick";
+import { selectCharge } from "js/MoveSelector/selectCharge";
 import { getCookie } from "js/getCookie";
 import { pvp } from "locale/Pvp/Pvp";
 import { options } from "locale/Components/Options/locale";

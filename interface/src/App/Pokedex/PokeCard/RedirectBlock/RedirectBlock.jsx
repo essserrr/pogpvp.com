@@ -8,7 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import SliderBlock from "App/Components/SliderBlock/SliderBlock";
 import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
-import { encodeQueryData, calculateMaximizedStats, selectCharge, selectQuick } from "js/indexFunctions";
+import { encodeQueryData, calculateMaximizedStats } from "js/indexFunctions";
+import { selectQuick } from "js/MoveSelector/selectQuick";
+import { selectCharge } from "js/MoveSelector/selectCharge";
 import { getCookie } from "js/getCookie";
 import { dexLocale } from "locale/Pokedex/Pokecard";
 

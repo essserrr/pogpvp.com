@@ -29,8 +29,10 @@ import { MovePoolBuilder } from "js/movePoolBuilder";
 import { separateMovebase } from "js/separateMovebase";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
-import { getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "js/indexFunctions"
-import { translareMove, translateName } from "./translator"
+import { getUserPok, checkLvl, checkIV, calculateCP } from "js/indexFunctions";
+import { selectQuickRaids } from "js/MoveSelector/selectQuickRaids";
+import { selectChargeRaids } from "js/MoveSelector/selectChargeRaids";
+import { translareMove, translateName } from "./translator";
 
 let strings = new LocalizedStrings(userLocale);
 

@@ -11,7 +11,9 @@ import MagicBox from "./MagicBox/MagicBox"
 import Button from "App/Components/Button/Button";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import { calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat, selectCharge, selectQuick } from "js/indexFunctions";
+import { calculateMaximizedStats, processInitialStats, checkLvl, checkIV, calculateEffStat } from "js/indexFunctions";
+import { selectQuick } from "js/MoveSelector/selectQuick";
+import { selectCharge } from "js/MoveSelector/selectCharge";
 import { getCookie } from "js/getCookie";
 import { options } from "locale/Components/Options/locale";
 import { pvp } from "locale/Pvp/Pvp";
