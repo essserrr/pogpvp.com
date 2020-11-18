@@ -8,19 +8,7 @@ import { stagesData } from "js/bases/stagesData";
 export const capitalizeFirst = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|-|["'([{])+\S/g, match => match.toUpperCase());
 
-export function checkShadow(name, pokTable) {
-    if (!pokTable[name]) {
-        let index = name.indexOf(" (Shadow)")
-        if (index !== -1) {
-            name = name.slice(0, index)
-            if (!pokTable[name]) {
-                console.log(`Critical: ""${name}" not found in the database`)
-                return ""
-            }
-        }
-    }
-    return name
-}
+
 
 export function calculateMaximizedStats(name, lvlCap, pokTable, options) {
     if (pokTable[name] === undefined) {
@@ -399,9 +387,7 @@ export function extractPveBoss(array) {
 }
 
 export function encodePveBoss(data) {
-    let res = [
-        data.Name, data.QuickMove, data.ChargeMove, data.Tier,
-    ]
+    let res = [data.Name, data.QuickMove, data.ChargeMove, data.Tier,]
     return encodeURIComponent(res.join("_"));
 }
 

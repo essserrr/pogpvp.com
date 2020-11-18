@@ -14,7 +14,7 @@ import Collapsable from "./Collapsable/Collapsable";
 import CardBody from "./CardBody/CardBody";
 
 import { ReactComponent as Shadow } from "icons/shadow.svg";
-import { checkShadow } from "js/indexFunctions";
+import { checkShadow } from "js/checks/checkShadow";
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Rating/Rating";
 import { options } from "locale/Components/Options/locale";
