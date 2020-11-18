@@ -13,7 +13,8 @@ import MagicBox from "./components/MagicBox/MagicBox";
 import Constructor from "./components/Constructor/Constructor";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import { calculateEffStat, pokemon, encodeQueryData } from "js/indexFunctions.js"
+import { pokemon, encodeQueryData } from "js/indexFunctions.js"
+import { calculateEffStat } from "js/calculateEffStat";
 import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
 import { processHP } from "js/checks/processHP";
 import { processInitialStats } from "js/checks/processInitialStats";

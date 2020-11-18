@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import CpCalc from "./CpCalc";
-import { calculateEffStat } from "js/indexFunctions";
+import { calculateEffStat } from "js/calculateEffStat";
 import { checkLvl } from "js/checks/checkLvl";
 import { checkIV } from "js/checks/checkIV";
 

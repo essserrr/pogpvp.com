@@ -24,7 +24,7 @@ import { MovePoolBuilder } from "js/movePoolBuilder";
 import { separateMovebase } from "js/separateMovebase";
 import { returnPokList } from "js/returnPokList";
 
-import { calculateEffStat } from "js/indexFunctions";
+import { calculateEffStat } from "js/calculateEffStat";
 import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
 import { extractData } from "js/extractors/extractData";
 import { extractPokemon } from "js/extractors/extractPokemon";

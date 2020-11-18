@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
 import WeatherMoves from "../WeatherMoves/WeatherMoves";
-import { calculateEffStat } from "js/indexFunctions";
+import { calculateEffStat } from "js/calculateEffStat";
 import { calculateCP } from "js/cp/calculateCP";
 
 const NameAndMoves = React.memo(function NameAndMoves(props) {
