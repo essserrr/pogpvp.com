@@ -12,7 +12,7 @@ import Tier from "App/Evolve/EvoList/EvoTiers/Tier/Tier";
 import PokemonCard from "App/Components/PokemonCard/PokemonCard";
 import Iconer from "App/Components/Iconer/Iconer";
 import CardBody from "App/EggsList/RenderEggList/EggsTier/CardBody";
-import { capitalizeFirst } from "js/indexFunctions";
+import { capitalizeFirst } from "js/capitalizeFirst";
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Raids/Raids";
 

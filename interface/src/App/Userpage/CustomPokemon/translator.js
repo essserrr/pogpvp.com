@@ -1,4 +1,4 @@
-import { capitalizeFirst } from "js/indexFunctions";
+import { capitalizeFirst } from "js/capitalizeFirst";
 
 
 export function translateName(name) {

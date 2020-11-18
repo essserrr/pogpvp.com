@@ -3,8 +3,7 @@ import { stagesData } from "js/bases/stagesData";
 import { checkLvl } from "js/checks/checkLvl";
 import { checkIV } from "js/checks/checkIV";
 
-export const capitalizeFirst = (str, lower = false) =>
-    (lower ? str.toLowerCase() : str).replace(/(?:^|\s|-|["'([{])+\S/g, match => match.toUpperCase());
+
 
 export function calculateEffStat(name, lvl, value, stage, pokBase, what, isShadow) {
     if (!name || !pokBase[name]) {

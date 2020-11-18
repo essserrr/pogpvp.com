@@ -21,7 +21,8 @@ import Result from "./components/Result";
 import EditPokemon from "./components/EditPokemon";
 
 import { translareMove, translateName } from "App/Userpage/CustomPokemon/translator";
-import { encodeQueryData, capitalizeFirst } from "js/indexFunctions";
+import { encodeQueryData } from "js/indexFunctions";
+import { capitalizeFirst } from "js/capitalizeFirst";
 import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
 import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets";
 

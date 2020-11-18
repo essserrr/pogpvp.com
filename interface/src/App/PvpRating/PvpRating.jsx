@@ -19,7 +19,7 @@ import RatingDescr from "./RatingDescr/RatingDescr";
 import DropWithArrow from "./DropWithArrow/DropWithArrow";
 import Input from "App/Components/Input/Input";
 
-import { capitalizeFirst } from "js/indexFunctions";
+import { capitalizeFirst } from "js/capitalizeFirst";
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Rating/Rating";
 import { options } from "locale/Components/Options/locale";

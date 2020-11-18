@@ -18,7 +18,7 @@ import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 
 import { regionals } from "./regionals";
 import { getCookie } from "js/getCookie";
-import { capitalizeFirst } from "js/indexFunctions";
+import { capitalizeFirst } from "js/capitalizeFirst";
 import { regionLocale } from "locale/Eggs/regionLocale";
 import { locale } from "locale/Eggs/Eggs";
 
