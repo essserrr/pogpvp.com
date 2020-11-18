@@ -21,8 +21,8 @@ const PveProperties = React.memo(function PveProperties(props) {
     return (
         <Grid container justify="center" {...other}>
             <Grid item xs={12}>
-                <Typography align="center" style={{ fontWeight: "bold" }}>
-                    {strings.moveconstr.pve.title}
+                <Typography align="center">
+                    <b>{strings.moveconstr.pve.title}</b>
                 </Typography>
             </Grid>
             <Grid item xs={12}>

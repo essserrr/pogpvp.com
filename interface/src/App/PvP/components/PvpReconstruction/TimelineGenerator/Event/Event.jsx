@@ -75,7 +75,6 @@ const useStyles = props => makeStyles(theme => {
             break
         case "idle":
             style.cell = {
-                //margin: "auto",
                 width: "6px",
                 height: "6px",
                 borderRadius: "50%",

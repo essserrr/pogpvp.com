@@ -21,8 +21,8 @@ const PvpProperties = React.memo(function PvpProperties(props) {
     return (
         <Grid container justify="center" {...other}>
             <Grid item xs={12}>
-                <Typography align="center" style={{ fontWeight: "bold" }}>
-                    {strings.moveconstr.pvp.title}
+                <Typography align="center">
+                    <b>{strings.moveconstr.pvp.title}</b>
                 </Typography>
             </Grid>
             <Grid item xs={12}>
