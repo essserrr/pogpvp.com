@@ -11,7 +11,8 @@ import MagicBox from "./MagicBox/MagicBox"
 import Button from "App/Components/Button/Button";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import { calculateMaximizedStats, calculateEffStat } from "js/indexFunctions";
+import { calculateEffStat } from "js/indexFunctions";
+import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
 import { processInitialStats } from "js/checks/processInitialStats";
 import { checkLvl } from "js/checks/checkLvl";
 import { checkIV } from "js/checks/checkIV";

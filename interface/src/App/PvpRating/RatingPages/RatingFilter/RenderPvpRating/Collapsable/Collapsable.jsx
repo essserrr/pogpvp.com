@@ -12,7 +12,8 @@ import RRateRow from "App/PvpRating/RRateRow/RRateRow";
 import RowWrap from "App/PvpRating/RowWrap/RowWrap";
 import EffTable from "App/Pokedex/PokeCard/SliderBody/EffBlock/EffTable";
 
-import { encodeQueryData, calculateMaximizedStats } from "js/indexFunctions";
+import { encodeQueryData } from "js/indexFunctions";
+import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
 import { checkShadow } from "js/checks/checkShadow";
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Rating/Rating";
