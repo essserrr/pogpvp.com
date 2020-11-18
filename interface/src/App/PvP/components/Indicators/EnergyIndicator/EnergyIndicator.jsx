@@ -76,7 +76,7 @@ const EnergyIndicator = React.memo(function EnergyIndicator(props) {
 
     const { damage, maxValue, move } = props;
     const defaultValue = 0;
-    const value = typeof props.value === "number" ? (props.value <= maxValue ? props.value : maxValue) : defaultValue;
+    const value = typeof props.value === "number" ? (props.value >= maxValue ? maxValue : props.value) : defaultValue;
 
     const fullyCharged = value >= maxValue;
 

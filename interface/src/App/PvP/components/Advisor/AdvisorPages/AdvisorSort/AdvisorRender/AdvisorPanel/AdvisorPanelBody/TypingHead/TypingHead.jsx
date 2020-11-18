@@ -4,7 +4,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 import Iconer from "App/Components/Iconer/Iconer";
 
-import { typeDecoder } from "js/coders/typeDecoder";
+import { typeDecoder } from "js/decoders/typeDecoder";
 
 const TypingHead = function TypingHead() {
     return (

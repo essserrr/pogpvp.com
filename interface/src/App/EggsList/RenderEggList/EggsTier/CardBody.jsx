@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Iconer from "App/Components/Iconer/Iconer";
 import CP from "App/Components/CpAndTypes/CP";
 
-import { weatherDecoder } from "js/coders/weatherDecoder";
+import { weatherDecoder } from "js/decoders/weatherDecoder";
 
 const useStyles = makeStyles((theme) => ({
     root: {

@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 
 import Iconer from "App/Components/Iconer/Iconer";
-import { typeDecoder } from "js/coders/typeDecoder";
+import { typeDecoder } from "js/decoders/typeDecoder";
 
 const EffIcon = React.memo(function EffIcon(props) {
     return (

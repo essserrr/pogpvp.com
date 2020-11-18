@@ -22,7 +22,10 @@ import { MovePoolBuilder } from "js/movePoolBuilder";
 import { separateMovebase } from "js/separateMovebase";
 import { returnPokList } from "js/returnPokList";
 
-import { extractRaidData, extractPveObj, extractPveBoss, extractPveAttacker } from "js/indexFunctions";
+import { extractPveAttacker } from "js/extractors/extractPveAttacker";
+import { extractPveBoss } from "js/extractors/extractPveBoss";
+import { extractPveObj } from "js/extractors/extractPveObj";
+import { extractRaidData } from "js/extractors/extractRaidData";
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Pve/Pve";
 import { options } from "locale/Components/Options/locale";

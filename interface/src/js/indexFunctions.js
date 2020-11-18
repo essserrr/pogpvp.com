@@ -1,8 +1,5 @@
 import { levelData } from "js/bases/levelData";
 import { tierHP } from "js/bases/tierHP";
-import { weather } from "js/bases/weather";
-import { friendship } from "js/bases/friendship";
-import { effectivenessData } from "js/bases/effectivenessData";
 import { stagesData } from "js/bases/stagesData";
 
 export const capitalizeFirst = (str, lower = false) =>
@@ -154,8 +151,6 @@ function compareStats(statA, statB, statProdA, statProdB) {
     return true
 }
 
-
-
 //selects Max overall, max attack and max defence results from spreadsheet. Generates default iv's as well
 function generateMaximized(sheet) {
     return {
@@ -263,23 +258,6 @@ export function processInitialStats(stat) {
     return String(stat)
 }
 
-export function calculateMultiplier(aTypes, dTypes, mType) {
-    if (!aTypes || !dTypes) {
-        return 0
-    }
-    const pvpMultiplier = 1.3
-    let stabBonus = (aTypes.includes(mType) ? 1.2 : 1)
-    let moveEfficiency = effectivenessData[mType]
-    let seMultiplier = 1
-
-    dTypes.forEach((elem) => {
-        if (moveEfficiency[elem] !== 0) {
-            seMultiplier *= moveEfficiency[elem]
-        }
-    });
-    return pvpMultiplier * seMultiplier * stabBonus
-}
-
 export function returnEffAtk(AtkIV, Atk, Lvl, isShadow) {
     return (Number(AtkIV) + Atk) * levelData[checkLvl(Lvl) / 0.5] * (isShadow === "true" ? 1.2 : 1)
 }
@@ -292,26 +270,6 @@ export function calculateDamage(movePower, aAttack, dDefence, multiplier) {
     return Math.trunc(movePower * 0.5 * (aAttack / dDefence) * multiplier + 1)
 }
 
-export function getPveMultiplier(aTypes, dTypes, mType, weatherType, friendStage) {
-    let stabBonus = (aTypes.includes(mType) ? 1.2 : 1)
-    let moveEfficiency = effectivenessData[mType]
-    let seMultiplier = 1
-
-    dTypes.forEach((elem) => {
-        if (moveEfficiency[elem] !== 0) {
-            seMultiplier *= moveEfficiency[elem]
-        }
-    });
-    let weatherMul = 1
-    if (weather[weatherType][mType]) {
-        weatherMul = weather[weatherType][mType]
-    }
-    return stabBonus * friendship[friendStage] * seMultiplier * weatherMul
-}
-
-
-
-
 
 export function encodeQueryData(data) {
     let res = [
@@ -323,53 +281,6 @@ export function encodeQueryData(data) {
     return encodeURIComponent(res.join("_"));
 }
 
-export function extractName(name) {
-    let splitted = name.split(" ")
-
-    if (splitted.length === 1) {
-        return { Name: name, Additional: "" }
-    }
-    if (splitted[0] === "Galarian" || splitted[0] === "Alolan" || splitted[0] === "Black" || splitted[0] === "White" ||
-        splitted[0] === "Armored" || splitted[0] === "Mega" || splitted[0] === "Primal") {
-        return {
-            Name: splitted[1],
-            Additional: splitted[0] + ((splitted.length > 2) ? ", " + splitted.slice(2).join(" ").replace(/[()]/g, "") : "")
-        }
-    }
-    return { Name: splitted[0], Additional: splitted.slice(1).join(" ").replace(/[()]/g, "") }
-}
-
-export function extractData(league, pok1, pok2) {
-    let attacker = decodeURIComponent(pok1).split("_")
-    let defender = decodeURIComponent(pok2).split("_")
-    return {
-        attacker: (attacker.length === 15) ? attacker : undefined,
-        defender: (defender.length === 15) ? defender : undefined,
-        league: (league === "great" || league === "ultra" || league === "master") ? league : undefined
-    }
-}
-
-export function extractRaidData(attacker, boss, obj, supp) {
-    let attackerObj = decodeURIComponent(attacker).split("_")
-    let bossObj = decodeURIComponent(boss).split("_")
-    let pveObj = decodeURIComponent(obj).split("_")
-    let supportPokemon = decodeURIComponent(supp).split("_")
-    return {
-        attackerObj: (attackerObj.length === 8) ? attackerObj : undefined,
-        bossObj: (bossObj.length === 4) ? bossObj : undefined,
-        pveObj: (pveObj.length >= 6) ? pveObj : undefined,
-        supportPokemon: (supportPokemon.length === 8) ? supportPokemon : undefined,
-    }
-}
-
-export function extractPveAttacker(array) {
-    return {
-        Name: array[0], QuickMove: array[1], ChargeMove: array[2],
-        Lvl: array[3], Atk: array[4], Def: array[5], Sta: array[6],
-        IsShadow: array[7], quickMovePool: "", chargeMovePool: "",
-    }
-}
-
 export function encodePveAttacker(data) {
     let res = [
         data.Name, data.QuickMove, data.ChargeMove,
@@ -379,31 +290,9 @@ export function encodePveAttacker(data) {
     return encodeURIComponent(res.join("_"));
 }
 
-export function extractPveBoss(array) {
-    return {
-        Name: array[0], QuickMove: array[1], ChargeMove: array[2],
-        Tier: array[3], quickMovePool: "", chargeMovePool: "",
-    }
-}
-
 export function encodePveBoss(data) {
     let res = [data.Name, data.QuickMove, data.ChargeMove, data.Tier,]
     return encodeURIComponent(res.join("_"));
-}
-
-
-export function extractPveObj(array) {
-    return {
-        FriendshipStage: array[0],
-        Weather: array[1],
-        DodgeStrategy: array[2],
-
-        PartySize: array[3],
-        PlayersNumber: array[4],
-        IsAggresive: array[5],
-
-        SupportSlotEnabled: array[6],
-    }
 }
 
 export function encodePveObj(data) {
@@ -430,7 +319,6 @@ export function getUserPok() {
     }
 }
 
-
 export function boss() {
     return {
         Name: "", QuickMove: "", ChargeMove: "",
@@ -453,21 +341,7 @@ export function pveCutomParty() {
     return { title: "", party: [] }
 }
 
-export function extractPokemon(array) {
-    return {
-        name: array[5], Lvl: array[1], Atk: array[2], Def: array[3], Sta: array[4], Shields: array[0],
-        AtkStage: array[6], DefStage: array[7], InitialHP: array[8], InitialEnergy: array[9], IsGreedy: array[10], IsShadow: array[11],
-        QuickMove: array[12], ChargeMove1: array[13], ChargeMove2: array[14],
-        quickMovePool: "", chargeMovePool: "",
-        effAtk: "", effDef: "", effSta: "",
-        maximizer: {
-            stat: "Overall",
-            level: "40",
-            action: "Default",
-        },
-        HP: undefined, Energy: undefined,
-    }
-}
+
 export function pokemon() {
     return {
         name: "", Lvl: "", Atk: "", Def: "", Sta: "", Shields: "0",

@@ -7,7 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { breakoints } from "locale/Pve/Breakpoints/Breakpoints";
-import { calculateDamage, returnEffAtk, getPveMultiplier } from "js/indexFunctions";
+import { calculateDamage, returnEffAtk } from "js/indexFunctions";
+import { getPveMultiplier } from "js/Damage/getPveMultiplier";
 import { getCookie } from "js/getCookie";
 
 let pvestrings = new LocalizedStrings(breakoints);

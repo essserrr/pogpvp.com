@@ -1,5 +1,5 @@
 import React from "react"
-import { weatherDecoder } from "js/coders/weatherDecoder";
+import { weatherDecoder } from "js/decoders/weatherDecoder";
 
 import ColoredMove from "App/Components/ColoredMove/ColoredMove"
 

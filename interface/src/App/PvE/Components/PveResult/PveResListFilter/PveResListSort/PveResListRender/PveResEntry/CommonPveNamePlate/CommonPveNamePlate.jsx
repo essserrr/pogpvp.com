@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Iconer from "App/Components/Iconer/Iconer";
 import NameAndMoves from "../NameAndMoves/NameAndMoves";
 import NumberAndIcon from "../NumberAndIcon/NumberAndIcon";
-import { extractName } from "js/indexFunctions";
+import { extractName } from "js/extractors/extractName";
 
 class CommonPveNamePlate extends React.PureComponent {
     render() {

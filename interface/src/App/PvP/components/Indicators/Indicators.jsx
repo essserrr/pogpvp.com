@@ -10,7 +10,8 @@ import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import HPIndicator from "./HPIndicator/HPIndicator"
 import EnergyIndicator from "./EnergyIndicator/EnergyIndicator"
 import EnergyNumber from "./EnergyNumber/EnergyNumber"
-import { calculateDamage, calculateMultiplier } from "js/indexFunctions"
+import { calculateDamage } from "js/indexFunctions"
+import { calculateMultiplier } from "js/Damage/calculateMultiplier";
 import { getCookie } from "js/getCookie"
 
 import { moveTips } from "locale/Pvp/MoveTips/MoveTips";
