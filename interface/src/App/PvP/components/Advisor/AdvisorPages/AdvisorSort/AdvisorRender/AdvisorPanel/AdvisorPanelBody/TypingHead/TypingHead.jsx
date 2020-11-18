@@ -4,9 +4,9 @@ import TableCell from '@material-ui/core/TableCell';
 
 import Iconer from "App/Components/Iconer/Iconer";
 
-import { typeDecoder } from "js/indexFunctions";
+import { typeDecoder } from "js/coders/typeDecoder";
 
-const TypingHead = React.memo(function TypingHead(props) {
+const TypingHead = function TypingHead() {
     return (
         <>
             <TableCell component="th" align="center" scope="col" key={"zero"} />
@@ -16,6 +16,6 @@ const TypingHead = React.memo(function TypingHead(props) {
                 </TableCell>)}
         </>
     )
-});
+};
 
 export default TypingHead;

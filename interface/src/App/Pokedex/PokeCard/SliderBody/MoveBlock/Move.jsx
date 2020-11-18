@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import ChargeEnergy from "./PokedexChargeEnergy/PokedexChargeEnergy";
-import { typeDecoder } from "js/indexFunctions";
+import { typeDecoder } from "js/coders/typeDecoder";
 import { getCookie } from "js/getCookie";
 import { dexLocale } from "locale/Pokedex/Pokecard";
 

@@ -5,7 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 import Rate from "App/PvP/components/SinglePvpResults/Rate/Rate";
 import ColoredMove from "App/Components/ColoredMove/ColoredMove";
-import { effectivenessData } from "js/indexFunctions";
+import { effectivenessData } from "js/bases/effectivenessData";
 
 const SingleMoveLine = React.memo(function SingleMoveLine(props) {
     return (

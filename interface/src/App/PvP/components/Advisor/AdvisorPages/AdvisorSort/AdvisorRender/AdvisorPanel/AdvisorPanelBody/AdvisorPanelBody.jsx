@@ -16,7 +16,7 @@ import HorizontalTypeList from "./HorizontalTypeList/HorizontalTypeList";
 
 import { advisor } from "locale/Pvp/Advisor/Advisor";
 import { options } from "locale/Components/Options/locale";
-import { effectivenessData } from "js/indexFunctions";
+import { effectivenessData } from "js/bases/effectivenessData";
 import { getCookie } from "js/getCookie";
 
 let advisorStrings = new LocalizedStrings(advisor);

@@ -16,7 +16,8 @@ import { candyCost, dustCost } from "./powerupCost";
 import Counter from "./Counter/Counter";
 import BreakpointsList from "./BreakpointsList";
 
-import { tierMult, calculateDamage, returnEffAtk, getPveMultiplier } from "js/indexFunctions";
+import { calculateDamage, returnEffAtk, getPveMultiplier } from "js/indexFunctions";
+import { tierMult } from "js/bases/tierMult";
 import { getCookie } from "js/getCookie";
 import { ReactComponent as Dust } from "icons/stardust.svg";
 import { ReactComponent as Candy } from "icons/candy.svg";

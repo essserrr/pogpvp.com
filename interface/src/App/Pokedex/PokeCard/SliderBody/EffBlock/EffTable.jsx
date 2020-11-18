@@ -1,5 +1,4 @@
 import React from "react";
-import { effectivenessData } from "js/indexFunctions";
 import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
@@ -10,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { effectivenessData } from "js/bases/effectivenessData";
 import { getCookie } from "js/getCookie";
 import { dexLocale } from "locale/Components/EffTable/EffTable";
 import EffIcon from "./EffIcon";
