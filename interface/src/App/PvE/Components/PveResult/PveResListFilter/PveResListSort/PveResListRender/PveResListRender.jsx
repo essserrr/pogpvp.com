@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 import Button from "App/Components/Button/Button";
-import PrescisionWrapper from "./PveResEntry/PrescisionWrapper";
+import PrecisionWrapper from "./PveResEntry/PrecisionWrapper";
 
 import { locale } from "locale/Pve/Pve";
 import { getCookie } from "js/getCookie";
@@ -26,7 +26,7 @@ const PveResListRender = React.memo(function PveResListRender(props) {
             <Grid item xs={12} container spacing={1}>
                 {children.slice(0, upperBound).map((elem, i) =>
                     <Grid item xs={12} key={i}>
-                        <PrescisionWrapper i={i} pokemonRes={elem} {...other} />
+                        <PrecisionWrapper i={i} pokemonRes={elem} {...other} />
                     </Grid>
                 )}
             </Grid>

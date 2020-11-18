@@ -3,9 +3,7 @@ import { weatherDecoder } from "js/coders/weatherDecoder";
 
 import ColoredMove from "App/Components/ColoredMove/ColoredMove"
 
-import "./WeatherMoves.scss"
-
-const WeatherMoves = React.memo(function (props) {
+const WeatherMoves = React.memo(function WeatherMoves(props) {
     return (
         <>
             <ColoredMove m={0.5}

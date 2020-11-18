@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import PveResEntry from "./PveResEntry";
 
-class PrescisionWrapper extends React.PureComponent {
+class PrecisionWrapper extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,10 +48,10 @@ class PrescisionWrapper extends React.PureComponent {
     }
 };
 
-export default PrescisionWrapper;
+export default PrecisionWrapper;
 
 
-PrescisionWrapper.propTypes = {
+PrecisionWrapper.propTypes = {
     i: PropTypes.number,
     pokemonRes: PropTypes.object,
     customResult: PropTypes.bool,
