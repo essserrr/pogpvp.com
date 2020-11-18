@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
-const TheadCell = React.memo(function TheadCell(props) {
+const HeadCell = React.memo(function HeadCell(props) {
     const { isSelected, order, coltype, name, children, onClick, ...other } = props;
 
     return (
@@ -20,9 +20,9 @@ const TheadCell = React.memo(function TheadCell(props) {
     )
 });
 
-export default TheadCell;
+export default HeadCell;
 
-TheadCell.propTypes = {
+HeadCell.propTypes = {
     onClick: PropTypes.func.isRequired,
 
     isSelected: PropTypes.bool.isRequired,

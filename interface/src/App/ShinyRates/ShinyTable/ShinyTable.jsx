@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 
-import ShinyTableThead from "./ShinyTableThead/ShinyTableThead";
+import ShinyTableHead from "./ShinyTableHead/ShinyTableHead";
 import ShinyTableTr from "./ShinyTableTr/ShinyTableTr";
 
 const ShinyTable = React.memo(function ShinyTable(props) {
     return (
         <Table size="medium">
-            <ShinyTableThead
+            <ShinyTableHead
                 onClick={props.onClick}
                 active={props.active}
             />

@@ -70,7 +70,7 @@ class LazyTable extends React.PureComponent {
                 scrollThreshold={0.75}
             >
                 <Table className={classes.table}>
-                    {this.props.thead}
+                    {this.props.head}
                     <TableBody>
                         {this.state.infiniteList}
                     </TableBody>
@@ -83,7 +83,7 @@ class LazyTable extends React.PureComponent {
 export default withStyles(styles, { withTheme: true })(LazyTable);
 
 LazyTable.propTypes = {
-    thead: PropTypes.node,
+    head: PropTypes.node,
     activeFilter: PropTypes.object,
     elementsOnPage: PropTypes.number,
     children: PropTypes.arrayOf(PropTypes.node),

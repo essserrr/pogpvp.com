@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 
 import LazyTable from "./LazyTable/LazyTable";
 import PokeRow from "./PokeRow/PokeRow";
-import TableThead from "./TableThead/TableThead";
+import TableHead from "./TableHead/TableHead";
 
 import { calculateCP } from "js/indexFunctions";
 
 const PokedexListRender = function PokedexListRender(props) {
     return (
         <LazyTable
-            thead={<TableThead active={props.sort} onClick={props.onClick} />}
+            head={<TableHead active={props.sort} onClick={props.onClick} />}
             activeFilter={props.sort}
             elementsOnPage={40}
         >

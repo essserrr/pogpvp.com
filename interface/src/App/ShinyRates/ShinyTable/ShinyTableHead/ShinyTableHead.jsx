@@ -9,31 +9,31 @@ import Tooltip from '@material-ui/core/Tooltip';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
-import TheadCell from "./TheadCell/TheadCell";
+import HeadCell from "./HeadCell/HeadCell";
 
 import { locale } from "locale/ShinyRates/ShinyRates";
 import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale);
 
-const ShinyTableThead = React.memo(function ShinyTableThead(props) {
+const ShinyTableHead = React.memo(function ShinyTableHead(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     const { field, order } = props.active
 
     return (
         <TableHead>
             <TableRow>
-                <TheadCell isSelected={field === "Name"} order={order} coltype="string" name="Name"
+                <HeadCell isSelected={field === "Name"} order={order} coltype="string" name="Name"
                     scope="col" align='left' onClick={props.onClick}>
                     {strings.shinyrates.pokname}
-                </TheadCell>
+                </HeadCell>
 
-                <TheadCell isSelected={field === "Odds"} order={order} coltype="number" name="Odds"
+                <HeadCell isSelected={field === "Odds"} order={order} coltype="number" name="Odds"
                     align='center' onClick={props.onClick}>
                     {<>{strings.shinyrates.rate1}<wbr />{strings.shinyrates.rate2}</>}
-                </TheadCell>
+                </HeadCell>
 
-                <TheadCell isSelected={field === "Odds"} order={order} coltype="number" name="Odds"
+                <HeadCell isSelected={field === "Odds"} order={order} coltype="number" name="Odds"
                     align='center' onClick={props.onClick}>
 
                     {strings.shinyrates.rateest}
@@ -44,21 +44,21 @@ const ShinyTableThead = React.memo(function ShinyTableThead(props) {
                         </DefaultIconStyle>
                     </Tooltip>
 
-                </TheadCell>
+                </HeadCell>
 
-                <TheadCell isSelected={field === "Checks"} order={order} coltype="number" name="Checks"
+                <HeadCell isSelected={field === "Checks"} order={order} coltype="number" name="Checks"
                     align='center' onClick={props.onClick}>
                     {strings.shinyrates.checks}
-                </TheadCell>
+                </HeadCell>
 
             </TableRow>
         </TableHead>
     )
 });
 
-export default ShinyTableThead;
+export default ShinyTableHead;
 
-ShinyTableThead.propTypes = {
+ShinyTableHead.propTypes = {
     onClick: PropTypes.func.isRequired,
     active: PropTypes.object.isRequired,
 };

@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 
 const Head = React.memo(function Head(props) {
     return (
-        <TableHead className="thead" >
+        <TableHead>
             <TableRow>
                 <TableCell component="th" scope="col"></TableCell>
                 <TableCell component="th" scope="col" align="center">{props.NameA}</TableCell>
