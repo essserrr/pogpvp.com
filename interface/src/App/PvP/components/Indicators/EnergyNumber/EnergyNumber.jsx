@@ -15,7 +15,6 @@ const EnergyNumber = React.memo(function EnergyNumber(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
 
     const value = typeof props.value === "number" ? (props.value <= 100 ? props.value : 100) : 0;
-
     return (
         <Tooltip arrow placement="top" title={<Typography>{strings.energy}</Typography>}>
             <Box fontWeight="bold" style={{ cursor: "pointer" }}>

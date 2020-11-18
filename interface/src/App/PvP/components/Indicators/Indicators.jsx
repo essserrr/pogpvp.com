@@ -29,7 +29,7 @@ const Indicators = React.memo(function Indicators(props) {
 
     const classes = useStyles();
     const HP = Number(props.value.HP);
-    const Energy = Number(props.value.Energy);
+    const Energy = isNaN(Number(props.value.Energy)) ? 0 : Number(props.value.Energy);
 
     return (
         <GreyPaper className={classes.root} elevation={4} enablePadding paddingMult={0.25}>
@@ -46,7 +46,7 @@ const Indicators = React.memo(function Indicators(props) {
                 <Grid item xs="auto">
                     {props.chargeMove1 &&
                         <EnergyIndicator value={Energy} maxValue={-props.chargeMove1.PvpEnergy} move={props.chargeMove1}
-                            damage={calculateDamage(props.chargeMove1.PvpDamage, props.value.effAtk, props.value.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))} />}
+                            damage={calculateDamage(props.chargeMove1.PvpDamage, props.value.effAtk, props.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))} />}
                 </Grid>
                 <Grid item xs="auto">
                     <EnergyNumber value={Energy} />
@@ -55,7 +55,7 @@ const Indicators = React.memo(function Indicators(props) {
                 <Grid item xs="auto">
                     {props.chargeMove2 &&
                         <EnergyIndicator value={Energy} maxValue={-props.chargeMove2.PvpEnergy} move={props.chargeMove2}
-                            damage={calculateDamage(props.chargeMove2.PvpDamage, props.aAttack, props.value.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))} />}
+                            damage={calculateDamage(props.chargeMove2.PvpDamage, props.value.effAtk, props.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))} />}
                 </Grid>
 
             </Grid>

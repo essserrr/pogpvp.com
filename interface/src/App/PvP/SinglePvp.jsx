@@ -586,7 +586,6 @@ class SinglePvp extends React.PureComponent {
 
     onClick(event, attributes) {
         const role = attributes.attr;
-        console.log(event, attributes)
         if (role === "constructor") {
             this.setState({
                 [role]: {

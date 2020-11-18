@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 
 const HorizontalTypeList = React.memo(function HorizontalTypeList(props) {
 
-    console.log(props)
     return (
         <Grid container spacing={1}>
 

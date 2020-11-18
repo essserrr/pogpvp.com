@@ -65,6 +65,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                                     pokemonTable={props.pokemonTable}
                                     attr="Attacker"
 
+                                    effDef={props.defender.effDef}
                                     chargeMove1={props.moveTable[props.attacker.ChargeMove1]}
                                     chargeMove2={props.moveTable[props.attacker.ChargeMove2]}
 
@@ -87,6 +88,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                                     pokemonTable={props.pokemonTable}
                                     attr="Defender"
 
+                                    effDef={props.attacker.effDef}
                                     chargeMove1={props.moveTable[props.defender.ChargeMove1]}
                                     chargeMove2={props.moveTable[props.defender.ChargeMove2]}
 
