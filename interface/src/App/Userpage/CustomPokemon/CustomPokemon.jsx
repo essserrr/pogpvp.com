@@ -29,7 +29,9 @@ import { MovePoolBuilder } from "js/movePoolBuilder";
 import { separateMovebase } from "js/separateMovebase";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
-import { getUserPok, checkLvl, checkIV, calculateCP } from "js/indexFunctions";
+import { getUserPok, calculateCP } from "js/indexFunctions";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
 import { selectQuickRaids } from "js/MoveSelector/selectQuickRaids";
 import { selectChargeRaids } from "js/MoveSelector/selectChargeRaids";
 import { translareMove, translateName } from "./translator";

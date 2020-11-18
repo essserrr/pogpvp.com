@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import CpCalc from "./CpCalc";
-import { calculateEffStat, checkLvl, checkIV, } from "js/indexFunctions";
+import { calculateEffStat } from "js/indexFunctions";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
 
 class CpBlock extends React.PureComponent {
     constructor(props) {

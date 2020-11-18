@@ -7,12 +7,12 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes";
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
-import HPIndicator from "./HPIndicator/HPIndicator"
-import EnergyIndicator from "./EnergyIndicator/EnergyIndicator"
-import EnergyNumber from "./EnergyNumber/EnergyNumber"
-import { calculateDamage } from "js/indexFunctions"
+import HPIndicator from "./HPIndicator/HPIndicator";
+import EnergyIndicator from "./EnergyIndicator/EnergyIndicator";
+import EnergyNumber from "./EnergyNumber/EnergyNumber";
+import { calculateDamage } from "js/Damage/calculateDamage";
 import { calculateMultiplier } from "js/Damage/calculateMultiplier";
-import { getCookie } from "js/getCookie"
+import { getCookie } from "js/getCookie";
 
 import { moveTips } from "locale/Pvp/MoveTips/MoveTips";
 

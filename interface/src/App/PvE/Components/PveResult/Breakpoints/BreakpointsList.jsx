@@ -7,7 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { breakoints } from "locale/Pve/Breakpoints/Breakpoints";
-import { calculateDamage, returnEffAtk } from "js/indexFunctions";
+import { returnEffAtk } from "js/Damage/returnEffAtk";
+import { calculateDamage } from "js/Damage/calculateDamage";
 import { getPveMultiplier } from "js/Damage/getPveMultiplier";
 import { getCookie } from "js/getCookie";
 

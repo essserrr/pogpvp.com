@@ -16,7 +16,8 @@ import { candyCost, dustCost } from "./powerupCost";
 import Counter from "./Counter/Counter";
 import BreakpointsList from "./BreakpointsList";
 
-import { calculateDamage, returnEffAtk } from "js/indexFunctions";
+import { returnEffAtk } from "js/Damage/returnEffAtk";
+import { calculateDamage } from "js/Damage/calculateDamage";
 import { getPveMultiplier } from "js/Damage/getPveMultiplier";
 import { tierMult } from "js/bases/tierMult";
 import { getCookie } from "js/getCookie";

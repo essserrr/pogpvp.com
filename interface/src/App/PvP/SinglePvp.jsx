@@ -13,10 +13,10 @@ import MagicBox from "./components/MagicBox/MagicBox";
 import Constructor from "./components/Constructor/Constructor";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import {
-    calculateEffStat, pokemon, encodeQueryData, calculateMaximizedStats, processHP,
-    processInitialStats, checkLvl, checkIV
-} from "js/indexFunctions.js"
+import { calculateEffStat, pokemon, encodeQueryData, calculateMaximizedStats, processHP } from "js/indexFunctions.js"
+import { processInitialStats } from "js/checks/processInitialStats";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
 import { selectQuick } from "js/MoveSelector/selectQuick";
 import { selectCharge } from "js/MoveSelector/selectCharge";
 import { getCookie } from "js/getCookie";

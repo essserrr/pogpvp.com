@@ -12,7 +12,9 @@ import Button from "App/Components/Button/Button";
 import PveResult from "./Components/PveResult/PveResult";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import { pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj, checkLvl, checkIV } from "js/indexFunctions.js";
+import { pveattacker, boss, pveobj, encodePveAttacker, encodePveBoss, encodePveObj } from "js/indexFunctions.js";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
 
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Pve/Pve";

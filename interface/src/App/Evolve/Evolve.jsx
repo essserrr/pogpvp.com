@@ -13,9 +13,9 @@ import SearchableSelect from "App/Components/SearchableSelect/SearchableSelect";
 import Stats from "App/Components/Stats/Stats";
 import EvoList from "./EvoList/EvoList";
 
-
 import { locale } from "locale/Evolve/Evolve";
-import { checkLvl, checkIV, } from "js/indexFunctions";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
 import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale);

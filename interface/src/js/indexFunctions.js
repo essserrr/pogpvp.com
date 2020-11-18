@@ -1,6 +1,8 @@
 import { levelData } from "js/bases/levelData";
 import { tierHP } from "js/bases/tierHP";
 import { stagesData } from "js/bases/stagesData";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
 
 export const capitalizeFirst = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|-|["'([{])+\S/g, match => match.toUpperCase());
@@ -193,40 +195,6 @@ export function calculateBossCP(name, tier, pokBase) {
         Math.pow(tierHP[tier], 0.5) / 10);
 }
 
-export function checkIV(IV) {
-    if (isNaN(IV)) {
-        return 0
-    }
-    IV = Number(IV)
-    if (IV > 15) {
-        return 15
-    }
-    if (IV < 0) {
-        return 0
-    }
-    if (!Number.isInteger(IV)) {
-        return Math.trunc(IV)
-    }
-    return IV
-}
-
-export function checkLvl(lvl) {
-    let lvlNumber = Number(lvl)
-    if (isNaN(lvlNumber)) {
-        return 0
-    }
-    if (lvlNumber > 45) {
-        return 45
-    }
-    if (lvlNumber < 0) {
-        return 0
-    }
-    if (!Number.isInteger(lvlNumber / 0.5)) {
-        return Math.trunc(lvlNumber)
-    }
-    return lvl
-}
-
 export function calculateEffStat(name, lvl, value, stage, pokBase, what, isShadow) {
     if (!name || !pokBase[name]) {
         return 0
@@ -243,31 +211,6 @@ export function processHP(HP) {
         return 0
     }
     return HP
-}
-
-export function processInitialStats(stat) {
-    if (isNaN(stat)) {
-        return ""
-    }
-    if (stat < 0) {
-        return ""
-    }
-    if (!Number.isInteger(stat)) {
-        return String(Math.floor(stat))
-    }
-    return String(stat)
-}
-
-export function returnEffAtk(AtkIV, Atk, Lvl, isShadow) {
-    return (Number(AtkIV) + Atk) * levelData[checkLvl(Lvl) / 0.5] * (isShadow === "true" ? 1.2 : 1)
-}
-
-
-export function calculateDamage(movePower, aAttack, dDefence, multiplier) {
-    if (aAttack === 0 || dDefence === 0 || multiplier === 0) {
-        return 0
-    }
-    return Math.trunc(movePower * 0.5 * (aAttack / dDefence) * multiplier + 1)
 }
 
 
