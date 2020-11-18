@@ -15,6 +15,7 @@ import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import WithIcon from "App/Components/WithIcon/WithIcon";
 import Input from "App/Components/Input/Input";
 import Button from "App/Components/Button/Button";
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 
 import Switch from "App/Components/Switch/Switch";
 import Pokemon from "./Pokemon";
@@ -529,7 +530,9 @@ class MatrixPanel extends React.PureComponent {
                             />
 
                             <Tooltip arrow placement="top" title={<Typography>{strings.tips.tripletip}</Typography>}>
-                                <HelpOutlineIcon />
+                                <DefaultIconStyle>
+                                    <HelpOutlineIcon />
+                                </DefaultIconStyle>
                             </Tooltip>
                         </Grid>}
 
@@ -541,7 +544,9 @@ class MatrixPanel extends React.PureComponent {
                                 disabled={this.props.advDisabled}
                             />
                             <Tooltip arrow placement="top" title={<Typography>{advisorStrings.advisor.tip}</Typography>}>
-                                <HelpOutlineIcon />
+                                <DefaultIconStyle>
+                                    <HelpOutlineIcon />
+                                </DefaultIconStyle>
                             </Tooltip>
                         </Grid>}
 

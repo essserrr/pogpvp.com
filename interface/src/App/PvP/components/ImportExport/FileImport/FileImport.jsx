@@ -9,6 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 import Button from "App/Components/Button/Button";
 
 import { impExp } from "locale/ImportExport/ImportExport"
@@ -119,7 +120,9 @@ class FileImport extends React.PureComponent {
                         </Grid>
                         <Tooltip placement="top" arrow
                             title={<Typography color="inherit">{this.props.tips}</Typography>}>
-                            <HelpOutlineIcon className={classes.defaultIcon} />
+                            <DefaultIconStyle>
+                                <HelpOutlineIcon className={classes.defaultIcon} />
+                            </DefaultIconStyle>
                         </Tooltip>
                     </Grid>
                 </Grid>

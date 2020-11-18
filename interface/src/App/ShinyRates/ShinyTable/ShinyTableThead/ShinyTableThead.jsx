@@ -6,8 +6,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import InfoIcon from '@material-ui/icons/Info';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 import TheadCell from "./TheadCell/TheadCell";
 
 import { locale } from "locale/ShinyRates/ShinyRates";
@@ -38,7 +39,9 @@ const ShinyTableThead = React.memo(function ShinyTableThead(props) {
                     {strings.shinyrates.rateest}
                     <Tooltip placement="top" arrow
                         title={<Typography color="inherit">{strings.shinyrates.tip}</Typography>}>
-                        <InfoIcon />
+                        <DefaultIconStyle>
+                            <HelpOutlineIcon />
+                        </DefaultIconStyle>
                     </Tooltip>
 
                 </TheadCell>

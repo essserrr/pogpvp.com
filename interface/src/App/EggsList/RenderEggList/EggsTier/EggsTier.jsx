@@ -14,6 +14,7 @@ import Tier from "App/Evolve/EvoList/EvoTiers/Tier/Tier";
 import PokemonCard from "App/Components/PokemonCard/PokemonCard";
 import Iconer from "App/Components/Iconer/Iconer";
 import CardBody from "./CardBody";
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 
 import { regionals } from "./regionals";
 import { getCookie } from "js/getCookie";
@@ -58,7 +59,7 @@ const EggsTier = React.memo(function EggsTier(props) {
                     return result
                 }
                 const pokemon = props.pokTable[name];
-                const to = "/pokedex/id/" + encodeURIComponent(name);
+                const to = (navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(name);
                 const fileName = `${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`;
 
                 result.push(
@@ -70,7 +71,9 @@ const EggsTier = React.memo(function EggsTier(props) {
                                     {regionals[name] &&
                                         <Box ml={1}>
                                             <Tooltip placement="top" arrow title={<Typography color="inherit">{regionStrings[regionals[name]]}</Typography>}>
-                                                <HelpOutlineIcon fontSize="small" />
+                                                <DefaultIconStyle>
+                                                    <HelpOutlineIcon fontSize="small" />
+                                                </DefaultIconStyle>
                                             </Tooltip>
                                         </Box>}
                                 </Box>}

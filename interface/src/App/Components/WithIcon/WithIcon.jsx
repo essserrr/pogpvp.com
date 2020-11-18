@@ -7,15 +7,13 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
+
 const useStyles = makeStyles((theme) => ({
     iconMargin: {
+        marginTop: `${theme.spacing(2.5)}px`,
         marginRight: `${theme.spacing(1)}px`,
     },
-    defaultIcon: {
-        "&:hover": {
-            fill: theme.palette.secondary.light,
-        }
-    }
 }));
 
 const WithIcon = React.memo(function WithIcon(props) {
@@ -28,7 +26,9 @@ const WithIcon = React.memo(function WithIcon(props) {
                     title={<Typography color="inherit">{!!props.tip ? props.tip : ""}</Typography>}>
                     {!!props.icon ?
                         props.icon :
-                        <HelpOutlineIcon className={classes.defaultIcon} />}
+                        <DefaultIconStyle>
+                            <HelpOutlineIcon className={classes.defaultIcon} />
+                        </DefaultIconStyle>}
                 </Tooltip>
             </Grid>
             <Grid item xs>

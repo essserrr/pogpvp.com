@@ -8,6 +8,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 import Switch from "App/Components/Switch/Switch";
 import Input from "App/Components/Input/Input";
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
@@ -51,7 +52,9 @@ const UpperPanel = React.memo(function UpperPanel(props) {
 
                         <Grid item xs="auto">
                             <Tooltip arrow placement="top" title={<Typography>{strings.tips.pvpoke}</Typography>}>
-                                <HelpOutlineIcon />
+                                <DefaultIconStyle>
+                                    <HelpOutlineIcon />
+                                </DefaultIconStyle>
                             </Tooltip>
                         </Grid>
 

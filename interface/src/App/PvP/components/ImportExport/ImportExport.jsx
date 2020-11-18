@@ -12,6 +12,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 import Button from "App/Components/Button/Button";
 import ImportTips from "./ImportTips/ImportTips";
 import FileImport from "./FileImport/FileImport"
@@ -193,7 +194,9 @@ class ImportExport extends React.PureComponent {
                         </Grid>
                         <Tooltip placement="top" arrow
                             title={<Typography color="inherit">{<ImportTips type={this.props.type} />}</Typography>}>
-                            <HelpOutlineIcon className={classes.defaultIcon} />
+                            <DefaultIconStyle>
+                                <HelpOutlineIcon className={classes.defaultIcon} />
+                            </DefaultIconStyle>
                         </Tooltip>
                     </Grid>
                 </Grid>
