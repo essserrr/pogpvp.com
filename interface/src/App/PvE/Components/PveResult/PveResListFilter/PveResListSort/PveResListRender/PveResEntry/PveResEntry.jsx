@@ -12,7 +12,9 @@ import CollapseCardWrapper from "./CollapseCardWrapper/CollapseCardWrapper";
 import PveResultCollapseList from "./PveResultCollapseList/PveResultCollapseList";
 import PveResultFullStatistics from "./PlayerStatistics/PlayerStatistics";
 
-import { encodePveAttacker, encodePveBoss, encodePveObj } from "js/indexFunctions";
+import { encodePveAttacker } from "js/encoders/encodePveAttacker";
+import { encodePveBoss } from "js/encoders/encodePveBoss";
+import { encodePveObj } from "js/encoders/encodePveObj";
 
 const styles = theme => ({
     separator: {

@@ -28,7 +28,7 @@ import MatrixPokemonList from "./MatrixPokemonList/MatrixPokemonList";
 import SaveMenu from "./SaveMenu/SaveMenu";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import { pokemon, } from "js/indexFunctions.js";
+import { pokemon } from "js/defaultObjects/pokemon";
 import { calculateEffStat } from "js/calculateEffStat";
 import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
 import { processInitialStats } from "js/checks/processInitialStats";

@@ -13,7 +13,11 @@ import Button from "App/Components/Button/Button";
 import PveResult from "./Components/PveResult/PveResult";
 
 import { MovePoolBuilder } from "js/movePoolBuilder";
-import { pveattacker, boss, pveobj, pveUserSettings, pveCutomParty } from "js/indexFunctions";
+import { pveattacker } from "js/defaultObjects/pveattacker";
+import { boss } from "js/defaultObjects/boss";
+import { pveobj } from "js/defaultObjects/pveobj";
+import { pveUserSettings } from "js/defaultObjects/pveUserSettings";
+import { pveCustomParty } from "js/defaultObjects/pveCustomParty";
 
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Pve/Pve";
@@ -114,7 +118,7 @@ class CustomPve extends React.PureComponent {
 
     onPartySelect(partyName, partyNumber, playerNumber) {
         let userPlayers = [...this.state.userSettings.UserPlayers]
-        userPlayers[playerNumber][partyNumber] = this.props.userParties[partyName] ? { party: this.props.userParties[partyName], title: partyName } : pveCutomParty()
+        userPlayers[playerNumber][partyNumber] = this.props.userParties[partyName] ? { party: this.props.userParties[partyName], title: partyName } : pveCustomParty()
 
         this.setState({
             userSettings: {
@@ -128,7 +132,7 @@ class CustomPve extends React.PureComponent {
         this.setState({
             userSettings: {
                 ...this.state.userSettings,
-                UserPlayers: [...this.state.userSettings.UserPlayers, [pveCutomParty(), pveCutomParty(), pveCutomParty()]]
+                UserPlayers: [...this.state.userSettings.UserPlayers, [pveCustomParty(), pveCustomParty(), pveCustomParty()]]
             },
         });
     }

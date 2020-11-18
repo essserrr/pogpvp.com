@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SliderBlock from "App/Components/SliderBlock/SliderBlock";
 import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
-import { encodeQueryData } from "js/indexFunctions";
+import { encodeQueryData } from "js/encoders/encodeQueryData";
 import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
 import { selectQuick } from "js/MoveSelector/selectQuick";
 import { selectCharge } from "js/MoveSelector/selectCharge";

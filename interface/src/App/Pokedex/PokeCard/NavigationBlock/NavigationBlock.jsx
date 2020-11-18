@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow';
 
 import Typography from '@material-ui/core/Typography';
@@ -22,7 +23,9 @@ const NavigationBlock = React.memo(function (props) {
                 <Link to={navigator.userAgent === "ReactSnap" ? "/" : props.prev}>
                     <Tooltip placement="top" arrow
                         title={<Typography color="inherit">{props.prevTitle}</Typography>}>
-                        <DoubleArrowIcon style={{ transform: "rotate(180deg)", fontSize: "32px" }} />
+                        <IconButton style={{ height: "36px", width: "36px" }}>
+                            <DoubleArrowIcon style={{ transform: "rotate(180deg)", fontSize: "32px" }} />
+                        </IconButton>
                     </Tooltip>
                 </Link>}
 
@@ -30,7 +33,9 @@ const NavigationBlock = React.memo(function (props) {
                 <Link to={navigator.userAgent === "ReactSnap" ? "/" : props.next}>
                     <Tooltip placement="top" arrow
                         title={<Typography color="inherit">{props.nextTitle}</Typography>}>
-                        <DoubleArrowIcon style={{ fontSize: "32px" }} />
+                        <IconButton style={{ height: "36px", width: "36px" }}>
+                            <DoubleArrowIcon style={{ fontSize: "32px" }} />
+                        </IconButton>
                     </Tooltip>
                 </Link >}
         </Grid>

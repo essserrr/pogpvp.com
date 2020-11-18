@@ -29,7 +29,7 @@ import { MovePoolBuilder } from "js/movePoolBuilder";
 import { separateMovebase } from "js/separateMovebase";
 import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
-import { getUserPok } from "js/indexFunctions";
+import { getUserPok } from "js/defaultObjects/getUserPok";
 import { calculateCP } from "js/cp/calculateCP";
 import { checkLvl } from "js/checks/checkLvl";
 import { checkIV } from "js/checks/checkIV";
