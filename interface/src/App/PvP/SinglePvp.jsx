@@ -213,7 +213,10 @@ class SinglePvp extends React.PureComponent {
         const pool = category.includes("Charge") ? "chargeMovePool" : "quickMovePool"
         var newMovePool = [...this.state[attr][pool]]
 
-        newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+        if (!newMovePool.some(e => e.value === value)) {
+            newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+        }
+
         this.setState({
             [attr]: {
                 ...this.state[attr],

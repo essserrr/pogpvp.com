@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import LocalizedStrings from "react-localization";
 
+import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
@@ -50,13 +51,15 @@ const UpperPanel = React.memo(function UpperPanel(props) {
                             />
                         </Grid>
 
-                        <Grid item xs="auto">
-                            <Tooltip arrow placement="top" title={<Typography>{strings.tips.pvpoke}</Typography>}>
-                                <DefaultIconStyle>
-                                    <HelpOutlineIcon />
-                                </DefaultIconStyle>
-                            </Tooltip>
-                        </Grid>
+                        <Box display="flex" alignItems="center">
+                            <Grid item xs="auto" container>
+                                <Tooltip arrow placement="top" title={<Typography>{strings.tips.pvpoke}</Typography>}>
+                                    <DefaultIconStyle>
+                                        <HelpOutlineIcon />
+                                    </DefaultIconStyle>
+                                </Tooltip>
+                            </Grid>
+                        </Box>
 
                     </Grid>
                 </Grid>

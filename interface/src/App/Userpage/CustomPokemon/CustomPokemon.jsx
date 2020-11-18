@@ -197,7 +197,10 @@ class CustomPokemon extends React.PureComponent {
     onMoveAdd(value, attr, name) {
         const pool = name.includes("Charge") ? "chargeMovePool" : "quickMovePool";
         let newMovePool = [...this.state[attr][pool]];
-        newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+
+        if (!newMovePool.some(e => e.value === value)) {
+            newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
+        }
 
         const selectedObject = {
             ...this.state[attr],
