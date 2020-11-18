@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import TableCell from '@material-ui/core/TableCell';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { returnRateStyle } from "js/indexFunctions.js";
+import { returnRateStyle } from "js/Rate/returnRateStyle";
 
 const useStyles = props => makeStyles(theme => {
     return ({

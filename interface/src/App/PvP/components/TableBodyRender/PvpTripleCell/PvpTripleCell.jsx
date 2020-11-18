@@ -6,7 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { returnRateStyle } from "js/indexFunctions.js";
+import { returnRateStyle } from "js/Rate/returnRateStyle";
 
 const useStyles = props => makeStyles(theme => {
     return ({

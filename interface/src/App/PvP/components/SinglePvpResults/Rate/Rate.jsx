@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
-import { returnRateStyle, returnVunStyle } from "js/indexFunctions";
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+
+import { returnVunStyle } from "js/Rate/returnVunStyle";
+import { returnRateStyle } from "js/Rate/returnRateStyle";
 
 const useStyles = props => makeStyles(theme => {
     return ({
