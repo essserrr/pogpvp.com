@@ -206,14 +206,6 @@ export function calculateEffStat(name, lvl, value, stage, pokBase, what, isShado
     return what !== "Sta" ? Math.round(effValue * 10) / 10 : Math.trunc(effValue)
 }
 
-export function processHP(HP) {
-    if (Number(HP) < 0) {
-        return 0
-    }
-    return HP
-}
-
-
 export function encodeQueryData(data) {
     let res = [
         data.Shields,
