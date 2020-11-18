@@ -1,5 +1,4 @@
 import { levelData } from "js/bases/levelData";
-import { tierHP } from "js/bases/tierHP";
 import { stagesData } from "js/bases/stagesData";
 import { checkLvl } from "js/checks/checkLvl";
 import { checkIV } from "js/checks/checkIV";
@@ -171,14 +170,6 @@ function generateMaximized(sheet) {
             Atk: String(sheet.maxCom[99].Atk), Def: String(sheet.maxCom[99].Def), Sta: String(sheet.maxCom[99].Sta),
         }
     }
-}
-
-export function calculateBossCP(name, tier, pokBase) {
-    if (!name || !pokBase[name]) {
-        return 0
-    }
-    return Math.trunc((15 + Number(pokBase[name].Atk)) * Math.pow(15 + Number(pokBase[name].Def), 0.5) *
-        Math.pow(tierHP[tier], 0.5) / 10);
 }
 
 export function calculateEffStat(name, lvl, value, stage, pokBase, what, isShadow) {
