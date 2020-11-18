@@ -7,8 +7,6 @@ import { checkIV } from "js/checks/checkIV";
 export const capitalizeFirst = (str, lower = false) =>
     (lower ? str.toLowerCase() : str).replace(/(?:^|\s|-|["'([{])+\S/g, match => match.toUpperCase());
 
-
-
 export function calculateMaximizedStats(name, lvlCap, pokTable, options) {
     if (pokTable[name] === undefined) {
         return [];
@@ -173,18 +171,6 @@ function generateMaximized(sheet) {
             Atk: String(sheet.maxCom[99].Atk), Def: String(sheet.maxCom[99].Def), Sta: String(sheet.maxCom[99].Sta),
         }
     }
-}
-
-export function calculateCP(name, Lvl, Atk, Def, Sta, pokBase) {
-    if (!name || !pokBase[name]) {
-        return 0
-    }
-    let cpAtLvl = Math.trunc(((checkIV(Atk) + Number(pokBase[name].Atk)) * Math.pow((checkIV(Def) + Number(pokBase[name].Def)), 0.5) *
-        Math.pow((checkIV(Sta) + Number(pokBase[name].Sta)), 0.5) * Math.pow(levelData[checkLvl(Lvl) / 0.5], 2)) / 10)
-    if (cpAtLvl < 10) {
-        cpAtLvl = 10
-    }
-    return cpAtLvl
 }
 
 export function calculateBossCP(name, tier, pokBase) {

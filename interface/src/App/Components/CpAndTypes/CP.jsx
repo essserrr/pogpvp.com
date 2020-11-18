@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import { tierHP } from "js/bases/tierHP";
-import { calculateCP } from "js/indexFunctions";
+import { calculateCP } from "js/cp/calculateCP";
 
 const CP = React.memo(function CP(props) {
     const { Lvl, Atk, Def, Sta, pokemonTable, name, tier, isBoss } = props;

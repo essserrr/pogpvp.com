@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
-import { calculateCP } from "js/indexFunctions";
+import { calculateCP } from "js/cp/calculateCP";
 
 
 const PokemonSelect = React.memo(function PokemonSelect(props) {

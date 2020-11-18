@@ -5,7 +5,7 @@ import LazyTable from "./LazyTable/LazyTable";
 import PokeRow from "./PokeRow/PokeRow";
 import TableHead from "./TableHead/TableHead";
 
-import { calculateCP } from "js/indexFunctions";
+import { calculateCP } from "js/cp/calculateCP";
 
 const PokedexListRender = function PokedexListRender(props) {
     return (
