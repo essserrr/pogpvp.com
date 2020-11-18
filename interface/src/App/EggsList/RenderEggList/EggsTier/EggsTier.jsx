@@ -1,89 +1,108 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-import PokemonCard from "../../../Evolve/PokemonCard/PokemonCard"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
-import CardBody from "./CardBody"
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { capitalizeFirst, regionals } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
-import { locale } from "../../../../locale/locale"
-import { regionLocale } from "../../../../locale/regionLocale"
+import Tier from "App/Evolve/EvoList/EvoTiers/Tier/Tier";
+import PokemonCard from "App/Components/PokemonCard/PokemonCard";
+import Iconer from "App/Components/Iconer/Iconer";
+import CardBody from "./CardBody";
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
 
-import "./EggsTier.scss"
+import { regionals } from "./regionals";
+import { getCookie } from "js/getCookie";
+import { capitalizeFirst } from "js/capitalizeFirst";
+import { regionLocale } from "locale/Eggs/regionLocale";
+import { locale } from "locale/Eggs/Eggs";
 
 let strings = new LocalizedStrings(locale);
-let regions = new LocalizedStrings(regionLocale)
+let regionStrings = new LocalizedStrings(regionLocale);
 
+const useStyles = makeStyles((theme) => ({
+    card: {
+        maxWidth: "190px",
+    },
+}));
 
-const EggsTier = React.memo(function (props) {
+const EggsTier = React.memo(function EggsTier(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    regions.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    regionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
 
+    const getName = (elem) => {
+        let name = elem.replace("’", "")
+        if (!props.pokTable[name]) {
+            name = capitalizeFirst(name)
+        }
+        name = name.replace(/\.$/, "")
+        if (!props.pokTable[name]) {
+            console.log(`Critical: ""${name}" not found in the database`)
+            return ""
+        }
+        return name
+    }
 
     return (
-        <>
-            {props.title && <div className={props.class} >{props.title}</div>}
-            <div className={"row justify-content-center m-0 mb-2"}>
-                {props.list.reduce((result, elem) => {
-                    //format title string
-                    let name = elem.replace("’", "")
-                    if (!props.pokTable[name]) {
-                        name = capitalizeFirst(name)
-                    }
-                    name = name.replace(/\.$/, "")
-                    if (!props.pokTable[name]) {
-                        console.log(`Critical: ""${name}" not found in the database`)
-                        return result
-                    }
-                    //skip reginals if regionals are not selected
-                    if (!props.showReg && regionals[name]) {
-                        return result
-                    }
-                    result.push(
-                        <div key={name + "wrap"} className={"col-6 col-sm-4 col-lg-3 d-flex px-1 pt-2 justify-content-center"}>
-                            <PokemonCard
-                                class={"eggs-tier__card col-12 p-0 pb-1"}
-                                name={<div className="text-center">
-                                    <>{name}</>
-                                    {regionals[name] &&
-                                        <><ReactTooltip
-                                            className={"infoTip"}
-                                            id={name} effect="solid"
-                                            place={"top"}
-                                            multiline={true}
-                                        >
-                                            {regions[regionals[name]]}
-                                        </ReactTooltip>
-                                            <i data-tip data-for={name} className="fas fa-info-circle ml-1">
-                                            </i></>}
-                                </div>}
-                                icon={
-                                    <Link title={strings.dexentr + name}
-                                        to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(name)}>
-                                        <PokemonIconer
-                                            src={props.pokTable[name].Number + (props.pokTable[name].Forme !== "" ?
-                                                "-" + props.pokTable[name].Forme : "")}
-                                            class={"eggs-tier__icon ml-0 ml-sm-1 align-self-center"} />
-                                    </Link>}
-                                body={<CardBody
-                                    name={name}
-                                    pokTable={props.pokTable}
-                                />}
-                                classBodyWrap="row justify-content-center justify-content-sm-between m-0"
-                                classHeader={"eggs-tier__card-header col-12 px-1 mb-1 text-center"}
-                                classBody={"eggs-tier__card-body col px-1 text-center"}
-                            />
-                        </div>)
+        <Tier title={props.title}>
+            {props.list.reduce((result, elem) => {
+                //gtry to get name
+                const name = getName(elem)
+                //skip errors and reginals if regionals are not selected
+                if (!name || (!props.showReg && regionals[name])) {
                     return result
-                }, [])}
-            </div>
-        </>
+                }
+                const pokemon = props.pokTable[name];
+                const to = (navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(name);
+                const fileName = `${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`;
+
+                result.push(
+                    <Grid key={name + "wrap"} item xs={6} sm={4} lg={3} className={classes.card}>
+                        <PokemonCard
+                            title={
+                                <Box display="flex" flexWrap="wrap" justifyContent="center" alignItems="center" padding={0.25}>
+                                    <Typography align="center" variant="body2">{name}</Typography>
+                                    {regionals[name] &&
+                                        <Box ml={1}>
+                                            <Tooltip placement="top" arrow title={<Typography color="inherit">{regionStrings[regionals[name]]}</Typography>}>
+                                                <DefaultIconStyle>
+                                                    <HelpOutlineIcon fontSize="small" />
+                                                </DefaultIconStyle>
+                                            </Tooltip>
+                                        </Box>}
+                                </Box>}
+
+                            icon={
+                                <Link title={strings.dexentr + name} to={to}>
+                                    <Box p={0.5}>
+                                        <Iconer folderName="/pokemons/" fileName={fileName} size={48} />
+                                    </Box>
+                                </Link>}
+
+                            body={<CardBody name={name} pokTable={props.pokTable} />}
+                        />
+                    </Grid>)
+                return result;
+            }, [])}
+        </Tier>
     )
 });
 
 
 export default EggsTier;
 
+EggsTier.propTypes = {
+    list: PropTypes.array,
+    showReg: PropTypes.bool,
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+    pokTable: PropTypes.object.isRequired,
+};

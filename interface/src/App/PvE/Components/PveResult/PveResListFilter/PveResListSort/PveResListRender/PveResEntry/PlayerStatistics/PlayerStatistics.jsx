@@ -1,43 +1,58 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import HpBar from "../PhBar/HpBar"
-import HpRemaining from "../HpRemaining/HpRemaining"
-import FightStats from "../FightStats/FightStats"
-import PlayersImpact from "../PlayersImpact/PlayersImpact"
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
-class PlayerStatistics extends React.PureComponent {
-    render() {
-        return (
-            <div className="row mx-0 justify-content-between">
-                <div className="col-12 px-0">
-                    <HpBar
-                        {...this.props.bounds}
-                    />
-                </div>
-                <div className="col-12 px-0">
-                    <HpRemaining
-                        {...this.props.remain}
-                    />
-                </div>
-                <div className="col px-0">
-                    <FightStats
-                        {...this.props.stats}
-                    />
-                    {this.props.impact && this.props.impact.length > 0 &&
-                        <PlayersImpact
-                            impact={this.props.impact}
-                            bossHP={this.props.bossHP}
-                        />}
-                </div>
+import HpBar from "../HpBar/HpBar";
+import HpRemaining from "../HpRemaining/HpRemaining";
+import FightStats from "../FightStats/FightStats";
+import PlayersImpact from "../PlayersImpact/PlayersImpact";
 
-                {!this.props.disableCollapse && <div onClick={this.props.onClick} className="clickable align-self-end ">
-                    <i className={this.props.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
-                </div>}
-            </div>
-        );
-    }
-};
+const PlayerStatistics = React.memo(function PlayerStatistics(props) {
+    return (
+        <Grid container justify="flex-end" alignItems="flex-end" wrap="nowrap">
+
+            <Grid item xs>
+                <Grid item xs={12}>
+                    <HpBar {...props.bounds} />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <HpRemaining {...props.remain} />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <FightStats {...props.stats} />
+
+                    {props.impact && props.impact.length > 0 &&
+                        <PlayersImpact impact={props.impact} bossHP={props.bossHP} />}
+                </Grid>
+            </Grid>
+
+            {!props.disableCollapse &&
+                <Grid item xs={"auto"}>
+                    <IconButton onClick={props.onClick}
+                        style={{ outline: "none", width: '28px', height: '28px' }}>
+                        {props.showCollapse ?
+                            <KeyboardArrowUpIcon style={{ fontSize: '28px' }} />
+                            :
+                            <KeyboardArrowDownIcon style={{ fontSize: '28px' }} />}
+                    </IconButton>
+                </Grid>}
+        </Grid>
+    )
+});
 
 export default PlayerStatistics;
 
+PlayerStatistics.propTypes = {
+    bounds: PropTypes.object,
+    remain: PropTypes.object,
+    stats: PropTypes.object,
 
+    onClick: PropTypes.func,
+    showCollapse: PropTypes.bool,
+};

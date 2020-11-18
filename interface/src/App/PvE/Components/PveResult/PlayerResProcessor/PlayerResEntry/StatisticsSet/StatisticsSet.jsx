@@ -1,48 +1,61 @@
-import React from "react"
-import PlayerStatisticsWrapper from "./PlayerStatisticsWrapper/PlayerStatisticsWrapper"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import { getCookie } from "../../../../../../../js/getCookie"
-import { pveLocale } from "../../../../../../../locale/pveLocale"
+import Grid from '@material-ui/core/Grid';
+
+import PlayerStatisticsWrapper from "./PlayerStatisticsWrapper/PlayerStatisticsWrapper";
+
+import { getCookie } from "js/getCookie";
+import { pveLocale } from "locale/Pve/CustomPve/CustomPve";
 
 let pveStrings = new LocalizedStrings(pveLocale)
 
-const StatisticsSet = React.memo(function (props) {
-    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
+const StatisticsSet = React.memo(function StatisticsSet(props) {
+    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const { value, disabled, ...other } = props;
 
     return (
-        <div className="row mx-0">
-            <div className="col-12 px-0">
+        <Grid container>
+            <Grid item xs={12}>
                 <PlayerStatisticsWrapper
-                    {...props}
-                    value={props.value.avg}
+                    {...other}
+                    value={value.avg}
                     title={`${pveStrings.playerAvg.avg}:`}
-                    disableCollapse={props.disabled.avg}
+                    disableCollapse={disabled.avg}
                 />
-            </div>
-            <div className="col-12 px-0">
+            </Grid>
+            <Grid item xs={12}>
                 <PlayerStatisticsWrapper
-                    {...props}
-                    value={props.value.max}
+                    {...other}
+                    value={value.max}
                     title={`${pveStrings.playerAvg.max}:`}
-                    disableCollapse={props.disabled.max}
+                    disableCollapse={disabled.max}
                 />
-            </div>
-            <div className="col-12 px-0">
+            </Grid>
+            <Grid item xs={12}>
                 <PlayerStatisticsWrapper
-                    {...props}
-                    value={props.value.min}
+                    {...other}
+                    value={value.min}
                     title={`${pveStrings.playerAvg.min}:`}
-                    disableCollapse={props.disabled.min}
+                    disableCollapse={disabled.min}
                     onClick={props.onClick}
                     showCollapse={props.showCollapse}
                 />
-            </div>
-        </div>
+            </Grid>
+        </Grid>
     )
 });
 
-
-
 export default StatisticsSet;
+
+StatisticsSet.propTypes = {
+    value: PropTypes.object,
+    disabled: PropTypes.object,
+
+    tables: PropTypes.object,
+    snapshot: PropTypes.object,
+
+    onClick: PropTypes.func,
+    showCollapse: PropTypes.bool,
+};

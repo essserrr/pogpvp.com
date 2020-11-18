@@ -1,27 +1,60 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import Grid from '@material-ui/core/Grid';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { withStyles } from "@material-ui/core/styles";
+import Alert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
+
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
+import Button from "App/Components/Button/Button";
+import ImportTips from "./ImportTips/ImportTips";
 import FileImport from "./FileImport/FileImport"
-import SubmitButton from "../SubmitButton/SubmitButton"
 
-import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/getCookie"
+import { impExp } from "locale/ImportExport/ImportExport";
+import { getCookie } from "js/getCookie"
 
-import "./ImportExport.scss"
+let impExpStrings = new LocalizedStrings(impExp)
 
-let strings = new LocalizedStrings(locale)
+const styles = theme => ({
+    container: {
+        marginTop: `${theme.spacing(1)}px`,
+    },
+    textArea: {
+        border: `1px solid ${theme.palette.text.primary}`,
+        display: "block",
+        width: "100%",
+        padding: `${theme.spacing(0.5)}px ${theme.spacing(1)}px`,
+        fontSize: "1rem",
+        fontWeight: "400",
+        lineHeight: "1.5",
+        borderRadius: `${theme.spacing(0.5)}px`,
+        transition: "border-color .15s ease-in-out,box-shadow .15s ease-in-out",
+    },
+    defaultIcon: {
+        "&:hover": {
+            fill: theme.palette.secondary.light,
+        }
+    }
+});
+
 
 class ImportExport extends React.PureComponent {
     constructor(props) {
         super(props);
         this.textArea = React.createRef();
-
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        impExpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
         this.state = {
             value: this.formatActiveList(props.initialValue),
 
             loadedFile: null,
+            ok: false,
         };
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -71,9 +104,12 @@ class ImportExport extends React.PureComponent {
         })
     }
 
-    onCopy() {
+    async onCopy() {
         this.textArea.current.select();
         document.execCommand('copy');
+        this.setState({ ok: true, })
+        await new Promise(res => setTimeout(res, 4000));
+        this.setState({ ok: false })
     }
 
     onclick() {
@@ -128,115 +164,88 @@ class ImportExport extends React.PureComponent {
     }
 
     render() {
+        const { classes } = this.props;
+
         return (
-            <>
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={"imp-exp" + this.props.attr} effect="solid"
-                    place={"bottom"}
-                    multiline={true}
-                >
-                    {this.props.type === "matrix" && <>
-                        {strings.tips.importtips.matrix.form}<br />
-                        {strings.tips.importtips.matrix.p1}<br />
-                        {strings.tips.importtips.matrix.q1}<br />
-                        {strings.tips.importtips.matrix.ch1}<br />
-                        {strings.tips.importtips.matrix.ch2}<br />
-                        {strings.tips.importtips.matrix.ent}<br />
-                        {strings.tips.importtips.matrix.p2}<br />
-                        {strings.tips.importtips.matrix.q1}<br />
-                        {strings.tips.importtips.matrix.ch1}<br />
-                        {strings.tips.importtips.matrix.ch2}<br /><br />
-
-                        {strings.tips.importtips.matrix.imp}
-                    </>}
-                    {this.props.type === "shiny" && <>
-                        {strings.tips.importtips.shiny.form}<br />
-                        {strings.tips.importtips.shiny.pok1}<br />
-                        {strings.tips.importtips.shiny.pok2}<br />
-                        {strings.tips.importtips.shiny.ex}<br />
-                        {strings.tips.importtips.shiny.expok}<br /><br />
-
-                        {strings.tips.importtips.shiny.forms}<br /><br />
-
-                        {strings.tips.importtips.shiny.shcheck}
-                    </>}
-                    {this.props.type === "userPokemon" && <>
-                        {strings.tips.importtips.matrix.form}<br />
-                        {strings.tips.importtips.matrix.p1}<br />
-                        {strings.tips.importtips.matrix.q1}<br />
-                        {strings.tips.importtips.matrix.ch1}<br />
-                        {strings.tips.importtips.matrix.ch2}<br />
-                        {strings.stats.lvl + ","}
-                        {strings.effStats.atk + ","}
-                        {strings.effStats.def + ","}
-                        {strings.effStats.sta + ","}<br />
-
-                        {strings.tips.importtips.matrix.ent}<br />
-                        {strings.tips.importtips.matrix.p2}<br />
-                        {strings.tips.importtips.matrix.q1}<br />
-                        {strings.tips.importtips.matrix.ch1}<br />
-                        {strings.tips.importtips.matrix.ch2}<br />
-                        {strings.stats.lvl + ","}
-                        {strings.effStats.atk + ","}
-                        {strings.effStats.def + ","}
-                        {strings.effStats.sta + ","}
-                    </>}
-                </ReactTooltip>
-
+            <Grid container justify="center" spacing={2} className={classes.container}>
                 {this.props.type === "userPokemon" &&
-                    <FileImport
-                        attr="csvFile"
-                        acceptFile=".csv"
+                    <Grid item xs={12}>
+                        <FileImport
+                            attr="csvFile"
+                            acceptFile=".csv"
 
-                        label={strings.import.fromfile}
-                        tips={<>
-                            {strings.tips.importtips.matrix.impCalcy}
-                            <br /><br />
-                            {strings.tips.importtips.matrix.impformat}
-                        </>}
+                            label={impExpStrings.import.fromfile}
+                            tips={<>
+                                {impExpStrings.importtips.matrix.impCalcy}
+                                <br /><br />
+                                {impExpStrings.importtips.matrix.impformat}
+                            </>}
 
-                        returnFile={this.onSubmitFile}
-                    />}
+                            returnFile={this.onSubmitFile}
+                        />
+                    </Grid>}
 
-                <div className="row mx-0 justify-content-between mt-3">
-                    <div className="col px-0 mr-1">
-                        {strings.tips.impExp}
-                    </div>
-                    <i data-tip data-for={"imp-exp" + this.props.attr}
-                        className="align-self-center fas fa-info-circle fa-lg ml-4"></i>
-                </div>
+                <Grid item xs={12}>
+                    <Grid container justify="space-between" spacing={1}>
+                        <Grid item xs>
+                            <Typography>
+                                {impExpStrings.impExp}
+                            </Typography>
+                        </Grid>
+                        <Tooltip placement="top" arrow
+                            title={<Typography color="inherit">{<ImportTips type={this.props.type} />}</Typography>}>
+                            <DefaultIconStyle>
+                                <HelpOutlineIcon className={classes.defaultIcon} />
+                            </DefaultIconStyle>
+                        </Tooltip>
+                    </Grid>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <textarea onChange={this.onChange} value={this.state.value} ref={this.textArea}
+                        className={classes.textArea} rows="7">
+                    </textarea>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Grid container justify="center">
+                        <Button
+                            onClick={this.onCopy}
+                            title={impExpStrings.copy}
+                            endIcon={<FileCopyIcon />}
+                        />
+                    </Grid>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Grid container justify="center">
+                        <Button
+                            onClick={this.onSubmit}
+                            title={impExpStrings.imp}
+                            endIcon={<ImportExportIcon />}
+                        />
+                    </Grid>
+                </Grid>
 
 
-                <div className="row mx-0 justify-content-center mt-2 mb-3">
-                    <SubmitButton
-                        onSubmit={this.onCopy}
-                        class="submit-button--sm btn btn-primary btn-sm p-0 m-0"
-                    >
-                        {strings.buttons.copy}
-                    </SubmitButton>
-                </div>
 
-
-
-                <textarea onChange={this.onChange} value={this.state.value} ref={this.textArea}
-                    className="form-control mt-2" rows="7">
-                </textarea>
-
-                <div className="row mx-0 justify-content-center mt-3 mb-1">
-                    <SubmitButton
-                        action={this.props.action}
-                        attr={this.props.attr}
-                        onSubmit={this.onSubmit}
-                        class="submit-button btn btn-primary btn-sm p-0 m-0"
-                    >
-                        {strings.buttons.imp}
-                    </SubmitButton>
-                </div>
-            </>
+                <Snackbar open={this.state.ok} onClose={() => { this.setState({ ok: false }) }}>
+                    <Alert variant="filled" severity="success">{impExpStrings.success}</Alert >
+                </Snackbar>
+            </Grid>
         )
     }
 
 }
 
-export default ImportExport
+export default withStyles(styles, { withTheme: true })(ImportExport);
+
+ImportExport.propTypes = {
+    action: PropTypes.string,
+    attr: PropTypes.string,
+    type: PropTypes.string.isRequired,
+
+    onChange: PropTypes.func,
+    pokemonTable: PropTypes.object,
+    initialValue: PropTypes.array,
+};

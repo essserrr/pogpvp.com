@@ -1,4 +1,4 @@
-import { getCookie } from "../../js/getCookie"
+import { getCookie } from "js/getCookie";
 
 export const refresh = () => {
     return (dispatch, getState) => {

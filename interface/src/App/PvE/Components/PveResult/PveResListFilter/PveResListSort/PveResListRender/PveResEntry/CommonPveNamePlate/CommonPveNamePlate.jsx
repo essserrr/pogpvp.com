@@ -1,46 +1,54 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PokemonIconer from "../../../../../../../../PvP/components/PokemonIconer/PokemonIconer"
-import NameAndMoves from "../NameAndMoves/NameAndMoves"
-import NumberAndIcon from "../NumberAndIcon/NumberAndIcon"
-import { extractName } from "../../../../../../../../../js/indexFunctions"
+import Grid from '@material-ui/core/Grid';
+
+import Iconer from "App/Components/Iconer/Iconer";
+import NameAndMoves from "../NameAndMoves/NameAndMoves";
+import NumberAndIcon from "../NumberAndIcon/NumberAndIcon";
+import { extractName } from "js/extractors/extractName";
 
 class CommonPveNamePlate extends React.PureComponent {
     render() {
         const partyLen = this.props.pokemonRes.Party.length
         return (
-            <>
-                <div className="col-auto p-0 mr-1">
-                    <div className="row mx-0 justify-content-start">
+            <Grid container>
+
+                <Grid item xs={12} container>
+                    <Grid item xs="auto">
                         <NumberAndIcon
-                            isShadow={String(this.props.pokemonRes.Party[partyLen - 1].IsShadow) === "true" ? true : false}
+                            isShadow={String(this.props.pokemonRes.Party[partyLen - 1].IsShadow) === "true"}
                             pok={this.props.pokemonTable[this.props.pokemonRes.Party[partyLen - 1].Name]}
                             index={"#" + (this.props.i + 1)}
                         />
-                        <div className="col px-0">
-                            <NameAndMoves
-                                formattedName={extractName(this.props.pokemonRes.Party[partyLen - 1].Name)}
-                                quick={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Quick]}
-                                charge={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Charge]}
-                                snapshot={this.props.snapshot}
+                    </Grid>
 
-                                attr="attackerObj"
-                                name={this.props.pokemonRes.Party[partyLen - 1].Name}
-                                pokemonTable={this.props.pokemonTable}
-                            />
-                        </div>
-                    </div>
-                </div>
+                    <Grid item xs>
+                        <NameAndMoves
+                            formattedName={extractName(this.props.pokemonRes.Party[partyLen - 1].Name)}
+                            quick={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Quick]}
+                            charge={this.props.moveTable[this.props.pokemonRes.Party[partyLen - 1].Charge]}
+                            snapshot={this.props.snapshot}
 
-
-                {partyLen > 1 && <div className="col-auto p-0 mr-3">
-                    <div className="row mx-0 justify-content-start align-items-center">
-                        <NumberAndIcon
-                            index={<PokemonIconer src={"mega"} folder="/" class={"icon24"} />}
-                            isShadow={false}
-                            pok={this.props.pokemonTable[this.props.pokemonRes.Party[0].Name]}
+                            attr="attackerObj"
+                            name={this.props.pokemonRes.Party[partyLen - 1].Name}
+                            pokemonTable={this.props.pokemonTable}
                         />
-                        <div className="col px-0">
+                    </Grid>
+                </Grid>
+
+
+                {partyLen > 1 &&
+                    <Grid item xs={12} container>
+                        <Grid item xs="auto">
+                            <NumberAndIcon
+                                index={<Iconer fileName={"mega"} folderName="/" size={24} />}
+                                isShadow={false}
+                                pok={this.props.pokemonTable[this.props.pokemonRes.Party[0].Name]}
+                            />
+                        </Grid>
+
+                        <Grid item xs>
                             <NameAndMoves
                                 formattedName={extractName(this.props.pokemonRes.Party[0].Name)}
                                 quick={this.props.moveTable[this.props.pokemonRes.Party[0].Quick]}
@@ -51,14 +59,20 @@ class CommonPveNamePlate extends React.PureComponent {
                                 name={this.props.pokemonRes.Party[0].Name}
                                 pokemonTable={this.props.pokemonTable}
                             />
-                        </div>
-                    </div>
-                </div>}
-            </>
+                        </Grid>
+                    </Grid>}
+            </Grid>
         );
     }
 };
 
 export default CommonPveNamePlate;
 
+CommonPveNamePlate.propTypes = {
+    snapshot: PropTypes.object,
+    i: PropTypes.number,
 
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+    pokemonRes: PropTypes.object,
+};

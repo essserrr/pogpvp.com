@@ -1,51 +1,49 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import MovedexListSort from "./MovedexListSort/MovedexListSort"
+import MovedexListSort from "./MovedexListSort/MovedexListSort";
 
-class MovedexListFilter extends React.Component {
+const MovedexListFilter = React.memo(function MovedexListFilter(props) {
+    const { name, filter, children, ...other } = props
 
-    filterList() {
-        return Object.entries(this.props.list).filter(element => {
-            return this.applyNameFilter(element[0]) && this.applyColFilter(element[1], this.props.filter)
-        })
+    const applyNameFilter = (currName) => {
+        return currName.toLowerCase().indexOf(name.toLowerCase()) > -1
     }
 
-    applyNameFilter(currName) {
-        return currName.toLowerCase().indexOf(this.props.name.toLowerCase()) > -1
-    }
-
-    applyColFilter(element, filter) {
+    const applyColFilter = (element, filter) => {
         let corresponds = true
-        if (filter.showCharge || filter.showQuick) {
-            switch (element.MoveCategory) {
-                case "Charge Move":
-                    corresponds *= filter.showCharge
-                    break
-                default:
-                    corresponds *= filter.showQuick
-            }
+
+        const categoryFilterEnabled = Object.entries(filter).reduce((sum, value) => value[0].includes("show") ? sum || value[1] : sum, false);
+
+        if (categoryFilterEnabled) {
+            const moveCategoryFilter = element.MoveCategory === "Charge Move" ? "showCharge" : "showQuick";
+            corresponds = corresponds && filter[moveCategoryFilter]
         }
-        if (filter.type0 || filter.type1 || filter.type2 || filter.type3 || filter.type4 || filter.type5 ||
-            filter.type6 || filter.type7 || filter.type8 || filter.type9 || filter.type10 || filter.type11 ||
-            filter.type12 || filter.type13 || filter.type14 || filter.type15 || filter.type16 || filter.type17) {
-            if (!filter["type" + element.MoveType]) {
-                corresponds *= false
-            }
-        }
+
+        const typeFilterEnabled = Object.entries(filter).reduce((sum, value) => value[0].includes("type") ? sum || value[1] : sum, false);
+
+        if (typeFilterEnabled && !filter[`type${element.MoveType}`]) { corresponds = corresponds && false };
+
         return corresponds
     }
 
 
-    render() {
-        return (
-            <MovedexListSort
-                onClick={this.props.onClick}
-                sort={this.props.sort}
+    return (
+        <MovedexListSort {...other} >
+            {Object.entries(children).filter(element => {
+                return applyNameFilter(element[0]) && applyColFilter(element[1], filter)
+            })}
+        </MovedexListSort>
+    )
+});
 
-                list={this.filterList()}
-            />
-        );
-    }
-}
+export default MovedexListFilter;
 
-export default MovedexListFilter
+MovedexListFilter.propTypes = {
+    children: PropTypes.object,
+
+    name: PropTypes.string,
+    filter: PropTypes.object,
+    sort: PropTypes.object,
+    onClick: PropTypes.func,
+};

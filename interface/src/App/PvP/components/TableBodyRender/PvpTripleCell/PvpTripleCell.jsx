@@ -1,49 +1,119 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-import { returnRateStyle } from "../../../../../js/indexFunctions.js"
+import TableCell from '@material-ui/core/TableCell';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-import "./PvpTripleCell.scss"
+import { returnRateStyle } from "js/Rate/returnRateStyle";
 
-class PvpTripleCell extends React.PureComponent {
-    render() {
-        const rate00 = returnRateStyle(this.props.rate0)
-        const rate11 = returnRateStyle(this.props.rate1)
-        const rate22 = returnRateStyle(this.props.rate2)
-        const rateOverall = returnRateStyle(this.props.overallRating)
+const useStyles = props => makeStyles(theme => {
+    return ({
+        root: {
+            minWidth: "70px",
+            verticalAlign: 'center'
+        },
+        col4: {
+            position: "relative",
+            width: "100%",
+            flex: "0 0 33.333333%",
+            maxWidth: "33.333333%",
+        },
+        tripleContainer: {
+            fontWeight: "500",
+            minWidth: "70px",
+            maxWidth: "80px",
+            border: "1.5px solid #42434e",
+            borderRadius: "3px",
+            overflow: "hidden",
 
-        return (
-            <td className="triplepvp-cell p-0 m-0 px-1 align-middle" >
-                <div className="triplepvp-cell__content row justify-content-center m-0 p-0 mr-auto ml-auto">
-                    <Link className={"col-4 m-0 p-0 text-center hover rate-color" + rate00[1]}
-                        to={{
-                            pathname: this.props.queries[0],
-                            state: { needsUpdate: true }
-                        }}>
+            textAign: "center",
+
+            "& a:first-child": {
+                borderRight: "1.5px solid #42434e",
+                backgroundColor: theme.palette.rating[`rate${props.rate00}`].background,
+                color: theme.palette.rating[`rate${props.rate00}`].text,
+                "&:hover": {
+                    color: theme.palette.text.primary,
+                    backgroundColor: "white !important",
+                },
+            },
+
+            "& a:nth-child(2)": {
+                borderRight: "1.5px solid #42434e",
+                backgroundColor: theme.palette.rating[`rate${props.rate11}`].background,
+                color: theme.palette.rating[`rate${props.rate11}`].text,
+                "&:hover": {
+                    color: theme.palette.text.primary,
+                    backgroundColor: "white !important",
+                },
+            },
+
+            "& a:nth-child(3)": {
+                backgroundColor: theme.palette.rating[`rate${props.rate22}`].background,
+                color: theme.palette.rating[`rate${props.rate22}`].text,
+                "&:hover": {
+                    color: theme.palette.text.primary,
+                    backgroundColor: "white !important",
+                },
+            },
+
+            "& div:last-child": {
+                borderTop: "1.5px solid #42434e",
+                userSelect: "none",
+                backgroundColor: theme.palette.rating[`rate${props.rateOverall}`].background,
+                color: theme.palette.rating[`rate${props.rateOverall}`].text,
+            },
+
+        },
+    })
+});
+
+const PvpTripleCell = function PvpTripleCell(props) {
+    const rate00 = returnRateStyle(props.rate0)[1]
+    const rate11 = returnRateStyle(props.rate1)[1]
+    const rate22 = returnRateStyle(props.rate2)[1]
+    const rateOverall = returnRateStyle(props.overallRating)[1]
+
+    const classes = useStyles({ rate00, rate11, rate22, rateOverall })();
+
+    return (
+        <TableCell align="center" className={classes.root} >
+
+            <Grid container justify="center" align="center">
+
+                <Grid item xs="auto" container className={classes.tripleContainer}>
+                    <Link className={classes.col4}
+                        to={{ pathname: props.queries[0], state: { needsUpdate: true } }}>
                         {rate00[0]}
                     </Link>
-                    <Link className={"col-4 m-0 p-0 text-center  hover  rate-color" + rate11[1]}
-                        to={{
-                            pathname: this.props.queries[1],
-                            state: { needsUpdate: true }
-                        }}>
+                    <Link className={classes.col4}
+                        to={{ pathname: props.queries[1], state: { needsUpdate: true } }}>
                         {rate11[0]}
                     </Link>
-                    <Link className={"col-4 m-0 p-0 text-center hover rate-color" + rate22[1]}
-                        to={{
-                            pathname: this.props.queries[2],
-                            state: { needsUpdate: true }
-                        }}>
+                    <Link className={classes.col4}
+                        to={{ pathname: props.queries[2], state: { needsUpdate: true } }}>
                         {rate22[0]}
                     </Link>
-                    <div className={" col-12 m-0 p-0 rate-color" + rateOverall[1]}>
-                        {this.props.overallRating}
-                    </div>
+                    <Grid item xs={12}>
+                        {props.overallRating}
+                    </Grid>
+                </Grid>
 
-                </div>
-            </td >
-        );
-    }
+
+            </Grid>
+
+        </TableCell>
+    )
 };
 
 export default PvpTripleCell;
+
+PvpTripleCell.propTypes = {
+    rate0: PropTypes.number.isRequired,
+    rate1: PropTypes.number.isRequired,
+    rate2: PropTypes.number.isRequired,
+    overallRating: PropTypes.number.isRequired,
+    queries: PropTypes.arrayOf(PropTypes.string).isRequired,
+};

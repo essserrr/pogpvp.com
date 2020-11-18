@@ -1,31 +1,58 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./HPIndicator.scss"
+import { makeStyles, lighten } from '@material-ui/core/styles';
 
-const HPIndicator = React.memo(function (props) {
-    let maxValue
-    let defaultValue
+const useStyles = makeStyles((theme) => ({
+    indicator: {
+        position: "relative",
+        width: "100%",
+        height: "25px",
+        backgroundColor: lighten("#808080", 0.75),
+        border: "solid black",
 
-    switch (props.maxValue === undefined) {
-        case true:
-            maxValue = props.effSta
-            defaultValue = maxValue
-            break
-        default:
-            maxValue = props.maxValue
-            defaultValue = props.defaultValue
-    }
+        fontSize: "0.78rem",
+        fontWeight: "bold",
+    },
 
-    let value = (props.value !== undefined && props.value !== "") ? (props.value <= maxValue ? props.value : defaultValue) : defaultValue;
+    indicatorBar: {
+        position: "absolute",
+        height: "100%",
+        backgroundColor: "#02d86d",
+        "-webkit-transition": "all 0.4s linear",
+        transition: "all 0.4s linear",
+    },
+
+    indicatorText: {
+        top: "50%",
+        transform: "translateY(-50%)",
+        position: "absolute",
+        zIndex: "10",
+        width: "100%",
+        textAlign: "center",
+        color: "black",
+    },
+
+}));
+
+const HPIndicator = React.memo(function HPIndicator(props) {
+    const classes = useStyles();
+    const { maxValue } = props;
+    const value = typeof props.value === "number" ? (props.value <= maxValue ? props.value : maxValue) : maxValue;
 
     return (
-        <div className="hp-indicator">
-            <div className="hp-indicator__text">
+        <div className={classes.indicator}>
+            <div className={classes.indicatorText}>
                 {value}/{maxValue}
             </div>
-            <div className="hp-indicator__bar" style={{ width: (value / maxValue * 100) + "%" }}></div>
+            <div className={classes.indicatorBar} style={{ width: (value / maxValue * 100) + "%" }}></div>
         </div>
     )
 });
 
 export default HPIndicator;
+
+HPIndicator.propTypes = {
+    value: PropTypes.number,
+    maxValue: PropTypes.number,
+};

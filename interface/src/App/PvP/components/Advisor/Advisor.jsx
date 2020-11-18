@@ -1,24 +1,26 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
-import PokemonIconer from "../PokemonIconer/PokemonIconer"
-import AdvisorPages from "./AdvisorPages/AdvisorPages"
-import SubmitButton from "../SubmitButton/SubmitButton"
+import Grid from '@material-ui/core/Grid';
 
-import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/getCookie"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import Button from "App/Components/Button/Button";
+import DoubleSlider from "App/Movedex/MoveCard/DoubleSlider/DoubleSlider";
+import PvpWillow from "./PvpWillow/PvpWillow";
+import AdvisorPages from "./AdvisorPages/AdvisorPages";
 
-import "./Advisor.scss"
+import { pvp } from "locale/Pvp/Pvp";
+import { getCookie } from "js/getCookie";
 
-let strings = new LocalizedStrings(locale);
+let strings = new LocalizedStrings(pvp);
 
 class Advisor extends React.PureComponent {
     constructor(props) {
         super(props);
         this.advisor = React.createRef();
 
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
 
         this.state = {
             n: 1,
@@ -62,66 +64,67 @@ class Advisor extends React.PureComponent {
     }
 
 
-    onSortChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onSortChange(event, attributes) {
         this.setState({
-            sortParam: attr,
+            sortParam: attributes.attr,
         })
     }
 
     render() {
         return (
-            <div className="advisor px-2 py-2 col-12 ">
-                <div tabIndex="0" ref={this.advisor} className="col-12 d-flex justify-content-center p-0">
-                    <PokemonIconer
-                        src="willow3"
-                        folder="/"
-                        class={"p-2"} />
-                    <div className="advisor__willow--bubble-text px-2 py-1">
-                        {strings.advisor.willow}
-                    </div>
-                </div>
-                <div className="col-12 p-0 pb-2">
-                    <DoubleSlider
-                        onClick={this.onSortChange}
+            <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+                <Grid container justify="center" spacing={2}>
 
-                        attr1="zeros"
-                        title1={strings.buttons.byzeros}
-                        active1={this.state.sortParam === "zeros"}
+                    <Grid item xs={12} tabIndex="0" ref={this.advisor}>
+                        <PvpWillow />
+                    </Grid>
 
-                        attr2="rating"
-                        title2={strings.buttons.byrating}
-                        active2={this.state.sortParam === "rating"}
-                    />
-                </div>
-                <div className="col-12 p-0 ">
-                    <AdvisorPages
-                        n={this.state.n}
+                    <Grid item xs={12}>
+                        <DoubleSlider
+                            onClick={this.onSortChange}
+                            attrs={["zeros", "rating"]}
+                            titles={[strings.buttons.byzeros, strings.buttons.byrating]}
+                            active={[this.state.sortParam === "zeros", this.state.sortParam === "rating"]}
+                        />
+                    </Grid>
 
-                        leftPanel={this.props.leftPanel}
-                        rightPanel={this.props.rightPanel}
+                    <Grid item xs={12}>
+                        <AdvisorPages
+                            n={this.state.n}
 
-                        moveTable={this.props.moveTable}
-                        pokemonTable={this.props.pokemonTable}
+                            leftPanel={this.props.leftPanel}
+                            rightPanel={this.props.rightPanel}
 
-                        rawResult={this.props.rawResult}
-                        filter={this.state.sortParam}
-                        list={this.props.list}
-                    />
-                </div>
-                {this.state.isNextPage &&
-                    <div className="row justify-content-center m-0 mt-3">
-                        <SubmitButton
-                            action="Load more"
-                            onSubmit={this.loadMore}
-                            class="submit-button--lg btn btn-primary btn-sm"
+                            moveTable={this.props.moveTable}
+                            pokemonTable={this.props.pokemonTable}
+
+                            rawResult={this.props.rawResult}
+                            filter={this.state.sortParam}
                         >
-                            {strings.buttons.loadmore}
-                        </SubmitButton>
-                    </div>}
-            </div>
+                            {this.props.list}
+                        </AdvisorPages>
+                    </Grid>
+
+                    {this.state.isNextPage &&
+                        <Grid item xs="auto">
+                            <Button title={strings.buttons.loadmore} onClick={this.loadMore} />
+                        </Grid>}
+
+                </Grid>
+            </GreyPaper>
         );
     }
 };
 
 export default Advisor;
+
+Advisor.propTypes = {
+    list: PropTypes.arrayOf(PropTypes.object),
+    rawResult: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node)),
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+};

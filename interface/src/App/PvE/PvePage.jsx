@@ -1,31 +1,43 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
-import CustomPve from "./CustomPve"
-import CommonPve from "./CommonPve"
-import Loader from "../PvpRating/Loader"
-import DropWithArrow from "../PvpRating//DropWithArrow/DropWithArrow"
-import CommonDescr from "./Components/Description/CommonDescr"
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import { getCustomPokemon } from "../../AppStore/Actions/getCustomPokemon"
-import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
-import { refresh } from "../../AppStore/Actions/refresh"
-import { extractRaidData, returnMovePool, returnPokList, separateMovebase, extractPveObj, extractPveBoss, extractPveAttacker } from "../../js/indexFunctions"
-import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import CustomPve from "./CustomPve";
+import CommonPve from "./CommonPve";
+import DropWithArrow from "App/PvpRating//DropWithArrow/DropWithArrow";
+import CommonDescr from "./Components/Description/CommonDescr";
 
-import "./PvePage.scss"
+import { getCustomPokemon } from "AppStore/Actions/getCustomPokemon";
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { getCustomMoves } from "AppStore/Actions/getCustomMoves";
+import { refresh } from "AppStore/Actions/refresh";
 
-let strings = new LocalizedStrings(locale)
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { separateMovebase } from "js/separateMovebase";
+import { returnPokList } from "js/returnPokList";
+
+import { extractPveAttacker } from "js/extractors/extractPveAttacker";
+import { extractPveBoss } from "js/extractors/extractPveBoss";
+import { extractPveObj } from "js/extractors/extractPveObj";
+import { extractRaidData } from "js/extractors/extractRaidData";
+import { getCookie } from "js/getCookie";
+import { locale } from "locale/Pve/Pve";
+import { options } from "locale/Components/Options/locale";
+
+let strings = new LocalizedStrings(locale);
+let optionStrings = new LocalizedStrings(options);
 
 class PvePage extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             tables: {
                 weather: [
@@ -56,7 +68,6 @@ class PvePage extends React.Component {
             loading: false,
         };
         this.updateState = this.updateState.bind(this);
-        this.onClick = this.onClick.bind(this);
         this.changeUrl = this.changeUrl.bind(this);
     }
 
@@ -86,8 +97,6 @@ class PvePage extends React.Component {
             this.props.match.params.supp,
         )
     }
-
-
 
     async updateState(party, boss, obj, supp) {
         this.setState({
@@ -119,7 +128,7 @@ class PvePage extends React.Component {
                 var pveResult = await responses[responses.length - 1].json()
             }
 
-            if (!!this.props.bases.pokemonBase) { var pokList = returnPokList(this.props.bases.pokemonBase, true, strings.options.moveSelect.none) }
+            if (!!this.props.bases.pokemonBase) { var pokList = returnPokList(this.props.bases.pokemonBase, true, optionStrings.options.moveSelect.none) }
 
             let mergedMovebase = { ...this.props.customMoves.moves, ...this.props.bases.moveBase }
             if (!!this.props.bases.moveBase) { var movebaseSeparated = separateMovebase(mergedMovebase) }
@@ -134,7 +143,7 @@ class PvePage extends React.Component {
                         showResult: false,
                         loading: false,
 
-                        moveTable: (!!this.props.bases.moveBase) ? mergedMovebase : [],
+                        moveTable: !!this.props.bases.moveBase ? mergedMovebase : [],
                         pokList: pokList,
                         chargeMoveList: movebaseSeparated.chargeMoveList,
                         quickMoveList: movebaseSeparated.quickMoveList,
@@ -200,17 +209,11 @@ class PvePage extends React.Component {
     }
 
     setUpPokemon(pok, pokemonTable, isBoss) {
-        let moves = returnMovePool(pok.Name, pokemonTable, strings.options.moveSelect,
-            isBoss, [pok.QuickMove], [pok.ChargeMove])
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(pok.Name, pokemonTable, optionStrings.options.moveSelect, isBoss, [pok.QuickMove], [pok.ChargeMove])
         pok.quickMovePool = moves.quickMovePool
         pok.chargeMovePool = moves.chargeMovePool
         return pok
-    }
-
-    onClick() {
-        this.setState({
-            showCollapse: !this.state.showCollapse
-        })
     }
 
     changeUrl(url) {
@@ -218,60 +221,53 @@ class PvePage extends React.Component {
     }
 
     render() {
+        const isCommon = this.props.match.params.type === "common";
+        const isCustom = this.props.match.params.type === "custom";
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
-                    url="https://pogpvp.com/pve/common"
-                    header={strings.pageheaders.common}
-                    descr={strings.pagedescriptions.common}
+                    url={isCommon ? "https://pogpvp.com/pve/common" : "https://pogpvp.com/pve/custom"}
+                    header={isCommon ? strings.pageheaders.common : strings.pageheaders.custom}
+                    descr={isCommon ? strings.pagedescriptions.common : strings.pagedescriptions.custom}
                 />
-                <div className="container-fluid m-0 p-0 pt-2 pt-md-2 mb-5">
-                    <div className="row mx-0 mx-lg-2 justify-content-center">
-                        {this.state.loading && <div className="col-12 p-0 mb-4"  >
-                            <Loader
-                                color="white"
-                                weight="500"
-                                locale={strings.tips.loading}
-                                loading={this.state.loading}
 
-                                class={"row m-0 justify-content-center"}
-                                innerClass={"col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"}
-                            />
-                        </div>}
-                        <div className="col-12 px-1">
-                            {this.state.isLoaded && this.props.match.params.type === "common" && <CommonPve
-                                pokemonTable={this.props.bases.pokemonBase}
+                <Grid item xs={12} sm={9} md={7} lg={6} container justify="center" spacing={3} >
 
-                                changeUrl={this.changeUrl}
-                                parentState={this.state}
-                            />}
-                            {this.state.isLoaded && this.props.match.params.type === "custom" && <CustomPve
-                                pokemonTable={this.props.bases.pokemonBase}
+                    {((isCustom && !!getCookie("sid")) || isCommon) &&
+                        <Grid item xs={12}>
+                            <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
+                                <DropWithArrow title={strings.title.about}>
+                                    <CommonDescr />
+                                </DropWithArrow>
+                            </GreyPaper>
+                        </Grid>}
 
-                                changeUrl={this.changeUrl}
-                                parentState={this.state}
-                                userParties={this.props.customParties}
-                            />}
-                        </div>
+                    {this.state.loading &&
+                        <Grid item xs={12}>
+                            <LinearProgress color="secondary" />
+                        </ Grid>}
 
+                    {this.state.isLoaded &&
+                        <Grid item xs={12}>
+                            {isCommon &&
+                                <CommonPve
+                                    pokemonTable={this.props.bases.pokemonBase}
 
-                        {((this.props.match.params.type === "custom" && !!getCookie("sid")) ||
-                            this.props.match.params.type === "common") &&
-                            <div className="pvepage__descr col-12 col-md-10 col-lg-6 px-3 py-2" >
-                                <DropWithArrow
-                                    onShow={this.onClick}
-                                    show={this.state.showCollapse}
-                                    title={strings.title.about}
-                                    elem={<CommonDescr />}
+                                    changeUrl={this.changeUrl}
+                                    parentState={this.state}
+                                />}
 
-                                    faOpened="align-self-center fas fa-angle-up fa-lg "
-                                    faClosed="align-self-center fas fa-angle-down fa-lg"
-                                    outClass="row justify-content-between m-0 pb-1 clickable"
-                                    inClass="row justify-content-center m-0" />
-                            </div>}
-                    </div>
-                </div >
-            </>
+                            {isCustom &&
+                                <CustomPve
+                                    pokemonTable={this.props.bases.pokemonBase}
+
+                                    changeUrl={this.changeUrl}
+                                    parentState={this.state}
+                                    userParties={this.props.customParties}
+                                />}
+                        </Grid>}
+                </Grid>
+            </Grid>
         );
     }
 }

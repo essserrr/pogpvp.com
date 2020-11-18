@@ -1,63 +1,73 @@
-import React from "react"
-import InfiniteScroll from 'react-infinite-scroll-component'
-import LocalizedStrings from "react-localization"
+import React from "react";
+import InfiniteScroll from 'react-infinite-scroll-component';
+import PropTypes from 'prop-types';
 
-import UserShinyCard from "./UserShinyCard/UserShinyCard"
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from "@material-ui/core/styles";
 
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
+import UserShinyCard from "./UserShinyCard/UserShinyCard";
 
-import "./UserShinyList.scss"
+const styles = theme => ({
+    uShinyList: {
+        minHeight: "62px",
+        maxHeight: "250px",
+        padding: `${theme.spacing(1)}px`,
 
-let strings = new LocalizedStrings(userLocale)
+        border: `1px solid ${theme.palette.text.primary}`,
+        borderRadius: "5px",
+        overflowY: "auto",
+    },
+});
+
 
 class UserShinyList extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             page: 1,
-            infiniteList: props.list.slice(0, props.elemntsOnPage > props.list.length ? props.list.length : props.elemntsOnPage),
-            isNext: props.elemntsOnPage > props.list.length ? false : true
+            infiniteList: props.children.slice(0, props.elementsOnPage > props.children.length ? props.children.length : props.elementsOnPage),
+            isNext: props.elementsOnPage > props.children.length ? false : true
         }
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.list === prevProps.list) {
+        if (this.props.children === prevProps.children) {
             return
         }
 
         this.setState({
-            infiniteList: this.props.list.slice(0, this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : this.props.elemntsOnPage),
+            infiniteList: this.props.children.slice(0, this.props.elementsOnPage > this.props.children.length ? this.props.children.length : this.props.elementsOnPage),
             page: 1,
-            isNext: this.props.elemntsOnPage > this.props.list.length ? false : true
+            isNext: this.props.elementsOnPage > this.props.children.length ? false : true
         })
     }
 
 
     fetchMoreData = () => {
-        let page = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? this.state.page : (this.state.page + 1)
-        let upperBound = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? this.props.list.length : (this.state.page + 1) * this.props.elemntsOnPage
-        let isNext = (this.state.page + 1) * this.props.elemntsOnPage > this.props.list.length ? false : true
+        let page = (this.state.page + 1) * this.props.elementsOnPage > this.props.children.length ? this.state.page : (this.state.page + 1)
+        let upperBound = (this.state.page + 1) * this.props.elementsOnPage > this.props.children.length ? this.props.children.length : (this.state.page + 1) * this.props.elementsOnPage
+        let isNext = (this.state.page + 1) * this.props.elementsOnPage > this.props.children.length ? false : true
 
         this.setState({
-            infiniteList: this.state.infiniteList.concat(this.props.list.slice(this.state.page * this.props.elemntsOnPage, upperBound)),
+            infiniteList: this.state.infiniteList.concat(this.props.children.slice(this.state.page * this.props.elementsOnPage, upperBound)),
             page: page,
             isNext: isNext
         })
     };
 
     render() {
+        const { classes } = this.props;
+
         return (
-            <div id={"userShinyList" + this.props.attr} className="ushiny row mx-0  p-2 justify-content-center">
+            <Grid container justify="center" id={`userShinyList${this.props.attr}`} className={classes.uShinyList}>
                 <InfiniteScroll
                     dataLength={this.state.infiniteList.length}
                     next={this.fetchMoreData}
                     hasMore={this.state.isNext}
-                    scrollableTarget={"userShinyList" + this.props.attr}
+                    scrollableTarget={`userShinyList${this.props.attr}`}
                     scrollThreshold={0.7}
                 >
-                    <div className="row mx-0">
+                    <Grid container justify="space-between">
                         {this.state.infiniteList.map((value) =>
                             <UserShinyCard
                                 key={this.props.attr + value.Name}
@@ -69,11 +79,21 @@ class UserShinyList extends React.PureComponent {
 
                                 onClick={this.props.onPokemonDelete}
                             />)}
-                    </div>
+                    </Grid>
                 </InfiniteScroll>
-            </div>
+            </Grid>
         );
     }
 }
 
-export default UserShinyList
+export default withStyles(styles, { withTheme: true })(UserShinyList);
+
+UserShinyList.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.object),
+    onPokemonDelete: PropTypes.func,
+
+    pokemonTable: PropTypes.object,
+
+    elementsOnPage: PropTypes.number,
+    attr: PropTypes.string,
+};

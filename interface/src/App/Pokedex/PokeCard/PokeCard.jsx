@@ -1,34 +1,30 @@
-import React from "react"
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
-import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import Errors from "../../PvP/components/Errors/Errors"
-import Loader from "../../PvpRating/Loader"
-import IconBlock from "./IconBlock/IconBlock"
-import MoveCol from "./MoveBlock/MoveCol"
-import EffTable from "./EffBlock/EffTable"
-import CpBlock from "./CpBlock/CpBlock"
-import OtherTable from "./OtherBlock/OtherTable"
-import DescrBlock from "./DescrBlock/DescrBlock"
-import EvoBlock from "./EvoBlock/EvoBlock"
-import NavigationBlock from "./NavigationBlock/NavigationBlock"
-import SliderBlock from "./SliderBlock/SliderBlock"
-import RedirectBlock from "./RedirectBlock/RedirectBlock"
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import { dexLocale } from "../../../locale/dexLocale"
-import { getCookie } from "../../../js/getCookie"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import SliderBody from "./SliderBody/SliderBody";
+import MainBlock from "./MainBlock/MainBlock";
+import DescrBlock from "./DescrBlock/DescrBlock";
+import NavigationBlock from "./NavigationBlock/NavigationBlock";
+import SliderBlock from "./SliderBlock/SliderBlock";
+import RedirectBlock from "./RedirectBlock/RedirectBlock";
 
-import "./PokeCard.scss"
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { dexLocale } from "locale/Pokedex/Pokecard";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(dexLocale);
 
 class PokeCard extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,
@@ -36,7 +32,7 @@ class PokeCard extends React.Component {
             error: "",
             loading: false,
 
-            active: {},
+            active: { eff: true },
         };
         this.onClick = this.onClick.bind(this)
     }
@@ -152,135 +148,125 @@ class PokeCard extends React.Component {
         })
     }
 
-    onClick(event) {
-        let attr = event.target.getAttribute("attr")
+    onClick(event, attributes) {
         this.setState({
             active: {
-                [attr]: !this.state.active[attr],
+                [attributes.attr]: !this.state.active[attributes.attr],
             },
         })
     }
 
     render() {
+        const { scrollList, position } = this.state;
+
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     header={decodeURIComponent(this.props.match.params.id) + strings.mdsdescr + " | PogPvP.com"}
                     descr={decodeURIComponent(this.props.match.params.id) + strings.mdsdescr}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="pokedex-card mx-3 mb-2 col-12 col-md-10 col-lg-8 p-2 p-md-4">
+
+                <Grid item xs={12} md={10} lg={7}>
+                    <GreyPaper elevation={4} enablePadding style={{ backgroundColor: "white", }}>
+                        <Grid container justify="center" spacing={2}>
+
                             {this.state.loading &&
-                                <Loader
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.loading}
-                                    loading={this.state.loading}
-                                />}
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
-                            {this.state.showResult && this.state.pok && <>
-                                {this.state.scrollList && !(this.state.position === undefined) &&
-                                    <NavigationBlock
-                                        prevTitle={this.state.scrollList[this.state.position - 1] ?
-                                            <>{strings.dexentr}<br />
-                                                {"#" + this.state.scrollList[this.state.position - 1][1].Number + " " +
-                                                    this.state.scrollList[this.state.position - 1][0]}</> : null}
-                                        nextTitle={this.state.scrollList[this.state.position + 1] ?
-                                            <>{strings.dexentr}<br />
-                                                {"#" + this.state.scrollList[this.state.position + 1][1].Number + " " +
-                                                    this.state.scrollList[this.state.position + 1][0]}</> : null}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
 
-                                        prev={this.state.scrollList[this.state.position - 1] ?
-                                            "/pokedex/id/" +
-                                            encodeURIComponent(this.state.scrollList[this.state.position - 1][0]) : null}
-                                        next={this.state.scrollList[this.state.position + 1] ?
-                                            "/pokedex/id/" +
-                                            encodeURIComponent(this.state.scrollList[this.state.position + 1][0]) : null}
-                                    />}
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </ Grid>}
 
-                                <IconBlock
-                                    pokMisc={this.state.pokMisc}
-                                    value={this.state.pok}
-                                    moveTable={this.props.bases.moveBase}
-                                    pokTable={this.props.bases.pokemonBase}
-                                />
-                                {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
-                                    <DescrBlock value={this.state.pokMisc.Description} />}
-                                <RedirectBlock
-                                    value={this.state.pok}
-                                    moveTable={this.props.bases.moveBase}
-                                    pokTable={this.props.bases.pokemonBase}
-                                />
-                                <SliderBlock
-                                    onClick={this.onClick}
-                                    active={this.state.active}
-                                    moveDis={!(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0)}
-                                    evoDis={!(this.state.pokMisc && this.state.pokMisc.Family)}
-                                    othDis={!(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
-                                        (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                        this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))}
-                                />
 
-                                {(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0) &&
-                                    <UnmountClosed isOpened={this.state.active.moves}>
-                                        <div className={"row m-0"}>
-                                            {this.state.pok.QuickMoves.length > 0 &&
-                                                <MoveCol value={this.state.pok.QuickMoves} class="p-0 pr-0 pr-sm-2"
-                                                    moveTable={this.props.bases.moveBase} title={strings.qm} pok={this.state.pok} />}
-                                            {this.state.pok.ChargeMoves.length > 0 &&
-                                                <MoveCol value={this.state.pok.ChargeMoves} class="p-0 pl-0 pl-sm-2"
-                                                    moveTable={this.props.bases.moveBase} title={strings.chm} pok={this.state.pok} />}
-                                        </div>
-                                    </UnmountClosed>}
+                            {this.state.showResult && this.state.pok &&
+                                <>
+                                    {scrollList && position !== undefined &&
+                                        <Grid item xs={12}>
+                                            <NavigationBlock
+                                                prevTitle={
+                                                    scrollList[position - 1] ?
+                                                        <>
+                                                            {strings.dexentr}<br />
+                                                            {`#${scrollList[position - 1][1].Number} ${scrollList[position - 1][0]}`}
+                                                        </> : null}
 
-                                {this.state.pokMisc && this.state.pokMisc.Family !== "" &&
-                                    <UnmountClosed isOpened={this.state.active.evo}>
-                                        <div className={"row m-0"}>
-                                            <EvoBlock
-                                                miscTable={this.state.miscTable.Misc}
-                                                pokTable={this.props.bases.pokemonBase}
+                                                nextTitle={
+                                                    scrollList[position + 1] ?
+                                                        <>
+                                                            {strings.dexentr}<br />
+                                                            {`#${scrollList[position + 1][1].Number} ${scrollList[position + 1][0]}`}
+                                                        </> : null}
 
-                                                value={this.state.miscTable.Families[this.state.pokMisc.Family]}
-                                                familyName={this.state.pokMisc.Family}
+                                                prev={scrollList[position - 1] ?
+                                                    "/pokedex/id/" + encodeURIComponent(scrollList[position - 1][0]) : null}
+
+                                                next={scrollList[position + 1] ?
+                                                    "/pokedex/id/" + encodeURIComponent(scrollList[position + 1][0]) : null}
                                             />
-                                        </div>
-                                    </UnmountClosed>}
+                                        </Grid>}
 
-                                <UnmountClosed isOpened={this.state.active.eff}>
-                                    <div className={"row m-0"}>
-                                        <EffTable
-                                            type={this.state.pok.Type}
-                                            reverse={this.props.reverse}
+                                    <Grid item xs={12}>
+                                        <MainBlock pokMisc={this.state.pokMisc} value={this.state.pok}
+                                            moveTable={this.props.bases.moveBase} pokTable={this.props.bases.pokemonBase} />
+                                    </Grid>
+
+                                    {this.state.pokMisc && this.state.pokMisc.Description !== "" &&
+                                        <Grid item xs={12}>
+                                            <DescrBlock>
+                                                {this.state.pokMisc.Description}
+                                            </DescrBlock>
+                                        </Grid>}
+
+                                    <Grid item xs={12}>
+                                        <RedirectBlock value={this.state.pok} moveTable={this.props.bases.moveBase} pokTable={this.props.bases.pokemonBase} />
+                                    </ Grid>
+
+                                    <Grid item xs={12}>
+                                        <SliderBlock
+                                            onClick={this.onClick}
+                                            active={[this.state.active.moves, this.state.active.evo, this.state.active.eff, this.state.active.cp, this.state.active.other,]}
+                                            attrs={["moves", "evo", "eff", "cp", "other"]}
+                                            disabled={[
+                                                !(this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0),
+                                                !(this.state.pokMisc && this.state.pokMisc.Family),
+                                                false,
+                                                false,
+                                                !(this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 ||
+                                                    (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                                    this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)))
+                                            ]}
                                         />
-                                    </div>
-                                </UnmountClosed>
+                                    </Grid>
 
-                                <UnmountClosed isOpened={this.state.active.cp}>
-                                    <div className={"pokedex-card--font row m-0 "}>
-                                        <div className="col-12 p-0 text-center">{strings.entparams}</div>
-                                        <CpBlock
+                                    <Grid item xs={12}>
+                                        <SliderBody
                                             pok={this.state.pok}
-                                            locale={strings.cpcalc}
-                                            pokTable={this.props.bases.pokemonBase}
-                                        />
-                                    </div>
-                                </UnmountClosed>
+                                            moveBase={this.props.bases.moveBase}
+                                            miscTable={this.state.miscTable}
+                                            pokemonBase={this.props.bases.pokemonBase}
+                                            pokMisc={this.state.pokMisc}
 
-                                {this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
-                                    this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)) &&
-                                    <UnmountClosed isOpened={this.state.active.other}>
-                                        <div className={"row m-0"}>
-                                            <OtherTable
-                                                value={this.state.pokMisc}
-                                            />
-                                        </div>
-                                    </UnmountClosed>}
-                            </>}
-                        </div>
-                    </div>
-                </div >
-            </>
+                                            show={[
+                                                this.state.pok.QuickMoves.length > 0 || this.state.pok.ChargeMoves.length > 0,
+                                                this.state.pokMisc && this.state.pokMisc.Family !== "",
+                                                true,
+                                                true,
+                                                this.state.pokMisc && (this.state.pokMisc.Buddy !== 0 || (this.state.pokMisc.Purification && this.state.pokMisc.Purification.Candy !== 0) ||
+                                                    this.state.pokMisc.Region !== 0 || (this.state.pokMisc.SecCharge && this.state.pokMisc.SecCharge.Candy !== 0)),
+                                            ]}
+
+                                            expanded={[this.state.active.moves, this.state.active.evo, this.state.active.eff, this.state.active.cp, this.state.active.other]}
+                                        />
+
+                                    </Grid>
+                                </>}
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }

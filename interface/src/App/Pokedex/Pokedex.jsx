@@ -1,26 +1,28 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
-import PokedexListFilter from "./PokedexListFilter/PokedexListFilter"
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import Errors from "../PvP/components/Errors/Errors"
-import Loader from "../PvpRating/Loader"
-import TypeRow from "../Movedex/TypeRow/TypeRow"
-import GenRow from "./GenRow/GenRow"
-import Input from "../PvP/components/Input/Input"
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import { dexLocale } from "../../locale/dexLocale"
-import { getCookie } from "../../js/getCookie"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import Input from "App/Components/Input/Input";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import PokedexListFilter from "./PokedexListFilter/PokedexListFilter";
+import TypeRow from "App/Movedex/TypeRow/TypeRow";
+import GenRow from "./GenRow/GenRow";
 
-import "./Pokedex.scss"
+import { dexLocale } from "locale/Pokedex/Pokedex";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(dexLocale);
 
 class Pokedex extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             name: "",
@@ -87,76 +89,81 @@ class Pokedex extends React.Component {
         })
     }
 
-    onSortColumn(event) {
-        let fieldName = event.currentTarget.getAttribute("name")
-        let fieldType = event.currentTarget.getAttribute("coltype")
+    onSortColumn(event, attributes) {
+        const { coltype, name } = attributes;
+
         this.setState({
             active: {
-                field: fieldName,
-                type: fieldType,
-                order: fieldName === this.state.active.field ? !this.state.active.order : true,
+                field: name,
+                type: coltype,
+                order: name === this.state.active.field ? !this.state.active.order : true,
             },
         });
     }
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/pokedex"
                     header={strings.helm.pdtitle}
                     descr={strings.helm.pddescr}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="pokedex col-12  col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+
+                <Grid item xs={12} md={10} lg={8}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" spacing={2}>
+
                             {this.state.loading &&
-                                <Loader
-                                    class="row justify-content-center mb-2"
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.loading}
-                                    loading={this.state.loading}
-                                />}
-                            {this.state.isError && <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </ Grid>}
+
                             {this.state.showResult &&
                                 <>
-                                    <Input
-                                        onChange={this.onNameChange}
-                                        place={strings.pokplace}
-                                        value={this.state.name}
-                                    />
-                                    <div className="pokedex--font my-1">{strings.generation + ":"}</div>
-                                    <GenRow
-                                        filter={this.state.filter}
-                                        onFilter={this.onFilter}
-                                    />
-                                    <TypeRow
-                                        filter={this.state.filter}
-                                        onFilter={this.onFilter}
-                                    />
-                                    {this.state.loadingTable &&
-                                        <Loader
-                                            class="row justify-content-center my-2"
-                                            color="black"
-                                            weight="500"
-                                            locale={strings.loading}
-                                            loading={this.state.loading}
-                                        />}
+                                    <Grid item xs={12}>
+                                        <Input
+                                            onChange={this.onNameChange}
+                                            label={strings.pokplace}
+                                            value={this.state.name}
+                                        />
+                                    </Grid>
 
-                                    <PokedexListFilter
-                                        name={this.state.name}
-                                        list={this.props.bases.pokemonBase}
-                                        pokTable={this.props.bases.pokemonBase}
-                                        filter={this.state.filter}
-                                        sort={this.state.active}
-                                        onClick={this.onSortColumn}
-                                    />
+                                    <Grid item xs={12}>
+                                        <Grid item xs={12}>
+                                            <Typography variant="body1">{`${strings.generation}:`}</Typography>
+                                        </Grid>
+                                        <GenRow
+                                            filter={this.state.filter}
+                                            onFilter={this.onFilter}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <TypeRow
+                                            filter={this.state.filter}
+                                            onFilter={this.onFilter}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <PokedexListFilter name={this.state.name} filter={this.state.filter} sort={this.state.active} onClick={this.onSortColumn}>
+                                            {this.props.bases.pokemonBase}
+                                        </PokedexListFilter>
+                                    </Grid>
+
+
                                 </>}
-                        </div>
-                    </div>
-                </div >
-            </>
+
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }

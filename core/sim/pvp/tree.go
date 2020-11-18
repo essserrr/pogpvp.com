@@ -246,9 +246,9 @@ func (obj *PvpObject) makeASingleBranch(who bool, actionCode bool, whatBranch bo
 		}
 		obj.branchPointer.Right.parent = obj.branchPointer //set up parent of the node
 
-		obj.branchPointer = obj.branchPointer.Right //set up it`s branch pointer
+		obj.branchPointer = obj.branchPointer.Right //set up its branch pointer
 
-		obj.branchPointer.TreeVal.Who = who //set up it`s value
+		obj.branchPointer.TreeVal.Who = who //set up its value
 		obj.branchPointer.TreeVal.Action = actionCode
 
 	case false:

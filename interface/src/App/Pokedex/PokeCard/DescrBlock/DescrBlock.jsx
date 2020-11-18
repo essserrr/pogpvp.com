@@ -1,14 +1,29 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./DescrBlock.scss"
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
-const DescrBlock = React.memo(function (props) {
+const useStyles = makeStyles((theme) => ({
+    descrText: {
+        textAlign: "justify",
+        textJustify: "inter-word",
+    },
+}));
+
+const DescrBlock = React.memo(function DescrBlock(props) {
+    const classes = useStyles();
+
     return (
-        <div className="descr-block row m-0 mt-2">
-            {props.value}
-        </div>
+        <Grid container className={classes.descrText}>
+            {props.children}
+        </Grid>
     )
 
 });
 
 export default DescrBlock;
+
+DescrBlock.propTypes = {
+    children: PropTypes.string,
+};

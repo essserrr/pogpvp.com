@@ -1,111 +1,131 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { connect } from 'react-redux'
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import UserShinyFilter from "../UserShinyFilter/UserShinyFilter"
-import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
-import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
-import ImportExport from "../../../PvP/components/ImportExport/ImportExport"
-import SearchableSelect from "../../../PvP/components/SearchableSelect/SearchableSelect"
-import SelectGroup from "../../../PvP/components/SelectGroup/SelectGroup"
-import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
 
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
+import Input from "App/Components/Input/Input";
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 
-import "./ShBrokerSelectPanel.scss"
+import Switch from "App/Components/Switch/Switch";
+import UserShinyFilter from "../UserShinyFilter/UserShinyFilter";
+import Button from "App/Components/Button/Button";
+import MagicBox from "App/PvP/components/MagicBox/MagicBox";
+import ImportExport from "App/PvP/components/ImportExport/ImportExport";
 
-let strings = new LocalizedStrings(userLocale)
+import { getCookie } from "js/getCookie";
+import { shinyBroker } from "locale/UserPage/ShinyBroker/ShinyBroker";
 
-class ShBrokerSelectPanel extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+let strings = new LocalizedStrings(shinyBroker);
 
-    render() {
-        return (
-            <>
-                {!this.props.checked && <div className="shiny-selpanel__text">
-                    {`${this.props.label} (${Object.keys(this.props.userList).length}/${this.props.limit})`}
-                </div>}
-                {this.props.onCheckboxChange && this.props.session.username && <div className="col-12 px-0 my-1">
-                    <Checkbox
-                        class={"form-check form-check-inline m-0 ml-1"}
-                        checked={this.props.checked ? "checked" : false}
-                        attr={`${this.props.attr}Custom`}
+const useStyles = makeStyles((theme) => ({
+    shinyPanelTitle: {
+        fontWeight: "400",
+        fontSize: "13pt",
+        textAlign: "center",
+    },
+}));
+
+const ShBrokerSelectPanel = React.memo(function ShBrokerSelectPanel(props) {
+    const classes = useStyles();
+
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
+
+    return (
+        <Grid container justify="center" spacing={2} alignItems="center">
+            {!props.checked &&
+                <Grid item xs={12} className={classes.shinyPanelTitle}>
+                    {`${props.label} (${Object.keys(props.userList).length}/${props.limit})`}
+                </Grid>}
+
+            {props.onCheckboxChange && props.session.username &&
+                <Grid item xs={12}>
+                    <Switch
+                        checked={Boolean(props.checked)}
+                        onChange={props.onCheckboxChange}
+                        attr={`${props.attr}Custom`}
+                        color="primary"
                         label={strings.shbroker.int.choose}
-                        onChange={this.props.onCheckboxChange}
                     />
-                </div>}
-                {this.props.onAmountChange && <SelectGroup
-                    class="input-group input-group-sm mt-2 mb-3"
-                    label={strings.shbroker.amount}
-                    attr={this.props.attr}
-                    name="Amount"
+                </Grid>}
 
-                    options={<>
-                        <option value="1" >1</option>
-                        <option value="2" >2</option>
-                        <option value="3" >3</option>
-                        <option value="4" >4</option>
-                        <option value="5" >5</option>
-                        <option value="5+" >5+</option>
-                    </>}
-
-                    value={this.props.Amount}
-
-                    onChange={this.props.onAmountChange}
-                    for=""
-                />}
-
-                {!this.props.checked &&
-                    <div className="col-12 px-0 my-2">
-                        <SearchableSelect
-                            attr={this.props.attr}
-                            list={this.props.pokList}
-                            onChange={this.props.onPokemonAdd}
-                        />
-                    </div>}
-
-                {this.props.showImportExportPanel && <MagicBox
-                    onClick={this.props.onTurnOnImport}
-                    attr={this.props.attr}
-                    element={
-                        <ImportExport
-                            type="shiny"
-                            initialValue={Object.values(this.props.userList)}
-                            pokemonTable={this.props.pokemonTable}
-
-                            action="Import/Export"
-                            attr={this.props.attr}
-                            onChange={this.props.onImport}
-                        />
-                    }
-                />}
-
-                {this.props.onImport && <div className="row  justify-content-center align-items-center mx-0 mt-3" >
-                    <SubmitButton
-                        class="submit-button--lg btn btn-primary btn-sm mx-0"
-                        attr={this.props.attr}
-                        onSubmit={this.props.onTurnOnImport}
+            {!props.checked &&
+                <Grid item xs={12} md={6}>
+                    <SearchableSelect
+                        disableClearable
+                        label={strings.pokname}
+                        attr={props.attr}
+                        onChange={props.onPokemonAdd}
                     >
-                        {strings.impExp}
-                    </SubmitButton>
-                </div>}
+                        {props.pokList}
+                    </SearchableSelect>
+                </Grid>}
 
-                {!this.props.checked && <div className="col-12 px-0 mt-3 mb-2">
+            {props.onAmountChange &&
+                <Grid item xs={12} md={6}>
+                    <Input
+                        select
+                        name="Amount"
+                        value={props.Amount}
+                        attr={props.attr}
+                        label={strings.shbroker.amount}
+                        onChange={props.onAmountChange}
+                    >
+                        <MenuItem value="1" >1</MenuItem>
+                        <MenuItem value="2" >2</MenuItem>
+                        <MenuItem value="3" >3</MenuItem>
+                        <MenuItem value="4" >4</MenuItem>
+                        <MenuItem value="5" >5</MenuItem>
+                        <MenuItem value="5+" >5+</MenuItem>
+                    </Input>
+                </Grid>}
+
+            <MagicBox
+                open={Boolean(props.showImportExportPanel)}
+                onClick={props.onTurnOnImport}
+                attr={props.attr}
+            >
+                <ImportExport
+                    type="shiny"
+                    initialValue={Object.values(props.userList)}
+                    pokemonTable={props.pokemonTable}
+
+                    action="Import/Export"
+                    attr={props.attr}
+                    onChange={props.onImport}
+                />
+            </MagicBox>
+
+            {props.onImport &&
+                <Grid item xs={12}>
+                    <Grid container justify="center" alignItems="center">
+                        <Button
+                            attr={props.attr}
+                            onClick={props.onTurnOnImport}
+                            title={strings.impExp}
+                            endIcon={<ImportExportIcon />}
+                        />
+                    </Grid>
+                </Grid>}
+
+            {!props.checked &&
+                <Grid item xs={12}>
                     <UserShinyFilter
-                        attr={this.props.attr}
-                        pokemonTable={this.props.pokemonTable}
-                        list={this.props.userList}
-                        onPokemonDelete={this.props.onPokemonDelete}
-                    />
-                </div>}
-            </>
-        );
-    }
-}
+                        attr={props.attr}
+                        pokemonTable={props.pokemonTable}
+                        onPokemonDelete={props.onPokemonDelete}
+                    >
+                        {props.userList}
+                    </UserShinyFilter>
+                </Grid>}
+        </Grid>
+    )
+});
 
 export default connect(
     state => ({
@@ -113,3 +133,24 @@ export default connect(
     })
 )(ShBrokerSelectPanel)
 
+ShBrokerSelectPanel.propTypes = {
+    checked: PropTypes.bool,
+    showImportExportPanel: PropTypes.bool,
+
+    label: PropTypes.string,
+    limit: PropTypes.number,
+
+    attr: PropTypes.string,
+
+    Amount: PropTypes.string,
+
+    userList: PropTypes.object,
+    pokemonTable: PropTypes.object,
+
+    onAmountChange: PropTypes.func,
+    onCheckboxChange: PropTypes.func,
+    onPokemonAdd: PropTypes.func,
+    onTurnOnImport: PropTypes.func,
+    onPokemonDelete: PropTypes.func,
+    onImport: PropTypes.func,
+};

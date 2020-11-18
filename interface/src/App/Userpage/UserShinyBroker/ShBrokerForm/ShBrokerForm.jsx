@@ -1,90 +1,90 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import LabelAndInput from "../../CustomMoves/LabelAndInput/LabelAndInput"
-import Country from "./CountryAndRegion/Country/Country"
-import Region from "./CountryAndRegion/Region/Region"
+import Grid from '@material-ui/core/Grid';
+import Input from "App/Components/Input/Input";
 
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
+import Country from "./CountryAndRegion/Country/Country";
+import Region from "./CountryAndRegion/Region/Region";
 
-let strings = new LocalizedStrings(userLocale)
+import { getCookie } from "js/getCookie";
+import { shinyBroker } from "locale/UserPage/ShinyBroker/ShinyBroker";
 
-class ShBrokerForm extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+let strings = new LocalizedStrings(shinyBroker)
 
-    render() {
-        return (
-            <div className="row mx-0 justify-content-center">
-                <div className="col-12 col-md-6 col-lg-6 px-1 py-1">
-                    <Country
-                        label={strings.shbroker.country}
-                        labelWidth="151px"
+const ShBrokerForm = React.memo(function ShBrokerForm(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-                        for={""}
+    return (
+        <Grid container justify="center" spacing={2}>
+            <Grid item xs={12} md={6}>
+                <Country
+                    label={strings.shbroker.country}
 
-                        defaultOption={this.props.placeholders.cPlace}
-                        notOk={this.props.notOk.Country}
+                    defaultOption={strings.shbroker.cPlace}
+                    notOk={props.notOk.Country}
 
-                        selectValue={this.props.value.Country}
-                        onChange={this.props.selectCountry}
+                    attr="Country"
 
-                    />
-                </div>
+                    value={props.value.Country}
+                    onChange={props.selectCountry}
 
-                <div className="col-12 col-md-6 col-lg-6 px-1 py-1">
-                    <Region
-                        label={strings.shbroker.region}
-                        labelWidth="151px"
+                />
+            </Grid>
 
-                        for=""
+            <Grid item xs={12} md={6}>
+                <Region
+                    label={strings.shbroker.region}
 
-                        defaultOption={this.props.placeholders.rPlace}
-                        notOk={this.props.notOk.Region}
-                        country={this.props.value.Country}
+                    defaultOption={strings.shbroker.rPlace}
+                    notOk={props.notOk.Region}
+                    country={props.value.Country}
 
-                        selectValue={this.props.value.Region}
-                        onChange={this.props.selectRegion}
+                    attr="Region"
 
-                    />
-                </div>
-                <div className="col-12 col-md-10 col-lg-6 px-1 py-1">
-                    <LabelAndInput
-                        labelWidth="151px"
-                        label={strings.shbroker.city}
-                        place={this.props.placeholders.cityPlace}
+                    value={props.value.Region}
+                    onChange={props.selectRegion}
 
-                        name="City"
-                        type={"text"}
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Input
+                    label={strings.shbroker.city}
+                    name="City"
+                    type="text"
 
-                        value={this.props.value.City}
-                        notOk={this.props.notOk.City}
+                    value={props.value.City}
+                    errorText={props.notOk.City}
 
-                        onChange={this.props.onChange}
-                    />
-                </div>
+                    onChange={props.onChange}
+                />
+            </Grid>
 
-                <div className="col-12 col-md-10 col-lg-6 px-1 py-1">
-                    <LabelAndInput
-                        labelWidth="151px"
-                        label={strings.shbroker.cont}
-                        place={this.props.placeholders.contPlace}
+            <Grid item xs={12} md={6}>
+                <Input
+                    label={strings.shbroker.cont}
 
-                        name="Contacts"
-                        type={"text"}
+                    name="Contacts"
+                    type="text"
 
-                        value={this.props.value.Contacts}
-                        notOk={this.props.notOk.Contacts}
+                    value={props.value.Contacts}
+                    errorText={props.notOk.Contacts}
 
-                        onChange={this.props.onChange}
-                    />
-                </div>
-            </div>
-        );
-    }
-}
+                    onChange={props.onChange}
+                />
+            </Grid>
+        </Grid>
+    )
+});
 
-export default ShBrokerForm
+export default ShBrokerForm;
+
+ShBrokerForm.propTypes = {
+    value: PropTypes.object,
+    notOk: PropTypes.object,
+
+    onChange: PropTypes.func,
+    selectRegion: PropTypes.func,
+    selectCountry: PropTypes.func,
+};

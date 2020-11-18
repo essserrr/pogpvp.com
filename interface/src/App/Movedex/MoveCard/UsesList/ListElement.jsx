@@ -1,32 +1,53 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
-import PokemonIconer from "../../../PvP/components/PokemonIconer/PokemonIconer"
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-import "./ListElement.scss"
+import Iconer from "App/Components/Iconer/Iconer";
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Movedex/Movecard";
 
-let strings = new LocalizedStrings(dexLocale)
+const useStyles = makeStyles((theme) => ({
+    link: {
+        fontSize: "1.1em",
+        fontWeight: 400,
+        color: theme.palette.text.link,
+        "&:hover": {
+            textDecoration: "underline",
+        },
+    },
+    margin: {
+        marginLeft: `${theme.spacing(1)}px`
+    }
+}));
 
-const ListElement = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+let strings = new LocalizedStrings(dexLocale);
+
+const ListElement = React.memo(function ListElement(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const classes = useStyles();
+
+    const fileName = `${props.value.Number}${props.value.Forme !== "" ? `-${props.value.Forme}` : ""}`;
+    const to = (navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.name);
 
     return (
-        <div className="col-6 col-sm-4 col-md-3 p-0">
-            <PokemonIconer
-                src={props.value.Number + (props.value.Forme !== "" ? "-" + props.value.Forme : "")}
-                class={"uses-listelem__icon mr-2"}
-            />
-            <Link title={strings.dexentr + props.name}
-                className="uses-listelem__link"
-                to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.name)}>
+        <Grid item xs={6} sm={4} md={3} container alignItems="center">
+            <Iconer size={36} folderName="/pokemons/" fileName={fileName} />
+
+            <Link className={`${classes.link} ${classes.margin}`} title={`${strings.dexentr} ${props.name}`} to={to}>
                 {props.name}
             </Link>
-        </div>
+        </Grid>
     )
 
 });
 
 export default ListElement;
+
+ListElement.propTypes = {
+    name: PropTypes.string,
+    value: PropTypes.object,
+};

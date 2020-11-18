@@ -1,194 +1,93 @@
-import React from "react"
-import Button from "../MoveCard/DoubleSlider/Button/Button"
-import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./TypeRow.scss"
+import Iconer from "App/Components/Iconer/Iconer";
+import SliderBlock from "App/Components/SliderBlock/SliderBlock";
+import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
-const TypeRow = React.memo(function (props) {
+const TypeRow = React.memo(function TypeRow(props) {
+    const { filter, onFilter } = props;
+
     return (
-        <div className={"typeslider-group row m-0 my-3 text-center justify-content-center"} >
-            <Button
-                attr="type0"
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={0}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type0 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr="type1"
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={1}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type1 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type2"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={2}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type2 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type3"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={3}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type3 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type4"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={4}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type4 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type5"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={5}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type5 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type6"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={6}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type6 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr="type7"
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={7}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type7 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr="type8"
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={8}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type8 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type9"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={9}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type9 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type10"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={10}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type10 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type11"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={11}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type11 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type12"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={12}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type12 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type13"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={13}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type13 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr="type14"
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={14}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type14 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr="type15"
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={15}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type15 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type16"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={16}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type16 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"type17"}
-                title={<PokemonIconer
-                    folder="/type/"
-                    src={17}
-                    class={"type-row__icon"}
-                />}
-                class={props.filter.type17 ? "typeslider-group__button active col py-1" : "typeslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-        </div>
+        <SliderBlock>
+            <SliderButton attr="type0" toggled={!!filter.type0} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"0"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type1" toggled={!!filter.type1} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"1"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type2" toggled={!!filter.type2} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"2"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type3" toggled={!!filter.type3} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"3"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type4" toggled={!!filter.type4} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"4"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type5" toggled={!!filter.type5} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"5"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type6" toggled={!!filter.type6} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"6"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type7" toggled={!!filter.type7} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"7"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type8" toggled={!!filter.type8} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"8"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type9" toggled={!!filter.type9} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"9"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type10" toggled={!!filter.type10} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"10"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type11" toggled={!!filter.type11} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"11"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type12" toggled={!!filter.type12} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"12"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type13" toggled={!!filter.type13} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"13"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type14" toggled={!!filter.type14} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"14"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type15" toggled={!!filter.type15} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"15"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type16" toggled={!!filter.type16} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"16"} size={16} />
+            </SliderButton>
+
+            <SliderButton attr="type17" toggled={!!filter.type17} onClick={onFilter}>
+                <Iconer folderName="/type/" fileName={"17"} size={16} />
+            </SliderButton>
+        </SliderBlock>
     )
 });
 
 export default TypeRow;
+
+TypeRow.propTypes = {
+    filter: PropTypes.object.isRequired,
+    onFilter: PropTypes.func.isRequired,
+};

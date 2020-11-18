@@ -1,67 +1,73 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../../../PvP/components/Errors/Errors"
-import PokemonPanel from "../../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import SaveIcon from '@material-ui/icons/Save';
 
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
+import Button from "App/Components/Button/Button";
+import PokemonPanel from "App/PvE/Components/Panels/PokemonPanel/PokemonPanel";
+
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
 let strings = new LocalizedStrings(userLocale);
 
+const EditMenu = React.memo(function EditMenu(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-class EditMenu extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+    return (
+        <Grid container justify="center">
+            <Grid item xs={12}>
+                <PokemonPanel
+                    colSize={12}
+                    attr={props.attr}
+                    canBeShadow={true}
+                    hasSecondCharge={true}
 
-    render() {
-        return (
-            <div className="row justify-content-center">
-                <div className="col-12 mb-3 px-0">
-                    <PokemonPanel
-                        colSize="col-12 my-1"
-                        attr={this.props.attr}
-                        canBeShadow={true}
-                        hasSecondCharge={true}
+                    pokemonTable={props.pokemonTable}
+                    moveTable={props.moveTable}
+                    notOk={props.notOk}
 
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
+                    pokList={props.pokList}
+                    chargeMoveList={props.chargeMoveList}
+                    quickMoveList={props.quickMoveList}
 
+                    value={props.editPokemon}
 
-                        pokList={this.props.pokList}
-                        chargeMoveList={this.props.chargeMoveList}
-                        quickMoveList={this.props.quickMoveList}
-
-                        value={this.props.editPokemon}
-
-                        onChange={this.props.onChange}
-                        onClick={this.props.onMenuClose}
-                    />
-                </div>
-                {Object.values(this.props.editNotOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
-                    <div className="col-12 mx-2 mb-3 ">
-                        <Errors class="alert alert-danger p-2" value={
-                            Object.values(this.props.editNotOk).reduce((sum, val, index) => {
-                                sum.push(<div key={index} className="col-12 py-1">{val}</div>)
-                                return sum
-                            }, [])
-                        }
-                        />
-                    </div>}
-                <SubmitButton
-                    class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"
-                    attr={this.props.attr}
-                    onSubmit={this.props.onPokemonEditSubmit}
-                >
-                    {strings.moveconstr.changes}
-                </SubmitButton>
-            </div>
-        );
-    }
-}
+                    onChange={props.onChange}
+                    onClick={props.onMenuClose}
+                />
+            </Grid>
+            <Box mt={3}>
+                <Button
+                    attr={props.attr}
+                    disabled={Object.values(props.notOk).reduce((sum, val) => sum || (val !== ""), false)}
+                    onClick={props.onPokemonEditSubmit}
+                    title={strings.userpok.changes}
+                    endIcon={<SaveIcon />}
+                />
+            </Box>
+        </Grid>
+    )
+});
 
 
-export default EditMenu
+export default EditMenu;
+
+EditMenu.propTypes = {
+    onMenuClose: PropTypes.func,
+    onChange: PropTypes.func,
+    onPokemonEditSubmit: PropTypes.func,
+
+    attr: PropTypes.string,
+    value: PropTypes.object,
+    notOk: PropTypes.object,
+
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+};

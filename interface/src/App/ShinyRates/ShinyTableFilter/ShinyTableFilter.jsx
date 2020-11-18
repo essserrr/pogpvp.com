@@ -1,31 +1,31 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import ShinyTableSort from "./ShinyTableSort/ShinyTableSort"
+import ShinyTableSort from "./ShinyTableSort/ShinyTableSort";
 
-class ShinyTableFilter extends React.Component {
+const ShinyTableFilter = React.memo(function ShinyTableFilter(props) {
+    return (
+        <ShinyTableSort
+            filter={props.filter}
+            pokTable={props.pokTable}
 
-    render() {
-        return (
-            <ShinyTableSort
-                list={Object.entries(this.props.list).filter(element =>
-                    element[0].toLowerCase().indexOf(this.props.value.toLowerCase()) !== -1)}
+            onClick={props.onClick}
+        >
+            {Object.entries(props.children).filter(element =>
+                element[0].toLowerCase().indexOf(props.value.toLowerCase()) !== -1)}
+        </ShinyTableSort>
+    )
+});
 
-                filter={this.props.filter}
+export default ShinyTableFilter;
 
-                onClick={this.props.onClick}
-                onChange={this.props.onChange}
-                firstColumn={this.props.firstColumn}
-                secondColumn={this.props.secondColumn}
-                thirdColumn={this.props.thirdColumn}
-                fourthColumn={this.props.fourthColumn}
+ShinyTableFilter.propTypes = {
+    filter: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
 
-                pokTable={this.props.pokTable}
-            />
-        );
-    }
-}
+    onClick: PropTypes.func,
 
-export default ShinyTableFilter
-
+    children: PropTypes.object,
+};
 
 

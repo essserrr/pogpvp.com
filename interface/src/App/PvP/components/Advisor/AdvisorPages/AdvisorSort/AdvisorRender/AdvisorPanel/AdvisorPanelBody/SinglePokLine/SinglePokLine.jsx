@@ -1,31 +1,35 @@
-import React from "react"
-import TableIcon from "../../../../../../../TableBodyRender/TableIcon/TableIcon"
-import { returnVunStyle } from "../../../../../../../../../../js/indexFunctions"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./SinglePokLine.scss"
+import TableCell from '@material-ui/core/TableCell';
 
-const SinglePokLine = React.memo(function (props) {
+import Rate from "App/PvP/components/SinglePvpResults/Rate/Rate";
+import TableIcon from "App/PvP/components/TableBodyRender/TableIcon/TableIcon";
+
+const SinglePokLine = React.memo(function SinglePokLine(props) {
     return (
         <>
-            <td className="singlepok-line__first-cell text-center m-0 p-0 px-1" >
-                <TableIcon
-                    letter="R"
-                    j={props.i}
-                    pok={props.pok}
-                    pokemonTable={props.pokemonTable}
-                    addStar={props.addStar}
-                />
-            </td>
+            <TableCell component="th" align="center">
+                <TableIcon pok={props.pok} pokemonTable={props.pokemonTable} />
+            </TableCell>
+
             {props.vun[props.i].map((elem, k) => {
-                let rateStyle = returnVunStyle(elem)
-                return <td key={props.i + "defensive" + k} className="m-0 p-0 align-middle" >
-                    <div className={"singlepok-line__rate rate-color" + rateStyle}>
-                        {elem}
-                    </div>
-                </td >
+
+                return (
+                    <TableCell key={props.i + "defensive" + k} align="center" >
+                        <Rate value={elem} forMult></Rate>
+                    </TableCell>
+                )
             })}
         </>
     )
 });
 
 export default SinglePokLine;
+
+SinglePokLine.propTypes = {
+    i: PropTypes.number,
+    pok: PropTypes.object,
+    pokemonTable: PropTypes.object,
+    vun: PropTypes.array,
+};

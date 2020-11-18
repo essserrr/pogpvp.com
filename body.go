@@ -554,7 +554,7 @@ func versioning(h http.Handler, app *App) http.Handler {
 		//handle options method
 
 		if (*r).Header.Get("If-None-Match") == app.iconVer {
-			(w).WriteHeader(304)
+			(w).WriteHeader(http.StatusNotModified)
 			return
 		}
 		(w).Header().Set("Etag", app.iconVer)

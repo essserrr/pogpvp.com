@@ -1,62 +1,64 @@
-import React from "react"
-import { getCookie } from "../../../js/getCookie"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
-import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
-import { refresh } from "../../../AppStore/Actions/refresh"
-import { setCustomMoves } from "../../../AppStore/Actions/actions"
-import MoveList from "./MoveList/MoveList"
-import Loader from "../../PvpRating/Loader"
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import Errors from "../../PvP/components/Errors/Errors"
-import LabelAndInput from "./LabelAndInput/LabelAndInput"
-import TypeCategory from "./TypeCategory/TypeCategory"
-import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
-import PveForm from "./PveForm/PveForm"
-import PvpForm from "./PvpForm/PvpForm"
-import { userLocale } from "../../../locale/userLocale"
+import { getCustomMoves } from "AppStore/Actions/getCustomMoves"
+import { refresh } from "AppStore/Actions/refresh"
+import { setCustomMoves } from "AppStore/Actions/actions"
+import CustomMoveListWrapper from "App/Userpage/CustomMoves/CustomMoveListWrapper/CustomMoveListWrapper"
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
 
-import "./MoveConstructor.scss"
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import CustomMoveContsructorForm from "./CustomMoveContsructorForm/CustomMoveContsructorForm";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/CustomMoves/CustomMoves";
+import { errors } from "locale/UserPage/Errors";
 
 let strings = new LocalizedStrings(userLocale);
+let errorStrings = new LocalizedStrings(errors);
 
-class Move extends React.PureComponent {
+class CustomMoves extends React.PureComponent {
     constructor(props) {
-        super(props);
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            Title: "",
-            MoveCategory: "Charge Move",
-            MoveType: "0",
-
             inputs: {
-                PvpDamage: 1, PvpEnergy: -50,
-                Damage: 1, Energy: -50,
-                Cooldown: 1, DamageWindow: 0.5, DodgeWindow: 0.4,
-                PvpDurationSeconds: 0, PvpDuration: 0,
-                Probability: 0, Stat: "", Subject: "", StageDelta: 0,
+                Title: { value: "", error: "", },
+                MoveCategory: { value: "Charge Move", error: "", },
+                MoveType: { value: "0", error: "", },
+
+                Subject: { value: "", error: "", },
+
+                StageDelta: { value: 0, error: "", },
+                PvpDurationSeconds: { value: 0, error: "", },
+                PvpDuration: { value: 0, error: "", },
+
+                PvpDamage: { value: 1, error: "", },
+                PvpEnergy: { value: -50, error: "", },
+                Damage: { value: 1, error: "", },
+
+                Energy: { value: -50, error: "", },
+                Probability: { value: 0, error: "", },
+                Stat: { value: "", error: "", },
+
+                Cooldown: { value: 1, error: "", },
+                DamageWindow: { value: 0.5, error: "", },
+                DodgeWindow: { value: 0.4, error: "", },
             },
 
-            notOk: {
-                Title: "",
-                PvpDamage: "", PvpEnergy: "",
-                Damage: "", Energy: "",
-                Cooldown: "", DamageWindow: "", DodgeWindow: "",
-                PvpDurationSeconds: "", PvpDuration: "",
-                Probability: "", Stat: "", Subject: "", StageDelta: "",
+            moves: {
+
             },
-            moves: {},
 
             loading: false,
             error: "",
-            ok: false,
         }
-        this.onChange = this.onChange.bind(this)
-        this.onInputsChange = this.onInputsChange.bind(this)
-
-        this.onSaveChanges = this.onSaveChanges.bind(this)
         this.onMoveAdd = this.onMoveAdd.bind(this)
         this.onMoveOpen = this.onMoveOpen.bind(this)
         this.onMoveDelete = this.onMoveDelete.bind(this)
@@ -69,76 +71,75 @@ class Move extends React.PureComponent {
         this.setState({ loading: false, moves: this.props.customMoves.moves })
     }
 
-    onChange(event) {
+    onChange = (event) => {
         switch (event.target.name) {
+            case "PvpDurationSeconds":
+                this.setDuration(event)
+                return
             case "MoveCategory":
                 this.onCategoryChange(event)
                 return
             default:
                 this.setState({
-                    [event.target.name]: event.target.value,
-                    notOk: {
-                        ...this.state.notOk,
-                        [event.target.name]: this.check(event.target.value, event.target.name)
-                    }
+                    inputs: {
+                        ...this.state.inputs,
+                        [event.target.name]: {
+                            value: event.target.value,
+                            error: this.check(event.target.value, event.target.name),
+                        },
+                    },
                 })
         }
     }
 
-    onCategoryChange(event) {
-        const chargeDefault = { PvpEnergy: "-50", Energy: "-50", Stat: "", Subject: "", Probability: "0", StageDelta: "0", PvpDurationSeconds: "0", PvpDuration: "0", }
-        const quickDefault = { PvpEnergy: "1", Energy: "1", Stat: "", Subject: "", Probability: "0", StageDelta: "0", PvpDurationSeconds: "0.5", PvpDuration: "0", }
-        const okDefault = { PvpEnergy: "", Energy: "", Stat: "", Subject: "", Probability: "", StageDelta: "", PvpDurationSeconds: "", PvpDuration: "", }
+    onCategoryChange = (event) => {
+        const chargeDefault = {
+            PvpEnergy: { value: -50, error: "", },
+            Energy: { value: -50, error: "", },
+            Stat: { value: "", error: "", },
+            Subject: { value: "", error: "", },
+            Probability: { value: 0, error: "", },
+            StageDelta: { value: 0, error: "", },
+            PvpDurationSeconds: { value: 0, error: "", },
+            PvpDuration: { value: 0, error: "", },
+        };
+
+        const quickDefault = {
+            PvpEnergy: { value: 1, error: "", },
+            Energy: { value: 1, error: "", },
+            Stat: { value: "", error: "", },
+            Subject: { value: "", error: "", },
+            Probability: { value: 0, error: "", },
+            StageDelta: { value: 0, error: "", },
+            PvpDurationSeconds: { value: 0.5, error: "", },
+            PvpDuration: { value: 1, error: "", },
+        };
 
         this.setState({
-            [event.target.name]: event.target.value,
             inputs: {
                 ...this.state.inputs,
+                MoveCategory: {
+                    value: event.target.value,
+                    error: "",
+                },
                 ...(event.target.value === "Charge Move" ? chargeDefault : quickDefault),
             },
-            notOk: {
-                ...this.state.notOk,
-                ...okDefault,
-                [event.target.name]: this.check(event.target.value, event.target.name),
-            }
         })
-    }
-
-    onInputsChange(event) {
-        switch (event.target.name) {
-            case "PvpDurationSeconds":
-                this.setDuration(event)
-                break
-            default:
-                this.setInputs(event)
-        }
     }
 
     setDuration(event) {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                [event.target.name]: event.target.value,
-                PvpDuration: event.target.value / 0.5 - 1,
+                [event.target.name]: {
+                    value: event.target.value,
+                    error: this.check(event.target.value, event.target.name),
+                },
+                PvpDuration: {
+                    value: event.target.value / 0.5 - 1,
+                    error: this.check(event.target.value / 0.5 - 1, "PvpDuration"),
+                },
             },
-            notOk: {
-                ...this.state.notOk,
-                [event.target.name]: this.check(event.target.value, event.target.name),
-                PvpDuration: this.check(event.target.value / 0.5 - 1, "PvpDuration")
-            }
-        })
-    }
-
-    setInputs(event) {
-        this.setState({
-            inputs: {
-                ...this.state.inputs,
-                [event.target.name]: event.target.value,
-            },
-            notOk: {
-                ...this.state.notOk,
-                [event.target.name]: this.check(event.target.value, event.target.name)
-            }
         })
     }
 
@@ -160,9 +161,9 @@ class Move extends React.PureComponent {
     }
 
     checkTitle(str) {
-        if (str.length < 2) { return strings.moveconstr.err.mt1 + strings.err.longer.l1 + "2" + strings.err.lesseq.c }
-        if (str.length > 20) { return strings.moveconstr.err.mt1 + strings.err.lesseq.l1 + "20" + strings.err.lesseq.c }
-        if (this.checkRegexp(str)) { return strings.moveconstr.err.mt1 + strings.err.symb }
+        if (str.length < 2) { return strings.moveconstr.err.mt1 + errorStrings.err.longer.l1 + "2" + errorStrings.err.lesseq.c }
+        if (str.length > 20) { return strings.moveconstr.err.mt1 + errorStrings.err.lesseq.l1 + "20" + errorStrings.err.lesseq.c }
+        if (this.checkRegexp(str)) { return strings.moveconstr.err.mt1 + errorStrings.err.symb }
         if (!str.replace(/\s/g, '').length) { return strings.moveconstr.err.wrong + strings.moveconstr.err.mt2 }
         return ""
     }
@@ -193,14 +194,14 @@ class Move extends React.PureComponent {
     }
 
     checkCooldown(cooldown, name) {
-        let cooldownNumb = Number(cooldown)
+        const cooldownNumb = Number(cooldown)
         if (Number.isNaN(cooldownNumb)) { return strings.moveconstr.err.wrong + strings.moveconstr.err.cd1 }
         if (cooldownNumb <= 0) { return strings.moveconstr.err.cd2 + strings.moveconstr.err.larzerofem }
         if (Math.abs(cooldown) > 60) { return strings.moveconstr.err.cdallowed }
 
-        let newCd = { ...this.state.inputs, [name]: cooldown }
+        const newCd = { ...this.state.inputs, [name]: { value: cooldownNumb } }
 
-        if (Number(newCd.Cooldown) < Number(newCd.DamageWindow) + Number(newCd.DodgeWindow)) {
+        if (Number(newCd.Cooldown.value) < Number(newCd.DamageWindow.value) + Number(newCd.DodgeWindow.value)) {
             return strings.moveconstr.err.sumwind
         }
         return ""
@@ -216,45 +217,65 @@ class Move extends React.PureComponent {
     }
 
     onMoveAdd() {
-        if (!this.validate() || Object.keys(this.state.moves).length >= 100) {
+        if (!this.validate() || Object.keys(this.state.moves).length > 100) {
             return
         }
+        const moveName = this.state.inputs.Title.value.trim()
         this.setState({
             moves: {
                 ...this.state.moves,
-                [this.state.Title]: {
-                    Title: this.state.Title.trim(),
-                    MoveCategory: this.state.MoveCategory,
-                    MoveType: Number(this.state.MoveType),
-                    ...this.state.inputs,
+                [moveName]: {
+                    Title: moveName,
+                    MoveCategory: this.state.inputs.MoveCategory.value,
+                    MoveType: Number(this.state.inputs.MoveType.value),
 
-                    StageDelta: Number(this.state.inputs.StageDelta),
-                    PvpDurationSeconds: Number(this.state.inputs.PvpDurationSeconds),
-                    PvpDuration: Number(this.state.inputs.PvpDuration),
-                    PvpDamage: Number(this.state.inputs.PvpDamage),
-                    PvpEnergy: Number(this.state.inputs.PvpEnergy),
-                    Damage: Number(this.state.inputs.Damage),
-                    Energy: Number(this.state.inputs.Energy),
-                    Probability: Number(this.state.inputs.Probability),
-                    Stat: this.state.inputs.Stat.split(","),
-                    Cooldown: Number(this.state.inputs.Cooldown) * 1000,
-                    DamageWindow: Number(this.state.inputs.DamageWindow) * 1000,
-                    DodgeWindow: Number(this.state.inputs.DodgeWindow) * 1000
+                    Subject: this.state.inputs.Subject.value,
+
+                    StageDelta: Number(this.state.inputs.StageDelta.value),
+                    PvpDurationSeconds: Number(this.state.inputs.PvpDurationSeconds.value),
+                    PvpDuration: Number(this.state.inputs.PvpDuration.value),
+
+                    PvpDamage: Number(this.state.inputs.PvpDamage.value),
+                    PvpEnergy: Number(this.state.inputs.PvpEnergy.value),
+                    Damage: Number(this.state.inputs.Damage.value),
+
+                    Energy: Number(this.state.inputs.Energy.value),
+                    Probability: Number(this.state.inputs.Probability.value),
+                    Stat: this.state.inputs.Stat.value.split(","),
+
+                    Cooldown: Number(this.state.inputs.Cooldown.value) * 1000,
+                    DamageWindow: Number(this.state.inputs.DamageWindow.value) * 1000,
+                    DodgeWindow: Number(this.state.inputs.DodgeWindow.value) * 1000,
                 }
             }
         })
     }
 
-    onMoveOpen(move) {
+    onMoveOpen(event, move) {
+        if (event.target.getAttribute && event.target.getAttribute("name") === "closeButton") return;
         this.setState({
-            Title: move.Title,
-            MoveCategory: move.MoveCategory,
-            MoveType: move.MoveType,
             inputs: {
-                PvpDamage: move.PvpDamage, PvpEnergy: move.PvpEnergy, Damage: move.Damage, Energy: move.Energy,
-                Cooldown: move.Cooldown / 1000, DamageWindow: move.DamageWindow / 1000, DodgeWindow: move.DodgeWindow / 1000,
-                PvpDurationSeconds: move.PvpDurationSeconds, PvpDuration: move.PvpDuration, Probability: move.Probability,
-                Stat: move.Stat.join(","), Subject: move.Subject, StageDelta: move.StageDelta,
+                Title: { value: move.Title, error: "", },
+                MoveCategory: { value: move.MoveCategory, error: "", },
+                MoveType: { value: move.MoveType, error: "", },
+
+                PvpDamage: { value: move.PvpDamage, error: "", },
+
+                PvpEnergy: { value: move.PvpEnergy, error: "", },
+                Damage: { value: move.Damage, error: "", },
+                Energy: { value: move.Energy, error: "", },
+
+                Cooldown: { value: move.Cooldown / 1000, error: "", },
+                DamageWindow: { value: move.DamageWindow / 1000, error: "", },
+                DodgeWindow: { value: move.DodgeWindow / 1000, error: "", },
+
+                PvpDurationSeconds: { value: move.PvpDurationSeconds, error: "", },
+                PvpDuration: { value: move.PvpDuration, error: "", },
+                Probability: { value: move.Probability, error: "", },
+
+                Stat: { value: move.Stat.join(","), error: "", },
+                Subject: { value: move.Subject, error: "", },
+                StageDelta: { value: move.StageDelta, error: "", },
             },
         })
     }
@@ -268,50 +289,18 @@ class Move extends React.PureComponent {
     }
 
     validate() {
-        let notOk = { Title: this.check(this.state.Title, "Title") }
-        for (const [key, value] of Object.entries(this.state.inputs)) {
-            notOk[key] = this.check(value, key)
+        let checkedInputs = {}
+        for (const [key, input] of Object.entries(this.state.inputs)) {
+            checkedInputs[key] = { value: input.value, error: this.check(input.value, key), }
         }
-        this.setState({ notOk: notOk, })
-        return !Object.values(notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
-    }
-
-    async onSaveChanges() {
-        this.setState({
-            submitting: true, error: "", ok: false,
-        })
-        try {
-            await this.props.refresh()
-            const response = await fetch(((navigator.userAgent !== "ReactSnap") ?
-                process.env.REACT_APP_LOCALHOST : process.env.REACT_APP_PRERENDER) + "/api/user/setmoves", {
-                method: "POST",
-                credentials: "include",
-                headers: { "Content-Type": "application/json", },
-                body: JSON.stringify({ Moves: this.state.moves })
-            })
-            //parse answer
-            const data = await response.json();
-            //if response is not ok, handle error
-            if (!response.ok) {
-                throw data.detail
-            }
-            //set global movelist
-            this.props.setCustomMoves(this.state.moves)
-            //show ok
-            this.setState({ submitting: false, ok: true, })
-            await new Promise(res => setTimeout(res, 2500));
-            this.setState({ ok: false })
-        } catch (e) {
-            this.setState({
-                submitting: false,
-                error: String(e),
-            });
-        }
+        this.setState({ inputs: checkedInputs, })
+        return Object.values(checkedInputs).reduce((sum, value) => sum && value.error === "", true)
     }
 
     render() {
+        const customMoves = Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))
         return (
-            <div className="col p-2 p-md-3">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/move"
                     header={strings.pageheaders.usrmoves}
@@ -319,83 +308,31 @@ class Move extends React.PureComponent {
                     noindex={true}
                 />
                 {this.state.loading &&
-                    <Loader
-                        color="black"
-                        weight="500"
-                        locale={strings.loading}
-                        loading={this.state.loading}
-                    />}
-                {!this.state.loading && <div className="row mx-0 justify-content-center">
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
+                {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
 
-                    <div className="col-12 px-1 mb-4 text-center">
-                        <div className="moveconstr__title col-12 px-0">
-                            {strings.moveconstr.constr}
-                        </div>
-                    </div>
-                    <div className="col-12 px-0 mt-1">
-                        <div className="row mx-0 justify-content-center">
-                            <div className="col-12 col-md-6 px-1">
-                                <LabelAndInput
-                                    labelWidth="125px"
-                                    label={strings.moveconstr.title}
-
-                                    attr={""}
-                                    name={"Title"}
-
-                                    value={this.state.Title}
-                                    notOk={this.state.notOk.Title}
-
-                                    type={"text"}
-
-                                    onChange={this.onChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <TypeCategory onChange={this.onChange}
-                        moveCategory={this.state.MoveCategory} moveType={this.state.MoveType} />
-                    <div className="col-12 col-md-6 px-1">
-                        <PveForm {...this.state.inputs} moveCategory={this.state.MoveCategory} notOk={this.state.notOk}
-                            onChange={this.onInputsChange} />
-                    </div>
-                    <div className="col-12 col-md-6 px-1">
-                        <PvpForm {...this.state.inputs} moveCategory={this.state.MoveCategory} notOk={this.state.notOk}
-                            onChange={this.onInputsChange}
-                        />
-                    </div>
-                    <div className="col-12 px-1">
-                        <div className="row m-0 pt-3 justify-content-center">
-                            <AuthButton
-                                title={strings.moveconstr.add}
-                                onClick={this.onMoveAdd}
-                                disabled={
-                                    Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
+                {this.state.error === "" && !this.state.loading &&
+                    <Grid item xs={12}>
+                        <UserPageContent title={strings.moveconstr.constr}>
+                            <CustomMoveContsructorForm
+                                onChange={this.onChange}
+                                onMoveAdd={this.onMoveAdd}
+                                submitDisabled={!Object.values(this.state.inputs).reduce((sum, input) => sum && input.error === "", true)}
+                                {...this.state.inputs}
                             />
-                        </div>
-                    </div>
+                        </UserPageContent>
 
-                    <div className="col-12 px-0 mt-4">
-                        <MoveList moves={Object.entries(this.state.moves).map((value) => value[1]).sort((a, b) => a.Title.localeCompare(b.Title))}
-                            onMoveOpen={this.onMoveOpen}
-                            onMoveDelete={this.onMoveDelete}
-                        />
-                    </div>
-                    {this.state.error !== "" &&
-                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Errors class="alert alert-danger p-2" value={this.state.error} />
-
-                        </div>}
-                    <div className="col-12 px-1">
-                        <div className="row m-0 py-2 justify-content-center">
-                            <AuthButton
-                                loading={this.state.submitting}
-                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
-                                onClick={this.onSaveChanges}
-                            />
-                        </div>
-                    </div>
-                </div>}
-            </div>
+                        <Box mt={5}>
+                            <UserPageContent title={`${strings.moveconstr.umoves} ${customMoves.length}/100`}>
+                                <CustomMoveListWrapper onMoveOpen={this.onMoveOpen} onMoveDelete={this.onMoveDelete}>
+                                    {this.state.moves}
+                                </CustomMoveListWrapper>
+                            </UserPageContent>
+                        </Box>
+                    </Grid>}
+            </Grid>
         );
     }
 }
@@ -412,4 +349,4 @@ export default connect(
     state => ({
         customMoves: state.customMoves,
     }), mapDispatchToProps
-)(Move)
+)(CustomMoves)

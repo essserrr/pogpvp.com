@@ -1,29 +1,28 @@
-import React from "react"
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
-import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import Errors from "../../PvP/components/Errors/Errors"
-import Loader from "../../PvpRating/Loader"
-import MoveCardTitle from "./MoveCardTitle/MoveCardTitle"
-import ChargeMove from "./CardBody/ChargeMove"
-import QuickMove from "./CardBody/QuickMove"
-import EffTable from "../../Pokedex/PokeCard/EffBlock/EffTable"
-import UsesList from "./UsesList/UsesList"
-import { dexLocale } from "../../../locale/dexLocale"
-import { getCookie } from "../../../js/getCookie"
-import DoubleSlider from "./DoubleSlider/DoubleSlider"
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import "./MoveCard.scss"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+
+import CardBody from './CardBody/CardBody';
+import MoveCardTitle from "./MoveCardTitle/MoveCardTitle";
+import SliderBody from "./SliderBody/SliderBody";
+import { dexLocale } from "locale/Movedex/Movecard";
+import { getCookie } from "js/getCookie";
+import DoubleSlider from "./DoubleSlider/DoubleSlider";
 
 let strings = new LocalizedStrings(dexLocale);
 
 class MoveCard extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showResult: false,
@@ -31,7 +30,7 @@ class MoveCard extends React.Component {
             error: "",
             loading: false,
 
-            active: {},
+            active: { eff: true, },
         };
         this.onClick = this.onClick.bind(this)
     }
@@ -73,73 +72,66 @@ class MoveCard extends React.Component {
         }
     }
 
-    onClick(event) {
-        let attr = event.target.getAttribute("attr")
+    onClick(event, attributes) {
         this.setState({
             active: {
-                [attr]: !this.state.active[attr],
+                [attributes.attr]: !this.state.active[attributes.attr],
             },
         })
     }
 
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     header={this.props.match.params.id + strings.mdsdescr + " | PogPvP.com"}
                     descr={this.props.match.params.id + strings.mdsdescr}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-1 px-sm-2 pb-2">
-                        <div className="movecard col-12 col-md-10 col-lg-8 p-1 p-sm-2 p-md-4">
+
+                <Grid item xs={12} md={10} lg={8}>
+                    <GreyPaper elevation={4} enablePadding>
+                        <Grid container justify="center" spacing={2}>
+
+
                             {this.state.loading &&
-                                <Loader
-                                    color="black"
-                                    weight="500"
-                                    locale={strings.loading}
-                                    loading={this.state.loading}
-                                />}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
                             {this.state.isError &&
-                                <Errors class="alert alert-danger p-2" value={this.state.error} />}
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </Grid>}
+
+
                             {this.state.showResult && this.state.move &&
                                 <>
-                                    <MoveCardTitle move={this.state.move} />
-                                    <div className="row m-0 p-0">
-                                        {this.state.move.MoveCategory === "Charge Move" ?
-                                            <ChargeMove move={this.state.move} /> :
-                                            <QuickMove move={this.state.move} />}
-                                    </div>
+                                    <Grid item xs={12}>
+                                        <MoveCardTitle move={this.state.move} />
+                                    </Grid>
 
-                                    <DoubleSlider
-                                        onClick={this.onClick}
+                                    <Grid item xs={12}>
+                                        <CardBody move={this.state.move} />
+                                    </Grid>
 
-                                        attr1="eff"
-                                        title1={strings.vunlist}
-                                        active1={this.state.active.eff}
-
-                                        attr2="use"
-                                        title2={strings.used}
-                                        active2={this.state.active.use}
-                                    />
-                                    <UnmountClosed isOpened={this.state.active.eff}>
-                                        <div className={"row m-0"}>
-                                            <EffTable
-                                                type={[this.state.move.MoveType]}
-                                                reverse={true}
-                                            />
-                                        </div>
-                                    </UnmountClosed>
-                                    <UnmountClosed isOpened={this.state.active.use}>
-                                        <UsesList
-                                            move={this.state.move}
-                                            pokTable={this.props.bases.pokemonBase}
+                                    <Grid item xs={12}>
+                                        <DoubleSlider
+                                            onClick={this.onClick}
+                                            attrs={["eff", "use"]}
+                                            titles={[strings.vunlist, strings.used]}
+                                            active={[Boolean(this.state.active.eff), Boolean(this.state.active.use)]}
                                         />
-                                    </UnmountClosed>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <SliderBody move={this.state.move} active={this.state.active} pokemonBase={this.props.bases.pokemonBase} />
+                                    </Grid>
                                 </>}
-                        </div>
-                    </div>
-                </div >
-            </>
+
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }

@@ -1,54 +1,53 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PveResListSort from "./PveResListSort/PveResListSort"
+import PveResListSort from "./PveResListSort/PveResListSort";
 
-class PveResListFilter extends React.Component {
-    applyUniqueFilter() {
-        if (this.props.filter.unique) {
-            let list = {}
-            return this.props.list.filter(elem => {
-                const lastPokIndex = elem.Party.length - 1
-                //check entry in local dict
-                switch (list[`${elem.Party[lastPokIndex].Name}${String(elem.Party[lastPokIndex].IsShadow) === "true"}`]) {
-                    //if it exists
-                    case true:
-                        //otherwise exclude
-                        return false
-                    default:
-                        list[`${elem.Party[lastPokIndex].Name}${String(elem.Party[lastPokIndex].IsShadow) === "true"}`] = true
-                        //and return include it
-                        return true
-                }
-            })
-        } else {
-            return this.props.list
-        }
+const PveResListFilter = React.memo(function PveResListFilter(props) {
+    const { filter, children, ...other } = props;
+
+    const applyUniqueFilter = () => {
+        let list = {}
+        return children.filter(elem => {
+            const lastPokIndex = elem.Party.length - 1
+            //check entry in local dict
+            switch (list[`${elem.Party[lastPokIndex].Name}${String(elem.Party[lastPokIndex].IsShadow)}`]) {
+                case true:
+                    //if it exists, exclude pokemon
+                    return false
+                default:
+                    //if it not exists, include it in both result and dict
+                    list[`${elem.Party[lastPokIndex].Name}${String(elem.Party[lastPokIndex].IsShadow)}`] = true
+                    return true
+            }
+        })
     }
 
-    render() {
-        return (
-            <PveResListSort
-                needsAvg={this.props.needsAvg}
-                n={this.props.n}
-                customResult={this.props.customResult}
+    return (
+        <PveResListSort {...other}>
+            {filter.unique ? applyUniqueFilter() : children}
+        </PveResListSort>
+    )
+});
 
-                snapshot={this.props.snapshot}
-                tables={this.props.tables}
+export default PveResListFilter;
 
-                pokemonTable={this.props.pokemonTable}
-                moveTable={this.props.moveTable}
-                pokList={this.props.pokList}
-                chargeMoveList={this.props.chargeMoveList}
-                quickMoveList={this.props.quickMoveList}
+PveResListFilter.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.object),
 
-                showBreakpoints={this.props.showBreakpoints}
+    needsAvg: PropTypes.bool,
+    n: PropTypes.number,
+    customResult: PropTypes.bool,
 
-                sort={this.props.sort}
-                list={this.applyUniqueFilter()}
-                loadMore={this.props.loadMore}
-            />
-        );
-    }
-}
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
 
-export default PveResListFilter
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    filter: PropTypes.object,
+    sort: PropTypes.string,
+
+    showBreakpoints: PropTypes.func,
+    loadMore: PropTypes.func,
+};

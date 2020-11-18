@@ -2,46 +2,55 @@ import React from "react"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Snackbar from '@material-ui/core/Snackbar';
+import SaveIcon from '@material-ui/icons/Save';
+
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
 import EditMenu from "./EditMenu/EditMenu"
-import MagicBox from "../../PvP/components/MagicBox/MagicBox"
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import Errors from "../../PvP/components/Errors/Errors"
-import Loader from "../../PvpRating/Loader"
-import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
-import PokemonPanel from "../../PvE/Components/Panels/PokemonPanel/PokemonPanel"
+import MagicBox from "App/PvP/components/MagicBox/MagicBox"
+import SiteHelm from "App/SiteHelm/SiteHelm"
+import Button from "App/Components/Button/Button"
+import PokemonPanel from "App/PvE/Components/Panels/PokemonPanel/PokemonPanel"
 import PokemonBox from "./PokemonBox/PokemonBox"
 import PartyBox from "./PartyBox/PartyBox"
 
-import { refresh } from "../../../AppStore/Actions/refresh"
-import { setCustomPokemon } from "../../../AppStore/Actions/actions"
-import { getCustomPokemon } from "../../../AppStore/Actions/getCustomPokemon"
-import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import { getMoveBase } from "../../../AppStore/Actions/getMoveBase"
-import { getCustomMoves } from "../../../AppStore/Actions/getCustomMoves"
-import { getCookie } from "../../../js/getCookie"
-import { userLocale } from "../../../locale/userLocale"
-import { locale } from "../../../locale/locale"
-import { returnMovePool, separateMovebase, getUserPok, checkLvl, checkIV, selectQuickRaids, selectChargeRaids, calculateCP } from "../../../js/indexFunctions"
-import { translareMove, translateName } from "./translator"
+import { refresh } from "AppStore/Actions/refresh";
+import { setCustomPokemon } from "AppStore/Actions/actions";
+import { getCustomPokemon } from "AppStore/Actions/getCustomPokemon";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getCustomMoves } from "AppStore/Actions/getCustomMoves";
+import { getCookie } from "js/getCookie";
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { separateMovebase } from "js/separateMovebase";
+import { userLocale } from "locale/UserPage/CustomPokemons/CustomPokemons";
 
-import "./CustomPokemon.scss"
+import { getUserPok } from "js/defaultObjects/getUserPok";
+import { calculateCP } from "js/cp/calculateCP";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
+import { selectQuickRaids } from "js/MoveSelector/selectQuickRaids";
+import { selectChargeRaids } from "js/MoveSelector/selectChargeRaids";
+import { translareMove, translateName } from "./translator";
 
 let strings = new LocalizedStrings(userLocale);
-let pvpStrings = new LocalizedStrings(locale);
-
 
 class CustomPokemon extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        pvpStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             activePokemon: getUserPok(),
-            editPokemon: {},
-            showEdit: false,
+            activePokemonNotOk: {},
 
-            notOk: {},
-            editNotOk: {},
+            editPokemon: {},
+            editPokemonNotOk: {},
+
+            showEdit: false,
 
             pokList: {},
             moveTable: {},
@@ -123,18 +132,21 @@ class CustomPokemon extends React.PureComponent {
     }
 
     returnPokList(pokBase) {
-        return Object.entries(pokBase).map((value) => ({ value: value[0], label: <div style={{ textAlign: "left" }}>{value[0]}</div>, }))
+        return Object.entries(pokBase).map((value) => ({ value: value[0], title: value[0], }))
     }
 
-    onMenuClose(event) {
-        let role = event.target.getAttribute("attr")
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-
+    onCloseOuterMenu(event, attributes) {
+        let attr = attributes.attr
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: !this.state[attr],
+        })
+    }
+
+    onMenuClose(event, attributes) {
+        let attr = attributes.attr
+        this.setState({
+            [attr]: {
+                ...this.state[attr],
                 showMenu: false,
                 isSelected: undefined,
             }
@@ -142,150 +154,157 @@ class CustomPokemon extends React.PureComponent {
     }
 
 
-    onNameChange(event, name) {
+    onNameChange(value, name) {
         //get movepool
-        switch (name) {
-            case "attackerObj":
-                var moves = returnMovePool(event.value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
-                break
-            case "supportPokemon":
-                moves = returnMovePool(event.value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
-                break
-            default:
-                moves = returnMovePool(event.value, this.props.bases.pokemonBase, pvpStrings.options.moveSelect, true)
-        }
+        var moves = new MovePoolBuilder();
+        moves.createMovePool(value, this.props.bases.pokemonBase, strings.moveSelect)
+        const quickMove = selectQuickRaids(moves.quickMovePool, this.state.moveTable, value, this.props.bases.pokemonBase)
+        const chargeMove = selectChargeRaids(moves.chargeMovePool, this.state.moveTable, value, this.props.bases.pokemonBase)
         //set state
         this.setState({
             [name]: {
                 ...this.state[name],
-                Name: event.value,
+                Name: value,
                 quickMovePool: moves.quickMovePool,
                 chargeMovePool: moves.chargeMovePool,
-                QuickMove: selectQuickRaids(moves.quickMovePool, this.state.moveTable, event.value, this.props.bases.pokemonBase),
-                ChargeMove: selectChargeRaids(moves.chargeMovePool, this.state.moveTable, event.value, this.props.bases.pokemonBase),
+                QuickMove: quickMove,
+                ChargeMove: chargeMove,
                 ChargeMove2: "",
             },
-        });
-    }
-
-
-    onIvChange(event, role) {
-        this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: checkIV(event.target.value) + "",
-            },
-        });
-    }
-
-    onLevelChange(event, role) {
-        this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: checkLvl(event.target.value) + "",
-            },
-        });
-    }
-
-    onTypeChange(event, role) {
-        this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: event.target.value,
+            [`${name}NotOk`]: {
+                ...this.state[`${name}NotOk`],
+                Name: this.check(value, "Name"),
+                QuickMove: this.check(quickMove, "QuickMove"),
+                ChargeMove: this.check(chargeMove, "ChargeMove"),
             },
         });
     }
 
 
-    onMoveAdd(value, attr, category) {
-        switch (category.includes("Charge")) {
-            case true:
-                var newMovePool = [...this.state[attr].chargeMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        chargeMovePool: newMovePool,
-                        [category]: value,
-                    },
-                });
-                break
-            default:
-                newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        quickMovePool: newMovePool,
-                        [category]: value,
-                    },
-                });
-                break
+    onIvChange(event, attr) {
+        this.setState({
+            [attr]: {
+                ...this.state[attr],
+                [event.target.name]: String(checkIV(event.target.value)),
+            },
+        });
+    }
+
+    onLevelChange(event, attr) {
+        this.setState({
+            [attr]: {
+                ...this.state[attr],
+                [event.target.name]: String(checkLvl(event.target.value)),
+            },
+        });
+    }
+
+    onMoveAdd(value, attr, name) {
+        const pool = name.includes("Charge") ? "chargeMovePool" : "quickMovePool";
+        let newMovePool = [...this.state[attr][pool]];
+
+        if (!newMovePool.some(e => e.value === value)) {
+            newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
         }
+
+        const selectedObject = {
+            ...this.state[attr],
+            showMenu: false,
+            isSelected: undefined,
+            [pool]: newMovePool,
+            [name]: value,
+        }
+
+        this.setState({
+            [attr]: selectedObject,
+            [`${attr}NotOk`]: {
+                ...this.state[`${attr}NotOk`],
+                [name]: this.check(value, name),
+                ChargeMove: selectedObject.ChargeMove === "" && selectedObject.ChargeMove2 === "" ?
+                    this.check(value, "ChargeMove") : "",
+            },
+        });
+    }
+
+    onChargeChange(event, attr) {
+        const selectedObject = {
+            ...this.state[attr],
+            [event.target.name]: event.target.value
+        }
+        this.setState({
+            [attr]: selectedObject,
+            [`${attr}NotOk`]: {
+                ...this.state[`${attr}NotOk`],
+                ChargeMove: selectedObject.ChargeMove === "" && selectedObject.ChargeMove2 === "" ?
+                    this.check(event.target.value, "ChargeMove") : "",
+            },
+        });
     }
 
 
-    onChange(event, name) {
+    onChange(event, atrributes, eventItem, ...other) {
+        const attr = atrributes.attr
+        const name = atrributes.name
         //check if it`s a name change
-        if (event.target === undefined) {
-            switch (name.name[1]) {
-                case "QuickMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
-                case "ChargeMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+        if (eventItem && eventItem.value !== undefined) {
+            switch (name) {
+                case "Name":
+                    this.onNameChange(eventItem.value, attr)
                     return
                 default:
-                    this.onNameChange(event, name.name[0])
+                    this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
-        let role = event.target.getAttribute("attr")
-        //check if it's an iv change
-        if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (event.target.name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
+
         if (event.target.value === "Select...") {
             this.setState({
-                [role]: {
-                    ...this.state[role],
+                [attr]: {
+                    ...this.state[attr],
                     showMenu: true,
-                    isSelected: event.target.name,
+                    isSelected: name,
                 }
             });
             return
         }
-        //if it's an type change
-        if (event.target.name === "IsShadow") {
-            this.onTypeChange(event, role)
+
+        //check if it's an iv change
+        if (name === "Sta" || name === "Def" || name === "Atk") {
+            this.onIvChange(event, attr)
+            return
+        }
+
+        //check if it's an level change
+        if (name === "Lvl") {
+            this.onLevelChange(event, attr)
+            return
+        }
+
+        if (name === "ChargeMove" || name === "ChargeMove2") {
+            this.onChargeChange(event, attr)
             return
         }
         //otherwise follow general pattern
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: event.target.value
-            }
+            [attr]: {
+                ...this.state[attr],
+                [name]: event.target.value
+            },
+            [`${attr}NotOk`]: {
+                ...this.state[`${attr}NotOk`],
+                [name]: this.check(event.target.value, name),
+            },
         });
     }
 
     onPokemonAdd(event) {
-        let attr = event.target.getAttribute("attr")
+        let attr = event.currentTarget.getAttribute("attr")
         if (this.state[attr].length >= 1500) { return }
+
         let err = this.validate(this.state.activePokemon)
-        if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
+        if (Object.values(err).reduce((sum, val) => sum || (val !== ""), false)) {
             this.setState({
-                notOk: err,
+                activePokemonNotOk: err,
             })
             return
         }
@@ -295,37 +314,46 @@ class CustomPokemon extends React.PureComponent {
 
         this.setState({
             [attr]: [...this.state.userPokemon, newPok],
-            notOk: {},
+            activePokemonNotOk: {},
         })
     }
 
     validate(obj) {
-        let errObj = {}
-        if (obj.Name === "") {
-            errObj.Name = strings.userpok.err.errname
+        return {
+            Name: this.check(obj.Name, "Name"),
+            QuickMove: this.check(obj.QuickMove, "QuickMove"),
+            ChargeMove: obj.ChargeMove === "" && obj.ChargeMove2 === "" ? this.check(obj.ChargeMove, "ChargeMove") : "",
         }
-        if (obj.QuickMove === "") {
-            errObj.Quick = strings.userpok.err.errq
+    }
+
+    check(value, type) {
+        switch (type) {
+            case "Name":
+                return value === "" ? strings.userpok.err.errname : ""
+            case "QuickMove":
+                return value === "" ? strings.userpok.err.errq : ""
+            case "ChargeMove":
+                return value === "" ? strings.userpok.err.errch : ""
+            case "ChargeMove2":
+                return value === "" ? strings.userpok.err.errch : ""
+            default:
+                return ""
         }
-        if (obj.ChargeMove === "") {
-            errObj.Charge = strings.userpok.err.errch
-        }
-        return errObj
     }
 
     onPokemonDelete(event) {
-        let attr = event.target.getAttribute("attr")
-        let index = Number(event.target.getAttribute("index"))
-
+        const index = Number(event.index)
         this.setState({
-            [attr]: this.state.userPokemon.filter((val, key) => index !== key),
+            [event.attr]: this.state.userPokemon.filter((val, key) => index !== key),
         })
     }
 
 
     onPokemonEdit(pok) {
         //get movepool
-        var moves = returnMovePool(pok.Name, this.props.bases.pokemonBase, pvpStrings.options.moveSelect)
+        var moves = new MovePoolBuilder();
+        moves.createMovePool(pok.Name, this.props.bases.pokemonBase, strings.moveSelect, false,
+            [pok.QuickMove], [pok.ChargeMove, pok.ChargeMove2])
 
         this.setState({
             showEdit: true,
@@ -340,9 +368,9 @@ class CustomPokemon extends React.PureComponent {
 
     onPokemonEditSubmit() {
         let err = this.validate(this.state.editPokemon)
-        if (Object.values(err).reduce((sum, val) => sum + (val === "" ? false : true), false)) {
+        if (Object.values(err).reduce((sum, val) => sum || (val !== ""), false)) {
             this.setState({
-                editNotOk: err,
+                editPokemonNotOk: err,
             })
             return
         }
@@ -351,27 +379,12 @@ class CustomPokemon extends React.PureComponent {
         this.setState({
             showEdit: false,
             userPokemon: newList,
-            editNotOk: {},
+            editPokemonNotOk: {},
             editPokemon: {},
         })
     }
 
-    onCloseOuterMenu(event) {
-        let role = event.target.getAttribute("attr")
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-        this.setState({
-            [role]: !this.state[role],
-        })
-    }
-
-
-
     onTurnOnImport(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
         this.setState({
             showImport: !this.state.showImport
         });
@@ -383,7 +396,6 @@ class CustomPokemon extends React.PureComponent {
             userPokemon: obj.type === "string" ? this.parseString(obj.value) : this.parseScv(obj.value.slice(1, obj.value.length), obj.value[0])
         });
     }
-
 
     makeGoverningObject(header, toFind, defaults) {
         const objectFields = ["nameIndex", "lvlIndex", "atkIndex", "defIndex", "staIndex", "quickIndex", "chargeIndex", "charge2Index", "isShadowIndex"]
@@ -398,7 +410,6 @@ class CustomPokemon extends React.PureComponent {
         let index = insideArr.findIndex((value) => value === toFind)
         return index === -1 ? defaults : index
     }
-
 
     parseScv(scv, firstRow) {
         switch (true) {
@@ -475,11 +486,8 @@ class CustomPokemon extends React.PureComponent {
 
             importedArr.push({ Name, IsShadow, QuickMove, ChargeMove, ChargeMove2, Lvl, Atk, Def, Sta, CP })
         })
-        if (importedArr.length > 1500) { importedArr.slice(0, 1500) }
-        return importedArr
+        return importedArr.length > 1500 ? importedArr.slice(0, 1500) : importedArr
     }
-
-
 
     parseString(str) {
         let importedList = str.split("\n")
@@ -545,7 +553,7 @@ class CustomPokemon extends React.PureComponent {
             this.props.setCustomPokemon({ Pokemon: this.state.userPokemon, Parties: this.state.userParties })
             //show ok
             this.setState({ submitting: false, ok: true, })
-            await new Promise(res => setTimeout(res, 2500));
+            await new Promise(res => setTimeout(res, 4000));
             this.setState({ ok: false })
         } catch (e) {
             this.setState({
@@ -588,56 +596,66 @@ class CustomPokemon extends React.PureComponent {
 
 
     render() {
+        //const isFalseInput = Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
         return (
-            <div className="col pt-2 px-2">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/pokemon"
                     header={strings.pageheaders.usrpok}
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
-                <div className="row mx-0 justify-content-center" >
-                    {this.state.loading &&
-                        <Loader
-                            color="black"
-                            weight="500"
-                            locale={strings.loading}
-                            loading={this.state.loading}
-                        />}
+                {this.state.loading &&
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
 
-                    {(this.state.showEdit) && <MagicBox
-                        onClick={this.onCloseOuterMenu}
-                        attr={"showEdit"}
-                        element={
-                            <EditMenu
-                                attr="editPokemon"
+                <MagicBox
+                    open={Boolean(this.state.showEdit)}
+                    onClick={this.onCloseOuterMenu}
+                    attr={"showEdit"}
+                >
+                    <EditMenu
+                        attr="editPokemon"
 
+                        pokemonTable={this.props.bases.pokemonBase}
+                        moveTable={this.state.moveTable}
+
+                        pokList={this.state.pokList}
+                        chargeMoveList={this.state.chargeMoveList}
+                        quickMoveList={this.state.quickMoveList}
+
+                        editPokemon={this.state.editPokemon}
+                        notOk={this.state.editPokemonNotOk}
+
+                        onChange={this.onChange}
+                        onMenuClose={this.onMenuClose}
+
+
+                        onPokemonEditSubmit={this.onPokemonEditSubmit}
+                    />
+                </MagicBox>
+                {!this.state.loading && !this.state.error &&
+                    <Grid item xs={12}>
+                        <UserPageContent title={strings.userpok.poktitle}>
+                            <PokemonBox
+                                limit={1500}
+                                attr="userPokemon"
+
+                                onImport={this.onImport}
+                                onTurnOnImport={this.onTurnOnImport}
+                                showImportExportPanel={this.state.showImport}
+
+
+                                onPokemonAdd={this.onPokemonAdd}
+                                onPokemonDelete={this.onPokemonDelete}
+                                onPokemonEdit={this.onPokemonEdit}
+
+                                notOk={this.state.activePokemonNotOk}
                                 pokemonTable={this.props.bases.pokemonBase}
                                 moveTable={this.state.moveTable}
-
-                                pokList={this.state.pokList}
-                                chargeMoveList={this.state.chargeMoveList}
-                                quickMoveList={this.state.quickMoveList}
-
-                                editPokemon={this.state.editPokemon}
-                                editNotOk={this.state.editNotOk}
-
-                                onChange={this.onChange}
-                                onMenuClose={this.onMenuClose}
-
-
-                                onPokemonEditSubmit={this.onPokemonEditSubmit}
-
-                            />}
-
-                    />}
-
-                    {!this.state.loading && !this.state.error &&
-                        <>
-                            <div className="col-12 pt-2 text-center">
-                                <div className="user-pokemon__title col-12 px-0 mb-4">{strings.userpok.poktitle}</div>
-                            </div>
-                            <div className="col-12">
+                                userList={this.state.userPokemon}
+                            >
                                 <PokemonPanel
                                     attr="activePokemon"
                                     canBeShadow={true}
@@ -652,45 +670,19 @@ class CustomPokemon extends React.PureComponent {
                                     quickMoveList={this.state.quickMoveList}
 
                                     value={this.state.activePokemon}
+                                    notOk={this.state.activePokemonNotOk}
 
                                     onChange={this.onChange}
 
                                     onClick={this.onMenuClose}
                                 />
-                            </div>
-                            {Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false) &&
-                                <div className="col-12 pt-2">
-                                    <Errors class="alert alert-danger p-2" value={
-                                        Object.values(this.state.notOk).reduce((sum, val, index) => {
-                                            sum.push(<div key={index} className="col-12 py-1">{val}</div>)
-                                            return sum
-                                        }, [])
-                                    }
-                                    />
-                                </div>}
-                            <div className="col-12 pt-2">
-                                <PokemonBox
-                                    limit={1500}
-                                    attr="userPokemon"
-
-                                    onImport={this.onImport}
-                                    onTurnOnImport={this.onTurnOnImport}
-                                    showImportExportPanel={this.state.showImport}
+                            </PokemonBox>
 
 
-                                    onPokemonAdd={this.onPokemonAdd}
-                                    onPokemonDelete={this.onPokemonDelete}
-                                    onPokemonEdit={this.onPokemonEdit}
+                        </UserPageContent>
 
-                                    pokemonTable={this.props.bases.pokemonBase}
-                                    moveTable={this.state.moveTable}
-                                    userList={this.state.userPokemon}
-                                />
-                            </div>
-                            <div className="col-12 pt-2 text-center">
-                                <div className="user-pokemon__title col-12 px-0 mt-2 mb-4">{strings.userpok.grouptitle}</div>
-                            </div>
-                            <div className="col-12">
+                        <Box mt={5}>
+                            <UserPageContent title={strings.userpok.grouptitle}>
                                 <PartyBox
                                     limit={24}
                                     attr="userParties"
@@ -704,28 +696,34 @@ class CustomPokemon extends React.PureComponent {
                                     onGroupAdd={this.onGroupAdd}
                                     onGroupDelete={this.onGroupDelete}
                                 />
-                            </div>
-                        </>}
+                            </UserPageContent>
+                        </Box>
+                    </Grid>}
 
-
-
-                    {!this.state.error && this.state.userPokemon && <div className="col-12 px-1">
-                        <div className="row m-0 py-2 mb-2 justify-content-center">
-                            <AuthButton
+                {!this.state.loading && this.state.userPokemon &&
+                    <Grid item container xs={12} justify="center">
+                        <Box pt={3}>
+                            <Button
                                 loading={this.state.submitting}
-                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
+                                title={strings.userpok.changes}
                                 onClick={this.onSaveChanges}
                                 disabled={false}
+                                endIcon={<SaveIcon />}
                             />
-                        </div>
-                    </div>}
+                        </Box>
+                    </Grid>}
 
-                    {!!this.state.error &&
-                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Errors class="alert alert-danger p-2" value={this.state.error} />
-                        </div>}
-                </div>
-            </div>
+                {!!this.state.error &&
+                    <Grid item xs={12} md={10} lg={9} >
+                        <Box pt={3}>
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                        </Box>
+                    </Grid>}
+
+                <Snackbar open={this.state.ok} onClose={() => { this.setState({ ok: false }) }}>
+                    <Alert variant="filled" severity="success">{strings.success}</Alert >
+                </Snackbar>
+            </Grid>
         );
     }
 }

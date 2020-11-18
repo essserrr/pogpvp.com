@@ -1,20 +1,24 @@
 import React from "react";
 import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import SelectGroup from "../SelectGroup/SelectGroup"
-import Checkbox from "../../../RaidsList/Checkbox/Checkbox"
-import SubmitButton from "../SubmitButton/SubmitButton"
-import Errors from "../Errors/Errors"
+import Alert from '@material-ui/lab/Alert';
+import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import { locale } from "../../../../locale/locale"
-import { getCookie } from "../../../../js/getCookie"
+import ConstructorPlayer from "./ConstructorPlayer/ConstructorPlayer";
+import Button from "App/Components/Button/Button";
 
-let strings = new LocalizedStrings(locale);
+import { constr } from "locale/Pvp/Constructor/Constructor";
+import { getCookie } from "js/getCookie";
+
+let constrStrings = new LocalizedStrings(constr);
 
 class Constructor extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        constrStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             Attacker: {
                 Action: "Default",
@@ -59,7 +63,7 @@ class Constructor extends React.PureComponent {
         }
         if ((this.props.moveTable[chargeName].PvpEnergy + pokEnergy) >= 0) {
             array.push(
-                <option value={chargeName} key={chargeName + role + index}>{chargeName}</option>
+                <MenuItem value={chargeName} key={chargeName + role + index}>{chargeName}</MenuItem>
             )
             return true
         }
@@ -67,13 +71,13 @@ class Constructor extends React.PureComponent {
     }
 
     createList(role) {
-        let list = [<option value="Default" key={"default" + role}>{strings.constructor.default}</option>,]
+        let list = [<MenuItem value="Default" key={"default" + role}>{constrStrings.constructor.default}</MenuItem>,]
         let containCharge = false
         switch (this.props.log[this.props.round][role].ActionCode === 1 || this.props.log[this.props.round][role].ActionCode === 11 ||
         this.props.log[this.props.round][role].ActionCode === 0) {
             case true:
                 list.push(
-                    <option value={this.props[role].QuickMove} key={this.props[role].QuickMove + role}>{this.props[role].QuickMove}</option>
+                    <MenuItem value={this.props[role].QuickMove} key={this.props[role].QuickMove + role}>{this.props[role].QuickMove}</MenuItem>
                 )
                 containCharge += this.appendCharge(this.props[role].ChargeMove1, this.props.log[this.props.round - 1][role].Energy,
                     list, role, 1)
@@ -85,107 +89,118 @@ class Constructor extends React.PureComponent {
         return { list: list, containCharge: containCharge, }
     }
 
-    onChange(event) {
-        let role = event.target.getAttribute("attr")
-        let value = event.target.value
-        if (event.target.name === "IsShield" || event.target.name === "IsTriggered") {
-            value = !this.state[role][event.target.name]
-        }
-        if (event.target.name === "Action" && value !== "Default" && this.props.moveTable[value].Probability === 1) {
-            this.setState({
-                [role]: {
-                    ...this.state[role],
-                    [event.target.name]: value,
-                    IsTriggered: true,
-                }
-            })
+    onChange(event, attributes, eventItem, ...other) {
+        const name = attributes.name;
+        const role = attributes.attr;
+
+        if (name === "Action") {
+            this.onActionChange(event.target.value, name, role)
             return
         }
-
 
         this.setState({
             [role]: {
                 ...this.state[role],
-                [event.target.name]: value,
+                [name]: eventItem,
+            }
+        })
+    }
+
+    onActionChange(value, name, role) {
+        const pokemonStatus = this.props.log[this.props.round][role];
+        const selectedMove = this.props.moveTable[value];
+
+        const triggered = value === "Default" ?
+            pokemonStatus.StageA !== 0 || pokemonStatus.StageD !== 0
+            :
+            selectedMove.Probability === 1;
+
+        this.setState({
+            [role]: {
+                ...this.state[role],
+                [name]: value,
+                IsTriggered: triggered,
             }
         })
     }
 
     findNext(role, constr) {
-        let roundsToMove = 0
-        let toLoop = true
-        let upperNotFound = false
-        for (let i = this.props.round; toLoop; i++) {
-            if (!this.props.log[i]) {
-                toLoop = false
-                upperNotFound = true
-                break
-            }
-            switch (this.props.log[i][role].ActionCode) {
-                case 0:
-                    roundsToMove++
-                    break
-                default:
-                    toLoop = false
-                    break
+        let newConstr = { ...constr };
+        let roundsToMove = 0;
+        let actionNotFound = true;
+
+        //cont rounds to next move
+        for (let i = this.props.round; true; i++) {
+            const round = this.props.log[i]
+            if (!round) { break; }
+
+            if (round[role].ActionCode === 0) {
+                roundsToMove++
+            } else {
+                actionNotFound = false;
+                break;
             }
         }
 
-        switch (upperNotFound) {
+        switch (actionNotFound) {
             case true:
-                roundsToMove = 0
-                toLoop = true
-                upperNotFound = false
-
-                //check if energy is enough to use a charge move
-                if (this.props[role].ChargeMove1 &&
-                    (this.props.moveTable[this.props[role].ChargeMove1].PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
-                    constr[role].WhatToSkip = 2
-                    break
-                }
-
-                if (this.props[role].ChargeMove2 &&
-                    (this.props.moveTable[this.props[role].ChargeMove2].PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
-                    constr[role].WhatToSkip = 1
-                    break
-                }
-
-
-                //if non of charge moves are usable, set up duration of quick move
-                for (let i = this.props.round; toLoop; i--) {
-                    if (this.props.log[i].Round === 0) {
-                        toLoop = false
-                    }
-                    switch (this.props.log[i][role].ActionCode) {
-                        case 0:
-                            roundsToMove++
-                            break
-                        default:
-                            toLoop = false
-                            break
-                    }
-                }
-                constr[role].RoundsToDamage = (((this.props.moveTable[this.props[role].QuickMove].PvpDuration - roundsToMove) < 0) ?
-                    0 : this.props.moveTable[this.props[role].QuickMove].PvpDuration - roundsToMove)
-                constr[role].MoveCooldown = (((this.props.moveTable[this.props[role].QuickMove].PvpDurationSeconds - roundsToMove) < 0) ?
-                    0 : this.props.moveTable[this.props[role].QuickMove].PvpDurationSeconds - roundsToMove)
+                newConstr = this.selectAction(role, newConstr)
                 break
             default:
-                constr[role].RoundsToDamage = roundsToMove
-                constr[role].MoveCooldown = roundsToMove + 1
+                newConstr[role].RoundsToDamage = roundsToMove
+                newConstr[role].MoveCooldown = roundsToMove + 1
         }
+        return newConstr
+    }
+
+    selectAction(role, constr) {
+        const pokemon = this.props[role];
+
+        //check if energy is enough to use a charge move
+        const chargeMove1 = this.props.moveTable[pokemon.ChargeMove1];
+        if (chargeMove1 && (chargeMove1.PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
+            constr[role].WhatToSkip = 2
+            return constr
+        }
+
+        const chargeMove2 = this.props.moveTable[pokemon.ChargeMove2];
+        if (chargeMove2 && (chargeMove2.PvpEnergy + this.props.log[this.props.round - 1][role].Energy) >= 0) {
+            constr[role].WhatToSkip = 1
+            return constr
+        }
+
+        let roundsToMove = 0;
+        //if non of charge moves are usable, set up duration of quick move
+        for (let i = this.props.round; true; i--) {
+            const round = this.props.log[i]
+            if (round.Round === 0) { break }
+
+            if (round[role].ActionCode === 0) {
+                roundsToMove++
+            } else {
+                break;
+            }
+        }
+
+        const quickMove = this.props.moveTable[pokemon.QuickMove];
+        constr[role].RoundsToDamage = (quickMove.PvpDuration - roundsToMove) < 0 ? 0 : quickMove.PvpDuration - roundsToMove;
+        constr[role].MoveCooldown = (quickMove.PvpDurationSeconds - roundsToMove) < 0 ? 0 : quickMove.PvpDurationSeconds - roundsToMove;
+        return constr;
     }
 
     buildConstrObj(pokState, role, constr) {
+        const thisRound = this.props.log[this.props.round];
+        const activeMove = this.props.moveTable[pokState.Action];
+
         //check if an action = default
         switch (pokState.Action) {
             case "Default":
                 //if the action = default, check action code of this round 
-                switch (this.props.log[this.props.round][role].ActionCode) {
+                switch (thisRound[role].ActionCode) {
                     //if the code = idle
                     case 0:
                         //count rounds to the closest move and set up default action
-                        this.findNext(role, constr)
+                        constr = this.findNext(role, constr)
                         break
                     //if the code = quick move
                     case 1:
@@ -194,22 +209,22 @@ class Constructor extends React.PureComponent {
                         break
                     //if the code is charge move
                     default:
-                        constr[role].WhatToSkip = (this.props[role].ChargeMove1 === this.props.log[this.props.round][role].ActionName ? 2 : 1)
+                        constr[role].WhatToSkip = (this.props[role].ChargeMove1 === thisRound[role].ActionName ? 2 : 1);
                         break
                 }
                 break
             //if action is not default
             default:
                 //create new action
-                switch (this.props.moveTable[pokState.Action].MoveCategory) {
+                switch (activeMove.MoveCategory) {
                     //charge
                     case "Charge Move":
                         constr[role].WhatToSkip = (this.props[role].ChargeMove1 === pokState.Action ? 2 : 1)
                         break
                     //or quick
                     default:
-                        constr[role].RoundsToDamage = this.props.moveTable[pokState.Action].PvpDuration
-                        constr[role].MoveCooldown = this.props.moveTable[pokState.Action].PvpDurationSeconds / 0.5
+                        constr[role].RoundsToDamage = activeMove.PvpDuration
+                        constr[role].MoveCooldown = activeMove.PvpDurationSeconds / 0.5
                         break
                 }
         }
@@ -246,123 +261,99 @@ class Constructor extends React.PureComponent {
         let probability = 0
         switch (this.state[role].Action === "Default") {
             case true:
-                probability = (this.props.log[this.props.round][role].ActionName ?
-                    this.props.moveTable[this.props.log[this.props.round][role].ActionName].Probability : 0)
+                const pokStatus = this.props.log[this.props.round][role];
+                probability = (pokStatus.ActionName ? this.props.moveTable[pokStatus.ActionName].Probability : 0)
                 break
             default:
                 probability = this.props.moveTable[this.state[role].Action].Probability
         }
 
-        if (probability === 1) {
-            probability = 0
-        }
-        return probability
+        if (probability === 1 || probability === 0) { return false }
+        return true
     }
 
     render() {
         return (
-            <div className="row justify-content-center m-0 my-1">
-                {(this.props.lastChangesAt > this.props.round) && <div className="col-12 p-0">
-                    <Errors
-                        class="alert alert-danger m-0 p-2 "
-                        value={strings.constructor.alertchanges1st + this.props.lastChangesAt + strings.constructor.alertchanges2nd}
-                    />
-                </div>}
-                {this.props.stateModified && <div className="col-12 p-0 my-1">
-                    <Errors
-                        class="alert alert-danger p-2 "
-                        value={strings.constructor.alertmodified}
-                    />
-                </div>}
-                <div className="constructor__title col-12 p-0">
-                    {strings.constructor.newaction + this.props.round + ":"}
-                </div>
+            <Grid container justify="center" spacing={1}>
+                <Grid item xs={12}>
 
-                <div className="col-12 p-0">
-                    <SelectGroup
-                        name="Action"
-                        value={this.state.Attacker.Action}
-                        attr={"Attacker"}
-                        onChange={this.onChange}
-                        options={this.state.Attacker.actionList}
-                        label={strings.constructor.attacker}
+                </Grid>
 
-                        place={"top"}
-                        for={"Attacker"}
-                        tip={this.props.Attacker.name}
-                        tipClass="infoTip"
-                    />
-                </div>
-                <div className="constructor--text col-12 d-flex p-0 my-1">
-                    <Checkbox
-                        onChange={this.onChange}
-                        value={this.state.Attacker.IsShield}
-                        checked={(this.state.Attacker.IsShield) ? "checked" : false}
-                        name={"IsShield"}
-                        attr={"Attacker"}
-                        label={strings.constructor.useshield}
-                        isDisabled={(this.props.agregatedParams.Attacker.Shields === 0) || !this.state.Defender.containCharge}
+                {this.props.lastChangesAt > this.props.round &&
+                    <Grid item xs={12}>
+                        <Alert variant="filled" severity="error">{`${constrStrings.constructor.alertchanges1st} ${this.props.lastChangesAt}${constrStrings.constructor.alertchanges2nd}`}</Alert >
+                    </Grid>}
 
-                    />
-                    <Checkbox
-                        onChange={this.onChange}
-                        value={this.state.Attacker.IsTriggered}
-                        isDisabled={!this.haveTrigger("Attacker")}
+                {this.props.stateModified &&
+                    <Grid item xs={12}>
+                        <Alert variant="filled" severity="error">{constrStrings.constructor.alertmodified}</Alert >
+                    </Grid>}
 
-                        checked={this.state.Attacker.IsTriggered ? "checked" : false}
-                        name={"IsTriggered"}
-                        attr={"Attacker"}
-                        label={strings.constructor.trigger}
-                    />
-                </div>
-                <div className="col-12 p-0">
-                    <SelectGroup
-                        name="Action"
-                        value={this.state.Defender.Action}
-                        attr={"Defender"}
-                        onChange={this.onChange}
-                        options={this.state.Defender.actionList}
-                        label={strings.constructor.defender}
+                <Grid item xs={12}>
+                    <Typography variant="h6">
+                        {constrStrings.constructor.newaction + this.props.round + ":"}
+                    </Typography>
+                </Grid>
 
-                        place={"top"}
-                        for={"Defender"}
-                        tip={this.props.Defender.name}
-                        tipClass="infoTip"
-                    />
-                </div>
-                <div className="constructor--text col-12 d-flex p-0 my-1 mb-3">
-                    <Checkbox
-                        onChange={this.onChange}
-                        value={this.state.Defender.IsShield}
-                        checked={(this.state.Defender.IsShield) ? "checked" : false}
-                        name={"IsShield"}
-                        attr={"Defender"}
-                        label={strings.constructor.useshield}
-                        isDisabled={(this.props.agregatedParams.Defender.Shields === 0) || !this.state.Attacker.containCharge}
-                    />
-                    <Checkbox
-                        onChange={this.onChange}
-                        value={this.state.Defender.IsTriggered}
-                        isDisabled={!this.haveTrigger("Defender")}
-                        checked={this.state.Defender.IsTriggered ? "checked" : false}
-                        name={"IsTriggered"}
-                        attr={"Defender"}
+                {this.state.Attacker.actionList.length > 0 &&
+                    <Grid item xs={12}>
 
-                        label={strings.constructor.trigger}
-                    />
-                </div>
-                <SubmitButton
-                    class="submit-button--lg btn btn-primary"
-                    action="Let's Battle"
-                    onSubmit={this.onSubmit}
-                >
-                    {strings.constructor.submit}
-                </SubmitButton>
-            </div>
+                        <ConstructorPlayer
+                            attr="Attacker"
+                            pokName={this.props.Attacker.name}
+                            label={constrStrings.constructor.attacker}
+
+                            onChange={this.onChange}
+
+                            shiledsDisabled={(this.props.agregatedParams.Attacker.Shields === 0) || !this.state.Defender.containCharge}
+                            triggerDisabled={!this.haveTrigger("Attacker")}
+                        >
+                            {this.state.Attacker}
+                        </ConstructorPlayer>
+
+                    </Grid>}
+
+                {this.state.Defender.actionList.length > 0 &&
+                    <Grid item xs={12}>
+
+                        <ConstructorPlayer
+                            attr="Defender"
+                            pokName={this.props.Defender.name}
+                            label={constrStrings.constructor.defender}
+
+                            onChange={this.onChange}
+
+                            shiledsDisabled={(this.props.agregatedParams.Defender.Shields === 0) || !this.state.Attacker.containCharge}
+                            triggerDisabled={!this.haveTrigger("Defender")}
+                        >
+                            {this.state.Defender}
+                        </ConstructorPlayer>
+
+                    </Grid>}
+
+                <Grid item xs="auto">
+                    <Button title={constrStrings.constructor.submit} onClick={this.onSubmit} />
+                </Grid>
+
+            </Grid>
         )
     }
 
 }
 
-
 export default Constructor;
+
+Constructor.propTypes = {
+    log: PropTypes.array,
+    round: PropTypes.number,
+
+    Attacker: PropTypes.object,
+    Defender: PropTypes.object,
+    moveTable: PropTypes.object,
+    agregatedParams: PropTypes.object,
+
+    submitConstructor: PropTypes.func,
+
+    lastChangesAt: PropTypes.number,
+    stateModified: PropTypes.bool,
+};

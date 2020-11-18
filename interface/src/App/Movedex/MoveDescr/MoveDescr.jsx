@@ -1,38 +1,47 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
 
-import { getCookie } from "../../../js/getCookie"
-import { dexLocale } from "../../../locale/dexLocale"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Movedex/Movedex";
 
 let strings = new LocalizedStrings(dexLocale);
 
-const MoveDescr = React.memo(function (props) {
+const MoveDescr = React.memo(function MoveDescr(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
     return (
-        <>
-            <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left m-0 px-1 py-1" >
-                <span className="font-weight-bold">{strings.mt.rd}</span> - {strings.tip.rd}
-            </p>
-            <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left m-0 px-1 py-1" >
-                <span className="font-weight-bold">{strings.mt.re}</span> - {strings.tip.re}
-            </p>
-            <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left m-0 px-1 py-1" >
-                <span className="font-weight-bold">{strings.mt.cd}</span> - {strings.tip.cd}
-            </p>
-            <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left m-0 px-1 py-1" >
-                <span className="font-weight-bold">{strings.mt.pd}</span> - {strings.tip.pd}
-            </p>
-            <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left m-0 px-1 py-1" >
-                <span className="font-weight-bold">{strings.mt.pe}</span> - {strings.tip.pe}
-            </p>
-            <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left m-0 px-1 py-1" >
-                <span className="font-weight-bold">{strings.mt.dr}</span> - {strings.tip.dr}
-            </p>
-            <p className="col-12 col-sm-6 col-md-4 text-center text-sm-left m-0 px-1 py-1" >
-                <span className="font-weight-bold">{strings.mt.ef}</span> - {strings.tip.ef}
-            </p>
-        </>
+        <Grid container justify="flex-start" spacing={1}>
+            <Grid item xs={12} sm={6} md={4}>
+                <Box component="span" fontWeight="bold">{strings.mt.rd}</Box> - {strings.tip.rd}
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+                <Box component="span" fontWeight="bold">{strings.mt.re}</Box> - {strings.tip.re}
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+                <Box component="span" fontWeight="bold">{strings.mt.cd}</Box> - {strings.tip.cd}
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+                <Box component="span" fontWeight="bold">{strings.mt.pd}</Box> - {strings.tip.pd}
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+                <Box component="span" fontWeight="bold">{strings.mt.pe}</Box> - {strings.tip.pe}
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+                <Box component="span" fontWeight="bold">{strings.mt.dr}</Box> - {strings.tip.dr}
+            </Grid>
+
+            <Grid item xs={12} sm={6} md={4}>
+                <Box component="span" fontWeight="bold">{strings.mt.ef}</Box> - {strings.tip.ef}
+            </Grid>
+        </Grid>
     )
 
 });

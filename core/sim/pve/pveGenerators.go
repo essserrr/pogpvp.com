@@ -138,8 +138,8 @@ func (po *prerunObj) selectBoosterFromGivenData(pokInDat *app.PokemonInitialData
 			//calculate attacker stats
 			effAtk := (float32(po.inDat.BoostSlotPokemon.AttackIV) + float32(pokVal.Atk)) *
 				po.inDat.App.LevelData[int(po.inDat.BoostSlotPokemon.Level/0.5)]
-			quickMBody := po.inDat.App.PokemonMovesBase[qm]
-			chargeMBody := po.inDat.App.PokemonMovesBase[chm]
+			quickMBody, _ := po.inDat.App.FindMove(po.inDat.CustomMoves, qm)
+			chargeMBody, _ := po.inDat.App.FindMove(po.inDat.CustomMoves, chm)
 
 			dpsQuick, dpsCharge := calculatePokDPS(&quickMBody, &chargeMBody,
 				getMultipliers(&pokVal, &po.bossStat, &quickMBody, po.inDat), getMultipliers(&pokVal, &po.bossStat, &chargeMBody, po.inDat), effAtk/po.bossEffDef)
@@ -249,8 +249,8 @@ func (po *prerunObj) selectBoosterFromDB() {
 				//calculate attacker stats
 				effAtk := (float32(po.inDat.BoostSlotPokemon.AttackIV) + float32(pok.Atk)) *
 					po.inDat.App.LevelData[int(po.inDat.BoostSlotPokemon.Level/0.5)]
-				quickMBody := po.inDat.App.PokemonMovesBase[qm]
-				chargeMBody := po.inDat.App.PokemonMovesBase[chm]
+				quickMBody, _ := po.inDat.App.FindMove(po.inDat.CustomMoves, qm)
+				chargeMBody, _ := po.inDat.App.FindMove(po.inDat.CustomMoves, chm)
 
 				dpsQuick, dpsCharge := calculatePokDPS(&quickMBody, &chargeMBody,
 					getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat), getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat), effAtk/po.bossEffDef)
@@ -403,8 +403,8 @@ func (po *prerunObj) generateForUnknown() {
 				}
 				//calculate attacker stats
 				effAtk := (float32(po.inDat.Pok.AttackIV) + float32(pok.Atk)) * po.inDat.App.LevelData[int(po.inDat.Pok.Level/0.5)]
-				quickMBody := po.inDat.App.PokemonMovesBase[qm]
-				chargeMBody := po.inDat.App.PokemonMovesBase[chm]
+				quickMBody, _ := po.inDat.App.FindMove(po.inDat.CustomMoves, qm)
+				chargeMBody, _ := po.inDat.App.FindMove(po.inDat.CustomMoves, chm)
 
 				dpsQuick, dpsCharge := calculatePokDPS(&quickMBody, &chargeMBody,
 					getMultipliers(&pok, &po.bossStat, &quickMBody, po.inDat), getMultipliers(&pok, &po.bossStat, &chargeMBody, po.inDat), effAtk/po.bossEffDef)

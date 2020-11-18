@@ -1,24 +1,22 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import Filters from "./Filters/Filters"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
+
+import Filters from "App/Userpage/CustomPokemon/PokemonBox/Filters/Filters"
+import PokemonBoxTitle from "App/Userpage/CustomPokemon/PokemonBox/PokemonBoxTitle/PokemonBoxTitle"
+import SubmitRow from "App/Userpage/CustomPokemon/PokemonBox/SubmitRow/SubmitRow"
+
+
 import UserFilteredList from "./UserFilteredList/UserFilteredList"
-import SubmitButton from "../../../PvP/components/SubmitButton/SubmitButton"
-import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
-import ImportExport from "../../../PvP/components/ImportExport/ImportExport"
-
-import { getCookie } from "../../../../js/getCookie"
-import { userLocale } from "../../../../locale/userLocale"
-
-import "./PokemonBox.scss"
-
-let strings = new LocalizedStrings(userLocale)
+import MagicBox from "App/PvP/components/MagicBox/MagicBox"
+import ImportExport from "App/PvP/components/ImportExport/ImportExport"
 
 class PokemonBox extends React.PureComponent {
     constructor(props) {
         super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             showCollapse: false,
 
@@ -39,11 +37,10 @@ class PokemonBox extends React.PureComponent {
         this.onChange = this.onChange.bind(this)
     }
 
-    onChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onChange(event, attributes) {
         this.setState({
-            [attr]: {
-                ...this.state[attr],
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
                 [event.target.name]: event.target.value,
             }
         })
@@ -57,77 +54,91 @@ class PokemonBox extends React.PureComponent {
 
     render() {
         return (
-            <>
-                <div className="row  justify-content-center align-items-center mx-0" >
-                    <SubmitButton
-                        class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"
-                        attr={this.props.attr}
-                        onSubmit={this.props.onPokemonAdd}
-                    >
-                        {strings.userpok.addpok}
-                    </SubmitButton>
-                    <div className="pokbox__text col-12 col-md-auto mx-1 px-0 text-center">{strings.userpok.or}</div>
-                    <SubmitButton
-                        class="submit-button--lg btn btn-primary btn-sm mx-1 my-2"
-                        attr={this.props.attr}
-                        onSubmit={this.props.onTurnOnImport}
-                    >
-                        {strings.impExp}
-                    </SubmitButton>
-                </div>
-
-                <div className="col-12 px-0">
-                    <div className="row mx-0 justify-content-between align-items-center">
-                        <div className="pokbox__text">{`${strings.shbroker.have} (${this.props.userList.length}/${this.props.limit})`}</div>
-                        <div onClick={this.onClick} className="row mx-0 clickable align-items-center">
-                            <div className="pokbox__text">{strings.userpok.filt}</div>
-                            <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg px-2" : "fas fa-angle-down fa-lg px-2"}></i>
-                        </div>
-                    </div>
-                </div>
-
-                {this.props.showImportExportPanel && <MagicBox
+            <Grid container justify="center" spacing={2}>
+                <MagicBox
+                    open={this.props.showImportExportPanel}
                     onClick={this.props.onTurnOnImport}
                     attr={this.props.attr}
-                    element={
-                        <ImportExport
-                            type="userPokemon"
-                            initialValue={Object.values(this.props.userList)}
-                            pokemonTable={this.props.pokemonTable}
+                >
+                    <ImportExport
+                        type="userPokemon"
+                        initialValue={Object.values(this.props.userList)}
+                        pokemonTable={this.props.pokemonTable}
 
-                            action="Import/Export"
-                            attr={this.props.attr}
-                            onChange={this.props.onImport}
-                        />
-                    }
-                />}
-                <div className="col-12 px-0 mt-2 mb-2">
-                    <UnmountClosed isOpened={this.state.showCollapse}>
-                        <Filters
-                            value={this.state.filters}
-                            attr="filters"
-                            onChange={this.onChange}
-                        />
-                    </UnmountClosed>
-                </div>
-                <div className="col-12 px-0 mt-2 mb-2">
+                        action="Import/Export"
+                        attr={this.props.attr}
+                        onChange={this.props.onImport}
+                    />
+                </MagicBox>
+
+                <Grid item xs={12}>
+                    {this.props.children}
+                </Grid>
+                <Grid item xs={12}>
+                    <SubmitRow
+                        attr={this.props.attr}
+                        notOk={this.props.notOk}
+                        onPokemonAdd={this.props.onPokemonAdd}
+                        onTurnOnImport={this.props.onTurnOnImport}
+                    />
+                </Grid>
+
+
+                <Grid item xs={12}>
+                    <PokemonBoxTitle
+                        onClick={this.onClick}
+                        have={this.props.userList.length}
+                        limit={this.props.limit}
+                        showCollapse={this.state.showCollapse}
+                    />
+
+                    <Collapse in={this.state.showCollapse}>
+                        <Box mb={2}>
+                            <Filters
+                                value={this.state.filters}
+                                attr="filters"
+                                onChange={this.onChange}
+                            />
+                        </Box>
+                    </Collapse>
                     <UserFilteredList
                         attr={this.props.attr}
                         moveTable={this.props.moveTable}
                         pokemonTable={this.props.pokemonTable}
 
                         filters={this.state.filters}
-                        userList={this.props.userList}
-
 
                         onPokemonDelete={this.props.onPokemonDelete}
                         onPokemonEdit={this.props.onPokemonEdit}
-                    />
-                </div>
-            </>
+                    >
+                        {this.props.userList}
+                    </UserFilteredList>
+                </Grid>
+            </Grid>
         );
     }
 }
 
-export default PokemonBox
+export default PokemonBox;
+
+SubmitRow.PropTypes = {
+    limit: PropTypes.number,
+    attr: PropTypes.string,
+
+    onImport: PropTypes.func,
+    onTurnOnImport: PropTypes.func,
+    showImportExportPanel: PropTypes.bool,
+
+
+    onPokemonAdd: PropTypes.func,
+    onPokemonDelete: PropTypes.func,
+    onPokemonEdit: PropTypes.func,
+
+    notOk: PropTypes.object,
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+    userList: PropTypes.arrayOf(PropTypes.object),
+
+    children: PropTypes.node.isRequired
+};
 

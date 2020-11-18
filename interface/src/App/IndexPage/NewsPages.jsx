@@ -1,25 +1,28 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 
-import Errors from "../PvP/components/Errors/Errors"
-import Loader from "../PvpRating/Loader"
-import NavigationBlock from "../Pokedex/PokeCard/NavigationBlock/NavigationBlock"
-import News from "./News/News"
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
-import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/getCookie"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import NewsList from "./NewsList/NewsList";
+import NavigationBlock from "App/Pokedex/PokeCard/NavigationBlock/NavigationBlock";
+import IndexPageTitle from "./IndexPageTitle/IndexPageTitle";
 
-import "./NewsPages.scss"
+import { locale } from "locale/News/News";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale)
 
 class NewsPages extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
+            newsList: [],
             nextPageExists: false,
             prevPageExists: false,
             showResult: false,
@@ -67,7 +70,7 @@ class NewsPages extends React.Component {
                 showResult: true,
                 isError: false,
                 loading: false,
-                newsList: this.parseNewsList(result.slice(1)),
+                newsList: result.slice(1),
             })
         } catch (e) {
             this.setState({
@@ -79,68 +82,61 @@ class NewsPages extends React.Component {
         }
     }
 
-
-    parseNewsList(list) {
-        return list.map((elem, i) => {
-            let parsed = JSON.parse(elem)
-            return <Link key={i}
-                to={(navigator.userAgent === "ReactSnap") ? "/" : "/news/id/" + parsed.ID}>
-                <News
-                    class="bolder mx-4 mt-3"
-                    title={parsed.Title}
-                    date={parsed.Date}
-                    description={parsed.ShortDescription}
-                />
-            </Link>
-        })
-    }
-
     render() {
+        const pageNumber = this.props.match.params.number;
+
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/"
                     header={strings.pageheaders.main}
                     descr={strings.pagedescriptions.main}
                 />
-                <div className=" container-fluid mt-3 mb-5">
-                    <div className=" row justify-content-center px-2 pb-2">
-                        <div className="news-pages__body col-md-10 col-lg-8 p-0">
-                            <div className="news-pages__title">
-                                {strings.title.latestnews}
-                            </div>
+                <Grid item xs={10} md={8}>
+                    <GreyPaper elevation={4} >
+                        <Grid container justify="center">
+
+                            <Grid item xs={12}>
+                                <IndexPageTitle />
+                            </Grid>
+
                             {this.state.loading &&
-                                <div className="col-12 mt-0 mb-3 order-lg-2" >
-                                    <Loader
-                                        color="black"
-                                        weight="500"
-                                        locale={strings.tips.loading}
-                                        loading={this.state.loading}
-                                    />
-                                </div>}
-                            {this.state.isError && <Errors class="alert alert-danger m-2 p-2" value={this.state.error} />}
+                                <Grid item xs={12}>
+                                    <LinearProgress color="secondary" />
+                                </ Grid>}
+
+                            {this.state.isError &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                </ Grid>}
+
                             {this.state.showResult && <>
-                                {this.state.newsList && this.state.newsList}
-                                <NavigationBlock
-                                    class="row m-0 px-4 py-2 "
+                                <Grid item xs={12}>
+                                    <Box py={3} px={2}>
+                                        <NewsList>
+                                            {this.state.newsList}
+                                        </NewsList>
+                                    </Box>
+                                </Grid>
 
-                                    prevTitle={this.state.prevPageExists ?
-                                        strings.buttons.nextpage : null}
-                                    nextTitle={this.state.nextPageExists ?
-                                        strings.buttons.prevpage : null}
-                                    prev={this.state.prevPageExists ?
-                                        "/news/page/" + (Number(this.props.match.params.number ? this.props.match.params.number : 1)
-                                            - 1) : null}
-                                    next={this.state.nextPageExists ?
-                                        "/news/page/" + (Number(this.props.match.params.number ? this.props.match.params.number : 1)
-                                            + 1) : null}
-                                />
+                                <Grid item xs={12}>
+                                    <Box px={2} mb={1}>
+                                        <NavigationBlock
+                                            prevTitle={this.state.prevPageExists ? strings.buttons.nextpage : null}
+                                            nextTitle={this.state.nextPageExists ? strings.buttons.prevpage : null}
+
+                                            prev={this.state.prevPageExists ? `/news/page/${(pageNumber ? Number(pageNumber) : 1) - 1}` : null}
+                                            next={this.state.nextPageExists ? `/news/page/${(pageNumber ? Number(pageNumber) : 1) + 1}` : null}
+                                        />
+                                    </Box>
+                                </Grid>
+
                             </>}
-                        </div>
 
-                    </div>
-                </div >
-            </>
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         );
     }
 }

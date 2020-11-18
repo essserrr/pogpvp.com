@@ -1,34 +1,64 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
-import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator"
-import TableBodyRender from "./components/TableBodyRender/TableBodyRender"
-import { addParty } from "../../AppStore/Actions/actions"
-import { deleteParty } from "../../AppStore/Actions/actions"
-import SubmitButton from "./components/SubmitButton/SubmitButton"
-import MatrixPanel from "./components/MatrixPanel"
-import Errors from "./components/Errors/Errors"
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+import Box from '@material-ui/core/Box';
+import { withStyles } from "@material-ui/core/styles";
+
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import Button from "App/Components/Button/Button";
+import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator";
+import TableBodyRender from "./components/TableBodyRender/TableBodyRender";
+import { addParty } from "AppStore/Actions/actions";
+import { deleteParty } from "AppStore/Actions/actions";
+import MatrixPanel from "./components/MatrixPanel";
+import Result from "./components/Result";
+import EditPokemon from "./components/EditPokemon";
+
+import { translareMove, translateName } from "App/Userpage/CustomPokemon/translator";
+import { encodeQueryData } from "js/encoders/encodeQueryData";
+import { capitalizeFirst } from "js/capitalizeFirst";
+import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
+import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets";
 
 
-import { translareMove, translateName } from "../Userpage/CustomPokemon/translator"
-import { encodeQueryData, calculateMaximizedStats, capitalizeFirst } from "../../js/indexFunctions.js"
-import { getCookie } from "../../js/getCookie"
-import { great, greatPremier, ultra, ultraPremier, master, masterPremier } from "./matrixPresets"
-import Result from "./components/Result"
-import RedactPokemon from "./components/RedactPokemon"
-import Loader from "../PvpRating/Loader"
+import { getCookie } from "js/getCookie";
+import { pvp } from "locale/Pvp/Pvp";
+import { options } from "locale/Components/Options/locale";
 
-import "./MatrixPvp.scss"
+const styles = theme => ({
+    matrixPanel: {
+        maxWidth: "208px",
+        minWidth: "208px",
+    },
+    middleRow: {
+        maxWidth: "calc(100% - 416px) !important",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "100% !important",
+        }
+    },
+    overflowCont: {
+        overflowX: "auto",
+        overflowY: "auto",
+        width: "100%",
+        maxHeight: "483px",
+    }
+});
 
-import { locale } from "../../locale/locale"
 
-let strings = new LocalizedStrings(locale)
+let optionStrings = new LocalizedStrings(options)
+let strings = new LocalizedStrings(pvp)
 
 class MatrixPvp extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             leftPanel: {
                 Shields: 0,
@@ -107,28 +137,31 @@ class MatrixPvp extends React.PureComponent {
     }
 
     statMaximizer(event, role) {
-        let max = {
+        const max = {
             ...this.state[role].maximizer,
             [event.target.name]: event.target.value,
         }
 
         let newBattleList = this.state[role].listForBattle.map((pok) => {
-            let ivSet = calculateMaximizedStats(pok.name,
+            const ivSet = calculateMaximizedStats(
+                pok.name,
                 max.level,
                 this.props.pokemonTable,
                 {
-                    great: this.props.parentState.league === "great" ? true : false,
-                    ultra: this.props.parentState.league === "ultra" ? true : false,
-                    master: this.props.parentState.league === "master" ? true : false
-                })
-            let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
+                    great: this.props.parentState.league === "great",
+                    ultra: this.props.parentState.league === "ultra",
+                    master: this.props.parentState.league === "master",
+                });
+            const whatToMaximize = max.action === "Default" ? "Default" : max.stat;
+            const selectedSet = ivSet[this.props.parentState.league][whatToMaximize];
 
-            return Object.assign({}, pok, {
-                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
-            })
+            return {
+                ...pok,
+                Lvl: selectedSet.Level,
+                Atk: selectedSet.Atk,
+                Def: selectedSet.Def,
+                Sta: selectedSet.Sta,
+            }
         });
 
         this.setState({
@@ -142,35 +175,30 @@ class MatrixPvp extends React.PureComponent {
 
     readParties() {
         let partiesList = [
-            <option value="" key="">{""}</option>,
-            <option value="Preset1" key="Preset1">{strings.options.matrixpreset.great}</option>,
-            <option value="Preset2" key="Preset2">{strings.options.matrixpreset.ultra}</option>,
-            <option value="Preset3" key="Preset3">{strings.options.matrixpreset.master}</option>,
-            <option value="Preset4" key="Preset4">{strings.options.matrixpreset.great + strings.options.matrixpreset.pr}</option>,
-            <option value="Preset5" key="Preset5">{strings.options.matrixpreset.ultra + strings.options.matrixpreset.pr}</option>,
-            <option value="Preset6" key="Preset6">{strings.options.matrixpreset.master + strings.options.matrixpreset.pr}</option>,
-            ...Object.keys(this.props.parties.parties).map((key) => <option value={key} key={key}>{key}</option>)
+            <MenuItem value="" key="">{optionStrings.options.moveSelect.none}</MenuItem>,
+            <MenuItem value="Preset1" key="Preset1">{optionStrings.options.matrixpreset.great}</MenuItem>,
+            <MenuItem value="Preset2" key="Preset2">{optionStrings.options.matrixpreset.ultra}</MenuItem>,
+            <MenuItem value="Preset3" key="Preset3">{optionStrings.options.matrixpreset.master}</MenuItem>,
+            <MenuItem value="Preset4" key="Preset4">{optionStrings.options.matrixpreset.great + optionStrings.options.matrixpreset.pr}</MenuItem>,
+            <MenuItem value="Preset5" key="Preset5">{optionStrings.options.matrixpreset.ultra + optionStrings.options.matrixpreset.pr}</MenuItem>,
+            <MenuItem value="Preset6" key="Preset6">{optionStrings.options.matrixpreset.master + optionStrings.options.matrixpreset.pr}</MenuItem>,
+            ...Object.keys(this.props.parties.parties).map((key) => <MenuItem value={key} key={key}>{key}</MenuItem>)
         ]
         return partiesList
     }
 
-    onPopup(event, role) {
-        event.preventDefault();
-        let stat = event.target.getAttribute("stat")
-
+    onPopup(name, role) {
         this.setState({
             [role]: {
                 ...this.state[role],
-                [stat]: true,
+                [name]: true,
             }
         });
     }
 
-    onPartyDelete(event, role) {
+    onPartyDelete(role) {
         let key = this.state[role].selectedParty
-        if (key === "") {
-            return
-        }
+        if (key === "") { return }
         //delete entry
         this.props.deleteParty(key)
         //make new parties list
@@ -351,36 +379,39 @@ class MatrixPvp extends React.PureComponent {
     }
 
 
-    onChange(event) {
-        //otherwise follow general pattern
-        let action = event.target.getAttribute("action")
-        let role = event.target.getAttribute("attr")
-        if (action === "defaultStatMaximizer") {
-            this.statMaximizer(event, role)
-            return
-        }
-        if (action === "Add pokemon" || action === "Save" || action === "Import/Export") {
-            this.onPopup(event, role)
-            return
-        }
-        if (action === "Delete") {
-            this.onPartyDelete(event, role)
-            return
-        }
-        if (event.target.name === "selectedParty") {
-            this.onPartySelect(event, role)
-            return
-        }
-        if (event.target.name === "triple") {
-            this.setState({ triple: !this.state.triple });
+    onChange(event, attributes, eventItem, ...other) {
+        const { attr, name, category } = attributes
+
+        if (category === "defaultStatMaximizer") {
+            this.statMaximizer(event, attr)
             return
         }
 
-        let newBattleList = this.state[role].listForBattle.map(pok => Object.assign({}, pok, { [event.target.name]: event.target.value }));
+        if (name === "showPokSelect" || name === "showSavePanel" || name === "showImportExportPanel") {
+            this.onPopup(name, attr)
+            return
+        }
+
+        if (name === "Delete") {
+            this.onPartyDelete(attr)
+            return
+        }
+
+        if (name === "selectedParty") {
+            this.onPartySelect(event, attr)
+            return
+        }
+
+        if (name === "triple") {
+            this.setState({ triple: eventItem });
+            return
+        }
+
+        let newBattleList = this.state[attr].listForBattle.map(pok => ({ ...pok, [event.target.name]: event.target.value }));
 
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 [event.target.name]: event.target.value,
                 listForBattle: newBattleList,
             },
@@ -388,14 +419,10 @@ class MatrixPvp extends React.PureComponent {
         });
     }
 
-    onClick(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-        let role = event.target.getAttribute("attr")
+    onClick(event, attributes) {
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
                 showPokSelect: false,
                 showSavePanel: false,
                 showImportExportPanel: false,
@@ -403,23 +430,17 @@ class MatrixPvp extends React.PureComponent {
         });
     }
 
-    onPokemonDelete(event) {
-        let role = event.target.getAttribute("attr")
-        let index = event.target.getAttribute("index")
-
-        let newListForBattle = [...this.state[role].listForBattle.slice(0, index), ...this.state[role].listForBattle.slice(index + 1)]
+    onPokemonDelete(event, attributes) {
+        const { name, attr } = attributes;
+        const newListForBattle = [...this.state[attr].listForBattle.slice(0, name), ...this.state[attr].listForBattle.slice(name + 1)];
 
         this.setState({
-            [role]: {
-                ...this.state[role],
+            [attr]: {
+                ...this.state[attr],
                 listForBattle: newListForBattle,
             }
         });
-
-
     }
-
-
 
     submitForm = async event => {
         event.preventDefault();
@@ -526,7 +547,7 @@ class MatrixPvp extends React.PureComponent {
     onPartySave(event) {
         if (!this.props.parties.parties[event.value]) {
             var newList = [...this.state.savedParties]
-            newList.push(<option value={event.value} key={event.value}>{event.value}</option>)
+            newList.push(<MenuItem value={event.value} key={event.value}>{event.value}</MenuItem>)
             this.setState({
                 savedParties: newList,
                 [event.attr]: {
@@ -551,29 +572,22 @@ class MatrixPvp extends React.PureComponent {
         this.props.addParty({ [event.value]: this.state[event.attr].listForBattle })
     }
 
-    onPokRedact(event) {
-        if (event.target.getAttribute("name") === "closeButton") {
-            return
-        }
-        let attr = event.currentTarget.getAttribute("attr")
-        let index = event.currentTarget.getAttribute("index")
+    onPokRedact(event, attributes) {
+        const { name, attr } = attributes;
 
         this.setState({
             redact: {
                 ...this.state.redact,
                 showMenu: true,
                 attr: attr,
-                number: Number(index),
-                pokemon: this.state[attr].listForBattle[index],
+                number: Number(name),
+                pokemon: this.state[attr].listForBattle[name],
             }
         })
 
     }
 
     onPokRedactOff(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
         this.setState({
             redact: {
                 showMenu: false,
@@ -608,19 +622,20 @@ class MatrixPvp extends React.PureComponent {
 
     }
 
-
     onAdvisorSubmit() {
         this.setState({
             showAdvisor: true,
         })
     }
 
-
     render() {
+        const { classes } = this.props;
+
         return (
-            < >
-                <div className="row justify-content-between mb-4"  >
-                    {this.state.redact.showMenu && <RedactPokemon
+            <Grid container justify="space-between" spacing={1}>
+
+                {this.state.redact.showMenu &&
+                    <EditPokemon
                         pokemonTable={this.props.pokemonTable}
                         moveTable={this.props.parentState.moveTable}
                         userPokemon={this.props.userPokemon}
@@ -638,7 +653,9 @@ class MatrixPvp extends React.PureComponent {
                         onClick={this.onPokRedactOff}
                         onPokemonAdd={this.onRedactSubmit}
                     />}
-                    <div className="matrixpvp__results order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
+
+                <Box clone order={{ xs: 1 }}>
+                    <Grid item xs="auto" className={classes.matrixPanel}>
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -668,63 +685,75 @@ class MatrixPvp extends React.PureComponent {
                             onPartySave={this.onPartySave}
                             onImport={this.onImport}
                         />
-                    </div>
+                    </Grid>
+                </Box>
 
+                <Box className={classes.middleRow} clone order={{ xs: 3, md: 2 }}>
+                    <Grid item xs={12} md>
+                        <Grid container spacing={1} style={{ height: "100%" }} alignItems="flex-end">
 
+                            {this.state.showResult && this.state.pvpData && this.state.snapshot &&
+                                <Box clone order={{ xs: 2, md: 1 }} alignSelf="flex-start">
+                                    <Grid item xs={12}>
+                                        <GreyPaper elevation={4} enablePadding paddingMult={1}>
+                                            <Grid item xs={12} className={classes.overflowCont}>
+                                                <Result enableFocus>
+                                                    <TableBodyRender
+                                                        pvpData={this.state.pvpData}
+                                                        pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
 
-                    <div className="matrixpvp--overflow order-3 order-lg-1 col-12 col-lg mt-0 mt-lg-2 mx-0 px-0" >
-                        <div className="row mx-1 h-100"  >
-                            {(this.state.showResult || this.state.isError) &&
-                                <div className="matrixpvp__results align-self-start order-3 order-lg-1 col-12 mt-3 mt-lg-0 p-2 ">
-                                    <div className="row justify-content-center mx-0"  >
-                                        <div className="matrixpvp__overflow-cont order-2 p-0 mx-2 order-lg-1 col-12 ">
-                                            {this.state.showResult && this.state.pvpData && this.state.snapshot &&
-                                                <Result
-                                                    class="matrixpvp__fixed-thead"
-                                                    table={
-                                                        <TableBodyRender
-                                                            pvpData={this.state.pvpData}
-                                                            pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
+                                                        isTriple={this.state.snapshot.triple}
+                                                        league={this.state.snapshot.league}
 
-                                                            isTriple={this.state.snapshot.triple}
-                                                            league={this.state.snapshot.league}
+                                                        pokemonTable={this.props.pokemonTable}
+                                                        moveTable={this.props.parentState.moveTable}
 
-                                                            pokemonTable={this.props.pokemonTable}
-                                                            moveTable={this.props.parentState.moveTable}
+                                                        leftPanel={this.state.snapshot.leftPanel}
+                                                        rightPanel={this.state.snapshot.rightPanel}
+                                                    />
+                                                </Result>
+                                            </Grid>
+                                        </GreyPaper>
+                                    </Grid>
+                                </Box>}
 
-                                                            leftPanel={this.state.snapshot.leftPanel}
-                                                            rightPanel={this.state.snapshot.rightPanel}
-                                                        />
-                                                    }
-                                                />}
-                                            {this.state.isError &&
-                                                <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
-                                        </div>
-                                    </div>
-                                </div>}
-                            {this.state.loading &&
-                                <div className="col-12 mt-2 order-lg-2" >
-                                    <Loader
-                                        color="white"
-                                        weight="500"
-                                        locale={strings.tips.loading}
-                                        loading={this.state.loading}
-                                    />
-                                </div>}
-                            <div className="align-self-end order-1 order-lg-3 col px-0">
-                                <div className="order-2 order-lg-3 d-flex justify-content-center mx-0 px-0 col-12  mt-2 mt-lg-0" >
-                                    <SubmitButton
-                                        action="Let's Battle"
-                                        onSubmit={this.submitForm}
-                                        class="btn btn-primary"
-                                    >
-                                        {strings.buttons.letsbattle}
-                                    </SubmitButton>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="matrixpvp__results order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
+                            < Box clone order={{ xs: 1, md: 2 }} alignSelf="flex-end" >
+                                <Grid item xs={12} container alignItems="center">
+
+                                    <Grid item xs={12} container alignItems="center" wrap="nowrap">
+                                        <Grid item xs container justify="center">
+                                            <Button
+                                                title={strings.buttons.letsbattle}
+                                                onClick={this.submitForm}
+                                            />
+                                        </Grid>
+                                    </Grid>
+
+                                    {this.state.isError &&
+                                        <Box clone mt={1}>
+                                            <Grid item xs={12}>
+                                                <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                            </Grid>
+                                        </Box>}
+
+                                    {this.state.loading &&
+                                        <Box clone mt={1}>
+                                            <Grid item xs={12}>
+                                                <Grid item xs={12}>
+                                                    <LinearProgress color="secondary" />
+                                                </ Grid>
+                                            </Grid>
+                                        </Box>}
+
+                                </Grid>
+                            </Box >
+
+                        </Grid >
+                    </Grid>
+                </Box>
+
+                <Box clone order={{ xs: 2, md: 3 }}>
+                    <Grid item xs="auto" className={classes.matrixPanel}>
                         <MatrixPanel
                             pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
@@ -748,11 +777,13 @@ class MatrixPvp extends React.PureComponent {
                             onPartySave={this.onPartySave}
                             onImport={this.onImport}
                         />
-                    </div>
+                    </Grid>
+                </Box>
 
-                    {!this.state.advDisabled && this.state.snapshot && this.state.showAdvisor &&
-                        <div className="order-6 col-12 p-1 pt-3" >
-                            <div className="row mx-1 justify-content-center"  >
+                {!this.state.advDisabled && this.state.snapshot && this.state.showAdvisor &&
+                    <Box clone order={{ xs: 6 }}>
+                        <Grid item xs={12} container justify="center">
+                            <Grid item xs={12} sm={9} md={7} lg={6}>
                                 <AdvisorCombinator
                                     pvpData={this.state.pvpData}
                                     pvpoke={this.state.snapshot.pvpoke ? "/pvpoke" : ""}
@@ -767,10 +798,10 @@ class MatrixPvp extends React.PureComponent {
                                     leftPanel={this.state.snapshot.leftPanel}
                                     rightPanel={this.state.snapshot.rightPanel}
                                 />
-                            </div>
-                        </div>}
-                </div>
-            </ >
+                            </Grid>
+                        </Grid>
+                    </Box>}
+            </Grid>
         );
     }
 }
@@ -783,13 +814,18 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(
-    state => ({
-        parties: state.parties,
-    }), mapDispatchToProps
-)(MatrixPvp)
+export default withStyles(styles, { withTheme: true })(
+    connect(
+        state => ({
+            parties: state.parties,
+        }), mapDispatchToProps
+    )(MatrixPvp)
+);
 
+MatrixPvp.propTypes = {
+    userPokemon: PropTypes.arrayOf(PropTypes.object),
+    pokemonTable: PropTypes.object,
 
-
-
+    parentState: PropTypes.object,
+};
 

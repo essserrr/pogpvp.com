@@ -1,6 +1,7 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PlayerResEntry from "./PlayerResEntry/PlayerResEntry"
+import PlayerResEntry from "./PlayerResEntry/PlayerResEntry";
 
 class PlayerResProcessor extends React.PureComponent {
 
@@ -112,7 +113,6 @@ class PlayerResProcessor extends React.PureComponent {
         return sum
     }
 
-
     calculateDPS(eachPlayerResult, battleTimer, statType) {
         let dps = []
         eachPlayerResult.forEach(player => {
@@ -161,5 +161,14 @@ class PlayerResProcessor extends React.PureComponent {
 
 }
 
-
 export default PlayerResProcessor;
+
+PlayerResProcessor.propTypes = {
+    value: PropTypes.array,
+
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+};

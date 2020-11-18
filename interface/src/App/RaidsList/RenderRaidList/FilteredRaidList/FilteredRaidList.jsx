@@ -1,30 +1,26 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-class FilteredRaidList extends React.Component {
+const FilteredRaidList = React.memo(function FilteredRaidList(props) {
 
-    isFiltered(elem) {
-        if (!this.props.filter) {
+    const isFiltered = (elem) => {
+        if (!props.filter) {
             return true
         }
-        if (!this.props.filter.tier1 && !this.props.filter.tier2 && !this.props.filter.tier3 && !this.props.filter.tier4
-            && !this.props.filter.tier5 && !this.props.filter.megaRaids) {
+        if (!props.filter.tier1 && !props.filter.tier2 && !props.filter.tier3 && !props.filter.tier4
+            && !props.filter.tier5 && !props.filter.megaRaids) {
             return true
         }
-        return this.props.filter[elem.key]
+        return props.filter[elem.key]
     }
 
+    return (
+        props.children.filter(elem => isFiltered(elem))
+    )
+});
 
-    render() {
-        return (
-            this.props.list.filter(elem => this.isFiltered(elem))
-        );
-    }
-}
+export default FilteredRaidList;
 
-export default FilteredRaidList
-
-
-
-
-
-
+FilteredRaidList.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.node),
+};

@@ -1,55 +1,38 @@
 import React from "react";
-import LocalizedStrings from "react-localization"
+import PropTypes from 'prop-types';
 
-import Input from "../../PvP/components/Input/Input"
-import ShinyTableThead from "./ShinyTableThead/ShinyTableThead"
-import ShinyTableTr from "./ShinyTableTr/ShinyTableTr"
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
 
-import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/getCookie"
+import ShinyTableHead from "./ShinyTableHead/ShinyTableHead";
+import ShinyTableTr from "./ShinyTableTr/ShinyTableTr";
 
-let strings = new LocalizedStrings(locale);
-
-
-class ShinyTable extends React.Component {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
-
-    parseShinyRates() {
-        return this.props.list.map((value) => <ShinyTableTr
-            key={value[1].Name + value[0]}
-            pok={value[1]}
-            pokTable={this.props.pokTable}
-        />)
-    }
-
-    render() {
-        return (
-            <>
-                <Input
-                    class="mb-2"
-                    onChange={this.props.onChange}
-                    place={strings.shinyrates.searchplaceholder}
-                />
-                <table className="table  table-sm text-center">
-                    <ShinyTableThead
-                        onClick={this.props.onClick}
-                        firstColumn={this.props.firstColumn}
-                        secondColumn={this.props.secondColumn}
-                        thirdColumn={this.props.thirdColumn}
-                        fourthColumn={this.props.fourthColumn}
-
-                    />
-                    <tbody>
-                        {this.parseShinyRates()}
-                    </tbody>
-                </table>
-            </>
-        );
-    }
-}
+const ShinyTable = React.memo(function ShinyTable(props) {
+    return (
+        <Table size="medium">
+            <ShinyTableHead
+                onClick={props.onClick}
+                active={props.active}
+            />
+            <TableBody>
+                {props.children.map((value) =>
+                    <ShinyTableTr
+                        key={value[1].Name + value[0]}
+                        pok={value[1]}
+                        pokTable={props.pokTable}
+                    />)}
+            </TableBody>
+        </Table>
+    )
+});
 
 export default ShinyTable;
 
+ShinyTable.propTypes = {
+    active: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
+
+    onClick: PropTypes.func,
+
+    children: PropTypes.arrayOf(PropTypes.array),
+};

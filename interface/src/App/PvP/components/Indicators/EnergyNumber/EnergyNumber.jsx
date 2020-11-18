@@ -1,28 +1,31 @@
 import React from "react";
-import ReactTooltip from "react-tooltip"
+import PropTypes from 'prop-types';
+import LocalizedStrings from "react-localization";
 
-const EnergyNumber = React.memo(function (props) {
-    let value = (props.value !== undefined && props.value !== "") ? (props.value <= 100 ? props.value : 100) : 0
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+import { getCookie } from "js/getCookie";
+import { instats } from "locale/Pvp/InitialStats/InitialStats";
+
+let strings = new LocalizedStrings(instats);
+
+const EnergyNumber = React.memo(function EnergyNumber(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+
+    const value = typeof props.value === "number" ? (props.value <= 100 ? props.value : 100) : 0;
     return (
-        <>
-            <div
-                className="font-weight-bold d-flex justify-content-center align-items-center"
-                data-tip data-for={props.for}
-            >
+        <Tooltip arrow placement="top" title={<Typography>{strings.energy}</Typography>}>
+            <Box fontWeight="bold" style={{ cursor: "pointer" }}>
                 {value}
-            </div>
-            <ReactTooltip
-                className="infoTip"
-                id={props.for}
-                effect="solid"
-                place="top"
-                multiline={true}
-            >
-                {props.label}
-            </ReactTooltip>
-        </>
-
+            </Box>
+        </Tooltip>
     )
 });
 
 export default EnergyNumber;
+
+EnergyNumber.propTypes = {
+    value: PropTypes.number,
+};

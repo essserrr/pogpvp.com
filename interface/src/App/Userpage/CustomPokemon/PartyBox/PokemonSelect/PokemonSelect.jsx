@@ -1,38 +1,44 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import SearchableSelect from "../../../../PvP/components/SearchableSelect/SearchableSelect"
-import { calculateCP } from "../../../../../js/indexFunctions"
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
+import { calculateCP } from "js/cp/calculateCP";
 
 
-class PokemonSelect extends React.PureComponent {
+const PokemonSelect = React.memo(function PokemonSelect(props) {
+    const { children, label, name, onChange, pokemonTable, ...other } = props;
 
-    makePokList(list) {
+    function makePokList(list) {
         return list.map((value, index) => {
-            let val = `${value.Name} / CP${calculateCP(value.Name, value.Lvl, value.Atk, value.Def, value.Sta, this.props.pokemonTable)}
-             / ${value.IsShadow === "true" ? "shadow" : "normal"} / ${value.QuickMove} / ${value.ChargeMove} / ${value.ChargeMove2} /
-             Lvl${value.Lvl}: Atk${value.Atk} / Def${value.Def} / Sta${value.Sta}`
-
-            return { value: val, index: index, label: <div style={{ textAlign: "left" }}>{val}</div> }
+            let val = `${value.Name} / CP${calculateCP(value.Name, value.Lvl, value.Atk, value.Def, value.Sta, pokemonTable)} / ${value.IsShadow === "true" ? "shadow" : "normal"} / ${value.QuickMove} / ${value.ChargeMove} / ${value.ChargeMove2} / Lvl${value.Lvl}: Atk${value.Atk} / Def${value.Def} / Sta${value.Sta}`
+            return { index: index, title: val }
         })
     }
 
+    return (
+        <SearchableSelect
+            disableClearable
+            label={label}
+            name={name}
+            onChange={onChange}
+            {...other}
+        >
+            {makePokList(children)}
+        </SearchableSelect>
+    )
+});
 
-    render() {
-        return (
-            <>
-                <SearchableSelect
-                    label={this.props.label}
-                    attr={this.props.attr}
-                    category={this.props.category}
+export default PokemonSelect;
 
-                    list={this.makePokList(this.props.list)}
-
-                    onChange={this.props.onChange}
-                />
-            </>
-        );
-    }
-}
-
-export default PokemonSelect
-
+PokemonSelect.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.object),
+    ]).isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+    pokemonTable: PropTypes.object.isRequired,
+    name: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+};

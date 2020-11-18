@@ -1,19 +1,22 @@
-import React from "react"
-import { getCookie } from "../../../js/getCookie"
-import { connect } from "react-redux"
+import React from "react";
+import { connect } from "react-redux";
+import LocalizedStrings from "react-localization";
 
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import TimeConverter from "./TimeConverter"
-import Loader from "../../PvpRating/Loader"
-import Errors from "../../PvP/components/Errors/Errors"
-import { refresh } from "../../../AppStore/Actions/refresh"
-import LocalizedStrings from "react-localization"
-import { userLocale } from "../../../locale/userLocale"
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Alert from '@material-ui/lab/Alert';
 
-import "./Info.scss"
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import TimeConverter from "App/Userpage/Info/TimeConverter";
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
+import InfoTable from "App/Userpage/Info/InfoTable/InfoTable";
+
+import { refresh } from "AppStore/Actions/refresh";
+
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/Info/Info";
 
 let strings = new LocalizedStrings(userLocale)
-
 
 class Info extends React.PureComponent {
     constructor(props) {
@@ -25,7 +28,6 @@ class Info extends React.PureComponent {
             error: "",
         }
     }
-
 
     async componentDidMount() {
         this.setState({
@@ -55,46 +57,35 @@ class Info extends React.PureComponent {
         }
     }
 
-
-
     render() {
         return (
-            <div className="col p-3 text-center">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/info"
                     header={strings.pageheaders.usrinfo}
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
+
                 {this.state.loading &&
-                    <Loader
-                        color="black"
-                        weight="500"
-                        locale={strings.loading}
-                        loading={this.state.loading}
-                    />}
-                {this.state.error !== "" && <Errors class="alert alert-danger p-2" value={this.state.error} />}
-                {this.state.error === "" && this.state.uInfo.Username &&
-                    <div className="row mx-0 justify-content-center">
-                        <div className="col-12 col-md-8 col-lg-6 px-0">
-                            <div className="user-info__title col-12 px-0 mb-3">
-                                {strings.info.title}
-                            </div>
-                            <div className="col px-0 py-2 user-info--border user-info__goverable-col">
-                                <span className={"user-info__text"}>{strings.info.name + ": "}</span>
-                                <span className={"font-weight-bold"}>{this.state.uInfo.Username}</span>
-                            </div>
-                            <div className="col px-0 py-2 user-info--border user-info__goverable-col">
-                                <span className={"user-info__text"}>{strings.info.email + ": "}</span>
-                                <span className={"font-weight-bold"}>{this.state.uInfo.Email}</span>
-                            </div>
-                            <div className="col px-0 py-2 user-info__goverable-col">
-                                <span className={"user-info__text"}>{strings.info.reg + ": "}</span>
-                                <span className={"font-weight-bold"}><TimeConverter time={this.state.uInfo.RegAt} getTime={false} /></span>
-                            </div>
-                        </div>
-                    </div>}
-            </div>
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
+                {this.state.error !== "" && <Alert variant="filled" severity="error">{this.state.error}</Alert >}
+
+                {this.state.error === "" && !this.state.loading && this.state.uInfo.Username &&
+                    <Grid item xs={12} md={8} lg={6}>
+                        <UserPageContent title={strings.info.title}>
+                            <InfoTable>
+                                {[
+                                    { name: strings.info.name, info: this.state.uInfo.Username, },
+                                    { name: strings.info.email, info: this.state.uInfo.Email, },
+                                    { name: strings.info.reg, info: <TimeConverter timestamp={this.state.uInfo.RegAt} getHours={false} />, },
+                                ]}
+                            </InfoTable>
+                        </UserPageContent>
+                    </Grid>}
+            </Grid>
         )
     }
 }

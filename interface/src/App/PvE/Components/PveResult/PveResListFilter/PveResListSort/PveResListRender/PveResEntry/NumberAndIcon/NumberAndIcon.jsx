@@ -1,19 +1,48 @@
-import React from "react"
-import PokemonIconer from "../../../../../../../../PvP/components/PokemonIconer/PokemonIconer"
-import { ReactComponent as Shadow } from "../../../../../../../../../icons/shadow.svg"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./NumberAndIcon.scss"
+import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
 
-const NumberAndIcon = React.memo(function (props) {
+import Iconer from "App/Components/Iconer/Iconer";
+import { ReactComponent as Shadow } from "icons/shadow.svg"
+
+const useStyles = makeStyles((theme) => ({
+    shadow: {
+        position: "absolute",
+        right: "0px",
+
+        width: "18px",
+        height: "18px",
+    },
+}));
+
+const NumberAndIcon = React.memo(function NumberAndIcon(props) {
+    const classes = useStyles();
+
+    const fileName = `${props.pok.Number}${props.pok.Forme !== "" ? `-${props.pok.Forme}` : ""}`;
     return (
-        <div className="number-and-icon col-auto p-0">
-            {props.index && <span className="align-self-center ">{props.index}</span>}
-            {props.isShadow && <Shadow className="number-and-icon__shadow" />}
-            <PokemonIconer
-                src={props.pok.Number + (props.pok.Forme !== "" ? "-" + props.pok.Forme : "")}
-                class={"number-and-icon__pok mx-1"} />
-        </div>
+        <Box position="relative">
+
+            {props.index &&
+                <b>{props.index}</b>}
+
+            {props.isShadow &&
+                <Shadow className={classes.shadow} />}
+
+            <Iconer folderName="/pokemons/" fileName={fileName} size={48} />
+
+        </Box>
     )
 });
 
 export default NumberAndIcon;
+
+NumberAndIcon.propTypes = {
+    isShadow: PropTypes.bool,
+    pok: PropTypes.object,
+    index: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.string,
+    ]),
+};

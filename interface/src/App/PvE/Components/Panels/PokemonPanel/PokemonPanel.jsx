@@ -1,36 +1,38 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PvePokemon from "../../PvePokemon"
+import PanelWithTitle from "../PanelWithTitle";
+import PvePokemon from "../../PvePokemon";
 
-import { locale } from "../../../../../locale/locale"
-import { pveLocale } from "../../../../../locale/pveLocale"
-import { getCookie } from "../../../../../js/getCookie"
+const PokemonPanel = React.memo(function PokemonPanel(props) {
+    const { title, ...other } = props;
 
-let strings = new LocalizedStrings(locale)
-let pveStrings = new LocalizedStrings(pveLocale)
+    return (
+        <PanelWithTitle title={title}>
+            <PvePokemon {...other} />
+        </PanelWithTitle>
+    )
+});
 
-class PokemonPanel extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+export default PokemonPanel;
 
-    render() {
-        return (
-            <div className="row mx-0 justify-content-center align-items-center">
-                {this.props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>}
-                <div className="col-12 px-0">
-                    <PvePokemon
-                        {...this.props}
-                    />
-                </div>
+PokemonPanel.propTypes = {
+    PokemonPanel: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+    canBeShadow: PropTypes.bool,
+    attr: PropTypes.string,
 
-            </div>
-        )
-    }
+    pokemonTable: PropTypes.object.isRequired,
+    moveTable: PropTypes.object.isRequired,
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
 
-}
+    value: PropTypes.object.isRequired,
+    settingsValue: PropTypes.object,
 
-export default PokemonPanel
+    onChange: PropTypes.func,
+    onClick: PropTypes.func,
+};

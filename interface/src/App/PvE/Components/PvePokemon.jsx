@@ -1,284 +1,261 @@
-import React from "react"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
+
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import Stats from "App/Components/Stats/Stats";
+import MagicBox from "App/PvP/components/MagicBox/MagicBox";
+import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes";
+import Switch from 'App/Components/Switch/Switch';
+
+import ChargeMoveTip from "App/PvE/Components/Tips/ChargeMoveTip";
+import QuickMoveTip from "App/PvE/Components/Tips/QuickMoveTip";
+
+import MoveSelect from "App/Components/MoveSelect/MoveSelect";
+import WithIcon from "App/Components/WithIcon/WithIcon";
+import Input from "App/Components/Input/Input";
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
+
+import { labels } from "locale/Pve/PokemonLabels";
+import { options } from "locale/Pve/Options";
+import { generalTips } from "locale/Pve/Tips/GeneralTips";
+import { getCookie } from "js/getCookie";
+
+let labelStrings = new LocalizedStrings(labels);
+let optionStrings = new LocalizedStrings(options);
+let tipStrings = new LocalizedStrings(generalTips);
+
+const PvePokemon = React.memo(function PvePokemon(props) {
+    labelStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    tipStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
+    return (
+        <Grid container justify="center" alignItems="center" spacing={2}>
+            <MagicBox
+                open={Boolean(props.value.showMenu)}
+                title={`${labelStrings.selectMove}:`}
+                attr={props.attr}
+                onClick={props.onClick}
+            >
+                {<SearchableSelect
+                    disableClearable
+                    label={labelStrings.moveName}
+
+                    name={props.value.isSelected}
+                    attr={props.attr}
+                    onChange={props.onChange}
+                >
+                    {props.value.isSelected && props.value.isSelected.includes("Charge") ? props.chargeMoveList : props.quickMoveList}
+                </SearchableSelect>}
+            </MagicBox>
 
 
-import SearchableSelect from "../../PvP/components/SearchableSelect/SearchableSelect"
-import Stats from "../../PvP/components/Stats/Stats"
-import SelectGroup from "../../PvP/components/SelectGroup/SelectGroup"
-import MagicBox from "../../PvP/components/MagicBox/MagicBox"
-import CpAndTyping from "../../PvP/components/CpAndTypes/CpAndTypes"
-import Checkbox from "../../RaidsList/Checkbox/Checkbox"
+            {(props.pokemonTable[props.value.Name]) &&
+                <Grid item xs={12}>
+                    <CpAndTyping
+                        Lvl={props.value.Lvl}
+                        Atk={props.value.Atk}
+                        Def={props.value.Def}
+                        Sta={props.value.Sta}
 
+                        isShadow={props.value.IsShadow === "true"}
 
-import LocalizedStrings from "react-localization"
-import { locale } from "../../../locale/locale"
-import { pveLocale } from "../../../locale/pveLocale"
-import { getCookie } from "../../../js/getCookie"
+                        pokemonTable={props.pokemonTable}
+                        name={props.value.Name}
+                        tier={props.value.Tier}
+                        isBoss={props.attr === "bossObj"}
+                    />
+                </Grid>}
 
-let strings = new LocalizedStrings(locale);
-let pveStrings = new LocalizedStrings(pveLocale)
+            <Grid item xs={12}>
+                <Grid container justify="center" alignItems="center" spacing={2}>
+                    {props.pokList &&
+                        <Grid item xs={props.colSize ? props.colSize : 6}>
+                            <SearchableSelect
+                                disableClearable
+                                label={labelStrings.selectPok}
+                                value={props.value.Name}
+                                errorText={props.notOk && !!props.notOk.Name ? props.notOk.Name : ""}
 
-class PvePokemon extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+                                name="Name"
+                                attr={props.attr}
+                                onChange={props.onChange}
+                            >
+                                {props.pokList}
+                            </SearchableSelect>
+                        </Grid>}
+                    {props.attr !== "bossObj" &&
+                        <Grid item xs={props.colSize ? props.colSize : 6}>
+                            <Stats
+                                Lvl={props.value.Lvl}
+                                Atk={props.value.Atk}
+                                Def={props.value.Def}
+                                Sta={props.value.Sta}
+                                attr={props.attr}
+                                onChange={props.onChange}
+                            />
+                        </Grid>}
 
-    render() {
-        return (
-            <div className="row mx-0 justify-content-center align-items-center">
-                {(this.props.value.showMenu) && <MagicBox
-                    title={strings.title.selectMove}
-                    onClick={this.props.onClick}
-                    attr={this.props.attr}
-                    element={<SearchableSelect
-                        list={this.props.value.isSelected && this.props.value.isSelected.includes("Charge") ? this.props.chargeMoveList : this.props.quickMoveList}
-                        attr={this.props.attr}
-                        category={this.props.value.isSelected}
-                        onChange={this.props.onChange}
-                    />}
-                />}
-
-
-                {(this.props.pokemonTable[this.props.value.Name]) &&
-                    <div className="col-12 px-0  my-1">
-                        <CpAndTyping
-                            class="d-flex dont90 justify-content-center align-items-center"
-
-                            Lvl={this.props.value.Lvl}
-                            Atk={this.props.value.Atk}
-                            Def={this.props.value.Def}
-                            Sta={this.props.value.Sta}
-
-                            pokemonTable={this.props.pokemonTable}
-                            name={this.props.value.Name}
-                            tier={this.props.value.Tier}
-                            isBoss={this.props.attr === "bossObj"}
-                        />
-                    </div>}
-
-
-                <div className="col-12 px-0 my-1">
-                    <div className="row mx-0 justify-content-between align-items-center">
-                        {this.props.pokList &&
-                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
-                                <SearchableSelect
-                                    value={this.props.value.Name}
-                                    list={this.props.pokList}
-                                    attr={this.props.attr}
-                                    onChange={this.props.onChange}
-                                />
-                            </div>}
-                        {this.props.attr !== "bossObj" &&
-                            <div className={this.props.colSize ? this.props.colSize : "col-6 px-1"}>
-                                <Stats
-                                    class=" "
-
-                                    Lvl={this.props.value.Lvl}
-                                    Atk={this.props.value.Atk}
-                                    Def={this.props.value.Def}
-                                    Sta={this.props.value.Sta}
-                                    attr={this.props.attr}
-                                    onChange={this.props.onChange}
-                                />
-                            </div>}
-
-                        {this.props.attr === "bossObj" &&
-                            <div className="col-6 px-1">
-                                <SelectGroup
-                                    class="input-group input-group-sm"
+                    {props.attr === "bossObj" &&
+                        <Grid item xs={6}>
+                            <WithIcon
+                                tip={<>
+                                    Max HP:<br />
+                                    {`${optionStrings.tierlist} 1 - 600 HP`}<br />
+                                    {`${optionStrings.tierlist} 3 - 3600 HP`}<br />
+                                    {`${optionStrings.tierlist} 5 - 15000 HP`}<br />
+                                    {`${optionStrings.mega} - 15000 HP`}<br />
+                                    {`${optionStrings.tierlist} 5.5 - 22500 HP`}<br />
+                                </>}
+                            >
+                                <Input
+                                    select
                                     name="Tier"
-                                    value={this.props.value.Tier}
-                                    attr={this.props.attr}
-                                    onChange={this.props.onChange}
-                                    options={
-                                        <>
-                                            <option value="0" key="0">{pveStrings.tierlist + " 1"}</option>
-                                            <option value="2" key="2">{pveStrings.tierlist + " 3"}</option>
-                                            <option value="4" key="4">{pveStrings.tierlist + " 5"}</option>
-                                            <option value="4" key="5">{pveStrings.mega}</option>
-                                            <option value="5" key="6">{pveStrings.tierlist + " 5.5"}</option>
-                                        </>
-                                    }
+                                    value={props.value.Tier}
+                                    attr={props.attr}
+                                    label={labelStrings.tier}
+                                    onChange={props.onChange}
+                                >
+                                    <MenuItem value="0">{`${optionStrings.tierlist} 1`}</MenuItem>
+                                    <MenuItem value="2">{`${optionStrings.tierlist} 3`}</MenuItem>
+                                    <MenuItem value="4">{optionStrings.mega}</MenuItem>
+                                    <MenuItem value="4">{`${optionStrings.tierlist} 5`}</MenuItem>
+                                    <MenuItem value="5">{`${optionStrings.tierlist} 5.5`}</MenuItem>
+                                </Input>
+                            </WithIcon>
+                        </Grid>}
+                </Grid>
+            </Grid>
 
-                                    labelWidth="88px"
-                                    label={pveStrings.tier}
-                                    place={"top"}
-                                    for={"bossTier"}
+            <Grid item xs={props.colSize ? props.colSize : 6}>
+                <MoveSelect
+                    value={props.value.QuickMove && !!props.moveTable[props.value.QuickMove] &&
+                        props.value.QuickMove}
+                    errorText={props.notOk && !!props.notOk.QuickMove ? props.notOk.QuickMove : ""}
 
-                                    tip={<>
-                                        <div key="tiertip">
-                                            Max HP:<br />
-                                            {pveStrings.tierlist + " 1 - 600 HP"}<br />
-                                            {pveStrings.tierlist + " 3 - 3600 HP"}<br />
-                                            {pveStrings.tierlist + " 5 - 15000 HP"}<br />
-                                            {pveStrings.mega + " - 15000 HP"}<br />
-                                            {pveStrings.tierlist + " 5.5 - 22500 HP"}<br />
-                                        </div>
-                                    </>}
-                                    tipClass="infoTip"
-                                />
-                            </div>}
-                    </div>
-                </div>
+                    moveType={(props.moveTable[props.value.QuickMove] !== undefined) ?
+                        props.moveTable[props.value.QuickMove].MoveType : ""}
 
+                    name="QuickMove"
+                    attr={props.attr}
+                    onChange={props.onChange}
 
+                    label={labelStrings.quickMove}
 
+                    tip={<QuickMoveTip
+                        hasTitle={true}
+                        moveName={props.value.QuickMove}
+                        moveTable={props.moveTable}
+                    />}
+                >
+                    {props.value.quickMovePool}
+                </MoveSelect>
+            </Grid>
 
+            <Grid item xs={props.colSize ? props.colSize : 6}>
+                <MoveSelect
+                    value={(props.value.ChargeMove !== "Select..." && !!props.moveTable[props.value.ChargeMove]) ?
+                        props.value.ChargeMove : ""}
+                    errorText={props.notOk && !!props.notOk.ChargeMove ? props.notOk.ChargeMove : ""}
 
-                <div className={this.props.colSize ? this.props.colSize : "col-6 px-1  my-1"}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
+                    moveType={(props.moveTable[props.value.ChargeMove] !== undefined) ?
+                        props.moveTable[props.value.ChargeMove].MoveType : ""}
 
-                        name="QuickMove"
-                        value={this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined &&
-                            this.props.value.QuickMove}
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={this.props.value.quickMovePool}
+                    name="ChargeMove"
+                    attr={props.attr}
+                    onChange={props.onChange}
 
-                        labelWidth="88px"
-                        label={strings.title.quickMove}
-                        labelStyle={(this.props.moveTable[this.props.value.QuickMove] !== undefined) ?
-                            `type-color${this.props.moveTable[this.props.value.QuickMove].MoveType} text` : ""}
+                    label={labelStrings.chargeMove}
 
-                        place={"top"}
-                        for={"QuickMove" + this.props.attr}
-                        tip={<>{strings.tips.quick}<br />
-                            {this.props.value.QuickMove && this.props.moveTable[this.props.value.QuickMove] !== undefined && <>
-                                {strings.move.damage + (this.props.moveTable[this.props.value.QuickMove].Damage)}<br />
-                                {strings.move.energy + (this.props.moveTable[this.props.value.QuickMove].Energy)}<br />
-                                {"Cooldown: " + (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)}<br />
-                                {"DPS: " + (this.props.moveTable[this.props.value.QuickMove].Damage /
-                                    (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                                {"EPS: " + (this.props.moveTable[this.props.value.QuickMove].Energy /
-                                    (this.props.moveTable[this.props.value.QuickMove].Cooldown / 1000)).toFixed(2)}<br />
-                            </>}</>}
-                        tipClass="infoTip"
-                    />
-                </div>
-                <div className={this.props.colSize ? this.props.colSize : "col-6 px-1 my-1"}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
+                    tip={<ChargeMoveTip
+                        hasTitle={true}
+                        moveName={props.value.ChargeMove}
+                        moveTable={props.moveTable}
+                    />}
+                >
+                    {props.value.chargeMovePool}
+                </MoveSelect>
+            </Grid>
 
-                        name="ChargeMove"
-                        value={(this.props.value.ChargeMove && this.props.value.ChargeMove !== "Select..."
-                            && this.props.moveTable[this.props.value.ChargeMove] !== undefined) ? this.props.value.ChargeMove : ""}
+            {props.canBeShadow &&
+                <Grid item xs={props.colSize ? props.colSize : 6} style={{ order: props.attr === "editPokemon" ? "2" : "" }}>
+                    <WithIcon
+                        tip={tipStrings.shadow}
+                    >
+                        <Input
+                            select
+                            name="IsShadow"
+                            value={props.value.IsShadow}
+                            attr={props.attr}
+                            label={labelStrings.type}
+                            onChange={props.onChange}
+                        >
+                            <MenuItem value="false">{optionStrings.type.normal}</MenuItem>
+                            <MenuItem value="true">{optionStrings.type.shadow}</MenuItem>
+                        </Input>
+                    </WithIcon>
+                </Grid>}
 
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={this.props.value.chargeMovePool}
+            {props.hasSecondCharge &&
+                <Grid item xs={props.colSize ? props.colSize : 6} style={{ order: props.attr === "editPokemon" ? "1" : "" }}>
+                    <MoveSelect
+                        value={(props.value.ChargeMove2 !== "Select..." && !!props.moveTable[props.value.ChargeMove2]) ?
+                            props.value.ChargeMove2 : ""}
+                        errorText={props.notOk && !!props.notOk.ChargeMove2 ? props.notOk.ChargeMove2 : ""}
 
-                        labelWidth="88px"
-                        label={strings.title.chargeMove}
-                        labelStyle={(this.props.moveTable[this.props.value.ChargeMove] !== undefined) ?
-                            `type-color${this.props.moveTable[this.props.value.ChargeMove].MoveType} text` : ""}
-
-                        place={"top"}
-                        for={"ChargeMove" + this.props.attr}
-
-                        tip={<>{strings.tips.charge}<br />
-                            {(this.props.value.ChargeMove && this.props.value.ChargeMove !== "Select...") &&
-                                this.props.moveTable[this.props.value.ChargeMove] !== undefined &&
-                                <>
-                                    {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove].Damage)}<br />
-                                    {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove].Energy)}<br />
-                                    {"Cooldown: " + (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000)}<br />
-                                    {"DPS: " + (this.props.moveTable[this.props.value.ChargeMove].Damage / (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000)).toFixed(2)}<br />
-                                    {"DPS*DPE: " + (this.props.moveTable[this.props.value.ChargeMove].Damage /
-                                        (this.props.moveTable[this.props.value.ChargeMove].Cooldown / 1000) *
-                                        this.props.moveTable[this.props.value.ChargeMove].Damage /
-                                        -this.props.moveTable[this.props.value.ChargeMove].Energy).toFixed(2)}<br />
-                                </>}</>}
-                        tipClass="infoTip"
-                    />
-                </div>
-
-
-
-                {this.props.canBeShadow && <div className={(this.props.colSize ? this.props.colSize : "col-6 px-1 my-1") + (this.props.attr === "editPokemon" ? " order-2" : "")}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
-
-                        name="IsShadow"
-                        value={this.props.value.IsShadow}
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={
-                            <>
-                                <option value="false" key="Normal">{strings.options.type.normal}</option>
-                                <option value="true" key="Shadow">{strings.options.type.shadow}</option>
-                            </>}
-
-                        labelWidth="88px"
-                        label={strings.title.type}
-
-                        place={"top"}
-                        for={this.props.attr + "attackerIsShadow"}
-
-                        tip={strings.tips.shadow}
-                        tipClass="infoTip"
-                    />
-                </div>}
-
-
-
-
-                {this.props.hasSecondCharge && <div
-                    className={(this.props.colSize ? this.props.colSize : "col-6 px-1 my-1") + (this.props.attr === "editPokemon" ? " order-1" : "")}>
-                    <SelectGroup
-                        class="input-group input-group-sm"
+                        moveType={(!!props.moveTable[props.value.ChargeMove2]) ?
+                            props.moveTable[props.value.ChargeMove2].MoveType : ""}
 
                         name="ChargeMove2"
-                        value={(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select..."
-                            && this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ? this.props.value.ChargeMove2 : ""}
+                        attr={props.attr}
+                        onChange={props.onChange}
 
-                        attr={this.props.attr}
-                        onChange={this.props.onChange}
-                        options={this.props.value.chargeMovePool}
+                        label={labelStrings.chargeMove}
+                        tip={<ChargeMoveTip
+                            hasTitle={true}
+                            moveName={props.value.ChargeMove2}
+                            moveTable={props.moveTable}
+                        />}
+                    >
+                        {props.value.chargeMovePool}
+                    </MoveSelect>
+                </Grid>}
 
-                        labelWidth="88px"
-                        label={strings.title.chargeMove}
-                        labelStyle={(this.props.moveTable[this.props.value.ChargeMove2] !== undefined) ?
-                            `type-color${this.props.moveTable[this.props.value.ChargeMove2].MoveType} text` : ""}
-
-                        place={"top"}
-                        for={"ChargeMove" + this.props.attr}
-
-                        tip={<>{strings.tips.charge}<br />
-                            {(this.props.value.ChargeMove2 && this.props.value.ChargeMove2 !== "Select...") &&
-                                this.props.moveTable[this.props.value.ChargeMove2] !== undefined &&
-                                <>
-                                    {strings.move.damage + (this.props.moveTable[this.props.value.ChargeMove2].Damage)}<br />
-                                    {strings.move.energy + (-this.props.moveTable[this.props.value.ChargeMove2].Energy)}<br />
-                                    {"Cooldown: " + (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)}<br />
-                                    {"DPS: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage / (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000)).toFixed(2)}<br />
-                                    {"DPS*DPE: " + (this.props.moveTable[this.props.value.ChargeMove2].Damage /
-                                        (this.props.moveTable[this.props.value.ChargeMove2].Cooldown / 1000) *
-                                        this.props.moveTable[this.props.value.ChargeMove2].Damage /
-                                        -this.props.moveTable[this.props.value.ChargeMove2].Energy).toFixed(2)}<br />
-                                </>}</>}
-                        tipClass="infoTip"
-                    />
-                </div>}
-                {this.props.canBeShadow && this.props.attr === "attackerObj" && <div className="col-6 px-1 my-1">
-                    <Checkbox
-                        class={"form-check form-check-inline m-0 p-0"}
-                        checked={this.props.settingsValue.SupportSlotEnabled !== "false" ? "checked" : false}
+            {props.canBeShadow && props.attr === "attackerObj" &&
+                <Grid item xs={6}>
+                    <Switch
+                        checked={props.settingsValue.SupportSlotEnabled !== "false"}
+                        onChange={props.onChange}
                         attr={"pveObj"}
                         name={"SupportSlotEnabled"}
-                        label={
-                            <div className=" text-center">
-                                {pveStrings.supen}
-                            </div>
-                        }
-                        onChange={this.props.onChange}
+                        color="primary"
+                        label={labelStrings.supen}
                     />
-                </div>}
-            </div>
-        )
-    }
+                </Grid>}
+        </Grid>
+    )
+});
 
-}
 
-export default PvePokemon
+export default PvePokemon;
+
+PvePokemon.propTypes = {
+    onClick: PropTypes.func,
+    onChange: PropTypes.func,
+
+    attr: PropTypes.string,
+    value: PropTypes.object.isRequired,
+    notOk: PropTypes.object,
+
+    colSize: PropTypes.number,
+
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+};

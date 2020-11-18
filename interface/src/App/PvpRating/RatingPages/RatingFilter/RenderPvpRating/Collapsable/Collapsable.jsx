@@ -1,26 +1,33 @@
-import React from "react"
-import { UnmountClosed } from "react-collapse"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import { checkShadow, encodeQueryData, calculateMaximizedStats } from "../../../../../../js/indexFunctions"
-import { getCookie } from "../../../../../../js/getCookie"
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import RMoveRow from "../../../../RMoveRow/RMoveRow"
-import RRateRow from "../../../../RRateRow/RRateRow"
-import RowWrap from "../../../../RowWrap/RowWrap"
-import EffTable from "../../../../../Pokedex/PokeCard/EffBlock/EffTable"
+import DropWithArrow from "App/PvpRating/DropWithArrow/DropWithArrow";
+import RMoveRow from "App/PvpRating/RMoveRow/RMoveRow";
+import RRateRow from "App/PvpRating/RRateRow/RRateRow";
+import RowWrap from "App/PvpRating/RowWrap/RowWrap";
+import EffTable from "App/Pokedex/PokeCard/SliderBody/EffBlock/EffTable";
 
-
-import LocalizedStrings from "react-localization"
-import { locale } from "../../../../../../locale/locale"
+import { encodeQueryData } from "js/encoders/encodeQueryData";
+import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
+import { checkShadow } from "js/checks/checkShadow";
+import { getCookie } from "js/getCookie";
+import { locale } from "locale/Rating/Rating";
+import { stats } from "locale/Components/Stats/locale";
 
 let strings = new LocalizedStrings(locale);
+let statStrings = new LocalizedStrings(stats);
 
 class Collapsable extends React.PureComponent {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        statStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            showCollapse: false,
             aMaxStats: {},
         };
         this.onClick = this.onClick.bind(this);
@@ -29,30 +36,23 @@ class Collapsable extends React.PureComponent {
     }
 
 
-
-    async onClick(event) {
-        switch (!this.state.showCollapse) {
-            case true:
-                this.setState({
-                    showCollapse: !this.state.showCollapse,
-                    aName: checkShadow(this.props.container.Name, this.props.pokemonTable),
-                    aMaxStats: calculateMaximizedStats(checkShadow(this.props.container.Name, this.props.pokemonTable), 40,
-                        this.props.pokemonTable)[(this.props.league === "Premier" ?
-                            "master" : this.props.league === "Premierultra" ?
-                                "ultra" : this.props.league === "Cupflying" ?
-                                    "great" : this.props.league.toLowerCase())].Overall,
-                })
-                break
-            default:
-                this.setState({
-                    showCollapse: !this.state.showCollapse,
-                })
+    onClick(show) {
+        const pokName = checkShadow(this.props.container.Name, this.props.pokemonTable);
+        if (show) {
+            this.setState({
+                aName: pokName,
+                aMaxStats: calculateMaximizedStats(pokName, 40, this.props.pokemonTable)
+                [(this.props.league === "Premier" ?
+                    "master" : this.props.league === "Premierultra" ?
+                        "ultra" : this.props.league === "Cupflying" ?
+                            "great" : this.props.league.toLowerCase())].Overall,
+            })
         }
     }
 
     onClickRedirect(defenderOriginalName) {
-        let defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
-        let league = (this.props.league === "Premier" ?
+        const defenderName = checkShadow(defenderOriginalName, this.props.pokemonTable)
+        const league = (this.props.league === "Premier" ?
             "master" : this.props.league === "Premierultra" ?
                 "ultra" : this.props.league === "Cupflying" ?
                     "great" : this.props.league.toLowerCase())
@@ -102,21 +102,19 @@ class Collapsable extends React.PureComponent {
 
     createSublist(array) {
         //if null array, return empty array
-        if (!array) {
-            return []
-        }
+        if (!array) { return [] }
         return array.reduce((result, elem) => {
-            let pokName = checkShadow(elem.Name, this.props.pokemonTable)
-            if (!pokName) {
-                return result
-            }
-            result.push(<RRateRow
-                key={elem.Name}
-                pokName={pokName}
-                pokemonTable={this.props.pokemonTable}
-                value={elem}
-                onClickRedirect={this.onClickRedirect}
-            />)
+            const pokName = checkShadow(elem.Name, this.props.pokemonTable)
+            if (!pokName) { return result }
+            result.push(
+                <Grid item xs={12} key={elem.Name}>
+                    <RRateRow
+                        pokName={pokName}
+                        pokemonTable={this.props.pokemonTable}
+                        value={elem}
+                        onClickRedirect={this.onClickRedirect}
+                    />
+                </Grid>)
             return result
         }, [])
     }
@@ -124,65 +122,70 @@ class Collapsable extends React.PureComponent {
     createMovesetList(array) {
         let sublist = []
         //if null array, return empty array
-        if (!array) {
-            return sublist
-        }
+        if (!array) { return sublist }
         return (array.length > 3 ? array.slice(0, 3) : array).map((elem) =>
-            <RMoveRow
-                pokName={checkShadow(this.props.container.Name, this.props.pokemonTable)}
-                pokemonTable={this.props.pokemonTable}
-
-                key={elem.Quick + elem.Charge[0] + elem.Charge[1]}
-                moveTable={this.props.moveTable}
-                value={elem}
-            />)
+            <Grid item xs={12} key={elem.Quick + elem.Charge[0] + elem.Charge[1]}>
+                <RMoveRow
+                    pokName={checkShadow(this.props.container.Name, this.props.pokemonTable)}
+                    pokemonTable={this.props.pokemonTable}
+                    moveTable={this.props.moveTable}
+                    value={elem}
+                />
+            </Grid>)
     }
 
     render() {
         return (
-            <>
-                <div onClick={this.onClick} className="row clickable justify-content-end m-0 px-3 pb-1">
-                    <i className={this.state.showCollapse ? "fas fa-angle-up fa-lg " : "fas fa-angle-down fa-lg"}></i>
-                </div>
-                <UnmountClosed isOpened={this.state.showCollapse}>
-                    <div className="row justify-content-center m-0 px-2">
-                        <RowWrap
-                            outClass="col-12 col-sm-6 p-0"
-                            locale={strings.rating.bestMatchups}
-                            value={this.createSublist(this.props.container.BestMetaMatchups)}
-                        />
-                        <RowWrap
-                            outClass="col-12 col-sm-6 p-0"
-                            locale={strings.rating.bestCounter}
-                            value={this.createSublist(this.props.container.Counters)}
-                        />
-                        <RowWrap
-                            outClass="col-12 col-sm-11 col-md-10 p-0 text-center"
-                            locale={strings.rating.movesets}
-                            value={this.createMovesetList(this.props.container.Movesets)}
-                        />
-                        <RowWrap
-                            disableIcon={true}
-                            outClass="col-12 col-sm-11 col-md-10 p-0 pt-2"
-                            locale={<div className="col-12 p-0 text-center">{strings.rating.stats}</div>}
-                            value={<div className="col-12 p-0 fBolder text-center pt-1">
-                                {strings.effStats.atk + ": " + this.state.aMaxStats.Atk + ", " +
-                                    strings.effStats.def + ": " + this.state.aMaxStats.Def + ", " +
-                                    strings.effStats.sta + ": " + this.state.aMaxStats.Sta + ", " +
-                                    strings.stats.lvl + ": " + this.state.aMaxStats.Level}</div>}
-                        />
-                        <div className="col-12 col-sm-11 col-md-10 pt-2 text-center">
+            <DropWithArrow container justify="center" onClick={this.onClick} iconBox={{ mr: 1 }}>
+                <Box px={2} pb={2}>
+                    <Grid container justify="center" spacing={2}>
+                        <RowWrap xs={12} sm={6} title={strings.rating.bestMatchups}>
+                            <Grid container justify="center" spacing={1}>
+                                {this.createSublist(this.props.container.BestMetaMatchups)}
+                            </Grid>
+                        </RowWrap>
+
+                        <RowWrap xs={12} sm={6} title={strings.rating.bestCounter}>
+                            <Grid container justify="center" spacing={1}>
+                                {this.createSublist(this.props.container.Counters)}
+                            </Grid>
+                        </RowWrap>
+
+                        <RowWrap xs={12} md={11} sm={10} title={strings.rating.movesets}>
+                            <Grid container justify="center" spacing={1}>
+                                {this.createMovesetList(this.props.container.Movesets)}
+                            </Grid>
+                        </RowWrap>
+
+                        <RowWrap disableIcon={true} xs={12} md={11} sm={10} title={<Typography align="center">{strings.rating.stats}</Typography>}>
+                            <Typography align="center" variant="body1">
+                                {statStrings.atk + ": " + this.state.aMaxStats.Atk + ", " +
+                                    statStrings.def + ": " + this.state.aMaxStats.Def + ", " +
+                                    statStrings.sta + ": " + this.state.aMaxStats.Sta + ", " +
+                                    statStrings.lvl + ": " + this.state.aMaxStats.Level}
+                            </Typography>
+                        </RowWrap>
+
+                        <Grid item xs={12} sm={11} md={10}>
                             <EffTable
                                 type={this.props.pokemonTable[checkShadow(this.props.container.Name, this.props.pokemonTable)].Type}
                                 reverse={false}
                             />
-                        </div>
-                    </div>
-                </UnmountClosed>
-            </>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </DropWithArrow>
 
         )
     }
-
 }
+
 export default Collapsable;
+
+Collapsable.propTypes = {
+    league: PropTypes.string,
+
+    container: PropTypes.object.isRequired,
+    pokemonTable: PropTypes.object.isRequired,
+    moveTable: PropTypes.object.isRequired,
+};

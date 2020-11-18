@@ -1,32 +1,51 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
 
-import { getCookie } from "../../js/getCookie"
-import { userLocale } from "../../locale/userLocale"
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
-import "./Footer.scss"
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/Footer/Footer";
 
 let strings = new LocalizedStrings(userLocale)
 
-class Footer extends React.PureComponent {
-    constructor(props) {
-        super(props)
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const useStyles = makeStyles((theme) => ({
+    footer: {
+        marginTop: `${theme.spacing(4)}px`,
+        padding: `${theme.spacing(1)}px ${theme.spacing(3)}px ${theme.spacing(1)}px ${theme.spacing(3)}px`,
 
-    render() {
-        return (
-            <div data-nosnippet className="footer">
-                <p className="m-0 px-2">©2020 pogPvP.com  <Link to="/privacy" title={strings.pol.p}>{strings.pol.p}</Link>  <Link to="/terms" title={strings.pol.t}>{strings.pol.t}</Link></p>
-                <p className="m-0 px-2">
-                    Icons made by <a href="https://www.flaticon.com/authors/roundicons-freebies" title="Roundicons Freebies">Roundicons Freebies</a>
-                </p>
-                <p className="m-0 px-2 pb-1">Pokémon is Copyright Gamefreak, Nintendo and The Pokémon Company 2001-2018. All images and names owned and trademarked by Gamefreak, Nintendo, The Pokémon Company, and Niantic are property of their respective owners.</p>
-            </div>
-        );
-    }
-}
+        fontStyle: "italic",
+        fontFamily: `"Times New Roman", Times, serif`,
+        color: theme.palette.text.primary,
+        textAlign: "center",
+        fontSize: "12px",
+        lineHeight: "14px",
 
-export default Footer
+        [theme.breakpoints.down('md')]: {
+            marginTop: `${theme.spacing(6)}`,
+        }
+    },
+}));
+
+const Footer = React.memo(function Footer() {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    const classes = useStyles();
+
+    return (
+        <Grid data-nosnippet container justify="center" className={classes.footer}>
+            <Grid item xs={12}>
+                ©2020 pogPvP.com  <Link to="/privacy" title={strings.pol.p}>{strings.pol.p}</Link>  <Link to="/terms" title={strings.pol.t}>{strings.pol.t}</Link>
+            </Grid>
+            <Grid item xs={12}>
+                Icons made by <a href="https://www.flaticon.com/authors/roundicons-freebies" title="Roundicons Freebies">Roundicons Freebies</a>
+            </Grid>
+            <Grid item xs={12}>
+                Pokémon is Copyright Gamefreak, Nintendo and The Pokémon Company 2001-2018. All images and names owned and trademarked by Gamefreak, Nintendo, The Pokémon Company, and Niantic are property of their respective owners.
+            </Grid>
+        </Grid>
+    );
+});
+
+export default Footer;
 

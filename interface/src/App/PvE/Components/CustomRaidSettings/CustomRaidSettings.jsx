@@ -1,78 +1,82 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import GroupsSettings from "./GroupsSettings/GroupsSettings"
-import CollectionSettings from "./CollectionSettings/CollectionSettings"
-import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
+import Grid from '@material-ui/core/Grid';
+import Collapse from '@material-ui/core/Collapse';
 
-import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie } from "../../../../js/getCookie"
+import PanelWithTitle from "App/PvE/Components/Panels/PanelWithTitle";
+import GroupsSettings from "./GroupsSettings/GroupsSettings";
+import CollectionSettings from "./CollectionSettings/CollectionSettings";
+import DoubleSlider from "App/Movedex/MoveCard/DoubleSlider/DoubleSlider";
 
-
-let pveStrings = new LocalizedStrings(pveLocale);
-
-class CustomRaidSettings extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+import { settings } from "locale/Pve/Settings/Settings";
+import { getCookie } from "js/getCookie";
 
 
-    render() {
-        return (
+let pveStrings = new LocalizedStrings(settings);
 
-            <div className="row m-0 justify-content-center px-1">
-                {this.props.title && <div className="col-12 px-0 text-center my-1"><h5 className="fBolder m-0 p-0">{this.props.title}</h5></div>}
+const CustomRaidSettings = React.memo(function CustomRaidSettings(props) {
+    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-                <div className="col-12 px-0">
+    return (
+
+        <PanelWithTitle title={props.title}>
+            <Grid container spacing={2}>
+
+                <Grid item xs={12}>
                     <DoubleSlider
-                        onClick={this.props.onChange}
+                        onClick={props.onChange}
 
-                        attr1="userCollection"
-                        title1={pveStrings.selfFromColl}
-                        active1={this.props.value.FindInCollection}
-
-                        attr2="userGroups"
-                        title2={pveStrings.selfFromGtoup}
-                        active2={!this.props.value.FindInCollection}
+                        attrs={["userCollection", "userGroups"]}
+                        titles={[pveStrings.selfFromColl, pveStrings.selfFromGtoup]}
+                        active={[Boolean(props.value.FindInCollection), !props.value.FindInCollection]}
                     />
-                </div>
+                </Grid>
 
-                <div className="col-12 px-0">
-                    <UnmountClosed isOpened={this.props.value.FindInCollection}>
-                        <div className="col-12 px-0 mt-2">
-                            <CollectionSettings
-                                attr={this.props.attr}
+                <Grid item xs={12}>
+                    <Collapse in={props.value.FindInCollection} unmountOnExit>
+                        <CollectionSettings
+                            attr={props.attr}
 
-                                value={this.props.value.SortByDamage}
-                                settingsValue={this.props.settingsValue}
+                            value={props.value.SortByDamage}
+                            settingsValue={props.settingsValue}
 
-                                onChange={this.props.onChange}
-                            />
-                        </div>
-                    </UnmountClosed>
-                </div>
+                            onChange={props.onChange}
+                        />
+                    </Collapse>
+                </Grid>
 
-                <div className="col-12 px-0">
-                    <UnmountClosed isOpened={!this.props.value.FindInCollection}>
-                        <div className="col-12 px-0">
-                            <GroupsSettings
-                                attr={this.props.attr}
+                <Grid item xs={12}>
+                    <Collapse in={!props.value.FindInCollection} unmountOnExit>
+                        <GroupsSettings
+                            attr={props.attr}
 
-                                userParties={this.props.userParties}
-                                value={this.props.value.UserPlayers}
+                            userParties={props.userParties}
+                            value={props.value.UserPlayers}
 
-                                onChange={this.props.onChange}
-                            />
-                        </div>
-                    </UnmountClosed>
-                </div>
-            </div>
-        )
-    }
+                            onChange={props.onChange}
+                        />
+                    </Collapse>
+                </Grid>
 
-}
+            </Grid>
+        </PanelWithTitle>
+    )
+});
 
 
-export default CustomRaidSettings
+export default CustomRaidSettings;
+
+CustomRaidSettings.propTypes = {
+    title: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]),
+    attr: PropTypes.string,
+    settingsValue: PropTypes.object,
+    value: PropTypes.object.isRequired,
+
+    userParties: PropTypes.object,
+    onChange: PropTypes.func,
+};

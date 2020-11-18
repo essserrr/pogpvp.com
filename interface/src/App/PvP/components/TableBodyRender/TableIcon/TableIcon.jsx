@@ -1,53 +1,72 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import { ReactComponent as Shadow } from "../../../../../icons/shadow.svg"
-import PokemonIconer from "../../PokemonIconer/PokemonIconer"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Tooltip from '@material-ui/core/Tooltip';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { getCookie } from "../../../../../js/getCookie"
-import { locale } from "../../../../../locale/locale"
+import { ReactComponent as Shadow } from "icons/shadow.svg";
+import Iconer from "App/Components/Iconer/Iconer";
+import Tip from "./Tip";
 
-import "./TableIcon.scss"
+import { addStar } from "js/addStar";
+import { getCookie } from "js/getCookie";
+import { pvp } from "locale/Pvp/Pvp";
+import { options } from "locale/Components/Options/locale";
 
-let strings = new LocalizedStrings(locale)
+const useStyles = makeStyles((theme) => ({
+    shadow: {
+        width: 16,
+        height: 16,
+        position: "absolute",
+        top: -3,
+        right: -3,
+    }
+}));
 
-const TableIcon = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+let strings = new LocalizedStrings(pvp);
+let optionStrings = new LocalizedStrings(options);
+
+const TableIcon = React.memo(function TableIcon(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const classes = useStyles();
+
+    const { name, IsShadow, QuickMove, ChargeMove1, ChargeMove2 } = props.pok;
+    const pokemon = props.pokemonTable[name];
+
+    const fileName = pokemon.Number + (pokemon.Forme !== "" ? "-" + pokemon.Forme : "")
 
     return (
-        <div className="row m-0 justify-content-center ">
-            <div className="table-icon__container" >
-                {String(props.pok.IsShadow) === "true" && <Shadow className="table-icon__shadow" />}
-                <PokemonIconer
-                    src={props.pokemonTable[props.pok.name].Number +
-                        (props.pokemonTable[props.pok.name].Forme !== "" ? "-" + props.pokemonTable[props.pok.name].Forme : "")}
-                    class={"table-icon__pok"}
-                    for={props.pok.name + props.j + props.letter}
-                />
-                <ReactTooltip
-                    className={"infoTip"}
-                    id={props.pok.name + props.j + props.letter} effect="solid"
-                    place={"top"}
-                    multiline={true}
-                >
-                    {props.pok.name + (props.pok.IsShadow === "true" ? " (" + strings.options.type.shadow + ")" : "")}
-                </ReactTooltip>
-            </div>
-            <div className="col-12 p-0">
-                {props.pok.QuickMove.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.QuickMove)}
+        <Grid container justify="center" alignItems="center">
 
-                {(props.pok.ChargeMove1 || props.pok.ChargeMove2) ? "+" : ""}
+            <Tooltip arrow placement={"top"}
+                title={<Tip pok={props.pok} pokemonTable={props.pokemonTable} moveTable={props.moveTable} />}>
 
-                {props.pok.ChargeMove1 ? (props.pok.ChargeMove1.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove1)) : ""}
+                <Box position="relative">
+                    {String(IsShadow) === "true" && <Shadow className={classes.shadow} />}
+                    <Iconer folderName="/pokemons/" fileName={fileName} size={36} />
+                </Box>
 
-                {(props.pok.ChargeMove1 && props.pok.ChargeMove2) ? "/" : ""}
+            </Tooltip>
 
-                {props.pok.ChargeMove2 ? (props.pok.ChargeMove2.replace(/[a-z -]/g, "") + props.addStar(props.pok.name, props.pok.ChargeMove2)) : ""}
-            </div>
-        </div>
+            <Grid item xs={12}>
+                {QuickMove.replace(/[a-z -]/g, "") + addStar(name, QuickMove, props.pokemonTable)}
+                {ChargeMove1 || ChargeMove2 ? "+" : ""}
+                {ChargeMove1 ? ChargeMove1.replace(/[a-z -]/g, "") + addStar(name, ChargeMove1, props.pokemonTable) : ""}
+                {ChargeMove1 && ChargeMove2 ? "/" : ""}
+                {ChargeMove2 ? ChargeMove2.replace(/[a-z -]/g, "") + addStar(name, ChargeMove2, props.pokemonTable) : ""}
+            </Grid>
+        </Grid>
     )
-
 });
 
-export default TableIcon
+export default TableIcon;
+
+TableIcon.propTypes = {
+    pok: PropTypes.object,
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+};

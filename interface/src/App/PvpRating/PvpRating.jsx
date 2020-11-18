@@ -1,31 +1,39 @@
 import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
+import SiteHelm from "App/SiteHelm/SiteHelm"
 import LocalizedStrings from "react-localization"
 import { connect } from "react-redux"
 
-import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import RatingPages from "./RatingPages/RatingPages"
-import SubmitButton from "../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../PvP/components/Errors/Errors"
-import SelectGroup from "../PvP/components/SelectGroup/SelectGroup"
-import RatingDescr from "./RatingDescr/RatingDescr"
-import Loader from "./Loader"
-import DropWithArrow from "./DropWithArrow/DropWithArrow"
-import Input from "../PvP/components/Input/Input"
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import MenuItem from '@material-ui/core/MenuItem';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
-import { capitalizeFirst } from "../../js/indexFunctions"
-import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import RatingPages from "./RatingPages/RatingPages";
+import Button from "App/Components/Button/Button";
+import WithIcon from "App/Components/WithIcon/WithIcon";
+import RatingDescr from "./RatingDescr/RatingDescr";
+import DropWithArrow from "./DropWithArrow/DropWithArrow";
+import Input from "App/Components/Input/Input";
 
-import "./PvpRating.scss"
+import { capitalizeFirst } from "js/capitalizeFirst";
+import { getCookie } from "js/getCookie";
+import { locale } from "locale/Rating/Rating";
+import { options } from "locale/Components/Options/locale";
 
 let strings = new LocalizedStrings(locale)
+let optionStrings = new LocalizedStrings(options)
+
 
 class PvpRating extends React.Component {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+
         this.state = {
             ratingList: [],
 
@@ -40,31 +48,11 @@ class PvpRating extends React.Component {
             loading: false,
             isNextPage: false,
             searchState: false,
-
-            leagueList: [
-                <option value="Great" key="Great">{strings.options.league.great}</option>,
-                <option value="Ultra" key="Ultra">{strings.options.league.ultra}</option>,
-                <option value="Master" key="Master">{strings.options.league.master}</option>,
-                <option value="Premierultra" key="Premierultra">{strings.options.league.premierUltra}</option>,
-                <option value="Cupflying" key="Cupflying">{"Flying Cup"}</option>,
-                <option value="Premier" key="Premier">{strings.options.league.premier}</option>,
-            ],
-            combinationList: [
-                <option value="overall" key="overall">{strings.maximizer.overall}</option>,
-                <option value="00" key="00">{strings.rating.sheilds + " 0 x 0"}</option>,
-                <option value="11" key="11">{strings.rating.sheilds + " 1 x 1"}</option>,
-                <option value="22" key="22">{strings.rating.sheilds + " 2 x 2"}</option>,
-                <option value="01" key="01">{strings.rating.sheilds + " 0 x 1"}</option>,
-                <option value="12" key="12">{strings.rating.sheilds + " 1 x 2"}</option>,
-            ],
-
-            showDescription: false,
         };
         this.updateState = this.updateState.bind(this);
         this.onLoadMore = this.onLoadMore.bind(this);
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onShowDescr = this.onShowDescr.bind(this);
     }
 
 
@@ -73,7 +61,6 @@ class PvpRating extends React.Component {
             this.props.match.params.type ? String(this.props.match.params.type) : "")
         this.updateState(obj.defaultLeague, obj.defaultType, obj.defaultPath)
     }
-
 
     componentDidUpdate(prevProps) {
         if (prevProps.match.params.league === this.props.match.params.league &&
@@ -98,7 +85,6 @@ class PvpRating extends React.Component {
         }
         return obj
     }
-
 
     async updateState(defaultLeague, defaultType, defaultPath) {
         this.setState({
@@ -154,22 +140,12 @@ class PvpRating extends React.Component {
         });
     }
 
-
-
     onChangeInput(event) {
-        if (!event.target.value) {
-            this.setState({
-                name: "",
-                searchState: false,
-            });
-            return
-        }
         this.setState({
-            name: event.target.value,
-            searchState: true,
+            name: !event.target.value ? "" : event.target.value,
+            searchState: !event.target.value ? false : true,
         });
     }
-
 
     async onChange(event) {
         switch (event.target.name === "league") {
@@ -232,124 +208,112 @@ class PvpRating extends React.Component {
         }
     }
 
-
-    onShowDescr() {
-        this.setState({
-            showDescription: !this.state.showDescription,
-        })
-    }
-
     render() {
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/pvprating"
                     header={strings.pageheaders.pvprating}
                     descr={strings.pagedescriptions.pvprating}
                 />
-                <div className="container-fluid mt-3 mb-5">
-                    <div className="row justify-content-center px-1 px-sm-2 mx-md-3 pb-5">
-                        <div className="pvp-rating--width-limit col-12 p-0">
-                            <div className="pvp-rating__module row m-0 mb-2 p-2">
-                                <div className="col-12 col-sm-6 p-1">
-                                    <SelectGroup
-                                        class="input-group input-group-sm p-0 m-0"
-                                        name="league"
-                                        value={this.state.league}
-                                        onChange={this.onChange}
-                                        options={this.state.leagueList}
-                                        label={"\xa0\xa0\xa0\xa0\xa0" + strings.title.league + "\xa0\xa0\xa0\xa0\xa0"}
-                                        for=""
-                                    />
-                                </div>
-                                <div className="col-12 col-sm-6 p-0 p-1">
-                                    <SelectGroup
-                                        class="input-group input-group-sm "
-                                        name="combination"
-                                        value={this.state.combination}
-                                        onChange={this.onChange}
-                                        options={this.state.combinationList}
-                                        label={strings.rating.ratingType}
+                <Grid item xs={12} sm={10} md={8} lg={6} container justify="center" spacing={2} >
 
-                                        place={"bottom"}
-                                        for={"rating"}
-                                        tip={<>
-                                            {strings.rating.firstsent}
-                                            <br />
-                                            <br />
-                                            {strings.rating.secondsent}
-                                            <br />
-                                            <br />
-                                            {strings.rating.thirdsent}
-                                        </>}
-                                        tipClass="infoTip"
-                                    />
-                                </div>
-                            </div>
-                            <div className="pvp-rating__descr row m-0 p-0 px-3 py-2 mb-3" >
-                                <DropWithArrow
-                                    onShow={this.onShowDescr}
-                                    show={this.state.showDescription}
-                                    title={strings.title.aboutrate}
-                                    elem={<RatingDescr />}
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+                            <Grid container justify="center" spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <Input select label={strings.league} name="league"
+                                        value={this.state.league} onChange={this.onChange}>
 
-                                    faOpened="align-self-center fas fa-angle-up fa-lg "
-                                    faClosed="align-self-center fas fa-angle-down fa-lg"
-                                    outClass="col-12 d-flex justify-content-between p-0 pb-1 clickable"
-                                    inClass="row justify-content-center m-0" />
-                            </div>
-                            <div className="row justify-content-center m-0">
-                                <div className="pvp-rating__module col-md-12 col-lg-12 p-2 m-0">
-                                    {this.state.loading &&
-                                        <Loader
-                                            color="black"
-                                            weight="500"
-                                            locale={strings.tips.loading}
-                                            loading={this.state.loading}
-                                        />}
-                                    {this.state.isError && <Errors class="alert alert-danger py-2" value={this.state.error} />}
-                                    {this.state.showResult &&
-                                        <>
-                                            <div className="col px-2 py-2">
-                                                <Input
-                                                    value={this.state.name}
-                                                    class="pvp-rating--border form-control"
-                                                    onChange={this.onChangeInput}
-                                                    place={strings.shinyrates.searchplaceholder}
-                                                />
-                                            </div>
+                                        <MenuItem value="Great" >{optionStrings.options.league.great}</MenuItem>
+                                        <MenuItem value="Ultra" >{optionStrings.options.league.ultra}</MenuItem>
+                                        <MenuItem value="Master">{optionStrings.options.league.master}</MenuItem>
+                                        <MenuItem value="Premierultra" >{optionStrings.options.league.premierUltra}</MenuItem>
+                                        <MenuItem value="Cupflying" >{"Flying Cup"}</MenuItem>
+                                        <MenuItem value="Premier" >{optionStrings.options.league.premier}</MenuItem>
 
-                                            <div className="row m-0 px-2  justify-content-center">
-                                                <RatingPages
-                                                    name={this.state.name}
-                                                    n={this.state.n}
-                                                    league={this.state.league}
-                                                    combination={this.state.combination}
-                                                    pokemonTable={this.props.bases.pokemonBase}
-                                                    moveTable={this.props.bases.moveBase}
-                                                    searchState={this.state.searchState}
-                                                    list={this.state.ratingList}
-                                                    originalList={this.state.ratingList}
-                                                />
-                                            </div>
+                                    </Input>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <WithIcon tip={<>{strings.rating.firstsent}<br />{strings.rating.secondsent}<br />{strings.rating.thirdsent}</>}>
 
-                                            <div className="col d-flex p-0 pt-3 justify-content-center">
-                                                {(this.state.isNextPage && !this.state.searchState) &&
-                                                    <SubmitButton
-                                                        action="Load more"
-                                                        onSubmit={this.onLoadMore}
-                                                        class="submit-button--lg btn btn-primary btn-sm"
-                                                    >
-                                                        {strings.buttons.loadmore}
-                                                    </SubmitButton>}
-                                            </div>
-                                        </>}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div >
-            </>
+                                        <Input select label={strings.rating.ratingType} name="combination"
+                                            value={this.state.combination} onChange={this.onChange}>
+
+                                            <MenuItem value="overall" >{strings.overall}</MenuItem>
+                                            <MenuItem value="00" >{strings.rating.sheilds + " 0 x 0"}</MenuItem>
+                                            <MenuItem value="11" >{strings.rating.sheilds + " 1 x 1"}</MenuItem>
+                                            <MenuItem value="22" >{strings.rating.sheilds + " 2 x 2"}</MenuItem>
+                                            <MenuItem value="01" >{strings.rating.sheilds + " 0 x 1"}</MenuItem>
+                                            <MenuItem value="12" >{strings.rating.sheilds + " 1 x 2"}</MenuItem>
+
+                                        </Input>
+
+                                    </WithIcon>
+                                </Grid>
+                            </Grid>
+                        </GreyPaper>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
+                            <DropWithArrow title={strings.aboutrate}>
+                                <RatingDescr />
+                            </DropWithArrow>
+                        </GreyPaper>
+                    </Grid>
+
+
+                    <Grid item xs={12}>
+                        <GreyPaper elevation={4} enablePadding>
+                            <Grid container justify="center" spacing={2}>
+
+                                {this.state.loading &&
+                                    <Grid item xs={12}>
+                                        <LinearProgress color="secondary" />
+                                    </ Grid>}
+
+                                {this.state.isError &&
+                                    <Grid item xs={12}>
+                                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                                    </ Grid>}
+
+                                {this.state.showResult && <>
+                                    <Grid item xs={12}>
+                                        <Input
+                                            value={this.state.name}
+                                            onChange={this.onChangeInput}
+                                            label={strings.searchplaceholder}
+                                        />
+                                    </ Grid>
+
+                                    <Grid item xs={12}>
+                                        <RatingPages
+                                            name={this.state.name}
+                                            n={this.state.n}
+                                            league={this.state.league}
+                                            combination={this.state.combination}
+                                            pokemonTable={this.props.bases.pokemonBase}
+                                            moveTable={this.props.bases.moveBase}
+                                            searchState={this.state.searchState}
+                                            originalList={this.state.ratingList}
+                                        >
+                                            {this.state.ratingList}
+                                        </RatingPages>
+                                    </ Grid>
+                                </>}
+
+                                {(this.state.isNextPage && !this.state.searchState) &&
+                                    <Grid item container xs={12} justify="center">
+                                        <Button title={strings.loadmore} endIcon={<GetAppIcon />} onClick={this.onLoadMore} />
+                                    </Grid>}
+
+                            </Grid>
+                        </GreyPaper>
+                    </Grid>
+
+                </Grid>
+            </Grid>
         );
     }
 }

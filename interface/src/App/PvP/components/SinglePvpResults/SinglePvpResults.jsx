@@ -1,55 +1,64 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import Line from "./Line"
-import Thead from "./Thead"
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
 
-import { locale } from "../../../../locale/locale"
-import { returnRateStyle } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
+import Line from "./Line";
+import Head from "./Head";
+import Rate from "./Rate/Rate";
 
-import "./SinglePvpResults.scss"
+import { res } from "locale/Pvp/ResultTable/ResultTable";
 
-let strings = new LocalizedStrings(locale)
+import { getCookie } from "js/getCookie";
 
-const SinglePvpResults = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+let strings = new LocalizedStrings(res)
+
+const SinglePvpResults = React.memo(function SinglePvpResults(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const { Defender, Attacker } = props.value;
+
     return (
-        <table className={"singlepvp-table table table-sm table-hover text-center mb-0 " + (props.class ? props.class : "")} >
-            <Thead
-                NameA={props.value.Attacker.Name}
-                NameD={props.value.Defender.Name}
-            />
-            <tbody className="singlepvp-res__tbody">
+        <Table>
+            <Head NameA={Attacker.Name} NameD={Defender.Name} />
+
+            <TableBody>
+
                 <Line
                     title={strings.resultTable.rate}
-                    valueA={<div className={"singlepvp-res__rate rate-color" + returnRateStyle(props.value.Attacker.Rate)[1]}>
-                        <i className="fas fa-trophy mr-1"></i>
-                        {props.value.Attacker.Rate}
-                    </div>}
-                    valueD={<div className={"singlepvp-res__rate rate-color" + returnRateStyle(props.value.Defender.Rate)[1]}>
-                        <i className="fas fa-trophy mr-1"></i>
-                        {props.value.Defender.Rate}
-                    </div>}
+                    valueA={
+                        <Rate value={Attacker.Rate}>
+                            <i className="fas fa-trophy"></i>
+                        </Rate>}
+                    valueD={
+                        <Rate value={Defender.Rate}>
+                            <i className="fas fa-trophy"></i>
+                        </Rate>}
                 />
                 <Line
                     title={strings.resultTable.hpRes}
-                    valueA={props.value.Attacker.MaxHP + "/" + props.value.Attacker.HP}
-                    valueD={props.value.Defender.MaxHP + "/" + props.value.Defender.HP}
+                    valueA={`${Attacker.MaxHP}/${Attacker.HP}`}
+                    valueD={`${Defender.MaxHP}/${Defender.HP}`}
                 />
                 <Line
                     title={strings.resultTable.damageRes}
-                    valueA={(props.value.Attacker.MaxHP - props.value.Attacker.HP) + "/" + props.value.Defender.DamageBlocked}
-                    valueD={(props.value.Defender.MaxHP - props.value.Defender.HP) + "/" + props.value.Attacker.DamageBlocked}
+                    valueA={`${Attacker.MaxHP - Attacker.HP}/${Defender.DamageBlocked}`}
+                    valueD={`${Defender.MaxHP - Defender.HP}/${Attacker.DamageBlocked}`}
                 />
                 <Line
                     title={strings.resultTable.energyRes}
-                    valueA={(props.value.Attacker.EnergyRemained + props.value.Attacker.EnergyUsed) + "/" + props.value.Attacker.EnergyUsed}
-                    valueD={(props.value.Defender.EnergyRemained + props.value.Defender.EnergyUsed) + "/" + props.value.Defender.EnergyUsed}
+                    valueA={`${Attacker.EnergyRemained + Attacker.EnergyUsed}/${Attacker.EnergyUsed}`}
+                    valueD={`${Defender.EnergyRemained + Defender.EnergyUsed}/${Defender.EnergyUsed}`}
                 />
-            </tbody>
-        </table>
+
+            </TableBody>
+        </Table>
     )
 });
 
 export default SinglePvpResults;
+
+SinglePvpResults.propTypes = {
+    value: PropTypes.object,
+};

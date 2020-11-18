@@ -1,40 +1,33 @@
-import React from "react"
-import ListElement from "./ListElement"
+import React from "react";
+import PropTypes from 'prop-types';
 
+import Grid from '@material-ui/core/Grid';
 
-const UsesList = React.memo(function (props) {
-    let list = []
+import ListElement from "./ListElement";
 
+const UsesList = React.memo(function UsesList(props) {
+
+    const moveCategory = props.move.MoveCategory === "Charge Move" ? "ChargeMoves" : "QuickMoves";
+
+    let list = [];
     for (const [key, value] of Object.entries(props.pokTable)) {
-        switch (props.move.MoveCategory === "Charge Move") {
-            case true:
-                if (value.ChargeMoves.includes(props.move.Title)) {
-                    list.push(
-                        <ListElement
-                            key={key}
-                            name={key}
-                            value={value}
-                        />)
-                }
-                break
-            default:
-                if (value.QuickMoves.includes(props.move.Title)) {
-                    list.push(
-                        <ListElement
-                            key={key}
-                            name={key}
-                            value={value}
-                        />)
-                }
+        if (value[moveCategory].includes(props.move.Title)) {
+            list.push(<ListElement key={key} name={key} value={value} />)
         }
     }
 
     return (
-        list.length > 0 && <div className="row m-0">
+        list.length > 0 &&
+        <Grid container>
             {list}
-        </div>
+        </Grid>
     )
 
 });
 
 export default UsesList;
+
+UsesList.propTypes = {
+    pokTable: PropTypes.object,
+    move: PropTypes.object,
+};

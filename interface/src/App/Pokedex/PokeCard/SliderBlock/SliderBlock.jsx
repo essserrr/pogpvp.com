@@ -1,54 +1,77 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import Button from "../../../Movedex/MoveCard/DoubleSlider/Button/Button"
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
+import { makeStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
-import "./SliderBlock.scss"
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Pokedex/Pokecard";
 
-let strings = new LocalizedStrings(dexLocale)
+let strings = new LocalizedStrings(dexLocale);
 
-const SliderBlock = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+const useStyles = makeStyles((theme) => ({
+    tabs: {
+        display: "flex",
+        flexWrap: "wrap",
+    },
+    tab: {
+        flexBasis: "0",
+        flexGrow: "1",
+        maxWidth: "100%",
+        minWidth: 0,
+
+        position: "relative",
+        lineHeight: "inherit",
+
+        backgroundColor: "transparent",
+
+        fontSize: "0.8rem",
+        color: theme.palette.text.primary,
+        fontWeight: 400,
+
+        [theme.breakpoints.down('sm')]: {
+            fontSize: "0.6rem",
+        },
+
+        "&:focus": {
+            outline: "none",
+        },
+    }
+}));
+
+const SliderButtons = React.memo(function SliderButtons(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const { attrs, active, disabled, onClick } = props;
+    const classes = useStyles();
+
+    const activeTab = active.indexOf(true);
+
     return (
-        <div className={"pokcardslider-group row m-0 my-2 text-center justify-content-center"} >
-            <Button
-                attr="moves"
-                title={strings.movelist}
-                class={props.active.moves ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                disabled={props.moveDis}
-                onClick={props.onClick}
-            />
-            <Button
-                attr="evo"
-                title={strings.evochart}
-                class={props.active.evo ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                disabled={props.evoDis}
-                onClick={props.onClick}
-            />
-            <Button
-                attr={"eff"}
-                title={strings.vunlist}
-                class={props.active.eff ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                onClick={props.onClick}
-            />
-            <Button
-                attr={"cp"}
-                title={"CP"}
-                class={props.active.cp ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                onClick={props.onClick}
-            />
-            <Button
-                attr={"other"}
-                title={strings.otherinf}
-                class={props.active.other ? "pokcardslider-group__button active col py-1" : "pokcardslider-group__button col py-1"}
-                disabled={props.othDis}
-                onClick={props.onClick}
-            />
-        </div>
+        <Tabs className={classes.tabs}
+            value={activeTab === -1 ? false : activeTab}
+            onChange={(event, value) => { onClick(event, { attr: attrs[value] }) }}
+        >
+            <Tab className={classes.tab} disabled={disabled[0]} label={strings.movelist} id={0} aria-controls="0" />
+
+            <Tab className={classes.tab} disabled={disabled[1]} label={strings.evochart} id={1} aria-controls="1" />
+
+            <Tab className={classes.tab} disabled={disabled[2]} label={strings.vunlist} id={2} aria-controls="2" />
+
+            <Tab className={classes.tab} disabled={disabled[3]} label={"CP"} id={3} aria-controls="3" />
+
+            <Tab className={classes.tab} disabled={disabled[4]} label={strings.otherinf} id={4} aria-controls="4" />
+        </Tabs>
     )
 
 });
 
-export default SliderBlock;
+export default SliderButtons;
+
+SliderButtons.propTypes = {
+    active: PropTypes.arrayOf(PropTypes.bool),
+    attrs: PropTypes.arrayOf(PropTypes.string),
+    disabled: PropTypes.arrayOf(PropTypes.bool),
+    onClick: PropTypes.func,
+};

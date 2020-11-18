@@ -1,49 +1,81 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry"
-import PokemonIconer from "../PokemonIconer/PokemonIconer"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import { makeStyles } from '@material-ui/core/styles';
 
-import "./MatrixPokemonList.scss"
+import ColoredMove from "App/Components/ColoredMove/ColoredMove";
+import MatrixListEntry from "../MatrixPokemonList/MatrixListEntry/MatrixListEntry";
+import Iconer from "App/Components/Iconer/Iconer";
 
-class MatrixPokemonList extends React.PureComponent {
+import { addStar } from "js/addStar";
 
-    addStar(pokName, moveName) {
-        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
-    }
+const useStyles = makeStyles((theme) => ({
+    pokList: {
+        overflowX: "hidden",
+        overflowY: "auto",
 
-    createListToDisplay() {
-        return this.props.list.map((elem, i) => {
-            return <MatrixListEntry
-                attr={this.props.attr}
-                key={i}
-                index={i}
+        maxHeight: "150px",
+    },
+}));
 
-                onPokemonDelete={this.props.onPokemonDelete}
-                onClick={this.props.onPokRedact}
+const MatrixPokemonList = React.memo(function MatrixPokemonList(props) {
+    const classes = useStyles();
 
-                thead={<><PokemonIconer
-                    src={this.props.pokemonTable[elem.name].Number +
-                        (this.props.pokemonTable[elem.name].Forme !== "" ? "-" + this.props.pokemonTable[elem.name].Forme : "")}
-                    class={"matr-pok-list__icon mr-1"}
-                    for={""}
-                />{elem.name}</>}
-                body={
-                    elem.QuickMove + this.addStar(elem.name, elem.QuickMove) +
-                    (elem.ChargeMove1 ? " + " + elem.ChargeMove1 + this.addStar(elem.name, elem.ChargeMove1) : "") +
-                    (elem.ChargeMove2 ? " / " + elem.ChargeMove2 + this.addStar(elem.name, elem.ChargeMove2) : "")
-                }
-            />
-        });
-    }
+    return (
+        <Box clone p={0.5}>
+            <Grid container justify="center" className={classes.pokList} spacing={1}>
+                {props.children.map((elem, i) => {
+                    const fileName = props.pokemonTable[elem.name].Number + (props.pokemonTable[elem.name].Forme !== "" ? "-" + props.pokemonTable[elem.name].Forme : "")
+                    return (
+                        <Grid item xs={12} key={i}>
+                            <MatrixListEntry
+                                attr={props.attr}
+                                index={i}
 
-    render() {
-        return (
-            <div className="matr-pok-list mb-1 px-1">
-                {this.createListToDisplay()}
-            </div>
-        )
-    }
+                                onPokemonDelete={props.onPokemonDelete}
+                                onClick={props.onPokRedact}
 
-}
+                                icon={<Iconer folderName="/pokemons/" fileName={fileName} size={24} />}
+                                isShadow={String(elem.IsShadow) === "true"}
+                                name={elem.name}
 
-export default MatrixPokemonList
+                                body={
+                                    <>
+                                        <ColoredMove type={props.moveTable[elem.QuickMove].MoveType}>
+                                            {elem.QuickMove + addStar(elem.name, elem.QuickMove, props.pokemonTable)}
+                                        </ColoredMove>
+
+                                        {elem.ChargeMove1 &&
+                                            <ColoredMove type={props.moveTable[elem.ChargeMove1].MoveType}>
+                                                {elem.ChargeMove1 + addStar(elem.name, elem.ChargeMove1, props.pokemonTable)}
+                                            </ColoredMove>}
+
+                                        {elem.ChargeMove2 &&
+                                            <ColoredMove type={props.moveTable[elem.ChargeMove2].MoveType}>
+                                                {elem.ChargeMove2 + addStar(elem.name, elem.ChargeMove2, props.pokemonTable)}
+                                            </ColoredMove>}
+                                    </>
+                                }
+                            />
+                        </Grid>
+                    )
+                })}
+            </Grid>
+        </Box>
+    )
+});
+
+export default MatrixPokemonList;
+
+MatrixPokemonList.propTypes = {
+    attr: PropTypes.string,
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    onPokRedact: PropTypes.func,
+    onPokemonDelete: PropTypes.func,
+
+    children: PropTypes.arrayOf(PropTypes.object)
+};

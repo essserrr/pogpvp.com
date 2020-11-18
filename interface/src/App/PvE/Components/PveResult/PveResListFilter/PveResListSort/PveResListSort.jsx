@@ -1,11 +1,13 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PveResListRender from "./PveResListRender/PveResListRender"
+import PveResListRender from "./PveResListRender/PveResListRender";
 
-class PveResListSort extends React.Component {
+const PveResListSort = React.memo(function PveResListSort(props) {
+    const { needsAvg, sort, children, ...other } = props;
 
-    sortByDamage() {
-        return this.props.list.sort((a, b) => {
+    const sortByDamage = () => {
+        return children.sort((a, b) => {
             let sumDamageA = 0
             let sumDamageB = 0
             a.Result.forEach((elem) => { sumDamageA += elem.DAvg })
@@ -14,8 +16,8 @@ class PveResListSort extends React.Component {
         })
     }
 
-    sortByDps(timer) {
-        return this.props.list.sort((a, b) => {
+    const sortByDps = (timer) => {
+        return children.sort((a, b) => {
             let sumDamageA = 0
             let sumDamageB = 0
 
@@ -39,38 +41,33 @@ class PveResListSort extends React.Component {
         })
     }
 
+    return (
+        <PveResListRender {...other}>
+            {needsAvg ?
+                children
+                :
+                sort === "dps" ? sortByDps(props.snapshot.bossObj.Tier > 3 ? 300 : 180,) : sortByDamage()}
+        </PveResListRender>
+    )
+});
 
-    render() {
-        let list = []
-        switch (this.props.needsAvg) {
-            case true:
-                list = this.props.list
-                break
-            default:
-                list = this.props.sort === "dps" ? this.sortByDps(this.props.snapshot.bossObj.Tier > 3 ? 300 : 180,) : this.sortByDamage()
-        }
+export default PveResListSort;
 
-        return (
-            <PveResListRender
-                n={this.props.n}
-                customResult={this.props.customResult}
+PveResListSort.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.object),
 
-                snapshot={this.props.snapshot}
-                tables={this.props.tables}
+    needsAvg: PropTypes.bool,
+    n: PropTypes.number,
+    customResult: PropTypes.bool,
 
-                pokemonTable={this.props.pokemonTable}
-                moveTable={this.props.moveTable}
-                pokList={this.props.pokList}
-                chargeMoveList={this.props.chargeMoveList}
-                quickMoveList={this.props.quickMoveList}
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
 
-                showBreakpoints={this.props.showBreakpoints}
-                loadMore={this.props.loadMore}
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
 
-                list={list}
-            />
-        );
-    }
-}
+    sort: PropTypes.string,
 
-export default PveResListSort
+    showBreakpoints: PropTypes.func,
+    loadMore: PropTypes.func,
+};

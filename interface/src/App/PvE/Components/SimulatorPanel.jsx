@@ -1,124 +1,131 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { UnmountClosed } from "react-collapse"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import CustomRaidSettings from "./CustomRaidSettings/CustomRaidSettings"
-import PokemonPanel from "./Panels/PokemonPanel/PokemonPanel"
-import BossPanel from "./Panels/BossPanel/BossPanel"
-import PveSettingsPanel from "./Panels/PveSettingsPanel/PveSettingsPanel"
+import Grid from '@material-ui/core/Grid';
+import Collapse from '@material-ui/core/Collapse';
 
+import CustomRaidSettings from "./CustomRaidSettings/CustomRaidSettings";
+import PokemonPanel from "./Panels/PokemonPanel/PokemonPanel";
+import BossPanel from "./Panels/BossPanel/BossPanel";
+import PveSettingsPanel from "./Panels/PveSettingsPanel/PveSettingsPanel";
 
-import { pveLocale } from "../../../locale/pveLocale"
-import { getCookie } from "../../../js/getCookie"
+import { locale } from "locale/Pve/Pve";
+import { getCookie } from "js/getCookie";
 
-let pveStrings = new LocalizedStrings(pveLocale);
+let pveStrings = new LocalizedStrings(locale);
 
-class SimulatorPanel extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const SimulatorPanel = React.memo(function SimulatorPanel(props) {
+    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <BossPanel
+                    title={pveStrings.boss}
+                    attr="bossObj"
 
+                    pokemonTable={props.pokemonTable}
+                    moveTable={props.moveTable}
+                    pokList={props.pokList}
+                    chargeMoveList={props.chargeMoveList}
+                    quickMoveList={props.quickMoveList}
 
-    render() {
-        return (
-            <div className={"row justify-content-between m-0"}>
-                <div className="col-12 px-1 text-center ">
-                    <BossPanel
-                        title={pveStrings.boss}
-                        attr="bossObj"
+                    value={props.value.bossObj}
+                    settingsValue={props.value.pveObj}
 
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        pokList={this.props.pokList}
-                        chargeMoveList={this.props.chargeMoveList}
-                        quickMoveList={this.props.quickMoveList}
+                    onChange={props.onChange}
+                    onClick={props.onClick}
 
-                        value={this.props.value.bossObj}
-                        settingsValue={this.props.value.pveObj}
+                />
+            </Grid>
 
-                        onChange={this.props.onChange}
-                        onClick={this.props.onClick}
-
-                    />
-                </div>
-
-                {!this.props.forCustomPve && <div className="col-12 px-1">
+            {!props.forCustomPve &&
+                <Grid item xs={12}>
                     <PokemonPanel
                         title={pveStrings.attacker}
                         attr="attackerObj"
                         canBeShadow={true}
 
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        pokList={this.props.pokList}
-                        chargeMoveList={this.props.chargeMoveList}
-                        quickMoveList={this.props.quickMoveList}
+                        pokemonTable={props.pokemonTable}
+                        moveTable={props.moveTable}
+                        pokList={props.pokList}
+                        chargeMoveList={props.chargeMoveList}
+                        quickMoveList={props.quickMoveList}
 
-                        value={this.props.value.attackerObj}
-                        settingsValue={this.props.value.pveObj}
+                        value={props.value.attackerObj}
+                        settingsValue={props.value.pveObj}
 
-                        onChange={this.props.onChange}
-
-                        onClick={this.props.onClick}
+                        onChange={props.onChange}
+                        onClick={props.onClick}
                     />
-                </div>}
+                </Grid>}
 
-                {!this.props.forCustomPve && <UnmountClosed isOpened={this.props.value.pveObj.SupportSlotEnabled !== "false"}>
-                    <div className="col-12 px-1 text-center ">
+            {!props.forCustomPve &&
+                <Grid item xs={12}>
+                    <Collapse in={props.value.pveObj.SupportSlotEnabled !== "false"} unmountOnExit>
                         <PokemonPanel
                             title={pveStrings.sup}
                             attr="supportPokemon"
                             canBeShadow={false}
 
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.moveTable}
-                            pokList={this.props.boostersList}
-                            chargeMoveList={this.props.chargeMoveList}
-                            quickMoveList={this.props.quickMoveList}
+                            pokemonTable={props.pokemonTable}
+                            moveTable={props.moveTable}
+                            pokList={props.boostersList}
+                            chargeMoveList={props.chargeMoveList}
+                            quickMoveList={props.quickMoveList}
 
-                            value={this.props.value.supportPokemon}
+                            value={props.value.supportPokemon}
 
-                            onChange={this.props.onChange}
+                            onChange={props.onChange}
 
-                            onClick={this.props.onClick}
+                            onClick={props.onClick}
                         />
-                    </div>
-                </UnmountClosed>}
+                    </Collapse>
+                </Grid>}
 
+            {props.forCustomPve &&
+                <Grid item xs={12}>
+                    <CustomRaidSettings
+                        title={pveStrings.attacker}
+                        attr="userSettings"
 
-                {this.props.forCustomPve &&
-                    <div className="col-12 text-center px-1 mb-3">
-                        <CustomRaidSettings
-                            title={pveStrings.attacker}
-                            attr="userSettings"
+                        settingsValue={props.value.pveObj}
+                        value={props.value.userSettings}
+                        userParties={props.userParties}
 
-                            settingsValue={this.props.value.pveObj}
-                            value={this.props.value.userSettings}
-                            userParties={this.props.userParties}
+                        onChange={props.onChange}
+                    />
+                </Grid>}
 
-                            onChange={this.props.onChange}
-                        />
-                    </div>}
+            <Grid item xs={12}>
+                <PveSettingsPanel
+                    forCustomPve={props.forCustomPve}
+                    findInCollection={props.value.userSettings && props.value.userSettings.FindInCollection}
+                    title={pveStrings.raid}
+                    attr={"pveObj"}
+                    value={props.value.pveObj}
+                    onChange={props.onChange}
+                />
+            </Grid>
 
-                <div className="col-12 text-center px-1">
-                    <div className="row m-0">
-                        <PveSettingsPanel
-                            forCustomPve={this.props.forCustomPve}
-                            findInCollection={this.props.value.userSettings && this.props.value.userSettings.FindInCollection}
-                            title={pveStrings.raid}
-                            attr={"pveObj"}
-                            value={this.props.value.pveObj}
-                            onChange={this.props.onChange}
-                        />
-                    </div>
-                </div>
+        </Grid>
+    )
+});
 
-            </div>
-        )
-    }
+export default SimulatorPanel;
 
-}
+SimulatorPanel.propTypes = {
+    pokemonTable: PropTypes.object.isRequired,
+    moveTable: PropTypes.object.isRequired,
 
-export default SimulatorPanel
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    boostersList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
+
+    value: PropTypes.object,
+
+    onChange: PropTypes.func,
+    onClick: PropTypes.func,
+};

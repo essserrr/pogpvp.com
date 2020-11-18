@@ -1,22 +1,28 @@
 import React from "react"
+import PropTypes from 'prop-types';
 
-import UserShinyList from "../UserShinyList/UserShinyList"
+import UserShinyList from "App/Userpage/UserShinyBroker/UserShinyList/UserShinyList";
 
-class UserShinyFilter extends React.PureComponent {
-    render() {
+const UserShinyFilter = React.memo(function UserShinyFilter(props) {
+    return (
+        <UserShinyList
+            elementsOnPage={50}
 
-        return (
-            <UserShinyList
-                elemntsOnPage={50}
+            attr={props.attr}
+            pokemonTable={props.pokemonTable}
+            onPokemonDelete={props.onPokemonDelete}
+        >
+            {Object.values(props.children)}
+        </UserShinyList>
+    )
+});
 
-                attr={this.props.attr}
-                pokemonTable={this.props.pokemonTable}
-                list={Object.values(this.props.list)}
-                onPokemonDelete={this.props.onPokemonDelete}
-            />
-        );
-    }
-}
 
-export default UserShinyFilter
+export default UserShinyFilter;
 
+UserShinyFilter.propTypes = {
+    children: PropTypes.object,
+    onPokemonDelete: PropTypes.func,
+    pokemonTable: PropTypes.object,
+    attr: PropTypes.string,
+};

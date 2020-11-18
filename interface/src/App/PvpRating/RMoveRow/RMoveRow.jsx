@@ -1,42 +1,56 @@
-import React from "react"
-import ShortMove from "./ShortMove/ShortMove"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./RMoveRow.scss"
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-const RMoveRow = React.memo(function (props) {
-    function addStar(moveName) {
-        return (props.pokemonTable[props.pokName].EliteMoves[moveName] === 1 ? "*" : "")
+import useAnimation from "css/hoverAnimation";
+import ColoredMove from "App/Components/ColoredMove/ColoredMove";
+import { addStar } from "js/addStar";
+
+const useStyles = makeStyles((theme) => ({
+    rMove: {
+        padding: `${theme.spacing(0.25)}px ${theme.spacing(0.5)}px`,
+        backgroundColor: theme.palette.background.main,
+        borderRadius: `${theme.spacing(0.5)}px`,
+        border: "0.5px solid rgba(0, 0, 0, 0.295)",
+        height: "fit-content",
+        fontWeight: 400,
     }
+}));
+
+const RMoveRow = React.memo(function RMoveRow(props) {
+    const classes = useStyles();
+    const animation = useAnimation();
 
     return (
-        <div className="rating-moverow row justify-content-between mb-1 mx-2 mx-md-3">
-            <div className="col p-0">
-                <div className="row justify-content-md-left m-0 p-0">
-                    {props.moveTable[props.value.Quick] &&
-                        <ShortMove
-                            enableMargins={true}
-                            class={`type-color${props.moveTable[props.value.Quick].MoveType} text`}
-                            value={props.value.Quick + addStar(props.value.Quick)}
-                        />}
-                    {props.moveTable[props.value.Charge[0]] &&
-                        <ShortMove
-                            enableMargins={true}
-                            class={`type-color${props.moveTable[props.value.Charge[0]].MoveType} text`}
-                            value={props.value.Charge[0] + addStar(props.value.Charge[0])}
-                        />}
-                    {props.moveTable[props.value.Charge[1]] &&
-                        <ShortMove
-                            enableMargins={true}
-                            class={`type-color${props.moveTable[props.value.Charge[1]].MoveType} text`}
-                            value={props.value.Charge[1] + addStar(props.value.Charge[1])}
-                        />}
-                </div>
-            </div>
-            <div className="col-auto text-right align-self-center p-0 pr-2">
+        <Grid container justify="space-between" alignItems="center" className={`${classes.rMove} ${animation.animation}`}>
+            <Grid item container xs>
+                {props.moveTable[props.value.Quick] &&
+                    <ColoredMove m={0.25} type={props.moveTable[props.value.Quick].MoveType}>
+                        {props.value.Quick + addStar(props.pokName, props.value.Quick, props.pokemonTable)}
+                    </ColoredMove>}
+                {props.moveTable[props.value.Charge[0]] &&
+                    <ColoredMove m={0.25} type={props.moveTable[props.value.Charge[0]].MoveType}>
+                        {props.value.Charge[0] + addStar(props.pokName, props.value.Charge[0], props.pokemonTable)}
+                    </ColoredMove>}
+                {props.moveTable[props.value.Charge[1]] &&
+                    <ColoredMove m={0.25} type={props.moveTable[props.value.Charge[1]].MoveType}>
+                        {props.value.Charge[1] + addStar(props.pokName, props.value.Charge[1], props.pokemonTable)}
+                    </ColoredMove>}
+            </Grid>
+            <Grid item xs="auto">
                 {props.value.Rate}
-            </div>
-        </div>
+            </Grid>
+        </Grid>
     )
 });
 
 export default RMoveRow;
+
+RMoveRow.propTypes = {
+    pokName: PropTypes.string,
+    value: PropTypes.object,
+    moveTable: PropTypes.object,
+    pokemonTable: PropTypes.object,
+};

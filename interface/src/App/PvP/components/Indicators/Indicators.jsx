@@ -1,75 +1,78 @@
-import React from "react"
-import HPIndicator from "./HPIndicator/HPIndicator"
-import EnergyIndicator from "./EnergyIndicator/EnergyIndicator"
-import EnergyNumber from "./EnergyNumber/EnergyNumber"
-import { calculateDamage, calculateMultiplier } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import LocalizedStrings from "react-localization"
-import { locale } from "../../../../locale/locale"
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 
-import "./Indicators.scss"
+import CpAndTyping from "App/Components/CpAndTypes/CpAndTypes";
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import HPIndicator from "./HPIndicator/HPIndicator";
+import EnergyIndicator from "./EnergyIndicator/EnergyIndicator";
+import EnergyNumber from "./EnergyNumber/EnergyNumber";
+import { calculateDamage } from "js/Damage/calculateDamage";
+import { calculateMultiplier } from "js/Damage/calculateMultiplier";
+import { getCookie } from "js/getCookie";
 
-let strings = new LocalizedStrings(locale)
+import { moveTips } from "locale/Pvp/MoveTips/MoveTips";
 
-const Indicators = React.memo(function (props) {
-    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    if (props.chargeMove1) {
-        var damage1 = calculateDamage(props.chargeMove1.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))
-    }
-    if (props.chargeMove2) {
-        var damage2 = calculateDamage(props.chargeMove2.PvpDamage, props.aAttack, props.dDefence, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))
-    }
+const useStyles = makeStyles((theme) => ({
+    root: {
+        maxWidth: "174px !important",
+    },
+}));
+
+let moveStrings = new LocalizedStrings(moveTips);
+
+const Indicators = React.memo(function Indicators(props) {
+    moveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+
+    const classes = useStyles();
+    const HP = Number(props.value.HP);
+    const Energy = isNaN(Number(props.value.Energy)) ? 0 : Number(props.value.Energy);
+
     return (
-        <div className="indicators p-2">
-            <HPIndicator
-                what="HP"
-                value={props.HP}
-                effSta={props.effSta}
+        <GreyPaper className={classes.root} elevation={4} enablePadding paddingMult={0.25}>
+            <Grid container alignItems="center" justify={"space-around"} spacing={1}>
 
-            />
-            <div className="d-flex justify-content-around mt-2">
-                {(props.chargeMove1) && <EnergyIndicator
-                    what="Energy"
-                    value={props.energy}
-                    defaultValue={0}
-                    maxValue={-props.chargeMove1.PvpEnergy}
-                    moveName={props.chargeMove1.Title.replace(/[a-z -]/g, "")}
-                    moveType={props.chargeMove1.MoveType}
-                    for={"ChM1En" + props.attr}
-                    tip={<>
-                        {strings.move.damage + damage1}<br />
-                        {strings.move.energy + (-props.chargeMove1.PvpEnergy)}<br />
-                        {"DPE: " + (damage1 / (-props.chargeMove1.PvpEnergy)).toFixed(2)}
-                    </>
-                    }
-                />}
-                <EnergyNumber
-                    for={"energy" + props.attr}
-                    value={props.energy}
-                    label={strings.initialStats.energyTip}
-                />
-                {(props.chargeMove2) && <EnergyIndicator
-                    what="Energy"
-                    value={props.energy}
-                    defaultValue={0}
-                    maxValue={-props.chargeMove2.PvpEnergy}
-                    moveName={props.chargeMove2.Title.replace(/[a-z -]/g, "")}
-                    moveType={props.chargeMove2.MoveType}
-                    for={"ChM2En" + props.attr}
-                    tip={<>
-                        {strings.move.damage + damage2}<br />
-                        {strings.move.energy + (-props.chargeMove2.PvpEnergy)}<br />
-                        {"DPE: " + (damage2 / (-props.chargeMove2.PvpEnergy)).toFixed(2)}
-                    </>
-                    }
-                />}
-            </div>
-        </div>
+                <Grid item xs={12}>
+                    <CpAndTyping hideCp isShadow={props.value.IsShadow === "true"} pokemonTable={props.pokemonTable} name={props.value.name} />
+                </Grid>
 
+                <Grid item xs={12}>
+                    <HPIndicator value={HP} maxValue={props.value.effSta} />
+                </Grid>
 
+                <Grid item xs="auto">
+                    {props.chargeMove1 &&
+                        <EnergyIndicator value={Energy} maxValue={-props.chargeMove1.PvpEnergy} move={props.chargeMove1}
+                            damage={calculateDamage(props.chargeMove1.PvpDamage, props.value.effAtk, props.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove1.MoveType))} />}
+                </Grid>
+                <Grid item xs="auto">
+                    <EnergyNumber value={Energy} />
+                </Grid>
+
+                <Grid item xs="auto">
+                    {props.chargeMove2 &&
+                        <EnergyIndicator value={Energy} maxValue={-props.chargeMove2.PvpEnergy} move={props.chargeMove2}
+                            damage={calculateDamage(props.chargeMove2.PvpDamage, props.value.effAtk, props.effDef, calculateMultiplier(props.attackerTypes, props.defenderTypes, props.chargeMove2.MoveType))} />}
+                </Grid>
+
+            </Grid>
+        </GreyPaper>
     )
-
 });
 
 export default Indicators;
+
+Indicators.propTypes = {
+    value: PropTypes.object,
+    pokemonTable: PropTypes.object,
+    attr: PropTypes.string,
+
+    chargeMove1: PropTypes.object,
+    chargeMove2: PropTypes.object,
+
+    attackerTypes: PropTypes.array,
+    defenderTypes: PropTypes.array,
+};

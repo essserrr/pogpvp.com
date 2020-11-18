@@ -1,46 +1,75 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import Loader from "../../../../../../../../Registration/RegForm/AuthButton/Loader/Loader"
-import SubmitButton from "../../../../../../../../PvP/components/SubmitButton/SubmitButton"
-import Errors from "../../../../../../../../PvP/components/Errors/Errors"
-import { pveLocale } from "../../../../../../../../../locale/pveLocale"
+import Alert from '@material-ui/lab/Alert';
+import Grid from '@material-ui/core/Grid';
+import ReplayIcon from '@material-ui/icons/Replay';
 
-let pveStrings = new LocalizedStrings(pveLocale)
+import Button from "App/Components/Button/Button";
 
-class PveResultCollapseList extends React.PureComponent {
-    render() {
-        return (
+import { collList } from "locale/Pve/PveResCollapseList/PveResCollapseList";
+import { getCookie } from "js/getCookie";
 
-            <div className="row m-0  mt-1">
+let pveStrings = new LocalizedStrings(collList);
 
-                {this.props.isError && <div className="col-12 d-flex justify-content-center p-0 mb-2 mt-3" >
-                    <Errors class="alert alert-danger p-2" value={this.props.error} /></div>}
+const PveResultCollapseList = React.memo(function PveResultCollapseList(props) {
+    pveStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-                {!this.props.needsAverage && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
-                    <SubmitButton
-                        action="Precision"
-                        onSubmit={this.props.rerunWithPrecision}
-                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                    >
-                        {this.props.loading ? <Loader duration="1.5s" /> : pveStrings.pres}
-                    </SubmitButton>
-                </div>}
-                {!this.props.customResult && <div className="col-12 d-flex justify-content-center p-0 mb-1 mt-2" >
-                    <SubmitButton
-                        action="Breakpoints"
-                        onSubmit={this.props.defineBreakpoints}
-                        class="submit-button--lg fix btn btn-primary btn-sm mt-0  mx-0"
-                    >
-                        {pveStrings.break}
-                    </SubmitButton>
-                </div>}
-                {this.props.children}
-            </div>
-        );
-    }
-};
+    return (
+
+        <Grid container spacing={2}>
+
+            {props.isError &&
+                <Grid container justify="center" item xs={12}>
+                    <Alert variant="filled" severity="error">{props.error}</Alert>
+                </Grid>}
+
+            {!props.needsAverage &&
+                <Grid container justify="center" item xs={12}>
+                    <Button
+                        loading={props.loading}
+                        title={pveStrings.pres}
+                        onClick={props.rerunWithPrecision}
+                        endIcon={<ReplayIcon />}
+                    />
+                </Grid>}
+
+            {!props.customResult &&
+                <Grid container justify="center" item xs={12}>
+                    <Button
+                        title={pveStrings.break}
+                        onClick={props.defineBreakpoints}
+                    />
+                </Grid>}
+
+            <Grid item xs={12}>
+                {props.children}
+            </Grid>
+
+        </Grid>
+    )
+});
+
 
 export default PveResultCollapseList;
 
+PveResultCollapseList.propTypes = {
+    isError: PropTypes.bool,
+    error: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.string,
+    ]),
 
+    loading: PropTypes.bool,
+
+    customResult: PropTypes.bool,
+
+    rerunWithPrecision: PropTypes.func,
+    defineBreakpoints: PropTypes.func,
+
+    children: PropTypes.oneOfType([
+        PropTypes.node,
+        PropTypes.arrayOf(PropTypes.node),
+    ]),
+};

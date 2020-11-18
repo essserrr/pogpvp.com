@@ -1,69 +1,79 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
 
-import LocalizedStrings from "react-localization"
-import { privacy } from "../../../locale/privacy"
-import { getCookie } from "../../../js/getCookie"
-import "./Privacy.scss"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+
+import { privacy } from "locale/Privacy/privacy";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(privacy)
 
-const Privacy = React.memo(function (props) {
+const Privacy = React.memo(function Privacy() {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className="row justify-content-center mx-1">
-            <div data-nosnippet className="col-12 col-sm-11 col-md-9  privacy p-3 mt-3 mb-5">
-                <h1>{strings.priv.h1}</h1>
+        <Grid container justify="center">
+            <Grid item xs={10} sm={8} md={6}>
+                <GreyPaper elevation={4} enablePadding={true} >
+                    <Typography variant="h4" gutterBottom>{strings.priv.h1}</Typography>
 
-                <p className="privacy--text">{strings.priv.p1}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p1}</Typography>
 
-                <p className="privacy--text">{strings.priv.p2}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p2}</Typography>
 
-                <p className="privacy--text">{strings.priv.p3}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p3}</Typography>
 
-                <p className="privacy--text">{strings.priv.p4}
-                    <Link title={strings.tandc} to="/terms">{strings.tandc}</Link>
-                    {strings.priv.p41}
-                    <a href="https://www.privacypolicytemplate.net">Privacy Policy Template</a>
-                    {strings.priv.p42}<a href="https://www.disclaimergenerator.org/">Disclaimer Generator</a>.</p>
+                    <Typography variant="body2" gutterBottom>
+                        {strings.priv.p4}
+                        <Link title={strings.tandc} to="/terms">{strings.tandc}</Link>
+                        {strings.priv.p41}
+                        <a href="https://www.privacypolicytemplate.net">Privacy Policy Template</a>
+                        {strings.priv.p42}<a href="https://www.disclaimergenerator.org/">Disclaimer Generator</a>.
+                    </Typography>
 
-                <h3>{strings.priv.h3}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h2}</Typography>
 
-                <p className="privacy--text">{strings.priv.p5}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p5}</Typography>
 
-                <h3>{strings.priv.h3}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h3}</Typography>
 
-                <p className="privacy--text">{strings.priv.p6}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p6}</Typography>
 
-                <h3>{strings.priv.h4}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h4}</Typography>
 
-                <p className="privacy--text">{strings.priv.p7}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p7}</Typography>
 
-                <p className="privacy--text">{strings.priv.p8}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p8}</Typography>
 
-                <p className="privacy--text">{strings.priv.p9}<a href="https://www.cookieconsent.com/what-are-cookies/">"What Are Cookies"</a>.</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p9}
+                        <a href="https://www.cookieconsent.com/what-are-cookies/">"What Are Cookies"</a>.
+                    </Typography>
 
-                <h3>{strings.priv.h5}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h5}</Typography>
 
-                <p className="privacy--text">{strings.priv.p10}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p10}</Typography>
 
-                <h3>{strings.priv.h6}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h6}</Typography>
 
-                <p className="privacy--text">{strings.priv.p11}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p11}</Typography>
 
-                <h3>{strings.priv.h7}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h7}</Typography>
 
-                <p className="privacy--text">{strings.priv.p12}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p12}</Typography>
 
-                <h3>{strings.priv.h8}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h8}</Typography>
 
-                <p className="privacy--text">{strings.priv.p13}</p>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p13}</Typography>
 
-                <h3>{strings.priv.h9}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.priv.h9}</Typography>
 
-                <p className="privacy--text">{strings.priv.p14}</p>
-            </div>
-        </div>
+                    <Typography variant="body2" gutterBottom>{strings.priv.p14}</Typography>
+                </GreyPaper>
+            </Grid>
+        </Grid>
     )
 
 });

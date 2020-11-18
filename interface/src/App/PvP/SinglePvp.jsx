@@ -1,35 +1,56 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import { withStyles } from "@material-ui/core/styles";
+
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import MiddlePanel from "./components/MiddlePanel/MiddlePanel";
 import Pokemon from "./components/Pokemon";
-import Result from "./components/Result";
-import SubmitButton from "./components/SubmitButton/SubmitButton"
-import PvpReconstruction from "./components/PvpReconstruction/PvpReconstruction"
-import Errors from "./components/Errors/Errors"
-import Indicators from "./components/Indicators/Indicators"
-import URL from "./components/URL/URL"
-import MagicBox from "./components/MagicBox/MagicBox"
-import Constructor from "./components/Constructor/Constructor"
-import Loader from "../PvpRating/Loader"
+import MagicBox from "./components/MagicBox/MagicBox";
+import Constructor from "./components/Constructor/Constructor";
 
-import {
-    calculateEffStat, pokemon, encodeQueryData, returnMovePool, calculateMaximizedStats, processHP,
-    processInitialStats, getRoundFromString, checkLvl, checkIV, selectCharge, selectQuick
-} from "../../js/indexFunctions.js"
-import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { pokemon } from "js/defaultObjects/pokemon";
+import { encodeQueryData } from "js/encoders/encodeQueryData";
+import { calculateEffStat } from "js/calculateEffStat";
+import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
+import { processHP } from "js/checks/processHP";
+import { processInitialStats } from "js/checks/processInitialStats";
+import { checkLvl } from "js/checks/checkLvl";
+import { checkIV } from "js/checks/checkIV";
+import { selectQuick } from "js/MoveSelector/selectQuick";
+import { selectCharge } from "js/MoveSelector/selectCharge";
+import { getCookie } from "js/getCookie";
+import { pvp } from "locale/Pvp/Pvp";
+import { options } from "locale/Components/Options/locale";
 
-import "./SinglePvp.scss"
+let strings = new LocalizedStrings(pvp);
+let optionStrings = new LocalizedStrings(options);
 
-let strings = new LocalizedStrings(locale)
+const styles = theme => ({
+    pokemon: {
+        maxWidth: "208px",
+        minWidth: "208px",
+    },
+    middleRow: {
+        maxWidth: "calc(100% - 416px) !important",
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "100% !important",
+        }
+    },
+});
 
 class SinglePvp extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
-            attacker: (props.parentState.attacker) ? props.parentState.attacker : pokemon(strings.tips.nameSearch),
-            defender: (props.parentState.defender) ? props.parentState.defender : pokemon(strings.tips.nameSearch),
+            attacker: (props.parentState.attacker) ? props.parentState.attacker : pokemon(),
+            defender: (props.parentState.defender) ? props.parentState.defender : pokemon(),
             result: (props.parentState.pvpResult) ? props.parentState.pvpResult : [],
             url: (props.parentState.url) ? props.parentState.url : "",
 
@@ -58,8 +79,8 @@ class SinglePvp extends React.PureComponent {
     componentDidUpdate(prevProps) {
         if (this.props.parentState.pvpResult !== prevProps.parentState.pvpResult) {
             this.setState({
-                attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(strings.tips.nameSearch),
-                defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(strings.tips.nameSearch),
+                attacker: (this.props.parentState.attacker) ? this.props.parentState.attacker : pokemon(),
+                defender: (this.props.parentState.defender) ? this.props.parentState.defender : pokemon(),
                 result: (this.props.parentState.pvpResult) ? this.props.parentState.pvpResult : [],
                 url: (this.props.parentState.url) ? this.props.parentState.url : "",
 
@@ -91,42 +112,38 @@ class SinglePvp extends React.PureComponent {
         }
     }
 
-    onNameChange(event, name) {
+    onNameChange(value, name) {
         //get movepool
-        let moves = returnMovePool(event.value, this.props.pokemonTable, strings.options.moveSelect)
-        let quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
-        let charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, event.value, this.props.pokemonTable)
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(value, this.props.pokemonTable, optionStrings.options.moveSelect)
+
+
+        const quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, value, this.props.pokemonTable)
+        const charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, value, this.props.pokemonTable)
         //create default iv set
-        let ivSet = calculateMaximizedStats(event.value, 40.0, this.props.pokemonTable)
-        let whatToMaximize = (this.state[name].maximizer.action === "Default") ? "Default" : this.state[name].maximizer.stat
+        const ivSet = calculateMaximizedStats(value, 40.0, this.props.pokemonTable);
+        const whatToMaximize = this.state[name].maximizer.action === "Default" ? "Default" : this.state[name].maximizer.stat;
+        const selectedSet = ivSet[this.props.parentState.league][whatToMaximize];
 
         //set state
         this.setState({
             [name]: {
                 ...this.state[name],
-                name: event.value,
-                quickMovePool: moves.quickMovePool,
-                chargeMovePool: moves.chargeMovePool,
-                QuickMove: quick,
-                ChargeMove1: charge.primaryName,
-                ChargeMove2: charge.secodaryName,
-                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
+                name: value,
 
-                effAtk: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                    this.state[name].AtkStage, this.props.pokemonTable,
+                quickMovePool: moves.quickMovePool, chargeMovePool: moves.chargeMovePool,
+
+                QuickMove: quick, ChargeMove1: charge.primaryName, ChargeMove2: charge.secodaryName,
+
+                Lvl: selectedSet.Level, Atk: selectedSet.Atk, Def: selectedSet.Def, Sta: selectedSet.Sta,
+
+                effAtk: calculateEffStat(value, selectedSet.Level, selectedSet.Atk, this.state[name].AtkStage, this.props.pokemonTable,
                     "Atk", this.state[name].IsShadow),
 
-                effDef: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Def,
-                    this.state[name].DefStage, this.props.pokemonTable,
+                effDef: calculateEffStat(value, selectedSet.Level, selectedSet.Def, this.state[name].DefStage, this.props.pokemonTable,
                     "Def", this.state[name].IsShadow),
 
-                effSta: calculateEffStat(event.value, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Sta, 0, this.props.pokemonTable, "Sta"),
+                effSta: calculateEffStat(value, selectedSet.Level, selectedSet.Sta, 0, this.props.pokemonTable, "Sta"),
 
                 HP: undefined,
                 Energy: undefined,
@@ -164,7 +181,7 @@ class SinglePvp extends React.PureComponent {
         this.setState({
             [role]: {
                 ...this.state[role],
-                [event.target.name]: checkLvl(event.target.value) + "",
+                [event.target.name]: String(checkLvl(event.target.value)),
                 effAtk: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Atk, this.state[role].AtkStage, this.props.pokemonTable, "Atk", this.state[role].IsShadow),
                 effDef: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Def, this.state[role].DefStage, this.props.pokemonTable, "Def", this.state[role].IsShadow),
                 effSta: calculateEffStat(this.state[role].name, event.target.value, this.state[role].Sta, 0, this.props.pokemonTable, "Sta"),
@@ -199,44 +216,32 @@ class SinglePvp extends React.PureComponent {
     }
 
     onMoveAdd(value, attr, category) {
-        switch (category.includes("Charge")) {
-            case true:
-                var newMovePool = [...this.state[attr].chargeMovePool]
+        const pool = category.includes("Charge") ? "chargeMovePool" : "quickMovePool"
+        var newMovePool = [...this.state[attr][pool]]
 
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        chargeMovePool: newMovePool,
-                        [category]: value,
-                    },
-                    stateModified: true,
-                });
-                break
-            default:
-                newMovePool = [...this.state[attr].quickMovePool]
-                newMovePool.splice((newMovePool.length - 2), 0, <option value={value} key={value}>{value + "*"}</option>);
-                this.setState({
-                    [attr]: {
-                        ...this.state[attr],
-                        showMenu: false,
-                        isSelected: undefined,
-                        quickMovePool: newMovePool,
-                        [category]: value,
-                    },
-                    stateModified: true,
-                });
-                break
+        if (!newMovePool.some(e => e.value === value)) {
+            newMovePool.splice((newMovePool.length - 2), 0, { value: value, title: `${value}*` });
         }
+
+        this.setState({
+            [attr]: {
+                ...this.state[attr],
+                showMenu: false,
+                isSelected: undefined,
+                [pool]: newMovePool,
+                [category]: value,
+            },
+            stateModified: true,
+        });
     }
 
     onUserPokemonSelect(index, role) {
-        let selectedPok = this.props.userPokemon[index]
-
+        const selectedPok = this.props.userPokemon[index]
         //get movepool
-        let moves = returnMovePool(selectedPok.Name, this.props.pokemonTable, strings.options.moveSelect)
+        let moves = new MovePoolBuilder();
+        moves.createMovePool(selectedPok.Name, this.props.pokemonTable, optionStrings.options.moveSelect, false,
+            [selectedPok.QuickMove], [selectedPok.ChargeMove, selectedPok.ChargeMove2]);
+
         //set state
         this.setState({
             [role]: {
@@ -268,73 +273,70 @@ class SinglePvp extends React.PureComponent {
         });
     }
 
-    onChange(event, name) {
-        //check if it`s a name change
-        if (event.target === undefined) {
-            switch (name.name[1]) {
-                case "QuickMove":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
-                case "ChargeMove1":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
-                    return
-                case "ChargeMove2":
-                    this.onMoveAdd(event.value, name.name[0], name.name[1])
+    onChange(event, atrributes, eventItem, ...other) {
+        const attr = atrributes.attr;
+        const name = atrributes.name;
+        const category = atrributes.category;
+
+        if (eventItem && (eventItem.value !== undefined || eventItem.index !== undefined)) {
+            switch (name) {
+                case "Name":
+                    this.onNameChange(eventItem.value, attr)
                     return
                 case "userPokemon":
-                    this.onUserPokemonSelect(event.index, name.name[0])
+                    this.onUserPokemonSelect(eventItem.index, attr)
                     return
                 default:
-                    this.onNameChange(event, name.name[0])
+                    this.onMoveAdd(eventItem.value, attr, name)
                     return
             }
         }
-        let role = event.target.getAttribute("attr")
-        let action = event.target.getAttribute("action")
-        //check if it's an initial stat change
-        if (action === "defaultStatMaximizer") {
-            this.statMaximizer(event, role)
+
+        if (category === "defaultStatMaximizer") {
+            this.statMaximizer(event, attr)
             return
         }
-        if (event.target.name === "InitialHP" || event.target.name === "InitialEnergy") {
-            this.onInitialStatsChange(event, role)
-            return
-        }
-        //check if it's an iv change
-        if (event.target.name === "Sta" || event.target.name === "Def" || event.target.name === "Atk") {
-            this.onIvChange(event, role)
-            return
-        }
-        //check if it's an level change
-        if (event.target.name === "Lvl") {
-            this.onLevelChange(event, role)
-            return
-        }
-        //if it's an stage change
-        if (event.target.name === "AtkStage" || event.target.name === "DefStage") {
-            this.onStageChange(event, role)
-            return
-        }
+
         if (event.target.value === "Select...") {
             this.setState({
-                [role]: {
-                    ...this.state[role],
+                [attr]: {
+                    ...this.state[attr],
                     showMenu: true,
-                    isSelected: event.target.name,
+                    isSelected: name,
                 },
             });
             return
         }
-        //if it's an type change
-        if (event.target.name === "IsShadow") {
-            this.onTypeChange(event, role)
+
+        if (name === "InitialHP" || name === "InitialEnergy") {
+            this.onInitialStatsChange(event, attr)
             return
         }
-        //otherwise follow general pattern
+
+        if (name === "Sta" || name === "Def" || name === "Atk") {
+            this.onIvChange(event, attr)
+            return
+        }
+
+        if (name === "Lvl") {
+            this.onLevelChange(event, attr)
+            return
+        }
+
+        if (name === "AtkStage" || name === "DefStage") {
+            this.onStageChange(event, attr)
+            return
+        }
+
+        if (name === "IsShadow") {
+            this.onTypeChange(event, attr)
+            return
+        }
+
         this.setState({
-            [role]: {
-                ...this.state[role],
-                [event.target.name]: event.target.value
+            [attr]: {
+                ...this.state[attr],
+                [name]: event.target.value
             },
             stateModified: true,
         });
@@ -343,33 +345,27 @@ class SinglePvp extends React.PureComponent {
     statMaximizer(event, role) {
         let max = {
             ...this.state[role].maximizer,
-            [event.target.name]: event.target.value,
+            [event.target.name]: event.target.name === "level" ? checkLvl(event.target.value) : event.target.value,
         }
 
-        let ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.pokemonTable)
-        let whatToMaximize = (max.action === "Default") ? "Default" : max.stat
+        const ivSet = calculateMaximizedStats(this.state[role].name, max.level, this.props.pokemonTable);
+        const whatToMaximize = max.action === "Default" ? "Default" : max.stat;
+        const selectedSet = ivSet[this.props.parentState.league][whatToMaximize];
 
         this.setState({
             [role]: {
                 ...this.state[role],
                 HP: undefined, Energy: undefined,
 
-                Lvl: ivSet[this.props.parentState.league][whatToMaximize].Level,
-                Atk: ivSet[this.props.parentState.league][whatToMaximize].Atk,
-                Def: ivSet[this.props.parentState.league][whatToMaximize].Def,
-                Sta: ivSet[this.props.parentState.league][whatToMaximize].Sta,
+                Lvl: selectedSet.Level, Atk: selectedSet.Atk, Def: selectedSet.Def, Sta: selectedSet.Sta,
 
-                effAtk: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Atk, this.state[role].AtkStage,
+                effAtk: calculateEffStat(this.state[role].name, selectedSet.Level, selectedSet.Atk, this.state[role].AtkStage,
                     this.props.pokemonTable, "Atk", this.state[role].IsShadow),
 
-                effDef: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Def, this.state[role].DefStage,
+                effDef: calculateEffStat(this.state[role].name, selectedSet.Level, selectedSet.Def, this.state[role].DefStage,
                     this.props.pokemonTable, "Def", this.state[role].IsShadow),
 
-                effSta: calculateEffStat(this.state[role].name, ivSet[this.props.parentState.league][whatToMaximize].Level,
-                    ivSet[this.props.parentState.league][whatToMaximize].Sta, 0,
-                    this.props.pokemonTable, "Sta"),
+                effSta: calculateEffStat(this.state[role].name, selectedSet.Level, selectedSet.Sta, 0, this.props.pokemonTable, "Sta"),
 
                 maximizer: max,
             },
@@ -434,28 +430,9 @@ class SinglePvp extends React.PureComponent {
     }
 
     onMouseEnter(event) {
-        let dataFor = event.target.getAttribute("data-for")
-        let id = event.target.id
-        let extractedNumber
-        let round
-        switch (true) {
-            case Boolean(dataFor):
-                extractedNumber = getRoundFromString(dataFor.slice(0, 4))
-                if (extractedNumber === "") {
-                    return
-                }
-                round = this.state.result.Log[extractedNumber - 1]
-                break
-            case Boolean(id):
-                extractedNumber = getRoundFromString(event.target.id.slice(0, 4))
-                if (extractedNumber === "") {
-                    return
-                }
-                round = this.state.result.Log[extractedNumber - 1]
-                break
-            default:
-                return
-        }
+        const id = event.currentTarget.id
+        const extractedNumber = parseInt(id.slice(0, 4), 10);
+        const round = this.state.result.Log[extractedNumber - 1]
 
         this.setState({
             attacker: {
@@ -472,18 +449,8 @@ class SinglePvp extends React.PureComponent {
     }
 
     constructorOn(event) {
-        let dataFor = event.currentTarget.getAttribute("data-for")
-        let extractedNumber
-        switch (true) {
-            case Boolean(dataFor):
-                extractedNumber = getRoundFromString(dataFor.slice(0, 4))
-                if (extractedNumber === "") {
-                    return
-                }
-                break
-            default:
-                return
-        }
+        const id = event.currentTarget.id
+        const extractedNumber = parseInt(id.slice(0, 4), 10);
         //if it is the last round, return
         if (this.state.result.Log[extractedNumber + 1] === undefined) {
             return
@@ -617,12 +584,8 @@ class SinglePvp extends React.PureComponent {
         }
     }
 
-    onClick(event) {
-        let role = event.target.getAttribute("attr")
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-
+    onClick(event, attributes) {
+        const role = attributes.attr;
         if (role === "constructor") {
             this.setState({
                 [role]: {
@@ -635,7 +598,6 @@ class SinglePvp extends React.PureComponent {
             return
         }
 
-
         this.setState({
             [role]: {
                 ...this.state[role],
@@ -647,176 +609,117 @@ class SinglePvp extends React.PureComponent {
 
 
     render() {
+        const { classes } = this.props;
+
         return (
-            < >
-                {(this.state.constructor.showMenu) && <MagicBox
-                    onClick={this.onClick}
-                    attr={"constructor"}
-                    element={<Constructor
-                        log={this.state.result.Log}
-                        round={this.state.constructor.isSelected}
+            <Grid container justify="space-between" spacing={1}>
 
-                        Attacker={this.state.attacker}
-                        Defender={this.state.defender}
-                        moveTable={this.props.parentState.moveTable}
-                        agregatedParams={this.state.constructor.agregatedParams}
+                <MagicBox open={Boolean(this.state.constructor.showMenu)} onClick={this.onClick} attr={"constructor"}>
+                    {this.state.constructor.showMenu &&
+                        <Constructor
+                            log={this.state.result.Log}
+                            round={this.state.constructor.isSelected}
 
-                        submitConstructor={this.submitConstructor}
-
-                        lastChangesAt={this.state.lastChangesAt}
-                        stateModified={this.state.stateModified}
-                    />}
-                />}
-
-                <div className="row justify-content-between mb-4"  >
-                    <div className="singlepvp__panel order-1 ml-1 mx-lg-0 mt-1  mt-md-2" >
-                        <Pokemon
-                            className="m-2"
-                            value={this.state.attacker}
-                            attr="attacker"
-
-                            pokemonTable={this.props.pokemonTable}
+                            Attacker={this.state.attacker}
+                            Defender={this.state.defender}
                             moveTable={this.props.parentState.moveTable}
-                            moveList={(this.state.attacker.isSelected && this.state.attacker.isSelected.includes("Charge")) ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
-                            pokList={this.props.parentState.pokList}
-                            userPokemon={this.props.userPokemon}
+                            agregatedParams={this.state.constructor.agregatedParams}
 
-                            showMenu={this.state.attacker.showMenu}
-                            category={this.state.attacker.isSelected}
+                            submitConstructor={this.submitConstructor}
 
-                            onChange={this.onChange}
-                            statMaximizer={this.statMaximizer}
-                            onClick={this.onClick}
-                        />
-                    </div>
+                            lastChangesAt={this.state.lastChangesAt}
+                            stateModified={this.state.stateModified}
+                        />}
+                </MagicBox>
 
+                <Box clone order={{ xs: 1 }}>
+                    <Grid item xs="auto" className={classes.pokemon}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
 
+                            <Pokemon
+                                value={this.state.attacker}
+                                attr="attacker"
 
-                    <div className="singlepvp__overflow order-3 order-lg-2 col-12 col-lg mt-0 mt-lg-2 px-0" >
-                        <div className="row mx-2 h-100"  >
-                            {(this.state.showResult || this.state.isError) &&
-                                <div className="singlepvp__panel align-self-start col-12 order-3 order-lg-1 col-12 mt-3 mt-lg-0 p-2 ">
-                                    <div className="row justify-content-center mx-0"  >
-                                        <div className="order-2 order-lg-1 col-12 ">
-                                            {this.state.showResult &&
-                                                <Result value={this.state.result} isSingle={true} />}
-                                            {this.state.isError &&
-                                                <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
-                                        </div>
-                                        {this.state.url && this.state.showResult &&
-                                            <div className="order-1 order-lg-2 col-12 col-lg-6 mt-2" >
-                                                <URL
-                                                    label={strings.title.url}
-                                                    for="pvpURLLabel"
-                                                    tip={<>
-                                                        {strings.tips.url.first}
-                                                        < br />
-                                                        {strings.tips.url.second}
-                                                    </>}
-                                                    place="top"
-                                                    message={strings.tips.url.message}
-                                                    value={this.state.url}
-                                                />
-                                            </div>}
-                                    </div>
-                                </div>}
-                            {this.state.loading &&
-                                <div className="col-12 mt-2 order-lg-2" >
-                                    <Loader
-                                        color="white"
-                                        weight="500"
-                                        locale={strings.tips.loading}
-                                        loading={this.state.loading}
-                                    />
-                                </div>}
-                            <div className="align-self-end order-1 order-lg-3 col px-0">
-                                <div className="order-1 order-lg-3 d-flex justify-content-between mx-0 px-0 col-12  mt-2 mt-lg-0" >
-                                    <div>
-                                        {(this.state.attacker.name && this.props.pokemonTable[this.state.attacker.name]) &&
-                                            <Indicators
-                                                effSta={this.state.attacker.effSta}
-                                                HP={this.state.attacker.HP}
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.parentState.moveTable}
+                                moveList={(this.state.attacker.isSelected && this.state.attacker.isSelected.includes("Charge")) ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
+                                pokList={this.props.parentState.pokList}
+                                userPokemon={this.props.userPokemon}
 
-                                                energy={this.state.attacker.Energy}
-                                                chargeMove1={this.props.parentState.moveTable[this.state.attacker.ChargeMove1]}
-                                                chargeMove2={this.props.parentState.moveTable[this.state.attacker.ChargeMove2]}
-                                                attr="Attacker"
+                                showMenu={this.state.attacker.showMenu}
+                                category={this.state.attacker.isSelected}
 
-                                                attackerTypes={this.props.pokemonTable[this.state.attacker.name].Type}
-                                                defenderTypes={(this.props.pokemonTable[this.state.defender.name]) ?
-                                                    this.props.pokemonTable[this.state.defender.name].Type : ""}
-                                                aAttack={this.state.attacker.effAtk}
-                                                dDefence={this.state.defender.effDef}
-                                            />}
-                                    </div>
-                                    <div className="align-self-center">
-                                        <SubmitButton
-                                            action="Let's Battle"
-                                            onSubmit={this.submitForm}
-                                            class="btn btn-primary"
-                                        >
-                                            {strings.buttons.letsbattle}
-                                        </SubmitButton>
-                                    </div >
-                                    <div>
-                                        {(this.state.defender.name && this.props.pokemonTable[this.state.defender.name]) &&
-                                            <Indicators
-                                                effSta={this.state.defender.effSta}
-                                                HP={this.state.defender.HP}
+                                onChange={this.onChange}
+                                statMaximizer={this.statMaximizer}
+                                onClick={this.onClick}
+                            />
 
-                                                energy={this.state.defender.Energy}
-                                                chargeMove1={this.props.parentState.moveTable[this.state.defender.ChargeMove1]}
-                                                chargeMove2={this.props.parentState.moveTable[this.state.defender.ChargeMove2]}
-                                                attr="Defender"
+                        </GreyPaper>
+                    </Grid>
+                </Box>
 
-                                                attackerTypes={this.props.pokemonTable[this.state.defender.name].Type}
-                                                defenderTypes={(this.props.pokemonTable[this.state.attacker.name]) ?
-                                                    this.props.pokemonTable[this.state.attacker.name].Type : ""}
-                                                aAttack={this.state.defender.effAtk}
-                                                dDefence={this.state.attacker.effDef}
-                                            />}
-                                    </div>
-                                </div>
+                <Box className={classes.middleRow} clone order={{ xs: 3, md: 2 }}>
+                    <Grid item xs={12} md>
+                        <MiddlePanel
+                            attacker={this.state.attacker}
+                            defender={this.state.defender}
+                            result={this.state.result}
 
-                                {this.state.showResult &&
-                                    <div className="order-2 order-lg-4 col-12 px-0  mt-1" >
-                                        <PvpReconstruction
-                                            onMouseEnter={this.onMouseEnter}
-                                            constructorOn={this.constructorOn}
-                                            value={this.state.result}
-                                            moveTable={this.props.parentState.moveTable} />
-                                    </div>}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="singlepvp__panel order-2 order-lg-3 mr-1 mx-lg-0 mt-1 mt-md-0 mt-md-2" >
-                        <Pokemon
-                            className="m-2"
-                            value={this.state.defender}
-                            attr="defender"
-
-                            pokemonTable={this.props.pokemonTable}
                             moveTable={this.props.parentState.moveTable}
-                            moveList={this.state.defender.isSelected && this.state.defender.isSelected.includes("Charge") ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
-                            pokList={this.props.parentState.pokList}
-                            userPokemon={this.props.userPokemon}
+                            pokemonTable={this.props.pokemonTable}
 
-                            showMenu={this.state.defender.showMenu}
-                            category={this.state.defender.isSelected}
+                            url={this.state.url}
+                            error={this.state.error}
 
-                            statMaximizer={this.statMaximizer}
-                            onChange={this.onChange}
-                            onClick={this.onClick}
+                            loading={this.state.loading}
+                            isError={this.state.isError}
+                            showResult={this.state.showResult}
+
+                            constructorOn={this.constructorOn}
+                            onMouseEnter={this.onMouseEnter}
+                            submitForm={this.submitForm}
                         />
-                    </div>
-                </div>
+                    </Grid>
+                </Box>
 
-            </ >
+                <Box clone order={{ xs: 2, md: 3 }}>
+                    <Grid item xs="auto" className={classes.pokemon}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.5}>
+
+                            <Pokemon
+                                value={this.state.defender}
+                                attr="defender"
+
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.parentState.moveTable}
+                                moveList={this.state.defender.isSelected && this.state.defender.isSelected.includes("Charge") ? this.props.parentState.chargeMoveList : this.props.parentState.quickMoveList}
+                                pokList={this.props.parentState.pokList}
+                                userPokemon={this.props.userPokemon}
+
+                                showMenu={this.state.defender.showMenu}
+                                category={this.state.defender.isSelected}
+
+                                statMaximizer={this.statMaximizer}
+                                onChange={this.onChange}
+                                onClick={this.onClick}
+                            />
+
+                        </GreyPaper>
+                    </Grid>
+                </Box>
+
+            </Grid>
 
         );
     }
 }
 
+export default withStyles(styles, { withTheme: true })(SinglePvp);
 
+SinglePvp.propTypes = {
+    userPokemon: PropTypes.arrayOf(PropTypes.object),
+    pokemonTable: PropTypes.object,
 
-export default SinglePvp
+    parentState: PropTypes.object,
+    changeUrl: PropTypes.func,
+};

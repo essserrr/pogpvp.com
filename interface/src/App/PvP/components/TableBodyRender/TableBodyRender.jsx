@@ -1,51 +1,43 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PvpSingleCell from "./PvpSingleCell/PvpSingleCell"
-import PvpTripleCell from "./PvpTripleCell/PvpTripleCell"
+import TableCell from '@material-ui/core/TableCell';
 
-import Advisor from "../Advisor/Advisor"
+import TableIcon from "./TableIcon/TableIcon";
+import PvpSingleCell from "./PvpSingleCell/PvpSingleCell";
+import PvpTripleCell from "./PvpTripleCell/PvpTripleCell";
+import Advisor from "../Advisor/Advisor";
+import MatrixTable from "./MatrixTable/MatrixTable";
 
-import TheadElement from "./TheadElement/TheadElement"
-import LineElement from "./LineElement/LineElement"
-import MatrixTable from "./MatrixTable/MatrixTable"
+const TableBodyRender = React.memo(function TableBodyRender(props) {
 
-class TableBodyRender extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.addStar = this.addStar.bind(this)
-    }
-
-    makeTableLines() {
-        return [
+    const makeTableLines = () => {
+        //creates arrays fir lines and adds head and first th sell to them
+        return (
             [
-                <th key={"zero"} className="p-0 px-1" scope="col" />,
-
-                ...this.props.rightPanel.listForBattle.map((pok, j) =>
-                    <TheadElement
-                        key={j + pok.name + "thead"} pok={pok} j={j}
-                        pokemonTable={this.props.pokemonTable} addStar={this.addStar}
-                    />
-                ),
-            ],
-
-            ...this.props.leftPanel.listForBattle.map((pok, i) =>
                 [
-                    <LineElement key={i + pok.name + "line"} pok={pok} i={i}
-                        pokemonTable={this.props.pokemonTable} addStar={this.addStar}
-                    />
-                ]
-            ),
-        ]
+                    <TableCell key={"zero"} component="th" align="center" scope="col" />,
+
+                    ...props.rightPanel.listForBattle.map((pok, j) =>
+                        <TableCell key={j + pok.name + "head"} component="th" align="center" scope="col" >
+                            <TableIcon pok={pok} j={j} pokemonTable={props.pokemonTable} moveTable={props.moveTable} />
+                        </TableCell>
+                    ),
+                ],
+
+                ...props.leftPanel.listForBattle.map((pok, i) =>
+                    [
+                        <TableCell key={i + pok.name + "line"} component="th" align="center" scope="row" >
+                            <TableIcon pok={pok} i={i} pokemonTable={props.pokemonTable} moveTable={props.moveTable} />
+                        </TableCell>
+                    ]
+                ),
+            ])
     }
 
-    addStar(pokName, moveName) {
-        return (this.props.pokemonTable[pokName].EliteMoves[moveName] === 1 ? "*" : "")
-    }
-
-    pvpSingle(data) {
+    const pvpSingle = (data) => {
         //markup table
-        let arr = this.makeTableLines()
-
+        let arr = makeTableLines()
 
         //fill cells
         data[0].forEach((elem) => {
@@ -55,8 +47,8 @@ class TableBodyRender extends React.PureComponent {
                 <PvpSingleCell
                     key={line + row}
                     rate={elem.Rate}
-                    query={"/pvp/single/" + this.props.league + "/" +
-                        encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + this.props.pvpoke}
+                    query={"/pvp/single/" + props.league + "/" +
+                        encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + props.pvpoke}
                 />
             )
         })
@@ -65,9 +57,9 @@ class TableBodyRender extends React.PureComponent {
 
 
 
-    pvpTriple(data) {
+    const pvpTriple = (data) => {
         //markup table
-        let arr = this.makeTableLines()
+        let arr = makeTableLines()
 
         //fill cells
         data[0].forEach((elem, i) => {
@@ -77,7 +69,7 @@ class TableBodyRender extends React.PureComponent {
             data[0][i].Rate = rating
 
             arr[line].push(
-                < PvpTripleCell
+                <PvpTripleCell
                     key={line + row}
 
                     rate0={elem.Rate}
@@ -86,12 +78,12 @@ class TableBodyRender extends React.PureComponent {
                     overallRating={rating}
                     queries={
                         [
-                            "/pvp/single/" + this.props.league + "/" +
-                            encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + this.props.pvpoke,
-                            "/pvp/single/" + this.props.league + "/" +
-                            encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + this.props.pvpoke,
-                            "/pvp/single/" + this.props.league + "/" +
-                            encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + this.props.pvpoke
+                            "/pvp/single/" + props.league + "/" +
+                            encodeURIComponent(elem.QueryA) + "/" + encodeURIComponent(elem.QueryB) + props.pvpoke,
+                            "/pvp/single/" + props.league + "/" +
+                            encodeURIComponent(data[1][i].QueryA) + "/" + encodeURIComponent(data[1][i].QueryB) + props.pvpoke,
+                            "/pvp/single/" + props.league + "/" +
+                            encodeURIComponent(data[2][i].QueryA) + "/" + encodeURIComponent(data[2][i].QueryB) + props.pvpoke
                         ]}
                 />
             )
@@ -99,25 +91,36 @@ class TableBodyRender extends React.PureComponent {
         return arr
     }
 
+    return (
+        props.isAdvisor ?
+            <Advisor
+                list={props.list}
+                rawResult={props.isTriple ? pvpTriple(props.pvpData) : pvpSingle(props.pvpData)}
 
-    render() {
-        return (
-            this.props.isAdvisor ?
-                <Advisor
-                    list={this.props.list}
-                    rawResult={this.props.isTriple ? this.pvpTriple(this.props.pvpData) : this.pvpSingle(this.props.pvpData)}
+                pokemonTable={props.pokemonTable}
+                moveTable={props.moveTable}
 
-                    pokemonTable={this.props.pokemonTable}
-                    moveTable={this.props.moveTable}
-
-                    leftPanel={this.props.leftPanel}
-                    rightPanel={this.props.rightPanel}
-                /> :
-                <MatrixTable
-                    tableLines={this.props.isTriple ? this.pvpTriple(this.props.pvpData) : this.pvpSingle(this.props.pvpData)}
-                />
-        );
-    }
-};
+                leftPanel={props.leftPanel}
+                rightPanel={props.rightPanel}
+            /> :
+            <MatrixTable>
+                {props.isTriple ? pvpTriple(props.pvpData) : pvpSingle(props.pvpData)}
+            </MatrixTable>
+    )
+});
 
 export default TableBodyRender;
+
+MatrixTable.propTypes = {
+    pvpData: PropTypes.arrayOf(PropTypes.object),
+    pvpoke: PropTypes.bool,
+    isAdvisor: PropTypes.bool,
+    isTriple: PropTypes.bool,
+    league: PropTypes.string,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+};

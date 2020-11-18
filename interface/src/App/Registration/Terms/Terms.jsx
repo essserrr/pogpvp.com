@@ -1,64 +1,72 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
+import LocalizedStrings from "react-localization";
 
-import LocalizedStrings from "react-localization"
-import { privacy } from "../../../locale/privacy"
-import { getCookie } from "../../../js/getCookie"
-import "./Terms.scss"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+
+import { privacy } from "locale/Terms/Terms";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(privacy)
 
-const Terms = React.memo(function (props) {
+const Terms = React.memo(function Terms(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
     return (
-        <div className="row justify-content-center mx-1">
-            <div data-nosnippet className="col-12 col-sm-11 col-md-9  terms p-3 mt-3 mb-5">
-                <h1>{strings.terms.h1}</h1>
+        <Grid container justify="center">
+            <Grid item xs={10} sm={8} md={6}>
+                <GreyPaper elevation={4} enablePadding={true} >
+                    <Typography variant="h4" gutterBottom>{strings.terms.h1}</Typography>
 
-                <p className="terms--text">{strings.terms.p1}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p1}</Typography>
 
-                <h3>{strings.terms.h3}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h3}</Typography>
 
-                <p className="terms--text">{strings.terms.p2}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p2}</Typography>
 
-                <h3>{strings.terms.h3}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h3}</Typography>
 
-                <p className="terms--text">{strings.terms.p3}
-                    <Link title={strings.p} to="/privacy">{strings.p}</Link>{strings.terms.p31}</p>
+                    <Typography variant="body2" gutterBottom>
+                        {strings.terms.p3}
+                        <Link title={strings.p} to="/privacy">{strings.p}</Link>{strings.terms.p31}
+                    </Typography>
 
-                <h3>{strings.terms.h4}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h4}</Typography>
 
-                <p className="terms--text">{strings.terms.p4}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p4}</Typography>
 
-                <h3>{strings.terms.h5}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h5}</Typography>
 
-                <p className="terms--text">{strings.terms.p5}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p5}</Typography>
 
-                <h3>{strings.terms.h6}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h6}</Typography>
 
-                <p className="terms--text">{strings.terms.p6}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p6}</Typography>
 
-                <h3>{strings.terms.h7}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h7}</Typography>
 
-                <p className="terms--text">{strings.terms.p7}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p7}</Typography>
 
-                <h3>{strings.terms.h8}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h8}</Typography>
 
-                <p className="terms--text">{strings.terms.p8}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p8}</Typography>
 
-                <p className="terms--text">{strings.terms.p9}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p9}</Typography>
 
-                <h3>{strings.terms.h9}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h9}</Typography>
 
-                <p className="terms--text">{strings.terms.p10}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p10}</Typography>
 
-                <h3>{strings.terms.h10}</h3>
+                    <Typography variant="h5" gutterBottom>{strings.terms.h10}</Typography>
 
-                <p className="terms--text">{strings.terms.p11}</p>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p11}</Typography>
 
-                <p className="terms--text">{strings.terms.p12}</p>
-            </div>
-        </div>
+                    <Typography variant="body2" gutterBottom>{strings.terms.p12}</Typography>
+                </GreyPaper>
+            </Grid>
+        </Grid>
     )
 
 });

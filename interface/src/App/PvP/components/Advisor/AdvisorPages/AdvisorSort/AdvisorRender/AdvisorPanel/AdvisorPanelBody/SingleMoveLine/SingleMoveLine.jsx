@@ -1,28 +1,39 @@
-import React from "react"
-import { returnVunStyle, effectivenessData } from "../../../../../../../../../../js/indexFunctions"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import "./SingleMoveLine.scss"
+import TableCell from '@material-ui/core/TableCell';
 
-const SingleMoveLine = React.memo(function (props) {
+import Rate from "App/PvP/components/SinglePvpResults/Rate/Rate";
+import ColoredMove from "App/Components/ColoredMove/ColoredMove";
+import { effectivenessData } from "js/bases/effectivenessData";
+
+const SingleMoveLine = React.memo(function SingleMoveLine(props) {
     return (
         <>
-            <td
-                className={"singlemove-line__first-cell text-center align-middle m-0 p-0 px-1 type-color" + props.MoveType + " text"} >
-                {props.name + props.star}
-            </td>
+            <TableCell component="th" align="center">
+                <ColoredMove type={props.MoveType}>{props.name + props.star}</ColoredMove>
+            </TableCell>
             {effectivenessData[props.MoveType].map((elem, i) => {
-                let multipl = elem === 0 ? "1.000" : elem.toFixed(3);
-                let rateStyle = returnVunStyle(multipl === "1.000" ? multipl : (1 / multipl).toFixed(3))
+                const multipl = elem === 0 ? "1.000" : elem.toFixed(3);
 
-                return <td key={props.line + "offensive" + i}
-                    className="m-0 p-0 align-middle" >
-                    <div className={"singlemove-line__rate  rate-color" + rateStyle} >
-                        {multipl}
-                    </div>
-                </td >
+                return (
+                    <TableCell key={props.line + "offensive" + i}>
+                        <Rate value={multipl} forMult reverse></Rate>
+                    </TableCell>
+                )
             })}
         </>
     )
 });
 
 export default SingleMoveLine;
+
+SingleMoveLine.propTypes = {
+    MoveType: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    line: PropTypes.number,
+    name: PropTypes.string,
+    star: PropTypes.string,
+};

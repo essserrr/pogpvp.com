@@ -1,64 +1,52 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import Button from "../../Movedex/MoveCard/DoubleSlider/Button/Button"
+import SliderBlock from "App/Components/SliderBlock/SliderBlock";
+import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
-import "./GenRow.scss"
-
-const GenRow = React.memo(function (props) {
+const GenRow = React.memo(function GenRow(props) {
+    const { filter, onFilter } = props;
 
     return (
-        <div className={"genslider-group row m-0 mb-3 text-center justify-content-center"} >
-            <Button
-                attr="gen1"
-                title={"# " + 1}
-                class={props.filter.gen1 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr="gen2"
-                title={"# " + 2}
-                class={props.filter.gen2 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"gen3"}
-                title={"# " + 3}
-                class={props.filter.gen3 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"gen4"}
-                title={"# " + 4}
-                class={props.filter.gen4 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"gen5"}
-                title={"# " + 5}
-                class={props.filter.gen5 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"gen6"}
-                title={"# " + 6}
-                class={props.filter.gen6 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr={"gen7"}
-                title={"# " + 7}
-                class={props.filter.gen7 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-            <Button
-                attr="gen8"
-                title={"# " + 8}
-                class={props.filter.gen8 ? "genslider-group__button active col py-1" : "genslider-group__button col py-1"}
-                onClick={props.onFilter}
-            />
-        </div>
+        <SliderBlock>
+            <SliderButton attr="gen1" toggled={!!filter.gen1} onClick={onFilter}>
+                {"# " + 1}
+            </SliderButton>
+            <SliderButton attr="gen2" toggled={!!filter.gen2} onClick={onFilter}>
+                {"# " + 2}
+            </SliderButton>
+
+            <SliderButton attr="gen3" toggled={!!filter.gen3} onClick={onFilter}>
+                {"# " + 3}
+            </SliderButton>
+
+            <SliderButton attr="gen4" toggled={!!filter.gen4} onClick={onFilter}>
+                {"# " + 4}
+            </SliderButton>
+
+            <SliderButton attr="gen5" toggled={!!filter.gen5} onClick={onFilter}>
+                {"# " + 5}
+            </SliderButton>
+
+            <SliderButton attr="gen6" toggled={!!filter.gen6} onClick={onFilter}>
+                {"# " + 6}
+            </SliderButton>
+
+            <SliderButton attr="gen7" toggled={!!filter.gen7} onClick={onFilter}>
+                {"# " + 7}
+            </SliderButton>
+
+            <SliderButton attr="gen8" toggled={!!filter.gen8} onClick={onFilter}>
+                {"# " + 8}
+            </SliderButton>
+        </SliderBlock>
     )
 
 });
 
 export default GenRow;
+
+GenRow.propTypes = {
+    filter: PropTypes.object.isRequired,
+    onFilter: PropTypes.func.isRequired,
+};

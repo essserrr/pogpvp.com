@@ -1,75 +1,89 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import AuthInput from "../../../../Registration/RegForm/AuthInput/AuthInput"
-import AuthButton from "../../../../Registration/RegForm/AuthButton/AuthButton"
-import "./PassChangeForm.scss"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import SaveIcon from '@material-ui/icons/Save';
 
-import { getCookie } from "../../../../../js/getCookie"
-import { userLocale } from "../../../../../locale/userLocale"
+import Input from "App/Components/Input/Input";
+import Button from "App/Components/Button/Button";
+
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/UserPage/Security/Security";
 
 let strings = new LocalizedStrings(userLocale)
 
-class PassChangeForm extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+const PassChangeForm = React.memo(function PassChangeForm(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
 
-    render() {
-        return (
-            <>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.security.oldpass}
-                        place={strings.security.oldpass}
-                        type="password"
-                        name="password"
-                        aCompleteOff={true}
+    return (
+        <Grid container justify="center" spacing={2}>
+            <Grid item xs={12} md={6}>
+                <Input
+                    label={strings.security.oldpass}
+                    type="password"
+                    name="password"
 
-                        notOk={this.props.notOk.password}
-                        value={this.props.password}
-                        onChange={this.props.onChange}
-                    />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.security.npass}
-                        place={strings.security.npass}
-                        type="password"
-                        name="newPassword"
-                        aCompleteOff={true}
+                    errorText={props.form.password.error}
+                    value={props.form.password.value}
+                    onChange={props.onChange}
+                    onBlur={props.onBlur}
 
-                        notOk={this.props.notOk.newPassword}
-                        value={this.props.newPassword}
-                        onChange={this.props.onChange}
-                    />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.security.confnpass}
-                        place={strings.security.confnpass}
-                        type="password"
-                        name="checkPassword"
-                        aCompleteOff={true}
+                    autoComplete="off"
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Input
+                    label={strings.security.npass}
+                    type="password"
+                    name="newPassword"
 
-                        notOk={this.props.notOk.checkPassword}
-                        value={this.props.checkPassword}
-                        onChange={this.props.onChange}
-                    />
-                </div>
-                <div className="row m-0 pt-3 justify-content-center">
-                    <AuthButton
-                        loading={this.props.loading}
+                    errorText={props.form.newPassword.error}
+                    value={props.form.newPassword.value}
+                    onChange={props.onChange}
+                    onBlur={props.onBlurNewPassword}
+
+                    autoComplete="off"
+
+                />
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <Input
+                    label={strings.security.confnpass}
+                    type="password"
+                    name="checkPassword"
+
+                    errorText={props.form.checkPassword.error}
+                    value={props.form.checkPassword.value}
+                    onChange={props.onChange}
+                    onBlur={props.onBlur}
+
+                    autoComplete="off"
+                />
+            </Grid>
+            <Grid item container justify="center" xs={12}>
+                <Box mt={1}>
+                    <Button
+                        loading={props.loading}
                         title={strings.security.chpass}
-                        onClick={this.props.onSubmit}
-                        disabled={
-                            Object.values(this.props.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
+                        onClick={props.onSubmit}
+                        endIcon={<SaveIcon />}
+                        disabled={Object.values(props.form).reduce((sum, value) => sum || value.error !== "", false)}
                     />
-                </div>
-            </>
-        );
-    }
-}
+                </Box>
+            </Grid>
+        </Grid>
+    )
+});
 
-export default PassChangeForm
+export default PassChangeForm;
+
+PassChangeForm.propTypes = {
+    form: PropTypes.object,
+    props: PropTypes.bool,
+    onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onBlurNewPassword: PropTypes.func,
+    onBlur: PropTypes.func,
+};

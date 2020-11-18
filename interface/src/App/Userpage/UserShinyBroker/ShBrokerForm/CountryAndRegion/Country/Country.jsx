@@ -1,44 +1,34 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import SearchableSelect from "../../../../../PvP/components/SearchableSelect/SearchableSelect"
-import LabelPrepend from "../../../../../PvP/components/SelectGroup/LabelPrepend"
-import { CountryRegionData } from "../crlist"
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
+import { CountryRegionData } from "../crlist";
 
-import "./Country.scss"
+const countriesList = CountryRegionData.map((value) => ({ value: value[0], title: value[0], }));
 
-class Country extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            countriesList: [{ value: "", label: props.defaultOption, }, ...CountryRegionData.map((value) => ({ value: value[0], label: value[0], }))]
-        }
-    }
+const Country = React.memo(function Country(props) {
 
-    render() {
-        return (
-            <div className="input-group input-group-sm">
-                <LabelPrepend
-                    label={this.props.label}
+    return (
+        <SearchableSelect
+            disableClearable
+            label={props.defaultOption}
 
-                    labelWidth={this.props.labelWidth}
-                    tipClass="infoTip"
-                    for={this.props.for}
-                    place={"top"}
-                    tip={this.props.tip}
-                />
-                <SearchableSelect
-                    class={"country-box " + (this.props.notOk !== "" ? "country-input--alert " : "")}
-                    classPrefix="country--prefix "
+            value={props.value}
+            onChange={props.onChange}
+            errorText={props.notOk}
+        >
+            {countriesList}
+        </SearchableSelect>
+    )
+});
 
-                    value={this.props.selectValue}
+export default Country;
 
-                    list={this.state.countriesList}
-                    onChange={this.props.onChange}
-                />
-                {this.props.notOk !== "" && <div className="col-12 px-0 country-input__alert-text text-left">{this.props.notOk}</div>}
-            </div>
-        );
-    }
-}
+Country.propTypes = {
+    value: PropTypes.string,
+    notOk: PropTypes.string,
+    label: PropTypes.string,
+    country: PropTypes.string,
 
-export default Country
+    onChange: PropTypes.func,
+};

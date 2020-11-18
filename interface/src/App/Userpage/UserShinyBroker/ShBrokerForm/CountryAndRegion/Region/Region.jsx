@@ -1,53 +1,43 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import SearchableSelect from "../../../../../PvP/components/SearchableSelect/SearchableSelect"
-import LabelPrepend from "../../../../../PvP/components/SelectGroup/LabelPrepend"
-import { CountryRegionData } from "../crlist"
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
+import { CountryRegionData } from "../crlist";
 
-import "./Region.scss"
+const Region = React.memo(function Region(props) {
 
-class Region extends React.PureComponent {
-    returnRegionList() {
-        if (!this.props.country) {
-            return []
-        }
+    function returnRegionList() {
+        if (!props.country) return [];
 
-        let selectedCountry = CountryRegionData.filter((value) => value[0] === this.props.country)
+        const selectedCountry = CountryRegionData.find(value => value[0] === props.country)
+        if (!selectedCountry) return [];
 
-        if (!selectedCountry) {
-            return []
-        }
-
-        return [{ value: "", label: this.props.defaultOption, }, ...selectedCountry[0][1].map((value) => ({ value: value, label: value, }))]
+        return [{ value: "", title: props.defaultOption, }, ...selectedCountry[1].map((value) => ({ value: value, title: value, }))]
     }
 
-    render() {
-        let list = this.returnRegionList()
 
-        return (
-            <div className="input-group input-group-sm">
-                <LabelPrepend
-                    label={this.props.label}
+    return (
+        <SearchableSelect
+            disableClearable
+            label={props.label}
 
-                    labelWidth={this.props.labelWidth}
-                    tipClass="infoTip"
-                    for={this.props.for}
-                    place={"top"}
-                    tip={this.props.tip}
-                />
-                <SearchableSelect
-                    class={"region-box " + (this.props.notOk !== "" ? "region-input--alert" : "")}
-                    classPrefix="region--prefix "
+            value={props.value}
+            onChange={props.onChange}
+            errorText={props.notOk}
+        >
+            {returnRegionList()}
+        </SearchableSelect>
+    )
+});
 
-                    value={this.props.selectValue}
+export default Region;
 
-                    list={list}
-                    onChange={this.props.onChange}
-                />
-                {this.props.notOk !== "" && <div className="col-12 px-0 region-input__alert-text text-left">{this.props.notOk}</div>}
-            </div>
-        );
-    }
-}
 
-export default Region
+Region.propTypes = {
+    value: PropTypes.string,
+    notOk: PropTypes.string,
+    label: PropTypes.string,
+    country: PropTypes.string,
+
+    onChange: PropTypes.func,
+};

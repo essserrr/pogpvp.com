@@ -1,21 +1,14 @@
-import React from "react"
-import Errors from "../PvP/components/Errors/Errors"
+import React from "react";
 
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import LocalizedStrings from "react-localization"
-import { locale } from "../../locale/locale"
-import { getCookie } from "../../js/getCookie"
-import Loader from "../PvpRating/Loader"
-import News from "./News/News"
-
-let strings = new LocalizedStrings(locale);
-
+import News from "./News/News";
 
 class NewsWrap extends React.Component {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
+    constructor() {
+        super();
         this.state = {
             showResult: true,
             isError: false,
@@ -60,35 +53,27 @@ class NewsWrap extends React.Component {
 
     render() {
         return (
-            <>
-                <div className=" container-fluid mt-3 ">
-                    <div className=" row justify-content-center px-2 mb-5">
-                        {this.state.loading &&
-                            <div className="col-12 mt-0 mb-3 order-lg-2">
-                                <Loader
-                                    color="white"
-                                    weight="500"
-                                    locale={strings.tips.loading}
-                                    loading={this.state.loading}
-                                />
-                            </div>}
-                        <div className="col-md-10 col-lg-8 p-0">
-                            {this.state.isError && <Errors class="alert alert-danger m-0 p-2" value={this.state.error} />}
-                            {this.state.showResult &&
-                                <>
-                                    {this.state.news &&
-                                        <News
-                                            title={this.state.news.Title}
-                                            date={this.state.news.Date}
-                                            description={this.state.news.Description}
-                                        />}
-                                </>}
-                        </div>
-                    </div>
-                </div >
-            </>
+            <Grid container justify="center">
+
+                {this.state.loading &&
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
+
+                <Grid item xs={10} md={8}>
+                    {this.state.isError &&
+                        <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                    }
+                    {this.state.showResult && this.state.news &&
+                        <News
+                            title={this.state.news.Title}
+                            date={this.state.news.Date}
+                            description={this.state.news.Description}
+                        />}
+                </Grid>
+            </Grid >
         );
     }
 }
 
-export default NewsWrap
+export default NewsWrap;

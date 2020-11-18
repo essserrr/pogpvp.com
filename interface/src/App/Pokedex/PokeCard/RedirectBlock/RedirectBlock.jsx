@@ -1,22 +1,36 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-import { encodeQueryData, calculateMaximizedStats, selectCharge, selectQuick } from "../../../../js/indexFunctions"
-import { getCookie } from "../../../../js/getCookie"
-import { dexLocale } from "../../../../locale/dexLocale"
+import { makeStyles } from '@material-ui/core/styles';
 
-import "./RedirectBlock.scss"
+import SliderBlock from "App/Components/SliderBlock/SliderBlock";
+import SliderButton from "App/Components/SliderBlock/SliderButton/SliderButton";
 
-let strings = new LocalizedStrings(dexLocale)
+import { encodeQueryData } from "js/encoders/encodeQueryData";
+import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
+import { selectQuick } from "js/MoveSelector/selectQuick";
+import { selectCharge } from "js/MoveSelector/selectCharge";
+import { getCookie } from "js/getCookie";
+import { dexLocale } from "locale/Pokedex/Pokecard";
 
-class RedirectBlock extends React.PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
+let strings = new LocalizedStrings(dexLocale);
 
-    generatePokObj(name, stat, shields, isShadow, quick, charge) {
+const useStyles = makeStyles((theme) => ({
+    linkBlock: {
+        width: "100%",
+        height: "100%",
+        display: "block"
+    },
+}));
+
+const RedirectBlock = React.memo(function RedirectBlock(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const classes = useStyles();
+
+
+    const generatePokObj = (name, stat, shields, isShadow, quick, charge) => {
         return {
             name: name, Lvl: stat.Level, Atk: stat.Atk, Def: stat.Def, Sta: stat.Sta, Shields: shields,
             AtkStage: 0, DefStage: 0, InitialHP: 0, InitialEnergy: 0,
@@ -25,30 +39,42 @@ class RedirectBlock extends React.PureComponent {
         }
     }
 
-    render() {
-        let pokStats = calculateMaximizedStats(this.props.value.Title, 40, this.props.pokTable).great.Overall
-        let quick = selectQuick(this.props.value.QuickMoves.map(move => { return { key: move } }),
-            this.props.moveTable, this.props.value.Title, this.props.pokTable)
-        let charge = selectCharge(this.props.value.ChargeMoves.map(move => { return { key: move } }),
-            this.props.moveTable, this.props.value.Title, this.props.pokTable)
-        let pokString = encodeQueryData(
-            this.generatePokObj(this.props.value.Title, pokStats, 0, false, quick, charge)
-        )
-        return (
-            <div className={"redirslider-group row m-0 mt-2 mb-3 text-center justify-content-center"} >
-                <Link style={{ color: "black" }}
-                    className="redirslider-group__button col"
-                    to={navigator.userAgent === "ReactSnap" ? "/" : "/pvp/single/great/" + pokString}>
+    const pokStats = calculateMaximizedStats(props.value.Title, 40, props.pokTable).great.Overall
+
+    const quick = selectQuick(props.value.QuickMoves.map(move => { return { value: move } }),
+        props.moveTable, props.value.Title, props.pokTable)
+
+    const charge = selectCharge(props.value.ChargeMoves.map(move => { return { value: move } }),
+        props.moveTable, props.value.Title, props.pokTable)
+
+    const pokString = encodeQueryData(generatePokObj(props.value.Title, pokStats, 0, false, quick, charge))
+
+    const toPvp = navigator.userAgent === "ReactSnap" ? "/" : "/pvp/single/great/" + pokString
+    const toPve = navigator.userAgent === "ReactSnap" ? "/" : "/pve/common/_/" + encodeURIComponent(props.value.Title) + "___4/0_0_0_18_3_true_false/___40_15_15_15_false"
+
+    return (
+        <SliderBlock>
+            <SliderButton hoverable toggled={false}>
+                <Link to={toPvp}>
                     {strings.pvpwith}
                 </Link>
-                <Link style={{ color: "black" }}
-                    className="redirslider-group__button col" to={navigator.userAgent === "ReactSnap" ? "/" :
-                        "/pve/common/_/" + encodeURIComponent(this.props.value.Title) + "___4/0_0_0_18_3_true_false/___40_15_15_15_false"}>
+            </SliderButton>
+
+            <SliderButton hoverable toggled={false}>
+                <Link className={classes.linkBlock} to={toPve}>
                     {strings.pvewith}
                 </Link>
-            </div >
-        );
-    }
-}
+            </SliderButton>
+        </SliderBlock >
+    )
+});
 
 export default RedirectBlock;
+
+RedirectBlock.propTypes = {
+    value: PropTypes.object,
+    pokMisc: PropTypes.object,
+
+    moveTable: PropTypes.object.isRequired,
+    pokTable: PropTypes.object.isRequired,
+};

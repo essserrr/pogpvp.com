@@ -1,22 +1,42 @@
 import React from "react"
-import ReactTooltip from "react-tooltip"
 import LocalizedStrings from "react-localization"
 
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
+import Grid from '@material-ui/core/Grid';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { withStyles } from "@material-ui/core/styles";
+import TextField from '@material-ui/core/TextField';
+import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 
-import SubmitButton from "../../SubmitButton/SubmitButton"
+import DefaultIconStyle from "App/Components/WithIcon/DefaultIconStyle";
+import Button from "App/Components/Button/Button";
 
-import { locale } from "../../../../../locale/locale"
-import { getCookie } from "../../../../../js/getCookie"
+import { impExp } from "locale/ImportExport/ImportExport"
+import { getCookie } from "js/getCookie"
 
-import "./FileImport.scss"
+let strings = new LocalizedStrings(impExp)
 
-let strings = new LocalizedStrings(locale)
+
+const styles = theme => ({
+    defaultIcon: {
+        "&:hover": {
+            fill: theme.palette.secondary.light,
+        }
+    },
+
+    fileInput: {
+        opacity: "0%",
+        width: "100%",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+    },
+});
 
 class FileImport extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
 
         this.state = {
             labelTitle: strings.import.file,
@@ -53,7 +73,7 @@ class FileImport extends React.PureComponent {
     checkFileFormat(fileName) {
         let allowedFormats = this.props.acceptFile.split(", ")
         if (allowedFormats.length === 0) { return true }
-        return allowedFormats.reduce((sum, val) => sum + (fileName.includes(val) ? true : false), false)
+        return allowedFormats.reduce((sum, val) => sum || fileName.includes(val), false)
     }
 
     resetActiveFile() {
@@ -85,57 +105,62 @@ class FileImport extends React.PureComponent {
 
 
     render() {
+        const { classes } = this.props;
+
+
         return (
-            <div className="row mx-0">
-                <form className="col-12 px-0" onSubmit={this.onSubmit}>
+            <Grid component="form" container spacing={2} onSubmit={this.onSubmit}>
 
-                    <ReactTooltip
-                        className={"infoTip"}
-                        id={"imp-exp" + this.props.attr} effect="solid"
-                        place={"bottom"}
-                        multiline={true}
-                    >
-                        {this.props.tips}
-                    </ReactTooltip>
+                <Grid item xs={12}>
+                    <Grid container justify="space-between" spacing={1}>
+                        <Grid item xs>
+                            <Typography>
+                                {this.props.label}
+                            </Typography>
+                        </Grid>
+                        <Tooltip placement="top" arrow
+                            title={<Typography color="inherit">{this.props.tips}</Typography>}>
+                            <DefaultIconStyle>
+                                <HelpOutlineIcon className={classes.defaultIcon} />
+                            </DefaultIconStyle>
+                        </Tooltip>
+                    </Grid>
+                </Grid>
 
+                <Grid item xs={12}>
+                    <TextField
+                        type="file"
+                        label={this.state.labelTitle}
 
+                        inputProps={{
+                            className: classes.fileInput,
+                            ref: this.fileInput,
+                            lang: this.state.lang,
+                            accept: this.props.acceptFile,
+                        }}
 
-                    <div className="row mx-0 mt-3 mb-2">
-                        <div className="col px-0">
-                            {this.props.label}
-                        </div>
-                        <i data-tip data-for={"imp-exp" + this.props.attr} className="align-self-center fas fa-info-circle fa-lg ml-4"></i>
-                    </div>
-                    <div className="custom-file">
-                        <input
-                            type="file"
-                            className="custom-file-input"
+                        InputLabelProps={{
+                            shrink: false,
+                        }}
 
-                            ref={this.fileInput}
-                            id="customFile"
+                        onClick={this.onClick}
+                        onChange={this.onChange}
+                    />
+                </Grid>
 
-                            lang={this.state.lang}
-                            accept={this.props.acceptFile}
-
-                            onClick={this.onClick}
-                            onChange={this.onChange}
+                <Grid item xs={12}>
+                    <Grid container justify="center">
+                        <Button
+                            onClick={this.onSubmit}
+                            title={strings.import.read}
+                            endIcon={<FolderOpenIcon />}
                         />
-                        <label className="importfile__select-button custom-file-label" htmlFor="customFile">{this.state.labelTitle}</label>
-                    </div>
-
-                    <div className="row mx-0 justify-content-center align-items-center my-3">
-                        <SubmitButton
-                            onSubmit={this.onSubmit}
-                            class="submit-button btn btn-primary btn-sm p-0 m-0"
-                        >
-                            {strings.import.read}
-                        </SubmitButton>
-                    </div>
-                </form>
-            </div>
+                    </Grid>
+                </Grid>
+            </Grid>
         )
     }
 
 }
 
-export default FileImport
+export default withStyles(styles, { withTheme: true })(FileImport);

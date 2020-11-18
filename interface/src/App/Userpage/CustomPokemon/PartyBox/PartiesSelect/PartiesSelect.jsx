@@ -1,26 +1,26 @@
-import React from "react"
+import React from "react";
 
-import SearchableSelect from "../../../../PvP/components/SearchableSelect/SearchableSelect"
+import SearchableSelect from 'App/Components/SearchableSelect/SearchableSelect';
 
-import "./PartiesSelect.scss"
+const PartiesSelect = React.memo(function PokemonSelect(props) {
+    const { children, label, name, onChange, maxSize, activePartyName, ...other } = props;
 
-class PartiesSelect extends React.PureComponent {
+    const list = Object.keys(children).map((value) => ({ value: value, title: value }));
+    const fullLabel = `${label} (${list.length}/${maxSize})`;
 
-    render() {
-        let entries = Object.keys(this.props.list)
-        return (
-            <>
-                <div className="user-party-select__text col-12 px-0">{`${this.props.label} (${entries.length}/${this.props.maxSize})`}</div>
-                <SearchableSelect
-                    value={this.props.activePartyName}
-                    list={entries.map((value) => ({ value: value, label: <div style={{ textAlign: "left" }}>{value}</div> }))}
-                    attr={this.props.attr}
-                    onChange={this.props.onChange}
-                />
-            </>
-        );
-    }
-}
+    return (
+        <SearchableSelect
+            disableClearable
+            label={fullLabel}
+            value={String(activePartyName)}
+            name={name}
+            onChange={onChange}
+            {...other}
+        >
+            {list}
+        </SearchableSelect>
+    )
+});
 
 export default PartiesSelect
 

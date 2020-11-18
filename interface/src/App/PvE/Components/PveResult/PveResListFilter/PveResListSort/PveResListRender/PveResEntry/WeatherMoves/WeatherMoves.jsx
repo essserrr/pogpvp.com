@@ -1,27 +1,23 @@
 import React from "react"
-import { weatherDecoder } from "../../../../../../../../../js/indexFunctions"
+import { weatherDecoder } from "js/decoders/weatherDecoder";
 
-import ShortMove from "../../../../../../../../PvpRating/RMoveRow/ShortMove/ShortMove"
+import ColoredMove from "App/Components/ColoredMove/ColoredMove"
 
-import "./WeatherMoves.scss"
-
-const WeatherMoves = React.memo(function (props) {
+const WeatherMoves = React.memo(function WeatherMoves(props) {
     return (
         <>
-            <ShortMove
-                enableWeather={weatherDecoder[props.pokQick.MoveType] === props.weather}
-                weather={props.weather}
-
-                class={`weather-moves__move mr-1 type-color${props.pokQick.MoveType} text`}
-                value={props.pokQick.Title}
-            />
-            <ShortMove
-                enableWeather={weatherDecoder[props.pokCh.MoveType] === props.weather}
-                weather={props.weather}
-
-                class={`weather-moves__move type-color${props.pokCh.MoveType} text`}
-                value={props.pokCh.Title}
-            />
+            <ColoredMove m={0.5}
+                weather={weatherDecoder[props.pokQick.MoveType] === props.weather ? props.weather : undefined}
+                type={props.pokQick.MoveType}
+            >
+                {props.pokQick.Title}
+            </ColoredMove>
+            <ColoredMove m={0.5}
+                weather={weatherDecoder[props.pokCh.MoveType] === props.weather ? props.weather : undefined}
+                type={props.pokCh.MoveType}
+            >
+                {props.pokCh.Title}
+            </ColoredMove>
         </>
     )
 });

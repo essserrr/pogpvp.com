@@ -335,13 +335,7 @@ func letsBattle(obj *PvpObject) {
 		if obj.isTree && *obj.nodeNumb > obj.app.NodeLimit {
 			return
 		}
-
 		nextRound(obj)
-
-		if obj.attacker.inConstructorMode || obj.defender.inConstructorMode {
-			obj.attacker.inConstructorMode = false
-			obj.defender.inConstructorMode = false
-		}
 	}
 	writeRoundResults(obj)
 }
@@ -426,7 +420,6 @@ func nextRound(obj *PvpObject) {
 		obj.attacker.turn(obj)
 
 	}
-
 	//round logics, possible variants of round results
 
 	switch true {
@@ -666,6 +659,11 @@ func (pok *pokemon) dealDamgeGetEnergy(obj *PvpObject) {
 	case 1:
 		damage = int16(0.5*pok.quickMove.pvpDamage*(pok.effectiveAttack.value/defender.effectiveDefence.value)*pok.quickMove.totalMultiplier) + 1
 		energy = app.Energy(pok.quickMove.pvpEnergy)
+
+		//unlock opponent's shield if pokemon is in constructor mode
+		if pok.inConstructorMode {
+			defender.fixShield = false
+		}
 	case 2:
 		isUsed := defender.useShield()
 		handleWriteShield(obj, isUsed, defender.isAttacker)
@@ -681,6 +679,15 @@ func (pok *pokemon) dealDamgeGetEnergy(obj *PvpObject) {
 			pok.writeUtilizationStats(1, energy)
 		}
 	}
+
+	//unlockpokemon variables if it is in contructor mode
+	if pok.inConstructorMode {
+		pok.whatToSkip = 0
+		pok.fixMove = false
+		pok.fixTrigger = false
+		pok.inConstructorMode = false
+	}
+
 	defender.hp = defender.hp - damage //then deal damage to the other guy
 	pok.energy.AddEnergy(int16(energy))
 }

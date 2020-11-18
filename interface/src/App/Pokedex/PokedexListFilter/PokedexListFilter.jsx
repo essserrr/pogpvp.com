@@ -1,48 +1,55 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PokedexListSort from "./PokedexListSort/PokedexListSort"
+import PokedexListSort from "./PokedexListSort/PokedexListSort";
 
-class PokedexListFilter extends React.Component {
+const PokedexListFilter = React.memo(function PokedexListFilter(props) {
+    const { name, filter, children, ...other } = props
 
-    filterList() {
-        return Object.entries(this.props.list).filter(element => {
-            return this.applyNameFilter(element[0]) && this.applyColFilter(element[1], this.props.filter)
+    const filterList = () => {
+        return Object.entries(children).filter(element => {
+            return applyNameFilter(element[0]) && applyColFilter(element[1], filter)
         })
     }
 
-    applyNameFilter(currName) {
-        return currName.toLowerCase().indexOf(this.props.name.toLowerCase()) > -1
+    const applyNameFilter = (currName) => {
+        return currName.toLowerCase().indexOf(name.toLowerCase()) > -1
     }
 
-    applyColFilter(element, filter) {
+    const applyColFilter = (element, filter) => {
         let corresponds = true
-        if (filter.type0 || filter.type1 || filter.type2 || filter.type3 || filter.type4 || filter.type5 ||
-            filter.type6 || filter.type7 || filter.type8 || filter.type9 || filter.type10 || filter.type11 ||
-            filter.type12 || filter.type13 || filter.type14 || filter.type15 || filter.type16 || filter.type17) {
-            if (element.Type.reduce((result, type) => { return result * !filter["type" + type] }, true)) {
-                corresponds *= false
-            }
+
+        const typeFilterEnabled = Object.entries(filter).reduce((sum, value) => value[0].includes("type") ? sum || value[1] : sum, false);
+        const noneOfTypeMatched = element.Type.reduce((result, type) => result && !filter["type" + type], true)
+
+        if (typeFilterEnabled && noneOfTypeMatched) {
+            corresponds *= false
         }
-        if (filter.gen1 || filter.gen2 || filter.gen3 || filter.gen4 || filter.gen5 || filter.gen6 || filter.gen7 || filter.gen8) {
-            if (!filter["gen" + element.Generation]) {
-                corresponds *= false
-            }
+
+        const genFilterEnabled = Object.entries(filter).reduce((sum, value) => value[0].includes("gen") ? sum || value[1] : sum, false);
+        const genNotMatched = !filter["gen" + element.Generation]
+
+        if (genFilterEnabled && genNotMatched) {
+            corresponds *= false
         }
+
         return corresponds
     }
 
+    return (
+        <PokedexListSort pokTable={children} {...other}>
+            {filterList()}
+        </PokedexListSort>
+    )
+});
 
-    render() {
-        return (
-            <PokedexListSort
-                onClick={this.props.onClick}
-                sort={this.props.sort}
+export default PokedexListFilter;
 
-                list={this.filterList()}
-                pokTable={this.props.pokTable}
-            />
-        );
-    }
-}
+PokedexListFilter.propTypes = {
+    children: PropTypes.object,
 
-export default PokedexListFilter
+    name: PropTypes.string,
+    filter: PropTypes.object,
+    sort: PropTypes.object,
+    onClick: PropTypes.func,
+};

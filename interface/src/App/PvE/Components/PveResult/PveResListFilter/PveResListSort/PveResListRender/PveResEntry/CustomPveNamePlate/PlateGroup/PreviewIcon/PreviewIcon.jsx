@@ -1,32 +1,35 @@
-import React from "react"
-import ReactTooltip from "react-tooltip"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import PokemonIconer from "../../../../../../../../../../PvP/components/PokemonIconer/PokemonIconer"
-import { ReactComponent as Shadow } from "../../../../../../../../../../../icons/shadow.svg"
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 
-import "./PreviewIcon.scss"
+import Iconer from "App/Components/Iconer/Iconer";
+import { ReactComponent as Shadow } from "icons/shadow.svg";
 
-const PreviewIcon = React.memo(function (props) {
+const PreviewIcon = React.memo(function PreviewIcon(props) {
+    const pokemon = props.pokemonTable[props.Name];
+    const fileName = `${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`
 
     return (
-        <>
-            <ReactTooltip
-                className={"infoTip"}
-                id={props.index + props.attr + props.Name} effect="solid"
-                place={"top"}
-                multiline={true} >
-                {props.Name}
-            </ReactTooltip>
-            <div data-tip data-for={props.index + props.attr + props.Name} className="preview-icon__container col-auto px-2">
-                {props.pokemonTable[props.Name] && <PokemonIconer
-                    src={props.pokemonTable[props.Name].Number +
-                        (props.pokemonTable[props.Name].Forme !== "" ? "-" + props.pokemonTable[props.Name].Forme : "")}
-                    class={"preview-icon__pok"}
-                />}
-                {String(props.IsShadow) === "true" && <Shadow className="preview-icon__shadow" style={{ right: "-3px" }} />}
-            </div>
-        </>
-    )
-})
+        <Tooltip arrow placement="top" title={<Typography>{props.Name}</Typography>}>
+            <Box position="relative" px={0.25}>
 
-export default PreviewIcon
+                {pokemon &&
+                    <Iconer fileName={fileName} folderName="/pokemons/" size={48} />}
+
+                {String(props.IsShadow) === "true" &&
+                    <Shadow className="preview-icon__shadow" style={{ width: "18px", height: "18px", position: "absolute", right: "-3px", }} />}
+
+            </Box>
+        </Tooltip>
+    )
+});
+
+export default PreviewIcon;
+
+PreviewIcon.propTypes = {
+    Name: PropTypes.string,
+    pokemonTable: PropTypes.object,
+};

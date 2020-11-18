@@ -1,22 +1,37 @@
-import React from "react"
-import AdvisorSort from "./AdvisorSort/AdvisorSort"
+import React from "react";
+import PropTypes from 'prop-types';
 
-class AdvisorPages extends React.PureComponent {
-    render() {
-        const upperBound = this.props.list.length >= this.props.n * 50 ? this.props.n * 50 : this.props.list.length
-        return (
-            <AdvisorSort
-                leftPanel={this.props.leftPanel}
-                rightPanel={this.props.rightPanel}
-                moveTable={this.props.moveTable}
-                pokemonTable={this.props.pokemonTable}
+import AdvisorSort from "./AdvisorSort/AdvisorSort";
 
-                rawResult={this.props.rawResult}
-                filter={this.props.filter}
-                list={this.props.list.slice(0, upperBound)}
-            />
-        );
-    }
-};
+const AdvisorPages = React.memo(function AdvisorPages(props) {
+    const upperBound = props.children.length >= props.n * 50 ? props.n * 50 : props.children.length;
+    return (
+        <AdvisorSort
+            leftPanel={props.leftPanel}
+            rightPanel={props.rightPanel}
+            moveTable={props.moveTable}
+            pokemonTable={props.pokemonTable}
+
+            rawResult={props.rawResult}
+            filter={props.filter}
+        >
+            {props.children.slice(0, upperBound)}
+        </AdvisorSort>
+    )
+});
 
 export default AdvisorPages;
+
+AdvisorPages.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.object),
+    n: PropTypes.number,
+
+    leftPanel: PropTypes.object,
+    rightPanel: PropTypes.object,
+
+    moveTable: PropTypes.object,
+    pokemonTable: PropTypes.object,
+
+    rawResult: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.node)),
+    filter: PropTypes.string,
+};

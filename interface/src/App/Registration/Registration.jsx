@@ -1,24 +1,29 @@
-import React from "react"
+import React from "react";
 import LocalizedStrings from "react-localization";
-import { loadReCaptcha } from 'react-recaptcha-google'
-import { connect } from 'react-redux'
+import { loadReCaptcha } from 'react-recaptcha-google';
+import { connect } from 'react-redux';
 
-import { setSession } from "../../AppStore/Actions/actions"
+import Alert from '@material-ui/lab/Alert';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import RegForm from "./RegForm/RegForm"
-import Errors from "../PvP/components/Errors/Errors"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import "./Registration.scss"
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import RegForm from "./RegForm/RegForm";
+import SiteHelm from "App/SiteHelm/SiteHelm";
 
-import { getCookie } from "../../js/getCookie"
-import { userLocale } from "../../locale/userLocale"
+import { setSession } from "AppStore/Actions/actions";
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/Registration/Registration";
+import { errors } from "locale/UserPage/Errors";
 
 let strings = new LocalizedStrings(userLocale);
+let errorStrings = new LocalizedStrings(errors);
 
 class Registration extends React.Component {
-    constructor(props) {
-        super(props)
+    constructor() {
+        super()
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             inputs: { username: "", email: "", password: "", checkPassword: "", token: "" },
             notOk: { username: "", email: "", password: "", checkPassword: "", token: "" },
@@ -35,32 +40,16 @@ class Registration extends React.Component {
     }
 
     verifyCallback(recaptchaToken) {
-        switch (!recaptchaToken) {
-            case true:
-                this.setState({
-                    inputs: {
-                        ...this.state.inputs,
-                        token: recaptchaToken,
-                    },
-                    notOk: {
-                        ...this.state.notOk,
-                        token: strings.err.token,
-                    }
-                })
-                break
-            default:
-                this.setState({
-                    inputs: {
-                        ...this.state.inputs,
-                        token: recaptchaToken,
-                    },
-                    notOk: {
-                        ...this.state.notOk,
-                        token: ""
-                    }
-                })
-        }
-
+        this.setState({
+            inputs: {
+                ...this.state.inputs,
+                token: recaptchaToken,
+            },
+            notOk: {
+                ...this.state.notOk,
+                token: !recaptchaToken ? errorStrings.err.token : "",
+            }
+        })
     }
 
     onChange(event) {
@@ -77,8 +66,8 @@ class Registration extends React.Component {
     }
 
     check(str, type) {
-        if (!str || str === "") {
-            return (strings.err.ness)
+        if (!str || str.replace(" ", "") === "") {
+            return (errorStrings.err.ness)
         }
         switch (type) {
             case "username":
@@ -87,46 +76,50 @@ class Registration extends React.Component {
                 return this.checkPass(str)
             case "checkPassword":
                 return this.checkPass(str, true)
-            default:
+            case "email":
                 return this.checkEmail(str)
+            case "token":
+                return !str ? errorStrings.err.token : ""
+            default:
+                return ""
         }
     }
 
     checkPass(str, isConf) {
         if (str.length < 6) {
-            return strings.signup.pass + strings.err.longer.l2 + "6" + strings.err.lesseq.c
+            return strings.signup.pass + errorStrings.err.longer.l2 + "6" + errorStrings.err.lesseq.c
         }
         if (str.length > 20) {
-            return strings.signup.pass + strings.err.lesseq.l2 + "20" + strings.err.lesseq.c
+            return strings.signup.pass + errorStrings.err.lesseq.l2 + "20" + errorStrings.err.lesseq.c
         }
         if (this.checkRegexp(str)) {
-            return strings.signup.pass + strings.err.symb
+            return strings.signup.pass + errorStrings.err.symb
         }
         if (isConf && str !== this.state.inputs.password) {
-            return strings.err.match
+            return errorStrings.err.match
         }
         return ""
     }
 
     checkUname(str) {
         if (str.length < 4) {
-            return strings.signup.uname + strings.err.longer.l1 + "4" + strings.err.lesseq.c
+            return strings.signup.uname + errorStrings.err.longer.l1 + "4" + errorStrings.err.lesseq.c
         }
         if (str.length > 16) {
-            return strings.signup.uname + strings.err.lesseq.l1 + "16" + strings.err.lesseq.c
+            return strings.signup.uname + errorStrings.err.lesseq.l1 + "16" + errorStrings.err.lesseq.c
         }
         if (this.checkRegexp(str)) {
-            return strings.signup.uname + strings.err.symb
+            return strings.signup.uname + errorStrings.err.symb
         }
         return ""
     }
 
     checkEmail(str) {
         if (str.length > 320) {
-            return strings.signup.email + strings.err.lesseq.l2 + "320" + strings.err.lesseq.c
+            return strings.signup.email + errorStrings.err.lesseq.l2 + "320" + errorStrings.err.lesseq.c
         }
         if (this.checkEmailRegexp(str)) {
-            return strings.err.emailf
+            return errorStrings.err.emailf
         }
         return ""
     }
@@ -150,21 +143,14 @@ class Registration extends React.Component {
 
 
     validate() {
-        let notUname = this.check(this.state.inputs.username, "username")
-        let notPass = this.check(this.state.inputs.password, "password")
-        let notChPass = this.check(this.state.inputs.checkPassword, "checkPassword")
-        let notEmail = this.check(this.state.inputs.email, "email")
-        let notToken = !this.state.inputs.token ? strings.err.token : ""
+        let errors = {}
+        Object.entries(this.state.inputs).forEach((value) => errors[value[0]] = this.check(value[1], value[0]))
 
-        switch (notUname !== "" || notPass !== "" || notChPass !== "" || notEmail !== "" || notToken !== "") {
-            case true:
-                this.setState({
-                    notOk: { username: notUname, password: notPass, checkPassword: notChPass, email: notEmail, token: notToken },
-                })
-                return false
-            default:
-                return true
-        }
+        this.setState({
+            notOk: errors,
+        })
+
+        return Object.values(errors).reduce((sum, value) => sum && value === "", true)
     }
 
     async register(resetCaptcha) {
@@ -207,27 +193,32 @@ class Registration extends React.Component {
 
     render() {
         return (
-            <div className="container-fluid mb-5">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/registration"
                     header={strings.pageheaders.reg}
                     descr={strings.pagedescriptions.reg}
                 />
-                <div className="row m-0 justify-content-center">
-                    <div className="col-12 col-sm-10 col-md-8 col-lg-6 mt-4 registration align-self-center">
-                        <div className="col-12 p-0 registration__text text-center">
-                            {strings.signup.reg}
-                        </div>
-                        {this.state.error !== "" && <div className="col-12 p-0">
-                            <Errors value={this.state.error} class="alert alert-danger m-2 p-2" />
-                        </div>}
-                        <div className="col-12 p-0">
-                            <RegForm {...this.state.inputs} loading={this.state.loading} notOk={this.state.notOk}
-                                onSubmit={this.onSubmit} onChange={this.onChange} verifyCallback={this.verifyCallback} />
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <Grid item xs={10} sm={8} md={6} lg={4}>
+                    <GreyPaper elevation={4} enablePadding={true} >
+                        <Grid container justify="center" spacing={2}>
+                            <Grid item xs={12}>
+                                <Typography variant="h5" align="center">
+                                    {strings.signup.reg}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <RegForm inputs={this.state.inputs} loading={this.state.loading} notOk={this.state.notOk}
+                                    onSubmit={this.onSubmit} onChange={this.onChange} verifyCallback={this.verifyCallback} />
+                            </Grid>
+                            {this.state.error !== "" &&
+                                <Grid item xs={12}>
+                                    <Alert variant="filled" severity="error">{this.state.error}</Alert>
+                                </Grid>}
+                        </Grid>
+                    </GreyPaper>
+                </Grid>
+            </Grid>
         )
     }
 }

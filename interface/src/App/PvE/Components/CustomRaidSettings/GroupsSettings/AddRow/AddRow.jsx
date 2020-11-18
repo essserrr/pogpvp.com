@@ -1,24 +1,64 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import FaButton from "../../../PveResult/Breakpoints/FaButton/FaButton"
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { makeStyles } from '@material-ui/core/styles';
 
-import "./AddRow.scss"
+const useStyles = makeStyles((theme) => ({
+    addRow: {
+        "-webkit-transition": "all 0.1s linear",
+        transition: "all 0.1s linear",
 
-class AddRow extends React.PureComponent {
-    render() {
-        return (
-            <div className="add-row row m-0 align-items-center justify-content-between">
-                <FaButton
-                    onClick={this.props.onClick}
-                    class="fas fa-plus-circle fa-2x"
-                    name={this.props.name}
-                />
-                <div className="add-row__line col px-0"></div>
-            </div>
-        )
-    }
+        "& button": {
+            "&:hover": {
+                "& + $line": {
+                    visibility: "visible",
+                }
+            }
+        }
+    },
 
-}
+    line: {
+        visibility: "hidden",
+        height: "3px",
+
+        marginLeft: "10px",
+        marginRight: "10px",
+
+        borderRadius: "2px",
+        border: `2px solid ${theme.palette.primary.main}`,
+        backgroundColor: theme.palette.primary.main,
+
+        "-webkit-transition": "all 0.1s linear",
+        transition: "all 0.1s linear",
+    },
+    button: {
+        outline: "none !important"
+    },
+    icon: {
+        fontSize: "32px",
+    },
+}));
+
+const AddRow = React.memo(function AddRow(props) {
+    const classes = useStyles();
+
+    return (
+        <Grid container alignItems="center" justify="space-between" className={classes.addRow}>
+            <IconButton className={classes.button} name={props.name} onClick={(event, ...other) => props.onClick(event, { name: props.name }, ...other)}>
+                <AddCircleIcon className={classes.icon} />
+            </IconButton>
+            <Grid item xs className={classes.line}></Grid>
+        </Grid>
+    )
+});
 
 
-export default AddRow
+export default AddRow;
+
+AddRow.propTypes = {
+    name: PropTypes.string,
+    onClick: PropTypes.func,
+};

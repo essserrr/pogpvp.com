@@ -1,36 +1,42 @@
-import React from "react"
+import React from "react";
+import PropTypes from 'prop-types';
 
-import CustomPvePlayer from "./CustomPvePlayer/CustomPvePlayer"
-import AddRow from "./AddRow/AddRow"
+import Grid from '@material-ui/core/Grid';
 
-class GroupsSettings extends React.PureComponent {
-    render() {
-        return (
-            <div className="row m-0 align-items-center justify-content-center">
-                <div className="col-12 px-0">
-                    {this.props.value.map((player, playerNumber) =>
-                        <div className="col-12 px-0 pt-2" key={playerNumber}>
-                            <CustomPvePlayer
+import CustomPvePlayer from "./CustomPvePlayer/CustomPvePlayer";
+import AddRow from "./AddRow/AddRow";
 
-                                playerNumber={playerNumber}
-                                group1={player[0]} group2={player[1]} group3={player[2]}
-                                userParties={this.props.userParties} onChange={this.props.onChange}
-                            />
-                        </div>
-                    )}
-                </div>
-                {this.props.value.length < 5 &&
-                    <div className="col-12 px-0 mt-3">
-                        <AddRow
-                            name="addPlayer"
-                            onClick={this.props.onChange}
-                        />
-                    </div>}
-            </div>
-        )
-    }
+const GroupsSettings = React.memo(function GroupsSettings(props) {
 
-}
+    return (
+        <Grid container alignItems="center" justify="center" spacing={1}>
 
+            {props.value.map((player, playerNumber) =>
+                <Grid item xs={12} key={playerNumber}>
+                    <CustomPvePlayer
+                        playerNumber={playerNumber}
+                        group1={player[0]} group2={player[1]} group3={player[2]}
+                        userParties={props.userParties} onChange={props.onChange}
+                    />
+                </Grid>
+            )}
 
-export default GroupsSettings
+            {props.value.length < 5 &&
+                <Grid item xs={12}>
+                    <AddRow name="addPlayer" onClick={props.onChange} />
+                </Grid>}
+
+        </Grid>
+    )
+});
+
+export default GroupsSettings;
+
+GroupsSettings.propTypes = {
+    attr: PropTypes.string,
+
+    userParties: PropTypes.object,
+    value: PropTypes.array,
+
+    onChange: PropTypes.func,
+};

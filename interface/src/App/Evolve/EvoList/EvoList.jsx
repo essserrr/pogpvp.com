@@ -1,97 +1,72 @@
-import React, { PureComponent } from "react"
-import LocalizedStrings from "react-localization"
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-import PokemonCard from "../PokemonCard/PokemonCard"
-import PokemonIconer from "../../PvP/components/PokemonIconer/PokemonIconer"
-import Tier from "./Tier/Tier"
-import CardBody from "./CardBody"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
-import { locale } from "../../../locale/locale"
-import { getCookie } from "../../../js/getCookie"
+import PokemonCard from "App/Components/PokemonCard/PokemonCard";
+import Iconer from "App/Components/Iconer/Iconer";
+import EvoTiers from "./EvoTiers/EvoTiers";
+import CardBody from "App/EggsList/RenderEggList/EggsTier/CardBody";
 
-import "./EvoList.scss"
+import { locale } from "locale/Evolve/Evolve";
+import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(locale)
 
-class EvoList extends PureComponent {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-    }
-
-    returnEvolveList(state) {
-        let list = []
-        this.evolist(this.props.pokemonTable[state.name], this.props.pokemonTable, list, 0)
-
-        //makes structured list of evocards from generated list
-        let structuredResult = list.reduce((result, elem) => {
-            if (!result[elem.stage]) {
-                result.push([])
-            }
-            result[elem.stage].push(
-                < div key={elem.name + "wrap"} className={"col-5 col-sm-4 col-md-4 d-flex justify-content-center px-1 pt-1"} >
-                    <PokemonCard
-                        class={"evo-list__card col-12 p-0"}
-                        name={elem.name}
-                        icon={
-                            <Link className="my-1 align-self-center"
-                                title={strings.dexentr + elem.name}
-                                to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(elem.name)}>
-                                <PokemonIconer
-                                    src={this.props.pokemonTable[elem.name].Number + (this.props.pokemonTable[elem.name].Forme !== "" ?
-                                        "-" + this.props.pokemonTable[elem.name].Forme : "")}
-                                    class={"evo-list__icon"} />
-                            </Link>}
-                        body={<CardBody
-                            name={elem.name}
-                            state={state}
-                            pokemonTable={this.props.pokemonTable}
-                        />}
-                        classHeader={"evo-list__card-header col-12 px-1 text-center"}
-                        classBody={"evo-list__card-body col p-1 justify-content-between"}
-                    />
-                </div >
-            )
-            return result;
-        }, [])
-
-        //separates evocard by a separator
-        structuredResult.forEach(function (elem, i, arr) {
-            if (i === 0) {
-                arr[0] = <Tier
-                    key={i + "sep"}
-                    list={elem}
-                />
-                return
-            }
-            arr[i] = <Tier
-                key={i + "sep"}
-                class="evo-list__separator my-2"
-                title={strings.tips.evolveTool}
-                list={elem}
-            />
-
-        });
-        return structuredResult
-    }
+const EvoList = React.memo(function EvoList(props) {
+    strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+    const { stats } = props;
 
     //creates list of all evolutions of selected pok
-    evolist(pokEntry, pokTable, list, stage) {
+    const evolist = (pokEntry, pokTable, list, stage) => {
         list.push({ name: pokEntry.Title, stage: stage })
         for (let i = 0; i < pokEntry.Evolutions.length; i++) {
-            this.evolist(pokTable[pokEntry.Evolutions[i]], pokTable, list, stage + 1)
+            evolist(pokTable[pokEntry.Evolutions[i]], pokTable, list, stage + 1)
         }
     }
 
+    let evolits = [];
+    evolist(props.pokemonTable[stats.name], props.pokemonTable, evolits, 0);
 
-    render() {
-        return (
-            <>
-                {this.returnEvolveList(this.props.state)}
-            </>
-        );
-    }
-}
+    return (
+        <EvoTiers>
+
+            {evolits.reduce((result, elem) => {
+                if (!result[elem.stage]) { result.push([]) };
+                const pokemon = props.pokemonTable[elem.name];
+                const fileName = `${pokemon.Number}${pokemon.Forme !== "" ? `-${pokemon.Forme}` : ""}`;
+                const to = navigator.userAgent === "ReactSnap" ? "/" : "/pokedex/id/" + encodeURIComponent(elem.name);
+
+                result[elem.stage].push(
+                    <Grid key={elem.name + "wrap"} item xs={5} sm={4}>
+                        <PokemonCard
+                            title={<Typography variant="body1" align="center">{elem.name}</Typography>}
+
+                            icon={
+                                <Box mx={1}>
+                                    <Link title={`${strings.dexentr} ${elem.name}`} to={to}>
+                                        <Iconer folderName="/pokemons/" fileName={fileName} size={48} />
+                                    </Link>
+                                </Box>}
+
+                            body={<CardBody name={elem.name} forEvo stats={stats} pokTable={props.pokemonTable} />}
+                        />
+                    </Grid >
+                )
+                return result;
+            }, [])}
+
+        </EvoTiers>
+    )
+});
 
 export default EvoList;
+
+EvoList.propTypes = {
+    stats: PropTypes.object.isRequired,
+    pokemonTable: PropTypes.object.isRequired,
+};

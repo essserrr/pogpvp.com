@@ -1,38 +1,46 @@
-import React from "react"
-import SiteHelm from "../SiteHelm/SiteHelm"
-import DropWithArrow from "../PvpRating/DropWithArrow/DropWithArrow"
-import LocalizedStrings from "react-localization"
-import ReactTooltip from "react-tooltip"
-import { connect } from "react-redux"
+import React from "react";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
-import { getCustomPokemon } from "../../AppStore/Actions/getCustomPokemon"
-import { getMoveBase } from "../../AppStore/Actions/getMoveBase"
-import { getPokemonBase } from "../../AppStore/Actions/getPokemonBase"
-import { getCustomMoves } from "../../AppStore/Actions/getCustomMoves"
-import { refresh } from "../../AppStore/Actions/refresh"
-import SinglePvp from "./SinglePvp"
-import MatrixPvp from "./MatrixPvp"
-import SelectGroup from "./components/SelectGroup/SelectGroup"
-import Checkbox from "../RaidsList/Checkbox/Checkbox"
-import MatrixDescr from "./components/Description/MatrixDescr"
-import SingleDescr from "./components/Description/SingleDescr"
-import Loader from "../PvpRating/Loader"
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
 
-import {
-    extractPokemon, extractData, returnMovePool, calculateMaximizedStats, returnPokList, separateMovebase, calculateEffStat
-} from "../../js/indexFunctions"
-import { getCookie } from "../../js/getCookie"
-import { locale } from "../../locale/locale"
+import UpperPanel from "./components/UpperPanel/UpperPanel";
+import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
+import DropWithArrow from "App/PvpRating//DropWithArrow/DropWithArrow";
 
-import "./PvpPage.scss"
+import { getCustomPokemon } from "AppStore/Actions/getCustomPokemon";
+import { getMoveBase } from "AppStore/Actions/getMoveBase";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { getCustomMoves } from "AppStore/Actions/getCustomMoves";
+import { refresh } from "AppStore/Actions/refresh";
+import SinglePvp from "./SinglePvp";
+import MatrixPvp from "./MatrixPvp";
+import MatrixDescr from "./components/Description/MatrixDescr";
+import SingleDescr from "./components/Description/SingleDescr";
 
-let strings = new LocalizedStrings(locale);
+import { MovePoolBuilder } from "js/movePoolBuilder";
+import { separateMovebase } from "js/separateMovebase";
+import { returnPokList } from "js/returnPokList";
+
+import { calculateEffStat } from "js/calculateEffStat";
+import { calculateMaximizedStats } from "js/Maximizer/Maximizer";
+import { extractData } from "js/extractors/extractData";
+import { extractPokemon } from "js/extractors/extractPokemon";
+import { getCookie } from "js/getCookie";
+import { pvp } from "locale/Pvp/Pvp";
+import { options } from "locale/Components/Options/locale";
+
+let strings = new LocalizedStrings(pvp);
+let optionStrings = new LocalizedStrings(options);
 
 function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.HP = hisResult.HP
     pok.Energy = hisResult.EnergyRemained
 
-    let moves = returnMovePool(pok.name, pokemonTable, strings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
+    let moves = new MovePoolBuilder();
+    moves.createMovePool(pok.name, pokemonTable, optionStrings.options.moveSelect, false, [pok.QuickMove], [pok.ChargeMove1, pok.ChargeMove2])
     pok.quickMovePool = moves.quickMovePool
     pok.chargeMovePool = moves.chargeMovePool
 
@@ -46,9 +54,10 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
 
 
 class PvpPage extends React.Component {
-    constructor(props) {
-        super(props);
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+    constructor() {
+        super();
+        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
+        optionStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en");
         this.state = {
             error: "",
             showResult: false,
@@ -62,18 +71,11 @@ class PvpPage extends React.Component {
 
 
             isLoaded: false,
-            leaguesList: [
-                <option value="great" key="great">{strings.options.league.great}</option>,
-                <option value="ultra" key="ultra">{strings.options.league.ultra}</option>,
-                <option value="master" key="master">{strings.options.league.master}</option>,
-            ],
             loading: false,
-            showCollapse: false,
         };
         this.onChange = this.onChange.bind(this);
         this.updateState = this.updateState.bind(this);
         this.onPvpokeEnable = this.onPvpokeEnable.bind(this);
-        this.onClick = this.onClick.bind(this);
         this.changeUrl = this.changeUrl.bind(this);
     }
 
@@ -108,8 +110,6 @@ class PvpPage extends React.Component {
             this.props.match.params.simtype,
         )
     }
-
-
 
     async updateState(league, pok1, pok2, simtype) {
         this.setState({
@@ -205,23 +205,15 @@ class PvpPage extends React.Component {
         }
     }
 
-
-
     onChange(event) {
         this.setState({
             [event.target.name]: event.target.value
-
         });
     }
 
     onPvpokeEnable(event) {
         this.setState({
             [event.target.name]: !Boolean(this.state[event.target.name]),
-        })
-    }
-    onClick() {
-        this.setState({
-            showCollapse: !this.state.showCollapse
         })
     }
 
@@ -231,105 +223,58 @@ class PvpPage extends React.Component {
 
 
     render() {
+        const isMatrix = this.props.match.params.type === "matrix";
+        const isSingle = this.props.match.params.type === "single";
         return (
-            <>
+            <Grid container justify="center">
                 <SiteHelm
-                    url={this.props.match.params.type === "matrix" ? "https://pogpvp.com/pvp/matrix" :
+                    url={isMatrix ? "https://pogpvp.com/pvp/matrix" :
                         "https://pogpvp.com/pvp/single"}
-                    header={this.props.match.params.type === "matrix" ? strings.pageheaders.matrix :
-                        strings.pageheaders.single}
-                    descr={this.props.match.params.type === "matrix" ? strings.pagedescriptions.matrix :
-                        strings.pagedescriptions.single}
+                    header={isMatrix ? strings.pageheaders.matrix : strings.pageheaders.single}
+                    descr={isMatrix ? strings.pagedescriptions.matrix : strings.pagedescriptions.single}
                 />
-                <div className="container-fluid pt-2 pt-md-2 mb-5">
-                    <div className="row justify-content-center px-1">
-                        <div className="pvppage__upper-panel col-12 d-flex p-2 m-0">
-                            <div className="col align-self-center m-0 p-0">
-                                <SelectGroup
-                                    name="league"
-                                    class="input-group input-group-sm"
-                                    value={this.state.league}
-                                    onChange={this.onChange}
-                                    options={this.state.leaguesList}
-                                    label={strings.title.league}
-                                    for=""
-                                />
-                            </div>
 
-                            <Checkbox
-                                class={"form-check form-check-inline m-0 p-0 ml-4"}
-                                checked={this.state.pvpoke ? "checked" : false}
-                                name={"pvpoke"}
-                                label={
-                                    <div className=" text-center">
-                                        {strings.title.pvpoke}
+                <Grid item xs={12} lg={11} container justify="center" spacing={3} >
 
-                                    </div>
-                                }
-                                onChange={this.onPvpokeEnable}
-                            />
-                            <ReactTooltip
-                                className={"infoTip"}
-                                id={"pvpoke"} effect="solid"
-                                place={"top"}
-                                multiline={true}
-                            >
-                                {strings.tips.pvpoke}
-                            </ReactTooltip>
-                            <i data-tip data-for={"pvpoke"} className="align-self-center fas fa-info-circle fa-lg ml-4">
-                            </i>
-                        </div>
-                    </div>
-                    <div className="row  mx-0 mx-lg-2 justify-content-center">
-                        {this.state.loading && <div className="col-12  mb-4"  >
-                            <Loader
-                                color="white"
-                                weight="500"
-                                locale={strings.tips.loading}
-                                loading={this.state.loading}
+                    <Grid item xs={12} md={8}>
+                        <GreyPaper elevation={4} enablePadding paddingMult={0.75}>
+                            <DropWithArrow title={strings.title.about}>
+                                {this.state.isLoaded && ((this.props.match.params.type === "matrix") ? <MatrixDescr /> : <SingleDescr />)}
+                            </DropWithArrow>
+                        </GreyPaper>
+                    </Grid>
 
-                                class="row  m-0 p-0 justify-content-center"
-                                innerClass="col-auto p-4 ml-1 mx-lg-0 mt-1  mt-md-2"
-                            />
-                        </div>}
-                        <div className="pvppage__main-panel col-12 m-0 p-0">
-                            {(this.state.isLoaded && (this.props.match.params.type === "single")) &&
-                                <SinglePvp
-                                    userPokemon={this.props.customPokemon}
-                                    pokemonTable={this.props.bases.pokemonBase}
+                    <Grid item xs={12} md={8}>
+                        <UpperPanel checked={Boolean(this.state.pvpoke)} league={this.state.league} onChange={this.onChange} onPvpokeEnable={this.onPvpokeEnable} />
+                    </Grid>
 
-                                    parentState={this.state}
-                                    changeUrl={this.changeUrl} />
-                            }
-                            {(this.state.isLoaded && (this.props.match.params.type === "matrix")) &&
-                                <MatrixPvp
-                                    userPokemon={this.props.customPokemon}
-                                    pokemonTable={this.props.bases.pokemonBase}
+                    {this.state.loading &&
+                        <Grid item xs={12}>
+                            <LinearProgress color="secondary" />
+                        </ Grid>}
 
-                                    parentState={this.state} />
-                            }
-                        </div>
-                    </div>
-                    <div className="row justify-content-center px-1">
-                        <div className="pvppage__descr-panel col-12 p-0 px-3 py-2" >
-                            <DropWithArrow
-                                onShow={this.onClick}
-                                show={this.state.showCollapse}
-                                title={strings.title.about}
-                                elem={this.state.isLoaded &&
-                                    ((this.props.match.params.type === "matrix") ? <MatrixDescr /> : <SingleDescr />)}
+                    <Grid item xs={12}>
+                        {this.state.isLoaded && isSingle &&
+                            <SinglePvp
+                                userPokemon={this.props.customPokemon}
+                                pokemonTable={this.props.bases.pokemonBase}
 
-                                faOpened="align-self-center fas fa-angle-up fa-lg "
-                                faClosed="align-self-center fas fa-angle-down fa-lg"
-                                outClass="row justify-content-between m-0 pb-1 clickable"
-                                inClass="row justify-content-center m-0" />
-                        </div>
-                    </div>
-                </div >
-            </>
+                                parentState={this.state}
+                                changeUrl={this.changeUrl} />}
+
+                        {this.state.isLoaded && isMatrix &&
+                            <MatrixPvp
+                                userPokemon={this.props.customPokemon}
+                                pokemonTable={this.props.bases.pokemonBase}
+
+                                parentState={this.state} />}
+                    </Grid>
+
+                </Grid>
+            </Grid>
         );
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -339,7 +284,7 @@ const mapDispatchToProps = dispatch => {
         getMoveBase: () => dispatch(getMoveBase()),
         getCustomPokemon: () => dispatch(getCustomPokemon()),
     }
-}
+};
 
 export default connect(
     state => ({
@@ -347,4 +292,4 @@ export default connect(
         bases: state.bases,
         customPokemon: state.customPokemon.pokemon,
     }), mapDispatchToProps
-)(PvpPage)
+)(PvpPage);

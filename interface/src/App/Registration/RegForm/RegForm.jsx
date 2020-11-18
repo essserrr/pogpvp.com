@@ -1,20 +1,24 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { ReCaptcha } from 'react-recaptcha-google'
-import { Link } from "react-router-dom"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-import AuthInput from "./AuthInput/AuthInput"
-import AuthButton from "./AuthButton/AuthButton"
-import "./RegForm.scss"
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
-import { getCookie } from "../../../js/getCookie"
-import { userLocale } from "../../../locale/userLocale"
+import ReCaptchaWithErr from "App/Login/LogForm/ReCaptchaWithErr/ReCaptchaWithErr";
+import Input from "App/Components/Input/Input"
+import Button from "App/Components/Button/Button";
+
+import { getCookie } from "js/getCookie";
+import { userLocale } from "locale/Registration/Registration";
 
 let strings = new LocalizedStrings(userLocale)
 
-class LoginForm extends React.PureComponent {
-    constructor(props) {
-        super(props);
+class RegForm extends React.PureComponent {
+    constructor() {
+        super();
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.onLoadRecaptcha = this.onLoadRecaptcha.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -32,96 +36,105 @@ class LoginForm extends React.PureComponent {
 
     render() {
         return (
-            <>
-                <div className="col-12 p-0">
-                    <AuthInput
-                        labelLeft={strings.signup.uname}
-                        place={strings.signup.uname}
+            <Grid container justify="center" spacing={2}>
+                <Grid item xs={12}>
+                    <Input
+                        label={strings.signup.uname}
                         type="text"
                         name="username"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.username}
-                        value={this.props.username}
+                        errorText={this.props.notOk.username}
+                        value={this.props.inputs.username}
                         onChange={this.props.onChange}
                     />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.email}
-                        place={strings.signup.email}
+                </Grid>
+                <Grid item xs={12}>
+                    <Input
+                        label={strings.signup.email}
                         type="email"
                         name="email"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.email}
-                        value={this.props.email}
+                        errorText={this.props.notOk.email}
+                        value={this.props.inputs.email}
                         onChange={this.props.onChange}
                     />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.pass}
-                        place={strings.signup.pass}
+                </Grid>
+                <Grid item xs={12}>
+                    <Input
+                        label={strings.signup.pass}
                         type="password"
                         name="password"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.password}
-                        value={this.props.password}
+                        errorText={this.props.notOk.password}
+                        value={this.props.inputs.password}
                         onChange={this.props.onChange}
                     />
-                </div>
-                <div className="col-12 p-0 pt-2">
-                    <AuthInput
-                        labelLeft={strings.signup.cpass}
-                        place={strings.signup.cpass}
+                </Grid>
+                <Grid item xs={12}>
+                    <Input
+                        label={strings.signup.cpass}
                         type="password"
                         name="checkPassword"
-                        aCompleteOff={true}
+                        autoComplete="off"
 
-                        notOk={this.props.notOk.checkPassword}
-                        value={this.props.checkPassword}
+                        errorText={this.props.notOk.checkPassword}
+                        value={this.props.inputs.checkPassword}
                         onChange={this.props.onChange}
                     />
-                </div>
-                <div className="row m-0 pt-3 justify-content-center ">
-                    <div className={"col-auto px-0"}>
-                        {navigator.userAgent !== "ReactSnap" && <ReCaptcha
-                            ref={(el) => { this.pogCaptcha = el }}
-                            hl={getCookie("appLang")}
-                            data-theme="dark"
-                            render="explicit"
-                            sitekey={process.env.REACT_APP_CAPTCHA_KEY}
-                            onloadCallback={this.onLoadRecaptcha}
-                            verifyCallback={this.props.verifyCallback}
-                        />}
-                    </div>
-                    {this.props.notOk.token !== "" &&
-                        <div className="col-12 px-0 text-center reg-form__alert-text">{this.props.notOk.token}</div>}
-                </div>
-                <div className="col-12 p-0 pt-2 reg-form--text text-center">
-                    {strings.propc}
-                    <Link title={strings.pol.p} to="/privacy">{strings.pol.p}</Link> {strings.and} <Link title={strings.pol.t} to="/terms">{strings.pol.t}</Link>
-                </div>
-                <div className="row m-0 pt-3 justify-content-center">
-                    <AuthButton
-                        title={strings.signup.toreg}
-                        onClick={this.onSubmit}
-                        loading={this.props.loading}
-                        disabled={
-                            Object.values(this.props.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)} />
+                </Grid>
 
-                </div>
-                <div className="col-12 p-0 pt-3 reg-form--text text-center">
-                    {strings.signup.newlin} <Link title={strings.signin.tolog} to="/login">{strings.signin.tolog}</Link>
-                </div>
-                <div className="col-12 p-0 pt-2 reg-form--text text-center">
-                    {strings.signin.forg} <Link title={strings.signup.toreg} to="/restore">{strings.signin.rest}</Link>
-                </div>
-            </>
+                <Grid item xs={12}>
+                    <ReCaptchaWithErr
+                        reference={(el) => { this.pogCaptcha = el }}
+                        errorText={this.props.notOk.token}
+                        onloadCallback={this.onLoadRecaptcha}
+                        verifyCallback={this.props.verifyCallback}
+                    />
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Typography component="div" variant="caption" align="center" >
+                        {strings.propc}
+                        <Link title={strings.pol.p} to="/privacy">{strings.pol.p}</Link> {strings.and} <Link title={strings.pol.t} to="/terms">{strings.pol.t}</Link>
+                    </Typography>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Grid container justify="center">
+                        <Button
+                            title={strings.signup.toreg}
+                            onClick={this.onSubmit}
+                            loading={this.props.loading}
+                            endIcon={<PersonAddIcon />}
+                            disabled={Object.values(this.props.notOk).reduce((sum, val) => sum || (val !== ""), false)} />
+                    </Grid>
+                </Grid>
+
+                <Grid item xs={12}>
+                    <Typography component="div" variant="caption" align="center" >
+                        {strings.signup.newlin} <Link title={strings.signup.tolog} to="/login">{strings.signup.tolog}</Link>
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography component="div" variant="caption" align="center" >
+                        {strings.signup.forg} <Link title={strings.signup.toreg} to="/restore">{strings.signup.rest}</Link>
+                    </Typography>
+                </Grid>
+            </Grid>
         );
     }
 }
 
-export default LoginForm
+export default RegForm;
+
+RegForm.propTypes = {
+    verifyCallback: PropTypes.func,
+    onSubmit: PropTypes.func,
+    loading: PropTypes.bool,
+
+    notOk: PropTypes.object,
+    inputs: PropTypes.object,
+};

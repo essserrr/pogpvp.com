@@ -1,30 +1,35 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
-import { connect } from "react-redux"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import { connect } from "react-redux";
 
-import SiteHelm from "../../SiteHelm/SiteHelm"
-import ShBrokerForm from "./ShBrokerForm/ShBrokerForm"
-import Errors from "../../PvP/components/Errors/Errors"
-import Loader from "../../PvpRating/Loader"
-import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel"
-import AuthButton from "../../Registration/RegForm/AuthButton/AuthButton"
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import Alert from '@material-ui/lab/Alert';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Snackbar from '@material-ui/core/Snackbar';
 
-import { shinyDict } from "./ShinyDict"
-import { refresh } from "../../../AppStore/Actions/refresh"
-import { getPokemonBase } from "../../../AppStore/Actions/getPokemonBase"
-import { getCookie } from "../../../js/getCookie"
-import { userLocale } from "../../../locale/userLocale"
+import UserPageContent from "App/Userpage/UserPageContent/UserPageContent";
+import SiteHelm from "App/SiteHelm/SiteHelm";
+import ShBrokerForm from "./ShBrokerForm/ShBrokerForm";
+import ShBrokerSelectPanel from "./ShBrokerSelectPanel/ShBrokerSelectPanel";
+import Button from "App/Components/Button/Button";
+import SaveIcon from '@material-ui/icons/Save';
 
-import "./UserShinyBroker.scss"
+import { shinyDict } from "./ShinyDict";
+import { refresh } from "AppStore/Actions/refresh";
+import { getPokemonBase } from "AppStore/Actions/getPokemonBase";
+import { getCookie } from "js/getCookie";
+import { shinyBroker } from "locale/UserPage/ShinyBroker/ShinyBroker";
+import { errors } from "locale/UserPage/Errors";
 
-let strings = new LocalizedStrings(userLocale);
-
+let strings = new LocalizedStrings(shinyBroker);
+let errorStrings = new LocalizedStrings(errors);
 
 class UserShinyBroker extends React.PureComponent {
     constructor(props) {
         super(props);
         strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
-
+        errorStrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             inputs: {
                 Country: "", Region: "", City: "", Contacts: "", HaveAmount: "1", WantAmount: "1",
@@ -109,34 +114,34 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     returnPokList(pokBase) {
-        return Object.entries(pokBase).map((value) => ({ value: value[0], label: <div style={{ textAlign: "left" }}>{value[0]}</div>, }))
+        return Object.entries(pokBase).map((value) => ({ value: value[0], title: value[0], }))
     }
 
 
-    selectCountry(val) {
+    selectCountry(event, attributes, eventItem) {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                Country: val.value,
+                Country: eventItem.value,
                 Region: ""
             },
             notOk: {
                 ...this.state.notOk,
-                Country: this.check(val, "Country"),
+                Country: this.check(eventItem.value, "Country"),
             }
 
         });
     }
 
-    selectRegion(val) {
+    selectRegion(event, attributes, eventItem) {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                Region: val.value,
+                Region: eventItem.value,
             },
             notOk: {
                 ...this.state.notOk,
-                Region: this.check(val, "Region"),
+                Region: this.check(eventItem.value, "Region"),
             }
         });
     }
@@ -176,18 +181,18 @@ class UserShinyBroker extends React.PureComponent {
     }
 
     checkCity(str) {
-        if (str.length < 1) { return strings.shbroker.err.c1 + strings.err.longer.l1 + "1" + strings.err.lesseq.c }
-        if (str.length > 36) { return strings.shbroker.err.c1 + strings.err.lesseq.l1 + "36" + strings.err.lesseq.c }
-        if (this.checkRegexp(str)) { return strings.shbroker.err.c1 + strings.err.symb2 }
-        if (!str.replace(/\s/g, '').length) { return strings.moveconstr.err.wrong + strings.shbroker.err.c2 }
+        if (str.length < 1) { return strings.shbroker.err.c1 + errorStrings.err.longer.l1 + "1" + errorStrings.err.lesseq.c }
+        if (str.length > 36) { return strings.shbroker.err.c1 + errorStrings.err.lesseq.l1 + "36" + errorStrings.err.lesseq.c }
+        if (this.checkRegexp(str)) { return strings.shbroker.err.c1 + errorStrings.err.symb2 }
+        if (!str.replace(/\s/g, '').length) { return strings.shbroker.err.wrong + strings.shbroker.err.c2 }
         return ""
     }
 
     checkContacts(str) {
-        if (str.length < 1) { return strings.shbroker.err.cd1 + strings.err.longer.l3 + "1" + strings.err.lesseq.c }
-        if (str.length > 150) { return strings.shbroker.err.cd1 + strings.err.lesseq.l3 + "150" + strings.err.lesseq.c }
-        if (this.checkRegexp(str)) { return strings.shbroker.err.cd1 + strings.err.symb2 }
-        if (!str.replace(/\s/g, '').length) { return strings.moveconstr.err.wrong + strings.shbroker.err.cd2 }
+        if (str.length < 1) { return strings.shbroker.err.cd1 + errorStrings.err.longer.l3 + "1" + errorStrings.err.lesseq.c }
+        if (str.length > 150) { return strings.shbroker.err.cd1 + errorStrings.err.lesseq.l3 + "150" + errorStrings.err.lesseq.c }
+        if (this.checkRegexp(str)) { return strings.shbroker.err.cd1 + errorStrings.err.symb2 }
+        if (!str.replace(/\s/g, '').length) { return strings.shbroker.err.wrong + strings.shbroker.err.cd2 }
         return ""
     }
 
@@ -195,35 +200,34 @@ class UserShinyBroker extends React.PureComponent {
         return !str.match("^([A-Za-z0-9@_\\-\\.,!():$%^&*+= ]*)$")
     }
 
-    onPokemonAdd(event, args) {
-        if (Object.keys(this.state[args.name[0]]).length >= 400) { return }
-
+    onPokemonAdd(event, attributes, eventItem) {
+        if (Object.keys(this.state[attributes.attr]).length >= 400) { return }
         this.setState({
-            [args.name[0]]: {
-                ...this.state[args.name[0]],
-                [event.value]: { Name: event.value, Type: "Shiny", Amount: this.state.inputs[args.name[0] + "Amount"], },
+            [attributes.attr]: {
+                ...this.state[attributes.attr],
+                [eventItem.value]: {
+                    Name: eventItem.value,
+                    Type: "Shiny",
+                    Amount: this.state.inputs[attributes.attr + "Amount"],
+                },
             }
         })
     }
 
-    onPokemonDelete(event) {
-        let attr = event.target.getAttribute("attr")
-        let index = event.target.getAttribute("index")
-
-        let updatedObj = { ...this.state[attr] }
-        delete updatedObj[index]
+    onPokemonDelete(attributes) {
+        let updatedObj = { ...this.state[attributes.attr] }
+        delete updatedObj[attributes.index]
 
         this.setState({
-            [attr]: updatedObj,
+            [attributes.attr]: updatedObj,
         })
     }
 
-    onAmountChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onAmountChange(event, attributes) {
         this.setState({
             inputs: {
                 ...this.state.inputs,
-                [attr + event.target.name]: event.target.value,
+                [attributes.attr + event.target.name]: event.target.value,
             },
         })
     }
@@ -235,7 +239,7 @@ class UserShinyBroker extends React.PureComponent {
         }
 
         this.setState({ notOk: notOk, })
-        return !Object.values(notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)
+        return !Object.values(notOk).reduce((sum, val) => sum || (val !== ""), false)
     }
 
     async onSaveChanges() {
@@ -268,7 +272,7 @@ class UserShinyBroker extends React.PureComponent {
             }
             //show ok
             this.setState({ submitting: false, ok: true, })
-            await new Promise(res => setTimeout(res, 2500));
+            await new Promise(res => setTimeout(res, 4000));
             this.setState({ ok: false })
         } catch (e) {
             this.setState({
@@ -278,11 +282,8 @@ class UserShinyBroker extends React.PureComponent {
         }
     }
 
-    onTurnOnImport(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
-        let role = event.target.getAttribute("attr")
+    onTurnOnImport(event, attributes) {
+        let role = attributes ? attributes.attr : event.currentTarget.getAttribute("attr");
         this.setState({
             [role + "Import"]: !this.state[role + "Import"]
         });
@@ -343,36 +344,27 @@ class UserShinyBroker extends React.PureComponent {
 
     render() {
         return (
-            <div className="col pt-2 px-2">
+            <Grid container justify="center">
                 <SiteHelm
                     url="https://pogpvp.com/profile/shinybroker"
                     header={strings.pageheaders.usrbroker}
                     descr={strings.pagedescriptions.usr}
                     noindex={true}
                 />
-                <div className="row mx-0 px-3 justify-content-center" >
-                    {this.state.loading &&
-                        <Loader
-                            color="black"
-                            weight="500"
-                            locale={strings.loading}
-                            loading={this.state.loading}
-                        />}
-                    {!this.state.loading &&
-                        <>
-                            <div className="col-12 px-1 pt-2 mb-4 text-center">
-                                <div className="user-shinybroker__title col-12 px-0">
-                                    {strings.upage.shbr}
-                                </div>
-                            </div>
-                            <div className="col-12 px-0">
+
+                {this.state.loading &&
+                    <Grid item xs={12}>
+                        <LinearProgress color="secondary" />
+                    </ Grid>}
+
+
+
+
+                {!this.state.loading && this.state.pokList &&
+                    <UserPageContent title={strings.shbr}>
+                        <Grid container justify="center" spacing={2}>
+                            <Grid item xs={12}>
                                 <ShBrokerForm
-                                    placeholders={{
-                                        cPlace: strings.shbroker.cPlaceYours, rPlace: strings.shbroker.rPlaceYours,
-                                        cityPlace: strings.shbroker.cityPlaceYours, contPlace: strings.shbroker.contPlaceYours
-                                    }}
-
-
                                     onChange={this.onChange}
                                     selectCountry={this.selectCountry}
                                     selectRegion={this.selectRegion}
@@ -380,66 +372,79 @@ class UserShinyBroker extends React.PureComponent {
                                     value={this.state.inputs}
                                     notOk={this.state.notOk}
                                 />
-                            </div>
-                        </>}
-                    {this.state.pokList &&
-                        <div className="col-6 px-1 py-2">
-                            <ShBrokerSelectPanel
-                                limit={400}
-                                label={strings.shbroker.have}
-                                attr="Have"
+                            </Grid>
+                            <Grid item xs={6}>
+                                <ShBrokerSelectPanel
+                                    limit={400}
+                                    label={strings.shbroker.have}
+                                    attr="Have"
 
-                                onImport={this.onImport}
-                                onTurnOnImport={this.onTurnOnImport}
-                                showImportExportPanel={this.state.HaveImport}
+                                    onImport={this.onImport}
+                                    onTurnOnImport={this.onTurnOnImport}
+                                    showImportExportPanel={this.state.HaveImport}
+
+                                    Amount={this.state.inputs.HaveAmount}
+
+                                    pokList={this.state.pokList}
+                                    onPokemonAdd={this.onPokemonAdd}
+                                    onPokemonDelete={this.onPokemonDelete}
+                                    onAmountChange={this.onAmountChange}
+
+                                    pokemonTable={this.props.bases.pokemonBase}
+                                    userList={this.state.Have}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <ShBrokerSelectPanel
+                                    limit={400}
+                                    label={strings.shbroker.want}
+                                    attr="Want"
+
+                                    onImport={this.onImport}
+                                    onTurnOnImport={this.onTurnOnImport}
+                                    showImportExportPanel={this.state.WantImport}
+
+                                    Amount={this.state.inputs.WantAmount}
+
+                                    pokList={this.state.pokList}
+                                    onPokemonAdd={this.onPokemonAdd}
+                                    onPokemonDelete={this.onPokemonDelete}
+                                    onAmountChange={this.onAmountChange}
+
+                                    pokemonTable={this.props.bases.pokemonBase}
+                                    userList={this.state.Want}
+                                />
+                            </Grid>
+                        </Grid>
+                    </UserPageContent>}
 
 
-                                pokList={this.state.pokList}
-                                onPokemonAdd={this.onPokemonAdd}
-                                onPokemonDelete={this.onPokemonDelete}
-                                onAmountChange={this.onAmountChange}
-
-                                pokemonTable={this.props.bases.pokemonBase}
-                                userList={this.state.Have}
-                            />
-                        </div>}
-                    {this.state.pokList && <div className="col-6 px-1 py-2">
-                        <ShBrokerSelectPanel
-                            limit={400}
-                            label={strings.shbroker.want}
-                            attr="Want"
-
-                            onImport={this.onImport}
-                            onTurnOnImport={this.onTurnOnImport}
-                            showImportExportPanel={this.state.WantImport}
-
-                            pokList={this.state.pokList}
-                            onPokemonAdd={this.onPokemonAdd}
-                            onPokemonDelete={this.onPokemonDelete}
-                            onAmountChange={this.onAmountChange}
-
-                            pokemonTable={this.props.bases.pokemonBase}
-                            userList={this.state.Want}
-                        />
-                    </div>}
-
-                    {this.state.pokList && <div className="col-12 px-1">
-                        <div className="row m-0 py-2 mb-2 justify-content-center">
-                            <AuthButton
+                {!this.state.loading && this.state.pokList &&
+                    <Grid item container xs={12} justify="center">
+                        <Box pt={3}>
+                            <Button
                                 loading={this.state.submitting}
-                                title={this.state.ok ? "Ok" : strings.moveconstr.changes}
+                                title={strings.shbroker.changes}
+                                endIcon={<SaveIcon />}
                                 onClick={this.onSaveChanges}
-                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum + (val === "" ? false : true), false)}
+                                disabled={Object.values(this.state.notOk).reduce((sum, val) => sum || (val !== ""), false)}
                             />
-                        </div>
-                    </div>}
+                        </Box>
+                    </Grid>}
 
-                    {!!this.state.error &&
-                        <div className="col-12 col-md-10 col-lg-9 px-0 pt-3">
-                            <Errors class="alert alert-danger p-2" value={this.state.error} />
-                        </div>}
-                </div>
-            </div>
+
+                {!!this.state.error &&
+                    <Grid item xs={12} md={10} lg={9} >
+                        <Box pt={3}>
+                            <Alert variant="filled" severity="error">{this.state.error}</Alert >
+                        </Box>
+                    </Grid>}
+
+                <Snackbar open={this.state.ok} onClose={() => { this.setState({ ok: false }) }}>
+                    <Alert variant="filled" severity="success">{strings.success}</Alert >
+                </Snackbar>
+
+            </Grid>
         );
     }
 }

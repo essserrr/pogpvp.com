@@ -1,42 +1,39 @@
-import React from "react"
-import LocalizedStrings from "react-localization"
+import React from "react";
+import LocalizedStrings from "react-localization";
+import PropTypes from 'prop-types';
 
-import URL from "../../../PvP/components/URL/URL"
-import MagicBox from "../../../PvP/components/MagicBox/MagicBox"
-import DoubleSlider from "../../../Movedex/MoveCard/DoubleSlider/DoubleSlider"
-import Breakpoints from "./Breakpoints/Breakpoints"
-import PveWillow from "./PveWillow/PveWillow"
-import PveResListFilter from "./PveResListFilter/PveResListFilter"
-import SingleSliderButton from "../../../EggsList/SingleSliderButton/SingleSliderButton"
-import PlayerResProcessor from "./PlayerResProcessor/PlayerResProcessor"
-import PveResTitle from "./PveResTitle/PveResTitle"
+import Grid from '@material-ui/core/Grid';
 
-import { locale } from "../../../../locale/locale"
-import { pveLocale } from "../../../../locale/pveLocale"
-import { getCookie } from "../../../../js/getCookie"
+import URI from "App/PvP/components/URI/URI";
+import MagicBox from "App/PvP/components/MagicBox/MagicBox";
+import DoubleSlider from "App/Movedex/MoveCard/DoubleSlider/DoubleSlider";
+import Breakpoints from "./Breakpoints/Breakpoints";
+import PveWillow from "./PveWillow/PveWillow";
+import PveResListFilter from "./PveResListFilter/PveResListFilter";
+import Switch from "App/Components/Switch/Switch";
+import PlayerResProcessor from "./PlayerResProcessor/PlayerResProcessor";
+import PveResTitle from "./PveResTitle/PveResTitle";
 
-import "./PveResult.scss"
+import { locale } from "locale/Pve/Pve";
+import { getCookie } from "js/getCookie";
 
-let strings = new LocalizedStrings(locale)
-let pvestrings = new LocalizedStrings(pveLocale)
+let pvestrings = new LocalizedStrings(locale);
 
 class PveResult extends React.PureComponent {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.pveres = React.createRef();
 
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         pvestrings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
         this.state = {
             n: 0,
-            breakpoints: false,
+            showBreakpoints: false,
+            breakpObj: {},
 
             param: "damage",
             filter: {}
         };
 
-
-        this.onClick = this.onClick.bind(this);
         this.showBreakpoints = this.showBreakpoints.bind(this);
         this.onSortChange = this.onSortChange.bind(this);
         this.onFilter = this.onFilter.bind(this);
@@ -75,19 +72,17 @@ class PveResult extends React.PureComponent {
         })
     }
 
-    onSortChange(event) {
-        let attr = event.target.getAttribute("attr")
+    onSortChange(event, attributes) {
         this.setState({
-            param: attr,
+            param: attributes.attr,
         })
     }
 
-    onFilter(event) {
-        let attr = event.target.getAttribute("attr")
+    onFilter(event, attributes) {
         this.setState({
             filter: {
                 ...this.state.filter,
-                [attr]: !this.state.filter[attr],
+                [attributes.attr]: !this.state.filter[attributes.attr],
             },
         })
     }
@@ -99,119 +94,128 @@ class PveResult extends React.PureComponent {
         })
     }
 
-    onClick(event) {
-        if (!(event.target === event.currentTarget) && event.target.getAttribute("name") !== "closeButton") {
-            return
-        }
+    onClose = () => {
         this.setState({
             showBreakpoints: false,
-        });
+        })
     }
 
     render() {
+
         return (
-            <>
-                {(this.state.showBreakpoints) && <MagicBox
-                    onClick={this.onClick}
-                    attr={"breakpoints"}
-                    element={<Breakpoints
-                        pokemonTable={this.props.pokemonTable}
-                        moveTable={this.props.moveTable}
-                        snapshot={this.state.breakpObj}
-                    />}
-                />}
-                <div className="pveresult row m-0 justify-content-center p-2" tabIndex="0" ref={this.pveres}>
+            <Grid container justify="center" spacing={2}>
+
+                <MagicBox open={this.state.showBreakpoints} onClick={this.onClose} attr={"breakpoints"}>
+                    <Breakpoints pokemonTable={this.props.pokemonTable} moveTable={this.props.moveTable} snapshot={this.state.breakpObj} />
+                </MagicBox>
+
+                <Grid item xs={12}>
                     <PveWillow
                         pokemonTable={this.props.pokemonTable}
                         snapshot={this.props.snapshot}
                     />
-                    {this.props.url && <div className="col-12 mb-2" >
-                        <URL
-                            label={strings.title.url}
-                            for="pvpURLLabel"
-                            tip={<>
-                                {strings.tips.url.first}
-                                < br />
-                                {strings.tips.url.second}
-                            </>}
-                            place="top"
-                            message={strings.tips.url.message}
-                            value={this.props.url}
-                        />
-                    </div>}
-                    {!this.props.customResult && <div className="col-12 mb-1 px-3">
+                </Grid>
+
+                {this.props.url &&
+                    <Grid item xs={12}>
+                        <URI value={this.props.url} />
+                    </Grid>}
+
+                {!this.props.customResult &&
+                    <Grid item xs={12}>
                         <DoubleSlider
                             onClick={this.onSortChange}
-
-                            attr1="damage"
-                            title1={pvestrings.sortd}
-                            active1={this.state.param === "damage"}
-
-                            attr2="dps"
-                            title2={pvestrings.sortdps}
-                            active2={this.state.param === "dps"}
+                            attrs={["damage", "dps"]}
+                            titles={[pvestrings.sortd, pvestrings.sortdps]}
+                            active={[this.state.param === "damage", this.state.param === "dps"]}
                         />
-                    </div>}
-                    {!this.props.customResult &&
-                        <div className={"col-12 col-sm-6 p-0 mb-3 text-center justify-content-center"} >
-                            <SingleSliderButton
-                                attr="unique"
-                                title={pvestrings.unique}
-                                isActive={this.state.filter.unique}
-                                onClick={this.onFilter}
+                    </Grid>}
+
+                {!this.props.customResult &&
+                    <Grid item xs={12} container justify="center">
+                        <Switch
+                            checked={Boolean(this.state.filter.unique)}
+                            onChange={this.onFilter}
+                            attr="unique"
+                            color="primary"
+                            label={pvestrings.unique}
+                        />
+                    </Grid>}
+
+                <div aria-label="focus div" ref={this.pveres} tabIndex="0"></div>
+
+                {this.props.needsAvg &&
+                    <>
+                        <Grid item xs={12}>
+                            <PveResTitle>
+                                {`${pvestrings.resType.player}:`}
+                            </PveResTitle>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <PlayerResProcessor
+                                value={this.props.result}
+
+                                snapshot={this.props.snapshot}
+                                tables={this.props.tables}
+
+                                pokemonTable={this.props.pokemonTable}
+                                moveTable={this.props.moveTable}
                             />
-                        </div>}
-                    {this.props.needsAvg &&
-                        <>
-                            <div className={"col-12 px-0 mt-2"}>
-                                <PveResTitle>
-                                    {`${pvestrings.resType.player}:`}
-                                </PveResTitle>
-                            </div>
-                            <div className={"col-12 px-0"}>
-                                <PlayerResProcessor
-                                    value={this.props.result}
+                        </Grid>
 
-                                    snapshot={this.props.snapshot}
-                                    tables={this.props.tables}
+                        <Grid item xs={12}>
+                            <PveResTitle>
+                                {`${pvestrings.resType.individ}:`}
+                            </PveResTitle>
+                        </Grid>
+                    </>}
 
-                                    pokemonTable={this.props.pokemonTable}
-                                    moveTable={this.props.moveTable}
-                                />
-                            </div>
-                            <div className={"col-12 px-0 mt-2"}>
-                                <PveResTitle>
-                                    {`${pvestrings.resType.individ}:`}
-                                </PveResTitle>
-                            </div>
-                        </>}
-                    <div className={"col-12 p-0 " + (this.state.isNextPage ? "mb-3" : "")}>
-                        <PveResListFilter
-                            needsAvg={this.props.needsAvg}
-                            n={this.state.n}
-                            customResult={this.props.customResult}
+                <Grid item xs={12}>
+                    <PveResListFilter
+                        needsAvg={this.props.needsAvg}
+                        n={this.state.n}
+                        customResult={this.props.customResult}
 
-                            snapshot={this.props.snapshot}
-                            tables={this.props.tables}
+                        snapshot={this.props.snapshot}
+                        tables={this.props.tables}
 
-                            pokemonTable={this.props.pokemonTable}
-                            moveTable={this.props.moveTable}
+                        pokemonTable={this.props.pokemonTable}
+                        moveTable={this.props.moveTable}
 
-                            filter={this.state.filter}
-                            sort={this.state.param}
+                        filter={this.state.filter}
+                        sort={this.state.param}
 
-                            list={this.props.result}
-                            raplace={this.raplace}
-                            showBreakpoints={this.showBreakpoints}
-                            loadMore={this.loadMore}
-                        />
-                    </div>
-                </div>
-            </>
+                        showBreakpoints={this.showBreakpoints}
+                        loadMore={this.loadMore}
+                    >
+                        {this.props.result}
+                    </PveResListFilter>
+                </Grid>
+
+            </Grid>
         )
     }
 
 }
 
-
 export default PveResult;
+
+PveResult.propTypes = {
+    customResult: PropTypes.bool,
+    needsAvg: PropTypes.bool,
+
+    date: PropTypes.number,
+    result: PropTypes.arrayOf(PropTypes.object),
+
+    snapshot: PropTypes.object,
+    tables: PropTypes.object,
+
+    pokemonTable: PropTypes.object,
+    moveTable: PropTypes.object,
+
+    pokList: PropTypes.arrayOf(PropTypes.object),
+    boostersList: PropTypes.arrayOf(PropTypes.object),
+    chargeMoveList: PropTypes.arrayOf(PropTypes.object),
+    quickMoveList: PropTypes.arrayOf(PropTypes.object),
+};

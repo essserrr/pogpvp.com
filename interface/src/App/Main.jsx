@@ -1,20 +1,16 @@
-import React, { Suspense, lazy } from "react"
-import { Switch, Route } from "react-router-dom"
-import LocalizedStrings from "react-localization"
-import { connect } from 'react-redux'
+import React, { Suspense, lazy } from "react";
+import { Switch, Route } from "react-router-dom";
+import { connect } from 'react-redux';
 
-import PrivateRoute from "../PrivateRoute/PrivateRoute"
-import Loader from "./PvpRating/Loader"
+import Container from '@material-ui/core/Container';
+import { makeStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { getCookie } from "../js/getCookie"
-import { loaderLocale } from "../locale/loaderLocale"
-
-let strings = new LocalizedStrings(loaderLocale)
-
+import PrivateRoute from "PrivateRoute/PrivateRoute";
+import { getCookie } from "js/getCookie";
 
 const PvpRouter = lazy(() => import("./PvP/PvpRouter.jsx"))
 const PveRouter = lazy(() => import("./PvE/PveRouter.jsx"))
-const IndexPageRouter = lazy(() => import("./IndexPage/IndexRouter.jsx"))
 const NewsPageRouter = lazy(() => import("./IndexPage/NewsPageRouter.jsx"))
 const NewsRouter = lazy(() => import("./IndexPage/NewsRouter.jsx"))
 const ShinyRates = lazy(() => import("./ShinyRates/ShinyRates.jsx"))
@@ -33,54 +29,53 @@ const Login = lazy(() => import("./Login/Login"))
 const RestoreRouter = lazy(() => import("./Restore/RestoreRouter"))
 const ShinyBroker = lazy(() => import("./ShinyBroker/ShinyBroker"))
 
-
-class Main extends React.Component {
-    constructor(props) {
-        super(props)
-        strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")
+const useStyles = makeStyles((theme) => ({
+    mainPadding: {
+        paddingRight: `${theme.spacing(3)}px`,
+        paddingLeft: `${theme.spacing(3)}px`,
+        [theme.breakpoints.down('md')]: {
+            paddingRight: `${theme.spacing(2)}px`,
+            paddingLeft: `${theme.spacing(2)}px`,
+        },
+        [theme.breakpoints.down('sm')]: {
+            paddingRight: `${theme.spacing(0.5)}px`,
+            paddingLeft: `${theme.spacing(0.5)}px`,
+        },
     }
+}));
 
-    render() {
-        return (
-            <main>
-                <Suspense fallback={
-                    <Loader
-                        color="white"
-                        weight="500"
-                        locale={strings.loading}
-                        loading={true}
+const Main = function GreyPaper() {
+    const classes = useStyles();
 
-                        class="row justify-content-center text-white"
-                        innerClass="col-auto mt-1  mt-md-2"
-                    />}>
-                    <Switch>
-                        <Route exact path="/" component={IndexPageRouter} />
-                        <Route exact path="/" component={NewsPageRouter} />
-                        <Route path="/news/id" component={NewsRouter} />
-                        <Route path="/news" component={NewsPageRouter} />
-                        <Route path="/pvp" component={PvpRouter} />
-                        <Route path="/pve" component={PveRouter} />
-                        <Route path="/shinyrates" component={ShinyRates} />
-                        <Route path="/evolution" component={Evolve} />
-                        <Route path="/raids" component={RaidsList} />
-                        <Route path="/eggs" component={EggsList} />
-                        <Route path="/pvprating" component={PvpRatingRouter} />
-                        <Route path="/movedex" component={MovedexRouter} />
-                        <Route path="/pokedex" component={PokedexRouter} />
-                        <Route path="/privacy" component={Privacy} />
-                        <Route path="/terms" component={Terms} />
-                        <Route path="/shinybroker" component={ShinyBroker} />
+    return (
+        <Container component="main" className={classes.mainPadding}>
+            <Suspense fallback={<LinearProgress color="secondary" />}>
+                <Switch>
+                    <Route exact path="/" component={NewsPageRouter} />
+                    <Route path="/news/id" component={NewsRouter} />
+                    <Route path="/news" component={NewsPageRouter} />
+                    <Route path="/pvp" component={PvpRouter} />
+                    <Route path="/pve" component={PveRouter} />
+                    <Route path="/shinyrates" component={ShinyRates} />
+                    <Route path="/evolution" component={Evolve} />
+                    <Route path="/raids" component={RaidsList} />
+                    <Route path="/eggs" component={EggsList} />
+                    <Route path="/pvprating" component={PvpRatingRouter} />
+                    <Route path="/movedex" component={MovedexRouter} />
+                    <Route path="/pokedex" component={PokedexRouter} />
+                    <Route path="/privacy" component={Privacy} />
+                    <Route path="/terms" component={Terms} />
+                    <Route path="/shinybroker" component={ShinyBroker} />
 
-                        <PrivateRoute authed={!getCookie("sid")} path='/registration' dest="/profile/info" component={Registration} />
-                        <PrivateRoute authed={!!getCookie("sid")} path='/profile' dest="/login" component={UserpageRouter} />
-                        <PrivateRoute authed={!getCookie("sid")} path='/login' dest="/profile/info" component={Login} />
-                        <PrivateRoute authed={!getCookie("sid")} path='/restore' dest="/profile/info" component={RestoreRouter} />
-                        <Route path="*" component={NotFound} />
-                    </Switch>
-                </Suspense>
-            </main >
-        )
-    }
-}
+                    <PrivateRoute authed={!getCookie("sid")} path='/registration' dest="/profile/info" component={Registration} />
+                    <PrivateRoute authed={!!getCookie("sid")} path='/profile' dest="/login" component={UserpageRouter} />
+                    <PrivateRoute authed={!getCookie("sid")} path='/login' dest="/profile/info" component={Login} />
+                    <PrivateRoute authed={!getCookie("sid")} path='/restore' dest="/profile/info" component={RestoreRouter} />
+                    <Route path="*" component={NotFound} />
+                </Switch>
+            </Suspense>
+        </Container>
+    );
+};
 
 export default connect(state => ({ session: state.session, }))(Main)
