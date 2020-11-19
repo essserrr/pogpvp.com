@@ -5,13 +5,14 @@ import CpCalc from "./CpCalc";
 import { calculateEffStat } from "js/calculateEffStat";
 import { checkLvl } from "js/checks/checkLvl";
 import { checkIV } from "js/checks/checkIV";
+const maxLevel = 40;
 
 class CpBlock extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             pokemon: {
-                Lvl: "40",
+                Lvl: `${maxLevel}`,
                 Atk: "15",
                 Def: "15",
                 Sta: "15",
@@ -20,9 +21,9 @@ class CpBlock extends React.PureComponent {
                 DefStage: 0,
                 IsShadow: "false",
 
-                effAtk: calculateEffStat(props.pok.Title, 40, 15, 0, props.pokTable, "Atk", "false"),
-                effDef: calculateEffStat(props.pok.Title, 40, 15, 0, props.pokTable, "Def", "false"),
-                effSta: calculateEffStat(props.pok.Title, 40, 15, 0, props.pokTable, "Sta"),
+                effAtk: calculateEffStat(props.pok.Title, maxLevel, 15, 0, props.pokTable, "Atk", "false"),
+                effDef: calculateEffStat(props.pok.Title, maxLevel, 15, 0, props.pokTable, "Def", "false"),
+                effSta: calculateEffStat(props.pok.Title, maxLevel, 15, 0, props.pokTable, "Sta"),
 
             },
         };

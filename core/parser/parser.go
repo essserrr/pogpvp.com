@@ -12,6 +12,8 @@ import (
 	"sync"
 )
 
+const maxLevel = 50
+
 //ParsePvpRequest parses single PvP get request
 func ParsePvpRequest(pok1, pok2 string) (app.InitialData, app.InitialData, error) {
 	// create json response from struct
@@ -452,8 +454,8 @@ func parsePveAttacker(pokData []string) (app.PokemonInitialData, error) {
 	if err != nil {
 		return app.PokemonInitialData{}, errors.NewHTTPError(err, http.StatusBadRequest, "Invalid level value")
 	}
-	if level > 45 || level < 1 {
-		return app.PokemonInitialData{}, errors.NewHTTPError(err, http.StatusBadRequest, "Level must be in range 1-45")
+	if level > maxLevel || level < 1 {
+		return app.PokemonInitialData{}, errors.NewHTTPError(err, http.StatusBadRequest, fmt.Sprintf("Level must be in range 1-%v", maxLevel))
 	}
 
 	attackIV, err := strconv.ParseUint(pokData[4], 10, 64)

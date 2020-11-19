@@ -34,6 +34,7 @@ import { options } from "locale/Components/Options/locale";
 
 let strings = new LocalizedStrings(pvp);
 let optionStrings = new LocalizedStrings(options);
+const maxLevel = 40;
 
 function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.HP = hisResult.HP
@@ -44,7 +45,7 @@ function setUpPokemon(pok, hisResult, pokemonTable) {
     pok.quickMovePool = moves.quickMovePool
     pok.chargeMovePool = moves.chargeMovePool
 
-    pok.ivSet = { 40: calculateMaximizedStats(pok.name, 40.0, pokemonTable) }
+    pok.ivSet = { maxLevel: calculateMaximizedStats(pok.name, maxLevel, pokemonTable) }
     pok.effAtk = calculateEffStat(pok.name, pok.Lvl, pok.Atk, pok.AtkStage, pokemonTable, "Atk", pok.IsShadow)
     pok.effDef = calculateEffStat(pok.name, pok.Lvl, pok.Def, pok.DefStage, pokemonTable, "Def", pok.IsShadow)
     pok.effSta = calculateEffStat(pok.name, pok.Lvl, pok.Sta, 0, pokemonTable, "Sta")

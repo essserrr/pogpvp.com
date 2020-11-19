@@ -53,6 +53,7 @@ const styles = theme => ({
 
 let optionStrings = new LocalizedStrings(options)
 let strings = new LocalizedStrings(pvp)
+const maxLevel = 40;
 
 class MatrixPvp extends React.PureComponent {
     constructor(props) {
@@ -67,7 +68,7 @@ class MatrixPvp extends React.PureComponent {
                 DefStage: 0,
                 maximizer: {
                     stat: "Overall",
-                    level: "40",
+                    level: String(maxLevel),
                     action: "Default",
                 },
 
@@ -86,7 +87,7 @@ class MatrixPvp extends React.PureComponent {
                 DefStage: 0,
                 maximizer: {
                     stat: "Overall",
-                    level: "40",
+                    level: String(maxLevel),
                     action: "Default",
                 },
 

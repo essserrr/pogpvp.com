@@ -6,6 +6,8 @@ import (
 	"math"
 )
 
+const maxLevel = 50
+
 type roundResults struct {
 	actionCode uint8
 	chargeName int8
@@ -148,9 +150,9 @@ func (pok *pokemon) setIV(pokemonData *app.InitialData) error { //sets up "indiv
 }
 
 func (pok *pokemon) setLevel(pokemonData *app.InitialData, obj *PvpObject) error { //sets up level and level-IV dependent stats
-	if pokemonData.Level > 45 || pokemonData.Level < 1 {
+	if pokemonData.Level > maxLevel || pokemonData.Level < 1 {
 		return &customError{
-			"Level must be in range 1-45",
+			fmt.Sprintf("Level must be in range 1-%v", maxLevel),
 		}
 	}
 

@@ -13,6 +13,7 @@ import { getPveMultiplier } from "js/Damage/getPveMultiplier";
 import { getCookie } from "js/getCookie";
 
 let pvestrings = new LocalizedStrings(breakoints);
+const maxLevel = 50;
 
 const useStyles = makeStyles((theme) => ({
     borderTop: {
@@ -28,7 +29,7 @@ const BreakpointsList = React.memo(function BreakpointsList(props) {
     let baseDamage = calculateDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, props.Lvl, props.IsShadow), props.effDef, multiplier);
     let arr = [];
 
-    for (let i = Number(props.Lvl); i <= 45; i += 0.5) {
+    for (let i = Number(props.Lvl); i <= maxLevel; i += 0.5) {
         let damage = calculateDamage(props.move.Damage, returnEffAtk(props.Atk, props.attacker.Atk, i, props.IsShadow), props.effDef, multiplier)
         if (damage > baseDamage) {
             baseDamage = damage

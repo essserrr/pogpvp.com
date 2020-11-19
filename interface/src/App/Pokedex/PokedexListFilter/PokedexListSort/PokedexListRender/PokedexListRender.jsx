@@ -7,6 +7,8 @@ import TableHead from "./TableHead/TableHead";
 
 import { calculateCP } from "js/cp/calculateCP";
 
+const maxLevel = 40;
+
 const PokedexListRender = function PokedexListRender(props) {
     return (
         <LazyTable
@@ -15,7 +17,7 @@ const PokedexListRender = function PokedexListRender(props) {
             elementsOnPage={40}
         >
             {props.children.map((value) => {
-                value[1].CP = calculateCP(value[1].Title, 40, 15, 15, 15, props.pokTable)
+                value[1].CP = calculateCP(value[1].Title, maxLevel, 15, 15, 15, props.pokTable)
                 return <PokeRow key={value[0]} value={value[1]} />
             })}
         </LazyTable>

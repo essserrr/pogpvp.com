@@ -17,6 +17,7 @@ import { dexLocale } from "locale/Pokedex/Pokecard";
 import "./MainBlock.scss";
 
 let strings = new LocalizedStrings(dexLocale);
+const maxLevel = 40;
 
 const useStyles = makeStyles((theme) => ({
     dFlex: {
@@ -111,7 +112,7 @@ const MainBlock = React.memo(function MainBlock(props) {
                         <Grid item xs={12} className={classes.cardText}>
                             {"Max CP: "}
                             <Box component="span" fontWeight="bold">
-                                <CP name={props.value.Title} Lvl={40} Atk={15} Def={15} Sta={15} pokemonTable={props.pokTable} />
+                                <CP name={props.value.Title} Lvl={maxLevel} Atk={15} Def={15} Sta={15} pokemonTable={props.pokTable} />
                             </Box>
                         </Grid>
 

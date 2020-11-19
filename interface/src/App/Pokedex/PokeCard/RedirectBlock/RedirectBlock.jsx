@@ -16,6 +16,7 @@ import { getCookie } from "js/getCookie";
 import { dexLocale } from "locale/Pokedex/Pokecard";
 
 let strings = new LocalizedStrings(dexLocale);
+const maxLevel = 40;
 
 const useStyles = makeStyles((theme) => ({
     linkBlock: {
@@ -39,7 +40,7 @@ const RedirectBlock = React.memo(function RedirectBlock(props) {
         }
     }
 
-    const pokStats = calculateMaximizedStats(props.value.Title, 40, props.pokTable).great.Overall
+    const pokStats = calculateMaximizedStats(props.value.Title, maxLevel, props.pokTable).great.Overall
 
     const quick = selectQuick(props.value.QuickMoves.map(move => { return { value: move } }),
         props.moveTable, props.value.Title, props.pokTable)

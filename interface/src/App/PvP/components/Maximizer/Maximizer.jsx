@@ -20,6 +20,7 @@ import { maximizer } from "locale/Pvp/Maximizer/Maximizer";
 import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(maximizer);
+const maxLevel = 50;
 
 const useStyles = makeStyles((theme) => ({
     collapseMargin: {
@@ -65,7 +66,7 @@ const Maximizer = React.memo(function Maximizer(props) {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Tooltip placement="top" arrow title={<Typography color="inherit">{`${strings.lvl}: 1-45`}</Typography>}>
+                        <Tooltip placement="top" arrow title={<Typography color="inherit">{`${strings.lvl}: 1-${maxLevel}`}</Typography>}>
                             <FormControl component="fieldset">
                                 <Input label={strings.maximizer.levelTitle} name="level" attr={props.attr} value={props.value.level} category={props.category} onChange={props.onChange} />
                             </FormControl>

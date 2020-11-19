@@ -21,6 +21,7 @@ import { stats } from "locale/Components/Stats/locale";
 
 let strings = new LocalizedStrings(locale);
 let statStrings = new LocalizedStrings(stats);
+const maxLevel = 40;
 
 class Collapsable extends React.PureComponent {
     constructor() {
@@ -41,7 +42,7 @@ class Collapsable extends React.PureComponent {
         if (show) {
             this.setState({
                 aName: pokName,
-                aMaxStats: calculateMaximizedStats(pokName, 40, this.props.pokemonTable)
+                aMaxStats: calculateMaximizedStats(pokName, maxLevel, this.props.pokemonTable)
                 [(this.props.league === "Premier" ?
                     "master" : this.props.league === "Premierultra" ?
                         "ultra" : this.props.league === "Cupflying" ?
@@ -56,7 +57,7 @@ class Collapsable extends React.PureComponent {
             "master" : this.props.league === "Premierultra" ?
                 "ultra" : this.props.league === "Cupflying" ?
                     "great" : this.props.league.toLowerCase())
-        let maxStatsD = calculateMaximizedStats(defenderName, 40, this.props.pokemonTable)[league].Overall
+        let maxStatsD = calculateMaximizedStats(defenderName, maxLevel, this.props.pokemonTable)[league].Overall
 
         switch (this.props.combination) {
             case "00":

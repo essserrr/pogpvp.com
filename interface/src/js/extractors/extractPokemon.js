@@ -1,3 +1,5 @@
+const maxLevel = 40;
+
 export function extractPokemon(array) {
     return {
         name: array[5], Lvl: array[1], Atk: array[2], Def: array[3], Sta: array[4], Shields: array[0],
@@ -7,7 +9,7 @@ export function extractPokemon(array) {
         effAtk: "", effDef: "", effSta: "",
         maximizer: {
             stat: "Overall",
-            level: "40",
+            level: String(maxLevel),
             action: "Default",
         },
         HP: undefined, Energy: undefined,

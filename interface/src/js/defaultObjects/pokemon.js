@@ -1,3 +1,5 @@
+const maxLevel = 40;
+
 export function pokemon() {
     return {
         name: "", Lvl: "", Atk: "", Def: "", Sta: "", Shields: "0",
@@ -7,7 +9,7 @@ export function pokemon() {
         effAtk: "", effDef: "", effSta: "",
         maximizer: {
             stat: "Overall",
-            level: "40",
+            level: String(maxLevel),
             action: "Default",
         },
         HP: undefined, Energy: undefined, showMenu: false,

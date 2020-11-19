@@ -29,6 +29,7 @@ import { breakoints } from "locale/Pve/Breakpoints/Breakpoints";
 
 let pveStrings = new LocalizedStrings(settings);
 let breakointStrings = new LocalizedStrings(breakoints);
+const maxLevel = 50;
 
 class Breakpoints extends React.PureComponent {
     constructor(props) {
@@ -154,7 +155,7 @@ class Breakpoints extends React.PureComponent {
         switch (attributes.name) {
             case "plus":
                 lvl += 0.5
-                if (lvl > 45) {
+                if (lvl > maxLevel) {
                     return
                 }
                 break
@@ -324,7 +325,7 @@ class Breakpoints extends React.PureComponent {
                         step={0.5}
                         marks
                         min={Number(this.props.snapshot.attackerObj.Lvl)}
-                        max={45}
+                        max={maxLevel}
                     />
 
                     <Box ml={1}>

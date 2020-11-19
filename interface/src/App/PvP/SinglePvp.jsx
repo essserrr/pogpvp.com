@@ -29,6 +29,7 @@ import { options } from "locale/Components/Options/locale";
 
 let strings = new LocalizedStrings(pvp);
 let optionStrings = new LocalizedStrings(options);
+const maxLevel = 40;
 
 const styles = theme => ({
     pokemon: {
@@ -121,7 +122,7 @@ class SinglePvp extends React.PureComponent {
         const quick = selectQuick(moves.quickMovePool, this.props.parentState.moveTable, value, this.props.pokemonTable)
         const charge = selectCharge(moves.chargeMovePool, this.props.parentState.moveTable, value, this.props.pokemonTable)
         //create default iv set
-        const ivSet = calculateMaximizedStats(value, 40.0, this.props.pokemonTable);
+        const ivSet = calculateMaximizedStats(value, maxLevel, this.props.pokemonTable);
         const whatToMaximize = this.state[name].maximizer.action === "Default" ? "Default" : this.state[name].maximizer.stat;
         const selectedSet = ivSet[this.props.parentState.league][whatToMaximize];
 

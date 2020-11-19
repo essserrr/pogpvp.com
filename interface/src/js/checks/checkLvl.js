@@ -1,10 +1,12 @@
+const maxLevel = 50;
+
 export function checkLvl(lvl) {
     let lvlNumber = Number(lvl)
     if (isNaN(lvlNumber)) {
         return 0
     }
-    if (lvlNumber > 45) {
-        return 45
+    if (lvlNumber > maxLevel) {
+        return maxLevel
     }
     if (lvlNumber < 0) {
         return 0

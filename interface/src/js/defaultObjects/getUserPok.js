@@ -1,7 +1,9 @@
+const maxLevel = 40;
+
 export function getUserPok() {
     return {
         Name: "", QuickMove: "", ChargeMove: "", ChargeMove2: "",
-        Lvl: "40", Atk: "15", Def: "15", Sta: "15",
+        Lvl: String(maxLevel), Atk: "15", Def: "15", Sta: "15",
         IsShadow: "false", quickMovePool: "", chargeMovePool: "",
     }
 }
