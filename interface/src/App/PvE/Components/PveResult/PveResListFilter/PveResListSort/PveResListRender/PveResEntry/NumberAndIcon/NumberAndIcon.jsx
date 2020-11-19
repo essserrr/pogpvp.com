@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Iconer from "App/Components/Iconer/Iconer";
@@ -22,16 +23,16 @@ const NumberAndIcon = React.memo(function NumberAndIcon(props) {
 
     const fileName = `${props.pok.Number}${props.pok.Forme !== "" ? `-${props.pok.Forme}` : ""}`;
     return (
-        <Box position="relative">
-
+        <Box display="flex" alignItems="center">
             {props.index &&
-                <b>{props.index}</b>}
+                <Typography variant="h6">{props.index}</Typography>}
+            <Box position="relative" mx={1}>
+                {props.isShadow &&
+                    <Shadow className={classes.shadow} />}
 
-            {props.isShadow &&
-                <Shadow className={classes.shadow} />}
+                <Iconer folderName="/pokemons/" fileName={fileName} size={48} />
 
-            <Iconer folderName="/pokemons/" fileName={fileName} size={48} />
-
+            </Box>
         </Box>
     )
 });
