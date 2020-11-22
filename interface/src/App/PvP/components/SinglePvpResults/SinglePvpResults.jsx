@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 
+import { FaTrophy } from 'react-icons/fa';
+
 import Line from "./Line";
 import Head from "./Head";
 import Rate from "./Rate/Rate";
@@ -29,11 +31,11 @@ const SinglePvpResults = React.memo(function SinglePvpResults(props) {
                     title={strings.resultTable.rate}
                     valueA={
                         <Rate value={Attacker.Rate}>
-                            <i className="fas fa-trophy"></i>
+                            <FaTrophy />
                         </Rate>}
                     valueD={
                         <Rate value={Defender.Rate}>
-                            <i className="fas fa-trophy"></i>
+                            <FaTrophy />
                         </Rate>}
                 />
                 <Line

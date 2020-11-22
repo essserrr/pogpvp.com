@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
 
+import { FaTrophy } from 'react-icons/fa';
+
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -21,7 +23,7 @@ const RowWrap = React.memo(function RowWrap(props) {
         <Grid item {...other}>
             <Grid container justify="center">
                 <Grid container item xs={12} justify={!disableIcon ? "space-between" : "center"} alignItems="center" className={classes.title}>
-                    {title}{!disableIcon && <i className="fas fa-trophy"></i>}
+                    {title}{!disableIcon && <FaTrophy />}
                 </Grid>
                 <Grid item xs={12}>
                     {children}

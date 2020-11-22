@@ -10,6 +10,8 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { withStyles } from "@material-ui/core/styles";
 
+import { FaTrophy } from 'react-icons/fa';
+
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import TableIcon from "App/PvP/components/TableBodyRender/TableIcon/TableIcon";
 import AdvisorPanelBody from "./AdvisorPanelBody/AdvisorPanelBody";
@@ -87,12 +89,14 @@ class AdvisorPanel extends React.PureComponent {
                         {listEntry.zeros.length}
                     </Grid>
 
-                    <Grid item xs="auto">
-                        <Box clone textAlign="center" mr={0.5}>
-                            <i className="fas fa-trophy"></i>
-                        </Box>
-                        {(listEntry.rate / 3).toFixed(1)}
-                    </Grid>
+                    <Box clone display="flex" alignItems="center">
+                        <Grid item xs="auto">
+                            <Box clone textAlign="center" mr={0.5}>
+                                <FaTrophy />
+                            </Box>
+                            {(listEntry.rate / 3).toFixed(1)}
+                        </Grid>
+                    </Box>
 
                     <Grid item xs="auto">
                         <IconButton onClick={this.onClick} style={{ outline: "none", width: '28px', height: '28px' }}>

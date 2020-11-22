@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
 
+import { FaTrophy } from 'react-icons/fa';
+
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Iconer from "App/Components/Iconer/Iconer";
 import { ReactComponent as Shadow } from "icons/shadow.svg";
@@ -206,7 +208,7 @@ const MatrixDescr = React.memo(function MatrixDescr(props) {
 
                                     <Tooltip arrow placement="top" title={<Typography>{tips.cardTip.p2}</Typography>}>
                                         <Grid item xs="auto" style={{ position: "relative" }}>
-                                            {<Shadow className="matrix-descr--shadow" />}
+                                            {<Shadow className={classes.shadow} />}
                                             <Iconer folderName="/pokemons/" fileName={"493-3"} size={48} />
                                         </Grid>
                                     </Tooltip>
@@ -226,8 +228,8 @@ const MatrixDescr = React.memo(function MatrixDescr(props) {
                             </Tooltip>
 
                             <Tooltip arrow placement="top" title={<Typography>{tips.cardTip.rate}</Typography>}>
-                                <Box mx={1}>
-                                    <Box clone mr={0.5}><i className="fas fa-trophy"></i></Box>1000
+                                <Box mx={1} display="flex" alignItems="center">
+                                    <Box clone mr={0.5}><FaTrophy /></Box>1000
                                 </Box>
                             </Tooltip>
 

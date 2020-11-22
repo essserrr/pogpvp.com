@@ -154,18 +154,20 @@ class AdvisorPanelBody extends React.PureComponent {
                     </Typography>
                 </Grid>
 
-                <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
-                    <Grid item xs={12}>
-                        <MatrixTable variant="secondary">
-                            {[
-                                this.props.rawResult[0],
-                                this.props.rawResult[this.props.list[this.props.i].first + 1],
-                                this.props.rawResult[this.props.list[this.props.i].second + 1],
-                                this.props.rawResult[this.props.list[this.props.i].third + 1],
-                            ]}
-                        </MatrixTable>
-                    </Grid>
-                </Box>
+                <Grid item xs={12}>
+                    <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
+                        <Grid item xs={12}>
+                            <MatrixTable variant="secondary">
+                                {[
+                                    this.props.rawResult[0],
+                                    this.props.rawResult[this.props.list[this.props.i].first + 1],
+                                    this.props.rawResult[this.props.list[this.props.i].second + 1],
+                                    this.props.rawResult[this.props.list[this.props.i].third + 1],
+                                ]}
+                            </MatrixTable>
+                        </Grid>
+                    </Box>
+                </Grid>
 
                 <Grid item xs={12}>
                     <HorizontalTypeList
@@ -177,27 +179,29 @@ class AdvisorPanelBody extends React.PureComponent {
                     />
                 </Grid>
 
-                <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
-                    <Grid item xs={12}>
-                        <MatrixTable variant="secondary">
-                            {[
-                                <TypingHead key="poktyping" />,
-                                <SinglePokLine key="typesof1" i={0}
-                                    pok={this.props.first} pokemonTable={this.props.pokemonTable}
-                                    vun={vun[0]}
-                                />,
-                                <SinglePokLine key="typesof2" i={1}
-                                    pok={this.props.second} pokemonTable={this.props.pokemonTable}
-                                    vun={vun[0]}
-                                />,
-                                <SinglePokLine key="typesof3" i={2}
-                                    pok={this.props.third} pokemonTable={this.props.pokemonTable}
-                                    vun={vun[0]}
-                                />
-                            ]}
-                        </MatrixTable>
-                    </Grid>
-                </Box>
+                <Grid item xs={12}>
+                    <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
+                        <Grid item xs={12}>
+                            <MatrixTable variant="secondary">
+                                {[
+                                    <TypingHead key="poktyping" />,
+                                    <SinglePokLine key="typesof1" i={0}
+                                        pok={this.props.first} pokemonTable={this.props.pokemonTable}
+                                        vun={vun[0]}
+                                    />,
+                                    <SinglePokLine key="typesof2" i={1}
+                                        pok={this.props.second} pokemonTable={this.props.pokemonTable}
+                                        vun={vun[0]}
+                                    />,
+                                    <SinglePokLine key="typesof3" i={2}
+                                        pok={this.props.third} pokemonTable={this.props.pokemonTable}
+                                        vun={vun[0]}
+                                    />
+                                ]}
+                            </MatrixTable>
+                        </Grid>
+                    </Box>
+                </Grid>
 
                 <Grid item xs={12}>
                     <HorizontalTypeList
@@ -209,15 +213,17 @@ class AdvisorPanelBody extends React.PureComponent {
                     />
                 </Grid>
 
-                <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
-                    <Grid item xs={12}>
-                        <MoveTypingTable
-                            pokemons={[this.props.first, this.props.second, this.props.third]}
-                            moveTable={this.props.moveTable}
-                            pokemonTable={this.props.pokemonTable}
-                        />
-                    </Grid>
-                </Box>
+                <Grid item xs={12}>
+                    <Box clone overflow="auto" style={{ maxHeight: "90vh" }}>
+                        <Grid item xs={12}>
+                            <MoveTypingTable
+                                pokemons={[this.props.first, this.props.second, this.props.third]}
+                                moveTable={this.props.moveTable}
+                                pokemonTable={this.props.pokemonTable}
+                            />
+                        </Grid>
+                    </Box>
+                </Grid>
             </Grid>
 
         );

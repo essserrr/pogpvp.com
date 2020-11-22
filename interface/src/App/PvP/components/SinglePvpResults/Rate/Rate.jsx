@@ -15,7 +15,7 @@ const useStyles = props => makeStyles(theme => {
             marginTop: "5px",
             marginBottom: "5px",
 
-            display: "inline-block",
+            display: "flex",
             width: "fit-content",
             borderRadius: "4px",
 
@@ -44,9 +44,10 @@ const Rate = React.memo(function Rate(props) {
 
     return (
         <Box className={classes.rate}>
-            {props.children && <Box clone mr={1}>
-                {props.children}
-            </Box>}
+            {props.children &&
+                <Box clone mr={1} alignSelf="center">
+                    {props.children}
+                </Box>}
             {props.value}
         </Box>
     )
