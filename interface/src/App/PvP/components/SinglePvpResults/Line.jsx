@@ -3,13 +3,24 @@ import PropTypes from 'prop-types';
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Grid from '@material-ui/core/Grid';
 
 const Line = React.memo(function Line(props) {
     return (
         <TableRow>
-            <TableCell component="th" style={{ maxWidth: "160px" }}>{props.title}</TableCell>
-            <TableCell align="center">{props.valueA}</TableCell>
-            <TableCell align="center">{props.valueD}</TableCell>
+            <TableCell component="th" style={{ maxWidth: "160px" }}>
+                {props.title}
+            </TableCell>
+            <TableCell align="center">
+                <Grid container justify="center">
+                    {props.valueA}
+                </Grid>
+            </TableCell>
+            <TableCell align="center">
+                <Grid container justify="center">
+                    {props.valueD}
+                </Grid>
+            </TableCell>
         </TableRow>
     )
 });
