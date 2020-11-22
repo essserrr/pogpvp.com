@@ -184,7 +184,7 @@ class Constructor extends React.PureComponent {
 
         const quickMove = this.props.moveTable[pokemon.QuickMove];
         constr[role].RoundsToDamage = (quickMove.PvpDuration - roundsToMove) < 0 ? 0 : quickMove.PvpDuration - roundsToMove;
-        constr[role].MoveCooldown = (quickMove.PvpDurationSeconds - roundsToMove) < 0 ? 0 : quickMove.PvpDurationSeconds - roundsToMove;
+        constr[role].MoveCooldown = (quickMove.PvpDurationSeconds - roundsToMove) < 0 ? 0 : quickMove.PvpDurationSeconds / 0.5 - roundsToMove;
         return constr;
     }
 
