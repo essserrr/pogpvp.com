@@ -20,11 +20,15 @@ import { maximizer } from "locale/Pvp/Maximizer/Maximizer";
 import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(maximizer);
-const maxLevel = 50;
+const maxLevel = 55;
 
 const useStyles = makeStyles((theme) => ({
     collapseMargin: {
         marginTop: `${theme.spacing(1)}px`,
+    },
+    labelStyle: {
+        marginBottom: `${theme.spacing(1)}px`,
+        color: "black !important",
     },
     fieldSet: {
         width: "100%",
@@ -40,7 +44,7 @@ const Maximizer = React.memo(function Maximizer(props) {
 
             <Tooltip title={<Typography>{strings.mode}</Typography>}>
                 <FormControl component="fieldset" className={classes.fieldSet}>
-                    <FormLabel component="legend" style={{ color: "black" }}>{`${strings.iv}:`}</FormLabel>
+                    <FormLabel className={classes.labelStyle} component="legend">{`${strings.iv}:`}</FormLabel>
                     <RadioGroup attr={props.attr} name={"action"} category={props.category} value={props.value.action} onChange={props.onChange}>
                         <FormControlLabel value="Maximize" control={<Radio />} label={strings.maximizer.maximize} />
                         <FormControlLabel value="Default" control={<Radio />} label={strings.maximizer.default} />

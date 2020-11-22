@@ -12,7 +12,7 @@ import (
 	"sync"
 )
 
-const maxLevel = 50
+const maxLevel = 55
 
 //ParsePvpRequest parses single PvP get request
 func ParsePvpRequest(pok1, pok2 string) (app.InitialData, app.InitialData, error) {

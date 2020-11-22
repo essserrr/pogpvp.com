@@ -14,7 +14,7 @@ import { getCookie } from "js/getCookie";
 
 let strings = new LocalizedStrings(stats);
 
-const maxLevel = 50;
+const maxLevel = 55;
 
 const Stats = React.memo(function Stats(props) {
     strings.setLanguage(getCookie("appLang") ? getCookie("appLang") : "en")

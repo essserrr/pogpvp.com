@@ -1,4 +1,4 @@
-const maxLevel = 50;
+const maxLevel = 55;
 
 export function checkLvl(lvl) {
     let lvlNumber = Number(lvl)

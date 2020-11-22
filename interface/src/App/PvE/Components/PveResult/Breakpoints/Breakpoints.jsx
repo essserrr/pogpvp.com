@@ -29,7 +29,7 @@ import { breakoints } from "locale/Pve/Breakpoints/Breakpoints";
 
 let pveStrings = new LocalizedStrings(settings);
 let breakointStrings = new LocalizedStrings(breakoints);
-const maxLevel = 50;
+const maxLevel = 55;
 
 class Breakpoints extends React.PureComponent {
     constructor(props) {

@@ -6,7 +6,7 @@ import (
 	"math"
 )
 
-const maxLevel = 50
+const maxLevel = 55
 
 type roundResults struct {
 	actionCode uint8
