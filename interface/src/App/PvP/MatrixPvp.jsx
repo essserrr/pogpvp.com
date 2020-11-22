@@ -9,6 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Box from '@material-ui/core/Box';
 import { withStyles } from "@material-ui/core/styles";
 
+import { FaCalculator } from 'react-icons/fa';
+
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Button from "App/Components/Button/Button";
 import AdvisorCombinator from "./components/Advisor/AdvisorCombinator/AdvisorCombinator";
@@ -726,7 +728,7 @@ class MatrixPvp extends React.PureComponent {
                                                 loading={this.state.loading}
                                                 title={strings.buttons.calculate}
                                                 onClick={this.submitForm}
-                                                endIcon={<i className="fa fa-calculator" aria-hidden="true"></i>}
+                                                endIcon={<FaCalculator />}
                                             />
                                         </Grid>
                                     </Grid>

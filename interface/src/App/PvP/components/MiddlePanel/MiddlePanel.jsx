@@ -6,6 +6,8 @@ import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
+import { FaCalculator } from 'react-icons/fa';
+
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Result from "../Result";
 import Button from "App/Components/Button/Button";
@@ -78,7 +80,7 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                                 loading={props.loading}
                                 title={strings.buttons.calculate}
                                 onClick={props.submitForm}
-                                endIcon={<i className="fa fa-calculator" aria-hidden="true"></i>}
+                                endIcon={<FaCalculator />}
                             />
                         </Grid>
 

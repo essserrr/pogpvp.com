@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import Alert from '@material-ui/lab/Alert';
 import Grid from '@material-ui/core/Grid';
 
+import { FaCalculator } from 'react-icons/fa';
+
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import OopsError from "./Components/OopsError/OopsError";
 import SimulatorPanel from "./Components/SimulatorPanel";
@@ -350,7 +352,7 @@ class CustomPve extends React.PureComponent {
                                 loading={this.state.loading}
                                 onClick={this.submitForm}
                                 title={strings.buttons.calculate}
-                                endIcon={<i className="fa fa-calculator" aria-hidden="true"></i>}
+                                endIcon={<FaCalculator />}
                             />
                         </Grid>
 
