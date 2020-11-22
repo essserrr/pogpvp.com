@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
             textDecoration: "underline",
         },
     },
+    iconCell: {
+        minWidth: "52px",
+    },
 }));
 
 const PokeRow = React.memo(function PokeRow(props) {
@@ -50,7 +53,7 @@ const PokeRow = React.memo(function PokeRow(props) {
                 </Grid>
             </TableCell>
 
-            <TableCell align="center">
+            <TableCell className={classes.iconCell} align="center">
                 <Iconer size={18} folderName="/type/" fileName={String(props.value.Type[0])} />
                 {props.value.Type.length > 1 &&
                     <Iconer className={classes.marginLeft} size={18} folderName="/type/" fileName={String(props.value.Type[1])} />}
