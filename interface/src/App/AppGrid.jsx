@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
+import ScrollTop from "./ScrollTop/ScrollTop";
 import Main from "./Main.jsx";
 import Navbar from "./Navbar/Navbar";
 import Footer from "./Footer/Footer";
@@ -39,6 +40,7 @@ const AppGrid = function AppGrid() {
             <Grid item xs={"auto"} className={classes.footerMargin}>
                 <Footer />
             </Grid>
+            <ScrollTop />
         </Grid>
     );
 };
