@@ -11,9 +11,7 @@ import { store, persistor } from "./AppStore/Store"
 import App from "./App/App.jsx";
 import theme from './theme';
 
-
 import "./css/customTheme.scss"
-import "@fortawesome/fontawesome-free/css/all.min.css"
 
 const rootElement = document.getElementById("root")
 
