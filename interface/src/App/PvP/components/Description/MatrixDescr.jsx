@@ -7,8 +7,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
-import { FaTrophy } from 'react-icons/fa';
-import { FaSkullCrossbones } from 'react-icons/fa';
+import { FaTrophy, FaSkullCrossbones } from 'react-icons/fa';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Iconer from "App/Components/Iconer/Iconer";

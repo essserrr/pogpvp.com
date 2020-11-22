@@ -10,8 +10,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { withStyles } from "@material-ui/core/styles";
 
-import { FaTrophy } from 'react-icons/fa';
-import { FaSkullCrossbones } from 'react-icons/fa';
+import { FaTrophy, FaSkullCrossbones } from 'react-icons/fa';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import TableIcon from "App/PvP/components/TableBodyRender/TableIcon/TableIcon";

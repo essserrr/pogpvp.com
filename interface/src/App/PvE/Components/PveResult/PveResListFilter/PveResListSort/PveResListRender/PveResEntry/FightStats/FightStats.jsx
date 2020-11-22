@@ -5,13 +5,17 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 
+import { FaCrosshairs, FaUsers, FaCloudscale, FaSkullCrossbones, FaRegClock, FaRegHourglass } from 'react-icons/fa';
+
 import { getCookie } from "js/getCookie";
 import { locale } from "locale/Pve/Pve";
 
 let pveStrings = new LocalizedStrings(locale);
 
 const useStyles = makeStyles((theme) => ({
-    marginRight: {
+    statsIcon: {
+        width: 16,
+        height: 16,
         marginRight: `${theme.spacing(0.75)}px`,
     },
 }));
@@ -23,42 +27,42 @@ const FightStats = React.memo(function FightStats(props) {
     return (
         <Grid container>
             {props.dAvg !== undefined &&
-                <Grid item xs={6}>
-                    <i className={`${classes.marginRight} fas fa-crosshairs`}></i>
+                <Grid item xs={6} container alignItems="center">
+                    <FaCrosshairs className={classes.statsIcon} />
                     {`${props.dAvg}%`}
                     {props.dMin !== undefined && props.dMax !== undefined && ` (${props.dMin}% - ${props.dMax}%)`}
                 </Grid>}
 
             {props.plAvg !== undefined &&
-                <Grid item xs={6}>
-                    <i className={`${classes.marginRight} fas fa-users`}></i>
+                <Grid item xs={6} container alignItems="center">
+                    <FaUsers className={classes.statsIcon} />
                     {`${props.plAvg}`}
                     {props.plMin !== undefined && props.plMax !== undefined && ` (${props.plMin} - ${props.plMax})`}
                 </Grid>}
 
             {props.dpsAvg !== undefined &&
-                <Grid item xs={6}>
-                    <i className={`${classes.marginRight} fab fa-cloudscale`}></i>
+                <Grid item xs={6} container alignItems="center">
+                    <FaCloudscale className={classes.statsIcon} />
                     {`${props.dpsAvg}`}
                     {props.dpsMin !== undefined && props.dpsMax !== undefined && ` (${props.dpsMin} - ${props.dpsMax})`}
                 </Grid>}
 
             {props.FMin !== undefined && props.FMax !== undefined &&
-                <Grid item xs={6}>
-                    <i className={`${classes.marginRight} fas fa-skull-crossbones`}></i>
+                <Grid item xs={6} container alignItems="center">
+                    <FaSkullCrossbones className={classes.statsIcon} />
                     {`${props.FMin} - ${props.FMax}`}
                 </Grid>}
 
             {props.tAvg !== undefined &&
-                <Grid item xs={6}>
-                    <i className={`${classes.marginRight} far fa-clock`}></i>
+                <Grid item xs={6} container alignItems="center">
+                    <FaRegClock className={classes.statsIcon} />
                     {`${props.tAvg}${pveStrings.s}`}
                     {props.tMin !== undefined && props.tMax !== undefined && ` (${props.tMin}${pveStrings.s} - ${props.tMax}${pveStrings.s})`}
                 </Grid>}
 
             {props.ttwAvg &&
-                <Grid item xs={6}>
-                    <i className={`${classes.marginRight} far fa-hourglass`}></i>
+                <Grid item xs={6} container alignItems="center">
+                    <FaRegHourglass className={classes.statsIcon} />
                     {`${props.ttwAvg}${pveStrings.s}`}
                 </Grid>}
 

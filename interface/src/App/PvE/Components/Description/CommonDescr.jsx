@@ -5,10 +5,14 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
 
+import { FaCrosshairs, FaUsers, FaCloudscale, FaSkullCrossbones, FaRegClock, FaRegHourglass } from 'react-icons/fa';
+
 import LocalizedStrings from "react-localization";
 import { commonRaidTips } from "locale/Pve/Tips/commonRaidTips";
 
 import { getCookie } from "js/getCookie";
+
+const iconStyle = { width: 36, height: 36 }
 
 let tips = new LocalizedStrings(commonRaidTips);
 
@@ -25,37 +29,37 @@ const CommonDescr = React.memo(function CommonDescr(props) {
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.damage}</Typography>}>
                     <Box mx={1}>
-                        <i className="fas fa-crosshairs fa-2x"></i>
+                        <FaCrosshairs style={iconStyle} />
                     </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.pl}</Typography>}>
                     <Box mx={1}>
-                        <i className="fas fa-users fa-2x"></i>
+                        <FaUsers style={iconStyle} />
                     </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{"DPS"}</Typography>}>
                     <Box mx={1}>
-                        <i className="fab fa-cloudscale fa-2x"></i>
+                        <FaCloudscale style={iconStyle} />
                     </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.fainted}</Typography>}>
                     <Box mx={1}>
-                        <i className="fas fa-skull-crossbones fa-2x"></i>
+                        <FaSkullCrossbones style={iconStyle} />
                     </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.time}</Typography>}>
                     <Box mx={1}>
-                        <i className="far fa-clock fa-2x"></i>
+                        <FaRegClock style={iconStyle} />
                     </Box>
                 </Tooltip>
 
                 <Tooltip arrow placement="top" title={<Typography>{tips.ttw}</Typography>}>
                     <Box mx={1}>
-                        <i className="far fa-hourglass fa-2x"></i>
+                        <FaRegHourglass style={iconStyle} />
                     </Box>
                 </Tooltip>
             </Grid>
