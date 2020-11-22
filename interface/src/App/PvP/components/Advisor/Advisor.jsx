@@ -3,6 +3,7 @@ import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Button from "App/Components/Button/Button";
@@ -107,7 +108,7 @@ class Advisor extends React.PureComponent {
 
                     {this.state.isNextPage &&
                         <Grid item xs="auto">
-                            <Button title={strings.buttons.loadmore} onClick={this.loadMore} />
+                            <Button title={strings.buttons.loadmore} onClick={this.loadMore} endIcon={<GetAppIcon />} />
                         </Grid>}
 
                 </Grid>
