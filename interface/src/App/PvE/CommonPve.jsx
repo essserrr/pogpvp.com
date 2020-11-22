@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Alert from '@material-ui/lab/Alert';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
@@ -305,6 +304,7 @@ class CommonPve extends React.PureComponent {
 
                 <Grid item xs={12} container justify="center">
                     <Button
+                        loading={this.state.loading}
                         onClick={this.submitForm}
                         title={strings.buttons.calculate}
                         endIcon={<i className="fa fa-calculator" aria-hidden="true"></i>}
@@ -315,11 +315,6 @@ class CommonPve extends React.PureComponent {
                     <Grid item xs={12}>
                         <Alert variant="filled" severity="error">{this.state.error}</Alert >
                     </Grid>}
-
-                {this.state.loading &&
-                    <Grid item xs={12}>
-                        <LinearProgress color="secondary" />
-                    </ Grid>}
 
                 {this.state.showResult && this.state.result && this.state.result.length > 0 &&
                     <Grid item xs={12}>

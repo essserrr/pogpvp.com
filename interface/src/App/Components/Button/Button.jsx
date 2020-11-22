@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import MaterialButton from '@material-ui/core/Button';
 import Loader from "./Loader/Loader";
 
-const Button = React.memo(function (props) {
+const Button = React.memo(function Button(props) {
     const { endIcon, loading, title, onClick, ...other } = props;
 
     return (

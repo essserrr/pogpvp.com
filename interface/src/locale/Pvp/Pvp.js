@@ -56,7 +56,6 @@ export const pvp = {
             impExp: "Import/Export",
 
             calculate: "Calculate",
-            letsbattle: "Let's Battle",
             addpokemon: "Add",
             save: "Save",
             delete: "Delete",
@@ -124,7 +123,6 @@ export const pvp = {
             impExp: "Импорт/Экспорт",
 
             calculate: "Посчитать",
-            letsbattle: "В бой!",
             addpokemon: "Добавить",
             save: "Сохранить",
             delete: "Удалить",

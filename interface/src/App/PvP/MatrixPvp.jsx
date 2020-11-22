@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 
 import Alert from '@material-ui/lab/Alert';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Box from '@material-ui/core/Box';
@@ -724,8 +723,10 @@ class MatrixPvp extends React.PureComponent {
                                     <Grid item xs={12} container alignItems="center" wrap="nowrap">
                                         <Grid item xs container justify="center">
                                             <Button
-                                                title={strings.buttons.letsbattle}
+                                                loading={this.state.loading}
+                                                title={strings.buttons.calculate}
                                                 onClick={this.submitForm}
+                                                endIcon={<i className="fa fa-calculator" aria-hidden="true"></i>}
                                             />
                                         </Grid>
                                     </Grid>
@@ -734,15 +735,6 @@ class MatrixPvp extends React.PureComponent {
                                         <Box clone mt={1}>
                                             <Grid item xs={12}>
                                                 <Alert variant="filled" severity="error">{this.state.error}</Alert >
-                                            </Grid>
-                                        </Box>}
-
-                                    {this.state.loading &&
-                                        <Box clone mt={1}>
-                                            <Grid item xs={12}>
-                                                <Grid item xs={12}>
-                                                    <LinearProgress color="secondary" />
-                                                </ Grid>
                                             </Grid>
                                         </Box>}
 

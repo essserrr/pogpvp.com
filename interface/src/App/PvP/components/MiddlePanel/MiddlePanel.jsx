@@ -3,7 +3,6 @@ import LocalizedStrings from "react-localization";
 import PropTypes from 'prop-types';
 
 import Alert from '@material-ui/lab/Alert';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
@@ -76,8 +75,10 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
 
                         <Grid item xs container justify="center">
                             <Button
-                                title={strings.buttons.letsbattle}
+                                loading={props.loading}
+                                title={strings.buttons.calculate}
                                 onClick={props.submitForm}
+                                endIcon={<i className="fa fa-calculator" aria-hidden="true"></i>}
                             />
                         </Grid>
 
@@ -103,15 +104,6 @@ const MiddlePanel = React.memo(function MiddlePanel(props) {
                         <Box clone mt={1}>
                             <Grid item xs={12}>
                                 <Alert variant="filled" severity="error">{props.error}</Alert >
-                            </Grid>
-                        </Box>}
-
-                    {props.loading &&
-                        <Box clone mt={1}>
-                            <Grid item xs={12}>
-                                <Grid item xs={12}>
-                                    <LinearProgress color="secondary" />
-                                </ Grid>
                             </Grid>
                         </Box>}
 
