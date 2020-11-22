@@ -13,7 +13,7 @@ import { getPveMultiplier } from "js/Damage/getPveMultiplier";
 import { getCookie } from "js/getCookie";
 
 let pvestrings = new LocalizedStrings(breakoints);
-const maxLevel = 50;
+const maxLevel = 55;
 
 const useStyles = makeStyles((theme) => ({
     borderTop: {
