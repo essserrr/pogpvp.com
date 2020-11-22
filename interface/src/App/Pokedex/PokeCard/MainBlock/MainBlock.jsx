@@ -26,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "center",
     },
     iconContainer: {
-        height: "fit-content",
+        height: "220px",
+        width: "220px",
+        //height: "fit-content",
         marginRight: `${theme.spacing(3)}px`,
         [theme.breakpoints.down('xs')]: {
             marginRight: 0,
@@ -84,6 +86,7 @@ const MainBlock = React.memo(function MainBlock(props) {
                     <Grid container>
                         <Typography className={classes.cardTitle}>{title}</Typography>
                     </Grid>}
+
                 <Grid className={classes.downSMTextAlign} container alignItems="center">
 
                     <Grid item xs container spacing={1}>
@@ -122,7 +125,7 @@ const MainBlock = React.memo(function MainBlock(props) {
 
                     </Grid>
 
-                    <Grid item xs={"auto"} sm>
+                    <Grid item xs sm={"auto"}>
                         <StatsTriangle value={props.value}
                             boxWidth={170} boxHeight={120} length={120}
                             strokeMain={1.5} strokeSec={0.5}
