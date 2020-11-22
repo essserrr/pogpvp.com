@@ -5,8 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 
 import { FaTrophy } from 'react-icons/fa';
+import { FaSkullCrossbones } from 'react-icons/fa';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import Iconer from "App/Components/Iconer/Iconer";
@@ -222,8 +224,8 @@ const MatrixDescr = React.memo(function MatrixDescr(props) {
                             </Box>
 
                             <Tooltip arrow placement="top" title={<Typography>{tips.cardTip.zer}</Typography>}>
-                                <Box mx={1}>
-                                    <Box clone mr={0.5}><i className="fas fa-skull-crossbones"></i></Box>99
+                                <Box mx={1} display="flex" alignItems="center">
+                                    <Box clone mr={0.5}><FaSkullCrossbones /></Box>99
                                 </Box>
                             </Tooltip>
 
@@ -233,12 +235,13 @@ const MatrixDescr = React.memo(function MatrixDescr(props) {
                                 </Box>
                             </Tooltip>
 
-                            <Grid item xs="auto">
-                                <Tooltip arrow placement="top" title={<Typography>{tips.cardTip.more}</Typography>}>
-                                    <i className={"fas fa-angle-down fa-lg"}></i>
-                                </Tooltip>
-                            </Grid>
-
+                            <Box clone display="flex" alignItems="center">
+                                <Grid item xs="auto">
+                                    <Tooltip arrow placement="top" title={<Typography>{tips.cardTip.more}</Typography>}>
+                                        <KeyboardArrowDownIcon />
+                                    </Tooltip>
+                                </Grid>
+                            </Box>
 
 
                         </Grid>

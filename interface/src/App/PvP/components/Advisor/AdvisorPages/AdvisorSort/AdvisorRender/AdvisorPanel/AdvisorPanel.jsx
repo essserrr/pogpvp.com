@@ -11,6 +11,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { withStyles } from "@material-ui/core/styles";
 
 import { FaTrophy } from 'react-icons/fa';
+import { FaSkullCrossbones } from 'react-icons/fa';
 
 import GreyPaper from 'App/Components/GreyPaper/GreyPaper';
 import TableIcon from "App/PvP/components/TableBodyRender/TableIcon/TableIcon";
@@ -82,12 +83,14 @@ class AdvisorPanel extends React.PureComponent {
                         </Grid>
                     </Box>
 
-                    <Grid item xs="auto">
-                        <Box clone textAlign="center" mr={0.5}>
-                            <i className="fas fa-skull-crossbones"></i>
-                        </Box>
-                        {listEntry.zeros.length}
-                    </Grid>
+                    <Box clone display="flex" alignItems="center">
+                        <Grid item xs="auto">
+                            <Box clone textAlign="center" mr={0.5}>
+                                <FaSkullCrossbones />
+                            </Box>
+                            {listEntry.zeros.length}
+                        </Grid>
+                    </Box>
 
                     <Box clone display="flex" alignItems="center">
                         <Grid item xs="auto">
