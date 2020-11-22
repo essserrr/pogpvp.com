@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import Grid from '@material-ui/core/Grid';
 
 import Iconer from "App/Components/Iconer/Iconer";
 import useAnimation from "css/hoverAnimation";
@@ -67,17 +68,19 @@ const ShinyTableTr = React.memo(function ShinyTableTr(props) {
     return (
         <TableRow className={animation.animation}>
             <TableCell component="th" scope="row" align="left">
-                <Iconer
-                    fileName={pokemon.Number + (pokemon.Forme !== "" ? "-" + pokemon.Forme : "")}
-                    folderName="/pokemons/"
-                    size={36}
-                />
+                <Grid container alignItems="center">
+                    <Iconer
+                        fileName={pokemon.Number + (pokemon.Forme !== "" ? "-" + pokemon.Forme : "")}
+                        folderName="/pokemons/"
+                        size={36}
+                    />
 
-                <Link className={classes.link}
-                    title={`${strings.dexentr} ${props.pok.Name}`}
-                    to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.pok.Name)}>
-                    {props.pok.Name}
-                </Link>
+                    <Link className={classes.link}
+                        title={`${strings.dexentr} ${props.pok.Name}`}
+                        to={(navigator.userAgent === "ReactSnap") ? "/" : "/pokedex/id/" + encodeURIComponent(props.pok.Name)}>
+                        {props.pok.Name}
+                    </Link>
+                </Grid>
             </TableCell>
             <TableCell align="center">{"1/" + props.pok.Odds + " (" + (1 / props.pok.Odds * 100).toFixed(2) + "%)"}</TableCell>
             <TableCell align="center">{"1/" + processRate(props.pok.Odds)}</TableCell>
